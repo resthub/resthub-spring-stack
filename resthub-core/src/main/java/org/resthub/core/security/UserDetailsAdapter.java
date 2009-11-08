@@ -18,12 +18,13 @@
 package org.resthub.core.security;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.resthub.core.domain.model.identity.User;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * UserDetailsAdapter is used to expose users from Resthub domain model with UserDetails
@@ -41,13 +42,13 @@ public class UserDetailsAdapter implements UserDetails {
 		this.user = user;
 	}
 	
-	public GrantedAuthority[] getAuthorities() {
+	public Collection<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		for(String permission : user.getUserAndGroupsPermissions()) {
 			grantedAuthorities.add(new GrantedAuthorityImpl(permission));
 		}
  
-		return grantedAuthorities.toArray(new GrantedAuthority[grantedAuthorities.size()]);
+		return grantedAuthorities;
 	}
 
 	public String getPassword() {
