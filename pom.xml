@@ -13,7 +13,8 @@
   	</modules>
 	
 	<properties>
-		<jackrabbit.version>1.6.0</jackrabbit.version>
+		<jackrabbit.version>1.4.11</jackrabbit.version>
+		<jackrabbit.text.extractor.version>1.4</jackrabbit.text.extractor.version>
 		<spring.version>3.0.0.RC1</spring.version>
 		<spring.security.version>3.0.0.RC1</spring.security.version>
 		<spring.jcr.version>0.9</spring.jcr.version>
@@ -215,7 +216,7 @@
 			<dependency>
 				<groupId>org.apache.jackrabbit</groupId>
 				<artifactId>jackrabbit-text-extractors</artifactId>
-				<version>${jackrabbit.version}</version>
+				<version>1.4</version>
 			</dependency>
 			<dependency>  
 				<groupId>org.springframework</groupId>  
