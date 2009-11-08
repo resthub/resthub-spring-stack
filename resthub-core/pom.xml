@@ -14,10 +14,6 @@
 	
 	<dependencies>
 		<dependency>
-		    <groupId>org.apache.lucene</groupId>
-		    <artifactId>lucene-core</artifactId>
-		</dependency>
-		<dependency>
 	          <groupId>org.springframework</groupId>
 	          <artifactId>org.springframework.aop</artifactId>
 	        </dependency>
@@ -54,85 +50,53 @@
 	            <groupId>org.springframework.security</groupId>
 	            <artifactId>spring-security-acl</artifactId>
 	        </dependency>
-	        	  
-		<dependency>
-			<groupId>org.apache.jackrabbit</groupId>
-			<artifactId>jackrabbit-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.jackrabbit</groupId>
-			<artifactId>jackrabbit-text-extractors</artifactId>
-		</dependency>
-		<dependency>  
+	        <dependency>
+			    <groupId>javax.annotation</groupId>
+			    <artifactId>jsr250-api</artifactId>
+			</dependency>
+	      	
+	      	<dependency>
+				<groupId>javax.jcr</groupId>
+				<artifactId>jcr</artifactId>
+			</dependency>
+      	    <dependency>
+			    <groupId>org.jcrom</groupId>
+			    <artifactId>jcrom</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.jackrabbit</groupId>
+				<artifactId>jackrabbit-core</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.jackrabbit</groupId>
+				<artifactId>jackrabbit-text-extractors</artifactId>
+			</dependency>
+			<dependency>  
 				<groupId>org.springframework</groupId>  
 				<artifactId>se-jcr</artifactId>  
-				<version>0.9</version>  
-			</dependency>	
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.jcr</groupId>
-			<artifactId>jcr</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-  			<artifactId>commons-collections</artifactId>
-  			<version>3.1</version>
-	  	</dependency>
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl104-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency> 
-		<dependency>
-			<groupId>geronimo-spec</groupId>
-			<artifactId>geronimo-spec-jta</artifactId>
-			<version>1.0-M1</version> 
-		</dependency>
-		<dependency>
-    		<groupId>geronimo-spec</groupId>
-		    <artifactId>geronimo-spec-j2ee-connector</artifactId>
-		    <version>1.5-rc4</version>
-	</dependency> 
-	<dependency>
-	    <groupId>javax.annotation</groupId>
-	    <artifactId>jsr250-api</artifactId>
-	    <version>1.0</version>
-	</dependency>
-    <dependency>
-	    <groupId>org.jcrom</groupId>
-	    <artifactId>jcrom</artifactId>
-	</dependency>
+			</dependency>
+		
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl104-over-slf4j</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+			</dependency> 
+		
 </dependencies>
 <build>
 	<filters>

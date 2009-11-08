@@ -54,15 +54,4 @@
 	    <constructor-arg index="1" value="true" />
 	</bean>
 
-	<bean id="rmiRegistry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean" />
-
-	<bean id="rmiServer" class="org.springframework.extensions.jcr.jackrabbit.RmiServerRepositoryFactoryBean">
-		<property name="repository" ref="repository" />
-		<property name="remoteAdapterFactory">
-			<bean class="org.apache.jackrabbit.rmi.server.ServerAdapterFactory" />
-		</property>
-		<property name="registry" ref="rmiRegistry" />
-		<property name="rmiName" value="jackrabbit" />
-	</bean>
-
 </beans>
