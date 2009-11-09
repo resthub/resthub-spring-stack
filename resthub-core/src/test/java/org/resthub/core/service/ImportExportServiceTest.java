@@ -21,10 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-import javax.annotation.Resource;
-
-import org.resthub.core.AbstractJcrTest;
-import org.resthub.core.domain.model.Site;
+import org.resthub.core.domain.model.test.SampleResource;
+import org.resthub.test.AbstractJcrTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +37,8 @@ public class ImportExportServiceTest extends AbstractJcrTest {
 	@Autowired
 	private ImportExportService importExportService;
 	
-	@Resource
-    private ResourceService siteService;
+	@javax.annotation.Resource
+    private ResourceService testService;
 	
 	String path = "./target/testExport.zip";
 
@@ -53,8 +51,8 @@ public class ImportExportServiceTest extends AbstractJcrTest {
 	@Test
 	public void testExport() throws Exception {
 		
-		Site newSite = new Site("newSite");
-		siteService.create(newSite);
+		SampleResource newResource = new SampleResource("newResource");
+		testService.create(newResource);
 	        
 		FileOutputStream fos = new FileOutputStream(new File(path));
 		importExportService.exportResources(fos);

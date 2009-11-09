@@ -24,9 +24,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-import org.resthub.core.AbstractJcrTest;
 import org.resthub.core.domain.model.IResource;
 import org.resthub.core.domain.model.Resource;
+import org.resthub.test.AbstractJcrTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
