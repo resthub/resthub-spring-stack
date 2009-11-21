@@ -1,59 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-    	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
-           >
-           
-	
-	<context:component-scan base-package="org.resthub.core" />
-	
-	<bean id="repository" class="org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean" destroy-method="destroy">
-	  <!-- normal factory beans params -->
-	  <property name="configuration" value="classpath:repository.xml"/>
-	  <property name="homeDir" value="file://${jcr.home.main}/repository-${project.build.finalName}" />
-	</bean>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/jdbc
+	http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 
-	<bean id="password" class="java.lang.String">
-		<constructor-arg index="0" value="superuser"/>
+  	<context:annotation-config />
+  	<context:component-scan base-package="org.resthub.core" />
+    <tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-
-	<bean id="jcrSessionFactory" class="org.springframework.extensions.jcr.jackrabbit.JackrabbitSessionFactory" destroy-method="destroy">
-		<property name="repository" ref="repository"/>
-		<property name="credentials">
-			<bean class="javax.jcr.SimpleCredentials">
-				<constructor-arg index="0" value="superuser"/>
-				<!-- create the credentials using a bean factory -->
-				<constructor-arg index="1">
-					<bean factory-bean="password"
-					      factory-method="toCharArray"/>
-				</constructor-arg>
+	    
+  	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"/>
+    </bean>
+  
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    	<property name="dataSource" ref="dataSource"/>
+        <property name="persistenceUnitName" value="resthub"/>
+        <property name="jpaDialect">
+        	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+		</property>
+        <property name="jpaVendorAdapter">
+        	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+            	<property name="showSql" value="true"/>
 			</bean>
 		</property>
-   		<property name="namespaces">
-			<util:properties>
-				<prop key="resthub">http://resthub.org</prop>
-			</util:properties>
+        <property name="jpaProperties">
+        	<map>
+            	<entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+                <entry key="hibernate.format_sql" value="true"/>
+                <entry key="hibernate.hbm2ddl.auto" value="create"/>
+			</map>
 		</property>
-		
 	</bean>
-	
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
-	<bean id="transactionManager" class="org.springframework.extensions.jcr.jackrabbit.LocalTransactionManager">
-		<property name="sessionFactory" ref="jcrSessionFactory"/>
-	</bean>
-	
-	<bean id="jcrom" class="org.jcrom.Jcrom">
-	    <constructor-arg index="0" value="true" />
-	    <constructor-arg index="1" value="true" />
-	</bean>
-	
+  
 </beans>

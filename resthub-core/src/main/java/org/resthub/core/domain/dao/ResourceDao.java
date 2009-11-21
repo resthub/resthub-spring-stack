@@ -17,55 +17,76 @@
 
 package org.resthub.core.domain.dao;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
-import org.resthub.core.domain.model.IResource;
 import org.resthub.core.domain.model.Resource;
-import org.jcrom.dao.JcrDAO;
 
 /**
  * ResourceDao is used for CRUD operation on {@link Resource}.
  * 
  * @author Bouiaw
  */
-public interface ResourceDao extends JcrDAO<IResource> {
+public interface ResourceDao <T> {
 	
 	/**
-	 * Import and replace existing resources in the Java Content Reposiory
-	 * @param path the root path where we should import resources
-	 * @param inputStream the stream that will deliver the zip file to import
+	 * Persist a Resource entity in the database
+	 * 
+	 * @param transientResource
 	 */
-	public void importResources(String path, InputStream inputStream);
-	
-	
+	public void persist(T transientResource);
+	public void persistAndFlush(T transientResource);
+
 	/**
-	 * Export resources from the Java Content Repository
-	 * @param path the root path to export
-	 * @param bufferedOutputStream the stream that will receive the zip file export
+	 * Remove a persisted Resource from the database
+	 * 
+	 * @param persistentResource
 	 */
-	public void exportResources(String path, OutputStream bufferedOutputStream);
+	public void remove(T persistentResource);
 	
 	/**
-	 * Find resources of a specified type
-	 * @param rootPath  the root where we should search
-	 * @param type the Java classname of the resources to find, may contain % joker
-	 * @return Found resources
+	 * Remove a persisted Resource from the database
+	 * 
+	 * @param resourceId
 	 */
-	public List<IResource> findByType(String rootPath, String type);
-	
+	public void remove(Long resourceId);
+
 	/**
-	 * Find resources of a specified type
-	 * @param rootPath  the root where we should search
-	 * @param An array of types matching the Java classnames of the resources to find, may contain % joker
-	 * @return Found resources
+	 * Update a Resource in the database
+	 * 
+	 * @param detachedResource
+	 * @return merged Resource
 	 */
-	public List<IResource> findByTypes(String rootPath, List<String> types);
+	public T merge(T detachedResource);
+
+	/**
+	 * Find a Resource by id
+	 * 
+	 * @param id
+	 * @return the found Resource
+	 */
+	public T findById(Long id);
 	
 	/**
-     * Map model classes based on their package name
-     */
-	public void mapPackage(String packageName);
+	 * Find a Resource by path
+	 * 
+	 * @param fullname
+	 * @return the found Resource
+	 */
+	public T findByPath(String path);
+
+	/**
+	 * Find a Resource by his fullname
+	 * 
+	 * @return the found Resource
+	 */
+	public List<T> findAll();
+
+	/**
+	 * Search Resources
+	 * 
+	 * @param searchString
+	 * @return the found Resources
+	 */
+	public List<T> search(String searchString);
 	
 }

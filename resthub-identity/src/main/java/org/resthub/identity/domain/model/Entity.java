@@ -3,14 +3,16 @@ package org.resthub.identity.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.resthub.core.domain.model.Resource;
-import org.jcrom.annotations.JcrProperty;
+import javax.persistence.Table;
 
+import org.resthub.core.domain.model.Resource;
+
+@javax.persistence.Entity
+@Table(name="ENTITY")
 public class Entity extends Resource {
 
 	private static final long serialVersionUID = 1L;
 
-	@JcrProperty
 	protected List<String> permissions;
 
 	public Entity() {

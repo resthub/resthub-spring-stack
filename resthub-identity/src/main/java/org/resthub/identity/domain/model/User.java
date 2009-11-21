@@ -4,20 +4,18 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jcrom.annotations.JcrProperty;
-import org.jcrom.annotations.JcrReference;
+import javax.persistence.Table;
 
+@javax.persistence.Entity
+@Table(name="USER")
 public class User extends Entity implements Principal {
 
 	private static final long serialVersionUID = 1L;
 
-	@JcrProperty
 	protected String password = null;
 	
-	@JcrProperty
 	protected String email = null;
 	
-	@JcrReference(byPath=true)
 	protected List<Group> groups = null;
 
 	public User() {

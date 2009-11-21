@@ -53,7 +53,7 @@ public class ResthubUserDetailsService implements UserDetailsService {
 		try {
 			User loadedResthubUser = null;
 			
-			// For the moement, root user is hard coded in order to have always access to the backoffice
+			// For the moment, root user is hard coded in order to have always access to the backoffice
 			// even if all users have been removed
 			if(username.equals(ROOT_USERNAME)) {
 				loadedResthubUser = createRootUser();
@@ -78,7 +78,6 @@ public class ResthubUserDetailsService implements UserDetailsService {
 	private User createRootUser() {
 		User root = new User(ROOT_USERNAME);
 		root.setPassword(ROOT_PASSWORD);
-		root.setUid("123456");
 		root.setPath("/users/children/admin");
 		root.addPermission("ROLE_LOGIN_BACKOFFICE");
 			
