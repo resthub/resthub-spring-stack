@@ -1,21 +1,4 @@
-/**
- *  This file is part of Resthub.
- *
- *  Resthub is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *   Resthub is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Resthub.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-package org.resthub.core.domain.dao.jcr;
+package org.resthub.core.domain.dao.jpa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +8,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.resthub.core.domain.dao.ResourceDao;
-import org.resthub.core.domain.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Generic DAO implementation for {@link ResourceDao} with JPA.
@@ -36,13 +19,13 @@ import org.springframework.stereotype.Repository;
  * @author Bouiaw
  */
 @SuppressWarnings("unused")
+@Transactional
 public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
-    
+
 	private final Class<T> entityClass;
 	
 	private final Logger log;
 
-	@PersistenceContext
 	private EntityManager entityManager;
 	
 	/**
@@ -53,9 +36,16 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 		this.entityClass = entityClass;
 		this.log = LoggerFactory.getLogger(entityClass);
 	}
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void persist(T transientResource) {
 		log.debug("persisting Resource instance");
 		try {
@@ -66,6 +56,7 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 		}
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void persistAndFlush(T transientResource) {
 		this.persist(transientResource);
 		entityManager.flush();
@@ -75,6 +66,7 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void remove(T persistentResource) {
 		log.debug("removing Resource instance");
 		try {
@@ -88,6 +80,7 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void remove(Long resourceId) {
 		this.remove(this.findById(resourceId));
 	}

@@ -9,9 +9,6 @@ import org.resthub.core.domain.model.Resource;
 import org.resthub.test.AbstractResthubTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 public class ResourceDaoTest extends AbstractResthubTest {
 	
@@ -22,14 +19,14 @@ public class ResourceDaoTest extends AbstractResthubTest {
 	private Logger log = LoggerFactory.getLogger(ResourceDaoTest.class);
 	
 	@Test
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void testPersistResource() throws Exception {		
 		
 		Resource resource1 = new Resource("resource1", "resource1");
-		resourceDaoTest.persistAndFlush(resource1);
+		resourceDaoTest.persist(resource1);
 		
 		Resource foundResource = resourceDaoTest.findByPath(resource1.getPath());
 		assertEquals(resource1.getName(), foundResource.getName());
+		assertEquals(resource1.getPath(), foundResource.getPath());
 		
 	}	
 

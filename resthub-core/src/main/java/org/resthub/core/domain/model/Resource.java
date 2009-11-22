@@ -72,6 +72,7 @@ public class Resource implements Serializable {
      */
     public Resource(String name, String path) {
         super();
+        this.name = name;
         this.path = path;
     }
     
