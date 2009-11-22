@@ -4,11 +4,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Table;
+import javax.persistence.Entity;
 
-@javax.persistence.Entity
-@Table(name="USER")
-public class User extends Entity implements Principal {
+@Entity
+public class User extends Identity implements Principal {
 
 	private static final long serialVersionUID = 1L;
 

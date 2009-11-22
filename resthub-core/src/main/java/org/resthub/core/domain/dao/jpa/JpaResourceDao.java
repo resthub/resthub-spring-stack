@@ -1,5 +1,6 @@
 package org.resthub.core.domain.dao.jpa;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Bouiaw
  */
-@SuppressWarnings("unused")
-@Transactional
-public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
+public abstract class JpaResourceDao<T> implements ResourceDao<T> {
 
 	private final Class<T> entityClass;
 	
@@ -28,12 +27,20 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 
 	private EntityManager entityManager;
 	
+	public void init() { }
+	
 	/**
 	 * 
 	 * @param entityClass the class handled by this DAO implementation
 	 */
-	public AbstractJpaResourceDao( Class<T> entityClass ) {
-		this.entityClass = entityClass;
+	@SuppressWarnings("unchecked")
+	public JpaResourceDao( ) {
+		Class clazz = getClass();
+	    while (!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
+	        clazz = clazz.getSuperclass();
+	    }
+	    	
+	    entityClass = (Class<T>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
 		this.log = LoggerFactory.getLogger(entityClass);
 	}
 	
@@ -45,7 +52,6 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void persist(T transientResource) {
 		log.debug("persisting Resource instance");
 		try {
@@ -56,7 +62,6 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 		}
 	}
 	
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void persistAndFlush(T transientResource) {
 		this.persist(transientResource);
 		entityManager.flush();
@@ -66,7 +71,6 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void remove(T persistentResource) {
 		log.debug("removing Resource instance");
 		try {
@@ -115,6 +119,21 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public T findByName(String name) {
+		log.debug("getting Resource instance with name: " + name);
+		try {
+			Query query = entityManager.createQuery("select r from " + entityClass.getSimpleName() + " r where r.name like :name");
+			query.setParameter("name", name);
+			T resource = (T) query.getSingleResult();
+			log.debug("findByName successful");
+			return resource;
+		} catch (RuntimeException re) {
+			log.error("findByName failed", re);
+			return null;
+		}
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -129,6 +148,34 @@ public abstract class AbstractJpaResourceDao<T> implements ResourceDao<T> {
 			return resource;
 		} catch (RuntimeException re) {
 			log.error("findByPath failed", re);
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T findSingleResult(String propertyName, String propertyValue) {
+		log.debug("getting Resource instance with " + propertyName + " : " + propertyValue);
+		try {
+			Query query = entityManager.createQuery("select r from " + entityClass.getSimpleName() + " r where r." + propertyName + " like " + propertyValue);
+			T resource = (T) query.getSingleResult();
+			log.debug("findSingleResult successful");
+			return resource;
+		} catch (RuntimeException re) {
+			log.error("findSingleResult failed", re);
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> findMultipleResults(String propertyName, String propertyValue) {
+		log.debug("getting Resource instance with " + propertyName + " : " + propertyValue);
+		try {
+			Query query = entityManager.createQuery("select r from " + entityClass.getSimpleName() + " r where r." + propertyName + " like " + propertyValue);
+			List<T> resourceList = (List<T>) query.getResultList();
+			log.debug("findMultipleResults successful");
+			return resourceList;
+		} catch (RuntimeException re) {
+			log.error("findMultipleResults failed", re);
 			return null;
 		}
 	}

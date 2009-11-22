@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class ResourceDaoTest extends AbstractResthubTest {
 	
 	@Inject
-	private ResourceDao<Resource> resourceDaoTest;
+	private ResourceDao<Resource> testResourceDao;
 	
 	@SuppressWarnings("unused")
 	private Logger log = LoggerFactory.getLogger(ResourceDaoTest.class);
@@ -21,10 +21,10 @@ public class ResourceDaoTest extends AbstractResthubTest {
 	@Test
 	public void testPersistResource() throws Exception {		
 		
-		Resource resource1 = new Resource("resource1", "resource1");
-		resourceDaoTest.persist(resource1);
+		Resource resource1 = new Resource ("resource1", "resource1");
+		testResourceDao.persist(resource1);
 		
-		Resource foundResource = resourceDaoTest.findByPath(resource1.getPath());
+		Resource  foundResource = testResourceDao.findByPath(resource1.getPath());
 		assertEquals(resource1.getName(), foundResource.getName());
 		assertEquals(resource1.getPath(), foundResource.getPath());
 		

@@ -17,10 +17,10 @@
 
 package org.resthub.identity.security;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 
-import org.resthub.core.service.ResourceService;
 import org.resthub.identity.domain.model.User;
+import org.resthub.identity.service.UserService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,10 +40,10 @@ public class ResthubUserDetailsService implements UserDetailsService {
 	private final String ROOT_USERNAME = "admin";
 	private final String ROOT_PASSWORD = "admin";
 
-	@Resource
-	private ResourceService userService;
+	@Inject
+	private UserService userService;
 	
-	public void setUserService(ResourceService userService) {
+	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
 
@@ -58,7 +58,7 @@ public class ResthubUserDetailsService implements UserDetailsService {
 			if(username.equals(ROOT_USERNAME)) {
 				loadedResthubUser = createRootUser();
 			} else {
-				loadedResthubUser = (User)this.userService.retreive(username);
+				loadedResthubUser = (User)this.userService.findByName(username);
 			}
 					
 			if(null != loadedResthubUser) {

@@ -1,14 +1,12 @@
 package org.resthub.core.domain.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * Resource is the base of all classes that will be persisted in the JCR<
@@ -16,7 +14,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="RESOURCE")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Resource implements Serializable {
 
     /**

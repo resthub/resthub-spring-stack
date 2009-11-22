@@ -1,10 +1,10 @@
 package org.resthub.identity.domain.model;
 
-import javax.persistence.Table;
+import javax.persistence.Entity;
 
-@javax.persistence.Entity
-@Table(name="GROUP")
-public class Group extends Entity {
+
+@Entity
+public class Group extends Identity {
 
 	private static final long serialVersionUID = 1L;
 

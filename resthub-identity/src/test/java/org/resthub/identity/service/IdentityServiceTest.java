@@ -2,13 +2,12 @@ package org.resthub.identity.service;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 
-import org.resthub.core.service.ResourceService;
+import org.junit.Test;
 import org.resthub.identity.domain.model.Group;
 import org.resthub.identity.domain.model.User;
-import org.resthub.test.AbstractJcrTest;
-import org.junit.Test;
+import org.resthub.test.AbstractResthubTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,13 +15,13 @@ import org.slf4j.LoggerFactory;
  * Test cases for SiteService
  * @author Bouiaw
  */
-public class IdentityServiceTest extends AbstractJcrTest {
+public class IdentityServiceTest extends AbstractResthubTest {
 
-	@Resource
-	private ResourceService userService;
+	@Inject
+	private UserService userService;
 
-	@Resource
-	private ResourceService groupService;
+	@Inject
+	private GroupService groupService;
 
 	/**
 	 * Logger 
@@ -36,7 +35,7 @@ public class IdentityServiceTest extends AbstractJcrTest {
 		Group group1 = new Group("group1");
 		groupService.create(group1);
 
-		Group groupRetreived = (Group) groupService.retreive("group1");
+		Group groupRetreived = (Group) groupService.findByName("group1");
 		assertEquals(group1.getName(), groupRetreived.getName());
 	}
 
@@ -47,7 +46,7 @@ public class IdentityServiceTest extends AbstractJcrTest {
 		pastis.setPassword("toto");
 		userService.create(pastis);
 
-		User userRetreived = (User) userService.retreive("pastis");
+		User userRetreived = (User) userService.findByName("pastis");
 		assertEquals(pastis.getName(), userRetreived.getName());
 		assertEquals(pastis.getPassword(), userRetreived.getPassword());
 	}
@@ -63,7 +62,7 @@ public class IdentityServiceTest extends AbstractJcrTest {
 		pastis.addPermission(perm1);
 		userService.create(pastis);
 		
-		User userRetreived = (User) userService.retreive("pastis");
+		User userRetreived = (User) userService.findByName("pastis");
 		assertEquals(perm0, userRetreived.getPermissions().get(0));
 		assertEquals(perm1, userRetreived.getPermissions().get(1));
 	}
@@ -79,7 +78,7 @@ public class IdentityServiceTest extends AbstractJcrTest {
 		group1.addPermission(perm1);
 		groupService.create(group1);
 		
-		Group groupRetreived = (Group) groupService.retreive("group1");
+		Group groupRetreived = (Group) groupService.findByName("group1");
 		assertEquals(perm0, groupRetreived.getPermissions().get(0));
 		assertEquals(perm1, groupRetreived.getPermissions().get(1));
 	}
@@ -95,7 +94,7 @@ public class IdentityServiceTest extends AbstractJcrTest {
 		Group group1 = new Group("group1");
 		group1.addPermission(groupPerm0);
 		group1.addPermission(groupPerm1);
-		group1 = (Group)groupService.create(group1);
+		groupService.create(group1);
 		
 		User pastis = new User("pastis");
 		pastis.addPermission(userPerm0);
@@ -103,7 +102,7 @@ public class IdentityServiceTest extends AbstractJcrTest {
 		pastis.addGroup(group1);
 		userService.create(pastis);
 		
-		User userRetreived = (User) userService.retreive("pastis");
+		User userRetreived = (User) userService.findByName("pastis");
 		assertEquals(4, userRetreived.getUserAndGroupsPermissions().size());
 	}
 	

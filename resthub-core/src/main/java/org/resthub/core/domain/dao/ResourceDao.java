@@ -89,4 +89,8 @@ public interface ResourceDao <T> {
 	 */
 	public List<T> search(String searchString);
 	
+	public T findByName(String name);
+	public T findSingleResult(String propertyName, String propertyValue);
+	public List<T> findMultipleResults(String propertyName, String propertyValue);
+	
 }
