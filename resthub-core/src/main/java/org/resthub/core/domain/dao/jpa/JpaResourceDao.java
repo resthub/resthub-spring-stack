@@ -11,8 +11,6 @@ import javax.persistence.Query;
 import org.resthub.core.domain.dao.ResourceDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Generic DAO implementation for {@link ResourceDao} with JPA.
@@ -84,7 +82,6 @@ public abstract class JpaResourceDao<T> implements ResourceDao<T> {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void remove(Long resourceId) {
 		this.remove(this.findById(resourceId));
 	}
