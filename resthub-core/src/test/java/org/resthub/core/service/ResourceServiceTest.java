@@ -1,4 +1,4 @@
-package org.resthub.core.domain.dao;
+package org.resthub.core.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,17 +14,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.test.AbstractResthubTest;
+import org.springframework.transaction.annotation.Transactional;
 
-public class ResourceDaoTest extends AbstractResthubTest {
-
+public class ResourceServiceTest extends AbstractResthubTest {
+    
     @Inject
-    @Named("resourceDao")
-    private ResourceDao<Resource> resourceDao;
+    @Named("resourceService")
+    private ResourceService<Resource> resourceService;
 
     @Before
     public void setUp() {
         Resource resource = new Resource("Test Resource");
-        resourceDao.persist(resource);
+        resourceService.create(resource);
     }
 
     @After
@@ -33,53 +34,53 @@ public class ResourceDaoTest extends AbstractResthubTest {
     }
 
     @Test
-    public void testPersist() throws Exception {
-        Resource resource = new Resource("Test Persist Resource");
-        resourceDao.persist(resource);
+    public void createTest() {
+        Resource resource = new Resource("Test Create Resource");
+        resourceService.create(resource);
 
-        Resource foundResource = resourceDao.findByName("Test Persist Resource");
+        Resource foundResource = resourceService.findByName("Test Create Resource");
         assertNotNull(foundResource);
-        assertEquals("Test Persist Resource", foundResource.getName());
+        assertEquals(resource.getName(), foundResource.getName());
     }
 
     @Test
     public void testMerge() throws Exception {
-        Resource resource = resourceDao.findByName("Test Resource");
+        Resource resource = resourceService.findByName("Test Resource");
         resource.setName("Modified Test Resource");
-        resourceDao.merge(resource);
+        resourceService.update(resource);
 
-        Resource foundResource = resourceDao.findByName(resource.getName());
+        Resource foundResource = resourceService.findByName(resource.getName());
         assertNotNull(foundResource);
         assertEquals("Modified Test Resource", foundResource.getName());
     }
 
     @Test
     public void testRemove() throws Exception {
-        Resource resource = resourceDao.findByName("Test Resource");
-        resourceDao.remove(resource);
+        Resource resource = resourceService.findByName("Test Resource");
+        resourceService.delete(resource);
 
-        Resource foundResource = resourceDao.findByName(resource.getName());
+        Resource foundResource = resourceService.findByName(resource.getName());
         assertNull(foundResource);
     }
 
     @Test
     public void testRemoveById() throws Exception {
-        Resource resource = resourceDao.findByName("Test Resource");
-        resourceDao.remove(resource.getId());
+        Resource resource = resourceService.findByName("Test Resource");
+        resourceService.delete(resource.getId());
 
-        Resource foundResource = resourceDao.findByName(resource.getName());
+        Resource foundResource = resourceService.findByName(resource.getName());
         assertNull(foundResource);
     }
 
     @Test
     public void testFindAll() throws Exception {
-        List<Resource> resourceList = resourceDao.findAll();
+        List<Resource> resourceList = resourceService.findAll();
         assertEquals(resourceList.size(), 1);
     }
 
     @Test
     public void testFindByName() throws Exception {
-        Resource foundResource = resourceDao.findByName("Test Resource");
+        Resource foundResource = resourceService.findByName("Test Resource");
         assertNotNull(foundResource);
         assertEquals("Test Resource", foundResource.getName());
     }

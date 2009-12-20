@@ -3,10 +3,22 @@ package org.resthub.core.service;
 import java.util.List;
 
 public interface ResourceService<T> {
-	
-	List<T> findAll();
-	T findByPath(String path);
-	T findByName(String name);
-	void create(T resource);	
 
+    public void create(T transientResource);
+
+    public T update(T detachedResource);
+
+    public void delete(T persistentResource);
+
+    public void delete(Long resourceId);
+
+    public T findById(Long id);
+
+    public List<T> findAll();
+
+    public T findByName(String name);
+    
+    public List<T> findAllByLabel(String label);
+    
+    public List<T> findAllByPartialLabel(String label);
 }

@@ -9,7 +9,7 @@
 
 	<context:component-scan base-package="org.resthub.identity" />
 	
-	<http>
+<!--	<http>
 	    <form-login />
 	    <anonymous />
 	    <http-basic />
@@ -20,7 +20,7 @@
 	
 	<authentication-manager>
 		<authentication-provider user-service-ref="resthubUserDetailsService" />
-	</authentication-manager> 
+	</authentication-manager> -->
 		       	
  	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />
  	

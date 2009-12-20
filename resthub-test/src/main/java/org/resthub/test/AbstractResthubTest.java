@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:*ResthubContext.xml", "classpath*:*ResthubContext.xml" })
-@TransactionConfiguration(defaultRollback=false)
+@TransactionConfiguration(defaultRollback = true)
 @Transactional
 public abstract class AbstractResthubTest   {
 
