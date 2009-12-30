@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.test.AbstractResthubTest;
-import org.springframework.transaction.annotation.Transactional;
 
 public class ResourceServiceTest extends AbstractResthubTest {
     
@@ -75,7 +74,7 @@ public class ResourceServiceTest extends AbstractResthubTest {
     @Test
     public void testFindAll() throws Exception {
         List<Resource> resourceList = resourceService.findAll();
-        assertEquals(resourceList.size(), 1);
+        assertEquals(1, resourceList.size());
     }
 
     @Test

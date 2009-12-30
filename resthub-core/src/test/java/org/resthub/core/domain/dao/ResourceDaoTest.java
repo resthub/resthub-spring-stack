@@ -14,7 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.test.AbstractResthubTest;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = false)
 public class ResourceDaoTest extends AbstractResthubTest {
 
     @Inject
