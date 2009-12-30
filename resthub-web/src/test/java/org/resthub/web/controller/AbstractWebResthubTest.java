@@ -1,6 +1,5 @@
 package org.resthub.web.controller;
 
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;

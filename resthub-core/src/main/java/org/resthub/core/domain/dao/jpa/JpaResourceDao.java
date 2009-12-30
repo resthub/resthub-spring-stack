@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -13,13 +14,12 @@ import org.resthub.core.domain.dao.ResourceDao;
 import org.resthub.core.domain.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author Loïc Frering <loic.frering@atosorigin.com>
  */
-@Repository("resourceDao")
+@Named("resourceDao")
 public class JpaResourceDao<T extends Resource> implements ResourceDao<T> {
 
     protected Class<T> entityClass;

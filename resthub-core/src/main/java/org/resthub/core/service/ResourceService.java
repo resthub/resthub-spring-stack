@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ResourceService<T> {
 
-    public void create(T transientResource);
+    public T create(T transientResource);
 
     public T update(T detachedResource);
 

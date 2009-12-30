@@ -8,35 +8,34 @@ import javax.inject.Named;
 import org.resthub.core.domain.dao.ResourceDao;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.service.ResourceService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("resourceService")
+@Named("resourceService")
 @Transactional(readOnly = true)
-public class ResourceServiceImpl<T extends Resource, D extends ResourceDao<T>> implements
+public class ResourceServiceImpl<T extends Resource> implements
         ResourceService<T> {
 
-    protected D resourceDao;
+    protected ResourceDao<T> resourceDao;
 
     @Inject
     @Named("resourceDao")
-    public void setResourceDao(D resourceDao) {
+    public void setResourceDao(ResourceDao<T> resourceDao) {
         this.resourceDao = resourceDao;
     }
 
     @Transactional(readOnly = false)
-    public void create(T transientResource) {
-        resourceDao.persist(transientResource);
+    public T create(T resource) {
+        return resourceDao.merge(resource);
     }
 
     @Transactional(readOnly = false)
-    public T update(T detachedResource) {
-        return resourceDao.merge(detachedResource);
+    public T update(T resource) {
+        return resourceDao.merge(resource);
     }
 
     @Transactional(readOnly = false)
-    public void delete(T persistentResource) {
-        resourceDao.remove(persistentResource);
+    public void delete(T resource) {
+        resourceDao.remove(resource);
     }
 
     @Transactional(readOnly = false)
