@@ -1,4 +1,4 @@
-package org.resthub.web.controller;
+package org.resthub.test.web;
 
 import org.springframework.web.context.ContextLoaderListener;
 

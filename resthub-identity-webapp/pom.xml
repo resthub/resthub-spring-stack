@@ -6,16 +6,19 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.resthub</groupId>
-  <artifactId>resthub-test-webapp</artifactId>
+  <artifactId>resthub-identity-webapp</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
+  <description>
+  	Identity sample webapp, useful to see how a RESThub base application is designed
+  </description>
+  
+  
   <dependencies>
   	<dependency>
   		<groupId>org.resthub</groupId>
   		<artifactId>resthub-web</artifactId>
   		<version>1.0-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
   	</dependency>
   </dependencies>
 </project>
