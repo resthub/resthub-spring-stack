@@ -18,7 +18,4 @@ public interface ResourceService<T> {
 
     public T findByName(String name);
     
-    public List<T> findAllByLabel(String label);
-    
-    public List<T> findAllByPartialLabel(String label);
 }

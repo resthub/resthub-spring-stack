@@ -58,12 +58,6 @@
 			<artifactId>jersey-test-framework</artifactId>
 			<version>${jersey.version}</version>
 			<scope>test</scope>
-<!--			<exclusions>-->
-<!--				<exclusion>-->
-<!--					<groupId>org.glassfish.embedded</groupId>-->
-<!--					<artifactId>glassfish-embedded-all</artifactId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>

@@ -28,7 +28,8 @@ public class JpaResourceDao<T extends Resource> implements ResourceDao<T> {
     @PersistenceContext
     private EntityManager em;
 
-    public JpaResourceDao() {
+    @SuppressWarnings("unchecked")
+	public JpaResourceDao() {
         Class clazz = getClass();
         Type genericSuperclass = clazz.getGenericSuperclass();
 
@@ -94,7 +95,8 @@ public class JpaResourceDao<T extends Resource> implements ResourceDao<T> {
         }
     }
 
-    public List findAll() {
+    @SuppressWarnings("unchecked")
+    public List<T> findAll() {
         log.debug("Finding all Resource instances.");
         try {
             Query query = em.createQuery("select r from " + entityClass.getSimpleName() + " r");
@@ -108,7 +110,8 @@ public class JpaResourceDao<T extends Resource> implements ResourceDao<T> {
         }
     }
 
-    public T findByName(String name) {
+    @SuppressWarnings("unchecked")
+	public T findByName(String name) {
         log.debug("Finding Resource instance with name: " + name);
         try {
             Query query = em.createQuery("select r from " + entityClass.getSimpleName()
@@ -123,31 +126,4 @@ public class JpaResourceDao<T extends Resource> implements ResourceDao<T> {
         }
     }
     
-    public List findAllByLabel(String label) {
-        log.debug("Finding all Resource instances with label: " + label);
-        try {
-            Query query = em.createQuery("select r from " + entityClass.getSimpleName() + " r where r.label like :label");
-            query.setParameter("label", label);
-            List<T> resourceList = query.getResultList();
-            log.debug("FindAllByLabel successfull.");
-            return resourceList;
-        } catch (RuntimeException re) {
-            log.error("FindAllByLabel failed.", re);
-            return new ArrayList<T>();
-        }
-    }
-    
-    public List findAllByPartialLabel(String label) {
-        log.debug("Finding all Resource instances whose label contains : " + label);
-        try {
-            Query query = em.createQuery("select r from " + entityClass.getSimpleName() + " r where UPPER(r.label) like UPPER(:label)");
-            query.setParameter("label", "%" + label + "%");
-            List<T> resourceList = query.getResultList();
-            log.debug("findAllByPartialLabel successfull.");
-            return resourceList;
-        } catch (RuntimeException re) {
-            log.error("findAllByPartialLabel failed.", re);
-            return new ArrayList<T>();
-        }
-    }
 }

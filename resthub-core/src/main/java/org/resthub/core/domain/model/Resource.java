@@ -15,9 +15,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Resource implements Serializable {
 
-    private Long id;
+	private static final long serialVersionUID = -4312792070014313489L;
+	
+	private Long id;
     private String name;
-    private String label;
 
     public Resource() {
         
@@ -25,11 +26,6 @@ public class Resource implements Serializable {
 
     public Resource(String name) {
         this.name = name;
-    }
-
-    public Resource(String name, String label) {
-        this.name = name;
-        this.label = label;
     }
 
     @Id
@@ -49,16 +45,6 @@ public class Resource implements Serializable {
 
     public Resource setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    @Column
-    public String getLabel() {
-        return null != label ? label : name;
-    }
-
-    public Resource setLabel(String label) {
-        this.label = label;
         return this;
     }
 

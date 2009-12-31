@@ -54,13 +54,5 @@ public class ResourceServiceImpl<T extends Resource> implements
     public T findByName(String name) {
         return resourceDao.findByName(name);
     }
-    
-    public List<T> findAllByLabel(String label) {
-        return resourceDao.findAllByLabel(label);
-    }
-    
-    public List<T> findAllByPartialLabel(String label) {
-        return resourceDao.findAllByPartialLabel(label);
-    }
 
 }

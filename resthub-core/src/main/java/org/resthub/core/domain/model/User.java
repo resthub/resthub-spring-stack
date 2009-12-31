@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class User extends Resource {
 
+	private static final long serialVersionUID = -7139715798005612136L;
+
 	protected String password = null;
 	
 	protected String email = null;

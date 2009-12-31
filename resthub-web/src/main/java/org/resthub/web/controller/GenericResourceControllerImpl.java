@@ -17,6 +17,7 @@ public abstract class GenericResourceControllerImpl<T extends Resource> implemen
     
 	protected ResourceService<T> resourceService;
 	
+	@SuppressWarnings("unchecked")
 	public GenericResourceControllerImpl() {
 		Class clazz = getClass();
         Type genericSuperclass = clazz.getGenericSuperclass();
