@@ -42,6 +42,11 @@ public class ResourceServiceImpl<T extends Resource> implements
     public void delete(Long resourceId) {
         resourceDao.remove(resourceId);
     }
+    
+    @Transactional(readOnly = false)
+    public void delete(String name) {
+        resourceDao.remove(name);
+    }
 
     public T findById(Long id) {
         return resourceDao.findById(id);

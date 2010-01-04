@@ -11,6 +11,8 @@ public interface ResourceDao<T> {
     public void remove(T persistentResource);
 
     public void remove(Long resourceId);
+    
+    public void remove(String name);
 
     public T findById(Long id);
 

@@ -82,6 +82,10 @@ public class JpaResourceDao<T extends Resource> implements ResourceDao<T> {
     public void remove(Long resourceId) {
         this.remove(this.findById(resourceId));
     }
+    
+    public void remove(String name) {
+        this.remove(this.findByName(name));
+    }
 
     public T findById(Long id) {
         log.debug("Finding Resource instance with id: " + id);

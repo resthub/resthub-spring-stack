@@ -11,6 +11,8 @@ public interface ResourceService<T> {
     public void delete(T persistentResource);
 
     public void delete(Long resourceId);
+    
+    public void delete(String name);
 
     public T findById(Long id);
 
