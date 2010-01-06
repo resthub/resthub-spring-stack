@@ -17,7 +17,7 @@ public class TestResourceController extends AbstractWebResthubTest {
     @Test
     public void testCreateResource() {
         WebResource r = resource().path("resources");
-        String response = r.type("text/xml").post(String.class, new Resource("r1"));
+        String response = r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r1"));
         System.out.print(response + "\n");
         Assert.assertTrue(response.contains("r1"));
     }
@@ -26,10 +26,10 @@ public class TestResourceController extends AbstractWebResthubTest {
     @Test
     public void testFindAllResource() {
     	WebResource r = resource().path("resources");
-    	r.type("text/xml").post(String.class, new Resource("r1"));
-    	r.type("text/xml").post(String.class, new Resource("r2"));
-    	r.type("text/xml").post(String.class, new Resource("r3"));
-        String response = r.type(MediaType.TEXT_XML).get(String.class);
+    	r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r1"));
+    	r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r2"));
+    	r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r3"));
+        String response = r.type(MediaType.APPLICATION_XML).get(String.class);
         System.out.print(response + "\n");
         Assert.assertTrue(response.contains("r1"));
         Assert.assertTrue(response.contains("r2"));
@@ -39,9 +39,9 @@ public class TestResourceController extends AbstractWebResthubTest {
     @Test
     public void testFindResourceByName() {
         WebResource r = resource().path("resources");
-        r.type("text/xml").post(String.class, new Resource("r1"));
+        r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r1"));
         r = resource().path("resources/r1");
-        String s = r.accept(MediaType.TEXT_XML).get(String.class);
+        String s = r.accept(MediaType.APPLICATION_XML).get(String.class);
         System.out.print(s + "\n");
         Assert.assertTrue(s.contains("r1"));
     }
@@ -49,26 +49,27 @@ public class TestResourceController extends AbstractWebResthubTest {
     @Test
     public void testDeleteResource() {
         WebResource r = resource().path("resources");
-        r.type("text/xml").post(String.class, new Resource("r1"));
+        r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r1"));
         r = resource().path("resources/r1");
         ClientResponse response = r.delete(ClientResponse.class);
         Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        response = r.accept(MediaType.TEXT_XML).get(ClientResponse.class);
+        response = r.accept(MediaType.APPLICATION_XML).get(ClientResponse.class);
         Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
     
     @Test
     public void testUpdateResource() {
         WebResource r = resource().path("resources");
-        String s = r.type("text/xml").post(String.class, new Resource("r1"));
+        r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r1"));
+        r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r2"));
         r = resource().path("resources/r1");
-        Resource resource = r.accept(MediaType.TEXT_XML).get(Resource.class);
-        resource.setName("r2");
-        r = resource().path("resources/r1");
-        r.type("text/xml").put(r);
-        r = resource().path("resources/r2");
-        s = r.accept(MediaType.TEXT_XML).get(String.class);
+        ClientResponse cr = r.type(MediaType.APPLICATION_XML).put(ClientResponse.class, new Resource("r3"));
+        Assert.assertEquals(Status.CREATED.getStatusCode(), cr.getStatus());
+        String s = resource().path("resources").accept(MediaType.APPLICATION_XML).get(String.class);
+        Assert.assertFalse(s.contains("r1"));
         Assert.assertTrue(s.contains("r2"));
+        Assert.assertTrue(s.contains("r3"));
+
     }
 
 }

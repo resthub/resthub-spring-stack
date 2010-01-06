@@ -57,8 +57,8 @@ public abstract class GenericResourceController<T extends Resource> {
 	
 	// http://jfhelie.blogspot.com/2008/09/rest-en-java-avec-jersey.html
 	@POST
-	@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
-	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response create(T resource) {
 		Resource r = this.resourceService.create(resource);
 		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
@@ -69,14 +69,16 @@ public abstract class GenericResourceController<T extends Resource> {
 	
 	@PUT
 	@Path("/{name}")
-	@Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
-	public Response update(T resource) {
-		Resource r = this.resourceService.update(resource);
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response update(@PathParam("name")String name,T resource) { 
+		Resource r = this.resourceService.findByName(name);
+		resource.setId(r.getId());
+		this.resourceService.update(resource);
 		return Response.created(uriInfo.getAbsolutePath()).build();
 	}
 	
 	@GET
-	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response findAll() {
 		List<T> resources = this.resourceService.findAll();
 		return Response.ok(resources.toArray(entityClassArray)).build();
@@ -84,7 +86,7 @@ public abstract class GenericResourceController<T extends Resource> {
 	
 	@GET
 	@Path("/{name}")
-	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response findByName(@PathParam("name")String name) {
 		T resource =  this.resourceService.findByName(name);
 		

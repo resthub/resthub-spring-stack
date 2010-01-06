@@ -33,9 +33,13 @@ public class ResourceServiceImpl<T extends Resource> implements
         return resourceDao.merge(resource);
     }
 
-    @Transactional(readOnly = false)
     public void delete(T resource) {
-        resourceDao.remove(resource);
+        if (null == resource.getId()) {
+            throw new IllegalArgumentException(
+                    "Removing a detached instance that never be persisted "
+                            + resource.toString());
+        }
+        this.delete(resource.getId());
     }
 
     @Transactional(readOnly = false)
