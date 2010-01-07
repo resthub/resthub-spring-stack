@@ -25,7 +25,11 @@ import javax.ws.rs.core.Response.Status;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.service.ResourceService;
 
+import com.sun.jersey.api.view.ImplicitProduces;
+import com.sun.jersey.api.view.Viewable;
+
 @Singleton
+@ImplicitProduces("text/html;qs=5")
 public abstract class GenericResourceController<T extends Resource> {
 	
 	protected Class<T> entityClass;
@@ -55,7 +59,6 @@ public abstract class GenericResourceController<T extends Resource> {
 		this.resourceService = resourceService;
 	}
 	
-	// http://jfhelie.blogspot.com/2008/09/rest-en-java-avec-jersey.html
 	@POST
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -79,7 +82,7 @@ public abstract class GenericResourceController<T extends Resource> {
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response findAll() {
+	public Response getResources() {
 		List<T> resources = this.resourceService.findAll();
 		return Response.ok(resources.toArray(entityClassArray)).build();
 	}
@@ -87,7 +90,7 @@ public abstract class GenericResourceController<T extends Resource> {
 	@GET
 	@Path("/{name}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response findByName(@PathParam("name")String name) {
+	public Response getResource(@PathParam("name")String name) {
 		T resource =  this.resourceService.findByName(name);
 		
 		if(resource == null) {
@@ -103,5 +106,19 @@ public abstract class GenericResourceController<T extends Resource> {
 	public void delete(@PathParam("name")String name) {
 		this.resourceService.delete(name);
 	}
+	
+	@GET
+	@Path("/{name}")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getResourceView(@PathParam("name")String name) {
+		T resource =  this.resourceService.findByName(name);
+		return new Viewable("default", resource);
+    }
+	
+	@GET
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable getResourcesView() {
+		return new Viewable("default", new Resource("All"));
+    }
 
 }
