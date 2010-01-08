@@ -108,7 +108,8 @@ public abstract class GenericResourceController<T extends Resource> extends Abst
 	@GET
     @Produces(MediaType.TEXT_HTML)
     public Viewable getResourcesView() {
-		return new Viewable("default", new Resource("All"));
+		List<T> resources = this.resourceService.findAll();
+		return new Viewable("default", resources.toArray(resourceClassArray));
     }
 
 }

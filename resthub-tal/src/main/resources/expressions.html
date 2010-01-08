@@ -1,0 +1,331 @@
+﻿<html>
+  
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+<title>This is a test</title>
+  
+</head>
+  
+<body>
+    <!-- This is a test -->
+    
+<p class="paragraph">
+      I hope it works.
+    </p>
+    
+<p>
+      Let's test some expressions:
+      <ul>
+        
+<li>A blank expression should be <i></i>
+        
+</li>
+<li>here/favoriteColor should be <b>red</b>
+        
+</li>
+<li>here/friend/number should be <div>9</div>
+</li>
+      
+</ul>
+
+      Some literals
+      <ul>
+        
+<li>'this is a string literal' should be this is a string literal
+        </li>
+<li>123l should be 123 and should have a class of 
+            java.lang.Long
+        </li>
+<li>123 should be 123 and should have a class of 
+            java.lang.Integer
+        </li>
+<li>123.45d should be 123.45 and should have a class of 
+            java.lang.Double
+        </li>
+<li>123.45f should be 123.45 and should have a class of 
+            java.lang.Float
+        </li>
+<li>123.45 should be 123.45 and should have a class of 
+            java.lang.Float
+        </li>
+<li>true should be true and should have a class of
+            java.lang.Boolean
+        </li>
+<li>false should be false and should have a class of
+            java.lang.Boolean
+      </li>
+</ul>
+
+      Some method calls
+      <ul>
+        
+<li>2 + 3 = 5
+        </li>
+<li>this is equivalent to 9
+        </li>
+<li>9 - 9 = 0
+        </li>
+<li>9 + 9 * 5 = 54
+        </li>
+<li>2 + 3 = 5
+      </li>
+</ul>
+
+      Get into a map
+      <ul>
+        
+<li>here/friend/map/friend should be kevin
+        </li>
+<li>here/friend/map/friend/length() should be 5
+        </li>
+<li>here/friend/map/dummy should be null
+        </li>
+<li>here/friend/map/hello should be 99
+      </li>
+</ul>
+
+      Exists expressions
+      <ul>
+        
+<li>exists:doggy should be false
+        </li>
+<li>exists:here should be true
+        </li>
+<li>exists:here/friend should be true
+        </li>
+<li>exists:here/enemy should be false
+        </li>
+<li>exists:here/enemy/name should be false
+        </li>
+<li>exists:here/friend/map/hello should be true
+        </li>
+<li>exists:here/friend/map/what should be false
+      </li>
+</ul>
+
+      Not expressions
+      <ul>
+        
+<li>not:0 should be true
+        </li>
+<li>not:1 should be false
+        </li>
+<li>not:false should be true
+        </li>
+<li>not:true should be false
+        </li>
+<li>not:doggy should be true
+        </li>
+<li>not:here should be false
+        </li>
+<li>not:here/friend should be false
+        </li>
+<li>not:here/enemy should be true
+        </li>
+<li>not:here/friend/number should be false
+        </li>
+<li>not:here/friend/zero should be true
+        </li>
+<li>not:here/friend/map/hello should be false
+        </li>
+<li>not:here/friend/map/what should be true
+      </li>
+</ul>    
+
+      String expressions
+      <ul>
+        
+<li>string: should be 
+        </li>
+<li>string:hello should be hello
+        </li>
+<li>string:help my $here/friend/zero should be help my 0
+        </li>
+<li>string:www.${opinions}.org should be www.everybodysgotone.org
+        </li>
+<li>string:give me $$${helper/friend/number} or else should be give me $9 or else!
+      </li>
+</ul>
+
+      Structured text
+      <ul>
+        
+<li>escaped: &lt;b&gt;The cabinet&lt;/b&gt; has &lt;i&gt;usurped&lt;/i&gt; the authority of the &lt;h3&gt;president&lt;/h3&gt;&lt;p&gt;
+        </li>
+<li>escaped: &lt;b&gt;The cabinet&lt;/b&gt; has &lt;i&gt;usurped&lt;/i&gt; the authority of the &lt;h3&gt;president&lt;/h3&gt;&lt;p&gt;
+        </li>
+<li>escaped: &lt;b&gt;The cabinet&lt;/b&gt; has &lt;i&gt;usurped&lt;/i&gt; the authority of the &lt;h3&gt;president&lt;/h3&gt;&lt;p&gt;
+        </li>
+<li>escapedx: &lt;b&gt;The cabinet&lt;/b&gt; has &lt;i&gt;usurped&lt;/i&gt; the authority of the &lt;h3&gt;president&lt;/h3&gt;&lt;p/&gt;
+        </li>
+<li>structured: <b>The cabinet</b> has <i>usurped</i> the authority of the <h3>president</h3>
+<p></p> 
+        
+</li>
+<li>structured: <b>The cabinet</b> has <i>usurped</i> the authority of the <h3>president</h3>
+<p></p> 
+        
+</li>
+<li>structured2: <b>The cabinet</b> has <i>usurped</i> the authority of the <h3>president</h3>
+<p></p> 
+      
+</li>
+</ul>
+
+      Alternate path segments
+      <ul>
+        
+<li>use first path: Albert
+        </li>
+<li>null: no enemies
+        </li>
+<li>no such path: no space for cowboys
+        </li>
+<li>both: Albert
+      </li>
+</ul>
+
+      Path token indirection
+      <ul>
+        
+<li>a friend of a friend: kevin
+      </li>
+</ul>
+
+      Fun with classes
+      <ul>
+        
+<li>number instanceof Integer: true
+        </li>
+<li>categorically false: false
+
+      Our BoolHelper
+      <ul>
+        
+<li> true true
+        </li>
+<li> false false
+        </li>
+<li> true true
+        </li>
+<li> false false
+        </li>
+<li> true true
+        </li>
+<li> mermaids mermaids
+        </li>
+<li> 1 1
+        </li>
+<li> tree tree
+      </li>
+</ul>
+
+      Do it again with bean shell
+      <ul>
+        
+<li> true true
+        </li>
+<li> false false
+        </li>
+<li> true true
+        </li>
+<li> false false
+        </li>
+<li> true true
+        </li>
+<li> mermaids mermaids
+        </li>
+<li> 1 1
+        </li>
+<li> tree tree
+      </li>
+</ul>
+
+      Our MathHelper
+      <ul>
+        
+<li> 9 9
+        </li>
+<li> 1 1
+        </li>
+<li> 20 20
+        </li>
+<li> 23 23
+        </li>
+<li> 2 2
+      </li>
+</ul>
+      
+      Do it again with bean script
+      <ul>
+        
+<li> 9 9
+        </li>
+<li> 1 1
+        </li>
+<li> 20 20
+        </li>
+<li> 23 23
+        </li>
+<li> 2 2
+      </li>
+</ul>
+      
+      Our DateHelper
+      <ul>
+        
+<li>my birthday Mon July 7, 1975 7:57:23 AM
+      </li>
+</ul>
+      
+      Do it again with bean script
+      <ul>
+        
+<li>my birthday Mon July 7, 1975 7:57:23 AM
+      </li>
+</ul>
+          
+      An array
+      <ul>
+        
+<li>crocodile crocodile
+        </li>
+<li>cat cat
+      </li>
+</ul>
+      
+      A more complicated array
+      <ul>
+        
+<li>four 4
+        </li>
+<li>seven 7
+        </li>
+<li>eleven 11
+        </li>
+<li>seven 7
+      </li>
+</ul>
+      
+      Invoke a bean shell script
+      </li>
+</ul>
+</p>
+<p>Hello World!</p>
+      
+      Invoke it again
+      <ul>
+        
+<li>String java.lang.String</li>
+        
+<li>12 12</li>
+      
+</ul>
+    
+<p></p>
+  
+
+
+</body>
+</html>

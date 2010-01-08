@@ -1,0 +1,30 @@
+﻿  <!-- Make sure namespaces are really working by using non-standard prefix 
+  -->
+  <html xmlns:macro="http://xml.zope.org/namespaces/metal" macro:define-macro="page">
+    <head>
+      <title macro:define-slot="title">The title of this page</title>
+    </head>
+    <body>
+      <table>
+        <tr>
+          <td colspan="2"><h1>This is our page header</h1></td>
+        </tr>
+        <tr>
+          <td>
+            This is stuff over here on the side:
+            <ul>
+              <li>one</li>
+              <li>two</li>
+              <li>three</li>
+              <li>four</li>
+            </ul>
+          </td>
+          <td>
+            <p macro:define-slot="content">
+              The content for this page goes here.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </body>
+  </html>

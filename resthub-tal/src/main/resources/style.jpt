@@ -1,0 +1,21 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal">
+  <head>
+    <title>title</title>
+    <style>
+      body { 
+        background-color: <span tal:replace="string:white">color</span>
+        font-size: 12pt; 
+        color: black; 
+        font-family: arial,helvetica,verdana; 
+      }
+    </style>
+    <script>
+      var number = <span tal:replace="here/friend/number">number</span>
+    </script>
+  </head>
+  <body>
+    This is a test to see if elements will be processed
+    inside &lt;style&gt; and &lt;body&gt; elements.  We're hoping they
+    will be.
+  </body>
+</html>

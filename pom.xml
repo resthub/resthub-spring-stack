@@ -19,6 +19,7 @@
 		<module>resthub-test</module>
 		<module>resthub-identity</module>
 		<module>resthub-identity-webapp</module>
+		<module>resthub-tal</module>
 	</modules>
 
 	<properties>

@@ -1,0 +1,11 @@
+﻿<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="resolver/getPageTemplate( 'page2.jpt' )/macros/page">
+  <title metal:fill-slot="title">My screed</title>
+  <td metal:fill-slot="sidebar">
+    Genuine contemplation is always pushed to the margins.
+  </td>
+  <td metal:fill-slot="main">
+    While vacuity and drivel take center stage
+  </td>
+</html>
