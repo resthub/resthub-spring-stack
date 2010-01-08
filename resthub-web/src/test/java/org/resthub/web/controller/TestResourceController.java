@@ -6,7 +6,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.resthub.core.domain.model.Resource;
-import org.resthub.test.web.AbstractWebResthubTest;
+import org.resthub.web.test.AbstractWebResthubTest;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

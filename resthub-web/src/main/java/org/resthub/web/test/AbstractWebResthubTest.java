@@ -1,4 +1,4 @@
-package org.resthub.test.web;
+package org.resthub.web.test;
 
 import org.springframework.web.context.ContextLoaderListener;
 

@@ -1,8 +1,6 @@
 package org.resthub.web.controller;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
@@ -22,6 +20,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
+import org.resthub.core.AbstractResourceClassAware;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.service.ResourceService;
 
@@ -30,10 +29,9 @@ import com.sun.jersey.api.view.Viewable;
 
 @Singleton
 @ImplicitProduces("text/html;qs=5")
-public abstract class GenericResourceController<T extends Resource> {
+public abstract class GenericResourceController<T extends Resource> extends AbstractResourceClassAware<T> {
 	
-	protected Class<T> entityClass;
-    private T[] entityClassArray; 
+    protected T[] resourceClassArray; 
     
 	protected ResourceService<T> resourceService;
 	
@@ -43,16 +41,8 @@ public abstract class GenericResourceController<T extends Resource> {
 	
 	@SuppressWarnings("unchecked")
 	public GenericResourceController() {
-		Class clazz = getClass();
-        Type genericSuperclass = clazz.getGenericSuperclass();
-        while (!(genericSuperclass instanceof ParameterizedType)) {
-            clazz = clazz.getSuperclass();
-            genericSuperclass = clazz.getGenericSuperclass();
-        }
-        this.entityClass = (Class<T>) ((ParameterizedType) genericSuperclass)
-                .getActualTypeArguments()[0];
-            
-        entityClassArray = (T[]) Array.newInstance(this.entityClass, 0); 
+		super();       
+		resourceClassArray = (T[]) Array.newInstance(this.resourceClass, 0); 
 	}
 	
 	public void setResourceService(ResourceService<T> resourceService) {
@@ -84,7 +74,7 @@ public abstract class GenericResourceController<T extends Resource> {
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getResources() {
 		List<T> resources = this.resourceService.findAll();
-		return Response.ok(resources.toArray(entityClassArray)).build();
+		return Response.ok(resources.toArray(resourceClassArray)).build();
 	}
 	
 	@GET
