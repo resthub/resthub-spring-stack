@@ -23,7 +23,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-
 import java.util.Iterator;
 
 import org.dom4j.DocumentException;
@@ -31,10 +30,10 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.SAXWriter;
-
+import org.resthub.web.tal.exception.PageTemplateException;
 import org.xml.sax.ContentHandler;
-import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.ext.LexicalHandler;
 
 /**
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>

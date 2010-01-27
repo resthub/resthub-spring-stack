@@ -18,13 +18,15 @@
  */
 package org.resthub.web.tal;
 
-import bsh.Interpreter;
-
 import java.io.IOException;
 import java.util.Stack;
+
+import org.resthub.web.tal.exception.PageTemplateException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
+
+import bsh.Interpreter;
 
 /**
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>

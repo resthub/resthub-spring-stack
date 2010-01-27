@@ -18,15 +18,19 @@
  */
 package org.resthub.web.tal;
 
-import bsh.Interpreter;
-
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
+
+import org.resthub.web.tal.exception.ExpressionEvaluationException;
+import org.resthub.web.tal.exception.ExpressionSyntaxException;
+import org.resthub.web.tal.exception.NoSuchPathException;
+import org.resthub.web.tal.exception.PageTemplateException;
+
+import bsh.Interpreter;
 
 /**
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>

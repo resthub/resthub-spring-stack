@@ -18,13 +18,16 @@
  */
 package org.resthub.web.tal;
 
-import bsh.Interpreter;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.resthub.web.tal.exception.ExpressionSyntaxException;
+import org.resthub.web.tal.exception.PageTemplateException;
+
+import bsh.Interpreter;
 
 /**
  * @author <a href="mailto:rossi@webslingerZ.ocm">Chris Rossi</a>

@@ -21,6 +21,8 @@ package org.resthub.web.tal;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+
+import org.resthub.web.tal.exception.PageTemplateException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;

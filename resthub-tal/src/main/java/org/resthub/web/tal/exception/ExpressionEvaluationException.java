@@ -16,7 +16,7 @@
  *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.resthub.web.tal;
+package org.resthub.web.tal.exception;
 
 /**
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>
@@ -41,7 +41,7 @@ public class ExpressionEvaluationException extends PageTemplateException {
 
     String expression = null;
 
-    void setExpression( String expression ) {
+    public void setExpression( String expression ) {
         // Do not clobber first expression
         if ( this.expression == null ) {
             this.expression = expression;

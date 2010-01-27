@@ -19,8 +19,11 @@
 package org.resthub.web.tal;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
+
+import org.resthub.web.tal.exception.ExpressionSyntaxException;
+import org.resthub.web.tal.exception.PageTemplateException;
 
 /**
  * More or less functions like the standard StringTokenizer

@@ -18,12 +18,12 @@
  */
 package org.resthub.web.tal;
 
-import java.net.URI;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.io.InputStreamReader;
+import org.resthub.web.tal.exception.PageTemplateException;
 
 /**
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>

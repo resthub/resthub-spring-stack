@@ -42,7 +42,7 @@ public class PageTemplateTest {
 
     @Test
     public void testExpressions() throws Exception {
-        Map dictionary = new HashMap();
+        Map<String, Object> dictionary = new HashMap<String, Object>();
         dictionary.put( "opinions", "everybodysgotone" );
         dictionary.put( "helper", new TestObject() );
         dictionary.put( "acquaintance", "friend" );

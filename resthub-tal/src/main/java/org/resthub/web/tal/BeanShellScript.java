@@ -20,7 +20,6 @@ package org.resthub.web.tal;
 
 import java.io.IOException;
 import java.io.Reader;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
