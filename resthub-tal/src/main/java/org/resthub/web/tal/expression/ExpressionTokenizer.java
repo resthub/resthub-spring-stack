@@ -16,7 +16,7 @@
  *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.resthub.web.tal;
+package org.resthub.web.tal.expression;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,19 +33,19 @@ import org.resthub.web.tal.exception.PageTemplateException;
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>
  * @version $Revision: 1.2 $
  */
-class ExpressionTokenizer {
+public class ExpressionTokenizer {
     String expression;
     Iterator iterator;
     int currIndex = 0;
     int delimiterCount = 0;
     
-    ExpressionTokenizer( String expression, char delimiter ) 
+    public ExpressionTokenizer( String expression, char delimiter ) 
         throws PageTemplateException
     {
         this( expression, delimiter, false );
     }
     
-    ExpressionTokenizer( String expression, char delimiter, boolean escape ) 
+    public ExpressionTokenizer( String expression, char delimiter, boolean escape ) 
         throws PageTemplateException
     {
         // Go ahead and find delimiters, if any, at construction time
@@ -117,11 +117,11 @@ class ExpressionTokenizer {
         this.iterator = delimiters.iterator();
     }
     
-    boolean hasMoreTokens() {
+    public boolean hasMoreTokens() {
         return currIndex < expression.length();
     }
     
-    String nextToken() {
+    public String nextToken() {
         if ( iterator.hasNext() ) {
             int delim = ((Integer)iterator.next()).intValue();
             String token = expression.substring( currIndex, delim );
@@ -136,7 +136,7 @@ class ExpressionTokenizer {
         }
     }
     
-    int countTokens() {
+    public int countTokens() {
         if ( hasMoreTokens() ) {
             return delimiterCount + 1;
         }

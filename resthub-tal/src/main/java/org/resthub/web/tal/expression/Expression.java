@@ -16,7 +16,7 @@
  *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.resthub.web.tal;
+package org.resthub.web.tal.expression;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
 
+import org.resthub.web.tal.BeanShellScript;
 import org.resthub.web.tal.exception.ExpressionEvaluationException;
 import org.resthub.web.tal.exception.ExpressionSyntaxException;
 import org.resthub.web.tal.exception.NoSuchPathException;
@@ -36,8 +37,8 @@ import bsh.Interpreter;
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>
  * @version $Revision: 1.10 $
  */
-abstract class Expression {
-    static final Object evaluate( String expression, Interpreter beanShell ) 
+public abstract class Expression {
+	public static final Object evaluate( String expression, Interpreter beanShell ) 
         throws PageTemplateException
     {
         try {
@@ -66,7 +67,7 @@ abstract class Expression {
         }
     }
     
-    static final boolean evaluateBoolean( String expression, Interpreter beanShell ) 
+    public static final boolean evaluateBoolean( String expression, Interpreter beanShell ) 
         throws PageTemplateException
     {
         Object result = evaluate( expression, beanShell );
@@ -537,7 +538,7 @@ abstract class Expression {
     /**
      * Oh curse Java!
      */
-    static final Object[] convertPrimitiveArray( Object o ) {
+    static public final Object[] convertPrimitiveArray( Object o ) {
         Object[] newArray = null;
         if ( o instanceof int[] ) {
             int[] oldArray = (int[])o;

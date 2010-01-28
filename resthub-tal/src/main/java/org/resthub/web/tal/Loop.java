@@ -26,6 +26,7 @@ import java.util.TreeMap;
 
 import org.resthub.web.tal.exception.ExpressionSyntaxException;
 import org.resthub.web.tal.exception.PageTemplateException;
+import org.resthub.web.tal.expression.Expression;
 
 import bsh.Interpreter;
 

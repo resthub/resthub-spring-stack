@@ -12,6 +12,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
 import org.resthub.core.domain.model.Resource;
+import org.resthub.web.tal.PageTemplate;
+import org.resthub.web.tal.PageTemplateImpl;
 
 import com.sun.jersey.api.view.Viewable;
 import com.sun.jersey.spi.template.ViewProcessor;

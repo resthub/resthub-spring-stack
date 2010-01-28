@@ -16,10 +16,11 @@
  *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.resthub.web.tal;
+package org.resthub.web.tal.resolver;
 
 import java.net.URI;
 import java.net.URL;
+
 
 /**
  * @author <a href="mailto:rossi@webslingerZ.com">Chris Rossi</a>
