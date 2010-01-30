@@ -7,6 +7,7 @@
   </parent>
   <groupId>org.resthub</groupId>
   <artifactId>resthub-identity-webapp</artifactId>
+  <name>RESThub identity webapp</name>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <description>

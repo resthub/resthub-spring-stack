@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class TestObject extends TestObjectSuperClass {
+public class MockObject extends MockObjectSuperClass {
     List people;
     String[] animals = {
         "horse", 
@@ -21,7 +21,7 @@ public class TestObject extends TestObjectSuperClass {
         { 9, 10 }
     };
     
-    TestObject() {
+    MockObject() {
         people = new ArrayList(5);
         people.add( "Chris" );
         people.add( "Karen" );
@@ -62,13 +62,13 @@ public class TestObject extends TestObjectSuperClass {
         return x * y;
     }
 
-    private final TestObject2 friend = new TestObject2();
+    private final MockObject2 friend = new MockObject2();
     
-    public TestObject2 getFriend() {
+    public MockObject2 getFriend() {
         return friend;
     }
 
-    public TestObject2 getEnemy() {
+    public MockObject2 getEnemy() {
         return null;
     }
 

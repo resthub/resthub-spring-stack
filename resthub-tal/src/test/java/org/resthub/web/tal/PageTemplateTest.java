@@ -44,7 +44,7 @@ public class PageTemplateTest {
     public void testExpressions() throws Exception {
         Map<String, Object> dictionary = new HashMap<String, Object>();
         dictionary.put( "opinions", "everybodysgotone" );
-        dictionary.put( "helper", new TestObject() );
+        dictionary.put( "helper", new MockObject() );
         dictionary.put( "acquaintance", "friend" );
 
         testPageTemplate( "expressions", dictionary );
@@ -79,7 +79,7 @@ public class PageTemplateTest {
         long elapsed = System.currentTimeMillis() - start;
         System.err.println( test + ": constructed template in " + elapsed + " ms" );
 
-        TestObject testObject = new TestObject();
+        MockObject testObject = new MockObject();
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
         start = System.currentTimeMillis();

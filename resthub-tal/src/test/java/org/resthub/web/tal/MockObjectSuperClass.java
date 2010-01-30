@@ -1,6 +1,6 @@
 package org.resthub.web.tal;
 
-public class TestObjectSuperClass {
+public class MockObjectSuperClass {
     public int getNumberTwo() {
         return 2;
     }

@@ -3,10 +3,10 @@ package org.resthub.web.tal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestObject2 {
+public class MockObject2 {
     Map map = new HashMap();
 
-    TestObject2() {
+    MockObject2() {
         map.put( "friend", "kevin" );
         map.put( "enemy", "mc2" );
         map.put( "hello", new Long(99l) );
