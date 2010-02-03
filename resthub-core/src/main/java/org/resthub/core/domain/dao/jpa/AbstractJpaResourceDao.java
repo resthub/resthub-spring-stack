@@ -1,6 +1,5 @@
 package org.resthub.core.domain.dao.jpa;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,12 +21,22 @@ public abstract class AbstractJpaResourceDao<T extends Resource> extends
 
 	private final Logger log;
 
-	@PersistenceContext
 	private EntityManager em;
 
 	public AbstractJpaResourceDao() {
 		super();
 		this.log = LoggerFactory.getLogger(resourceClass);
+	}
+	
+	/**
+	 * Allows inherited classes to override and specifiy another 
+	 * entityManagerFactory in the @PersistenceContext annotation.
+	 * 
+	 * @param em The injected EntityManager.
+	 */
+	@PersistenceContext
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
 	}
 
 	public void persist(T transientResource) {
