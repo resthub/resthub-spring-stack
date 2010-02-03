@@ -20,6 +20,7 @@
 		<module>resthub-samples</module>
 	</modules>
 
+	
 	<properties>
 		<jersey.version>1.1.5</jersey.version>
 		<hibernate.version>3.5.0-Beta-2</hibernate.version>
