@@ -20,11 +20,12 @@ public class TestResourceController extends AbstractWebResthubTest {
         String response = r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r1"));
         System.out.print(response + "\n");
         Assert.assertTrue(response.contains("r1"));
+        Assert.assertTrue(response.contains("<resource>"));
     }
     
     
     @Test
-    public void testFindAllResource() {
+    public void testFindAllResources() {
     	WebResource r = resource().path("resources");
     	r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r1"));
     	r.type(MediaType.APPLICATION_XML).post(String.class, new Resource("r2"));

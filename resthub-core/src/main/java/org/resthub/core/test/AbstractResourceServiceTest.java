@@ -33,7 +33,7 @@ public abstract class AbstractResourceServiceTest<T extends Resource> extends Ab
     @Before
     public void setUp() throws Exception {
         T resource = resourceClass.newInstance();
-        resource .setName("Test T");
+        resource.setName("Test T");
         resourceService.create(resource);
     }
 
