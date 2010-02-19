@@ -27,6 +27,7 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
     	<property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="resthub"/>
+        <property name="persistenceUnitManager" ref="resthubPersistenceUnitManager" />
 		
         <property name="jpaDialect">
         	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
@@ -47,6 +48,15 @@
 	
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<bean id="resthubPersistenceUnitManager" class="org.resthub.core.domain.dao.jpa.ResthubPersistenceUnitManager">
+	<property name="persistenceXmlLocations">
+	    <list>
+	      <value>classpath*:META-INF/persistence.xml</value>
+	    </list>
+	  </property>
+  		<property name="defaultDataSource" ref="dataSource"/>
 	</bean>
   
 </beans>

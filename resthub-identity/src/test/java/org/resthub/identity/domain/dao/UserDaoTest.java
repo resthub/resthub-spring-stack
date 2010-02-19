@@ -4,8 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.core.domain.dao.ResourceDao;
-import org.resthub.core.domain.model.User;
 import org.resthub.core.test.AbstractResourceDaoTest;
+import org.resthub.identity.domain.model.User;
 
 /**
  *

@@ -5,7 +5,7 @@ import javax.ws.rs.core.MediaType;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.resthub.core.domain.model.User;
+import org.resthub.identity.domain.model.User;
 import org.resthub.web.test.AbstractWebResthubTest;
 
 import com.sun.jersey.api.client.ClientResponse;

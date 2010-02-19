@@ -11,7 +11,6 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.domain.model.User;
 
 public class TestUserJaxb {
 	
