@@ -51,12 +51,8 @@
 	</bean>
 	
 	<bean id="resthubPersistenceUnitManager" class="org.resthub.core.domain.dao.jpa.ResthubPersistenceUnitManager">
-	<property name="persistenceXmlLocations">
-	    <list>
-	      <value>classpath*:META-INF/persistence.xml</value>
-	    </list>
-	  </property>
-  		<property name="defaultDataSource" ref="dataSource"/>
+ 		<property name="defaultDataSource" ref="dataSource"/>
+  		<property name="packagePatternToScan" value ="classpath*:org/resthub/**/domain/model/*.class" />
 	</bean>
   
 </beans>
