@@ -43,8 +43,6 @@ public class ScanningPersistenceUnitManager extends
 			String[] basePackages = StringUtils.tokenizeToStringArray(this.packagePatternToScan,
 					ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 
-			System.out.println(basePackages);
-
 			ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(Thread.currentThread().getContextClassLoader());
 			TypeFilter entityTypeFilter = new AnnotationTypeFilter(Entity.class);
 			MetadataReaderFactory metadataReaderFactory = new SimpleMetadataReaderFactory();
@@ -63,15 +61,15 @@ public class ScanningPersistenceUnitManager extends
 							String entityName = metadataReader.getClassMetadata().getClassName();
 							pui.addManagedClassName(entityName);
 							if (log.isDebugEnabled()) {
-								log.debug("ScanningPersistenceUnitManager : Entity " + entityName + " found from package " + basePackage + ".");
+								log.debug("Entity " + entityName + " found from package " + basePackage + ".");
 							}
 						}
 					}
 				} catch (IOException e) {
-					log.warn("ScanningPersistenceUnitManager : Error during scanning entities : cannot scan " + basePackage +".", e);
+					log.warn("Error during scanning entities : cannot scan " + basePackage +".", e);
 				}
 				if (log.isInfoEnabled()) {
-					log.info("ScanningPersistenceUnitManager : "+basePackage+" successfully scanned : " + resources.length + " entities found.");
+					log.info(basePackage+" successfully scanned : " + resources.length + " entities found.");
 				}
 			}
 		}
