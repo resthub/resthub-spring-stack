@@ -5,6 +5,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.resthub.core.AbstractResourceClassAware;
 import org.resthub.core.domain.dao.ResourceDao;
@@ -82,15 +86,24 @@ public abstract class AbstractJpaResourceDao<T extends Resource> extends
 		return resourceList;
 	}
 
-	@SuppressWarnings("unchecked")
 	public T findByName(String name) {
 		log.debug("Finding Resource instance with name: " + name);
 		
-		Query query = em.createQuery("select r from "
-				+ resourceClass.getSimpleName() + " r where r.name like :name");
-		query.setParameter("name", name);
-		query.setMaxResults(1);
-		List<T> resources = (List<T>) query.getResultList();
+//		Query query = em.createQuery("select r from "
+//				+ resourceClass.getSimpleName() + " r where r.name like :name");
+//		query.setParameter("name", name);
+//		query.setMaxResults(1);
+//		List<T> resources = (List<T>) query.getResultList();
+		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> query = cb.createQuery(resourceClass);
+		
+		Root<T> resource = query.from(resourceClass);
+		query.where(cb.equal(resource.get("name"), name));
+		
+		List<T> resources = em.createQuery(query).setMaxResults(1).getResultList();
+
+		
 		if(resources.size() == 1)
 			return resources.get(0);
 		else
