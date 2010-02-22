@@ -19,7 +19,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml" })
+@ContextConfiguration(locations = {"classpath:resthubContext.xml" })
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public abstract class AbstractResourceServiceTest<T extends Resource> extends AbstractResourceClassAware<T> {
