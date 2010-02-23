@@ -28,16 +28,25 @@ public class Resource implements Serializable {
         this.name = name;
     }
 
+    /* (non-Javadoc)
+	 * @see org.resthub.core.domain.model.Resource#getId()
+	 */
     @Id
     @GeneratedValue
     public Long getId() {
         return id;
     }
 
+    /* (non-Javadoc)
+	 * @see org.resthub.core.domain.model.Resource#setId(java.lang.Long)
+	 */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /* (non-Javadoc)
+	 * @see org.resthub.core.domain.model.Resource#getName()
+	 */
     @Column(nullable = false)
     public String getName() {
         return name;
@@ -57,7 +66,7 @@ public class Resource implements Serializable {
             return false;
         }
         final Resource other = (Resource) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+        if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName())) {
             return false;
         }
         return true;
