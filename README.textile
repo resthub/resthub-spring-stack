@@ -1,4 +1,4 @@
-Please go to "Developers":http://wiki.github.com/bouiaw/resthub/developers o know how to contribute.
+Please go to "Developers":http://wiki.github.com/bouiaw/resthub/developers to know how to contribute.
 
-You can discuss with RESThub core development team on http://groups.google.com/group/resthub-dev:http://groups.google.com/group/resthub-dev
+You can discuss with RESThub core development team on "http://groups.google.com/group/resthub-dev":http://groups.google.com/group/resthub-dev
 
