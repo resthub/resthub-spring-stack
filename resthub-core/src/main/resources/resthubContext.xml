@@ -50,9 +50,9 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
-	<bean id="resthubPersistenceUnitManager" class="org.resthub.core.domain.dao.jpa.ResthubPersistenceUnitManager">
+	<bean id="resthubPersistenceUnitManager" class="org.resthub.core.domain.dao.jpa.ScanningPersistenceUnitManager">
  		<property name="defaultDataSource" ref="dataSource"/>
-  		<property name="packagePatternToScan" value ="classpath*:org/resthub/**/domain/model/*.class" />
+  		<property name="packagePatternToScan" value ="classpath*:org/resthub/**/domain/model/*.class, classpath:*.class" />
 	</bean>
   
 </beans>
