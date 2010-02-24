@@ -11,6 +11,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.core.type.classreading.SimpleMetadataReaderFactory;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager;
 import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.util.StringUtils;
@@ -40,6 +45,10 @@ public class ScanningPersistenceUnitManager extends
 					ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 
 			ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(Thread.currentThread().getContextClassLoader());
+			TypeFilter entityTypeFilter = new AnnotationTypeFilter(Entity.class);
+			TypeFilter mappedSuperclassTypeFilter = new AnnotationTypeFilter(MappedSuperclass.class);
+			MetadataReaderFactory metadataReaderFactory = new SimpleMetadataReaderFactory();
+			MetadataReader metadataReader = null;
 			Resource[] resources = new Resource[0];
 			
 			for (String basePackage : basePackages) {
@@ -48,8 +57,11 @@ public class ScanningPersistenceUnitManager extends
 					resources = rpr.getResources(basePackage);
 
 					for (Resource resource : resources) {
-						if (isEntity(resource)) {
-							String entityName = resource.getClass().getName();
+						
+						metadataReader = metadataReaderFactory.getMetadataReader(resource);
+						if (entityTypeFilter.match(metadataReader, metadataReaderFactory) || mappedSuperclassTypeFilter.match(metadataReader, metadataReaderFactory)) {
+							String entityName = metadataReader.getClassMetadata().getClassName();
+							
 							pui.addManagedClassName(entityName);
 							if (log.isDebugEnabled()) {
 								log.debug("Entity " + entityName + " found from package " + basePackage + ".");
@@ -68,8 +80,5 @@ public class ScanningPersistenceUnitManager extends
 		super.postProcessPersistenceUnitInfo(pui);
 	}
 
-	private boolean isEntity(Resource resource) {
-		return resource.getClass().isAnnotationPresent(Entity.class) || 
-			   resource.getClass().isAnnotationPresent(MappedSuperclass.class);
-	}
+
 }

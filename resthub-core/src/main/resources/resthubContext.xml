@@ -27,7 +27,7 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
     	<property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="resthub"/>
-        <property name="persistenceUnitManager" ref="resthubPersistenceUnitManager" />
+        <property name="persistenceUnitManager" ref="scanningPersistenceUnitManager" />
 		
         <property name="jpaDialect">
         	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
@@ -50,9 +50,9 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
-	<bean id="resthubPersistenceUnitManager" class="org.resthub.core.domain.dao.jpa.ScanningPersistenceUnitManager">
+	<bean id="scanningPersistenceUnitManager" class="org.resthub.core.domain.dao.jpa.ScanningPersistenceUnitManager">
  		<property name="defaultDataSource" ref="dataSource"/>
-  		<property name="packagePatternToScan" value ="classpath*:org/resthub/**/domain/model/*.class, classpath:*.class" />
+  		<property name="packagePatternToScan" value ="classpath*:org/resthub/**/domain/model/*.class" />
 	</bean>
   
 </beans>
