@@ -18,7 +18,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:resthubContext.xml"})
+@ContextConfiguration(locations = {"classpath*:resthubContext.xml"})
 @TransactionConfiguration(defaultRollback = true)
 @Transactional(readOnly = false)
 public abstract class AbstractResourceDaoTest<T extends Resource> extends AbstractResourceClassAware<T> {
@@ -34,7 +34,12 @@ public abstract class AbstractResourceDaoTest<T extends Resource> extends Abstra
     @Before
     public void setUp() throws Exception {
         T resource = resourceClass.newInstance();
-        resource = resourceDao.save(resource);
+        try {
+            resource = resourceDao.save(resource);
+        }
+        catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         this.resourceId = resource.getId();
     }
 

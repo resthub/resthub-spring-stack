@@ -100,6 +100,7 @@ public abstract class AbstractJpaResourceDao<T extends Resource> extends Abstrac
      * {@inheritDoc}
      */
     @Override
+    
     public T save(T resource) {
         return this.em.merge(resource);
     }

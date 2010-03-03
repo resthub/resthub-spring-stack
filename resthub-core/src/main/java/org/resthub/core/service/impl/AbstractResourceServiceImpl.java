@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.resthub.core.annotation.Auditable;
 import org.resthub.core.domain.dao.ResourceDao;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.service.ResourceService;
@@ -32,6 +33,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public T create(T resource) {
         Assert.notNull(resource, "Resource can't be null");
@@ -44,6 +46,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public T update(T resource) {
         Assert.notNull(resource, "Resource can't be null");
@@ -56,17 +59,19 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     public void delete(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         Assert.notNull(resource.getId(), "Removing a detached instance that never be persisted " + resource);
 
-        this.delete(resource);
+        resourceDao.delete(resource);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public void delete(Long id) {
         Assert.notNull(id, "Resource ID can't be null");
@@ -77,6 +82,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     public T findById(Long id) {
         Assert.notNull(id, "Resource ID can't be null");
         return resourceDao.findById(id);
@@ -86,6 +92,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     public List<T> findAll(Integer offset, Integer limit) {
         Integer o = (offset == null || offset < 0) ? 0 : offset;
         Integer l = (limit == null || limit < 0) ? 100 : limit;
@@ -96,6 +103,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     public Long count() {
         return resourceDao.count();
     }

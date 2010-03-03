@@ -68,6 +68,8 @@ public class Resource implements Serializable {
      */
     @Override
     public int hashCode() {
-        return this.id.hashCode();
+        int hash = 3;
+        hash = 43 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
     }
 }
