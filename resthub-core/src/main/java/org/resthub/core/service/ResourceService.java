@@ -2,22 +2,57 @@ package org.resthub.core.service;
 
 import java.util.List;
 
+/**
+ * Generic Service interface.
+ * @param <T> Resource class
+ */
 public interface ResourceService<T> {
 
-    public T create(T transientResource);
+    /**
+     * Create new resource.
+     * @param resource Resource to create
+     * @return new resource
+     */
+    T create(T resource);
 
-    public T update(T detachedResource);
+    /**
+     * Update existing resource.
+     * @param resource Resource to update
+     * @return resource updated
+     */
+    T update(T resource);
 
-    public void delete(T persistentResource);
+    /**
+     * Delete existing resource.
+     * @param resource Resource to delete
+     */
+    void delete(T resource);
 
-    public void delete(Long resourceId);
-    
-    public void delete(String name);
+    /**
+     * Delete existing resource.
+     * @param id Resource id
+     */
+    void delete(Long id);
 
-    public T findById(Long id);
+    /**
+     * Find resource by id.
+     * @param id Resource id
+     * @return resource
+     */
+    T findById(Long id);
 
-    public List<T> findAll();
+    /**
+     * Find all resources.
+     * @param offset offset (default 0)
+     * @param limit limit (default 100)
+     * @return resources.
+     */
+    List<T> findAll(Integer offset, Integer limit);
 
-    public T findByName(String name);
-    
+    /**
+     * Count all resources.
+     * @return number of resources
+     */
+    Long count();
+
 }

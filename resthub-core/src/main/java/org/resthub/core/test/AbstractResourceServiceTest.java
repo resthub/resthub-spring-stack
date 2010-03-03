@@ -1,8 +1,8 @@
 package org.resthub.core.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -19,79 +19,65 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml","classpath:resthubContext.xml" })
+@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:resthubContext.xml"})
 @TransactionConfiguration(defaultRollback = true)
-@Transactional
+@Transactional(readOnly = false)
 public abstract class AbstractResourceServiceTest<T extends Resource> extends AbstractResourceClassAware<T> {
-    
+
     protected ResourceService<T> resourceService;
-    
+
+    private Long resourceId;
+
     public void setResourceService(ResourceService<T> resourceService) {
         this.resourceService = resourceService;
     }
-    
+
     @Before
     public void setUp() throws Exception {
         T resource = resourceClass.newInstance();
-        resource.setName("Test T");
-        resourceService.create(resource);
-    }
-
-    @After
-    public void tearDown() {
-        
+        resource = resourceService.create(resource);
+        this.resourceId = resource.getId();
     }
 
     @Test
-    public void createTest() throws Exception {
-    	T resource = resourceClass.newInstance();
-        resource.setName("Test Create T");
-        resourceService.create(resource);
+    public void testCreate() throws Exception {
+        T resource = resourceClass.newInstance();
+        resource = resourceService.create(resource);
 
-        T foundResource = resourceService.findByName("Test Create T");
-        assertNotNull(foundResource);
-        assertEquals(resource.getName(), foundResource.getName());
+        T foundResource = resourceService.findById(resource.getId());
+        assertNotNull("Resource not created!", foundResource);
     }
 
     @Test
-    public void testMerge() throws Exception {
-        T resource = resourceService.findByName("Test T");
-        resource.setName("Modified Test T");
-        resourceService.update(resource);
-
-        T foundResource = resourceService.findByName(resource.getName());
-        assertNotNull(foundResource);
-        assertEquals("Modified Test T", foundResource.getName());
-    }
+    public abstract void testUpdate() throws Exception;
 
     @Test
-    public void testRemove() throws Exception {
-        T resource = resourceService.findByName("Test T");
+    public void testDelete() throws Exception {
+        T resource = resourceService.findById(this.resourceId);
         resourceService.delete(resource);
 
-        T foundResource = resourceService.findByName(resource.getName());
-        assertNull(foundResource);
+        T foundResource = resourceService.findById(this.resourceId);
+        assertNull("Resource not deleted!", foundResource);
     }
 
     @Test
-    public void testRemoveById() throws Exception {
-        T resource = resourceService.findByName("Test T");
+    public void testDeleteById() throws Exception {
+        T resource = resourceService.findById(this.resourceId);
         resourceService.delete(resource.getId());
 
-        T foundResource = resourceService.findByName(resource.getName());
-        assertNull(foundResource);
+        T foundResource = resourceService.findById(this.resourceId);
+        assertNull("Resource not deleted!", foundResource);
     }
 
     @Test
     public void testFindAll() throws Exception {
-        List<T> resourceList = resourceService.findAll();
-        assertEquals(1, resourceList.size());
+        List<T> resourceList = resourceService.findAll(null, null);
+        assertTrue("No resources found!", resourceList.size() >= 1);
     }
 
     @Test
-    public void testFindByName() throws Exception {
-        T foundResource = resourceService.findByName("Test T");
-        assertNotNull(foundResource);
-        assertEquals("Test T", foundResource.getName());
+    public void testCount() throws Exception {
+        Long nb = resourceService.count();
+        assertTrue("No resources found!", nb >= 1);
     }
 }

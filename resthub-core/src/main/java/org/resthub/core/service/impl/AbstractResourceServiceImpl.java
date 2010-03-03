@@ -9,58 +9,94 @@ import org.resthub.core.domain.dao.ResourceDao;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.service.ResourceService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+/**
+ * Generic Service implementation.
+ * @param <T> Resource Model
+ * @param <D> Resource DAO
+ */
 @Transactional(readOnly = true)
 public abstract class AbstractResourceServiceImpl<T extends Resource, D extends ResourceDao<T>>
-		implements ResourceService<T> {
+        implements ResourceService<T> {
 
-	protected D resourceDao;
+    protected D resourceDao;
 
-	@Inject
-	@Named("resourceDao")
-	public void setResourceDao(D resourceDao) {
-		this.resourceDao = resourceDao;
-	}
+    @Inject
+    @Named("resourceDao")
+    public void setResourceDao(D resourceDao) {
+        this.resourceDao = resourceDao;
+    }
 
-	@Transactional(readOnly = false)
-	public T create(T resource) {
-		return resourceDao.merge(resource);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public T create(T resource) {
+        Assert.notNull(resource, "Resource can't be null");
+        Assert.isNull(resource.getId(), "Creating a already persisted instance " + resource);
 
-	@Transactional(readOnly = false)
-	public T update(T resource) {
-		return resourceDao.merge(resource);
-	}
+        return resourceDao.save(resource);
+    }
 
-	public void delete(T resource) {
-		if (null == resource.getId()) {
-			throw new IllegalArgumentException(
-					"Removing a detached instance that never be persisted "
-							+ resource.toString());
-		}
-		this.delete(resource.getId());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public T update(T resource) {
+        Assert.notNull(resource, "Resource can't be null");
+        Assert.notNull(resource.getId(), "Updating a detached instance that never be persisted " + resource);
+        
+        return resourceDao.save(resource);
+    }
 
-	@Transactional(readOnly = false)
-	public void delete(Long resourceId) {
-		resourceDao.remove(resourceId);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(T resource) {
+        Assert.notNull(resource, "Resource can't be null");
+        Assert.notNull(resource.getId(), "Removing a detached instance that never be persisted " + resource);
 
-	@Transactional(readOnly = false)
-	public void delete(String name) {
-		resourceDao.remove(name);
-	}
+        this.delete(resource);
+    }
 
-	public T findById(Long id) {
-		return resourceDao.findById(id);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void delete(Long id) {
+        Assert.notNull(id, "Resource ID can't be null");
+        resourceDao.delete(id);
+    }
 
-	public List<T> findAll() {
-		return resourceDao.findAll();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public T findById(Long id) {
+        Assert.notNull(id, "Resource ID can't be null");
+        return resourceDao.findById(id);
+    }
 
-	public T findByName(String name) {
-		return resourceDao.findByName(name);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<T> findAll(Integer offset, Integer limit) {
+        Integer o = (offset == null || offset < 0) ? 0 : offset;
+        Integer l = (limit == null || limit < 0) ? 100 : limit;
+        return resourceDao.findAll(o, l);
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long count() {
+        return resourceDao.count();
+    }
 }

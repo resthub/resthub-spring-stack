@@ -1,8 +1,8 @@
 package org.resthub.core.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -18,74 +18,65 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml","classpath:resthubContext.xml" })
+@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:resthubContext.xml"})
 @TransactionConfiguration(defaultRollback = true)
 @Transactional(readOnly = false)
 public abstract class AbstractResourceDaoTest<T extends Resource> extends AbstractResourceClassAware<T> {
 
-	protected ResourceDao<T> resourceDao;
-    
+    protected ResourceDao<T> resourceDao;
+
+    private Long resourceId;
+
     public void setResourceDao(ResourceDao<T> resourceDao) {
         this.resourceDao = resourceDao;
     }
-    
+
     @Before
     public void setUp() throws Exception {
         T resource = resourceClass.newInstance();
-        resource.setName("Test T");
-        resourceDao.persist(resource);
+        resource = resourceDao.save(resource);
+        this.resourceId = resource.getId();
     }
-    
+
     @Test
-    public void testPersist() throws Exception {
+    public void testSave() throws Exception {
         T resource = resourceClass.newInstance();
-        resource.setName("Test Persist T");
-        resourceDao.persist(resource);
+        resource = resourceDao.save(resource);
 
-        T foundResource = resourceDao.findByName("Test Persist T");
-        assertNotNull(foundResource);
-        assertEquals("Test Persist T", foundResource.getName());
+        T foundResource = resourceDao.findById(resource.getId());
+        assertNotNull("Resource not found!", foundResource);
     }
 
     @Test
-    public void testMerge() throws Exception {
-        T resource = resourceDao.findByName("Test T");
-        resource.setName("Modified Test T");
-        resourceDao.merge(resource);
+    public abstract void testUpdate() throws Exception;
 
-        T foundResource = resourceDao.findByName(resource.getName());
-        assertNotNull(foundResource);
-        assertEquals("Modified Test T", foundResource.getName());
+    @Test
+    public  void testDelete() throws Exception {
+        T resource = resourceDao.findById(this.resourceId);
+        resourceDao.delete(resource);
+
+        T foundResource = resourceDao.findById(this.resourceId);
+        assertNull("Resource not deleted!", foundResource);
     }
 
     @Test
-    public void testRemove() throws Exception {
-        T resource = resourceDao.findByName("Test T");
-        resourceDao.remove(resource);
+    public void testDeleteById() throws Exception {
+        T resource = resourceDao.findById(this.resourceId);
+        resourceDao.delete(resource.getId());
 
-        T foundResource = resourceDao.findByName(resource.getName());
-        assertNull(foundResource);
-    }
-
-    @Test
-    public void testRemoveById() throws Exception {
-        T resource = resourceDao.findByName("Test T");
-        resourceDao.remove(resource.getId());
-
-        T foundResource = resourceDao.findByName(resource.getName());
-        assertNull(foundResource);
+        T foundResource = resourceDao.findById(this.resourceId);
+        assertNull("Resource not deleted!", foundResource);
     }
 
     @Test
     public void testFindAll() throws Exception {
-        List<T> resourceList = resourceDao.findAll();
-        assertEquals(resourceList.size(), 1);
+        List<T> resourceList = resourceDao.findAll(0, 1);
+        assertTrue("No resources found!", resourceList.size() == 1);
     }
 
     @Test
-    public void testFindByName() throws Exception {
-        T foundResource = resourceDao.findByName("Test T");
-        assertNotNull(foundResource);
-        assertEquals("Test T", foundResource.getName());
+    public void testCount() throws Exception {
+        Long nb = resourceDao.count();
+        assertTrue("No resources found!", nb >= 1);
     }
 }

@@ -2,22 +2,55 @@ package org.resthub.core.domain.dao;
 
 import java.util.List;
 
+/**
+ * Generic DAO interface.
+ * @param <T> Resource class
+ */
 public interface ResourceDao<T> {
 
-    public void persist(T transientResource);
+    /**
+     * Save Resource.
+     * @param resource Resource to save
+     * @return the persited resource
+     */
+    T save(T resource);
 
-    public T merge(T detachedResource);
+    /**
+     * Delete Resource.
+     * @param resource Resource to delete
+     */
+    void delete(T resource);
 
-    public void remove(T persistentResource);
+    /**
+     * Delete Resource by id.
+     * @param id Resource ID to delete
+     */
+    void delete(Long id);
 
-    public void remove(Long resourceId);
-    
-    public void remove(String name);
+    /**
+     * Find Resource by id.
+     *
+     * @param id the resource id
+     * @return the resource
+     */
+    T findById(Long id);
 
-    public T findById(Long id);
+    /**
+     * Count number of resource.
+     * @return number of entity
+     */
+    Long count();
 
-    public List<T> findAll();
+    /**
+     * Get all Resources (in scrollable resulset).
+     * @param offset offset
+     * @param limit limit
+     * @return list of Resources.
+     */
+    List<T> findAll(Integer offset, Integer limit);
 
-    public T findByName(String name);
-    
+    /**
+     * flush update stack.
+     */
+    void flush();
 }
