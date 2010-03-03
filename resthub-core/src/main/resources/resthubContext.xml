@@ -12,8 +12,8 @@
 
     <context:annotation-config />
     <context:component-scan base-package="org.resthub.core" />
-  	
-    <tx:annotation-driven />
+
+    <tx:annotation-driven order="99" proxy-target-class="true" />
         
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
@@ -60,6 +60,8 @@
         <property name="annotation" value="org.resthub.core.annotation.Auditable" />
     </bean>
 
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" >
+        <property name="proxyTargetClass" value="false" />
+    </bean>
   
 </beans>
