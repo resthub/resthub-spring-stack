@@ -1,4 +1,3 @@
-
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
@@ -13,7 +12,7 @@
     <context:annotation-config />
     <context:component-scan base-package="org.resthub.core" />
 
-    <tx:annotation-driven order="99" proxy-target-class="true" />
+<!--    <tx:annotation-driven transaction-manager="transactionManager" order="200" />-->
         
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
@@ -56,12 +55,23 @@
         <property name="packagePatternToScan" value ="classpath*:org/resthub/**/domain/model/*.class" />
     </bean>
 
-    <bean id="auditInterceptor" class="org.resthub.core.AuditInterceptor">
-        <property name="annotation" value="org.resthub.core.annotation.Auditable" />
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+    <bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+        <property name="transactionInterceptor" >
+            <bean class="org.springframework.transaction.interceptor.TransactionInterceptor">
+                <property name="transactionManager" ref="transactionManager"/>
+                <property name="transactionAttributeSource">
+                    <bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
+                </property>
+            </bean>
+        </property>
+        <property name="order" value="200"/>
     </bean>
 
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" >
-        <property name="proxyTargetClass" value="false" />
+    <bean id="auditInterceptor" class="org.resthub.core.AuditInterceptor">
+        <property name="annotation" value="org.resthub.core.annotation.Auditable" />
+        <property name="order" value="1" />
     </bean>
   
 </beans>

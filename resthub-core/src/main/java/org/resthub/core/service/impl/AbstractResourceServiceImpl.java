@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
  * @param <T> Resource Model
  * @param <D> Resource DAO
  */
+@Transactional(readOnly = true)
 public abstract class AbstractResourceServiceImpl<T extends Resource, D extends ResourceDao<T>>
         implements ResourceService<T> {
 
@@ -32,8 +33,8 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
     @Auditable
+    @Transactional(readOnly = false)
     public T create(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         Assert.isNull(resource.getId(), "Creating a already persisted instance " + resource);
@@ -45,6 +46,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public T update(T resource) {
         Assert.notNull(resource, "Resource can't be null");
@@ -57,6 +59,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public void delete(T resource) {
         Assert.notNull(resource, "Resource can't be null");
@@ -69,6 +72,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public void delete(Long id) {
         Assert.notNull(id, "Resource ID can't be null");
@@ -79,7 +83,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = true)
+    @Auditable
     public T findById(Long id) {
         Assert.notNull(id, "Resource ID can't be null");
         return resourceDao.findById(id);
@@ -89,7 +93,7 @@ public abstract class AbstractResourceServiceImpl<T extends Resource, D extends 
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = true)
+    @Auditable
     public List<T> findAll(Integer offset, Integer limit) {
         Integer o = (offset == null || offset < 0) ? 0 : offset;
         Integer l = (limit == null || limit < 0) ? 100 : limit;
