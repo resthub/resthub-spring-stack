@@ -25,7 +25,7 @@ public class TestResourceJaxb {
 
     @Before
     public void setUp() {
-    	resource = new Resource("TestPersistName");
+    	resource = new Resource();
     }
 
     @Test
