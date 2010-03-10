@@ -1,5 +1,6 @@
 package org.resthub.core.domain.dao.jpa;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -20,7 +21,7 @@ import org.resthub.core.domain.model.Resource;
 public abstract class AbstractJpaResourceDao<T extends Resource> extends AbstractResourceClassAware<T> implements ResourceDao<T> {
 
     /** Entity manager */
-    private EntityManager em;
+    protected EntityManager em;
 
     /**
      * Defalut constructor.
@@ -101,6 +102,11 @@ public abstract class AbstractJpaResourceDao<T extends Resource> extends Abstrac
      */
     @Override
     public T save(T resource) {
+        Date timeStamp = new Date();
+        if (resource.getId() == null) {
+            resource.setCreationDate(timeStamp);
+        }
+        resource.setModificationDate(timeStamp);
         return this.em.merge(resource);
     }
 }

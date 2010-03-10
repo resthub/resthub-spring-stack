@@ -1,11 +1,8 @@
 package org.resthub.core.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,26 +22,28 @@ public abstract class AbstractResourceServiceTest<T extends Resource> extends Ab
 
     protected ResourceService<T> resourceService;
 
-    private Long resourceId;
+    protected Long resourceId;
 
     public void setResourceService(ResourceService<T> resourceService) {
         this.resourceService = resourceService;
     }
 
+    protected T createTestRessource() throws Exception {
+        return resourceClass.newInstance();
+    }
+
     @Before
     public void setUp() throws Exception {
-        T resource = resourceClass.newInstance();
-        resource = resourceService.create(resource);
+        T resource = resourceService.create(this.createTestRessource());
         this.resourceId = resource.getId();
     }
 
     @Test
     public void testCreate() throws Exception {
-        T resource = resourceClass.newInstance();
-        resource = resourceService.create(resource);
+        T resource = resourceService.create(this.createTestRessource());
 
         T foundResource = resourceService.findById(resource.getId());
-        assertNotNull("Resource not created!", foundResource);
+        Assert.assertNotNull("Resource not created!", foundResource);
     }
 
     @Test
@@ -56,7 +55,7 @@ public abstract class AbstractResourceServiceTest<T extends Resource> extends Ab
         resourceService.delete(resource);
 
         T foundResource = resourceService.findById(this.resourceId);
-        assertNull("Resource not deleted!", foundResource);
+        Assert.assertNull("Resource not deleted!", foundResource);
     }
 
     @Test
@@ -65,18 +64,18 @@ public abstract class AbstractResourceServiceTest<T extends Resource> extends Ab
         resourceService.delete(resource.getId());
 
         T foundResource = resourceService.findById(this.resourceId);
-        assertNull("Resource not deleted!", foundResource);
+        Assert.assertNull("Resource not deleted!", foundResource);
     }
 
     @Test
     public void testFindAll() throws Exception {
         List<T> resourceList = resourceService.findAll(null, null);
-        assertTrue("No resources found!", resourceList.size() >= 1);
+        Assert.assertTrue("No resources found!", resourceList.size() >= 1);
     }
 
     @Test
     public void testCount() throws Exception {
         Long nb = resourceService.count();
-        assertTrue("No resources found!", nb >= 1);
+        Assert.assertTrue("No resources found!", nb >= 1);
     }
 }
