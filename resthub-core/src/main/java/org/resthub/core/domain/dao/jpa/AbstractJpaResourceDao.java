@@ -107,6 +107,13 @@ public abstract class AbstractJpaResourceDao<T extends Resource> extends Abstrac
             resource.setCreationDate(timeStamp);
         }
         resource.setModificationDate(timeStamp);
-        return this.em.merge(resource);
+        
+        if(resource.getId() == null) {
+        	this.em.persist(resource);
+        	return resource;
+        } else {
+        	return this.em.merge(resource);
+        }
+        
     }
 }

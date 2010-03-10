@@ -38,7 +38,7 @@ public class TestUserController extends AbstractWebResthubTest {
     }
     
     @Test
-    public void testFindUserByName() {
+    public void testFindUserByLogin() {
         WebResource r = resource().path("users");
         r.type(MediaType.APPLICATION_XML).post(String.class, new User("u1"));
         r = resource().path("resources/u1");
