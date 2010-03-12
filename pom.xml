@@ -11,7 +11,6 @@
 	<description>
 		RESThub is an Open Source (LGPL) framework designed to allow you to build web applications following KISS (Keep It Simple and Stupid), DRY (Don’t Repeat Yourself) and REST principles.
 	</description>
-
 	
 	<modules>
 		<module>resthub-core</module>
@@ -20,7 +19,6 @@
 		<module>resthub-tal</module>
 		<module>resthub-samples</module>
 	</modules>
-
 	
 	<properties>
 		<jersey.version>1.1.5</jersey.version>
