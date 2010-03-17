@@ -1,0 +1,66 @@
+<div id="roundtable">
+    <div class="legend">
+        <table cellspacing="1">
+            <tbody>
+                <tr>
+                    <td style="height: 36px;"></td>
+                </tr>
+                <% for(var i = 0 ; i < votes.length ; i++) {%>
+                <tr>
+                    <td class="voter" id="voter-<%= i %>">
+                        <span class="name"><%= votes[i].voter %></span>
+                    </td>
+                </tr>
+                <% } %>
+                <tr><td style="background-color: transparent; border: 0px none; height: 0.25em;"></td></tr>
+                <tr>
+                    <td class="voter" id="you">
+                        <input type="text" name="you" value="" />
+                    </td>
+                </tr>
+                <tr class="result"><td>Result</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="main">
+        <table cellspacing="1" class="poll">
+            <tbody>
+                <tr class="choices">
+                    <% for(var i = 0; i < answers.length ; i++) {%>
+                        <th><%= answers[i].body %></th>
+                    <% } %>
+                </tr>
+                <% for(var i = 0 ; i < votes.length ; i++) {%>
+                    <% var voter = votes[i].voter %>
+                    <tr class="votes">
+                        <% for(var j = 0; j < answers.length ; j++) {%>
+                        <% var vote = votes[i].votes[j] %>
+                        <td class="<%= vote %>" title="<%= voter %>, <%= answers[j].body %>: <%= vote %>"></td>
+                        <% } %>
+                    </tr>
+                <% } %>
+                <tr>
+                    <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
+                    <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
+                    <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
+                    <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
+                </tr>
+                <tr id="vote">
+                    <% for(var i = 0; i < answers.length ; i++) {%>
+                        <td class="no" title="<%= answers[i].body %>"></td>
+                    <% } %>
+                </tr>
+                <tr class="result">
+                    <% for(var i = 0; i < answers.length ; i++) {%>
+                        <% var vote_sum = 0 %>
+                        <% for(var j = 0 ; j < votes.length ; j++) {%>
+                            <% vote_sum += (votes[j].votes[i] == "yes") ? 1 : 0 %>
+                        <% } %>
+                        <td class="<%= (vote_sum > 0) ? 'bold' : '' %>" ><%= vote_sum %></td>
+                    <% } %>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

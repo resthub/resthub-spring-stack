@@ -1,0 +1,122 @@
+/* 
+    Document   : roundtable
+    Created on : 10 mars 2010, 17:43:58
+    Author     : fr23972
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+#roundtable .legend {
+    display:inline;
+    float:left;
+    margin-left:10px;
+    width:190px;
+}
+
+#roundtable .legend table {
+    border-collapse:separate;
+    border-spacing:1px;
+    width:190px;
+}
+
+#roundtable td.voter {
+    background-color:#EDEDED;
+    border:1px solid #CACACA;
+    font-weight:bold;
+    min-width:100px;
+    overflow:hidden;
+    padding:0 5px 0 0;
+    text-align:right;
+    vertical-align:middle;
+    width:176px;
+    height:36px;
+}
+
+#roundtable td.voter span {
+    font-size:12px;
+    line-height:24px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width:176px;
+}
+
+
+#roundtable .main {
+    height:auto;
+    margin:0;
+    overflow:auto;
+    width:600px;
+}
+
+#roundtable .main table.poll {
+    border-collapse:separate;
+    border-spacing:1px;
+    text-align:center;
+}
+
+table.poll th {
+    background-color:#CCCCCC;
+    border:1px solid #989898;
+    font-size:12px;
+    font-weight:bold;
+    height:36px;
+    padding:0 4px;
+    text-align:left;
+}
+
+table.poll td {
+    height:36px;
+}
+
+table.poll td.no, #vote td.yes:hover {
+    background-color:#FFACA8;
+    border:1px solid #E88782;
+    color:#FFACA8;
+    padding:0 4px;
+}
+
+table.poll td.no:after, #vote td.yes:hover:after {
+    content: " "
+}
+
+table.poll td.yes:after, #vote td.no:hover:after {
+    content: "OK"
+}
+
+table.poll td.yes, #vote td.no:hover {
+    background-color:#A8FFA6;
+    border:1px solid #64D06A;
+    color:#339933;
+    font-size:10px;
+    font-weight:bold;
+    padding:0 4px;
+}
+
+#vote {
+    cursor: crosshair;
+}
+
+table tr.result {
+    background-color:#FFFFFF;
+    border:0 none;
+    font-size:11px;
+    height:30px;
+    line-height:30px;
+    text-align:right;
+}
+
+table.poll tr.result {
+    text-align:center !important;
+}
+

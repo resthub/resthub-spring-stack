@@ -1,0 +1,52 @@
+/* 
+    Document   : roundtable create screen
+    Created on : 10 mars 2010, 17:43:58
+    Author     : Nicolas Carlier
+    Description:
+        Style of roundtable creation screen
+*/
+
+root { 
+    display: block;
+}
+
+#create-rt form {
+    width: 400px;
+}
+
+#create-rt fieldset {
+    background-color:#EDEDED;
+    border:1px solid #CACACA;
+}
+
+#create-rt legend {
+    background-color:#EDEDED;
+    border:1px solid #CACACA;
+}
+
+label {
+    width: 100%;
+}
+
+label:after {
+    content: " :";
+}
+
+input[type="text"], textarea {
+    background-color:#FFFFFF;
+    border:1px solid #CCCCCC;
+    width: 100%;
+}
+
+input[type="text"]:focus, textarea:focus {
+    background-color:yellow;
+}
+
+input[type="button"] {
+    background-color: #AAAAFF;
+    border:1px solid #CCCCCC;
+    color: #FFFFFF;
+    font-weight: bold;
+    cursor: pointer;
+}
+
