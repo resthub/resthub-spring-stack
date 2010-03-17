@@ -3,3 +3,8 @@
 .classpath
 target
 .settings
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$
