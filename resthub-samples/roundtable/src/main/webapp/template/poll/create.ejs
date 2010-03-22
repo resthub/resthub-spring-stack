@@ -1,24 +1,42 @@
 <div id="create-rt">
-    <form action="" enctype="UTF-8">
+    <form action="#/post/poll" enctype="UTF-8" method="post">
         <fieldset>
-            <legend>Create new poll</legend>
-            <label for="inp_author">Author</label>
-            <input type="text" id="inp_author" name="author" />
+            <legend style="display: none">Create a new poll</legend>
+            <label for="inp-author"><em>*</em>Author</label>
+            <input type="text" id="inp-author" name="author" value="<%= author %>" class="required" />
 
-            <label for="inp_topic">Topic</label>
-            <input type="text" id="inp_topic" name="topic" />
+            <br/>
 
-            <label for="inp_body">Body</label>
-            <textarea id="inp_body" name="body" cols="10" rows="3"></textarea>
+            <label for="inp-topic"><em>*</em>Topic</label>
+            <input type="text" id="inp-topic" name="topic" value="<%= topic %>" class="required" />
 
-            <label for="inp_answer">New answer</label>
-            <textarea id="inp_answer" name="answer" cols="10" rows="3"></textarea>
+            <br/>
 
-            <input type="button" value="Add answer" />
+            <label for="inp-body"><em>*</em>Body</label>
+            <textarea id="inp-body" name="body" cols="10" rows="3" class="required resizable"><%= body %></textarea>
 
-            <ul>
-                <li></li>
-            </ul>
+            <fieldset>
+                <legend><em>*</em>Answers</legend>
+
+                <label for="inp-answer">New answer</label>
+                <textarea id="inp-answer" name="answer" cols="10" rows="2" class="resizable"></textarea>
+
+                <input id="inp-add-answer" type="button" value="Add" title="Add this answer" />
+
+                <input id="inp-del-answer" type="button" value="Delete" title="Delete selected answer" />
+
+                <ul id="create-rt-answers" cellspacing="1">
+                   <% for(var i = 0; i < answers.length ; i++) {%>
+                        <li>
+                            <div><input type="checkbox" name="answers" value="<%= answers[i].body %>"></div>
+                            <span>
+                                <%= answers[i].body %>
+                            </span>
+                        </li>
+                    <% } %>
+                </ul>
+            </fieldset>
+            <input id="inp-post-poll" type="submit" value="Create poll" />
         </fieldset>
     </form>
 </div>

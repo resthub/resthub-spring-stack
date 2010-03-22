@@ -1,33 +1,84 @@
 /* 
-    Document   : roundtable
+    Document   : main.css
     Created on : 10 mars 2010, 17:43:58
-    Author     : fr23972
+    Author     : Nicolas Carlier
     Description:
-        Purpose of the stylesheet follows.
+        Round Table main style.
 */
 
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
+/**
+ * GENERAL
+ */
+root {display: block;}
+fieldset {background-color:#EDEDED;border:1px solid #CACACA;}
+label {width: 100%;}
+label:after {content: " :";}
+label.error:after {content: "";}
+label > em.required {font-weight: bold;}
+input[type="text"], textarea {
+    background-color:#FFFFFF;
+    border:1px solid #CCCCCC;
+    width: 100%;
+}
+input[type="text"]:focus, textarea:focus {background-color:yellow;}
+input[type="button"], input[type="submit"] {
+    background-color: #C2DBEF;
+    border:1px solid #CCCCCC;
+    color: #FFFFFF;
+    font-weight: bold;
+    cursor: pointer;
+}
+input[type="button"]:hover, input[type="submit"]:hover {background-color: #86C2EF;}
+.error {color: red;}
+input.error, textarea.error {border-color: red;}
 
-root { 
-    display: block;
+.resizable-textarea textarea {display:block;margin-bottom:0pt;height: 20%;}
+div.grippie {
+    background: #EEEEEE url(../image/h-grippy.png) no-repeat scroll center;
+    border-color:#DDDDDD;
+    border-style:solid;
+    border-width:0pt 1px 1px;
+    cursor:s-resize;
+    height:9px;
+    overflow:hidden;
 }
 
-#roundtable .legend {
-    display:inline;
-    float:left;
-    margin-left:10px;
-    width:190px;
+/**
+ * CREATE SCREEN
+ */
+#create-rt form {width: 400px;}
+#create-rt form input[type="submit"] {float: right; margin-top: 10px;}
+#create-rt-answers {margin: 0px;padding: 1em 0 1em 0;}
+#create-rt-answers ul:first-child {border-top: none !important;}
+#create-rt-answers li {
+    background: #EEEEEE url(../image/v-grippy.png) no-repeat scroll left 5px;
+    list-style-type: none;
+    font-style: italic;
+    cursor: move;
+    border-top: solid thin black;
+    padding-left: 3px;
+    line-height: 1.5em;
+}
+#create-rt-answers li div {
+    float: left;
+    margin: 3px;
+}
+#create-rt-answers li.ui-sortable-helper {border-top: none;}
+#create-rt-answers li.answer-placeholder {
+    height: 1.5em;
+    background-color: yellow;
+    background-image: none;
 }
 
+/**
+ * VISUALIZATION SCREEN
+ */
+#roundtable .legend {display:inline;float:left;margin-left:10px;width:190px;}
 #roundtable .legend table {
     border-collapse:separate;
     border-spacing:1px;
     width:190px;
 }
-
 #roundtable td.voter {
     background-color:#EDEDED;
     border:1px solid #CACACA;
@@ -40,31 +91,23 @@ root {
     width:176px;
     height:36px;
 }
-
 #roundtable td.voter span {
     font-size:12px;
     line-height:24px;
     font-weight: bold;
 }
-
-input[type="text"] {
-    width:176px;
-}
-
-
+#roundtable input[type="text"] {width:176px;margin:0;}
 #roundtable .main {
     height:auto;
     margin:0;
     overflow:auto;
     width:600px;
 }
-
 #roundtable .main table.poll {
     border-collapse:separate;
     border-spacing:1px;
     text-align:center;
 }
-
 table.poll th {
     background-color:#CCCCCC;
     border:1px solid #989898;
@@ -74,26 +117,17 @@ table.poll th {
     padding:0 4px;
     text-align:left;
 }
-
 table.poll td {
     height:36px;
 }
-
 table.poll td.no, #vote td.yes:hover {
     background-color:#FFACA8;
     border:1px solid #E88782;
     color:#FFACA8;
     padding:0 4px;
 }
-
-table.poll td.no:after, #vote td.yes:hover:after {
-    content: " "
-}
-
-table.poll td.yes:after, #vote td.no:hover:after {
-    content: "OK"
-}
-
+table.poll td.no:after, #vote td.yes:hover:after {content: " "}
+table.poll td.yes:after, #vote td.no:hover:after {content: "OK"}
 table.poll td.yes, #vote td.no:hover {
     background-color:#A8FFA6;
     border:1px solid #64D06A;
@@ -102,11 +136,7 @@ table.poll td.yes, #vote td.no:hover {
     font-weight:bold;
     padding:0 4px;
 }
-
-#vote {
-    cursor: crosshair;
-}
-
+#vote {cursor: crosshair;}
 table tr.result {
     background-color:#FFFFFF;
     border:0 none;
@@ -115,7 +145,6 @@ table tr.result {
     line-height:30px;
     text-align:right;
 }
-
 table.poll tr.result {
     text-align:center !important;
 }
