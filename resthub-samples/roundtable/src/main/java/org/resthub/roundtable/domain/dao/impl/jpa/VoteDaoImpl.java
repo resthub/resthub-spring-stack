@@ -23,6 +23,6 @@ public class VoteDaoImpl extends AbstractJpaResourceDao<Vote> implements VoteDao
         query.setParameter("voter", voter);
         query.setParameter("pid", poll.getId());
 
-        return ((Long) query.getSingleResult() >= 1) ? true : false;
+        return ((Long) query.getSingleResult() >= 1);
     }
 }
