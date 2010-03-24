@@ -21,8 +21,8 @@
 	</modules>
 	
 	<properties>
-		<jersey.version>1.1.5</jersey.version>
-		<hibernate.version>3.5.0-CR-1</hibernate.version>
+		<jersey.version>1.1.5.1</jersey.version>
+		<hibernate.version>3.5.0-CR-2</hibernate.version>
 		<h2.version>1.2.121</h2.version>
 		<spring.version>3.0.1.RELEASE</spring.version>
 		<spring.security.version>3.0.1.RELEASE</spring.security.version>
