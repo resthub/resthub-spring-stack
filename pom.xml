@@ -16,7 +16,6 @@
 		<module>resthub-core</module>
 		<module>resthub-web</module>
 		<module>resthub-identity</module>
-		<module>resthub-tal</module>
 		<module>resthub-samples</module>
 	</modules>
 	
@@ -93,7 +92,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.4</version>
+					<version>2.4.2</version>
 					<configuration>
 						<encoding>UTF-8</encoding>
 					</configuration>

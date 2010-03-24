@@ -1,35 +1,22 @@
 package org.resthub.web.controller;
 
-import java.lang.reflect.Array;
-import java.net.URI;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.Status;
 
-import org.resthub.core.AbstractResourceClassAware;
-import org.resthub.core.domain.model.Resource;
-import org.resthub.core.service.ResourceService;
 import org.resthub.core.tools.BeanDetail;
 import org.resthub.core.tools.ToolingService;
 
 import com.sun.jersey.api.view.ImplicitProduces;
-import com.sun.jersey.api.view.Viewable;
 
 @Path("/beans")
 @Named("beanDetailsController")
