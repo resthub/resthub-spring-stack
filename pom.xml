@@ -74,7 +74,7 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>7.0.1.v20091125</version>
+				<version>7.0.2.RC0</version>
 			</plugin>
 		</plugins>
 		<pluginManagement>
