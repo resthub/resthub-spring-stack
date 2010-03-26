@@ -27,24 +27,15 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll> {
 
     @Override
     protected Poll createTestRessource() throws Exception {
-        Calendar date = Calendar.getInstance();
-        date.add(Calendar.MONTH, 1);
-
         Poll poll = new Poll();
         poll.setAuthor("me");
         poll.setBody("Test poll");
-        poll.setExpirationDate(date.getTime());
         poll.setTopic("TEST");
-        poll.setType(Poll.Type.MULTI);
 
         List<Answer> answers = new ArrayList<Answer>();
         for (int i = 1; i <= 3; i++) {
             Answer answer = new Answer();
             answer.setBody("Answer number " + i);
-            answer.setOrder(i);
-            answer.setCreationDate(new Date());
-            answer.setModificationDate(new Date());
-            answer.setPoll(poll);
             answers.add(answer);
         }
 

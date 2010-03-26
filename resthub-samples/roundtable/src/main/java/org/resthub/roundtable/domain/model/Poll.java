@@ -12,8 +12,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,7 +21,6 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.resthub.core.domain.model.Resource;
 
 /**
@@ -41,7 +38,6 @@ public class Poll extends Resource {
     private String author;
     private String topic;
     private String body;
-    private Type type;
     private List<Answer> answers = new ArrayList<Answer>();
     private Set<Vote> votes = new HashSet<Vote>();
     private Date expirationDate;
@@ -51,11 +47,6 @@ public class Poll extends Resource {
      */
     public Poll() {
         super();
-    }
-
-    public enum Type {
-        SINGLE,
-        MULTI
     }
 
     /**
@@ -71,22 +62,6 @@ public class Poll extends Resource {
      */
     public void setBody(String body) {
         this.body = body;
-    }
-
-    /**
-     * @return the type
-     */
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    public Type getType() {
-        return type;
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void setType(Type type) {
-        this.type = type;
     }
 
     /**
@@ -107,7 +82,6 @@ public class Poll extends Resource {
     /**
      * @return the votes
      */
-    @XmlTransient
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     public Set<Vote> getVotes() {
         return votes;
@@ -178,4 +152,5 @@ public class Poll extends Resource {
         result.append("}");
         return result.toString();
     }
+
 }

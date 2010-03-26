@@ -62,6 +62,7 @@ public class Answer extends Resource {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "poll_id", nullable = false)
+    @XmlTransient
     public Poll getPoll() {
         return poll;
     }

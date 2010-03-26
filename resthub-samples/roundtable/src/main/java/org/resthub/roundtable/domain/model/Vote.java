@@ -10,6 +10,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import org.resthub.core.domain.model.Resource;
 
 /**
@@ -21,11 +24,13 @@ import org.resthub.core.domain.model.Resource;
 @NamedQueries({
     @NamedQuery(name = "existVote", query = "select count(v) from Vote as v where voter = :voter and poll.id = :pid")
 })
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Vote extends Resource {
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
     private String voter;
+    private String value;
     private Poll poll;
     private Answer answer;
 
@@ -52,10 +57,26 @@ public class Vote extends Resource {
     }
 
     /**
+     * @return vote value
+     */
+    @Column(name = "val", nullable = false)
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * @param value vote value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    /**
      * @return the poll
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "poll_id", nullable = false)
+    @XmlTransient
     public Poll getPoll() {
         return poll;
     }
