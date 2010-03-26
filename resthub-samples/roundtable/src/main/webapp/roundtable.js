@@ -105,6 +105,19 @@ var RoundTableViewComponent = $.Class.create({
         });
 
         /**
+         * View poll.
+         */
+        this.get('#/poll/:id', function() {
+            $.ajax({
+                url: 'webresources/poll/' + params['id'],
+                dataType: 'json',
+                success: function(poll) {
+                    new RoundTableViewComponent('main', poll);
+                }
+            });
+        });
+
+        /**
          * View new poll creation form.
          */
         this.get('#/create', function() {
@@ -121,11 +134,23 @@ var RoundTableViewComponent = $.Class.create({
                 body: this.params['body'],
                 answers: []
             }
-            this.params['answers'].each(function(answer) {
-                poll.answers.push({body:answer.val()});
-            });
+            // FIXME found another way...
+            var answers = this.params.$form[0].answers;
+            for (i = 0; i < answers.length; i++) {
+                poll.answers.push({body:answers[i].value});
+            }
             
-            alert(poll);
+            $.ajax({
+                type: 'POST',
+                url: 'webresources/poll',
+                contentType: 'application/json',
+                dataType: 'json',
+                processData: false,
+                data: poll,
+                success: function(poll) {
+                    context.redirect('#/poll/', poll.id);
+                }
+            });
         });
     });
 
