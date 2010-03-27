@@ -15,7 +15,6 @@
 	<modules>
 		<module>resthub-core</module>
 		<module>resthub-web</module>
-		<module>resthub-identity</module>
 		<module>resthub-apps</module>
 	</modules>
 	
@@ -35,7 +34,7 @@
 
 	<issueManagement>
 		<system>RESThub issue tracker</system>
-		<url>http://github.com/bouiaw/resthub/issues</url>
+		<url>http://bitbucket.org/ilabs/resthub/issues/</url>
 	</issueManagement>
 	<licenses>
 		<license>
@@ -64,9 +63,8 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git@github.com:bouiaw/resthub.git</connection>
-		<tag>HEAD</tag>
-		<url>http://github.com/bouiaw/resthub</url>
+		<connection>scm:hg:http://bitbucket.org/ilabs/resthub/</connection>
+		<url>http://bitbucket.org/ilabs/resthub/src/</url>
 	</scm>
 
 	<build>

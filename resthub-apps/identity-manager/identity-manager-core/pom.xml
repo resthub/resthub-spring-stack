@@ -8,9 +8,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.resthub</groupId>
-	<artifactId>resthub-identity</artifactId>
+	<artifactId>identity-manager-core</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>RESThub identity</name>
+	<name>RESThub identity cores</name>
 	<description>
 		Provide Identity management functionnality with Security integration based on Spring Security
 	</description>
