@@ -6,8 +6,8 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.resthub</groupId>
-  <artifactId>resthub-samples</artifactId>
-  <name>RESThub samples</name>
+  <artifactId>resthub-apps</artifactId>
+  <name>Applications based on RESThub</name>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>
@@ -15,7 +15,7 @@
   </description>
   
   <modules>
-    <module>resthub-identity-manager</module>
+    <module>wadl-explorer</module>
 	<module>roundtable</module>
   </modules>
   

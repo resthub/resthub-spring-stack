@@ -16,7 +16,7 @@
 		<module>resthub-core</module>
 		<module>resthub-web</module>
 		<module>resthub-identity</module>
-		<module>resthub-samples</module>
+		<module>resthub-apps</module>
 	</modules>
 	
 	<properties>
