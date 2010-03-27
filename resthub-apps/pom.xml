@@ -15,7 +15,6 @@
   </description>
   
   <modules>
-    <module>wadl-explorer</module>
 	<module>roundtable</module>
 	<module>identity-manager</module>
   </modules>
