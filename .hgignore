@@ -8,3 +8,4 @@ target
 \.chg\..*$
 \.rej$
 \.conflict\~$
+.DS_Store
