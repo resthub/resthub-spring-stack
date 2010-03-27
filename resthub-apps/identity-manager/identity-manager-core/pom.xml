@@ -10,7 +10,7 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>identity-manager-core</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>RESThub identity cores</name>
+	<name>Identity manager core</name>
 	<description>
 		Provide Identity management functionnality with Security integration based on Spring Security
 	</description>

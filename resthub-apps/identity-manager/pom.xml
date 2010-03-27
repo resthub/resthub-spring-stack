@@ -11,4 +11,7 @@
   <packaging>pom</packaging>
   <name>Identity manager</name>
   <description>Sample user/group/role management application</description>
+  <modules>
+  	<module>identity-manager-core</module>
+  </modules>
 </project>
