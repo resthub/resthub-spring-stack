@@ -1,16 +1,14 @@
 package org.resthub.core.domain.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
+import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,8 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Resource model.
  */
-@MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @XmlRootElement
 public class Resource implements Serializable {
 
@@ -40,8 +38,7 @@ public class Resource implements Serializable {
      * @return resource id
      */
     @Id
-    @TableGenerator(name="resourceGenerator",table="RESOURCE_SEQUENCES",allocationSize=1) 
-    @GeneratedValue(strategy=GenerationType.TABLE, generator="resourceGenerator")
+    @GeneratedValue
     public Long getId() {
         return id;
     }
