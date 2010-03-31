@@ -4,6 +4,8 @@
  */
 package org.resthub.core;
 
+import com.jamonapi.Monitor;
+import com.jamonapi.MonitorFactory;
 import org.aopalliance.intercept.MethodInvocation;
 
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ public class AuditInterceptor extends AdvisorInterceptor {
     @Override
     public Object invoke(MethodInvocation invovation) throws Throwable {
         Object result = null;
+
+        final Monitor mon = MonitorFactory.start(invovation.getMethod().getName());
 
         final StringBuilder context = new StringBuilder();
         context.append(invovation.getMethod().getName());
@@ -68,6 +72,7 @@ public class AuditInterceptor extends AdvisorInterceptor {
             if (logger.isDebugEnabled()) {
                 logger.debug("EXIT: {} [{}]", context.toString(), (error) ? "ERR" : "OK");
             }
+            mon.stop();
         }
         return result;
     }

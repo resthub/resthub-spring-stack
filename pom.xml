@@ -29,7 +29,7 @@
 		<slf4j.version>1.5.8</slf4j.version>
 		<junit.version>4.7</junit.version>
 		<jackson.version>1.3.2</jackson.version>
-
+		<jamon.version>2.4</jamon.version>
 		<env>local</env>
 	</properties>
 
@@ -347,6 +347,12 @@
 				<artifactId>jackson-xc</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
+                        <!-- JAMON -->
+                        <dependency>
+                                <groupId>com.jamonapi</groupId>
+                                <artifactId>jamon</artifactId>
+                                <version>${jamon.version}</version>
+                        </dependency>
 
 		</dependencies>
 	</dependencyManagement>
