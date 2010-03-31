@@ -7,28 +7,128 @@
 */
 
 /**
+ * RESET
+ */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{ margin:0; padding:0;}
+table{ border-collapse:collapse; border-spacing:0;}
+fieldset,img{ border:0;}
+address,caption,cite,code,dfn,th,var{ font-style:normal; font-weight:normal;}
+ol,ul{ list-style:none;}
+caption,th{ text-align:left;}
+h1,h2,h3,h4,h5,h6{ font-size:100%; font-weight:normal;}
+q:before,q:after{ content:'';}
+abbr,acronym{ border:0;}
+
+/**
  * GENERAL
  */
-root {display: block;}
-fieldset {background-color:#EDEDED;border:1px solid #CACACA;}
-label {width: 100%;}
+html {overflow:-moz-scrollbars-vertical;}
+body{
+    background:#eee;
+    color:#333;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+    line-height:16px;
+    text-shadow:0 1px 0 #fff;
+}
+a{color:#333;text-decoration:underline;}
+form {
+    background:#f7f7f7;
+    background:-moz-linear-gradient(90deg, #ccc, #fff); /* Firefox */
+    background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc)); /* Webkit */
+    border:1px solid #aaa;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    -moz-box-shadow:0 0 15px #aaa;
+    -webkit-box-shadow:0 0 15px #aaa;
+    margin:20px auto 0;
+    padding:20px;
+    min-width:440px;
+    max-width: 80%;
+}
+form > h1 {
+    border-bottom:1px solid #ccc;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:2px;
+    margin-bottom:20px;
+    text-transform:uppercase;
+}
+label{
+    cursor:pointer;
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-top:5px;
+    width: 100%;
+}
 label:after {content: " :";}
 label.error:after {content: "";}
 label > em.required {font-weight: bold;}
-input[type="text"], textarea {
-    background-color:#FFFFFF;
-    border:1px solid #CCCCCC;
-    width: 100%;
+
+input[type=text], input[type=password], textarea {
+	background: rgba(255, 255, 255, 0.9);
+	background:-moz-linear-gradient(90deg, #fff, #eee); /* Firefox */
+	background:-webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff), color-stop(0.2, #fff)); /* Webkit */
+	border:1px solid #aaa;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-box-shadow:0 0 3px #aaa;
+	-webkit-box-shadow:0 0 3px #aaa;
+	padding:5px;
+        width: 100%;
 }
-input[type="text"]:focus, textarea:focus {background-color:yellow;}
-input[type="button"], input[type="submit"] {
-    background-color: #C2DBEF;
-    border:1px solid #CCCCCC;
-    color: #FFFFFF;
-    font-weight: bold;
-    cursor: pointer;
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	border-color:#093c75;
+	-moz-box-shadow:0 0 3px #0459b7;
+	-webkit-box-shadow:0 0 3px #0459b7;
+	outline:none; /* Pour enlever le contour jaune lorsque l'on sélectionne un input dans Chrome */
 }
-input[type="button"]:hover, input[type="submit"]:hover {background-color: #86C2EF;}
+
+
+root {display: block;}
+
+input[type=submit], input[type=button], a.submit{
+	background:#ddd;
+	background:-moz-linear-gradient(90deg, #0459b7, #08adff); /* Firefox */
+	background:-webkit-gradient(linear, left top, left bottom, from(#08adff), to(#0459b7)); /* Webkit */
+	border:1px solid #093c75;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-box-shadow:0 1px 0 #fff;
+	-webkit-box-shadow:0 1px 0 #fff;
+	color:#fff;
+	cursor:pointer;
+	font-family:Arial,sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	padding:5px 10px;
+	text-decoration:none;
+	text-shadow:0 1px 1px #333;
+	text-transform:uppercase;
+}
+input[type=button] {
+    padding:2px 4px;
+}
+input[type=submit]:hover,
+a.submit:hover{
+	background:#eee;
+	background:-moz-linear-gradient(90deg, #067cd3, #0bcdff);
+	background:-webkit-gradient(linear, left top, left bottom, from(#0bcdff), to(#067cd3));
+	border-color:#093c75;
+	text-decoration:none;
+}
+input[type=submit]:active,
+input[type=submit]:focus,
+a.submit:active,
+a.submit:focus{
+	background:#ccc;
+	background:-moz-linear-gradient(90deg, #0bcdff, #067cd3);
+	background:-webkit-gradient(linear, left top, left bottom, from(#067cd3), to(#0bcdff));
+	border-color:#093c75;
+	outline:none;
+}
+
 .error {color: red;}
 input.error, textarea.error {border-color: red;}
 
@@ -51,13 +151,13 @@ div.grippie {
 #create-rt-answers {margin: 0px;padding: 1em 0 1em 0;}
 #create-rt-answers ul:first-child {border-top: none !important;}
 #create-rt-answers li {
-    background: #EEEEEE url(../image/v-grippy.png) no-repeat scroll left 5px;
+    background: url("../image/v-grippy.png") no-repeat scroll left 5px transparent;
     list-style-type: none;
     font-style: italic;
     cursor: move;
     border-top: solid thin black;
-    padding-left: 3px;
-    line-height: 1.5em;
+    padding-left: 7px;
+    line-height: 2em;
 }
 #create-rt-answers li div {
     float: left;
@@ -65,7 +165,7 @@ div.grippie {
 }
 #create-rt-answers li.ui-sortable-helper {border-top: none;}
 #create-rt-answers li.answer-placeholder {
-    height: 1.5em;
+    height: 2em;
     background-color: yellow;
     background-image: none;
 }
@@ -138,14 +238,12 @@ table.poll td.yes, #vote td.no:hover {
 }
 #vote {cursor: crosshair;}
 table tr.result {
-    background-color:#FFFFFF;
     border:0 none;
     font-size:11px;
     height:30px;
     line-height:30px;
     text-align:right;
 }
-table.poll tr.result {
-    text-align:center !important;
-}
+table.poll tr.result td { line-height:30px;height:30px;}
+table.poll tr.result {text-align:center !important;}
 

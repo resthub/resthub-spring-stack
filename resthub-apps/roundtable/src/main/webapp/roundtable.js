@@ -72,6 +72,27 @@ var RoundTableViewComponent = $.Class.create({
         this.template = new EJS({url: 'template/poll/view.ejs'});
 
         this.template.update(this._anchor, poll);
+
+        $('#vote td.no').click(function() {
+            $(this).toggleClass('no');
+            $(this).toggleClass('yes');
+        });
+        $('#vote-button').click(function() {
+            var voter = $('#you input:text').val();
+            if (voter != '') {
+                var votes = "";
+                $('#vote td.no').each(function() {
+                    votes += $(this).attr('id') .split('-')[1] + ':no';
+                });
+                $('#vote td.yes').each(function() {
+                    votes += $(this).attr('id') .split('-')[1] + ':yes';
+                });
+                alert('let\'s vote : ' + votes);
+            }
+            else {
+                alert("Please fill your name");
+            }
+        });
     },
     // methods
     toString: function() {
@@ -94,7 +115,7 @@ var RoundTableViewComponent = $.Class.create({
         /**
          * View the test poll.
          */
-        this.get('#/test', function() {
+        this.get('#/poll/test', function() {
             $.ajax({
                 url: 'data/poll/test.json',
                 dataType: 'json',
@@ -109,7 +130,7 @@ var RoundTableViewComponent = $.Class.create({
          */
         this.get('#/poll/:id', function() {
             $.ajax({
-                url: 'webresources/poll/' + params['id'],
+                url: 'webresources/poll/' + this.params['id'],
                 dataType: 'json',
                 success: function(poll) {
                     new RoundTableViewComponent('main', poll);
@@ -139,16 +160,16 @@ var RoundTableViewComponent = $.Class.create({
             for (i = 0; i < answers.length; i++) {
                 poll.answers.push({body:answers[i].value});
             }
-            
+
             $.ajax({
                 type: 'POST',
                 url: 'webresources/poll',
-                contentType: 'application/json',
+                contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 processData: false,
-                data: poll,
+                data: $.toJSON(poll),
                 success: function(poll) {
-                    context.redirect('#/poll/', poll.id);
+                    context.redirect('#/poll', poll.id);
                 }
             });
         });
