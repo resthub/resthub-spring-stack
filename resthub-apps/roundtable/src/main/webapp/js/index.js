@@ -3,6 +3,7 @@
  * Routes
  */
 (function($) {
+	
     var app = $.sammy(function() {
         this.get('#/', function() {
             $('#main').text('');
@@ -12,33 +13,37 @@
          * View the test poll.
          */
         this.get('#/poll/test', function() {
-            $.ajax({
-                url: 'data/poll/test.json',
-                dataType: 'json',
-                success: function(poll) {
-                    new RoundTableViewComponent('main', poll);
-                }
-            });
+        	require('Poll.View', function() {
+	        	$.ajax({
+	                url: 'data/poll/test.json',
+	                dataType: 'json',
+	                success: function(poll) {
+	                    new RoundTableViewComponent('main', poll);
+	                }
+	            });
+        	});
         });
 
         /**
          * View poll.
          */
         this.get('#/poll/:id', function() {
-            $.ajax({
+        	$.ajax({
                 url: 'webresources/poll/' + this.params['id'],
                 dataType: 'json',
                 success: function(poll) {
                     new RoundTableViewComponent('main', poll);
                 }
-            });
+        	});
         });
 
         /**
          * View new poll creation form.
          */
         this.get('#/create', function() {
-            new RoundTableCreateComponent('main');
+        	require('Poll.Create', function() {
+        		new RoundTableCreateComponent('main');
+        	});
         });
 
         /**
