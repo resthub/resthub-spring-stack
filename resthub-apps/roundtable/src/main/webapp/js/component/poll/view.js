@@ -1,13 +1,13 @@
 /**
  * Round Table visualization component.
  */
-var RoundTableViewComponent = new JS.Class({
+var RoundTableViewComponent = Class.extend({
     // constructor
-    initialize: function(anchor, poll) {
-        this._anchor = anchor;
+    init: function(anchor, poll) {
+        this.anchor = anchor;
         this.template = new EJS({url: 'template/poll/view.ejs'});
 
-        this.template.update(this._anchor, poll);
+        this.template.update(this.anchor, poll);
 
         $('#vote td.no').click(function() {
             $(this).toggleClass('no');
@@ -34,7 +34,4 @@ var RoundTableViewComponent = new JS.Class({
     toString: function() {
         return "";
     }
-}, {
-    // properties
-    getset: [['Anchor', '_anchor']]
 });

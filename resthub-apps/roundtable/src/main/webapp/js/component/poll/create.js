@@ -1,10 +1,10 @@
 /**
  * Round Table creation component.
  */
-var RoundTableCreateComponent = new JS.Class({
+var RoundTableCreateComponent = Class.extend({
     // constructor
-    initialize: function(anchor) {
-        this._anchor = anchor;
+    init: function(anchor) {
+        this.anchor = anchor;
         this.template = new EJS({url: 'template/poll/create.ejs'});
 
         var tpl = '<li>' +
@@ -22,7 +22,7 @@ var RoundTableCreateComponent = new JS.Class({
                 {body: "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}]
         };
 
-        this.template.update(this._anchor, poll);
+        this.template.update(this.anchor, poll);
 
         $('textarea.resizable:not(.processed)').TextAreaResizer();
         $('#create-rt form').validate({
@@ -57,7 +57,4 @@ var RoundTableCreateComponent = new JS.Class({
     toString: function() {
         return "";
     }
-}, {
-    // properties
-    getset: [['Anchor', '_anchor']]
 });
