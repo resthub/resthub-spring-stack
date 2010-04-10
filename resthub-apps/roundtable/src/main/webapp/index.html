@@ -20,7 +20,7 @@
             // script.onload handler that runs as soon as the script has loaded
             onload:  function () {
                 // be strict about jQuery usage.
-                var $ = jQuery.noConflict();
+                
                 // Setup an easy-to-use Req.js plugin for jQuery
                 $.fn.Req = function(){
                   var args = arguments, t = this;
@@ -42,14 +42,11 @@
 		
         'poll.create':      { src: 'js/component/poll/create.js'            },
         'poll.view':      { src: 'js/component/poll/view.js'         },
-		'poll.index':      { src: 'js/index.js',       req: ['jquery', 'jquery-class', 'ejs', 'jquery-json', 'jquery-textarearesizer', 'jquery-validate', 'sammy', 'poll.create', 'poll.view']      }
+		'poll.index':      { src: 'js/index.js',       req: ['jquery', 'jquery-ui', 'jquery-class', 'ejs', 'jquery-json', 'jquery-textarearesizer', 'jquery-validate', 'sammy', 'poll.create', 'poll.view']      }
 
       };
 	  
-	  Req('poll.index', function(){
-	  
-	  	
-	  });
+	  Req('poll.index');
 
   </script>
 
