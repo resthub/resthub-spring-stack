@@ -5,7 +5,54 @@
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
         <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection">
 		
+		<script src="lib/req/req-source.js"></script>
+
+  <script> 
+    // ========================================================
+    //  Create a asset/dependency database for jQuery UI
+    // ========================================================
+
+    Req.assets = {
+
+        'jquery': {
+            src:  'lib/jquery/jquery-1.4.2.min.js',
+
+            // script.onload handler that runs as soon as the script has loaded
+            onload:  function () {
+                // be strict about jQuery usage.
+                var $ = jQuery.noConflict();
+                // Setup an easy-to-use Req.js plugin for jQuery
+                $.fn.Req = function(){
+                  var args = arguments, t = this;
+                  if (t.length) {
+                    Req.apply(null, $.map(args, function(a){ return $.isFunction(a) ? function(){a.call(t);} : a; }) );
+                  }
+                  return t;
+                };
+              }
+          },
+
+        'jquery-ui':        { src: 'lib/jquery/jquery-ui-1.8.min.js',         req: ['jquery']       },
+        'jquery-class':   { src: 'lib/jquery/jquery-class.js',    req: ['jquery']      },
+        'jquery-json':   { src: 'lib/jquery/jquery.json-2.2.min.js',    req: ['jquery'] },
+        'jquery-textarearesizer':   { src: 'lib/jquery/jquery.textarearesizer.compressed.js',    req: ['jquery']      },
+        'jquery-validate':  { src: 'lib/jquery/jquery.validate.js',   req: ['jquery']      },
+        'sammy':    { src: 'lib/sammy/sammy.js',     req: ['jquery'] },
+        'ejs':   { src: 'lib/ejs/ejs.js'     },
 		
+        'poll.create':      { src: 'js/component/poll/create.js'            },
+        'poll.view':      { src: 'js/component/poll/view.js'         },
+		'poll.index':      { src: 'js/index.js',       req: ['jquery', 'jquery-class', 'ejs', 'jquery-json', 'jquery-textarearesizer', 'jquery-validate', 'sammy', 'poll.create', 'poll.view']      }
+
+      };
+	  
+	  Req('poll.index', function(){
+	  
+	  	
+	  });
+
+  </script>
+
 		
     </head>
     <body>
@@ -20,18 +67,5 @@
             </ul>
         </div>
 		
-		<script src="lib/ejs/ejs.js" type="text/javascript" charset="utf-8"></script>
-        	
-	    <script src="lib/jquery/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="lib/jquery/jquery-class.js" type="text/javascript" charset="utf-8"></script>
-        <script src="lib/jquery/jquery-ui-1.8.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="lib/jquery/jquery.textarearesizer.compressed.js" type="text/javascript" charset="utf-8"></script>
-        <script src="lib/jquery/jquery.json-2.2.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="lib/jquery/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="lib/sammy/sammy.js" type="text/javascript" charset="utf-8"></script>
-        
-		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/component/poll/create.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/component/poll/view.js" type="text/javascript" charset="utf-8"></script>
     </body>
 </html>
