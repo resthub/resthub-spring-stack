@@ -5,10 +5,8 @@ var RoundTableViewComponent = Class.extend({
     // constructor
     init: function(anchor, poll) {
         this.anchor = anchor;
-        this.template = new EJS({url: 'template/poll/view.ejs'});
-
-        this.template.update(this.anchor, poll);
-
+        this.anchor.ejs('template/poll/view.ejs', poll);
+        
         $('#vote td.no').click(function() {
             $(this).toggleClass('no');
             $(this).toggleClass('yes');

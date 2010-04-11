@@ -5,13 +5,11 @@ var RoundTableCreateComponent = Class.extend({
     // constructor
     init: function(anchor) {
         this.anchor = anchor;
-        this.template = new EJS({url: 'template/poll/create.ejs'});
 
         var tpl = '<li>' +
             '<div><input type="checkbox" name="answers" value="<%= answer %>"></div>' +
             '<span><%= answer %></span>' +
             '</li>';
-        var answerTemplate = new EJS({text:tpl});
 
 
         var poll = {
@@ -22,7 +20,7 @@ var RoundTableCreateComponent = Class.extend({
                 {body: "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}]
         };
 
-        this.template.update(this.anchor, poll);
+        this.anchor.ejs('template/poll/create.ejs', poll);
 
         $('textarea.resizable:not(.processed)').TextAreaResizer();
         $('#create-rt form').validate({
@@ -47,8 +45,7 @@ var RoundTableCreateComponent = Class.extend({
         $('#inp-add-answer').click(function() {
             var answer = $('#inp-answer').val().trim();
             if (answer != '') {
-                $("#create-rt-answers").append(
-                    answerTemplate.render({answer:answer}));
+                $("#create-rt-answers").ejs('', {answer:answer}, {text:tpl});
                 $("#inp-answer").val("");
             }
         });

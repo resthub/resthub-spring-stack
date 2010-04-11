@@ -18,7 +18,7 @@
 	                url: 'data/poll/test.json',
 	                dataType: 'json',
 	                success: function(poll) {
-	        			new RoundTableViewComponent('main', poll);
+	        			new RoundTableViewComponent($('#main'), poll);
 	                }
 	        	});
         	});
@@ -32,7 +32,7 @@
                 url: 'webresources/poll/' + this.params['id'],
                 dataType: 'json',
                 success: function(poll) {
-                    new RoundTableViewComponent('main', poll);
+                    new RoundTableViewComponent($('#main'), poll);
                 }
         	});
         });
@@ -42,7 +42,7 @@
          */
         this.get('#/create', function() {
         	dominoes("js/create.js", function() {
-        		new RoundTableCreateComponent('main');
+        		new RoundTableCreateComponent($('#main'));
         	});
         });
 
