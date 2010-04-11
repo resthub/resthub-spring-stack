@@ -42,7 +42,44 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>yuicompressor-maven-plugin</artifactId>
+        <version>0.9</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compress</goal>
+            </goals>
+          </execution>
+        </executions>        
+        <configuration>
+          <jswarn>false</jswarn>
+          <aggregations>
+            <aggregation>
+              <output>${project.build.directory}/${project.build.finalName}/lib/resthub-core.js</output>
+              <includes>
+                <!-- Relative to output directory define just before -->
+                <include>core/*.js</include>
+              </includes>
+
+            </aggregation>
+          </aggregations>
+          
+          
+             
+                  </configuration>
+      </plugin>
+			
 		</plugins>
 	</build>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>github-releases</id>
+			<url>http://oss.sonatype.org/content/repositories/github-releases/</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
 

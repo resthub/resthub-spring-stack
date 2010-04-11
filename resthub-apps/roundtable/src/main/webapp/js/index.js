@@ -13,12 +13,14 @@
          * View the test poll.
          */
         this.get('#/poll/test', function() {
-        	$.ajax({
-                url: 'data/poll/test.json',
-                dataType: 'json',
-                success: function(poll) {
-        			new RoundTableViewComponent('main', poll);
-                }
+        	dominoes("js/view.js", function() {
+	        	$.ajax({
+	                url: 'data/poll/test.json',
+	                dataType: 'json',
+	                success: function(poll) {
+	        			new RoundTableViewComponent('main', poll);
+	                }
+	        	});
         	});
         });
 
@@ -39,7 +41,9 @@
          * View new poll creation form.
          */
         this.get('#/create', function() {
-        	new RoundTableCreateComponent('main');
+        	dominoes("js/create.js", function() {
+        		new RoundTableCreateComponent('main');
+        	});
         });
 
         /**

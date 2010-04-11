@@ -5,51 +5,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
         <link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection">
 		
-		<script src="lib/req/req-source.js"></script>
+		<script src="lib/core/dominoes-1.0-rc2.js"></script>
 
-  <script> 
-    // ========================================================
-    //  Create a asset/dependency database for jQuery UI
-    // ========================================================
-
-    Req.assets = {
-
-        'jquery': {
-            src:  'lib/jquery/jquery-1.4.2.min.js',
-
-            // script.onload handler that runs as soon as the script has loaded
-            onload:  function () {
-                // be strict about jQuery usage.
-                
-                // Setup an easy-to-use Req.js plugin for jQuery
-                $.fn.Req = function(){
-                  var args = arguments, t = this;
-                  if (t.length) {
-                    Req.apply(null, $.map(args, function(a){ return $.isFunction(a) ? function(){a.call(t);} : a; }) );
-                  }
-                  return t;
-                };
-              }
-          },
-
-        'jquery-ui':        { src: 'lib/jquery/jquery-ui-1.8.min.js',         req: ['jquery']       },
-        'jquery-class':   { src: 'lib/jquery/jquery-class.js',    req: ['jquery']      },
-        'jquery-json':   { src: 'lib/jquery/jquery.json-2.2.min.js',    req: ['jquery'] },
-        'jquery-textarearesizer':   { src: 'lib/jquery/jquery.textarearesizer.compressed.js',    req: ['jquery']      },
-        'jquery-validate':  { src: 'lib/jquery/jquery.validate.js',   req: ['jquery']      },
-        'sammy':    { src: 'lib/sammy/sammy.js',     req: ['jquery'] },
-        'ejs':   { src: 'lib/ejs/ejs.js'     },
-		
-        'poll.create':      { src: 'js/component/poll/create.js'            },
-        'poll.view':      { src: 'js/component/poll/view.js'         },
-		'poll.index':      { src: 'js/index.js',       req: ['jquery', 'jquery-ui', 'jquery-class', 'ejs', 'jquery-json', 'jquery-textarearesizer', 'jquery-validate', 'sammy', 'poll.create', 'poll.view']      }
-
-      };
-	  
-	  Req('poll.index');
-
-  </script>
-
+  		<script> 
+			dominoes("lib/core/jquery-1.4.2.js lib/core/ejs-1.0.js > lib/core/jquery-class-1.0.js lib/core/jquery-ejs-1.0.js lib/core/jquery-json-2.2.js lib/core/sammy-0.5.3.js lib/jquery-textarearesizer-1.0.4.js lib/jquery-ui-1.8.js lib/jquery-validate-1.7.js > js/index.js");
+  		</script>
 		
     </head>
     <body>
