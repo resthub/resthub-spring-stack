@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://research.sun.com/wadl/2006/10">
+    <doc xmlns:jersey="http://jersey.dev.java.net/" jersey:generatedBy="Jersey: 1.1.5.1 03/10/2010 02:33 PM"/>
+    <resources base="http://localhost:8080/roundtable/webresources/">
+        <resource path="/beans">
+            <method name="GET" id="getResources">
+                <response>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+        </resource>
+        <resource path="/poll">
+            <method name="GET" id="getResources">
+                <response>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <method name="POST" id="create">
+                <request>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </request>
+                <response>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <method name="GET" id="getResourcesView">
+                <response>
+                    <representation mediaType="text/html"/>
+                </response>
+            </method>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" style="template" name="id"/>
+                <method name="GET" id="getResource">
+                    <response>
+                        <representation mediaType="application/xml"/>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+                <method name="DELETE" id="delete"/>
+                <method name="PUT" id="update">
+                    <request>
+                        <representation mediaType="application/xml"/>
+                        <representation mediaType="application/json"/>
+                    </request>
+                    <response>
+                        <representation mediaType="*/*"/>
+                    </response>
+                </method>
+                <method name="GET" id="getResourceView">
+                    <response>
+                        <representation mediaType="text/html"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/resources">
+            <method name="GET" id="getResources">
+                <response>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <method name="POST" id="create">
+                <request>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </request>
+                <response>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <method name="GET" id="getResourcesView">
+                <response>
+                    <representation mediaType="text/html"/>
+                </response>
+            </method>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" style="template" name="id"/>
+                <method name="GET" id="getResource">
+                    <response>
+                        <representation mediaType="application/xml"/>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+                <method name="DELETE" id="delete"/>
+                <method name="PUT" id="update">
+                    <request>
+                        <representation mediaType="application/xml"/>
+                        <representation mediaType="application/json"/>
+                    </request>
+                    <response>
+                        <representation mediaType="*/*"/>
+                    </response>
+                </method>
+                <method name="GET" id="getResourceView">
+                    <response>
+                        <representation mediaType="text/html"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/vote">
+            <method name="GET" id="getResources">
+                <response>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <method name="GET" id="getResourcesView">
+                <response>
+                    <representation mediaType="text/html"/>
+                </response>
+            </method>
+            <method name="POST" id="create">
+                <request>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </request>
+                <response>
+                    <representation mediaType="application/xml"/>
+                    <representation mediaType="application/json"/>
+                </response>
+            </method>
+            <resource path="/{id}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:long" style="template" name="id"/>
+                <method name="DELETE" id="delete"/>
+                <method name="PUT" id="update">
+                    <request>
+                        <representation mediaType="application/xml"/>
+                        <representation mediaType="application/json"/>
+                    </request>
+                    <response>
+                        <representation mediaType="*/*"/>
+                    </response>
+                </method>
+                <method name="GET" id="getResource">
+                    <response>
+                        <representation mediaType="application/xml"/>
+                        <representation mediaType="application/json"/>
+                    </response>
+                </method>
+                <method name="GET" id="getResourceView">
+                    <response>
+                        <representation mediaType="text/html"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+    </resources>
+</application>

@@ -13,7 +13,7 @@
          * View the test poll.
          */
         this.get('#/poll/test', function() {
-        	dominoes("js/view.js lib/ui/jquery.ui.sortable.js", function() {
+        	dominoes("js/view.js", function() {
 	        	$.ajax({
 	                url: 'data/poll/test.json',
 	                dataType: 'json',
