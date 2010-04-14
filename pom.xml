@@ -16,7 +16,6 @@
 		<module>resthub-core</module>
 		<module>resthub-web</module>
 		<module>resthub-apps</module>
-		<module>resthub-wadl-explorer</module>
 	</modules>
 	
 	<properties>
