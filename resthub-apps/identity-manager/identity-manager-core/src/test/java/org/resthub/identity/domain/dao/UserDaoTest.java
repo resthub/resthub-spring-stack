@@ -4,20 +4,20 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.domain.dao.ResourceDao;
 import org.resthub.core.test.AbstractResourceDaoTest;
+import org.resthub.identity.domain.dao.UserDao;
 import org.resthub.identity.domain.model.User;
 
 /**
  *
  * @author Loïc Frering <loic.frering@atosorigin.com>
  */
-public class UserDaoTest extends AbstractResourceDaoTest<User> {
+public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 
 	@Inject
     @Named("userDao")
     @Override
-    public void setResourceDao(ResourceDao<User> resourceDao) {
+    public void setResourceDao(UserDao resourceDao) {
         super.setResourceDao(resourceDao);
     }
 	

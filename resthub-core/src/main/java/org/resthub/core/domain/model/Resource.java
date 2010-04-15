@@ -52,42 +52,6 @@ public class Resource implements Serializable {
     }
 
     /**
-     * Get creation date.
-     * @return creation date
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date", nullable = false)
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    /**
-     * Set the creation date.
-     * @param creationDate creation date
-     */
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    /**
-     * Get modification date.
-     * @return modification date
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modification_date", nullable = false)
-    public Date getModificationDate() {
-        return modificationDate;
-    }
-
-    /**
-     * Set modification date.
-     * @param modificationDate modification date
-     */
-    public void setModificationDate(Date modificationDate) {
-        this.modificationDate = modificationDate;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

@@ -11,19 +11,21 @@
 	<description>
 		RESThub is an Open Source (LGPL) framework designed to allow you to build web applications following KISS (Keep It Simple and Stupid), DRY (Don’t Repeat Yourself) and REST principles.
 	</description>
-	
+
 	<modules>
 		<module>resthub-core</module>
 		<module>resthub-web</module>
 		<module>resthub-apps</module>
 		<module>resthub-wadl-explorer</module>
 	</modules>
-	
+
 	<properties>
 		<jersey.version>1.1.5.1</jersey.version>
+		<mysql-connector-java-version>5.1.12</mysql-connector-java-version>
+		<hades.version>2.0.0.RC1</hades.version>
 		<hibernate.version>3.5.0-Final</hibernate.version>
 		<h2.version>1.2.121</h2.version>
-		<spring.version>3.0.1.RELEASE</spring.version>
+		<spring.version>3.0.2.RELEASE</spring.version>
 		<spring.security.version>3.0.1.RELEASE</spring.security.version>
 		<log4j.version>1.2.14</log4j.version>
 		<slf4j.version>1.5.8</slf4j.version>
@@ -217,6 +219,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.synyx.hades</groupId>
+				<artifactId>org.synyx.hades</artifactId>
+				<version>${hades.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>1.2.122</version>
@@ -347,12 +355,17 @@
 				<artifactId>jackson-xc</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
-                        <!-- JAMON -->
-                        <dependency>
-                                <groupId>com.jamonapi</groupId>
-                                <artifactId>jamon</artifactId>
-                                <version>${jamon.version}</version>
-                        </dependency>
+			<!-- JAMON -->
+			<dependency>
+				<groupId>com.jamonapi</groupId>
+				<artifactId>jamon</artifactId>
+				<version>${jamon.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql-connector-java-version}</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -377,6 +390,10 @@
 			<name>Glassfish Repository for Maven</name>
 			<url>http://download.java.net/maven/glassfish</url>
 		</repository>
-
+		<repository>
+			<id>repo.synyx.de</id>
+			<name>Synyx Maven2 Repository</name>
+			<url>http://repo.synyx.org</url>
+		</repository>
 	</repositories>
 </project>

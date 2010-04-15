@@ -7,14 +7,16 @@ import org.junit.Test;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.test.AbstractResourceServiceTest;
 
-public class ResourceServiceTest extends AbstractResourceServiceTest<Resource> {
+public class ResourceServiceTest extends AbstractResourceServiceTest<Resource, ResourceService> {
 
-    @Inject
+	@Inject
     @Named("resourceService")
     @Override
-    public void setResourceService(ResourceService<Resource> resourceService) {
-        super.setResourceService(resourceService);
-    }
+	public void setResourceService(
+			ResourceService resourceService) {
+		// TODO Auto-generated method stub
+		super.setResourceService(resourceService);
+	}
 
     @Override
     @Test(expected = UnsupportedOperationException.class)

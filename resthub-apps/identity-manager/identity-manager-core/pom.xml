@@ -61,5 +61,9 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 		</dependency>
+		<dependency> 
+			<groupId>org.synyx.hades</groupId>
+			<artifactId>org.synyx.hades</artifactId>
+		</dependency>
 	</dependencies>
 </project>
