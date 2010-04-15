@@ -4,6 +4,7 @@ import javax.inject.Named;
 import javax.persistence.Query;
 
 import org.resthub.roundtable.domain.dao.VoteDao;
+import org.resthub.roundtable.domain.dao.VoteDaoCustom;
 import org.resthub.roundtable.domain.model.Poll;
 import org.resthub.roundtable.domain.model.Vote;
 import org.resthub.core.domain.dao.jpa.AbstractJpaResourceDao;
@@ -12,7 +13,7 @@ import org.resthub.core.domain.dao.jpa.AbstractJpaResourceDao;
  * {@inheritDoc}
  */
 @Named("voteDao")
-public class VoteDaoImpl extends AbstractJpaResourceDao<Vote> implements VoteDao {
+public class VoteDaoImpl implements VoteDaoCustom {
 
     /**
      * {@inheritDoc}
