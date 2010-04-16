@@ -22,7 +22,7 @@
 		<jersey.version>1.1.5.1</jersey.version>
 		<mysql-connector-java-version>5.1.12</mysql-connector-java-version>
 		<hades.version>2.0.0.RC1</hades.version>
-		<hibernate.version>3.5.0-Final</hibernate.version>
+		<hibernate.version>3.5.1-Final</hibernate.version>
 		<h2.version>1.2.121</h2.version>
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<spring.security.version>3.0.1.RELEASE</spring.security.version>
