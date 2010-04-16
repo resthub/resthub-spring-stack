@@ -91,10 +91,20 @@
 			<artifactId>junit</artifactId>
 			<scope>compile</scope>
 		</dependency>
-                <!-- JAMON -->
+		<!-- JAMON -->
 		<dependency>
 			<groupId>com.jamonapi</groupId>
 			<artifactId>jamon</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.synyx.hades</groupId>
+			<artifactId>org.synyx.hades</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
 	</dependencies>

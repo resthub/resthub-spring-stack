@@ -3,7 +3,7 @@
     <display-name>Round Table</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:resthubContext.xml classpath*:resthubContext.xml</param-value>
+        <param-value>classpath*:hadesContext.xml classpath:hadesContext.xml classpath:resthubContext.xml classpath*:resthubContext.xml</param-value>
     </context-param>
     <context-param>
         <param-name>log4jConfigLocation</param-name>
