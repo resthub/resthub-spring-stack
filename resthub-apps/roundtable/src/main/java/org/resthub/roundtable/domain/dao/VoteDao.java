@@ -9,4 +9,12 @@ import org.resthub.roundtable.domain.model.Vote;
  */
 public interface VoteDao extends ResourceGenericDao<Vote> {
 
+//	public boolean exist(String voter, Poll poll) {
+//        final Query query = em.createNamedQuery("existVote");
+//        query.setParameter("voter", voter);
+//        query.setParameter("pid", poll.getId());
+//
+//        return ((Long) query.getSingleResult() >= 1);
+//    }
+	
 }
