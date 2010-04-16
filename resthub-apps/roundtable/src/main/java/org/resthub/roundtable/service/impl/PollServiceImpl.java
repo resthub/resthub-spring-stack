@@ -3,14 +3,16 @@ package org.resthub.roundtable.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.resthub.core.annotation.Auditable;
+import org.resthub.core.service.impl.ResourceGenericServiceImpl;
 import org.resthub.roundtable.domain.dao.PollDao;
+import org.resthub.roundtable.domain.model.Answer;
 import org.resthub.roundtable.domain.model.Poll;
 import org.resthub.roundtable.service.PollService;
-import org.resthub.core.service.impl.AbstractResourceServiceImpl;
-import org.resthub.roundtable.domain.model.Answer;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -18,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
  */
 @Named("pollService")
-public class PollServiceImpl extends AbstractResourceServiceImpl<Poll, PollDao> implements PollService {
+public class PollServiceImpl extends ResourceGenericServiceImpl<Poll, PollDao> implements PollService {
 
     @Inject
     @Named("pollDao")
@@ -42,8 +44,8 @@ public class PollServiceImpl extends AbstractResourceServiceImpl<Poll, PollDao> 
             Answer a = resource.getAnswers().get(i);
             Answer answer = new Answer();
             answer.setBody(a.getBody());
-            answer.setCreationDate(date.getTime());
-            answer.setModificationDate(date.getTime());
+//            answer.setCreationDate(date.getTime());
+//            answer.setModificationDate(date.getTime());
             answer.setOrder(i + 1);
             answer.setPoll(poll);
             poll.getAnswers().add(answer);

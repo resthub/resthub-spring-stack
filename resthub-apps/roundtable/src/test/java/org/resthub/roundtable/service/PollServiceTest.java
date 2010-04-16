@@ -1,28 +1,27 @@
 package org.resthub.roundtable.service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.resthub.core.test.AbstractResourceServiceTest;
 import org.resthub.roundtable.domain.model.Answer;
 import org.resthub.roundtable.domain.model.Poll;
-import org.resthub.core.service.ResourceService;
-import org.resthub.core.test.AbstractResourceServiceTest;
 
  /**
  * Test of Poll services.
  * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
  */
-public class PollServiceTest extends AbstractResourceServiceTest<Poll> {
+public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollService> {
     @Inject
     @Named("pollService")
     @Override
-    public void setResourceService(ResourceService<Poll> resourceService) {
-        super.setResourceService(resourceService);
+    public void setResourceService(PollService pollService) {
+        super.setResourceService(pollService);
     }
 
     @Override

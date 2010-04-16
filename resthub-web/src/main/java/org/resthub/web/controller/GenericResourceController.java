@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.resthub.core.AbstractResourceClassAware;
 import org.resthub.core.domain.model.Resource;
-import org.resthub.core.service.ResourceService;
+import org.resthub.core.service.ResourceGenericService;
 
 import com.sun.jersey.api.view.ImplicitProduces;
 import com.sun.jersey.api.view.Viewable;
@@ -32,7 +32,7 @@ import com.sun.jersey.api.view.Viewable;
 public abstract class GenericResourceController<T extends Resource> extends AbstractResourceClassAware<T> {
 
     protected T[] resourceClassArray;
-    protected ResourceService<T> resourceService;
+    protected ResourceGenericService<T> resourceService;
     @Context
     private UriInfo uriInfo;
 
@@ -42,7 +42,7 @@ public abstract class GenericResourceController<T extends Resource> extends Abst
         resourceClassArray = (T[]) Array.newInstance(this.resourceClass, 0);
     }
 
-    public void setResourceService(ResourceService<T> resourceService) {
+    public void setResourceService(ResourceGenericService<T> resourceService) {
         this.resourceService = resourceService;
     }
 
