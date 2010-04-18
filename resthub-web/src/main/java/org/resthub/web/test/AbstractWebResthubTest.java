@@ -11,7 +11,7 @@ public abstract class AbstractWebResthubTest extends JerseyTest {
 	public AbstractWebResthubTest() {
 		super(new WebAppDescriptor.Builder()
         .contextPath("resthub")
-        .contextParam("contextConfigLocation", "classpath*:hadesContext.xml classpath:hadesContext.xml classpath:resthubContext.xml classpath*:resthubContext.xml")
+        .contextParam("contextConfigLocation", "classpath*:resthubContext.xml classpath:resthubContext.xml")
         .servletClass(SpringServlet.class)
         .contextListenerClass(ContextLoaderListener.class)
         .build());
