@@ -221,6 +221,20 @@
 				<groupId>org.synyx.hades</groupId>
 				<artifactId>org.synyx.hades</artifactId>
 				<version>${hades.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>org.springframework.orm</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>org.springframework.test</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>org.springframework.test</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
