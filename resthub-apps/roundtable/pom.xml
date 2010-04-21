@@ -9,6 +9,40 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
+	<profiles>
+		<profile>
+			<id>compress</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>net.alchim31.maven</groupId>
+						<artifactId>yuicompressor-maven-plugin</artifactId>
+						<version>0.9</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>compress</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<jswarn>false</jswarn>
+							<aggregations>
+								<aggregation>
+									<output>${project.build.directory}/${project.build.finalName}/lib/resthub-core.js</output>
+									<includes>
+										<!-- Relative to output directory define just before -->
+										<include>core/*.js</include>
+									</includes>
+								</aggregation>
+							</aggregations>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<groupId>org.resthub</groupId>
 	<artifactId>roundtable</artifactId>
 	<packaging>war</packaging>
@@ -42,39 +76,10 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
-			
-			<plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>yuicompressor-maven-plugin</artifactId>
-        <version>0.9</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compress</goal>
-            </goals>
-          </execution>
-        </executions>        
-        <configuration>
-          <jswarn>false</jswarn>
-          <aggregations>
-            <aggregation>
-              <output>${project.build.directory}/${project.build.finalName}/lib/resthub-core.js</output>
-              <includes>
-                <!-- Relative to output directory define just before -->
-                <include>core/*.js</include>
-              </includes>
 
-            </aggregation>
-          </aggregations>
-          
-          
-             
-                  </configuration>
-      </plugin>
-			
 		</plugins>
 	</build>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>github-releases</id>
