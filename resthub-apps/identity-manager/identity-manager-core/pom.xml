@@ -12,7 +12,8 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>Identity manager core</name>
 	<description>
-		Provide Identity management functionnality with Security integration based on Spring Security
+		Provide Identity management functionnality with Security
+		integration based on Spring Security
 	</description>
 
 	<dependencies>
@@ -61,9 +62,10 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 		</dependency>
-		<dependency> 
+		<dependency>
 			<groupId>org.synyx.hades</groupId>
 			<artifactId>org.synyx.hades</artifactId>
 		</dependency>
 	</dependencies>
+
 </project>

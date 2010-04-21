@@ -14,7 +14,7 @@ import org.resthub.core.domain.model.StandaloneEntity;
  * derived entities
  * 
  */
-public interface StandaloneEntityDao extends ResthubGenericDao<StandaloneEntity, Long> {
+public interface StandaloneEntityDao extends AbstractResthubGenericDao<StandaloneEntity, Long> {
 
 	/**
 	 * Find a list of {@link StandaloneEntity} from name

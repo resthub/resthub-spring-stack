@@ -79,7 +79,7 @@
 	<bean id="scanningPersistenceUnitManager"
 		class="org.resthub.core.domain.dao.jpa.ScanningPersistenceUnitManager">
 		<property name="defaultDataSource" ref="dataSource" />
-		<property name="packagePatternToScan"
+		<property name="classpathPatterns"
 			value="classpath*:org/resthub/**/domain/model/*.class" />
 	</bean>
 

@@ -20,28 +20,59 @@ import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager
 import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.util.StringUtils;
 
+/**
+ * Allow to scan JPA Entities in all dependencies (JAR) of the application, in order
+ * to allow modular JPA applications whith a model classes distributed in various
+ * modules.
+ * 
+ * By default with JPA, this is not possible within the same persistence unit, so we
+ * implemented this using Spring classpath scanning capabilities.
+ * 
+ * Sample Spring configuration :
+ * <pre>
+ * {@code 
+ * <bean id="scanningPersistenceUnitManager"
+ *		class="org.resthub.core.domain.dao.jpa.ScanningPersistenceUnitManager">
+ *		<property name="defaultDataSource" ref="dataSource" />
+ *		<property name="classpathPatterns"
+ *			value="classpath&#42;:org/mydomain/myproject/&#42;&#42;/domain/model/&#42;.class" />
+ *	</bean>
+ * }
+ * </pre>
+ * 
+ */
 public class ScanningPersistenceUnitManager extends
 		DefaultPersistenceUnitManager {
 
 	private final Logger log = LoggerFactory
 			.getLogger(ScanningPersistenceUnitManager.class);
 
-	protected String packagePatternToScan = null;
+	protected String classpathPatterns = null;
 
-	public String getPackagePatternToScan() {
-		return packagePatternToScan;
+	public String getClasspathPatterns() {
+		return classpathPatterns;
 	}
 
-	public void setPackagePatternToScan(String packagePatternToScan) {
-		this.packagePatternToScan = packagePatternToScan;
+	/**
+	 * Classpath patterns to scan for entities.
+	 * Pattern could use * or ** jokers
+	 * You can specify more than one pattern by using , or ; separators
+	 * 
+	 * Following values are valid classpath patterns :
+	 *  - classpath:org/mydomain/myproject/&#42;&#42;/domain/model/&#42;.class
+	 *  - classpath&#42;:org/mydomain/myproject/&#42;&#42;/domain/model/&#42;.class
+	 *  - classpath&#42;:org/mydomain/myproject1/&#42;&#42;/domain/model/&#42;.class, classpath&#42;:org/mydomain/myproject2/&#42;&#42;/domain/model/&#42;.class
+	 */
+	public void setClasspathPatterns(String classpathPatterns) {
+		this.classpathPatterns = classpathPatterns;
 	}
 
 	@Override
 	protected void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
 
-		if (this.packagePatternToScan != null) {
+		if (this.classpathPatterns != null) {
 
-			String[] basePackages = StringUtils.tokenizeToStringArray(this.packagePatternToScan,
+			String[] basePackages = StringUtils.tokenizeToStringArray(this.classpathPatterns,
 					ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 
 			ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(Thread.currentThread().getContextClassLoader());

@@ -14,7 +14,7 @@ import org.resthub.core.domain.model.DerivedEntity;
  * derived entities
  * 
  */
-public interface DerivedEntityDao extends ResourceGenericDao<DerivedEntity> {
+public interface DerivedEntityDao extends AbstractResourceGenericDao<DerivedEntity> {
 
 	/**
 	 * Find a list of {@link DerivedEntity} from name

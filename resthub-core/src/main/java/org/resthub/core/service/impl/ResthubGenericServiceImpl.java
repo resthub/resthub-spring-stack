@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.resthub.core.annotation.Auditable;
-import org.resthub.core.domain.dao.ResthubGenericDao;
+import org.resthub.core.domain.dao.AbstractResthubGenericDao;
 import org.resthub.core.service.ResthubGenericService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
  *            Resource DAO
  */
 @Transactional(readOnly = true)
-public abstract class ResthubGenericServiceImpl<T, D extends ResthubGenericDao<T, PK>, PK extends Serializable>
+public abstract class ResthubGenericServiceImpl<T, D extends AbstractResthubGenericDao<T, PK>, PK extends Serializable>
 		implements ResthubGenericService<T, PK> {
 
 	protected D resourceDao;

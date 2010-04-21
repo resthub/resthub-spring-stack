@@ -7,13 +7,16 @@ import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.dao.NoDaoBean;
 
 /**
- * Generic DAO interface.
+ * Abstract Generic DAO
+ *  
+ * RESThub Generic DAO interface that can persist every kind of entities (not linked to Resource classes).
+ * It extends Hades GenericDao to add a few useful methods.
  * 
- * @param <T>
- *            Resource class
+ * This interface is considered as abstract (@NoDaoBean annotation) because it doesn't create a Spring bean
+ * Bean creation will be done on inherited interfaces.
  */
 @NoDaoBean
-public interface ResthubGenericDao<T, PK extends Serializable> extends
+public interface AbstractResthubGenericDao<T, PK extends Serializable> extends
 		GenericDao<T, PK> {
 
 	/**
