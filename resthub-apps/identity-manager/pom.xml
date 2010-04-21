@@ -1,17 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>resthub-apps</artifactId>
-    <groupId>org.resthub</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <groupId>org.resthub</groupId>
-  <artifactId>identity-manager</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Identity manager</name>
-  <description>Sample user/group/role management application</description>
-  <modules>
-  	<module>identity-manager-core</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>resthub-apps</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>org.resthub</groupId>
+	<artifactId>identity-manager</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Identity manager</name>
+	<description>Sample user/group/role management application
+	</description>
+
+	<modules>
+		<module>identity-manager-core</module>
+	</modules>
+	
 </project>

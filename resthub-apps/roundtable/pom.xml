@@ -7,6 +7,7 @@
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
 		<version>1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<profiles>
@@ -76,7 +77,6 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 

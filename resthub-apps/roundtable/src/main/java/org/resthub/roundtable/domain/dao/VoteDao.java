@@ -1,13 +1,13 @@
 package org.resthub.roundtable.domain.dao;
 
-import org.resthub.core.domain.dao.ResourceGenericDao;
+import org.resthub.core.domain.dao.AbstractResourceGenericDao;
 import org.resthub.roundtable.domain.model.Vote;
 
 /**
  * Vote DAO.
  * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
  */
-public interface VoteDao extends ResourceGenericDao<Vote> {
+public interface VoteDao extends AbstractResourceGenericDao<Vote> {
 
 //	public boolean exist(String voter, Poll poll) {
 //        final Query query = em.createNamedQuery("existVote");
