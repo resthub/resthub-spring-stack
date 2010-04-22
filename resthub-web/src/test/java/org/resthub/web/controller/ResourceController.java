@@ -9,7 +9,7 @@ import org.resthub.core.service.ResourceGenericService;
 
 @Path("/resources")
 @Named("resourceController")
-public class ResourceController extends GenericResourceController<Resource> {
+public class ResourceController extends AbstractGenericResourceController<Resource> {
 	
 	@Inject
     @Named("resourceService")

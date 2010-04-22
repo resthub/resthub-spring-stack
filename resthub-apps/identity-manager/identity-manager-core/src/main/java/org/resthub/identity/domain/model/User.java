@@ -7,14 +7,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.resthub.core.domain.model.Resource;
 
 
-
+/**
+ * Describe a user account.
+ */
 @Entity
 @XmlRootElement
 public class User extends Resource {
 
 	private static final long serialVersionUID = -7139715798005612136L;
-
-	protected String login = null;
 	
 	protected String password = null;
 	
@@ -25,25 +25,20 @@ public class User extends Resource {
 	}
 
 	public User(String login) {
-		this.login = login;
-	}
-
-	@Column
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+		this.setLogin(login);
 	}
 	
+	/**
+	 * In order to reuse Resource oriented logic from RESThub,
+	 * we use ref to store the user login. 
+	 */
 	@Column
 	public String getLogin() {
-		return login;
+		return getRef();
 	}
 
 	public void setLogin(String login) {
-		this.login = login;
+		this.setRef(login);
 	}
 
 	@Column
@@ -53,6 +48,15 @@ public class User extends Resource {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@Column
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	@Override

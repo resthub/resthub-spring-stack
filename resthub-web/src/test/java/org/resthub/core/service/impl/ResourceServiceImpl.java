@@ -6,10 +6,11 @@ import javax.inject.Named;
 import org.resthub.core.domain.dao.ResourceDao;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.service.ResourceService;
+import org.resthub.core.service.impl.AbstractResourceGenericServiceImpl;
 
 @Named("resourceService")
 public class ResourceServiceImpl extends
-		ResourceGenericServiceImpl<Resource, ResourceDao> implements
+		AbstractResourceGenericServiceImpl<Resource, ResourceDao> implements
 		ResourceService {
 
 	@Inject

@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 
 import org.resthub.core.service.ResourceGenericService;
 import org.resthub.roundtable.domain.model.Poll;
-import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.controller.AbstractGenericResourceController;
 
 /**
  * Poll controller.
@@ -14,11 +14,10 @@ import org.resthub.web.controller.GenericResourceController;
  */
 @Path("/poll")
 @Named("pollController")
-public class PollController extends GenericResourceController<Poll> {
+public class PollController extends AbstractGenericResourceController<Poll> {
 
     @Inject
     @Named("pollService")
-    @Override
     public void setResourceService(ResourceGenericService<Poll> resourceService) {
         this.resourceService = resourceService;
     }

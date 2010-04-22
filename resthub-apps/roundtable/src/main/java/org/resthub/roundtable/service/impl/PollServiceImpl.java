@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.core.annotation.Auditable;
-import org.resthub.core.service.impl.ResourceGenericServiceImpl;
+import org.resthub.core.service.impl.AbstractResourceGenericServiceImpl;
 import org.resthub.roundtable.domain.dao.PollDao;
 import org.resthub.roundtable.domain.model.Answer;
 import org.resthub.roundtable.domain.model.Poll;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
  */
 @Named("pollService")
-public class PollServiceImpl extends ResourceGenericServiceImpl<Poll, PollDao> implements PollService {
+public class PollServiceImpl extends AbstractResourceGenericServiceImpl<Poll, PollDao> implements PollService {
 
     @Inject
     @Named("pollDao")

@@ -6,11 +6,11 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
-import org.resthub.core.domain.dao.AbstractResthubGenericDao;
+import org.resthub.core.domain.dao.AbstractGenericDao;
 import org.synyx.hades.dao.orm.GenericJpaDao;
 
 public class JpaResthubGenericDao<T, PK extends Serializable> extends
-		GenericJpaDao<T, PK> implements AbstractResthubGenericDao<T, PK> {
+		GenericJpaDao<T, PK> implements AbstractGenericDao<T, PK> {
 	
     /**
      * {@inheritDoc}

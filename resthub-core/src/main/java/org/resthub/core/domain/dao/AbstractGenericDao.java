@@ -16,7 +16,7 @@ import org.synyx.hades.dao.NoDaoBean;
  * Bean creation will be done on inherited interfaces.
  */
 @NoDaoBean
-public interface AbstractResthubGenericDao<T, PK extends Serializable> extends
+public interface AbstractGenericDao<T, PK extends Serializable> extends
 		GenericDao<T, PK> {
 
 	/**

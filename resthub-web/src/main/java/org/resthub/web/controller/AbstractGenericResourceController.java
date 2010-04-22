@@ -29,7 +29,7 @@ import com.sun.jersey.api.view.Viewable;
 
 @Singleton
 @ImplicitProduces("text/html;qs=5")
-public abstract class GenericResourceController<T extends Resource> extends AbstractResourceClassAware<T> {
+public abstract class AbstractGenericResourceController<T extends Resource> extends AbstractResourceClassAware<T> {
 
     protected T[] resourceClassArray;
     protected ResourceGenericService<T> resourceService;
@@ -37,7 +37,7 @@ public abstract class GenericResourceController<T extends Resource> extends Abst
     private UriInfo uriInfo;
 
     @SuppressWarnings("unchecked")
-    public GenericResourceController() {
+    public AbstractGenericResourceController() {
         super();
         resourceClassArray = (T[]) Array.newInstance(this.resourceClass, 0);
     }

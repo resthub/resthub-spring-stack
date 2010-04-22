@@ -1,5 +1,7 @@
 package org.resthub.core.domain.dao;
 
+import java.util.List;
+
 import org.resthub.core.domain.model.Resource;
 import org.synyx.hades.dao.NoDaoBean;
 
@@ -10,10 +12,12 @@ import org.synyx.hades.dao.NoDaoBean;
  * Bean creation will be done on inherited interfaces.
  * 
  * @see org.resthub.core.domain.model.Resource
- * @see org.resthub.core.domain.dao.AbstractResthubGenericDao
+ * @see org.resthub.core.domain.dao.AbstractGenericDao
  */
 @NoDaoBean
 public interface AbstractResourceGenericDao<T extends Resource> extends
-		AbstractResthubGenericDao<T, Long> {
+		AbstractGenericDao<T, Long> {
+	
+	List<T> findByRef(String ref);
 
 }
