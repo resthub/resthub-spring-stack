@@ -5,9 +5,9 @@ import javax.inject.Named;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.resthub.core.service.ResourceGenericService;
+import org.resthub.core.service.GenericResourceService;
 import org.resthub.roundtable.domain.model.Vote;
-import org.resthub.web.controller.AbstractGenericResourceController;
+import org.resthub.web.controller.GenericResourceController;
 
 import com.sun.jersey.api.view.Viewable;
 
@@ -17,11 +17,11 @@ import com.sun.jersey.api.view.Viewable;
  */
 @Path("/vote")
 @Named("voteController")
-public class VoteController extends AbstractGenericResourceController<Vote> {
+public class VoteController extends GenericResourceController<Vote> {
 
     @Inject
     @Named("voteService")
-    public void setResourceService(ResourceGenericService<Vote> resourceService) {
+    public void setResourceService(GenericResourceService<Vote> resourceService) {
         this.resourceService = resourceService;
     }
 

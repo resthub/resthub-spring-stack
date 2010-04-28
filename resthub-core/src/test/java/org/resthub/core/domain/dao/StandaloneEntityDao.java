@@ -14,16 +14,7 @@ import org.resthub.core.domain.model.StandaloneEntity;
  * derived entities
  * 
  */
-public interface StandaloneEntityDao extends AbstractGenericDao<StandaloneEntity, Long> {
-
-	/**
-	 * Find a list of {@link StandaloneEntity} from name
-	 * 
-	 * @param name
-	 *            name to serach for
-	 *            
-	 * @return the list of found entities
-	 */
+public interface StandaloneEntityDao extends GenericDao<StandaloneEntity, Long> {
 	List<StandaloneEntity> findByName(String name);
 
 }

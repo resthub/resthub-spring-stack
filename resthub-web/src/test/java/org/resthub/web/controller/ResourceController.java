@@ -5,16 +5,16 @@ import javax.inject.Named;
 import javax.ws.rs.Path;
 
 import org.resthub.core.domain.model.Resource;
-import org.resthub.core.service.ResourceGenericService;
+import org.resthub.core.service.GenericResourceService;
 
 @Path("/resources")
 @Named("resourceController")
-public class ResourceController extends AbstractGenericResourceController<Resource> {
+public class ResourceController extends GenericResourceController<Resource> {
 	
 	@Inject
     @Named("resourceService")
     @Override
-	public void setResourceService(ResourceGenericService<Resource> resourceService) {
+	public void setResourceService(GenericResourceService<Resource> resourceService) {
 		this.resourceService = resourceService;
 	}
 	

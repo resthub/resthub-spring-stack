@@ -14,12 +14,12 @@ import org.junit.Test;
 import org.resthub.core.domain.model.Resource;
 import org.resthub.core.test.AbstractResourceDaoTest;
 
-public class ResourceDaoTest extends AbstractResourceDaoTest<Resource, ResourceDao> {
+public class ResourceDaoTest extends AbstractResourceDaoTest<Resource, GenericResourceDao<Resource>> {
 
     @Inject
     @Named("resourceDao")
     @Override
-	public void setResourceDao(ResourceDao resourceDao) {
+	public void setResourceDao(GenericResourceDao<Resource> resourceDao) {
 		// TODO Auto-generated method stub
 		super.setResourceDao(resourceDao);
 	}

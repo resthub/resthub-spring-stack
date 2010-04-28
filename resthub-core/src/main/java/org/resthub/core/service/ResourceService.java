@@ -5,6 +5,6 @@ import org.resthub.core.domain.model.Resource;
 /**
  * Generic Service interface.
  */
-public interface ResourceService extends ResourceGenericService<Resource> {
+public interface ResourceService extends GenericResourceService<Resource> {
 
 }

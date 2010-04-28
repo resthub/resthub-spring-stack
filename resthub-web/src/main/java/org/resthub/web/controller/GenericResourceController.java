@@ -20,29 +20,28 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
-import org.resthub.core.AbstractResourceClassAware;
 import org.resthub.core.domain.model.Resource;
-import org.resthub.core.service.ResourceGenericService;
+import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.util.ClassUtils;
 
 import com.sun.jersey.api.view.ImplicitProduces;
 import com.sun.jersey.api.view.Viewable;
 
 @Singleton
 @ImplicitProduces("text/html;qs=5")
-public abstract class AbstractGenericResourceController<T extends Resource> extends AbstractResourceClassAware<T> {
+public abstract class GenericResourceController<T extends Resource> {
 
     protected T[] resourceClassArray;
-    protected ResourceGenericService<T> resourceService;
+    protected GenericResourceService<T> resourceService;
     @Context
     private UriInfo uriInfo;
 
     @SuppressWarnings("unchecked")
-    public AbstractGenericResourceController() {
-        super();
-        resourceClassArray = (T[]) Array.newInstance(this.resourceClass, 0);
+    public GenericResourceController() {
+        resourceClassArray = (T[]) Array.newInstance(ClassUtils.getDomainClassFromBean(this), 0);
     }
 
-    public void setResourceService(ResourceGenericService<T> resourceService) {
+    public void setResourceService(GenericResourceService<T> resourceService) {
         this.resourceService = resourceService;
     }
 
