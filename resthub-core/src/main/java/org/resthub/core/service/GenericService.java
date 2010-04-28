@@ -7,7 +7,7 @@ import java.util.List;
  * Generic Service interface.
  * @param <T> Resource class
  */
-public interface ResthubGenericService<T, PK extends Serializable> {
+public interface GenericService<T, PK extends Serializable> {
 
     /**
      * Create new resource.

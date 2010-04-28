@@ -6,9 +6,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.resthub.core.AbstractResourceClassAware;
 import org.resthub.core.domain.model.Resource;
-import org.resthub.core.service.ResourceGenericService;
+import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.util.ClassUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -18,8 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml" })
 @TransactionConfiguration(defaultRollback = true)
 @Transactional(readOnly = false)
-public abstract class AbstractResourceServiceTest<T extends Resource, D extends ResourceGenericService<T>>
-		extends AbstractResourceClassAware<T> {
+public abstract class AbstractResourceServiceTest<T extends Resource, D extends GenericResourceService<T>> {
 
 	protected D resourceService;
 
@@ -30,7 +29,7 @@ public abstract class AbstractResourceServiceTest<T extends Resource, D extends 
 	}
 
 	protected T createTestRessource() throws Exception {
-		return resourceClass.newInstance();
+		return (T) ClassUtils.getDomainClassFromBean(this.resourceService).newInstance();
 	}
 
 	@Before

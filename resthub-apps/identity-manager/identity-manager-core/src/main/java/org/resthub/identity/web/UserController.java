@@ -4,8 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Path;
 
-import org.resthub.core.service.ResourceGenericService;
-import org.resthub.core.service.ResourceService;
+import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.domain.model.User;
 import org.resthub.web.controller.GenericResourceController;
 
@@ -15,8 +14,7 @@ public class UserController extends GenericResourceController<User> {
 	
 	@Inject
     @Named("userService")
-    @Override
-	public void setResourceService(ResourceGenericService<User> userService) {
+	public void setResourceService(GenericResourceService<User> userService) {
 		this.resourceService = userService;
 	}
 	

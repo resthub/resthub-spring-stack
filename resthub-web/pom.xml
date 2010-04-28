@@ -61,9 +61,5 @@
 			<artifactId>spring-web</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.synyx.hades</groupId>
-			<artifactId>org.synyx.hades</artifactId>
-		</dependency>
 	</dependencies>
 </project>

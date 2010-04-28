@@ -5,7 +5,7 @@ import javax.inject.Named;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.resthub.core.service.ResourceGenericService;
+import org.resthub.core.service.GenericResourceService;
 import org.resthub.roundtable.domain.model.Vote;
 import org.resthub.web.controller.GenericResourceController;
 
@@ -21,8 +21,7 @@ public class VoteController extends GenericResourceController<Vote> {
 
     @Inject
     @Named("voteService")
-    @Override
-    public void setResourceService(ResourceGenericService<Vote> resourceService) {
+    public void setResourceService(GenericResourceService<Vote> resourceService) {
         this.resourceService = resourceService;
     }
 

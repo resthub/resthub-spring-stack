@@ -21,7 +21,7 @@ import org.resthub.core.service.StandaloneEntityService;
  */
 @Named("standaloneEntityService")
 public class StandaloneEntityServiceImpl extends
-		ResthubGenericServiceImpl<StandaloneEntity, StandaloneEntityDao, Long>
+		GenericServiceImpl<StandaloneEntity, StandaloneEntityDao, Long>
 		implements StandaloneEntityService {
 
 	@Inject

@@ -14,7 +14,7 @@ import org.resthub.core.domain.model.StandaloneEntity;
  * derived entities
  * 
  */
-public interface StandaloneEntityService extends ResthubGenericService<StandaloneEntity, Long> {
+public interface StandaloneEntityService extends GenericService<StandaloneEntity, Long> {
 
 	/**
 	 * Find a list of {@link StandaloneEntity} from name

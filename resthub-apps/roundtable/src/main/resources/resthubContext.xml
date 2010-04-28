@@ -15,9 +15,6 @@
     <context:annotation-config/>
     <context:component-scan base-package="org.resthub.roundtable" />
     
-    <hades:dao-config base-package="org.resthub.roundtable.domain.dao"
-		factory-class="org.resthub.core.domain.dao.jpa.ResthubGenericDaoFactory" />
-
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
         <property name="url" value="jdbc:h2:file:target/database;AUTO_SERVER=TRUE"/>
