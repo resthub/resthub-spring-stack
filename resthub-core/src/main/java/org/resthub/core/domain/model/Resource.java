@@ -2,20 +2,20 @@ package org.resthub.core.domain.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Resource model.
  */
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @XmlRootElement
-public class Resource implements Serializable {
+public abstract class Resource implements Serializable {
 
     private static final long serialVersionUID = -4312792070014313489L;
     

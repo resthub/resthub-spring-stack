@@ -1,4 +1,4 @@
-package org.resthub.core.domain.dao;
+package org.resthub.core.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,37 +11,37 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.domain.model.Resource;
-import org.resthub.core.test.AbstractResourceDaoTest;
+import org.resthub.core.domain.model.SampleResource;
+import org.resthub.core.test.AbstractResourceServiceTest;
 
-public class ResourceDaoTest extends AbstractResourceDaoTest<Resource, GenericResourceDao<Resource>> {
+public class SampleResourceServiceTest extends AbstractResourceServiceTest<SampleResource, SampleResourceService> {
 
-    @Inject
-    @Named("resourceDao")
+	@Inject
+    @Named("sampleResourceService")
     @Override
-	public void setResourceDao(GenericResourceDao<Resource> resourceDao) {
+	public void setResourceService(
+			SampleResourceService resourceService) {
 		// TODO Auto-generated method stub
-		super.setResourceDao(resourceDao);
+		super.setResourceService(resourceService);
 	}
-    
-    @Test
+	
+	@Test
 	public void testFindByRef() throws Exception {
 		
-		Resource r = new Resource();
+		SampleResource r = new SampleResource();
 		r.setRef("test");
-		r = this.resourceDao.save(r);
+		r = this.resourceService.create(r);
 		
-		List<Resource> entities = this.resourceDao.findByRef("test");
+		List<SampleResource> entities = this.resourceService.findByRef("test");
 		assertNotNull("entities should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
 		assertTrue("entities size should be exactly 1", entities.size() == 1);
 		assertEquals("entitie ref should be 'test'","test", entities.get(0).getRef());
 	}
 
-	@Override
+    @Override
     @Test(expected = UnsupportedOperationException.class)
     public void testUpdate() throws Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }

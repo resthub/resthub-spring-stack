@@ -18,14 +18,15 @@ import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.domain.model.Resource;
+import org.resthub.web.domain.model.WebSampleResource;
 
-public class TestResourceJaxb {
+public class TestWebSampleResourceJaxb {
 	
-	private Resource resource;
+	private WebSampleResource resource;
 
     @Before
     public void setUp() {
-    	resource = new Resource();
+    	resource = new WebSampleResource();
     }
 
     @Test
