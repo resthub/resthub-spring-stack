@@ -62,7 +62,7 @@ public class TestUserController extends AbstractWebResthubTest {
     public void testUpdateUser() {
         WebResource r = resource().path("users");
         User u1 = r.type(MediaType.APPLICATION_XML).post(User.class, new User("u1"));
-        User u2 = r.type(MediaType.APPLICATION_XML).post(User.class, new User("u2"));
+        r.type(MediaType.APPLICATION_XML).post(User.class, new User("u2"));
         r = resource().path("users/" + u1.getId());
         User u3 = u1;
         u3.setLogin("u3");

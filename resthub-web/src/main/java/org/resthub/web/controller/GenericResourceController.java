@@ -25,7 +25,6 @@ import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.util.ClassUtils;
 
 import com.sun.jersey.api.view.ImplicitProduces;
-import com.sun.jersey.api.view.Viewable;
 
 @Singleton
 @ImplicitProduces("text/html;qs=5")

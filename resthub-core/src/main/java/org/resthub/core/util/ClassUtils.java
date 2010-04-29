@@ -3,7 +3,6 @@ package org.resthub.core.util;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import org.resthub.core.domain.dao.GenericDao;
 import org.springframework.aop.support.AopUtils;
 
 /**
