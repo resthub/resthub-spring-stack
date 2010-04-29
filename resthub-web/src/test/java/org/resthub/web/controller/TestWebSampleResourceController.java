@@ -28,7 +28,8 @@ public class TestWebSampleResourceController extends AbstractWebResthubTest {
     	r.type(MediaType.APPLICATION_XML).post(new WebSampleResource());
     	r.type(MediaType.APPLICATION_XML).post(new WebSampleResource());
         String response = r.type(MediaType.APPLICATION_XML).get(String.class);
-        Assert.assertTrue(response.contains("<resources"));
+        Assert.assertTrue(response.contains("<webSampleResources>"));
+        Assert.assertTrue(response.contains("<webSampleResource>"));
     }
     
     @Test

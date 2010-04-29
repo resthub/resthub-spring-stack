@@ -90,19 +90,5 @@ public abstract class GenericResourceController<T extends Resource> {
     public void delete(@PathParam("id") Long id) {
         this.resourceService.delete(id);
     }
-
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getResourceView(@PathParam("id") Long id) {
-        T resource = this.resourceService.findById(id);
-        return new Viewable("default", resource);
-    }
-
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public Viewable getResourcesView() {
-        List<T> resources = this.resourceService.findAll(null, null);
-        return new Viewable("default", resources.toArray(resourceClassArray));
-    }
+    
 }
