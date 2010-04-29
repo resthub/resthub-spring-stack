@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Resource model.
  */
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @XmlRootElement
 public abstract class Resource implements Serializable {
 
