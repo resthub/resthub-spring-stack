@@ -12,10 +12,8 @@ import org.springframework.util.Assert;
 /**
  * Generic Service implementation.
  * 
- * @param <T>
- *            Resource Model
- * @param <D>
- *            Resource DAO
+ * @param <T> Domain model class managed, must be an Entity
+ * @param <D> Generic DAO class
  */
 @Transactional(readOnly = true)
 public abstract class GenericServiceImpl<T, D extends GenericDao<T, PK>, PK extends Serializable>

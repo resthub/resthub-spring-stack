@@ -31,6 +31,7 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 		this.resourceDao = resourceDao;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
 		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();
@@ -38,6 +39,7 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 		this.resourceId = resource.getId();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testSave() throws Exception {
 		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();

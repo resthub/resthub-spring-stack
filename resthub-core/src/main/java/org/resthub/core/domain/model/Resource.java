@@ -10,24 +10,28 @@ import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Resource model.
+ * Base resource model class defined by an id and a reference.
+ * It is usually used as base class for RESTful application domain model.
  */
+@SuppressWarnings("serial")
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
 @XmlRootElement
 public abstract class Resource implements Serializable {
-
-    private static final long serialVersionUID = -4312792070014313489L;
     
     private Long id;
     private String ref;
-
 
 	/**
      * Default constructor.
      */
     public Resource() {
         super();
+    }
+    
+    public Resource(String ref) {
+        this();
+        this.ref = ref;
     }
 
     /**
@@ -67,6 +71,9 @@ public abstract class Resource implements Serializable {
         }
         final Resource other = (Resource) obj;
         if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
+            return false;
+        }
+        if ((this.ref == null) ? (other.getRef() != null) : !this.ref.equals(other.getRef())) {
             return false;
         }
         return true;

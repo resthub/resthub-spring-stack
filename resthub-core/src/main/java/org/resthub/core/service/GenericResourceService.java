@@ -5,8 +5,8 @@ import java.util.List;
 import org.resthub.core.domain.model.Resource;
 
 /**
- * Generic Resource Service interface.
- * @param <T> Resource class
+ * Generic Resource Service
+ * @param <T> Domain model class managed, inherited from {link Resource}
  */
 public interface GenericResourceService<T extends Resource> extends GenericService<T, Long> {
 

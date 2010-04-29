@@ -5,7 +5,8 @@ import java.util.List;
 
 /**
  * Generic Service interface.
- * @param <T> Resource class
+ *  @param <T> Domain model class managed, must be an Entity
+ *  @param <PK> Primary key class of T
  */
 public interface GenericService<T, PK extends Serializable> {
 

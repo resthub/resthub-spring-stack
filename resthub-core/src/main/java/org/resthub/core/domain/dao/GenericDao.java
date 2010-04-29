@@ -3,7 +3,9 @@ package org.resthub.core.domain.dao;
 import java.io.Serializable;
 import java.util.List;
 
-
+/**
+ * Generic Dao that can manage any kind of entities.
+ */
 public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.dao.GenericDao<T, PK>{
     
     /**

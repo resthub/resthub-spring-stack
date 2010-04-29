@@ -9,6 +9,10 @@ import javax.persistence.Query;
 import org.resthub.core.domain.dao.GenericResourceDao;
 import org.resthub.core.domain.model.Resource;
 
+/**
+ * JPA implementation of our Generic Dao that can manage {@link Resource} inherited classes..
+ * Based on Hades Generic Dao. 
+ */
 public class GenericJpaResourceDao<T extends Resource> extends GenericJpaDao<T, Long> implements GenericResourceDao<T> {
 
 	 @SuppressWarnings("unchecked")

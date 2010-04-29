@@ -9,7 +9,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.resthub.core.domain.dao.GenericDao;
 import org.resthub.core.util.ClassUtils;
 
-
+/**
+ * JPA implementation of our Generic Dao that can manage any kind of entities.
+ * Based on Hades Generic Dao. 
+ */
 public abstract class GenericJpaDao<T, PK extends Serializable> extends
 org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements GenericDao<T, PK> {
     
@@ -22,9 +25,6 @@ org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements GenericDao<T, PK> {
         this.delete(this.readByPrimaryKey(id));
     }
     
-    /**
-     * {@inheritDoc}
-     */
     public List<T> readAll(Integer offset, Integer limit) {
         CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> query = cb.createQuery(this.getDomainClass());
