@@ -33,14 +33,14 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 
 	@Before
 	public void setUp() throws Exception {
-		T resource = (T) ClassUtils.getDomainClassFromBean(this.resourceDao).newInstance();
+		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();
 		resource = resourceDao.save(resource);
 		this.resourceId = resource.getId();
 	}
 
 	@Test
 	public void testSave() throws Exception {
-		T resource = (T) ClassUtils.getDomainClassFromBean(this.resourceDao).newInstance();
+		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();
 		resource = resourceDao.save(resource);
 
 		T foundResource = resourceDao.readByPrimaryKey(resource.getId());

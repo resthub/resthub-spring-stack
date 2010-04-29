@@ -23,6 +23,7 @@
 		<mysql-connector-java-version>5.1.12</mysql-connector-java-version>
 		<hibernate.version>3.5.1-Final</hibernate.version>
 		<h2.version>1.2.121</h2.version>
+		<hades.version>2.0.0.BUILD-SNAPSHOT</hades.version>
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<spring.security.version>3.0.1.RELEASE</spring.security.version>
 		<log4j.version>1.2.14</log4j.version>
@@ -211,6 +212,25 @@
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-web</artifactId>
 				<version>${spring.security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.synyx.hades</groupId>
+				<artifactId>org.synyx.hades</artifactId>
+				<version>${hades.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>org.springframework.orm</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>org.springframework.test</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>org.springframework.test</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>

@@ -3,10 +3,8 @@ package org.resthub.core.tools.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Named;
-
 
 import org.resthub.core.tools.BeanDetail;
 import org.resthub.core.tools.ToolingService;

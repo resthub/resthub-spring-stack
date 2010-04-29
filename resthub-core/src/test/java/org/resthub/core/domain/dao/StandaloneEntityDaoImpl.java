@@ -1,6 +1,6 @@
 package org.resthub.core.domain.dao;
 
-import static org.resthub.core.domain.dao.QueryUtils.getQueryString;
+import static org.synyx.hades.dao.query.QueryUtils.getQueryString;
 
 import java.util.List;
 

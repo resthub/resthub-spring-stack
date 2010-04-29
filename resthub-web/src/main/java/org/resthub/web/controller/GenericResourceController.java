@@ -38,7 +38,7 @@ public abstract class GenericResourceController<T extends Resource> {
 
     @SuppressWarnings("unchecked")
     public GenericResourceController() {
-        resourceClassArray = (T[]) Array.newInstance(ClassUtils.getDomainClassFromBean(this), 0);
+        resourceClassArray = (T[]) Array.newInstance(ClassUtils.getGenericTypeFromBean(this), 0);
     }
 
     public void setResourceService(GenericResourceService<T> resourceService) {

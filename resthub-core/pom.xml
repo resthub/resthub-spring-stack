@@ -96,6 +96,11 @@
 			<groupId>com.jamonapi</groupId>
 			<artifactId>jamon</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.synyx.hades</groupId>
+			<artifactId>org.synyx.hades</artifactId>
+		</dependency>
 
 	</dependencies>
 	<build>

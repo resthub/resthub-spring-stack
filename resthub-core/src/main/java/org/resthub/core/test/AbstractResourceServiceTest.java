@@ -29,7 +29,7 @@ public abstract class AbstractResourceServiceTest<T extends Resource, D extends 
 	}
 
 	protected T createTestRessource() throws Exception {
-		return (T) ClassUtils.getDomainClassFromBean(this.resourceService).newInstance();
+		return (T) ClassUtils.getGenericTypeFromBean(this.resourceService).newInstance();
 	}
 
 	@Before
