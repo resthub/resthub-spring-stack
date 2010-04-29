@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
  * Test of Poll services.
  * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
  */
-@ContextConfiguration(locations = { "classpath:roundtableContext.xml", "classpath*:resthubContext.xml" })
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:roundtableContext.xml" })
 public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollService> {
     @Inject
     @Named("pollService")
