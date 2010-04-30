@@ -144,6 +144,33 @@ div.grippie {
 }
 
 /**
+ * NAVIGATION
+ */
+#navigation ul {
+     background:url("../image/navigation.png") repeat-x scroll 0 -41px transparent;
+     height:41px;
+}
+
+#navigation ul, #navigation ul li {
+    font-size:13px;
+    line-height:38px;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+#navigation ul li a {
+    background:url("../image/navigation_s.png") no-repeat scroll right top transparent;
+    color:#CCCCCC;
+    display:block;
+    float:left;
+    height:41px;
+    padding:0 18px;
+    text-decoration:none;
+}
+
+
+/**
  * CREATE SCREEN
  */
 #create-rt form {width: 400px;}
