@@ -10,40 +10,74 @@
         });
 
         /**
+         * View polls.
+         */
+        this.get('#/list/test', function(context) {
+            dominoes("js/list.js", function() {
+                $.ajax({
+                    //url: 'webresources/poll',
+                    url: 'data/test/polls.json',
+                    dataType: 'json',
+                    success: function(polls) {
+                        new RoundTableListComponent($('#main'), context, polls);
+                    }
+                });
+            });
+        });
+
+        /**
+         * View polls.
+         */
+        this.get('#/list', function(context) {
+            dominoes("js/list.js", function() {
+                $.ajax({
+                    url: 'webresources/poll',
+                    dataType: 'json',
+                    success: function(polls) {
+                        new RoundTableListComponent($('#main'), context, polls);
+                    }
+                });
+            });
+        });
+
+        /**
          * View the test poll.
          */
         this.get('#/poll/test', function() {
-        	dominoes("js/view.js", function() {
-	        	$.ajax({
-	                url: 'data/poll/test.json',
-	                dataType: 'json',
-	                success: function(poll) {
-	        			new RoundTableViewComponent($('#main'), poll);
-	                }
-	        	});
-        	});
+            dominoes("js/view.js", function() {
+                $.ajax({
+                    url: 'data/test/poll.json',
+                    dataType: 'json',
+                    success: function(poll) {
+                        new RoundTableViewComponent($('#main'), poll);
+                    }
+                });
+            });
         });
 
         /**
          * View poll.
          */
         this.get('#/poll/:id', function() {
-        	$.ajax({
-                url: 'webresources/poll/' + this.params['id'],
-                dataType: 'json',
-                success: function(poll) {
-                    new RoundTableViewComponent($('#main'), poll);
-                }
-        	});
+            var id = this.params['id'];
+            dominoes("js/view.js", function() {
+                $.ajax({
+                    url: 'webresources/poll/' + id,
+                    dataType: 'json',
+                    success: function(poll) {
+                        new RoundTableViewComponent($('#main'), poll);
+                    }
+                });
+            });
         });
 
         /**
          * View new poll creation form.
          */
         this.get('#/create', function() {
-        	dominoes("js/create.js", function() {
-        		new RoundTableCreateComponent($('#main'));
-        	});
+            dominoes("js/create.js", function() {
+                new RoundTableCreateComponent($('#main'));
+            });
         });
 
         /**
@@ -59,7 +93,9 @@
             // FIXME found another way...
             var answers = this.params.$form[0].answers;
             for (i = 0; i < answers.length; i++) {
-                poll.answers.push({body:answers[i].value});
+                poll.answers.push({
+                    body:answers[i].value
+                    });
             }
 
             $.ajax({
