@@ -18,7 +18,7 @@
                 dataType: 'json',
                 success: function(poll){
                     dominoes("js/view.js", function(){
-                        new RoundTableViewComponent($('#main'), poll);
+                    	$('#main').view({data : poll});
                     });
                 }
                 
@@ -34,7 +34,7 @@
                 dataType: 'json',
                 success: function(poll){
                     dominoes("js/view.js", function(){
-                        new RoundTableViewComponent($('#main'), poll);
+                    	$('#main').view({data : poll});
                     });
                 }
                 
@@ -46,7 +46,7 @@
          */
         this.get('#/create', function(){
             dominoes("js/create.js", function(){
-                new RoundTableCreateComponent($('#main'));
+                $('#main').create();
             });
         });
         

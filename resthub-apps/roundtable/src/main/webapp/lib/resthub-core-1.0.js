@@ -7785,8 +7785,8 @@ window.jQuery = window.$ = jQuery;
     }
 
     // Make sure we won't overwrite anything
-    if($.ejs || $.fn.ejs) {
-        throw('jQuery.ejs or jquery.fn.ejs already loaded');
+    if($.render || $.fn.render) {
+        throw('jQuery.render or jquery.fn.render already loaded');
     }
 
     /**
@@ -7796,11 +7796,11 @@ window.jQuery = window.$ = jQuery;
      * to the EJS constructor. The data object will be used to fill in template
      * values. An options map can be passed to override defaults.
      */
-    $.ejs = function(url, data, options) {
+    $.render = function(url, data, options) {
         var opts, templateUrl, ejsOptions, rendered;
 
         // Calculate final option map
-        opts = $.extend({}, $.ejs.defaults, options);
+        opts = $.extend({}, $.render.defaults, options);
 
         // Calculate template location
         templateUrl = (opts.templatePrefix || '') + url;
@@ -7829,9 +7829,9 @@ window.jQuery = window.$ = jQuery;
      *
      * The ext and cache options are passed to the EJS constructor as-is.
      */
-    $.ejs.defaults = {
+    $.render.defaults = {
         templatePrefix: undefined,
-        ext: '.ejs',
+        ext: '.html',
         cache: true
     };
 
@@ -7841,11 +7841,11 @@ window.jQuery = window.$ = jQuery;
      *
      * The arguments will be passed to jQuery.ejs as-is.
      */
-    $.fn.ejs = function(url, data, options) {
+    $.fn.render = function(url, data, options) {
         var rendered;
 
         // Render the template
-        rendered = $.ejs(url, data, options);
+        rendered = $.render(url, data, options);
 
         // Replace content of all matched DOM nodes
         return this.each(function() {
