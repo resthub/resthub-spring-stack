@@ -8,6 +8,6 @@
  *  jquery-json-2.2.js
  *  jquery-ui-core-1.8.js
  *  jquery-ui-interactions-1.8.js
- *  sammy-0.5.3.js
+ *  sammy-0.5.4.js without template management
  */
 
