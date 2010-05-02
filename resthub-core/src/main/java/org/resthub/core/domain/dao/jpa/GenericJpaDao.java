@@ -11,7 +11,7 @@ import org.resthub.core.util.ClassUtils;
 
 /**
  * JPA implementation of our Generic Dao that can manage any kind of entities.
- * Extends <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/org/synyx/hades/dao/GenericJpaDao.html">Hades GenericJpaDao</a>.
+ * Extends <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/org/synyx/hades/dao/orm/GenericJpaDao.html">Hades GenericJpaDao</a>.
  * 
  * @see <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/" target="_blank">Hades 2.0 Javadoc</a>
  */
