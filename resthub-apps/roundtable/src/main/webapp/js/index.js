@@ -7,6 +7,7 @@
     var app = $.sammy(function() {
         this.get('#/', function() {
             $('#main').text('');
+            //$('#main').remove();
         });
 
         /**
@@ -19,7 +20,7 @@
                     url: 'data/test/polls.json',
                     dataType: 'json',
                     success: function(polls) {
-                        new RoundTableListComponent($('#main'), context, polls);
+                        $('#main').listPoll({data : polls, context: context});
                     }
                 });
             });
@@ -34,7 +35,7 @@
                     url: 'webresources/poll',
                     dataType: 'json',
                     success: function(polls) {
-                        new RoundTableListComponent($('#main'), context, polls);
+                        $('#main').listPoll({data : polls, context: context});
                     }
                 });
             });
@@ -49,7 +50,7 @@
                     url: 'data/test/poll.json',
                     dataType: 'json',
                     success: function(poll) {
-                        new RoundTableViewComponent($('#main'), poll);
+                        $('#main').viewPoll({data : poll});
                     }
                 });
             });
@@ -65,7 +66,7 @@
                     url: 'webresources/poll/' + id,
                     dataType: 'json',
                     success: function(poll) {
-                        new RoundTableViewComponent($('#main'), poll);
+                        $('#main').viewPoll({data : poll});
                     }
                 });
             });
@@ -76,7 +77,7 @@
          */
         this.get('#/create', function() {
             dominoes("js/create.js", function() {
-                new RoundTableCreateComponent($('#main'));
+                $('#main').createPoll();
             });
         });
 
@@ -91,7 +92,7 @@
                 answers: []
             }
             // FIXME found another way...
-            var answers = this.params.$form[0].answers;
+            var answers = this.target.answers;
             for (i = 0; i < answers.length; i++) {
                 poll.answers.push({
                     body:answers[i].value

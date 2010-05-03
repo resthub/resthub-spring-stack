@@ -1,19 +1,17 @@
-/**
- * Round Table List component.
- */
-var RoundTableListComponent = Class.extend({
-    // constructor
-    init: function(anchor, context, polls) {
-        this.anchor = anchor;
-        this.anchor.ejs('template/poll/list.ejs', polls);
-
+$.widget("roundtable.listPoll", {
+    options: {
+        data : {},
+        context : null
+    },
+    _init: function() {
+        this.element.render('template/poll/list.html', this.options.data);
         $('li.poll-item').click(function() {
             var id = $(this).attr('id').split("-")[1];
-            context.redirect('#/poll', id);
+            this.options.context.redirect('#/poll', id);
         });
     },
-    // methods
-    toString: function() {
-        return "";
-    }
+    destroy: function() {
+       alert("boom");
+       $.Widget.prototype.destroy.apply(this, arguments); // default destroy
+   }
 });
