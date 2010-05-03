@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.resthub.core;
 
 import com.jamonapi.Monitor;
@@ -12,11 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *Audit interceptor.
+ * Audit interceptor.
  * @author Nicolas Carlier
  */
+@SuppressWarnings("serial")
 public class AuditInterceptor extends AdvisorInterceptor {
-    /** Quote */
+
+	/** Quote */
     private static final String QUOTE = "'";
 
     /** Maximum argument output string length. */

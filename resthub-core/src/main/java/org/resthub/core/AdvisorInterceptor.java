@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.resthub.core;
 
 import java.lang.annotation.Annotation;
@@ -17,9 +13,10 @@ import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
  * Advisor Interceptor.
  * @author Nicolas Carlier
  */
+@SuppressWarnings("serial")
 public abstract class AdvisorInterceptor extends StaticMethodMatcherPointcutAdvisor implements MethodInterceptor {
 
-    protected Class<? extends Annotation> annotationType;
+	protected Class<? extends Annotation> annotationType;
     protected Annotation annotationTarget;
 
     /**
@@ -39,7 +36,7 @@ public abstract class AdvisorInterceptor extends StaticMethodMatcherPointcutAdvi
      * {@inheritDoc}
      */
     @Override
-    public boolean matches(Method method, Class targetClass) {
+    public boolean matches(Method method, Class<?> targetClass) {
         Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
         Collection<Annotation> annotations = Arrays.asList(specificMethod.getAnnotations());
 
@@ -60,7 +57,8 @@ public abstract class AdvisorInterceptor extends StaticMethodMatcherPointcutAdvi
      * Set annotation.
      * @param annotation annotation
      */
-    public void setAnnotation(String annotation) {
+    @SuppressWarnings("unchecked")
+	public void setAnnotation(String annotation) {
         try {
             annotationType = (Class<? extends Annotation>) Thread.currentThread().
                     getContextClassLoader().loadClass(annotation);

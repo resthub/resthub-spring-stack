@@ -9,9 +9,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.resthub.core.AbstractResourceClassAware;
-import org.resthub.core.domain.dao.AbstractResthubGenericDao;
+import org.resthub.core.domain.dao.GenericResourceDao;
 import org.resthub.core.domain.model.Resource;
+import org.resthub.core.util.ClassUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -21,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml" })
 @TransactionConfiguration(defaultRollback = true)
 @Transactional(readOnly = false)
-public abstract class AbstractResourceDaoTest<T extends Resource, D extends AbstractResthubGenericDao<T, Long>>
-		extends AbstractResourceClassAware<T> {
+public abstract class AbstractResourceDaoTest<T extends Resource, D extends GenericResourceDao<T>> {
 
 	protected D resourceDao;
 
@@ -32,16 +31,18 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Abst
 		this.resourceDao = resourceDao;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
-		T resource = resourceClass.newInstance();
+		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();
 		resource = resourceDao.save(resource);
 		this.resourceId = resource.getId();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testSave() throws Exception {
-		T resource = resourceClass.newInstance();
+		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();
 		resource = resourceDao.save(resource);
 
 		T foundResource = resourceDao.readByPrimaryKey(resource.getId());
@@ -70,7 +71,7 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Abst
 
 	@Test
 	public void testFindAll() throws Exception {
-		List<T> resourceList = resourceDao.readAll(0, 1);
+		List<T> resourceList = resourceDao.readAll();
 		assertTrue("No resources found!", resourceList.size() == 1);
 	}
 

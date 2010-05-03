@@ -3,11 +3,9 @@ package org.resthub.core.tools.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Named;
 
-import org.resthub.core.service.ResourceService;
 import org.resthub.core.tools.BeanDetail;
 import org.resthub.core.tools.ToolingService;
 import org.springframework.aop.support.AopUtils;
@@ -44,11 +42,6 @@ public class SpringToolingService implements ToolingService,
 	@Override
 	public List<String> getBeanNames() {
 		return Arrays.asList(this.ctx.getBeanDefinitionNames());
-	}
-
-	@Override
-	public Map<String, ResourceService> getResourceServiceBeans() {
-		return this.ctx.getBeansOfType(ResourceService.class);
 	}
 
 	@Override

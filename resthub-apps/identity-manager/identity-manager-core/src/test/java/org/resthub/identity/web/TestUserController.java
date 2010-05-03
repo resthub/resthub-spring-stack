@@ -38,10 +38,10 @@ public class TestUserController extends AbstractWebResthubTest {
     }
     
     @Test
-    public void testFindUserByLogin() {
+    public void testFindUserById() {
         WebResource r = resource().path("users");
         User u1 = r.type(MediaType.APPLICATION_XML).post(User.class, new User("u1"));
-        r = resource().path("resources/" + u1.getId());
+        r = resource().path("users/" + u1.getId());
         String s = r.accept(MediaType.APPLICATION_XML).get(String.class);
         System.out.print(s + "\n");
         Assert.assertTrue(s.contains("u1"));
@@ -51,7 +51,7 @@ public class TestUserController extends AbstractWebResthubTest {
     public void testDeleteResource() {
         WebResource r = resource().path("users");
         User u1 = r.type(MediaType.APPLICATION_XML).post(User.class, new User("u1"));
-        r = resource().path("resources/" + u1.getId());
+        r = resource().path("users/" + u1.getId());
         ClientResponse response = r.delete(ClientResponse.class);
         Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
         response = r.accept(MediaType.APPLICATION_XML).get(ClientResponse.class);
@@ -62,7 +62,7 @@ public class TestUserController extends AbstractWebResthubTest {
     public void testUpdateUser() {
         WebResource r = resource().path("users");
         User u1 = r.type(MediaType.APPLICATION_XML).post(User.class, new User("u1"));
-        User u2 = r.type(MediaType.APPLICATION_XML).post(User.class, new User("u2"));
+        r.type(MediaType.APPLICATION_XML).post(User.class, new User("u2"));
         r = resource().path("users/" + u1.getId());
         User u3 = u1;
         u3.setLogin("u3");

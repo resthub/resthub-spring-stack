@@ -2,8 +2,6 @@ package org.resthub.web.controller;
 
 import javax.ws.rs.core.MediaType;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 import org.resthub.web.test.AbstractWebResthubTest;
 
