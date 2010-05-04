@@ -15,6 +15,7 @@
 			<id>compress</id>
 			<build>
 				<plugins>
+					<!--  To compress javascript : mvn net.alchim31.maven:yuicompressor-maven-plugin:0.9:compress -->
 					<plugin>
 						<groupId>net.alchim31.maven</groupId>
 						<artifactId>yuicompressor-maven-plugin</artifactId>
@@ -28,15 +29,6 @@
 						</executions>
 						<configuration>
 							<jswarn>false</jswarn>
-							<aggregations>
-								<aggregation>
-									<output>${project.build.directory}/${project.build.finalName}/lib/resthub-core.js</output>
-									<includes>
-										<!-- Relative to output directory define just before -->
-										<include>core/*.js</include>
-									</includes>
-								</aggregation>
-							</aggregations>
 						</configuration>
 					</plugin>
 				</plugins>

@@ -5,14 +5,6 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath*:resthubContext.xml classpath:roundtableContext.xml</param-value>
     </context-param>
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>/WEB-INF/log4j.properties</param-value>
-    </context-param>
-    <context-param>
-        <param-name>log4jRefreshInterval</param-name>
-        <param-value>1000</param-value>
-    </context-param>
     <filter>
         <filter-name>JpaFilter</filter-name>
         <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
@@ -27,30 +19,20 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-<!--    <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener>-->
     <servlet>
-        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-name>api</servlet-name>
         <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/webresources/*</url-pattern>
+        <servlet-name>api</servlet-name>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     <servlet>
-	    <servlet-name>H2Console</servlet-name>
+	    <servlet-name>h2console</servlet-name>
     	<servlet-class>org.h2.server.web.WebServlet</servlet-class>
-    	<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-	    <servlet-name>H2Console</servlet-name>
+	    <servlet-name>h2console</servlet-name>
 	    <url-pattern>/console/database/*</url-pattern>
 	</servlet-mapping>
-    <session-config>
-        <session-timeout>30</session-timeout>
-    </session-config>
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
 </web-app>

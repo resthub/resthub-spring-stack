@@ -1,5 +1,5 @@
 /*
- * jQuery UI Effects Fold 1.8
+ * jQuery UI Effects Fold 1.8.1
  *
  * Copyright (c) 2010 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)

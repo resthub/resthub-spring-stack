@@ -1,5 +1,5 @@
 /*
- * jQuery UI Accordion 1.8
+ * jQuery UI Accordion 1.8.1
  *
  * Copyright (c) 2010 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -74,11 +74,6 @@ $.widget("ui.accordion", {
 		//Append icon elements
 		this._createIcons();
 
-		// IE7-/Win - Extra vertical space in lists fixed
-		if ($.browser.msie) {
-			this.element.find('a').css('zoom', '1');
-		}
-
 		this.resize();
 
 		//ARIA
@@ -145,9 +140,9 @@ $.widget("ui.accordion", {
 		this.headers
 			.unbind(".accordion")
 			.removeClass("ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ui-state-active ui-corner-top")
-			.removeAttr("role").removeAttr("aria-expanded").removeAttr("tabindex");
+			.removeAttr("role").removeAttr("aria-expanded").removeAttr("tabIndex");
 
-		this.headers.find("a").removeAttr("tabindex");
+		this.headers.find("a").removeAttr("tabIndex");
 		this._destroyIcons();
 		var contents = this.headers.next().css("display", "").removeAttr("role").removeClass("ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content ui-accordion-content-active");
 		if (o.autoHeight || o.fillHeight) {
@@ -438,7 +433,7 @@ $.widget("ui.accordion", {
 
 
 $.extend($.ui.accordion, {
-	version: "1.8",
+	version: "1.8.1",
 	animations: {
 		slide: function(options, additions) {
 			options = $.extend({
