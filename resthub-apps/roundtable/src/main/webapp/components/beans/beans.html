@@ -1,0 +1,13 @@
+<% for(var i = 0 ; i < beanDetail.length ; i++) {%>
+		<p><strong><%= beanDetail[i].name %></strong>
+			<ul>
+				<li><strong>Type</strong> : <%= beanDetail[i].type %></li>
+				<li><strong>Abstract</strong> : <%= beanDetail[i].abstract %></li>
+				<li><strong>LazyInit</strong> : <%= beanDetail[i].lazyInit %></li>
+				<li><strong>Prototype</strong> : <%= beanDetail[i].prototype %></li>
+				<li><strong>Scope</strong> : <%= beanDetail[i].scope %></li>
+				<li><strong>Singleton</strong> : <%= beanDetail[i].singleton %></li>
+			</ul>
+		</p>
+		<br />
+<% } %>

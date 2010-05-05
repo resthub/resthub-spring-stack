@@ -18,7 +18,7 @@
                 $("#main").wadlConsole();
             });
         });
-
+		
         /**
          * Monitoring console.
          */
@@ -29,8 +29,21 @@
                     success: function(data) {
                         $('#main').html(data);
                     }
+             });
+        });
+		
+		/**
+         * Bean details console.
+         */
+        this.get('#/console/beandetails', function(context) {
+			$.ajax({
+                    url: 'api/beans',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#main').render("components/beans/beans.html", data);
+                    }
                 });
-            
+			
         });
         
     });
