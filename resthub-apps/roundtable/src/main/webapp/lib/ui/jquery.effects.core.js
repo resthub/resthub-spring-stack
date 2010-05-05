@@ -1,5 +1,5 @@
 /*
- * jQuery UI Effects 1.8
+ * jQuery UI Effects 1.8.1
  *
  * Copyright (c) 2010 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -301,7 +301,7 @@ $.fn.extend({
 /******************************************************************************/
 
 $.extend($.effects, {
-	version: "1.8",
+	version: "1.8.1",
 
 	// Saves a set of properties in a data storage
 	save: function(element, set) {
