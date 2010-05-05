@@ -8,6 +8,7 @@
         this.get('#/', function() {
             $('#main').text('');
             //$('#main').remove();
+            $('#main').listPoll("destroy");
         });
 
         /**
