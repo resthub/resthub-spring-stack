@@ -1,0 +1,41 @@
+<form action="#/post/poll" enctype="UTF-8" method="post">
+    <h1>Create a new poll</h1>
+    <fieldset>
+        <legend style="display: none">Create a new poll</legend>
+        <label for="inp-author"><em>*</em>Author</label>
+        <input type="text" id="inp-author" name="author" value="<%= author %>" class="required" />
+
+        <br/>
+
+        <label for="inp-topic"><em>*</em>Topic</label>
+        <input type="text" id="inp-topic" name="topic" value="<%= topic %>" class="required" />
+
+        <br/>
+
+        <label for="inp-body"><em>*</em>Body</label>
+        <textarea id="inp-body" name="body" cols="10" rows="3" class="required resizable"><%= body %></textarea>
+
+        <fieldset class="answer">
+            <legend style="display: none"><em>*</em>Answers</legend>
+
+            <label for="inp-answer">New answer</label>
+            <textarea id="inp-answer" name="answer" cols="10" rows="2" class="resizable"></textarea>
+
+            <input type="button" name="add" value="Add" title="Add this answer" />
+
+            <input type="button" name="delete" value="Delete" title="Delete selected answer" />
+
+            <ul class="answers" >
+               <% for(var i = 0; i < answers.length ; i++) {%>
+                    <li>
+                        <div><input type="checkbox" name="answers" value="<%= answers[i].body %>"></div>
+                        <span>
+                            <%= answers[i].body %>
+                        </span>
+                    </li>
+                <% } %>
+            </ul>
+        </fieldset>
+        <input type="submit" value="Create poll" />
+    </fieldset>
+</form>

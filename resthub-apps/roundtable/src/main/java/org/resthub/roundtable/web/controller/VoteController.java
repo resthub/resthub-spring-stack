@@ -2,11 +2,13 @@ package org.resthub.roundtable.web.controller;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.roundtable.domain.model.Vote;
+import org.resthub.roundtable.service.VoteService;
 import org.resthub.web.controller.GenericResourceController;
 
 /**
@@ -15,26 +17,16 @@ import org.resthub.web.controller.GenericResourceController;
  */
 @Path("/vote")
 @Named("voteController")
-public class VoteController extends GenericResourceController<Vote> {
+@Singleton
+public class VoteController {
+
+    protected VoteService voteService;
 
     @Inject
     @Named("voteService")
-    public void setResourceService(GenericResourceService<Vote> resourceService) {
-        this.resourceService = resourceService;
+    public void setResourceService(VoteService voteService) {
+        this.voteService = voteService;
     }
 
-    @Override
-    public void delete(Long id) {
-        throw new UnsupportedOperationException("Not supported.");
-    }
 
-    @Override
-    public Response getResources() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
-    public Response update(Long id, Vote resource) {
-        throw new UnsupportedOperationException("Not supported.");
-    }
 }

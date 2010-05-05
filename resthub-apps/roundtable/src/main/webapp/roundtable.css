@@ -171,13 +171,13 @@ div.grippie {
 
 
 /**
- * CREATE SCREEN
+ * EDIT SCREEN
  */
-#create-rt form {width: 400px;}
-#create-rt form input[type="submit"] {float: right; margin-top: 10px;}
-#create-rt-answers {margin: 0px;padding: 1em 0 1em 0;}
-#create-rt-answers ul:first-child {border-top: none !important;}
-#create-rt-answers li {
+.rt-poll-edit form input[type="submit"] {float: right; margin-top: 10px;}
+.rt-poll-edit fieldset.answer {margin: 0px;padding: 1em 0 1em 0;}
+.rt-poll-edit ul.answers:first-child {border-top: none !important;}
+.rt-poll-edit ul.answers {margin: 0px;padding: 1em 0 0 0;}
+.rt-poll-edit ul.answers li {
     background: url("image/v-grippy.png") no-repeat scroll left 5px transparent;
     list-style-type: none;
     font-style: italic;
@@ -186,14 +186,14 @@ div.grippie {
     padding-left: 7px;
     line-height: 2em;
 }
-#create-rt-answers li div {
+.rt-poll-edit ul.answers li div {
     float: left;
     margin-left:4px;
     margin-right:4px;
     margin-top:1px;
 }
-#create-rt-answers li.ui-sortable-helper {border-top: none;}
-#create-rt-answers li.answer-placeholder {
+.rt-poll-edit ul.answers li.ui-sortable-helper {border-top: none;}
+.rt-poll-edit ul.answers li.answer-placeholder {
     height: 2em;
     background-color: yellow;
     background-image: none;
@@ -202,13 +202,13 @@ div.grippie {
 /**
  * VISUALIZATION SCREEN
  */
-#roundtable .legend {display:inline;float:left;margin-left:10px;width:190px;}
-#roundtable .legend table {
+.rt-poll-detail div.legend {display:inline;float:left;margin-left:10px;width:190px;}
+.rt-poll-detail div.legend  table {
     border-collapse:separate;
     border-spacing:1px;
     width:190px;
 }
-#roundtable td.voter {
+.rt-poll-detail td.rt-voter {
     background-color:#EDEDED;
     border:1px solid #CACACA;
     font-weight:bold;
@@ -220,24 +220,24 @@ div.grippie {
     width:176px;
     height:36px;
 }
-#roundtable td.voter span {
+.rt-poll-detail td.rt-voter span {
     font-size:12px;
     line-height:24px;
     font-weight: bold;
 }
-#roundtable input[type="text"] {width:176px;margin:0;}
-#roundtable .main {
+.rt-poll-detail td.rt-voter input[type="text"] {width:90%;margin:0;}
+.rt-poll-detail div.main {
     height:auto;
     margin:0;
     overflow:auto;
     width:600px;
 }
-#roundtable .main table.poll {
+.rt-poll-detail div.main table {
     border-collapse:separate;
     border-spacing:1px;
     text-align:center;
 }
-table.poll th {
+.rt-poll-detail div.main table th {
     background-color:#CCCCCC;
     border:1px solid #989898;
     font-size:12px;
@@ -246,18 +246,18 @@ table.poll th {
     padding:0 4px;
     text-align:left;
 }
-table.poll td {
+.rt-poll-detail div.main table td {
     height:36px;
 }
-table.poll td.no, #vote td.yes:hover {
+td.no {
     background-color:#FFACA8;
     border:1px solid #E88782;
     color:#FFACA8;
     padding:0 4px;
 }
-table.poll td.no:after, #vote td.yes:hover:after {content: " "}
-table.poll td.yes:after, #vote td.no:hover:after {content: "OK"}
-table.poll td.yes, #vote td.no:hover {
+td.no:after {content: " "}
+td.yes:after {content: "OK"}
+td.yes {
     background-color:#A8FFA6;
     border:1px solid #64D06A;
     color:#339933;
@@ -265,7 +265,7 @@ table.poll td.yes, #vote td.no:hover {
     font-weight:bold;
     padding:0 4px;
 }
-#vote {cursor: crosshair;}
+tr.rt-vote-inputs td.yes, tr.rt-vote-inputs td.no {cursor: crosshair;}
 table tr.result {
     border:0 none;
     font-size:11px;
@@ -273,11 +273,14 @@ table tr.result {
     line-height:30px;
     text-align:right;
 }
-table.poll tr.result td { line-height:30px;height:30px;}
-table.poll tr.result {text-align:center !important;}
+.rt-poll-detail div.main table tr.result td { line-height:30px;height:30px;}
+.rt-poll-detail div.main table tr.result tr.result {text-align:center !important;}
 
 
-li.poll-item {
+/**
+ * LIST SCREEN
+ */
+.rt-poll-list li.poll-item {
     background:#f7f7f7;
     background:-moz-linear-gradient(90deg, #ccc, #fff); /* Firefox */
     background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc)); /* Webkit */
@@ -293,13 +296,13 @@ li.poll-item {
     cursor: pointer;
 }
 
-li.poll-item:hover {
+.rt-poll-list li.poll-item:hover {
     background:#08adff;
     background:-moz-linear-gradient(90deg, #08adff, #fff); /* Firefox */
     background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#08adff)); /* Webkit */
 }
 
-li.poll-item > h3 {
+.rt-poll-list li.poll-item > h3 {
     border-bottom:1px solid #ccc;
     font-size:11px;
     font-weight:bold;
@@ -308,13 +311,13 @@ li.poll-item > h3 {
     text-transform:uppercase;
 }
 
-li.poll-item span.author {
+.rt-poll-list li.poll-item span.author {
     font-style: italic;
     font-size:smaller;
     text-transform:none;
 }
 
-li.poll-item p {
+.rt-poll-list li.poll-item p {
     font-style: italic;
 }
 
