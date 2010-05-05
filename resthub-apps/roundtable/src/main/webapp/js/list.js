@@ -5,9 +5,11 @@ $.widget("roundtable.listPoll", {
     },
     _init: function() {
         this.element.render('template/poll/list.html', this.options.data);
+
+        var context = this.options.context;
         $('li.poll-item').click(function() {
             var id = $(this).attr('id').split("-")[1];
-            this.options.context.redirect('#/poll', id);
+            context.redirect('#/poll', id);
         });
     },
     destroy: function() {
