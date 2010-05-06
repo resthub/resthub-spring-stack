@@ -22,10 +22,12 @@
     <servlet>
         <servlet-name>api</servlet-name>
         <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>Monitoring</servlet-name>
         <servlet-class>org.resthub.roundtable.web.servlet.Monitoring</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>api</servlet-name>
@@ -34,6 +36,7 @@
     <servlet>
         <servlet-name>h2console</servlet-name>
         <servlet-class>org.h2.server.web.WebServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>h2console</servlet-name>
