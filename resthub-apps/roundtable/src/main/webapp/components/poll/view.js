@@ -32,7 +32,7 @@ $.widget('roundtable.viewPoll', {
                         vote.values.push('no');
                     }
                 });
-                alert('let\'s vote : ' + $.toJSON(vote));
+
                 $.ajax({
                     type: 'POST',
                     url: 'api/vote',

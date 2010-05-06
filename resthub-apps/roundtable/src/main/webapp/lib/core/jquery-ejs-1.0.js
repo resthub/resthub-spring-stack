@@ -50,7 +50,8 @@
         ejsOptions = {
             url: templateUrl,
             ext: opts.ext,
-            cache: opts.cache
+            cache: opts.cache,
+			text: opts.text
         };
 
         // Render template

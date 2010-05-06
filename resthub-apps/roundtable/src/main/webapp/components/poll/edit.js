@@ -5,10 +5,7 @@ $.widget('roundtable.editPoll', {
             author : null,
             topic : 'New poll',
             body : '',
-            answers: [
-                {body: 'Lorem ipsum dolor sit amet,'},
-                {body: 'consectetur adipisicing elit,'},
-                {body: 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}]
+            answers: []
             },
         template : 'components/poll/edit.html',
         answerTemplate : '<li>' +
@@ -21,6 +18,7 @@ $.widget('roundtable.editPoll', {
     },
     _init: function() {
         var self = this;
+		
         this.element.render(this.options.template, this.options.data);
 	
         this.element.find('textarea.resizable:not(.processed)').TextAreaResizer();
@@ -47,7 +45,7 @@ $.widget('roundtable.editPoll', {
         this.element.find('input:button[name=add]').click(function() {
             var answer = self.element.find('textarea[name=answer]').val().trim();
             if (answer != '') {
-                self.element.find('ul.answers').render('',{answer:answer},{text:self.options.answerTemplate});
+                self.element.find('ul.answers').append($.render('',{answer:answer},{text:self.options.answerTemplate}));
                 self.element.find('textarea[name=answer]').val("");
             }
         });

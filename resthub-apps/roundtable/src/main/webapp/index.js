@@ -7,7 +7,9 @@
     var app = $.sammy(function() {
         this.get('#/', function() {
             $('#main').html('<p>Welcome to <strong>Roundtable</strong></p>');
-            $('#main').listPoll("destroy");
+            dominoes("components/poll/list.js", function() {
+				$('#main').listPoll("destroy");
+			});
         });
 
         /**
@@ -17,7 +19,6 @@
             dominoes("components/poll/list.js", function() {
                 $.ajax({
                     url: 'api/poll/',
-                    //url: 'test/data/polls.json',
                     dataType: 'json',
                     success: function(polls) {
                         $('#main').listPoll({
@@ -47,7 +48,6 @@
             dominoes("components/poll/view.js", function() {
                 $.ajax({
                     url: 'api/poll/' + id,
-                    //url: 'test/data/poll.json',
                     dataType: 'json',
                     success: function(poll) {
                         $('#main').viewPoll({
