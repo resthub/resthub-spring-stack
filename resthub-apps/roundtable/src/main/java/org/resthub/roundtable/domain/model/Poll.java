@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,17 +31,30 @@ import org.resthub.core.domain.model.Resource;
  */
 @Entity
 @Table(name = "poll")
+@Access(AccessType.FIELD)
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Poll extends Resource {
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
+    @Column(name = "author", nullable = false)
     private String author;
+
+    @Column(name = "topic", nullable = false)
     private String topic;
+
+    @Column(name = "body", nullable = false)
     private String body;
+
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<Answer>();
-    private Set<Vote> votes = new HashSet<Vote>();
+
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Voter> voters = new HashSet<Voter>();
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expiration_date", nullable = false)
     private Date expirationDate;
 
     /**
@@ -49,95 +64,52 @@ public class Poll extends Resource {
         super();
     }
 
-    /**
-     * @return the text
-     */
-    @Column(name = "body", nullable = false)
-    public String getBody() {
-        return this.body;
-    }
-
-    /**
-     * @param text the text to set
-     */
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    /**
-     * @return the answers
-     */
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Answer> getAnswers() {
         return answers;
     }
 
-    /**
-     * @param answers the answers to set
-     */
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 
-    /**
-     * @return the votes
-     */
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    public Set<Vote> getVotes() {
-        return votes;
-    }
-
-    /**
-     * @param votes the votes to set
-     */
-    public void setVotes(Set<Vote> votes) {
-        this.votes = votes;
-    }
-
-    /**
-     * @return the author
-     */
-    @Column(name = "author", nullable = false)
     public String getAuthor() {
-        return this.author;
+        return author;
     }
 
-    /**
-     * @param author the author to set
-     */
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    /**
-     * @return the expiration date
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "expiration_date", nullable = false)
-    public Date getExpirationDate() {
-        return this.expirationDate;
+    public String getBody() {
+        return body;
     }
 
-    /**
-     * @param expirationDate the expiration date to set
-     */
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * @return the topic
-     */
-    @Column(name = "topic", nullable = false)
     public String getTopic() {
-        return this.topic;
+        return topic;
     }
 
-    /**
-     * @param topic the topic to set
-     */
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public Set<Voter> getVoters() {
+        return voters;
+    }
+
+    public void setVoters(Set<Voter> voters) {
+        this.voters = voters;
     }
 
     /* (non-Javadoc)

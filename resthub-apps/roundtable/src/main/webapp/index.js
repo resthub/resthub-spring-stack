@@ -42,7 +42,7 @@
         /**
          * View poll.
          */
-        this.get('#/poll/:id', function() {
+        this.get('#/poll/:id', function(context) {
             var id = this.params['id'];
             dominoes("components/poll/view.js", function() {
                 $.ajax({

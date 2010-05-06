@@ -1,7 +1,6 @@
 package org.resthub.roundtable.service;
 
 import java.util.List;
-import org.resthub.roundtable.domain.model.Poll;
 
 /**
  * Vote services interface.
@@ -11,11 +10,10 @@ public interface VoteService {
 
     /**
      * Vote.
-     * @param voter voter
+     * @param voterName voter name
      * @param pid Poll id
      * @param values values of each answers (ordered)
-     * @return updated poll
      */
-    Poll vote(String voter, Long pid, List<String> values);
+    void vote(String voterName, Long pid, List<String> values);
     
 }

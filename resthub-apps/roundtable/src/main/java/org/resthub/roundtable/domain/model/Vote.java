@@ -1,6 +1,9 @@
 package org.resthub.roundtable.domain.model;
 
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,19 +23,28 @@ import org.resthub.core.domain.model.Resource;
  * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
  */
 @Entity
-@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"voter", "answer_id"})})
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"voter_id", "answer_id"})})
 @NamedQueries({
-    @NamedQuery(name = "existVote", query = "select count(v) from Vote as v where voter = :voter and poll.id = :pid")
+    @NamedQuery(name = "existsVote", query = "select count(v) from Vote as v where voter.id = :vid and answer.id = :aid")
 })
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@Access(AccessType.FIELD)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Vote extends Resource {
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    private String voter;
-    private String value;
-    private Poll poll;
+    @ManyToOne
+    @JoinColumn(name = "answer_id", nullable = false)
     private Answer answer;
+
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voter_id", nullable = false)
+    private Voter voter;
+
+    @Column(name = "val", nullable = false)
+    private String value;
+    
 
     /**
      * Default constructor.
@@ -41,66 +53,27 @@ public class Vote extends Resource {
         super();
     }
 
-    /**
-     * @return the voter
-     */
-    @Column(name = "voter", nullable = false)
-    public String getVoter() {
-        return voter;
-    }
-
-    /**
-     * @param voter the voter to set
-     */
-    public void setVoter(String voter) {
-        this.voter = voter;
-    }
-
-    /**
-     * @return vote value
-     */
-    @Column(name = "val", nullable = false)
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * @param value vote value to set
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * @return the poll
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "poll_id", nullable = false)
-    @XmlTransient
-    public Poll getPoll() {
-        return poll;
-    }
-
-    /**
-     * @param poll the poll to set
-     */
-    public void setPoll(Poll poll) {
-        this.poll = poll;
-    }
-
-    /**
-     * @return the answer
-     */
-    @ManyToOne
-    @JoinColumn(name = "answer_id", nullable = false)
     public Answer getAnswer() {
         return answer;
     }
 
-    /**
-     * @param answer the answer to set
-     */
     public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public Voter getVoter() {
+        return voter;
+    }
+
+    public void setVoter(Voter voter) {
+        this.voter = voter;
     }
 }

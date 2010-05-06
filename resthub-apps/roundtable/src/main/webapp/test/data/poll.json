@@ -8,13 +8,13 @@
             {"id": "2", "body": "ipsum"},
             {"id": "3", "body": "dolor"}
     ],
-    "votes": [
-        {"voter": "Doc", "votes": ["yes", "no", "yes"]},
-        {"voter": "Grumpy", "votes": ["no", "no", "no"]},
-        {"voter": "Happy", "votes": ["yes", "yes", "yes"]},
-        {"voter": "Sleepy", "votes": ["yes", "no", "no"]},
-        {"voter": "Bashful", "votes": ["yes", "no", "yes"]},
-        {"voter": "Dopey", "votes": ["no", "yes", "no"]}
+    "voters": [
+        {"name": "Doc", "votes": [{"value":"yes"}, {"value":"no"}, {"value":"yes"}]},
+        {"name": "Grumpy", "votes": [{"value":"no"}, {"value":"no"}, {"value":"no"}]},
+        {"name": "Happy", "votes": [{"value":{"value":"yes"}}, {"value":"yes"}, {"value":"yes"}]},
+        {"name": "Sleepy", "votes": [{"value":"yes"}, {"value":"no"}, {"value":"no"}]},
+        {"name": "Bashful", "votes": [{"value":"yes"}, {"value":"no"}, {"value":"yes"}]},
+        {"name": "Dopey", "votes": [{"value":"no"}, {"value":"yes"}, {"value":"no"}]}
     ],
     "expirationDate": "21/12/2012",
     "creationDate": "01/01/20010",

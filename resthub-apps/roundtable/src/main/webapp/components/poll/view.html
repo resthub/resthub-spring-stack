@@ -5,15 +5,25 @@
             <tr>
                 <td style="height: 36px;"></td>
             </tr>
-            <% if (typeof votes != "undefined") {%>
-                <% for(var i = 0 ; i < votes.length ; i++) {%>
-                <tr>
-                    <td class="rt-voter">
-                        <span class="name"><%= votes[i].voter %></span>
-                    </td>
-                </tr>
+            <!-- list voters -->
+            <% if (typeof voters != "undefined") {%>
+                <% if (jQuery.isArray(voters)) {%>
+                    <% for(var i = 0 ; i < voters.length ; i++) {%>
+                    <tr>
+                        <td class="rt-voter">
+                            <span class="name"><%= voters[i].name %></span>
+                        </td>
+                    </tr>
+                    <% } %>
+                <% } else { %>
+                    <tr>
+                        <td class="rt-voter">
+                            <span class="name"><%= voters.name %></span>
+                        </td>
+                    </tr>
                 <% } %>
             <% } %>
+            <!-- end list voters -->
             <tr><td style="background-color: transparent; border: 0px none; height: 0.25em;"></td></tr>
             <tr>
                 <td class="rt-voter" >
@@ -33,13 +43,22 @@
                 <% } %>
                 <th style="background-color: transparent; border: 0px none;width:50px;"></th>
             </tr>
-            <% if (typeof votes != "undefined") {%>
-                <% for(var i = 0 ; i < votes.length ; i++) {%>
-                    <% var voter = votes[i].voter %>
+            <% if (typeof voters != "undefined") {%>
+                <% if (jQuery.isArray(voters)) {%>
+                    <% for(var i = 0 ; i < voters.length ; i++) {%>
+                        <tr class="votes">
+                            <% for(var j = 0; j < answers.length ; j++) {%>
+                                <% var vote = voters[i].votes[answers[j].order - 1] %>
+                                <td class="<%= vote.value %>" title="<%= voters[i] %>, <%= answers[j].body %>: <%= vote.value %>" ></td>
+                            <% } %>
+                            <td style="background-color: transparent; border: 0px none;"></td>
+                        </tr>
+                    <% } %>
+                <% } else { %>
                     <tr class="votes">
                         <% for(var j = 0; j < answers.length ; j++) {%>
-                        <% var vote = votes[i].votes[j] %>
-                        <td class="<%= vote %>" title="<%= voter %>, <%= answers[j].body %>: <%= vote %>"></td>
+                            <% var vote = voters.votes[answers[j].order - 1] %>
+                            <td class="<%= vote.value %>" title="<%= voters.name %>, <%= answers[j].body %>: <%= vote.value %>" ></td>
                         <% } %>
                         <td style="background-color: transparent; border: 0px none;"></td>
                     </tr>
@@ -52,7 +71,7 @@
             </tr>
             <tr class="rt-vote-inputs">
                 <% for(var i = 0; i < answers.length ; i++) {%>
-                    <td class="no" title="<%= answers[i].body %>" id="p-<%= id %>-vote-<%= i %>"></td>
+                    <td class="no rt-vote" title="<%= answers[i].body %>" id="p-<%= id %>-vote-<%= i %>"></td>
                 <% } %>
                 <td>
                     <input type="button" value="Vote" title="Submit your vote" />
@@ -61,9 +80,13 @@
             <tr class="result">
                 <% for(var i = 0; i < answers.length ; i++) {%>
                     <% var vote_sum = 0 %>
-                    <% if (typeof votes != "undefined") {%>
-                        <% for(var j = 0 ; j < votes.length ; j++) {%>
-                            <% vote_sum += (votes[j].votes[i] == "yes") ? 1 : 0 %>
+                    <% if (typeof voters != "undefined") {%>
+                        <% if (jQuery.isArray(voters)) {%>
+                            <% for(var j = 0 ; j < voters.length ; j++) {%>
+                                <% vote_sum += (voters[j].votes[i].value == "yes") ? 1 : 0 %>
+                            <% } %>
+                        <% } else { %>
+                            <% vote_sum += (voters.votes[i].value == "yes") ? 1 : 0 %>
                         <% } %>
                     <% } %>
                     <td class="<%= (vote_sum > 0) ? 'bold' : '' %>" ><%= vote_sum %></td>

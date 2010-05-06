@@ -274,7 +274,7 @@ table tr.result {
     text-align:right;
 }
 .rt-poll-detail div.main table tr.result td { line-height:30px;height:30px;}
-.rt-poll-detail div.main table tr.result tr.result {text-align:center !important;}
+.rt-poll-detail div.main table tr.result {text-align:center !important;}
 
 
 /**

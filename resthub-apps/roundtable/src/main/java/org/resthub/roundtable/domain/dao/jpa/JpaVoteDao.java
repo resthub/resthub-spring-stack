@@ -17,8 +17,8 @@ public class JpaVoteDao extends GenericJpaResourceDao<Vote> implements VoteDao {
     /**
      * {@inheritDoc}
      */
-    public boolean exist(String voter, Poll poll) {
-        final Query query = getEntityManager().createNamedQuery("existVote");
+    public boolean exists(String voter, Poll poll) {
+        final Query query = getEntityManager().createNamedQuery("existsVote");
         query.setParameter("voter", voter);
         query.setParameter("pid", poll.getId());
 
