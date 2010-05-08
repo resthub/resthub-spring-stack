@@ -2,6 +2,7 @@ package org.resthub.roundtable.web.controller;
 
 import java.net.URI;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
