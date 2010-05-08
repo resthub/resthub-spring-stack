@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.resthub.core.domain.model.Resource;
-import org.resthub.core.domain.model.SampleResource;
+import org.resthub.core.model.Resource;
+import org.resthub.core.model.SampleResource;
 
 public class ClassUtilsTest {
 	

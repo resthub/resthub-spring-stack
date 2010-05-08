@@ -5,7 +5,7 @@ import javax.inject.Named;
 import javax.ws.rs.Path;
 
 import org.resthub.core.service.GenericResourceService;
-import org.resthub.identity.domain.model.User;
+import org.resthub.identity.model.User;
 import org.resthub.web.controller.GenericResourceController;
 
 @Path("/users")

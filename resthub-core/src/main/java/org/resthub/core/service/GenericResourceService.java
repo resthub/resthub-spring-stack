@@ -2,7 +2,7 @@ package org.resthub.core.service;
 
 import java.util.List;
 
-import org.resthub.core.domain.model.Resource;
+import org.resthub.core.model.Resource;
 
 /**
  * Generic Resource Service

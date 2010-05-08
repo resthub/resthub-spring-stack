@@ -58,10 +58,10 @@
 	</bean>
 
 	<bean id="scanningPersistenceUnitManager"
-		class="org.resthub.core.domain.dao.jpa.ScanningPersistenceUnitManager">
+		class="org.resthub.core.dao.jpa.ScanningPersistenceUnitManager">
 		<property name="defaultDataSource" ref="dataSource" />
 		<property name="classpathPatterns"
-			value="classpath*:org/resthub/**/domain/model/*.class" />
+			value="classpath*:org/resthub/**/model/*.class" />
 	</bean>
 
 	<bean

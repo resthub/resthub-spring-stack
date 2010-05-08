@@ -17,8 +17,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.domain.model.Resource;
-import org.resthub.web.domain.model.WebSampleResource;
+import org.resthub.core.model.Resource;
+import org.resthub.web.model.WebSampleResource;
 
 public class TestWebSampleResourceJaxb {
 	

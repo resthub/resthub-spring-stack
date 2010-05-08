@@ -5,8 +5,8 @@ import javax.ws.rs.core.MediaType;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.resthub.core.domain.model.Resource;
-import org.resthub.web.domain.model.WebSampleResource;
+import org.resthub.core.model.Resource;
+import org.resthub.web.model.WebSampleResource;
 import org.resthub.web.test.AbstractWebResthubTest;
 
 import com.sun.jersey.api.client.ClientResponse;

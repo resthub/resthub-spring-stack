@@ -9,8 +9,8 @@ import javax.inject.Named;
 import org.junit.Assert;
 import org.junit.Test;
 import org.resthub.core.test.AbstractResourceServiceTest;
-import org.resthub.roundtable.domain.model.Answer;
-import org.resthub.roundtable.domain.model.Poll;
+import org.resthub.roundtable.model.Answer;
+import org.resthub.roundtable.model.Poll;
 import org.springframework.test.context.ContextConfiguration;
 
  /**

@@ -11,6 +11,7 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.resthub.identity.model.User;
 
 public class TestUserJaxb {
 	

@@ -2,8 +2,8 @@ package org.resthub.core.service.impl;
 
 import java.util.List;
 
-import org.resthub.core.domain.dao.GenericResourceDao;
-import org.resthub.core.domain.model.Resource;
+import org.resthub.core.dao.GenericResourceDao;
+import org.resthub.core.model.Resource;
 import org.resthub.core.service.GenericResourceService;
 /**
  * Generic Service implementation.

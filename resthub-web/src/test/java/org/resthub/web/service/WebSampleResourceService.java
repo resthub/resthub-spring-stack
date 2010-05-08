@@ -1,7 +1,7 @@
 package org.resthub.web.service;
 
 import org.resthub.core.service.GenericResourceService;
-import org.resthub.web.domain.model.WebSampleResource;
+import org.resthub.web.model.WebSampleResource;
 
 /**
  * Generic Service interface.

@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.domain.model.StandaloneEntity;
+import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.test.AbstractResthubTest;
 
 public class StandaloneEntityServiceTest extends AbstractResthubTest {

@@ -5,8 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.domain.dao.StandaloneEntityDao;
-import org.resthub.core.domain.model.StandaloneEntity;
+import org.resthub.core.dao.StandaloneEntityDao;
+import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.service.StandaloneEntityService;
 
 /**

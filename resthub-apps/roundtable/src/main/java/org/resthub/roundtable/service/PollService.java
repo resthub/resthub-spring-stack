@@ -1,7 +1,7 @@
 package org.resthub.roundtable.service;
 
 import org.resthub.core.service.GenericResourceService;
-import org.resthub.roundtable.domain.model.Poll;
+import org.resthub.roundtable.model.Poll;
 
 /**
  * Poll services interface.

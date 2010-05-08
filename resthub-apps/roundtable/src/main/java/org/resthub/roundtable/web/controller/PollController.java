@@ -5,7 +5,7 @@ import javax.inject.Named;
 import javax.ws.rs.Path;
 
 import org.resthub.core.service.GenericResourceService;
-import org.resthub.roundtable.domain.model.Poll;
+import org.resthub.roundtable.model.Poll;
 import org.resthub.web.controller.GenericResourceController;
 
 /**

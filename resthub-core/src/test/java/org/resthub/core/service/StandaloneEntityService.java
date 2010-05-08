@@ -2,7 +2,7 @@ package org.resthub.core.service;
 
 import java.util.List;
 
-import org.resthub.core.domain.model.StandaloneEntity;
+import org.resthub.core.model.StandaloneEntity;
 
 /**
  * @author bmeurant <baptiste.meurant@gmail.com>

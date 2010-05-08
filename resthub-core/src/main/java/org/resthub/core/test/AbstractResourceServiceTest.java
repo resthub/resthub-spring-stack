@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.resthub.core.domain.model.Resource;
+import org.resthub.core.model.Resource;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.util.ClassUtils;
 import org.springframework.test.context.ContextConfiguration;

@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.domain.model.SampleResource;
+import org.resthub.core.model.SampleResource;
 import org.resthub.core.test.AbstractResourceServiceTest;
 
 public class SampleResourceServiceTest extends AbstractResourceServiceTest<SampleResource, SampleResourceService> {

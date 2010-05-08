@@ -5,7 +5,7 @@ import javax.inject.Named;
 import javax.ws.rs.Path;
 
 import org.resthub.core.service.GenericResourceService;
-import org.resthub.web.domain.model.WebSampleResource;
+import org.resthub.web.model.WebSampleResource;
 
 @Path("/resources")
 @Named("webSampleResourceController")

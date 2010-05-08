@@ -20,7 +20,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
-import org.resthub.core.domain.model.Resource;
+import org.resthub.core.model.Resource;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.util.ClassUtils;
 

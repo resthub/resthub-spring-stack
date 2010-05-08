@@ -6,7 +6,7 @@ import javax.inject.Named;
 import org.junit.Test;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.test.AbstractResourceServiceTest;
-import org.resthub.identity.domain.model.User;
+import org.resthub.identity.model.User;
 
 public class UserServiceTest extends AbstractResourceServiceTest<User, GenericResourceService<User>> {
 
