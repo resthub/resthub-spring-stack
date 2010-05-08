@@ -22,6 +22,7 @@
 		<jersey.version>1.1.5.1</jersey.version>
 		<mysql-connector-java-version>5.1.12</mysql-connector-java-version>
 		<hibernate.version>3.5.1-Final</hibernate.version>
+		<hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
 		<h2.version>1.2.121</h2.version>
 		<hades.version>2.0.0.BUILD-SNAPSHOT</hades.version>
 		<spring.version>3.0.2.RELEASE</spring.version>
@@ -248,6 +249,11 @@
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate.validator.version}</version>
+ 			</dependency>
 
 			<dependency>
 				<groupId>log4j</groupId>
