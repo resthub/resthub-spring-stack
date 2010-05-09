@@ -5,7 +5,7 @@ import org.resthub.roundtable.model.Poll;
 
 /**
  * Poll services interface.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 public interface PollService extends GenericResourceService<Poll> {
 

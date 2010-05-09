@@ -2,7 +2,7 @@ package org.resthub.roundtable.service.common;
 
 /**
  * Service exception.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 public class ServiceException extends Exception {
 

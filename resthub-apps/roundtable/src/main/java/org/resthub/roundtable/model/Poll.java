@@ -27,7 +27,7 @@ import org.resthub.core.model.Resource;
 
 /**
  * Poll.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 @Entity
 @Table(name = "poll")
@@ -117,7 +117,7 @@ public class Poll extends Resource {
      */
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         result.append("Poll: {#").append(this.getId());
         result.append(", topic=").append(this.topic);
         result.append(", author=").append(this.author);

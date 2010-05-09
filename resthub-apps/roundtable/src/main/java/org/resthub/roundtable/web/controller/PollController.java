@@ -10,7 +10,7 @@ import org.resthub.web.controller.GenericResourceController;
 
 /**
  * Poll controller.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 @Path("/poll")
 @Named("pollController")

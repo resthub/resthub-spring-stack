@@ -22,7 +22,7 @@ import org.resthub.core.model.Resource;
 
 /**
  * Answer.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 @Entity
 @Table(name = "answer")

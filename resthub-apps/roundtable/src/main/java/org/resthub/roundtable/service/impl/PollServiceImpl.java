@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Poll service implementation.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 @Named("pollService")
 public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> implements PollService {

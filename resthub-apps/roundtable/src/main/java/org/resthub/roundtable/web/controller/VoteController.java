@@ -21,7 +21,7 @@ import org.resthub.roundtable.service.VoteService;
 
 /**
  * Vote controller.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 @Path("/vote")
 @Named("voteController")

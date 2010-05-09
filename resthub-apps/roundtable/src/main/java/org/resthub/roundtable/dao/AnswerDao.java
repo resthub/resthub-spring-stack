@@ -5,7 +5,7 @@ import org.resthub.roundtable.model.Answer;
 
 /**
  * Answer DAO.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 public interface AnswerDao extends GenericResourceDao<Answer>  {
 }

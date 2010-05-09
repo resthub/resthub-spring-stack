@@ -5,7 +5,7 @@ import org.resthub.roundtable.model.Vote;
 
 /**
  * Vote DAO.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 public interface VoteDao extends GenericResourceDao<Vote> {
 

@@ -20,7 +20,7 @@ import org.springframework.util.Assert;
 
 /**
  * Vote service implementation.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 @Named("voteService")
 public class VoteServiceImpl implements VoteService {

@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
  /**
  * Test of Poll services.
- * @author Nicolas Carlier (mailto:pouicbox@yahoo.fr)
+ * @author Nicolas Carlier
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:roundtableContext.xml" })
