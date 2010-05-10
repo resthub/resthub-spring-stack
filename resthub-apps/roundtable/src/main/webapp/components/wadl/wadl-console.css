@@ -1,21 +1,28 @@
-			.results-wrapper { 
-				width: 100%; 
-				padding: 0.4em; 
-			}
-			.results-wrapper h3 { 
-				cursor: pointer;
-				margin: 0; 
-				padding: 0.4em; 
-				text-align: center; 
-			}
-			#results { 
-				display: none;
-				overflow: auto;  
-				height: 300px; 
-			}
-			.resource {
-				text-align:center;
-			}
-			.method {
-				margin-top: 10px;
-			}
+.results-wrapper { 
+    width: 100%;
+    padding: 0.4em;
+}
+.results-wrapper h3 { 
+    cursor: pointer;
+    margin: 0;
+    padding: 0.4em;
+    text-align: center;
+}
+#results { 
+    display: none;
+    overflow: auto;
+    height: 300px;
+}
+.resource {
+    text-align:center;
+}
+.method {
+    margin-top: 10px;
+}
+label{
+    float:left;
+    width:150px;
+}
+input[type=text], input[type=password], textarea {
+       width: auto;
+}
