@@ -95,12 +95,30 @@ $.widget("resthub.wadlConsole", {
             var form = $("<div class='method'><div>"+path+"</div></div>");
             var id = path.replace("/", "") + "-" + methodName;
 
+            // If needed, generate a combobox for request format choice
+            var reqFormat = $("> request > representation", method);
+            if (reqFormat.size() >= 1) {
+                var listReqFormat = "<fieldset><label for='"+id+"req'>Input format</label>";
+                if (reqFormat.size() > 1) {
+                    listReqFormat += "<select id='"+id+"-req'>";
+                    reqFormat.each(function(i, format) {
+                        listReqFormat += "<option>" + $(format).
+                        attr("mediaType") + "</option>";
+                    });
+                    listReqFormat += "</select></fieldset>";
+                } else {
+                    listReqFormat += $(reqFormat.get(0)).attr("mediaType")
+                    + "</fieldset>";
+                }
+                form.append($(listReqFormat));
+            }
+
             // If needed, generate a combobox for reponse format choice
             var respFormat = $("> response > representation", method);
             if (respFormat.size() >= 1) {
                 var listRespFormat = "<fieldset><label for='"+id+"resp'>Output format</label>";
                 if (respFormat.size() > 1) {
-                    listRespFormat += "<select id='"+id+"resp'>";
+                    listRespFormat += "<select id='"+id+"-resp'>";
                     respFormat.each(function(i, format) {
                         listRespFormat += "<option>" + $(format).
                         attr("mediaType") + "</option>";
@@ -116,9 +134,13 @@ $.widget("resthub.wadlConsole", {
             $("param", $(method).parent()).each(function(idx, param) {
                 var name = $(param).attr("name");
                 if(path.indexOf('{'+name+'}') != -1) {
-                    form.append('<fieldset><label for="$name">$name</label><input type="text" id="$name" /></fieldset>'.replace(/\$name/g, name));
+                    form.append('<fieldset><label for="$id-$name-param">$name</label><input type="text" id="$id-$name-param" /></fieldset>'.replace(/\$name/g, name).replace(/\$id/g, id.replace(/[/{}]/g, "")));
                 }
             });
+
+            if((methodType=='PUT') || (methodType=='POST')) {
+                form.append('<fieldset><label>Content</label><textarea rows="8" cols="30" class="request-content" /></fieldset>');
+            }
 
             // Generate a button with method ID
             var b = $("<div/>").button({
@@ -135,17 +157,23 @@ $.widget("resthub.wadlConsole", {
                 $("param", $(method).parent()).each(function(idx, param) {
                     var name = $(param).attr("name");
                     if(expandedPath.indexOf('{'+name+'}') != -1) {
-                        expandedPath = expandedPath.replace('{'+name+'}', $('#' + name).val());
+                        expandedPath = expandedPath.replace('{'+name+'}', $('#' + id.replace(/[/{}]/g, "") + "-" + name + "-param").val());
                     }
                 });
+
+                var data;
+                if((methodType=='PUT') || (methodType=='POST')) {
+                    data = $(".request-content").val();
+                }
                 $.ajax({
                     url: rootPath + expandedPath,
                     type: methodType,
+                    data: data,
                     beforeSend: function(xhr) {
-                        // Retreive presentation
-                        var accept = $("#"+id+"resp", form).val();
-                        // Modify headers before the call
+                        var accept = $("#"+id+"-resp", form).val();
                         xhr.setRequestHeader("Accept", accept);
+                        var contentType = $("#"+id+"-req", form).val();
+                        xhr.setRequestHeader("Content-Type", contentType);
                     },
                     success: function(xml, status, xhr){
                         // Insert result in the popup
@@ -155,7 +183,7 @@ $.widget("resthub.wadlConsole", {
             });
             
             // Add this button in the result
-            $("#wadl-console-result").append(form.append(b));
+            $("#wadl-console-result").append(form.append(b).append("<hr />"));
         });
     }
 
