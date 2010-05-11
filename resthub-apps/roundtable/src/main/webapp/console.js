@@ -17,6 +17,15 @@
                 $("#main").wadlConsole();
             });
         });
+
+        /**
+         * Databse console.
+         */
+        this.get('#/console/database', function() {
+
+                $("#main").html('<div class="database-console-container"><iframe src="console/database" width="100%" height="500" /></div>');
+
+        });
 		
         /**
          * Monitoring console.
