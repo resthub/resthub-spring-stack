@@ -8,7 +8,7 @@ import java.util.List;
  *  @param <T> Domain model class managed, must be an Entity
  *  @param <PK> Primary key class of T
  */
-public interface GenericService<T, PK extends Serializable> {
+public interface GenericService<T, ID extends Serializable> {
 
     /**
      * Create new resource.
@@ -34,14 +34,14 @@ public interface GenericService<T, PK extends Serializable> {
      * Delete existing resource.
      * @param id Resource id
      */
-    void delete(PK id);
+    void delete(ID id);
 
     /**
      * Find resource by id.
      * @param id Resource id
      * @return resource
      */
-    T findById(PK id);
+    T findById(ID id);
 
     /**
      * Find all resources.

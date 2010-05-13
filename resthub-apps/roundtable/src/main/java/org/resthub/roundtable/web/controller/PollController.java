@@ -19,6 +19,6 @@ public class PollController extends GenericResourceController<Poll> {
     @Inject
     @Named("pollService")
     public void setResourceService(GenericResourceService<Poll> resourceService) {
-        this.resourceService = resourceService;
+        this.service = resourceService;
     }
 }

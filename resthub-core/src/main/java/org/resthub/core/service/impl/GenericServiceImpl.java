@@ -16,8 +16,8 @@ import org.springframework.util.Assert;
  * @param <D> Generic DAO class
  */
 @Transactional(readOnly = true)
-public abstract class GenericServiceImpl<T, D extends GenericDao<T, PK>, PK extends Serializable>
-		implements GenericService<T, PK> {
+public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID extends Serializable>
+		implements GenericService<T, ID> {
 
 	protected D resourceDao;
 
@@ -67,7 +67,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, PK>, PK exte
 	@Override
 	@Auditable
 	@Transactional(readOnly = false)
-	public void delete(PK id) {
+	public void delete(ID id) {
 		Assert.notNull(id, "Resource ID can't be null");
 		resourceDao.delete(id);
 	}
@@ -77,7 +77,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, PK>, PK exte
 	 */
 	@Override
 	@Auditable
-	public T findById(PK id) {
+	public T findById(ID id) {
 		Assert.notNull(id, "Resource ID can't be null");
 		return resourceDao.readByPrimaryKey(id);
 	}
