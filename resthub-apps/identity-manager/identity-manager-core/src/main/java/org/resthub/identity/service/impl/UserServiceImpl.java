@@ -12,8 +12,8 @@ public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao> {
 
     @Inject
     @Named("userDao")
-    public void setResourceDao(UserDao resourceDao) {
-        super.setResourceDao(resourceDao);
+    public void setResourceDao(UserDao userDao) {
+        super.setDao(userDao);
     }
 
 }

@@ -27,9 +27,9 @@ public class StandaloneEntityServiceImpl extends
 	@Inject
 	@Named("standaloneEntityDao")
 	@Override
-	public void setResourceDao(StandaloneEntityDao resourceDao) {
+	public void setDao(StandaloneEntityDao resourceDao) {
 		// TODO Auto-generated method stub
-		super.setResourceDao(resourceDao);
+		super.setDao(resourceDao);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class StandaloneEntityServiceImpl extends
 	 */
 	@Override
 	public List<StandaloneEntity> findByName(String name) {
-		return this.resourceDao.findByName(name);
+		return this.dao.findByName(name);
 	}
 
 }

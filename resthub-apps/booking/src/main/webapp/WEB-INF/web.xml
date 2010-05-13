@@ -24,11 +24,6 @@
         <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>Monitoring</servlet-name>
-        <servlet-class>org.resthub.roundtable.web.servlet.Monitoring</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
     <servlet-mapping>
         <servlet-name>api</servlet-name>
         <url-pattern>/api/*</url-pattern>
@@ -41,9 +36,5 @@
     <servlet-mapping>
         <servlet-name>h2console</servlet-name>
         <url-pattern>/console/database/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Monitoring</servlet-name>
-        <url-pattern>/console/monitoring</url-pattern>
     </servlet-mapping>
 </web-app>

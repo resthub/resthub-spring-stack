@@ -19,10 +19,10 @@ import org.springframework.util.Assert;
 public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID extends Serializable>
 		implements GenericService<T, ID> {
 
-	protected D resourceDao;
+	protected D dao;
 
-	public void setResourceDao(D resourceDao) {
-		this.resourceDao = resourceDao;
+	public void setDao(D resourceDao) {
+		this.dao = resourceDao;
 	}
 
 	/**
@@ -34,7 +34,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	public T create(T resource) {
 		Assert.notNull(resource, "Resource can't be null");
 
-		return resourceDao.save(resource);
+		return dao.save(resource);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	public T update(T resource) {
 		Assert.notNull(resource, "Resource can't be null");
 
-		return resourceDao.save(resource);
+		return dao.save(resource);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	public void delete(T resource) {
 		Assert.notNull(resource, "Resource can't be null");
 
-		resourceDao.delete(resource);
+		dao.delete(resource);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	@Transactional(readOnly = false)
 	public void delete(ID id) {
 		Assert.notNull(id, "Resource ID can't be null");
-		resourceDao.delete(id);
+		dao.delete(id);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	@Auditable
 	public T findById(ID id) {
 		Assert.notNull(id, "Resource ID can't be null");
-		return resourceDao.readByPrimaryKey(id);
+		return dao.readByPrimaryKey(id);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	public List<T> findAll(Integer offset, Integer limit) {
 		Integer o = (offset == null || offset < 0) ? 0 : offset;
 		Integer l = (limit == null || limit < 0) ? 100 : limit;
-		return resourceDao.readAll(o, l);
+		return dao.readAll(o, l);
 	}
 
 	/**
@@ -99,6 +99,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	@Override
 	@Auditable
 	public Long count() {
-		return resourceDao.count();
+		return dao.count();
 	}
 }

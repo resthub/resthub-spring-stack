@@ -25,8 +25,8 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
     @Inject
     @Named("pollDao")
     @Override
-    public void setResourceDao(PollDao pollDao) {
-        this.resourceDao = pollDao;
+    public void setDao(PollDao pollDao) {
+        this.dao = pollDao;
     }
 
     @Override
