@@ -7,7 +7,7 @@ package org.resthub.web.controller;
 
 import org.resthub.core.model.Resource;
 
-public class GenericResourceController<T extends Resource> extends GenericController<T, Long> {
+public abstract class GenericResourceController<T extends Resource> extends GenericController<T, Long> {
 
     @Override
     public Long generateIdentifierFromEntity(T entity) {

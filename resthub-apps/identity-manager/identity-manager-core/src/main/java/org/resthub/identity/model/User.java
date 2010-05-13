@@ -16,7 +16,9 @@ public class User extends Resource {
 
 	private static final long serialVersionUID = -7139715798005612136L;
 	
-	protected String password = null;
+	protected String login = null;
+
+        protected String password = null;
 	
 	protected String email = null;
 	
@@ -34,11 +36,11 @@ public class User extends Resource {
 	 */
 	@Column
 	public String getLogin() {
-		return getRef();
+		return this.login;
 	}
 
 	public void setLogin(String login) {
-		this.setRef(login);
+		this.login = login;
 	}
 
 	@Column
@@ -63,7 +65,7 @@ public class User extends Resource {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("User [");
-        sb.append("Login: ").append(this.getLogin()).append(", ");
+        sb.append("Login: ").append(this.login).append(", ");
         sb.append("]");
         return sb.toString();
     }

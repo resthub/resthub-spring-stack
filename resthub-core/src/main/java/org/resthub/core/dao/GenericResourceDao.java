@@ -9,6 +9,5 @@ import org.resthub.core.model.Resource;
  */
 public interface GenericResourceDao<T extends Resource> extends GenericDao<T, Long> {
 	
-	List<T> findByRef(String ref);
 	
 }

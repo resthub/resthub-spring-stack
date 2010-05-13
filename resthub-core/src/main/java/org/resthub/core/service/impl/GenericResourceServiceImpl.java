@@ -15,8 +15,5 @@ public abstract class GenericResourceServiceImpl<T extends Resource, D extends G
 		GenericServiceImpl<T, D, Long> implements
 		GenericResourceService<T> {
 
-	public List<T> findByRef(String ref) {
-		return this.resourceDao.findByRef(ref);
-	}
 	
 }
