@@ -1,3 +1,4 @@
+insert into Customer (username, password, name) values ('demo', 'demo', 'demo')
 insert into Customer (username, password, name) values ('keith', 'password', 'Keith')
 insert into Customer (username, password, name) values ('erwin', 'password', 'Erwin')
 insert into Customer (username, password, name) values ('jeremy', 'password', 'Jeremy')

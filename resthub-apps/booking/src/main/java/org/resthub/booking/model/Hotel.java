@@ -6,33 +6,20 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.resthub.core.model.Resource;
 
+/**
+ * Extending Resource is not mandatory, RESThub GeneriCDao can handle every kind
+ * of entities, we use a resource class in order to keep DRY (Don't Repeat Yourself)
+ * compliant
+ */
 @Entity
 public class Hotel extends Resource {
     
-    @NotNull
-    @Size(max=50)
     private String name;
-    
-    @Size(min=100)
     private String address;
-    
-    @NotNull
-    @Size(max=40)
     private String city;
-    
-    @NotNull
-    @Size(min=2,max=15)
     private String state;
-    
-    @NotNull
-    @Size(min=6,max=6)
     private String zip;
-    
-    @NotNull
-    @Size(min=2,max=40)
     private String country;
-    
-    @Column(precision=6, scale=2)
     private BigDecimal price;
 
     @Override
@@ -40,6 +27,8 @@ public class Hotel extends Resource {
         return "Hotel(" + getName() + "," + getAddress() + "," + getCity() + "," + getZip() + ")";
     }
 
+    @NotNull
+    @Size(max=50)
     public String getName() {
         return name;
     }
@@ -48,6 +37,7 @@ public class Hotel extends Resource {
         this.name = name;
     }
 
+    @Size(min=100)
     public String getAddress() {
         return address;
     }
@@ -56,6 +46,8 @@ public class Hotel extends Resource {
         this.address = address;
     }
 
+    @NotNull
+    @Size(max=40)
     public String getCity() {
         return city;
     }
@@ -64,6 +56,8 @@ public class Hotel extends Resource {
         this.city = city;
     }
 
+    @NotNull
+    @Size(min=2,max=15)
     public String getState() {
         return state;
     }
@@ -72,6 +66,8 @@ public class Hotel extends Resource {
         this.state = state;
     }
 
+    @NotNull
+    @Size(min=6,max=6)
     public String getZip() {
         return zip;
     }
@@ -80,6 +76,8 @@ public class Hotel extends Resource {
         this.zip = zip;
     }
 
+    @NotNull
+    @Size(min=2,max=40)
     public String getCountry() {
         return country;
     }
@@ -88,6 +86,7 @@ public class Hotel extends Resource {
         this.country = country;
     }
 
+    @Column(precision=6, scale=2)
     public BigDecimal getPrice() {
         return price;
     }

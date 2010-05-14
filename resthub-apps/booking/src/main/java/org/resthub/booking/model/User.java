@@ -6,22 +6,21 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.resthub.core.model.Resource;
 
+/**
+ * Extending Resource is not mandatory, RESThub GeneriCDao can handle every kind
+ * of entities, we use a resource class in order to keep DRY (Don't Repeat Yourself)
+ * compliant
+ */
 @Entity
 @Table(name="Customer")
 public class User extends Resource {
     
-    @NotNull
-    @Size(min=4,max=15)
-    @Pattern(regexp="^\\w*$", message="Not a valid username")
     private String username;
-    
-    @NotNull
-    @Size(min=5,max=15)
     private String password;
-    
-    @NotNull
-    @Size(max=100)
     private String name;
+
+    public User() {
+    }
    
     public User(String name, String password, String username) {
         this.name = name;
@@ -34,6 +33,9 @@ public class User extends Resource {
         return "User(" + getUsername() + ")";
     }
 
+    @NotNull
+    @Size(min=4,max=15)
+    @Pattern(regexp="^\\w*$", message="Not a valid username")
     public String getUsername() {
         return username;
     }
@@ -42,6 +44,8 @@ public class User extends Resource {
         this.username = username;
     }
 
+    @NotNull
+    @Size(min=4,max=15)
     public String getPassword() {
         return password;
     }
@@ -50,6 +54,8 @@ public class User extends Resource {
         this.password = password;
     }
 
+    @NotNull
+    @Size(max=100)
     public String getName() {
         return name;
     }

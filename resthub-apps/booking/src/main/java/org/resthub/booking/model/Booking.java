@@ -10,31 +10,20 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.resthub.core.model.Resource;
 
+
+/**
+ * Extending Resource is not mandatory, RESThub GeneriCDao can handle every kind
+ * of entities, we use a resource class in order to keep DRY (Don't Repeat Yourself)
+ * compliant
+ */
 @Entity
 public class Booking extends Resource {
     
-    @NotNull
-    @ManyToOne
     private User user;
-    
-    @NotNull
-    @ManyToOne
     private Hotel hotel;
-    
-    @NotNull
-    @Temporal(TemporalType.DATE) 
     private Date checkinDate;
-    
-    @NotNull
-    @Temporal(TemporalType.DATE)
     private Date checkoutDate;
-    
-    @NotNull(message="Credit card number is required")
-    @Pattern(regexp="^\\d{16}$", message="Credit card number must be numeric and 16 digits long")
     private String creditCard;
-    
-    @NotNull(message="Credit card name is required")
-    @Size(min=3, max=70, message="Credit card name is required")
     private String creditCardName;
     private int creditCardExpiryMonth;
     private int creditCardExpiryYear;
@@ -44,6 +33,7 @@ public class Booking extends Resource {
     public Booking() {
 
     }
+    
     public Booking(Hotel hotel, User user) {
         this.hotel = hotel;
         this.user = user;
@@ -72,6 +62,8 @@ public class Booking extends Resource {
         return "Booking(" + getUser() + ","+ getHotel() + ")";
     }
 
+    @NotNull
+    @ManyToOne
     public User getUser() {
         return user;
     }
@@ -80,6 +72,8 @@ public class Booking extends Resource {
         this.user = user;
     }
 
+    @NotNull
+    @ManyToOne
     public Hotel getHotel() {
         return hotel;
     }
@@ -88,6 +82,8 @@ public class Booking extends Resource {
         this.hotel = hotel;
     }
 
+    @NotNull
+    @Temporal(TemporalType.DATE) 
     public Date getCheckinDate() {
         return checkinDate;
     }
@@ -96,6 +92,8 @@ public class Booking extends Resource {
         this.checkinDate = checkinDate;
     }
 
+    @NotNull
+    @Temporal(TemporalType.DATE)
     public Date getCheckoutDate() {
         return checkoutDate;
     }
@@ -104,6 +102,8 @@ public class Booking extends Resource {
         this.checkoutDate = checkoutDate;
     }
 
+    @NotNull(message="Credit card number is required")
+    @Pattern(regexp="^\\d{16}$", message="Credit card number must be numeric and 16 digits long")
     public String getCreditCard() {
         return creditCard;
     }
@@ -112,6 +112,8 @@ public class Booking extends Resource {
         this.creditCard = creditCard;
     }
 
+    @NotNull(message="Credit card name is required")
+    @Size(min=3, max=70, message="Credit card name is required")
     public String getCreditCardName() {
         return creditCardName;
     }
