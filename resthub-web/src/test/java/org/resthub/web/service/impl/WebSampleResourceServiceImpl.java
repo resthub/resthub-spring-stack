@@ -16,9 +16,8 @@ public class WebSampleResourceServiceImpl extends
 	@Inject
 	@Named("webSampleResourceDao")
 	@Override
-	public void setResourceDao(WebSampleResourceDao resourceDao) {
-		// TODO Auto-generated method stub
-		super.setResourceDao(resourceDao);
+	public void setDao(WebSampleResourceDao resourceDao) {
+		super.setDao(resourceDao);
 	}
 
 }
