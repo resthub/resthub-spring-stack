@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Path;
 
-import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.service.GenericService;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.web.controller.GenericResourceController;
 
@@ -18,7 +18,8 @@ public class PollController extends GenericResourceController<Poll> {
 
     @Inject
     @Named("pollService")
-    public void setResourceService(GenericResourceService<Poll> resourceService) {
-        this.service = resourceService;
+    @Override
+    public void setService(GenericService<Poll, Long> service) {
+        this.service = service;
     }
 }

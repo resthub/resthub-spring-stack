@@ -14,7 +14,7 @@
 	<artifactId>booking</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Booking sample</name>
+	<name>Booking demo</name>
 	<description>
 		RESThub version of the Spring Webflow booking sample webapplication
 	</description>
