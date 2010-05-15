@@ -4,8 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Path;
 
-import org.resthub.core.service.GenericService;
 import org.resthub.roundtable.model.Poll;
+import org.resthub.roundtable.service.PollService;
 import org.resthub.web.controller.GenericResourceController;
 
 /**
@@ -14,12 +14,12 @@ import org.resthub.web.controller.GenericResourceController;
  */
 @Path("/poll")
 @Named("pollController")
-public class PollController extends GenericResourceController<Poll> {
+public class PollController extends GenericResourceController<Poll, PollService> {
 
     @Inject
     @Named("pollService")
     @Override
-    public void setService(GenericService<Poll, Long> service) {
+    public void setService(PollService service) {
         this.service = service;
     }
 }

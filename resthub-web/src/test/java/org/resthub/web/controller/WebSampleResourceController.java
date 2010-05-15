@@ -3,18 +3,18 @@ package org.resthub.web.controller;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Path;
-import org.resthub.core.service.GenericService;
 
 import org.resthub.web.model.WebSampleResource;
+import org.resthub.web.service.WebSampleResourceService;
 
 @Path("/resources")
 @Named("webSampleResourceController")
-public class WebSampleResourceController extends GenericResourceController<WebSampleResource> {
+public class WebSampleResourceController extends GenericResourceController<WebSampleResource, WebSampleResourceService> {
 	
     @Inject
     @Named("webSampleResourceService")
     @Override
-    public void setService(GenericService<WebSampleResource, Long> service) {
+    public void setService(WebSampleResourceService service) {
         this.service = service;
     }
 	

@@ -30,5 +30,8 @@ public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.
 	 */
 	List<T> readAll(Integer offset, Integer limit);
 
+        List<T> findLike(String propertyName, String propertyValue);
+
+        List<T> findEquals(String propertyName, String propertyValue);
     
 }

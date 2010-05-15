@@ -1,4 +1,4 @@
-package org.resthub.core.service.impl;
+package org.resthub.core.service;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.inject.Named;
 import org.resthub.core.dao.StandaloneEntityDao;
 import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.service.StandaloneEntityService;
+import org.resthub.core.service.impl.GenericServiceImpl;
 
 /**
  * @author bmeurant <baptiste.meurant@gmail.com>

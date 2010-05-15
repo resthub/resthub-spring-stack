@@ -49,4 +49,22 @@ public class StandaloneEntityDaoTest extends AbstractResthubTest {
 		assertEquals("entitie name should be 'test'","test", entities.get(0).getName());
 	}
 
+        @Test
+	public void testFindEquals() throws Exception {
+		List<StandaloneEntity> entities = this.standaloneEntityDao.findEquals("name", "test");
+		assertNotNull("entities should not be null", entities);
+		assertFalse("entities should not empty", entities.isEmpty());
+		assertTrue("entities size should be exactly 1", entities.size() == 1);
+		assertEquals("entitie name should be 'test'","test", entities.get(0).getName());
+	}
+
+        @Test
+	public void testFindLike() throws Exception {
+		List<StandaloneEntity> entities = this.standaloneEntityDao.findLike("name", "t%st");
+		assertNotNull("entities should not be null", entities);
+		assertFalse("entities should not empty", entities.isEmpty());
+		assertTrue("entities size should be exactly 1", entities.size() == 1);
+		assertEquals("entitie name should be 'test'","test", entities.get(0).getName());
+	}
+
 }

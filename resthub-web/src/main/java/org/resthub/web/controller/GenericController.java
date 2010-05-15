@@ -34,12 +34,13 @@ import org.resthub.core.service.GenericService;
  */
 @Singleton
 @ImplicitProduces("text/html;qs=5")
-public abstract class GenericController<T, ID extends Serializable> {
+public abstract class GenericController<T, S extends GenericService<T, ID>, ID extends Serializable> {
 
     protected T[] entityClassArray;
-    protected GenericService<T, ID> service;
+    protected S service;
+    
     @Context
-    private UriInfo uriInfo;
+    protected UriInfo uriInfo;
 
     /**
      * Allow to custom how the identifier, used in URLs, is generated from the entity parameter
@@ -52,7 +53,7 @@ public abstract class GenericController<T, ID extends Serializable> {
         entityClassArray = (T[]) Array.newInstance(ClassUtils.getGenericTypeFromBean(this), 0);
     }
 
-    public void setService(GenericService<T,ID> service) {
+    public void setService(S service) {
         this.service = service;
     }
 

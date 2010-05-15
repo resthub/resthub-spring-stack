@@ -9,14 +9,16 @@
         this.use(Sammy.Title);
         
         this.get('#/', function() {
-            $('#header').render('components/header.html', {user: {}});
-            $('#content').render('components/login.html', {});
             this.title('Login');
+            dominoes("components/login.js components/header.js", function() {
+                $('#header').header();
+                $('#content').login();
+            });
         });
 
         this.get('#/register', function() {
-            $('#content').render('components/register.html', {});
             this.title('Register');
+            $('#content').render('components/register.html', {});
         });
 
     });
