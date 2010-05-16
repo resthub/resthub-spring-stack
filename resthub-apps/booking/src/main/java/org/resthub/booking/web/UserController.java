@@ -31,9 +31,11 @@ public class UserController extends GenericResourceController<User, UserService>
     @Path("/check")
     public Response checkCredentials(User user) {
         Boolean validCredentials = this.service.checkCredentials(user.getUsername(), user.getPassword());
-        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-        URI uri = uriBuilder.path(user.getId().toString()).build();
+        if(validCredentials) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
-        return Response.created(uri).entity(validCredentials).build();
     }
 }

@@ -13,5 +13,5 @@ import org.resthub.core.service.GenericResourceService;
  * @author bouiaw
  */
 public interface UserService extends GenericResourceService<User> {
-    Boolean checkCredentials(String login, String password);
+    Boolean checkCredentials(String username, String password);
 }

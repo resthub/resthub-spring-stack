@@ -22,8 +22,8 @@ public class UserServiceImpl extends GenericResourceServiceImpl<User, GenericRes
      * Naive implementation of checkLogin
      * Real life implementation should store and compare encrypted passwords
     **/
-    public Boolean checkCredentials(String login, String password) {
-        List<User> users = this.dao.findEquals("login", login);
+    public Boolean checkCredentials(String username, String password) {
+        List<User> users = this.dao.findEquals("username", username);
 
         if((users!=null) && (users.size() == 1) && users.get(0).getPassword().equals(password)) {
             return true;

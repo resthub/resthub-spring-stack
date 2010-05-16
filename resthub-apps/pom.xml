@@ -20,6 +20,7 @@
 	<modules>
 		<module>roundtable</module>
 		<module>identity-manager</module>
+		<module>booking</module>
 	</modules>
 
 </project>

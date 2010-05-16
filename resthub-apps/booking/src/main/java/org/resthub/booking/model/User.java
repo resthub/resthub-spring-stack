@@ -4,6 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.resthub.core.model.Resource;
 
 /**
@@ -13,6 +16,8 @@ import org.resthub.core.model.Resource;
  */
 @Entity
 @Table(name="Customer")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User extends Resource {
     
     private String username;
