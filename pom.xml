@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<name>RESThub</name>
 	<version>1.0-SNAPSHOT</version>
-	<url>http://github.com/bouiaw/resthub</url>
+	<url>http://resthub.org</url>
 	<description>
 		RESThub is an Open Source (LGPL) framework designed to allow you to build web applications following KISS (Keep It Simple and Stupid), DRY (Don’t Repeat Yourself) and REST principles.
 	</description>
@@ -19,9 +19,9 @@
 	</modules>
 
 	<properties>
-		<jersey.version>1.1.5.1</jersey.version>
+		<jersey.version>1.2</jersey.version>
 		<mysql-connector-java-version>5.1.12</mysql-connector-java-version>
-		<hibernate.version>3.5.1-Final</hibernate.version>
+		<hibernate.version>3.5.2-Final</hibernate.version>
 		<hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
 		<h2.version>1.2.135-without-iframe-check</h2.version>
 		<hades.version>2.0.0.BUILD-SNAPSHOT</hades.version>
@@ -61,7 +61,26 @@
 		<developer>
 			<id>bouiaw</id>
 			<name>Sebastien Deleuze</name>
-			<email>bouiaw(at)gmail.com</email>
+			<timezone>+1</timezone>
+		</developer>
+                <developer>
+			<id>pouic</id>
+			<name>Nicolas Carlier</name>
+			<timezone>+1</timezone>
+		</developer>
+                <developer>
+			<id>bmeurant</id>
+			<name>Baptiste Meurant</name>
+			<timezone>+1</timezone>
+		</developer>
+                <developer>
+			<id>feugy</id>
+			<name>Damien Feugas</name>
+			<timezone>+1</timezone>
+		</developer>
+                <developer>
+			<id>loicfrering</id>
+			<name>Loic Frering</name>
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
@@ -307,9 +326,14 @@
 				<artifactId>jersey-server</artifactId>
 				<version>${jersey.version}</version>
 			</dependency>
+                        <dependency>
+				<groupId>com.sun.jersey.jersey-test-framework</groupId>
+				<artifactId>jersey-test-framework-core</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
 			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-test-framework</artifactId>
+				<groupId>com.sun.jersey.jersey-test-framework</groupId>
+				<artifactId>jersey-test-framework-grizzly</artifactId>
 				<version>${jersey.version}</version>
 			</dependency>
 			<dependency>

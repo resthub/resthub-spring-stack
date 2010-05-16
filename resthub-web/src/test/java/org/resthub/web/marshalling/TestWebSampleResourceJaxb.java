@@ -31,7 +31,7 @@ public class TestWebSampleResourceJaxb {
 
     @Test
     public void testUserXMLMarshalling() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Resource.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(WebSampleResource.class);
         OutputStream baOutputStream = new ByteArrayOutputStream();
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.marshal(resource, baOutputStream);

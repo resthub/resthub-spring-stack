@@ -51,9 +51,13 @@
 			<artifactId>jackson-xc</artifactId>
 		</dependency>
 
+                <dependency>
+			<groupId>com.sun.jersey.jersey-test-framework</groupId>
+			<artifactId>jersey-test-framework-core</artifactId>
+		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-test-framework</artifactId>
+			<groupId>com.sun.jersey.jersey-test-framework</groupId>
+			<artifactId>jersey-test-framework-grizzly</artifactId>
 		</dependency>
 
 		<dependency>
