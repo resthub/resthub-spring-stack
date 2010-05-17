@@ -30,9 +30,9 @@ public class UserController extends GenericResourceController<User, UserService>
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/check")
     public Response checkCredentials(User user) {
-        Boolean validCredentials = this.service.checkCredentials(user.getUsername(), user.getPassword());
-        if(validCredentials) {
-            return Response.ok().build();
+        User validUser = this.service.checkCredentials(user.getUsername(), user.getPassword());
+        if(validUser != null) {
+            return Response.ok().entity(validUser).build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }

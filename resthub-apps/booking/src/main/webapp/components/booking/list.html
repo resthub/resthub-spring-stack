@@ -1,0 +1,56 @@
+<h1>Search Hotels</h1>
+
+<p>
+    <input type="text" id="search" size="30">
+    <input type="submit" id="submit" value="Find Hotels">
+
+    <br>
+
+    Maximum results: 
+    <select id="size">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+    </select>
+</p>
+
+<div id="result">
+</div>
+
+<h1>Current Hotel Bookings</h1>
+
+<% if (!bookings) { %>
+    <p>
+        No Bookings Found
+    </p>
+<% } else { %>
+   <table>
+       <thead>
+           <tr>
+               <th>Name</th>
+               <th>Address</th>
+               <th>City, State</th>
+               <th>Check in</th>
+               <th>Check out</th>
+               <th>Confirmation number</th>
+               <th>Action</th>
+           </tr>
+       </thead>
+       <tbody>
+           <% for(var i = 0 ; i < bookings.length ; i++) { %>
+               <% var booking = bookings[i]; %>
+               <tr>
+                   <td><%= booking.hotel.name %></td>
+                   <td><%= booking.hotel.address %></td>
+                   <td><%= booking.hotel.city %>, <%= booking.hotel.state %>, <%= booking.hotel.country %></td>
+                   <td><%= booking.checkinDate %></td>
+                   <td><%= booking.checkoutDate %></td>
+                   <td><%= booking.id %></td>
+                   <td>
+                       <a href="#/cancelBooking/<%= booking.id %>">Cancel</a>
+                   </td>
+               </tr>
+           <% } %>
+       </tbody>
+   </table> 
+<% } %>

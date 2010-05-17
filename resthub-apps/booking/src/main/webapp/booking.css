@@ -94,6 +94,14 @@ a {
     margin-top: 0;
 }
 
+#formLogin .messages {
+     text-align: center;
+}
+
+#formLogin .error {
+     color: #c00;
+}
+
 /** Table **/
 
 table {

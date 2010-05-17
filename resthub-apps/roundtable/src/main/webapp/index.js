@@ -8,8 +8,8 @@
         this.get('#/', function() {
             $('#main').html('<p>Welcome to <strong>Roundtable</strong></p>');
             dominoes("components/poll/list.js", function() {
-				$('#main').listPoll("destroy");
-			});
+                $('#main').listPoll("destroy");
+            });
         });
 
         /**

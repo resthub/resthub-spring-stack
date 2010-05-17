@@ -10,16 +10,28 @@
         
         this.get('#/', function() {
             this.title('Login');
-            $('#header').render('components/header.html', {user: {}});
-            $('#content').render('components/login.html', {});
+            $('#header').render('components/header.html', {user: $.session.getJSONItem('user')});
+            $('#content').render('components/login.html', {})
+        });
+
+        this.get('#/logout', function(context) {
+            $.session.clear();
+            context.redirect('#/');
         });
 
         this.get('#/register', function() {
             this.title('Register');
             $('#content').render('components/register.html', {});
         });
+        
+        this.get('#/booking/list', function() {
+            dominoes("components/booking/list.js", function() {
+                $('#content').listBookings();
+            });
+        });
 
-        this.post('#/user/check', function() {
+        this.post('#/user/check', function(context) {
+            $.session.clear();
             var user = {
                 username: this.params['username'],
                 password: this.params['password'],
@@ -32,15 +44,14 @@
                 dataType: 'json',
                 data: $.toJSON(user),
                 processData: false,
-                success: function() {
-                   alert("login OK !");
+                success: function(user) {
+                   $.session.setJSONItem('user', user);
+                   // TODO replace with a less intrusive strategy based on listening events
+                   $('#header').render('components/header.html', {user: $.session.getJSONItem('user')});
+                   context.redirect('#/booking/list');
                 },
                 error: function() {
-                   alert("login NOK !");
-                },
-                complete: function() {
-                   event.preventDefault();
-                   event.stopPropagation();
+                   $("#formLogin p.messages").html('<span class="error">Bad credentials</span>');
                 }
 
             });
@@ -49,6 +60,8 @@
     });
 
     $(function() {
+        $.session.setJSONItem('user', {});
+        
         app.run('#/');
     });
 })(jQuery);
