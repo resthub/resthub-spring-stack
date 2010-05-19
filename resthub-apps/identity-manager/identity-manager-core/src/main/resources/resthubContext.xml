@@ -12,7 +12,15 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
 	
-	<!--	<http>
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:file:~/identity-manager;AUTO_SERVER=TRUE"/>
+        <property name="username" value="sa" />
+        <property name="password" value="" />
+    </bean>
+    
+	<!--	
+	<http>
 	    <form-login />
 	    <anonymous />
 	    <http-basic />
@@ -25,6 +33,7 @@
 		<authentication-provider user-service-ref="resthubUserDetailsService" />
 	</authentication-manager> 
 		       	
- 	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />-->
+ 	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />
+ 	-->
  	
 </beans>

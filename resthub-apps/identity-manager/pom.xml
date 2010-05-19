@@ -12,11 +12,18 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Identity manager</name>
-	<description>Sample user/group/role management application
-	</description>
+	<description>Sample user/group/role management application</description>
 
+	<properties>
+	</properties>
+	
 	<modules>
 		<module>identity-manager-core</module>
+		<module>identity-manager-webapp</module>
 	</modules>
+	
+	<build>
+	</build>
+	
 	
 </project>

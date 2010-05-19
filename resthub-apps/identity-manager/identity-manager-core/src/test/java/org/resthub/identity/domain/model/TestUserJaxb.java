@@ -11,25 +11,37 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 
 public class TestUserJaxb {
-	
+
 	private User user;
+	private Group group1;
+	private Group group2;
 
-    @Before
-    public void setUp() {
-    	user = new User("TestPersistName");
-    }
+	@Before
+	public void setUp() {
+		user = new User("UserLogin");
+		group1 = new Group("Group1Name");
+		group2 = new Group("Group2Name");
 
-    @Test
-    public void testUserMarshalling() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
-        OutputStream baOutputStream = new ByteArrayOutputStream();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(user, baOutputStream);
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        System.out.println(baOutputStream.toString());
-        assertFalse(baOutputStream.toString().isEmpty());
-    }
+		user.setEmail("test@check.com");
+		user.setPassword("TestPassword");
+		user.addPermission("perm1");
+		user.addPermission("perm2");
+		user.addGroup(group1);
+		user.addGroup(group2);
+	}
+
+	@Test
+	public void testUserMarshalling() throws JAXBException {
+		JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
+		OutputStream baOutputStream = new ByteArrayOutputStream();
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		marshaller.marshal(user, baOutputStream);
+		System.out.println(baOutputStream.toString());
+		assertFalse(baOutputStream.toString().isEmpty());
+	}
 }

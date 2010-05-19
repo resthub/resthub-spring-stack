@@ -1,0 +1,23 @@
+<% if (!user) { %>
+    <p>
+        No Users Found
+    </p>
+<% } else { %>
+   <table>
+       <thead>
+           <tr>
+               <th>Login</th>
+               <th>Password</th>
+           </tr>
+       </thead>
+       <tbody>
+           <% for(var i = 0 ; i < user.length ; i++) { %>
+               <% var u = user[i]; %>
+               <tr>
+                   <td><%= u.login %></td>
+                   <td><%= u.password %></td>
+               </tr>
+           <% } %>
+       </tbody>
+   </table>
+<% } %>

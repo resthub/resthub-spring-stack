@@ -31,6 +31,11 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 		this.resourceDao = resourceDao;
 	}
 
+        public Long getRessourceId()
+        {
+            return this.resourceId;
+        }
+
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {

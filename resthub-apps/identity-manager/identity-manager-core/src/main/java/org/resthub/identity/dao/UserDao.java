@@ -5,5 +5,4 @@ import org.resthub.identity.model.User;
 
 public interface UserDao extends GenericResourceDao<User> {
 	
-
 }

@@ -8,5 +8,5 @@ import org.resthub.identity.model.User;
 
 @Named("userDao")
 public class JpaUserDao extends GenericJpaResourceDao<User> implements UserDao {
-    
+
 }
