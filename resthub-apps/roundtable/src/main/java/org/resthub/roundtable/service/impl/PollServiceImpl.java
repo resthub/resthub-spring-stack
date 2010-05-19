@@ -39,13 +39,12 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
         poll.setAuthor(resource.getAuthor());
         poll.setBody(resource.getBody());
         poll.setTopic(resource.getTopic());
+        poll.setCreationDate(date.getTime());
         poll.setAnswers(new ArrayList<Answer>());
         for (int i = 0; i < resource.getAnswers().size(); i++) {
             Answer a = resource.getAnswers().get(i);
             Answer answer = new Answer();
             answer.setBody(a.getBody());
-//            answer.setCreationDate(date.getTime());
-//            answer.setModificationDate(date.getTime());
             answer.setOrder(i + 1);
             answer.setPoll(poll);
             poll.getAnswers().add(answer);

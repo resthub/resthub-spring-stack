@@ -84,6 +84,7 @@
                 processData: false,
                 data: $.toJSON(poll),
                 success: function(poll) {
+                    $.pnotify('Poll created with success.');
                     context.redirect('#/poll', poll.id);
                 }
             });
@@ -92,5 +93,14 @@
 
     $(function() {
         app.run('#/');
+        $('body').ajaxError(function(e, xhr, settings, exception) {
+            $.pnotify({
+                pnotify_title: 'Server trouble!',
+                pnotify_text: 'Error requesting ' + settings.url,
+                pnotify_type: 'error',
+                pnotify_hide: false
+            });
+
+        });
     });
 })(jQuery);

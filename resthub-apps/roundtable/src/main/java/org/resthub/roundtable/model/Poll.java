@@ -54,6 +54,10 @@ public class Poll extends Resource {
     private Set<Voter> voters = new HashSet<Voter>();
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "creation_date", nullable = false)
+    private Date creationDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "expiration_date", nullable = false)
     private Date expirationDate;
 
@@ -86,6 +90,14 @@ public class Poll extends Resource {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Date getExpirationDate() {

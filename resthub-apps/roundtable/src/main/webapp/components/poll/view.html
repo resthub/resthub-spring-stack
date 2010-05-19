@@ -1,99 +1,101 @@
-<h2><%= body %></h2>
-<div class="legend">
-    <table cellspacing="1">
-        <tbody>
-            <tr>
-                <td style="height: 36px;"></td>
-            </tr>
-            <!-- list voters -->
-            <% if (typeof voters != "undefined") {%>
-                <% if (jQuery.isArray(voters)) {%>
-                    <% for(var i = 0 ; i < voters.length ; i++) {%>
-                    <tr>
-                        <td class="rt-voter">
-                            <span class="name"><%= voters[i].name %></span>
-                        </td>
-                    </tr>
+<div class="poll">
+    <h2><%= body %></h2>
+    <div class="legend">
+        <table cellspacing="1">
+            <tbody>
+                <tr>
+                    <td style="height: 36px;"></td>
+                </tr>
+                <!-- list voters -->
+                <% if (typeof voters != "undefined") {%>
+                    <% if (jQuery.isArray(voters)) {%>
+                        <% for(var i = 0 ; i < voters.length ; i++) {%>
+                        <tr>
+                            <td class="rt-voter">
+                                <span class="name"><%= voters[i].name %></span>
+                            </td>
+                        </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td class="rt-voter">
+                                <span class="name"><%= voters.name %></span>
+                            </td>
+                        </tr>
                     <% } %>
-                <% } else { %>
-                    <tr>
-                        <td class="rt-voter">
-                            <span class="name"><%= voters.name %></span>
-                        </td>
-                    </tr>
                 <% } %>
-            <% } %>
-            <!-- end list voters -->
-            <tr><td style="background-color: transparent; border: 0px none; height: 0.25em;"></td></tr>
-            <tr>
-                <td class="rt-voter" >
-                    <input type="text" name="you" value="" />
-                </td>
-            </tr>
-            <tr class="result"><td>Result</td></tr>
-        </tbody>
-    </table>
-</div>
-<div class="main">
-    <table cellspacing="1">
-        <tbody>
-            <tr class="choices">
-                <% for(var i = 0; i < answers.length ; i++) {%>
-                    <th><%= answers[i].body %></th>
-                <% } %>
-                <th style="background-color: transparent; border: 0px none;width:50px;"></th>
-            </tr>
-            <% if (typeof voters != "undefined") {%>
-                <% if (jQuery.isArray(voters)) {%>
-                    <% for(var i = 0 ; i < voters.length ; i++) {%>
+                <!-- end list voters -->
+                <tr><td style="background-color: transparent; border: 0px none; height: 0.25em;"></td></tr>
+                <tr>
+                    <td class="rt-voter" >
+                        <input type="text" name="you" value="" />
+                    </td>
+                </tr>
+                <tr class="result"><td>Result</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="main">
+        <table cellspacing="1">
+            <tbody>
+                <tr class="choices">
+                    <% for(var i = 0; i < answers.length ; i++) {%>
+                        <th><%= answers[i].body %></th>
+                    <% } %>
+                    <th style="background-color: transparent; border: 0px none;width:50px;"></th>
+                </tr>
+                <% if (typeof voters != "undefined") {%>
+                    <% if (jQuery.isArray(voters)) {%>
+                        <% for(var i = 0 ; i < voters.length ; i++) {%>
+                            <tr class="votes">
+                                <% for(var j = 0; j < answers.length ; j++) {%>
+                                    <% var vote = voters[i].votes[answers[j].order - 1] %>
+                                    <td class="<%= vote.value %>" title="<%= voters[i] %>, <%= answers[j].body %>: <%= vote.value %>" ></td>
+                                <% } %>
+                                <td style="background-color: transparent; border: 0px none;"></td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
                         <tr class="votes">
                             <% for(var j = 0; j < answers.length ; j++) {%>
-                                <% var vote = voters[i].votes[answers[j].order - 1] %>
-                                <td class="<%= vote.value %>" title="<%= voters[i] %>, <%= answers[j].body %>: <%= vote.value %>" ></td>
+                                <% var vote = voters.votes[answers[j].order - 1] %>
+                                <td class="<%= vote.value %>" title="<%= voters.name %>, <%= answers[j].body %>: <%= vote.value %>" ></td>
                             <% } %>
                             <td style="background-color: transparent; border: 0px none;"></td>
                         </tr>
                     <% } %>
-                <% } else { %>
-                    <tr class="votes">
-                        <% for(var j = 0; j < answers.length ; j++) {%>
-                            <% var vote = voters.votes[answers[j].order - 1] %>
-                            <td class="<%= vote.value %>" title="<%= voters.name %>, <%= answers[j].body %>: <%= vote.value %>" ></td>
-                        <% } %>
-                        <td style="background-color: transparent; border: 0px none;"></td>
-                    </tr>
                 <% } %>
-            <% } %>
-            <tr>
-                <% for(var i = 0; i <= answers.length ; i++) {%>
-                    <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
-                <% } %>
-            </tr>
-            <tr class="rt-vote-inputs">
-                <% for(var i = 0; i < answers.length ; i++) {%>
-                    <td class="no rt-vote" title="<%= answers[i].body %>" id="p-<%= id %>-vote-<%= i %>"></td>
-                <% } %>
-                <td>
-                    <input type="button" value="Vote" title="Submit your vote" />
-                </td>
-            </tr>
-            <tr class="result">
-                <% for(var i = 0; i < answers.length ; i++) {%>
-                    <% var vote_sum = 0 %>
-                    <% if (typeof voters != "undefined") {%>
-                        <% if (jQuery.isArray(voters)) {%>
-                            <% for(var j = 0 ; j < voters.length ; j++) {%>
-                                <% vote_sum += (voters[j].votes[i].value == "yes") ? 1 : 0 %>
-                            <% } %>
-                        <% } else { %>
-                            <% vote_sum += (voters.votes[i].value == "yes") ? 1 : 0 %>
-                        <% } %>
+                <tr>
+                    <% for(var i = 0; i <= answers.length ; i++) {%>
+                        <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
                     <% } %>
-                    <td class="<%= (vote_sum > 0) ? 'bold' : '' %>" ><%= vote_sum %></td>
-                <% } %>
-                <td style="background-color: transparent; border: 0px none;"></td>
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+                <tr class="rt-vote-inputs">
+                    <% for(var i = 0; i < answers.length ; i++) {%>
+                        <td class="no rt-vote" title="<%= answers[i].body %>" id="p-<%= id %>-vote-<%= i %>"></td>
+                    <% } %>
+                    <td>
+                        <input type="button" value="Vote" title="Submit your vote" />
+                    </td>
+                </tr>
+                <tr class="result">
+                    <% for(var i = 0; i < answers.length ; i++) {%>
+                        <% var vote_sum = 0 %>
+                        <% if (typeof voters != "undefined") {%>
+                            <% if (jQuery.isArray(voters)) {%>
+                                <% for(var j = 0 ; j < voters.length ; j++) {%>
+                                    <% vote_sum += (voters[j].votes[i].value == "yes") ? 1 : 0 %>
+                                <% } %>
+                            <% } else { %>
+                                <% vote_sum += (voters.votes[i].value == "yes") ? 1 : 0 %>
+                            <% } %>
+                        <% } %>
+                        <td class="<%= (vote_sum > 0) ? 'bold' : '' %>" ><%= vote_sum %></td>
+                    <% } %>
+                    <td style="background-color: transparent; border: 0px none;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 

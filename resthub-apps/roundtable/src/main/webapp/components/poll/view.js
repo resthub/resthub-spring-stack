@@ -39,6 +39,7 @@ $.widget('roundtable.viewPoll', {
                     dataType: 'json',
                     data: vote,
                     success: function(pid) {
+                        $.pnotify('Voted with success.');
                         // FIXME try to avoid this...
                         $.ajax({
                             url: 'api/poll/' + pid,
