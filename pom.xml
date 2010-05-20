@@ -16,6 +16,7 @@
 		<module>resthub-core</module>
 		<module>resthub-web</module>
 		<module>resthub-apps</module>
+		<module>resthub-archetypes</module>
 	</modules>
 
 	<properties>
@@ -94,7 +95,7 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>7.0.2.RC0</version>
+				<version>7.1.0.v20100505</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
