@@ -1,23 +1,19 @@
 package org.resthub.web.marshalling;
 
+import com.sun.jersey.api.json.JSONConfiguration;
+import com.sun.jersey.api.json.JSONJAXBContext;
+import com.sun.jersey.api.json.JSONMarshaller;
 import static org.junit.Assert.assertFalse;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.model.Resource;
 import org.resthub.web.model.WebSampleResource;
 
 public class TestWebSampleResourceJaxb {
@@ -41,15 +37,15 @@ public class TestWebSampleResourceJaxb {
     }
     
     @Test
-    public void testUserJSONMarshalling() throws JsonGenerationException, JsonMappingException, IOException  {
-    	ObjectMapper mapper = new ObjectMapper();
-    	OutputStream baOutputStream = new ByteArrayOutputStream();
-   	    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
-   	    mapper.getDeserializationConfig().setAnnotationIntrospector(introspector);
-   	    mapper.getSerializationConfig().setAnnotationIntrospector(introspector);
-   	    mapper.writeValue( baOutputStream, resource );
-        System.out.println(baOutputStream.toString());
-        assertFalse(baOutputStream.toString().isEmpty());
+    public void testUserJSONMarshalling() throws JAXBException  {
+
+		JSONJAXBContext jsonJaxbContext = new JSONJAXBContext(JSONConfiguration.badgerFish().build(), WebSampleResource.class);
+		OutputStream baOutputStream = new ByteArrayOutputStream();
+		JSONMarshaller marshaller = jsonJaxbContext.createJSONMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		marshaller.marshallToJSON(resource, baOutputStream);
+		System.out.println(baOutputStream.toString());
+		assertFalse(baOutputStream.toString().isEmpty());
     }
 
 }
