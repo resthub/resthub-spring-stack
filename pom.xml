@@ -412,11 +412,18 @@
 	</dependencyManagement>
 
 	<repositories>
-            <!-- Contains all RESThub artifacts and transitive dependencies -->             
-            <repository>
-                    <id>resthub</id>
-                    <url>http://resthub.org/nexus/content/groups/resthub</url>
-            </repository>
+		<!-- Contains all RESThub artifacts and transitive dependencies -->             
+		<repository>
+				<id>resthub</id>
+				<url>http://resthub.org/nexus/content/groups/resthub</url>
+		</repository>
     </repositories>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>openscales-repo</id>
+			<url>http://resthub.org/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
