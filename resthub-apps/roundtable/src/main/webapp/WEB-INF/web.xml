@@ -3,7 +3,7 @@
     <display-name>Round Table</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:resthubContext.xml classpath:roundtableContext.xml</param-value>
+        <param-value>classpath*:resthubContext.xml classpath:applicationContext.xml</param-value>
     </context-param>
     <filter>
         <filter-name>JpaFilter</filter-name>

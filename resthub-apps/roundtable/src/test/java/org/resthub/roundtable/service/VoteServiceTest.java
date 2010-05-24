@@ -9,23 +9,15 @@ import javax.inject.Named;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.resthub.core.test.AbstractResthubTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
  /**
  * Test of Poll services.
  * @author Nicolas Carlier
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:roundtableContext.xml" })
-@TransactionConfiguration(defaultRollback = true)
-@Transactional(readOnly = false)
-public class VoteServiceTest {
+public class VoteServiceTest extends AbstractResthubTest {
     protected VoteService voteService;
     
     protected PollService pollService;

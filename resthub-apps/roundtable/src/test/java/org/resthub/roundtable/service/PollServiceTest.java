@@ -11,13 +11,11 @@ import org.junit.Test;
 import org.resthub.core.test.AbstractResourceServiceTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
-import org.springframework.test.context.ContextConfiguration;
 
  /**
  * Test of Poll services.
  * @author Nicolas Carlier
  */
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:roundtableContext.xml" })
 public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollService> {
     @Inject
     @Named("pollService")

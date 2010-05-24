@@ -6,7 +6,7 @@
     <display-name>${artifactId}</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:resthubContext.xml classpath:${artifactId}Context.xml</param-value>
+        <param-value>classpath*:resthubContext.xml classpath:applicationContext.xml</param-value>
     </context-param>
     <filter>
         <filter-name>JpaFilter</filter-name>

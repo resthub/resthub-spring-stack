@@ -7,7 +7,6 @@ import java.util.List;
 import javax.inject.Named;
 import javax.persistence.Query;
 
-import org.resthub.core.dao.jpa.GenericJpaDao;
 import org.resthub.core.model.StandaloneEntity;
 
 /**

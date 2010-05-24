@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.core.annotation.Auditable;
-import org.resthub.core.service.impl.GenericResourceServiceImpl;
+import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.roundtable.dao.PollDao;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;

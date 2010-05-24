@@ -1,4 +1,4 @@
-package org.resthub.core.service.impl;
+package org.resthub.core.service;
 
 import java.io.Serializable;
 import java.util.List;

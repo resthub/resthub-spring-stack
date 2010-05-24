@@ -1,4 +1,4 @@
-package org.resthub.core.tools.impl;
+package org.resthub.core.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -8,20 +8,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.core.model.Resource;
 import org.resthub.core.util.ClassUtils;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml" })
-@TransactionConfiguration(defaultRollback = true)
-@Transactional(readOnly = false)
-public abstract class AbstractResourceDaoTest<T extends Resource, D extends GenericResourceDao<T>> {
+public abstract class AbstractResourceDaoTest<T extends Resource, D extends GenericResourceDao<T>> extends AbstractResthubTest {
 
 	protected D resourceDao;
 

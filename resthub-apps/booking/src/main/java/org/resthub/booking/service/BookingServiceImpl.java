@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.resthub.booking.model.Booking;
 import org.resthub.core.dao.GenericResourceDao;
-import org.resthub.core.service.impl.GenericResourceServiceImpl;
+import org.resthub.core.service.GenericResourceServiceImpl;
 
 @Named("bookingService")
 public class BookingServiceImpl extends GenericResourceServiceImpl<Booking, GenericResourceDao<Booking>> {

@@ -1,4 +1,4 @@
-package org.resthub.core.service.impl;
+package org.resthub.core.service;
 
 import java.util.List;
 

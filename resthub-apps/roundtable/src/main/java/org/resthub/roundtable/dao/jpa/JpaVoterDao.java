@@ -4,7 +4,7 @@ import javax.inject.Named;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import org.resthub.core.dao.jpa.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaResourceDao;
 import org.resthub.roundtable.dao.VoterDao;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.model.Voter;

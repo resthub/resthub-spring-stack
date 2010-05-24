@@ -1,4 +1,4 @@
-package org.resthub.core.dao.jpa;
+package org.resthub.core.dao;
 
 import java.io.Serializable;
 import java.util.List;

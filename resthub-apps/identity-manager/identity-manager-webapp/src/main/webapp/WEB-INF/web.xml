@@ -5,7 +5,7 @@
   
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:resthubContext.xml classpath:identityContext.xml</param-value>
+        <param-value>classpath*:resthubContext.xml classpath*:applicationContext.xml classpath:applicationContext.xml</param-value>
     </context-param>
   
     <filter>

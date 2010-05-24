@@ -3,7 +3,7 @@ package org.resthub.roundtable.dao.jpa;
 import javax.inject.Named;
 import javax.persistence.Query;
 
-import org.resthub.core.dao.jpa.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaResourceDao;
 import org.resthub.roundtable.dao.VoteDao;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.model.Vote;
