@@ -1,8 +1,8 @@
-package org.resthub.identity.dao.jpa;
+package org.resthub.identity.dao;
 
 import javax.inject.Named;
 
-import org.resthub.core.dao.jpa.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaResourceDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
 
