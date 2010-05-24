@@ -12,7 +12,6 @@ import ${package}.model.SampleResource;
 import ${package}.service.SampleService;
 import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:${artifactId}Context.xml" })
 public class SampleServiceTest extends AbstractResourceServiceTest<SampleResource, SampleService> {
 
     @Inject
