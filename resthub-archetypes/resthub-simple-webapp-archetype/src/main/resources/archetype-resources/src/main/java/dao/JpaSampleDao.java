@@ -5,7 +5,7 @@ package ${package}.dao;
 
 import javax.inject.Named;
 
-import org.resthub.core.dao.jpa.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaResourceDao;
 import ${package}.model.SampleResource;
 
 @Named("sampleDao")

@@ -6,7 +6,7 @@ package ${package}.service;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.service.impl.GenericResourceServiceImpl;
+import org.resthub.core.service.GenericResourceServiceImpl;
 import ${package}.dao.SampleDao;
 import ${package}.model.SampleResource;
 
