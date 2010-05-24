@@ -10,7 +10,6 @@ import javax.inject.Named;
 import org.resthub.core.test.AbstractResourceServiceTest;
 import ${package}.model.SampleResource;
 import ${package}.service.SampleService;
-import org.springframework.test.context.ContextConfiguration;
 
 public class SampleServiceTest extends AbstractResourceServiceTest<SampleResource, SampleService> {
 

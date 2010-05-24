@@ -19,7 +19,7 @@
     <bean id="scanningPersistenceUnitManager"
           class="org.resthub.core.dao.ScanningPersistenceUnitManager">
         <property name="defaultDataSource" ref="dataSource" />
-        <property name="classpathPatterns" value="classpath*:org/resthub/core/model/Resource.class;${packageInPathFormat}/model/**/*.class" />
+        <property name="classpathPatterns" value="classpath*:org/resthub/core/model/Resource.class;classpath:${packageInPathFormat}/model/**/*.class" />
     </bean>
 
 </beans>

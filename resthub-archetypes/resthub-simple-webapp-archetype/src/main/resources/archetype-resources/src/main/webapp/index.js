@@ -5,6 +5,10 @@
 (function($) {
 	
     var app = $.sammy(function() {
+
+        /**
+         * Each "state" is declared this way
+         */
         this.get('#/', function() {
             $('#main').html('<p>Welcome to home</p>');
         });
