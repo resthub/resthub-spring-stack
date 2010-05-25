@@ -1,4 +1,4 @@
-package org.resthub.web.dao.jpa;
+package org.resthub.web.dao;
 
 import javax.inject.Named;
 

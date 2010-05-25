@@ -5,13 +5,14 @@ $.widget("identity.viewUser", {
         context : null
     },
     _create: function() {
-		
+		this.element.addClass('im-user-detail');
     },
     _init: function() {
-		alert($.toJSON(this.options.data));
-        this.element.render(this.options.template, this.options.data.user);
+		//alert($.toJSON(this.options.data));
+        this.element.render(this.options.template, this.options.data);
     },
     destroy: function() {
+        this.element.removeClass('im-user-detail');
         $.Widget.prototype.destroy.call( this );
     }
 });
