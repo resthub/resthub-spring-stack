@@ -66,13 +66,14 @@ public class User extends Identity {
 		this.email = email;
 	}
 
-	@ManyToMany
-	@JoinTable(name = "user_group")
+
 	/*
 	 * @XmlElementWrapper(name="groups")
-	 * 
+	 *
 	 * @XmlElement(name="group")
 	 */
+	@ManyToMany
+	@JoinTable(name = "user_group")
 	@XmlTransient
 	public List<Group> getGroups() {
 		return groups;

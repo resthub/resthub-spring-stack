@@ -13,12 +13,32 @@
             $('#content').render('components/home.html', {})
         });
 
+		/**
+         * View users.
+         */
         this.get('#/user/list', function(context) {
             $.ajax({
                 url: 'api/user/',
                 dataType: 'json',
                 success: function(data) {
                     $('#content').listUsers({
+                        data: data,
+                        context: context
+                    });
+                }
+            });
+        });
+
+		/**
+         * View user.
+         */
+        this.get('#/user/:id', function(context) {
+            var id = this.params['id'];
+			$.ajax({
+                url: 'api/user/'+ id,
+                dataType: 'json',
+                success: function(data) {
+                    $('#content').viewUser({
                         data: data,
                         context: context
                     });
