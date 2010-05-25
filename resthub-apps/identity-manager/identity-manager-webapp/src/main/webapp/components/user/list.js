@@ -8,7 +8,8 @@ $.widget("identity.listUsers", {
         
     },
     _init: function() {
-        this.element.render(this.options.template, this.options.data);
+		alert($.toJSON(this.options.data.users));
+        this.element.render(this.options.template, this.options.data.users);
     },
     destroy: function() {
         $.Widget.prototype.destroy.call( this );
