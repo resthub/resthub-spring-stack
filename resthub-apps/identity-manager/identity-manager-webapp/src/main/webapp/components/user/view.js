@@ -8,8 +8,7 @@ $.widget("identity.viewUser", {
 		this.element.addClass('im-user-detail');
     },
     _init: function() {
-		//alert($.toJSON(this.options.data));
-        this.element.render(this.options.template, this.options.data);
+        this.element.render(this.options.template, {user: this.options.data});
     },
     destroy: function() {
         this.element.removeClass('im-user-detail');

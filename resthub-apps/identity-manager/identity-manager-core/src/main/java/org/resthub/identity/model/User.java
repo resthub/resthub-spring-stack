@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table
-@XmlRootElement
+@XmlRootElement(name="user")
 public class User extends Identity {
 
 	private static final long serialVersionUID = -7139715798005612136L;

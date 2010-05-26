@@ -9,8 +9,8 @@ $.widget("identity.listUsers", {
     },
     _init: function() {
 		var self = this;
-		// alert($.toJSON(this.options.data));
-        this.element.render(this.options.template, this.options.data);
+		//alert($.toJSON(users));
+        this.element.render(this.options.template, {users: this.options.data});
 
 		this.element.find('tr.user-item').click(function() {
             var id = $(this).attr('id').split("-")[1];

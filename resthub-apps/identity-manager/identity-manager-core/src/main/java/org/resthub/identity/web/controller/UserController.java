@@ -10,8 +10,7 @@ import org.resthub.web.controller.GenericResourceController;
 
 @Path("/user")
 @Named("userController")
-public class UserController extends
-		GenericResourceController<User, UserService> {
+public class UserController extends GenericResourceController<User, UserService> {
 
 	@Inject
 	@Named("userService")
@@ -19,5 +18,4 @@ public class UserController extends
 	public void setService(UserService service) {
 		this.service = service;
 	}
-
 }

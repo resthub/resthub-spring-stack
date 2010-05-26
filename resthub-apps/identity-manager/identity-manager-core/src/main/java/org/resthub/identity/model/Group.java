@@ -15,8 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Describe a group.
  */
 @Entity
-@Table(name = "UserGroup")
-/* "Group" conflicts with SQL keyword */
+@Table(name = "UsersGroup") /* "Group" conflicts with SQL keyword */
 @XmlRootElement
 public class Group extends Identity {
 
@@ -48,8 +47,8 @@ public class Group extends Identity {
 	}
 
 	@ManyToMany(mappedBy = "groups")
-	@XmlElementWrapper(name = "users")
-	@XmlElement(name = "user")
+	/*@XmlElementWrapper(name = "users")
+	@XmlElement(name = "user")*/
 	public List<User> getUsers() {
 		return users;
 	}

@@ -8,7 +8,7 @@ import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.test.AbstractResourceServiceTest;
 import org.resthub.identity.model.User;
 
-public class UserServiceTest extends AbstractResourceServiceTest<User, GenericResourceService<User>> {
+public class TestUserService extends AbstractResourceServiceTest<User, GenericResourceService<User>> {
 
 	@Inject
 	@Named("userService")

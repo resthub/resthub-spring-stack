@@ -31,10 +31,7 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 	}
 
 	private void changeContext(Class<?> objectType) throws JAXBException {
-		//context = new JSONJAXBContext(JSONConfiguration.badgerFish().build(), objectType);
-		//context = new JSONJAXBContext(JSONConfiguration.natural().build(), objectType);
-		//context = new JSONJAXBContext(JSONConfiguration.mapped().build(), objectType);
-		context = new JSONJAXBContext(JSONConfiguration.mappedJettison().build(), objectType);
+		context = new JSONJAXBContext(JSONConfiguration.natural().build(), objectType);
 	}
 
 	@Override

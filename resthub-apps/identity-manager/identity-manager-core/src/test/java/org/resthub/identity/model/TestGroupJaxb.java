@@ -1,5 +1,8 @@
-package org.resthub.identity.domain.model;
+package org.resthub.identity.model;
 
+import com.sun.jersey.api.json.JSONConfiguration;
+import com.sun.jersey.api.json.JSONJAXBContext;
+import com.sun.jersey.api.json.JSONMarshaller;
 import static org.junit.Assert.assertFalse;
 
 import java.io.ByteArrayOutputStream;
@@ -11,10 +14,6 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.identity.model.Group;
-import org.resthub.identity.model.User;
-
-
 
 public class TestGroupJaxb {
 	
@@ -46,4 +45,15 @@ public class TestGroupJaxb {
         System.out.println(baOutputStream.toString());
         assertFalse(baOutputStream.toString().isEmpty());
     }
+	
+	@Test
+	public void testGroupJSONMarshalling() throws JAXBException {
+		JSONJAXBContext jsonJaxbContext = new JSONJAXBContext(JSONConfiguration.natural().build(), Group.class);
+		OutputStream baOutputStream = new ByteArrayOutputStream();
+		JSONMarshaller marshaller = jsonJaxbContext.createJSONMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		marshaller.marshallToJSON(group, baOutputStream);
+		System.out.println(baOutputStream.toString());
+		assertFalse(baOutputStream.toString().isEmpty());
+	}
 }

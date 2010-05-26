@@ -345,6 +345,12 @@
                         <groupId>org.hibernate</groupId>
                         <artifactId>hibernate-validator</artifactId>
                         <version>${hibernate.validator.version}</version>
+						<exclusions>
+							<exclusion>
+								<groupId>com.sun.xml.bind</groupId>
+								<artifactId>jaxb-impl</artifactId>
+							</exclusion>
+						</exclusions>
                     </dependency>
 
                     <dependency>
@@ -393,8 +399,7 @@
                         <version>2.5</version>
                         <scope>provided</scope>
                     </dependency>
-
-                    <dependency>
+					<dependency>
                         <groupId>com.sun.jersey</groupId>
                         <artifactId>jersey-server</artifactId>
                         <version>${jersey.version}</version>

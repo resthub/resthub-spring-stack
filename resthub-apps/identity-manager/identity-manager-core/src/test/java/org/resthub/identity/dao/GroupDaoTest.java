@@ -1,4 +1,4 @@
-package org.resthub.identity.domain.dao;
+package org.resthub.identity.dao;
 
 import static org.junit.Assert.assertEquals;
 

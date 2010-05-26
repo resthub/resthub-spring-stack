@@ -48,7 +48,7 @@ public class TestUserController extends AbstractWebResthubTest {
     }
 
     @Test
-    public void testDeleteResource() {
+    public void testDeleteUser() {
         WebResource r = resource().path("user");
         User u1 = r.type(MediaType.APPLICATION_XML).post(User.class, new User("u1"));
         r = resource().path("user/" + u1.getId());

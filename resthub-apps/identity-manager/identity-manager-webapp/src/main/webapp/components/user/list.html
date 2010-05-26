@@ -1,7 +1,6 @@
+<% console.log($.toJSON(users)); %>
 <% if ($.isEmptyObject(users)) { %>
-    <p>
-        No Users Found
-    </p>
+    <p>No users found...</p>
 <% } else { %>
    <table>
        <thead>
@@ -13,7 +12,6 @@
            </tr>
        </thead>
        <tbody>
-		   <% var users = users.user %>
            <% for each(user in users) { %>
                <tr class="user-item" id="user-<%= user.id %>">
 				   <td><%= user.id %></td>
