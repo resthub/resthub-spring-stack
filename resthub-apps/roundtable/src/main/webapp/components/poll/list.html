@@ -1,21 +1,18 @@
 <ul>
-    <% if (typeof poll != "undefined") {%>
-        <% if (jQuery.isArray(poll)) {%>
-            <% for(var i = 0 ; i < poll.length ; i++) {%>
-                <% var p = poll[i] %>
-                <li class="poll-item" id="poll-<%= p.id %>">
-                    <h3><%= p.topic %> <span class="author">(by <%= p.author %> on <%= p.creationDate %>)</span></h3>
-                    <p><%= p.body %></p>
-                </li>
-            <% } %>
-        <% } else { %>
-            <li class="poll-item" id="poll-<%= poll.id %>">
-                <h3><%= poll.topic %> <span class="author">(by <%= poll.author %> on <%= poll.creationDate %>)</span></h3>
-                <p><%= poll.body %></p>
-            </li>
-        <% } %>
-    <% } else { %>
-        <li>no poll</li>
+    <% if ($.isEmptyObject(polls)) {%>
+		<li>No polls found...</li>
+	<% } else { %>
+		<% var polls = polls.poll %>
+		<% alert($.toJSON(polls)) %>
+		<% for each(poll in polls) { %>
+			check ?
+			<li class="poll-item" id="poll-<%= poll.id %>">
+				<h3><%= poll.topic %>
+					<span class="author">(by <%= poll.author %> on <%= poll.creationDate %>)</span>
+				</h3>
+				<p><%= poll.body %></p>
+			</li>
+		<% } %>
     <% } %>
 </ul>
 
