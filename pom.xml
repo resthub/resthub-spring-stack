@@ -475,6 +475,14 @@
                 </repository>
             </repositories>
 
+            <pluginRepositories>
+		<!-- Contains all RESThub artifacts and transitive dependencies -->
+                <pluginRepository>
+                    <id>resthub</id>
+                    <url>http://resthub.org/nexus/content/groups/resthub</url>
+                </pluginRepository>
+            </pluginRepositories>
+
             <distributionManagement>
                 <repository>
                     <id>resthub-repo</id>
