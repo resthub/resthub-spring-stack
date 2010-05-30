@@ -22,6 +22,7 @@
 
     <properties>
         <jersey.version>1.2</jersey.version>
+        <jackson.version>1.5.2</jackson.version>
         <hibernate.version>3.5.2-Final</hibernate.version>
         <hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
         <h2.version>1.2.136</h2.version>
@@ -399,7 +400,8 @@
                         <version>2.5</version>
                         <scope>provided</scope>
                     </dependency>
-					<dependency>
+
+                    <dependency>
                         <groupId>com.sun.jersey</groupId>
                         <artifactId>jersey-server</artifactId>
                         <version>${jersey.version}</version>
@@ -447,9 +449,14 @@
                         <version>${jersey.version}</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.sun.jersey</groupId>
-                        <artifactId>jersey-json</artifactId>
-                        <version>${jersey.version}</version>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-jaxrs</artifactId>
+                        <version>${jackson.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-xc</artifactId>
+                        <version>${jackson.version}</version>
                     </dependency>
 
                     <dependency>

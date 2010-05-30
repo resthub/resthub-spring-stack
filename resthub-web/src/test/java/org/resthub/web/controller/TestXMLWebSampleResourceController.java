@@ -13,7 +13,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.ClientResponse.Status;
 
-public class TestWebSampleResourceController extends AbstractWebResthubTest {
+public class TestXMLWebSampleResourceController extends AbstractWebResthubTest {
     
     @Test
     public void testCreateResource() {

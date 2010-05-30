@@ -1,8 +1,5 @@
 package org.resthub.web.marshalling;
 
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.api.json.JSONJAXBContext;
-import com.sun.jersey.api.json.JSONMarshaller;
 import static org.junit.Assert.assertFalse;
 
 import java.io.ByteArrayOutputStream;
@@ -35,15 +32,4 @@ public class TestWebSampleResourceJaxb {
         assertFalse(baOutputStream.toString().isEmpty());
     }
     
-    @Test
-    public void testJSONMarshalling() throws JAXBException  {
-
-		JSONJAXBContext jsonJaxbContext = new JSONJAXBContext(JSONConfiguration.badgerFish().build(), WebSampleResource.class);
-		OutputStream baOutputStream = new ByteArrayOutputStream();
-		JSONMarshaller marshaller = jsonJaxbContext.createJSONMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		marshaller.marshallToJSON(resource, baOutputStream);
-		System.out.println(baOutputStream.toString());
-		assertFalse(baOutputStream.toString().isEmpty());
-    }
 }

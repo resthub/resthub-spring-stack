@@ -22,7 +22,7 @@
                     dataType: 'json',
                     success: function(polls) {
                         $('#main').listPoll({
-                            data : polls,
+                            data : {polls : polls},
                             context: context
                         });
                     }

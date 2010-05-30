@@ -2,10 +2,7 @@
     <% if ($.isEmptyObject(polls)) {%>
 		<li>No polls found...</li>
 	<% } else { %>
-		<% var polls = polls.poll %>
-		<% alert($.toJSON(polls)) %>
 		<% for each(poll in polls) { %>
-			check ?
 			<li class="poll-item" id="poll-<%= poll.id %>">
 				<h3><%= poll.topic %>
 					<span class="author">(by <%= poll.author %> on <%= poll.creationDate %>)</span>
