@@ -47,8 +47,8 @@ public class Group extends Identity {
 	}
 
 	@ManyToMany(mappedBy = "groups")
-	/*@XmlElementWrapper(name = "users")
-	@XmlElement(name = "user")*/
+	@XmlElementWrapper(name = "users")
+	@XmlElement(name = "user")
 	public List<User> getUsers() {
 		return users;
 	}

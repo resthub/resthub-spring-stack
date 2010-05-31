@@ -1,8 +1,6 @@
 package org.resthub.identity.model;
 
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.api.json.JSONJAXBContext;
-import com.sun.jersey.api.json.JSONMarshaller;
+import java.io.IOException;
 import static org.junit.Assert.assertFalse;
 
 import java.io.ByteArrayOutputStream;
@@ -11,6 +9,11 @@ import java.io.OutputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.AnnotationIntrospector;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,13 +50,14 @@ public class TestGroupJaxb {
     }
 	
 	@Test
-	public void testGroupJSONMarshalling() throws JAXBException {
-		JSONJAXBContext jsonJaxbContext = new JSONJAXBContext(JSONConfiguration.natural().build(), Group.class);
-		OutputStream baOutputStream = new ByteArrayOutputStream();
-		JSONMarshaller marshaller = jsonJaxbContext.createJSONMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		marshaller.marshallToJSON(group, baOutputStream);
-		System.out.println(baOutputStream.toString());
-		assertFalse(baOutputStream.toString().isEmpty());
+	public void testGroupJSONMarshalling() throws JAXBException, JsonMappingException, JsonGenerationException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+    	OutputStream baOutputStream = new ByteArrayOutputStream();
+   	    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+   	    mapper.getDeserializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.getSerializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.writeValue( baOutputStream, group );
+        System.out.println(baOutputStream.toString());
+        assertFalse(baOutputStream.toString().isEmpty());
 	}
 }

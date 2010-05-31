@@ -1,22 +1,22 @@
 package org.resthub.identity.model;
 
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.api.json.JSONMarshaller;
-import com.sun.jersey.api.json.JSONJAXBContext;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.AnnotationIntrospector;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 
 import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.model.Resource;
 
 public class TestUserJaxb {
 
@@ -35,8 +35,8 @@ public class TestUserJaxb {
 		user.setEmail("test@check.com");
 		user.setPassword("TestPassword");
 		user.setId(Long.parseLong("1"));
-		/*user.addPermission("perm1");
-		user.addPermission("perm2");*/
+		user.addPermission("perm1");
+		user.addPermission("perm2");
 		user.addGroup(group1);
 		user.addGroup(group2);
 
@@ -56,14 +56,14 @@ public class TestUserJaxb {
 	}
 
 	@Test
-	public void testUserJSONMarshalling() throws JAXBException {
-		Class<?>[] cTypes = { User.class, Resource.class };
-		JSONJAXBContext jsonJaxbContext = new JSONJAXBContext(JSONConfiguration.natural().build(), cTypes);
-		OutputStream baOutputStream = new ByteArrayOutputStream();
-		JSONMarshaller marshaller = jsonJaxbContext.createJSONMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		marshaller.marshallToJSON(user, baOutputStream);
-		System.out.println(baOutputStream.toString());
-		assertFalse(baOutputStream.toString().isEmpty());
+	public void testUserJSONMarshalling() throws JAXBException, JsonMappingException, JsonGenerationException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+    	OutputStream baOutputStream = new ByteArrayOutputStream();
+   	    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+   	    mapper.getDeserializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.getSerializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.writeValue( baOutputStream, user );
+        System.out.println(baOutputStream.toString());
+        assertFalse(baOutputStream.toString().isEmpty());
 	}
 }

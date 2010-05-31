@@ -1,16 +1,21 @@
 package org.resthub.web.marshalling;
 
-import static org.junit.Assert.assertFalse;
-
+import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+
+import org.codehaus.jackson.map.AnnotationIntrospector;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+
 import org.resthub.web.model.WebSampleResource;
 
 public class TestWebSampleResourceJaxb {
@@ -23,13 +28,26 @@ public class TestWebSampleResourceJaxb {
     }
 
     @Test
-    public void testXMLMarshalling() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(WebSampleResource.class);
-        OutputStream baOutputStream = new ByteArrayOutputStream();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(resource, baOutputStream);
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    public void testXMLMarshalling() throws JsonMappingException, JsonGenerationException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+    	OutputStream baOutputStream = new ByteArrayOutputStream();
+   	    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+   	    mapper.getDeserializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.getSerializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.writeValue( baOutputStream, resource );
+        System.out.println(baOutputStream.toString());
         assertFalse(baOutputStream.toString().isEmpty());
     }
-    
+
+	@Test
+	public void testJSONMarshalling() throws JAXBException, JsonMappingException, JsonGenerationException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+    	OutputStream baOutputStream = new ByteArrayOutputStream();
+   	    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+   	    mapper.getDeserializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.getSerializationConfig().setAnnotationIntrospector(introspector);
+   	    mapper.writeValue( baOutputStream, resource );
+        System.out.println(baOutputStream.toString());
+        assertFalse(baOutputStream.toString().isEmpty());
+	}
 }

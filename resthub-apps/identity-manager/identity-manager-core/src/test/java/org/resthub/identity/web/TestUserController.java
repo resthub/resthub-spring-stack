@@ -72,7 +72,5 @@ public class TestUserController extends AbstractWebResthubTest {
         Assert.assertFalse(s.contains("u1"));
         Assert.assertTrue(s.contains("u2"));
         Assert.assertTrue(s.contains("u3"));
-
     }
-
 }

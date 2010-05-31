@@ -1,4 +1,4 @@
-<% console.log($.toJSON(groups)); %>
+<h2>Group list</h2>
 <% if ($.isEmptyObject(groups)) { %>
     <p>No groups found...</p>
 <% } else { %>
@@ -10,10 +10,9 @@
            </tr>
        </thead>
        <tbody>
-
            <% for each(group in groups) { %>
                <tr class="group-item" id="group-<%= group.id %>">
-				   <td><%= group.id %></td>
+                   <td><%= group.id %></td>
                    <td><%= group.name %></td>
                </tr>
            <% } %>

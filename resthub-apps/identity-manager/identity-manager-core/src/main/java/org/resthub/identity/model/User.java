@@ -16,11 +16,13 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table
-@XmlRootElement(name="user")
+@XmlRootElement
 public class User extends Identity {
 
 	private static final long serialVersionUID = -7139715798005612136L;
 
+	protected String firstName = null;
+	protected String lastName = null;
 	protected String login = null;
 	protected String password = null;
 	protected String email = null;
@@ -34,9 +36,14 @@ public class User extends Identity {
 		this.setLogin(login);
 	}
 
-	public User(String login, List<String> permissions) {
+	public User(String login, String password, String firstName, String lastName, String email, List<String> permissions, List<Group> groups) {
 		super(permissions);
 		this.setLogin(login);
+		this.setPassword(password);
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setEmail(email);
+		this.setGroups(groups);
 	}
 
 	@Column(/* nullable = false */)
@@ -57,6 +64,24 @@ public class User extends Identity {
 		this.password = password;
 	}
 
+	@Column
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	@Column
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	@Column(/* nullable = false */)
 	public String getEmail() {
 		return email;
@@ -66,10 +91,8 @@ public class User extends Identity {
 		this.email = email;
 	}
 
-
-	/*
+	/**
 	 * @XmlElementWrapper(name="groups")
-	 *
 	 * @XmlElement(name="group")
 	 */
 	@ManyToMany
@@ -94,7 +117,7 @@ public class User extends Identity {
 		this.groups.add(group);
 	}
 
-	public void removeGroup(String group) {
+	public void removeGroup(Group group) {
 		if (groups != null) {
 			groups.remove(group);
 		}

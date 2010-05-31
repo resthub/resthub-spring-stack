@@ -9,13 +9,14 @@ $.widget("identity.listUsers", {
     },
     _init: function() {
 		var self = this;
-		//alert($.toJSON(users));
         this.element.render(this.options.template, {users: this.options.data});
 
 		this.element.find('tr.user-item').click(function() {
             var id = $(this).attr('id').split("-")[1];
             self.options.context.redirect('#/user', id);
         });
+
+		$("table tr:nth-child(even)").addClass("striped");
     },
     destroy: function() {
 		this.element.removeClass('rt-user-list');
