@@ -1,0 +1,26 @@
+<% if ($.isEmptyObject(hotels)) { %>
+	<p>No hotels found...</p>
+<% } else { %>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>City, State</th>
+				<th>Zip</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for each(hotel in hotels) { %>
+				<tr class="hotel-item" id="hotel-<%= hotel.id %>">
+					<td><%= hotel.name %></td>
+					<td><%= hotel.address %></td>
+					<td><%= hotel.city %>, <%= hotel.state %></td>
+					<td><%= hotel.zip %></td>
+					<td>plop</td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+<% } %>

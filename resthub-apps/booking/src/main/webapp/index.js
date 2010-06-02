@@ -1,4 +1,3 @@
-
 /**
  * Routes
  */
@@ -41,6 +40,32 @@
 							data: data,
 							context: context
 						});
+
+						$('#search-submit').bind('click', function() {
+							var searchVal = $('#search-value').val();
+							dominoes("components/hotel/list.js", function() {
+								
+								$.ajax({
+									url: 'api/hotel/search?q=' + searchVal,
+									dataType: 'json',
+									success: function(data) {
+										console.log('Hotel search...');
+										$('#result').listHotels({
+											data: data,
+											context : context
+										});
+									}
+								})
+							})
+						});
+
+						// TODO : a travailler pour utiliser avec findLike
+						/*$("input#search").autocomplete({
+							source: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"]
+						});*/
+					},
+					error: function() {
+						$("#content").html('<span class="error">Disconnected</span>');
 					}
 				})
 			});
@@ -83,7 +108,23 @@
 			});
 		});
 
-		/*
+		/**
+		 * View hotel
+		 */
+		 this.get('#/hotel/:id', function() {
+            var id = this.params['id'];
+            dominoes("components/hotel/view.js", function() {
+                $.ajax({
+                    url: 'api/hotel/' + id,
+                    dataType: 'json',
+                    success: function(poll) {
+                        $('#content').viewPoll({data : poll});
+                    }
+                });
+            });
+        });
+
+		/**
 		 * User authentication
 		 */
 		this.post('#/user/check', function(context) {

@@ -7,6 +7,10 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.resthub.core.model.Resource;
 
 /**
@@ -14,6 +18,7 @@ import org.resthub.core.model.Resource;
  * of entities, we use a resource class in order to keep DRY (Don't Repeat Yourself)
  * compliant
  */
+@Indexed
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -34,6 +39,7 @@ public class Hotel extends Resource {
 
     @NotNull
     @Size(max=50)
+	@Field(index = Index.TOKENIZED, store = Store.NO)
     public String getName() {
         return name;
     }
@@ -43,6 +49,7 @@ public class Hotel extends Resource {
     }
 
     @Size(min=100)
+	@Field(index = Index.TOKENIZED, store = Store.NO)
     public String getAddress() {
         return address;
     }
@@ -53,6 +60,7 @@ public class Hotel extends Resource {
 
     @NotNull
     @Size(max=40)
+	@Field(index = Index.TOKENIZED, store = Store.NO)
     public String getCity() {
         return city;
     }
@@ -63,6 +71,7 @@ public class Hotel extends Resource {
 
     @NotNull
     @Size(min=2,max=15)
+	@Field(index = Index.TOKENIZED, store = Store.NO)
     public String getState() {
         return state;
     }
@@ -83,6 +92,7 @@ public class Hotel extends Resource {
 
     @NotNull
     @Size(min=2,max=40)
+	@Field(index = Index.TOKENIZED, store = Store.NO)
     public String getCountry() {
         return country;
     }

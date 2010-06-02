@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * @see <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/" target="_blank">Hades 2.0 Javadoc</a>
  */
-public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.dao.GenericDao<T, PK>{
+public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.dao.GenericDao<T, PK> {
 
 	/**
 	 * Delete Persisted Entity by id.
@@ -33,5 +33,4 @@ public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.
 	List<T> findLike(String propertyName, String propertyValue);
 
 	List<T> findEquals(String propertyName, String propertyValue);
-
 }
