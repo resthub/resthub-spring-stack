@@ -1,4 +1,3 @@
-
 /**
  * Routes
  */
@@ -41,6 +40,30 @@
 							data: data,
 							context: context
 						});
+
+						$('#search-submit').bind('click', function() {
+							dominoes("components/hotel/list.js", function() {
+								$.ajax({
+									url: 'api/hotel/',
+									dataType: 'json',
+									success: function(data) {
+										console.log('Hotel search...');
+										$('#result').listHotels({
+											data: data,
+											context : context
+										});
+									}
+								})
+							})
+						});
+
+						// TODO : a travailler pour utiliser avec findLike
+						/*$("input#search").autocomplete({
+							source: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"]
+						});*/
+					},
+					error: function() {
+						$("#content").html('<span class="error">Disconnected</span>');
 					}
 				})
 			});
