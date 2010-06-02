@@ -75,4 +75,9 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
         }
     }
 
+    @Override
+    @Auditable
+    public void rebuildIndex() {
+        this.dao.rebuildIndex();
+    }
 }

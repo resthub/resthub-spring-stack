@@ -7,17 +7,19 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.core.test.AbstractResourceServiceTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
  /**
  * Test of Poll services.
  * @author Nicolas Carlier
  */
+@TransactionConfiguration(defaultRollback = false)
 public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollService> {
+
     @Inject
     @Named("pollService")
     @Override
@@ -56,8 +58,9 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollServi
         Assert.assertEquals("Unable to update Poll", 2, poll.getAnswers().size());
     }
 
-    @Ignore
+    @Test
     public void testFind() throws Exception {
+        resourceService.rebuildIndex();
         List<Poll> polls = resourceService.find("test");
         Assert.assertEquals("Unable to find Polls", 1, polls.size());
     }

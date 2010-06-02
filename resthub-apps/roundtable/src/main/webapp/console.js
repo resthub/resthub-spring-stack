@@ -32,7 +32,7 @@
          */
         this.get('#/console/monitoring', function() {
 			$.ajax({
-                    url: 'console/monitoring',
+                    url: 'api/monitoring',
                     dataType: 'html',
                     success: function(data) {
                         $('#main').html(data);

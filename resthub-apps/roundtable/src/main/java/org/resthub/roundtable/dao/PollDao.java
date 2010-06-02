@@ -18,4 +18,9 @@ public interface PollDao extends GenericResourceDao<Poll>  {
      * @throws ParseException if bad query syntaxe
      */
     List<Poll> find(String query) throws ParseException;
+
+    /**
+     * Rebuil full index.
+     */
+    void rebuildIndex();
 }

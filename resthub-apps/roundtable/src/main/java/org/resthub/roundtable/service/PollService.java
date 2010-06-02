@@ -18,4 +18,9 @@ public interface PollService extends GenericResourceService<Poll> {
      * @throws ServiceException if bad query
      */
     List<Poll> find(String query) throws ServiceException;
+
+    /**
+     * Rebuild full index.
+     */
+    void rebuildIndex();
 }
