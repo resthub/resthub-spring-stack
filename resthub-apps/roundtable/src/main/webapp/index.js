@@ -89,18 +89,48 @@
                 }
             });
         });
+
+        /**
+         * Search polls.
+         */
+        this.post('#/post/search', function(context) {
+            var q = this.params['query'];
+
+            $.ajax({
+                type: 'GET',
+                url: 'api/poll/search?q=' + q,
+                dataType: 'json',
+                success: function(polls) {
+                    $.pnotify('Polls found...');
+                    $('#main').listPoll({
+                        data : polls,
+                        context: context
+                    });
+                }
+            });
+        });
     });
 
     $(function() {
         app.run('#/');
         $('body').ajaxError(function(e, xhr, settings, exception) {
-            $.pnotify({
-                pnotify_title: 'Server trouble!',
-                pnotify_text: 'Error requesting ' + settings.url,
-                pnotify_type: 'error',
-                pnotify_hide: false
-            });
-
+            if (xhr.status == 404) {
+                $.pnotify({
+                    pnotify_title: 'Resource not found.',
+                    pnotify_text: 'No objects found.'
+                });
+            }
+            else {
+                $.pnotify({
+                    pnotify_title: 'Server trouble!',
+                    pnotify_text: 'Error requesting ' + settings.url,
+                    pnotify_type: 'error',
+                    pnotify_hide: false
+                });
+            }
+        });
+        dominoes("components/poll/search.js", function() {
+            $('#search').searchPoll();
         });
     });
 })(jQuery);

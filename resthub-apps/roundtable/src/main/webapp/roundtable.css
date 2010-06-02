@@ -198,11 +198,6 @@ div.grippie {
     float: right;
 }
 
-#search input.empty {
-    color: gray;
-    text-align: center;
-}
-
 /**
  * MAIN
  */
@@ -222,10 +217,10 @@ div.grippie {
     background: url("image/v-grippy.png") no-repeat scroll left 5px transparent;
     list-style-type: none;
     font-style: italic;
-    cursor: move;
     border-top: solid thin black;
     padding-left: 7px;
     line-height: 2em;
+    cursor: move;
 }
 .rt-poll-edit ul.answers li div {
     float: left;

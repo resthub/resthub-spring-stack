@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.core.test.AbstractResourceServiceTest;
 import org.resthub.roundtable.model.Answer;
@@ -28,7 +29,7 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollServi
     protected Poll createTestRessource() throws Exception {
         Poll poll = new Poll();
         poll.setAuthor("me");
-        poll.setBody("Test poll");
+        poll.setBody("test poll");
         poll.setTopic("TEST");
 
         List<Answer> answers = new ArrayList<Answer>();
@@ -53,5 +54,11 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollServi
         poll = resourceService.update(poll);
         Assert.assertEquals("unable to update Poll", "somebody", poll.getAuthor());
         Assert.assertEquals("Unable to update Poll", 2, poll.getAnswers().size());
+    }
+
+    @Ignore
+    public void testFind() throws Exception {
+        List<Poll> polls = resourceService.find("test");
+        Assert.assertEquals("Unable to find Polls", 1, polls.size());
     }
 }

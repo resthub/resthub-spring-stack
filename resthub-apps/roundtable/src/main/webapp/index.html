@@ -1,6 +1,7 @@
 <!doctype html>
-<html>
+<html manifest="manifest.blitz" lang="en">
     <head>
+        <meta charset=utf-8 />
         <title>RoundTable</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" href="lib/ui/css/jquery-ui-1.8.1.css" type="text/css" media="screen, projection">
@@ -21,11 +22,7 @@
                     <li><a href="#/">Home</a></li>
                     <li><a href="#/poll/list">View polls</a></li>
                     <li><a href="#/poll/create">Create a new poll</a></li>
-                    <li id="search">
-                        <form action="#/post/search" enctype="UTF-8" method="post">
-                            <input type="text" id="inp-search" name="search" class="empty" value="looking for a poll?"/>
-                        </form>
-                    </li>
+                    <li id="search"></li>
                 </ul>
             </div>
             <div id="main"></div>

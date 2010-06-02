@@ -17,6 +17,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
 
 import org.resthub.core.model.Resource;
 
@@ -42,6 +45,7 @@ public class Answer extends Resource {
     private Integer order;
 
     @Column(name = "body", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String body;
 
     @XmlTransient

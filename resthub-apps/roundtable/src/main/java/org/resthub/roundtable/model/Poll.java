@@ -22,6 +22,11 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 import org.resthub.core.model.Resource;
 
@@ -29,6 +34,7 @@ import org.resthub.core.model.Resource;
  * Poll.
  * @author Nicolas Carlier
  */
+@Indexed
 @Entity
 @Table(name = "poll")
 @Access(AccessType.FIELD)
@@ -39,15 +45,19 @@ public class Poll extends Resource {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "author", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String author;
 
     @Column(name = "topic", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String topic;
 
     @Column(name = "body", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String body;
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @IndexedEmbedded
     private List<Answer> answers = new ArrayList<Answer>();
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
