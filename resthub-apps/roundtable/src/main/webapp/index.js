@@ -102,9 +102,11 @@
                 dataType: 'json',
                 success: function(polls) {
                     $.pnotify('Polls found...');
-                    $('#main').listPoll({
-                        data : polls,
-                        context: context
+                    dominoes("components/poll/list.js", function() {
+                        $('#main').listPoll({
+                            data : {polls : polls},
+                            context: context
+                        });
                     });
                 }
             });
