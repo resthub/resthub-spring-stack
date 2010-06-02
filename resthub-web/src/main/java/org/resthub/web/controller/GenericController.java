@@ -36,71 +36,71 @@ import org.resthub.core.service.GenericService;
 @ImplicitProduces("text/html;qs=5")
 public abstract class GenericController<T, S extends GenericService<T, ID>, ID extends Serializable> {
 
-    protected T[] entityClassArray;
-    protected S service;
-    
-    @Context
-    protected UriInfo uriInfo;
+	protected T[] entityClassArray;
+	protected S service;
 
-    /**
-     * Allow to custom how the identifier, used in URLs, is generated from the entity parameter
-     * @param entity
-     */
-    abstract public ID generateIdentifierFromEntity(T entity);
-    
-    @SuppressWarnings("unchecked")
-    public GenericController() {
-        entityClassArray = (T[]) Array.newInstance(ClassUtils.getGenericTypeFromBean(this), 0);
-    }
+	@Context
+	protected UriInfo uriInfo;
 
-    public void setService(S service) {
-        this.service = service;
-    }
+	/**
+	 * Allow to custom how the identifier, used in URLs, is generated from the entity parameter
+	 * @param entity
+	 */
+	abstract public ID generateIdentifierFromEntity(T entity);
 
-    @POST
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response create(T entity) {
-        T e = this.service.create(entity);
-        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-        URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString()).build();
+	@SuppressWarnings("unchecked")
+	public GenericController() {
+		entityClassArray = (T[]) Array.newInstance(ClassUtils.getGenericTypeFromBean(this), 0);
+	}
 
-        return Response.created(uri).entity(e).build();
-    }
+	public void setService(S service) {
+		this.service = service;
+	}
 
-    @PUT
-    @Path("/{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response update(@PathParam("id") ID id, T entity) {
-        T e = this.service.findById(id);
+	@POST
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response create(T entity) {
+		T e = this.service.create(entity);
+		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString()).build();
 
-        this.service.update(entity);
-        return Response.created(uriInfo.getAbsolutePath()).build();
-    }
+		return Response.created(uri).entity(e).build();
+	}
 
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getEntities() {
-        List<T> entitys = this.service.findAll(null, null);
-        return Response.ok(entitys.toArray(entityClassArray)).build();
-    }
+	@PUT
+	@Path("/{id}")
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response update(@PathParam("id") ID id, T entity) {
+		T e = this.service.findById(id);
 
-    @GET
-    @Path("/{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getResource(@PathParam("id") ID id) {
-        T entity = this.service.findById(id);
-        if (entity == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+		this.service.update(entity);
+		return Response.created(uriInfo.getAbsolutePath()).build();
+	}
 
-        return Response.ok(entity).build();
-    }
+	@GET
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getEntities() {
+		List<T> entitys = this.service.findAll(null, null);
+		return Response.ok(entitys.toArray(entityClassArray)).build();
+	}
 
-    @DELETE
-    @Path("/{id}")
-    public void delete(@PathParam("id") ID id) {
-        this.service.delete(id);
-    }
-    
+	@GET
+	@Path("/{id}")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getResource(@PathParam("id") ID id) {
+		T entity = this.service.findById(id);
+		if (entity == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+		return Response.ok(entity).build();
+	}
+
+	@DELETE
+	@Path("/{id}")
+	public void delete(@PathParam("id") ID id) {
+		this.service.delete(id);
+	}
+
 }

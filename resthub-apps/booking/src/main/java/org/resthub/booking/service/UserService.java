@@ -8,5 +8,5 @@ import org.resthub.core.service.GenericResourceService;
  * @return the user if credentials are correct, else return null
  */
 public interface UserService extends GenericResourceService<User> {
-    User checkCredentials(String username, String password);
+	User checkCredentials(String username, String password);
 }

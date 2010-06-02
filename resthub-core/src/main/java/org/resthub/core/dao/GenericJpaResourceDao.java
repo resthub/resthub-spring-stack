@@ -1,9 +1,5 @@
 package org.resthub.core.dao;
 
-
-
-
-import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.core.model.Resource;
 
 /**
@@ -12,5 +8,4 @@ import org.resthub.core.model.Resource;
  */
 public class GenericJpaResourceDao<T extends Resource> extends GenericJpaDao<T, Long> implements GenericResourceDao<T> {
 
-    
 }

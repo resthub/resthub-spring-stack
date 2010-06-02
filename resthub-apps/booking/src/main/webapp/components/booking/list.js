@@ -1,18 +1,24 @@
 $.widget("booking.listBookings", {
-    options: {
-        data : {bookings: {}},
-        template : 'components/booking/list.html',
-        context : null
-    },
-    _create: function() {
+	options: {
+		data : {},
+		template : 'components/booking/list.html',
+		context : null
+	},
+	_create: function() {
+		this.element.addClass('bd-booking-list');
+	},
+	_init: function() {
+		var self = this;
+		this.element.render(this.options.template, {bookings: this.options.data});
 
-    },
-    _init: function() {
-        var self = this;
-        this.element.render(this.options.template, this.options.data);
-    },
-    destroy: function() {
-        $.Widget.prototype.destroy.call( this );
-    }
+		this.element.find('tr.booking-item').click(function() {
+			var id = $(this).attr('id').split("-")[1];
+			self.options.context.redirect('#/booking', id);
+		});
+	},
+	destroy: function() {
+		this.element.removeClass('bd-booking-list');
+		$.Widget.prototype.destroy.call( this );
+	}
 });
 

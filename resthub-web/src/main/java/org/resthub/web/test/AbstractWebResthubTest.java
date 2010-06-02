@@ -10,12 +10,12 @@ import org.resthub.web.jackson.JacksonProvider;
 
 public abstract class AbstractWebResthubTest extends JerseyTest {
 
-    @Override
-    protected AppDescriptor configure() {
-        WebAppDescriptor wad = new WebAppDescriptor.Builder().contextPath("resthub").contextParam("contextConfigLocation", "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml").servletClass(SpringServlet.class).contextListenerClass(ContextLoaderListener.class).build();
+	@Override
+	protected AppDescriptor configure() {
+		WebAppDescriptor wad = new WebAppDescriptor.Builder().contextPath("resthub").contextParam("contextConfigLocation", "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml").servletClass(SpringServlet.class).contextListenerClass(ContextLoaderListener.class).build();
+		
+		wad.getClientConfig().getSingletons().add(new JacksonProvider());
 
-        wad.getClientConfig().getSingletons().add(new JacksonProvider());
-
-        return wad;
-    }
+		return wad;
+	}
 }

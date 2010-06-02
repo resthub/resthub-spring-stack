@@ -10,10 +10,10 @@ import org.resthub.core.service.GenericResourceService;
 
 public abstract class GenericResourceController<T extends Resource, S extends GenericResourceService<T>> extends GenericController<T, S, Long> {
 
-    @Override
-    public Long generateIdentifierFromEntity(T entity) {
-        return entity.getId();
-    }
+	@Override
+	public Long generateIdentifierFromEntity(T entity) {
+		return entity.getId();
+	}
 
 
 }

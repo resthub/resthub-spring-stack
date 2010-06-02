@@ -10,11 +10,11 @@ import org.resthub.web.controller.GenericResourceController;
 @Path("/hotel")
 @Named("hotelController")
 public class HotelController extends GenericResourceController<Hotel, GenericResourceService<Hotel>> {
-    
-    @Inject
-    @Named("hotelService")
-    @Override
-    public void setService(GenericResourceService<Hotel> service) {
-        this.service = service;
-    }
+
+	@Inject
+	@Named("hotelService")
+	@Override
+	public void setService(GenericResourceService<Hotel> service) {
+		this.service = service;
+	}
 }

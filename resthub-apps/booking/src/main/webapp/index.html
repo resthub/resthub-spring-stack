@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" type="text/css" media="screen" href="booking.css">
-        <link rel="shortcut icon" type="image/png" href="images/favicon.png">
-        <script src="lib/resthub-stack-1.0.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript">
-            dominoes("lib/sammy.title.js > session.js > index.js");
-        </script>
-    </head>
-    <body>
-        
-        <div id="header">
-           
-        </div>
-        
-        <div id="content">
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" media="screen" href="booking.css">
+		<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+		<script src="lib/resthub-stack-1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			dominoes("lib/sammy.title.js > session.js > index.js");
+		</script>
+		<script type="tetext/javascript">
+			$(function(){
+				$("input #search")[0].onkeypress = function(event) {
+					alert('et voila');
+				}
+			});
+		</script>
+	</head>
+	<body>
 
-        </div>
-        
-        <div id="footer">
-            Created with <a href="http://resthub.org">RESThub Toolkit</a> and really inspirated from the booking sample application provided by <a href="http://seamframework.org/">seam framework</a>
-        </div>
-        
-    </body>
+		<div id="header">
+
+		</div>
+
+		<div id="content">
+
+		</div>
+
+		<div id="footer">
+			Created with <a href="http://resthub.org">RESThub Toolkit</a> and really inspirated from the booking sample application provided by <a href="http://seamframework.org/">seam framework</a>
+		</div>
+
+	</body>
 </html>

@@ -10,25 +10,25 @@ import org.resthub.core.service.GenericResourceServiceImpl;
 @Named("userService")
 public class UserServiceImpl extends GenericResourceServiceImpl<User, GenericResourceDao<User>> implements UserService {
 
-    @Inject
-    @Named("userDao")
-    @Override
-    public void setDao(GenericResourceDao<User> userDao) {
-        this.dao = userDao;
-    }
+	@Inject
+	@Named("userDao")
+	@Override
+	public void setDao(GenericResourceDao<User> userDao) {
+		this.dao = userDao;
+	}
 
-    @Override
-    /**
-     * Naive implementation of checkLogin
-     * Real life implementation should store and compare encrypted passwords
-    **/
-    public User checkCredentials(String username, String password) {
-        List<User> users = this.dao.findEquals("username", username);
+	@Override
+	/**
+	 * Naive implementation of checkLogin
+	 * Real life implementation should store and compare encrypted passwords
+	**/
+	public User checkCredentials(String username, String password) {
+		List<User> users = this.dao.findEquals("username", username);
 
-        if((users!=null) && (users.size() == 1) && users.get(0).getPassword().equals(password)) {
-            return users.get(0);
-        }
-        return null;
-    }
+		if((users!=null) && (users.size() == 1) && users.get(0).getPassword().equals(password)) {
+			return users.get(0);
+		}
+		return null;
+	}
 
 }
