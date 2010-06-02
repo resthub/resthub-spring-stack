@@ -42,9 +42,10 @@
 						});
 
 						$('#search-submit').bind('click', function() {
+							var searchVal = $('#search-value').val();
 							dominoes("components/hotel/list.js", function() {
 								$.ajax({
-									url: 'api/hotel/',
+									url: 'api/hotel/search/' + searchVal,
 									dataType: 'json',
 									success: function(data) {
 										console.log('Hotel search...');
