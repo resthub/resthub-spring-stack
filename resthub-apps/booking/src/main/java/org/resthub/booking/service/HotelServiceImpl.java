@@ -9,7 +9,6 @@ import org.apache.lucene.queryParser.ParseException;
 import org.resthub.booking.dao.HotelDao;
 import org.resthub.booking.model.Hotel;
 import org.resthub.core.annotation.Auditable;
-import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.core.service.GenericResourceServiceImpl;
 
 @Named("hotelService")

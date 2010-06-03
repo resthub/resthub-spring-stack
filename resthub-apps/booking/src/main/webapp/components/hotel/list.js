@@ -1,4 +1,4 @@
-$.widget("identity.listHotels", {
+$.widget("booking.listHotels", {
 	options: {
 		data : {},
 		template : 'components/hotel/list.html',

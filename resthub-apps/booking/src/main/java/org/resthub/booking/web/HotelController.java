@@ -5,8 +5,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -31,11 +31,13 @@ public class HotelController extends GenericResourceController<Hotel, HotelServi
 	@GET
 	@Path("/search")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response searchHotels(@PathParam("q") String query) {
+	public Response searchHotels(@QueryParam("q") String query) {
+
 		List<Hotel> hotels = this.service.find(query);
-		if (hotels == null) {
+		if (hotels.isEmpty()) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		return Response.ok(hotels).build();
+		//return Response.ok(hotels.toArray(entityClassArray)).build();
 	}
 }

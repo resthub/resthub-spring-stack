@@ -1,6 +1,5 @@
 package org.resthub.booking.web;
 
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -10,7 +9,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.resthub.booking.service.HotelService;
-
 
 /**
  * Lucene Index controller.
@@ -24,7 +22,7 @@ public class LuceneIndexControler {
     protected HotelService hotelService;
 
     @Inject
-    @Named("pollService")
+    @Named("hotelService")
     public void setService(HotelService pollService) {
         this.hotelService = pollService;
     }

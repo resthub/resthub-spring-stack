@@ -36,7 +36,8 @@ public class BookingController extends GenericResourceController<Booking, Bookin
 		if (bookings == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-
+		
+		//return Response.ok(bookings.toArray(entityClassArray)).build();
 		return Response.ok(bookings).build();
 	}
 }

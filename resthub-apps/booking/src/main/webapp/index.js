@@ -32,6 +32,11 @@
 			dominoes("components/booking/list.js", function() {
 				var user = $.session.getJSONItem('user', {});
 				$.ajax({
+					url: 'api/lucene/rebuild',
+					dataType: 'json',
+					type: 'POST'
+				});
+				$.ajax({
 					url: 'api/booking/user/' + user.id,
 					dataType: 'json',
 					success: function(data) {
@@ -40,11 +45,10 @@
 							data: data,
 							context: context
 						});
-
+						
 						$('#search-submit').bind('click', function() {
 							var searchVal = $('#search-value').val();
 							dominoes("components/hotel/list.js", function() {
-								
 								$.ajax({
 									url: 'api/hotel/search?q=' + searchVal,
 									dataType: 'json',
@@ -54,15 +58,13 @@
 											data: data,
 											context : context
 										});
+									},
+									error: function() {
+										$('#result').html('<span class="error">No results</span>');
 									}
 								})
 							})
 						});
-
-						// TODO : a travailler pour utiliser avec findLike
-						/*$("input#search").autocomplete({
-							source: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"]
-						});*/
 					},
 					error: function() {
 						$("#content").html('<span class="error">Disconnected</span>');
@@ -117,12 +119,33 @@
                 $.ajax({
                     url: 'api/hotel/' + id,
                     dataType: 'json',
-                    success: function(poll) {
-                        $('#content').viewPoll({data : poll});
+                    success: function(data) {
+                        $('#content').viewHotel({data : data});
                     }
                 });
             });
         });
+
+		/**
+		 * Save hotel in session before confirmation page
+		 */
+		this.post('#/booking/confirm/:id', function() {
+			
+			var booking = {
+				hotelId: this.params['id'],
+				checkinDate: this.params['checkinDate'],
+				checkoutDate: this.params['checkoutDate'],
+				beds: this.params['beds'],
+				smoking: this.params['smoking'],
+				creditCard: this.params['creditCard'],
+				creditCardName: this.params['creditCardName'],
+				creditCardExpiryMonth: this.params['creditCardExpiryMonth'],
+				creditCardExpiryYear: this.params['creditCardExpiryYear']
+			}
+			
+			$.session.setJSONItem('booking', booking);
+			dominoes("components/booking/confirm.js", $('#content').confirmBooking({data : booking}))
+		});
 
 		/**
 		 * User authentication
