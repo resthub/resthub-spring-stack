@@ -113,38 +113,56 @@
 		/**
 		 * View hotel
 		 */
-		 this.get('#/hotel/:id', function() {
-            var id = this.params['id'];
+		 this.get('#/hotel/:id', function(context) {
+			var id = this.params['id'];
             dominoes("components/hotel/view.js", function() {
                 $.ajax({
                     url: 'api/hotel/' + id,
                     dataType: 'json',
                     success: function(data) {
-                        $('#content').viewHotel({data : data});
+                        $('#content').viewHotel({
+							data: data,
+							context: context
+						});
                     }
                 });
             });
         });
 
 		/**
-		 * Save hotel in session before confirmation page
+		 * Book hotel identified by 'id'
 		 */
-		this.post('#/booking/confirm/:id', function() {
-			
-			var booking = {
-				hotelId: this.params['id'],
-				checkinDate: this.params['checkinDate'],
-				checkoutDate: this.params['checkoutDate'],
-				beds: this.params['beds'],
-				smoking: this.params['smoking'],
-				creditCard: this.params['creditCard'],
-				creditCardName: this.params['creditCardName'],
-				creditCardExpiryMonth: this.params['creditCardExpiryMonth'],
-				creditCardExpiryYear: this.params['creditCardExpiryYear']
-			}
-			
-			$.session.setJSONItem('booking', booking);
-			dominoes("components/booking/confirm.js", $('#content').confirmBooking({data : booking}))
+		 this.get('#/booking/hotel/:id', function(context) {
+            $('#content h1:first').html("Book hotel");
+			var id = this.params['id'];
+			dominoes("components/booking/book.js", function() {
+				$('#content').bookBooking({
+					data: id,
+					context: context
+				});
+			});
+        });
+        
+		/**
+		 * Save booking before confirmation page
+		 */
+		this.get('#/booking/confirm', function() {
+			$('#content h1:first').html("Confirm hotel booking");
+			dominoes("components/booking/confirm.js", function() {
+				var booking = $.session.getJSONItem('booking');
+				$('div#booking-form').confirmBooking({
+					data: booking
+				});
+			});
+		});
+
+		/**
+		 * Save booking in database
+		 */
+		this.post('#/booking', function() {
+
+			alert('Not supported yet!');
+
 		});
 
 		/**

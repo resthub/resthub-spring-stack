@@ -1,44 +1,15 @@
-<h1>Confirm hotel booking</h1>
-
-<form id="booking-form" action="" method="POST" enctype="UTF-8">
-	<p>
-		<strong>Name:</strong> <%= hotel.name %>
-	</p>
-	<p>
-		<strong>Address:</strong> <%= hotel.address %>
-	</p>
-	<p>
-		<strong>City:</strong> <%= hotel.city %>
-	</p>
-	<p>
-		<strong>State:</strong> <%= hotel.state %>
-	</p>
-	<p>
-		<strong>Zip:</strong> <%= hotel.zip %>
-	</p>
-	<p>
-		<strong>Country:</strong> <%= hotel.country %>
-	</p>
-	<p>
-		<strong>Nightly rate:</strong> <%= hotel.price %>
-	</p>
-	<p>
-		<strong>Beds:</strong> ${booking.beds}
-	</p>
-	<p>
-		<strong>Total:</strong> ${booking.total.formatCurrency('USD')}
-	</p>
-	<p>
-		<strong>Check in date:</strong> ${booking.checkinDate.format('yyyy-MM-dd')}
-	</p>
-	<p>
-		<strong>Check out date:</strong> ${booking.checkoutDate.format('yyyy-MM-dd')}
-	</p>
-	<p>
-		<strong>Credit card #:</strong> ${booking.creditCard}
-	</p>
-	
-	<p class="buttons">
-		<input type="submit" value="Confirm" name="confirm"> <input type="submit" value="Revise" name="revise"> <a href="@{show(hotel.id)}">Cancel</a>
-	</p>
-</form>
+<p>
+	<strong>Beds:</strong> <%= booking.beds %>
+</p>
+<p>
+	<strong>Total:</strong> <%= booking.total %>
+</p>
+<p>
+	<strong>Check in date:</strong> <%= booking.checkinDate %>
+</p>
+<p>
+	<strong>Check out date:</strong> <%= booking.checkoutDate %>
+</p>
+<p>
+	<strong>Credit card #:</strong> <%= booking.creditCard %>
+</p>
