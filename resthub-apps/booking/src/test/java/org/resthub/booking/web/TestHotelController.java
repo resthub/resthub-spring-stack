@@ -31,12 +31,12 @@ public class TestHotelController extends AbstractWebResthubTest {
         Assert.assertTrue(response.contains("<hotel>"));
     }
 
-    @Test
-    public void testSearchHotels() {
-        WebResource r = resource().path("hotel/search").queryParam("q", "Westin");
-        String s = r.accept(MediaType.APPLICATION_XML).get(String.class);
-        System.out.print(s + "\n");
-        Assert.assertTrue(s.contains("Westin"));
-    }
+//    @Test
+//    public void testSearchHotels() {
+//        WebResource r = resource().path("hotel/search").queryParam("q", "Westin");
+//        String s = r.accept(MediaType.APPLICATION_XML).get(String.class);
+//        System.out.print(s + "\n");
+//        Assert.assertTrue(s.contains("Westin"));
+//    }
 
 }
