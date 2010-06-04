@@ -15,20 +15,40 @@ $.widget("booking.bookBooking", {
 		$('a#cancel-request').attr('href', '/#/hotel/'+ id);
 		$('a#cancel-request').html('Cancel');
 		$('input#book-request').attr('value', 'Proceed');
-		$('div#booking-form').load('components/booking/book.html');
+		$('div#booking-form').load('components/booking/book.html', null, function() {
+			$('input[name=checkinDate]').datepicker();
+			$('input[name=checkoutDate]').datepicker();
+		});
 		$('input#book-request').bind('click', function() {
-			//console.log();
+
+			var checkinDate = $('input[name=checkinDate]').val();
+			var checkoutDate = $('input[name=checkoutDate]').val();
+			
+			try {
+				var checkinDateTimestamp = $.datepicker.parseDate('mm/dd/yy', checkinDate).getTime();
+				var checkoutDateTimestamp = $.datepicker.parseDate('mm/dd/yy', checkoutDate).getTime();
+			} catch(err) {
+				console.log('Bad date format...');
+			}
+			
+			var secondsBetween = (checkoutDateTimestamp - checkinDateTimestamp) / 1000;
+			var daysBetween = secondsBetween / 86400;
+			
+			var beds = $('select[name=beds] option:selected').val();
+			var total = daysBetween * beds;
+
 			var booking = {
 				hotelId: id,
-				checkinDate: $('input[name=checkinDate]').val(),
-				checkoutDate: $('input[name=checkoutDate]').val(),
-				beds: $('input:selected[name=beds]').val(),
-				total: 1600,
+				checkinDate: checkinDate,
+				checkoutDate: checkoutDate,
+				days: daysBetween,
+				beds: beds,
+				total: total,
 				smoking: $('input:checked[name=smoking]').val(),
 				creditCard: $('input[name=creditCard]').val(),
 				creditCardName: $('input[name=creditCardName]').val(),
-				creditCardExpiryMonth: $('input[name=creditCardExpiryMonth]').val(),
-				creditCardExpiryYear: $('input[name=creditCardExpiryYear]').val()
+				creditCardExpiryMonth: $('select[name=creditCardExpiryMonth] option:selected').val(),
+				creditCardExpiryYear: $('select[name=creditCardExpiryYear] option:selected').val()
 			}
 			$.session.setJSONItem('booking', booking);
 			console.log(booking);
