@@ -8,11 +8,12 @@ $.widget("booking.viewHotel", {
 		this.element.addClass('bd-hotel-detail');
     },
     _init: function() {
-		var self = this;
+		var context = this.options.context;
+		var id = this.options.data.id;
 		this.element.render(this.options.template, {hotel: this.options.data});
 		
 		$('input#book-request').bind('click', function() {
-			self.options.context.redirect('#/booking/hotel', self.options.data.id)
+			context.redirect('#/booking/hotel', id)
 		});
     },
     destroy: function() {

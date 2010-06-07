@@ -29,131 +29,53 @@
 		 */
 		this.get('#/home', function(context) {
 			this.title('Home');
-			dominoes("components/booking/list.js", function() {
-				var user = $.session.getJSONItem('user', {});
-				$.ajax({
-					url: 'api/lucene/rebuild',
-					dataType: 'json',
-					type: 'POST'
-				});
-				$.ajax({
-					url: 'api/booking/user/' + user.id,
-					dataType: 'json',
-					success: function(data) {
-						console.log($.toJSON(data));
-						$('#content').listBookings({
-							data: data,
-							context: context
-						});
-						
-						$('#search-submit').bind('click', function() {
-							var searchVal = $('#search-value').val();
-							dominoes("components/hotel/list.js", function() {
-								$.ajax({
-									url: 'api/hotel/search?q=' + searchVal,
-									dataType: 'json',
-									success: function(data) {
-										console.log('Hotel search...');
-										$('#result').listHotels({
-											data: data,
-											context : context
-										});
-									},
-									error: function() {
-										$('#result').html('<span class="error">No results</span>');
-									}
-								})
-							})
-						});
-					},
-					error: function() {
-						$("#content").html('<span class="error">Disconnected</span>');
-					}
-				})
-			});
+			var user = $.session.getJSONItem('user', {});
+			$.executeRoute({bloc: '#content', url: 'api/booking/user/' + user.id, type: 'get', format: 'json', jsFile: 'components/booking/list.js', callbackFunction: 'listBookings', context: context});
+		});
+
+		/*
+		 * Search hotels
+		 */
+		this.get('#/hotel/search', function() {
+			var searchVal = this.params['q'];
+			$.executeRoute({bloc: '#result', url: 'api/hotel/search?q=' + searchVal, type: 'get', format: 'json', jsFile: 'components/hotel/list.js', callbackFunction: 'listHotels'});
 		});
 
 		/*
 		 * List bookings
 		 */
-		this.get('#/booking/list', function(context) {
-			dominoes("components/booking/list.js", function() {
-				$.ajax({
-					url: 'api/booking/',
-					dataType: 'json',
-					success: function(data) {
-						console.log($.toJSON(data));
-						$('#content').listBookings({
-							data: data,
-							context: context
-						});
-					}
-				});
-			});
+		this.get('#/booking/list', function() {
+			$.executeRoute({bloc: '#content', url: 'api/booking', type: 'get', format: 'json', jsFile: 'components/booking/list.js', callbackFunction: 'listBookings'});
 		});
 
 		/*
 		 * List hotels
 		 */
 		this.get('#/hotel/list', function() {
-			dominoes("components/hotel/list.js", function() {
-				$.ajax({
-					url: 'api/hotel/',
-					dataType: 'json',
-					success: function(data) {
-						console.log($.toJSON(data));
-						$('#result').listHotels({
-							data: data
-						});
-					}
-				});
-			});
+			$.executeRoute({bloc: '#result', url: 'api/hotel', type: 'get', format: 'json', jsFile: 'components/hotel/list.js', callbackFunction: 'listHotels'});
 		});
 
 		/**
 		 * View hotel
 		 */
-		 this.get('#/hotel/:id', function(context) {
+		this.get('#/hotel/:id', function(context) {
 			var id = this.params['id'];
-            dominoes("components/hotel/view.js", function() {
-                $.ajax({
-                    url: 'api/hotel/' + id,
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#content').viewHotel({
-							data: data,
-							context: context
-						});
-                    }
-                });
-            });
+			$.executeRoute({bloc: '#content', url: 'api/hotel/'+id, type: 'get', format: 'json', jsFile: 'components/hotel/view.js', callbackFunction: 'viewHotel', context: context});
         });
 
 		/**
 		 * Book hotel identified by 'id'
 		 */
 		 this.get('#/booking/hotel/:id', function(context) {
-            $('#content h1:first').html("Book hotel");
 			var id = this.params['id'];
-			dominoes("components/booking/book.js", function() {
-				$('#content').bookBooking({
-					data: id,
-					context: context
-				});
-			});
+			$.executeRoute({bloc: '#content', jsFile: 'components/booking/book.js', callbackFunction: 'bookBooking', data: id, context: context});
         });
         
 		/**
-		 * Save booking before confirmation page
+		 * Booking confirmation page
 		 */
 		this.get('#/booking/confirm', function() {
-			$('#content h1:first').html("Confirm hotel booking");
-			dominoes("components/booking/confirm.js", function() {
-				var booking = $.session.getJSONItem('booking');
-				$('div#booking-form').confirmBooking({
-					data: booking
-				});
-			});
+			$.executeRoute({bloc: 'div#booking-form', jsFile: 'components/booking/confirm.js', callbackFunction: 'confirmBooking'});
 		});
 
 		/**
@@ -186,6 +108,11 @@
 					$.session.setJSONItem('user', user);
 					// TODO replace with a less intrusive strategy based on listening events
 					$('#header').render('components/header.html', {user: $.session.getJSONItem('user')});
+					$.ajax({
+						url: 'api/lucene/rebuild',
+						dataType: 'json',
+						type: 'POST'
+					});
 					context.redirect('#/home');
 				},
 				error: function() {

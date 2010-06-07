@@ -27,17 +27,23 @@ public class HotelController extends GenericResourceController<Hotel, HotelServi
 
 	/**
 	 * Fetch all hotels containing the value given in parameter
+	 * If query string is empty, fetch all hotels in DB
 	 */
 	@GET
 	@Path("/search")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response searchHotels(@QueryParam("q") String query) {
 
-		List<Hotel> hotels = this.service.find(query);
+		List<Hotel> hotels;
+		if(query.isEmpty()) {
+			hotels = this.service.findAll(null, null);
+		} else {
+			hotels = this.service.find(query);
+		}
+
 		if (hotels.isEmpty()) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		return Response.ok(hotels).build();
-		//return Response.ok(hotels.toArray(entityClassArray)).build();
 	}
 }

@@ -8,8 +8,10 @@ $.widget("booking.confirmBooking", {
 		this.element.addClass('bd-booking-confirm');
     },
     _init: function() {
-		
-        this.element.render(this.options.template, {booking: this.options.data});
+		this.element.find('h1:first').html("Confirm hotel booking");
+
+		var booking = $.session.getJSONItem('booking');
+        this.element.render(this.options.template, {booking: booking});
 		
 		this.element.find('#cancel-request').attr('href', '#');
     },

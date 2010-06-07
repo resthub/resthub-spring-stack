@@ -43,10 +43,12 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webAppConfig>
+						<contextPath>/booking</contextPath>
+					</webAppConfig>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
 

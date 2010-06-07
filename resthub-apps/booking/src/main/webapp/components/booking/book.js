@@ -11,7 +11,8 @@ $.widget("booking.bookBooking", {
 
 		var id = this.options.data;
 		var context = this.options.context;
-
+		
+		this.element.find('h1:first').html("Book hotel");
 		$('a#cancel-request').attr('href', '/#/hotel/'+ id);
 		$('a#cancel-request').html('Cancel');
 		$('input#book-request').attr('value', 'Proceed');
@@ -51,7 +52,7 @@ $.widget("booking.bookBooking", {
 				creditCardExpiryYear: $('select[name=creditCardExpiryYear] option:selected').val()
 			}
 			$.session.setJSONItem('booking', booking);
-			console.log(booking);
+			// console.log(booking);
 			context.redirect('#/booking/confirm');
 		});
     },

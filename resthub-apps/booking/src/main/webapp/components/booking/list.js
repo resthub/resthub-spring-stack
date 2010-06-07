@@ -15,6 +15,11 @@ $.widget("booking.listBookings", {
 			var id = $(this).attr('id').split("-")[1];
 			self.options.context.redirect('#/booking', id);
 		});
+
+		$('#search-submit').bind('click', function() {
+			var searchVal = $('#search-value').val();
+			self.options.context.redirect('#/hotel/search?q=' + searchVal);
+		});
 	},
 	destroy: function() {
 		this.element.removeClass('bd-booking-list');
