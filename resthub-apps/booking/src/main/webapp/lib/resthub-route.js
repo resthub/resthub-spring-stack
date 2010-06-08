@@ -4,10 +4,66 @@
  * Otherwise, it only call the callback function.
  */
 
-(function($){
-	$.executeRoute = function(params) {
-		params = $.extend({
-			bloc: '#content',
+(function($)
+{
+	var restController =
+	{
+		_init: function() {
+
+			if(this.options.jsFile == null) {
+				console.log("Unable to find javascript file to call...");
+				// TODO : Something like try/catch -> exit
+			}
+			if(this.options.callbackFunction == null) {
+				console.log("Unable to find callback function to call...");
+				// TODO : Something like try/catch -> exit
+			}
+
+			if(this.options.url != null) // Ajax request to perform : data receives the response
+			{
+				var self = this;
+				$.ajax({
+					url: this.options.url,
+					dataType: this.options.format,
+					type: this.options.type,
+					success: function(data) {
+						self.callWidget(data);
+					},
+					error: function(request, status, error) {
+						switch (request.status) {
+							case 404:
+								console.log('No data found (' + request.status + ').');
+								break;
+							case 500:
+								console.log('An error occurred during Ajax request (' + request.status + ').');
+								if( error != undefined ) { console.log(error); }
+								break;
+							default:
+								console.log('An error occurred during Ajax request (' + request.status + ').');
+								break;
+						}
+					}
+				});
+			}
+			else // No Ajax request in this route : data receives options.data
+			{
+				this.callWidget(this.options.data);
+			}
+		},
+
+		/*
+		 * Call the widget identified by callbackFunction on 'this.element' DOM element
+		 * This widget receives data and context
+		 */
+		callWidget: function (data) {
+			var self = this;
+			dominoes(this.options.jsFile, function() {
+				console.log('Data parameter : ' + $.toJSON(data));
+				$(self.element)[self.options.callbackFunction]({data: data, context: self.options.context});
+			});
+		},
+
+		options: {
 			url: null,
 			type: 'get',
 			format: 'json',
@@ -15,41 +71,8 @@
 			callbackFunction: null,
 			data: null,
 			context: null
-		}, params);
-
-		if(params.jsFile == null) {
-			console.log("Unable to find javascript file to call...");
-			// TODO : Something like try/catch -> exit
 		}
-		if(params.callbackFunction == null) {
-			console.log("Unable to find callback function to call...");
-			// TODO : Something like try/catch -> exit
-		}
-
-		if(params.url != null) // Ajax request to perform : data receives the response
-		{
-			dominoes(params.jsFile, function() {
-				$.ajax({
-					url: params.url,
-					dataType: params.format,
-					type: params.type,
-					success: function(data) {
-						console.log($.toJSON(data));
-						var stringToCall = '$("'+ params.bloc +'").'+ params.callbackFunction +'({data: data, context: params.context})';
-						console.log(stringToCall);
-						eval(stringToCall);
-					}
-				});
-			});
-		}
-		else // No Ajax request in this route : data receives params.data
-		{
-			dominoes(params.jsFile, function() {
-				console.log($.toJSON(params.data));
-				var stringToCall = '$("'+ params.bloc +'").'+ params.callbackFunction +'({data: params.data, context: params.context})';
-				console.log(stringToCall);
-				eval(stringToCall);
-			});
-		}
-	}
+	};
+	
+	$.widget("resthub.restController", restController);
 })(jQuery);
