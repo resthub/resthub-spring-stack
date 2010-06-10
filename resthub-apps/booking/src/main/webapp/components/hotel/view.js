@@ -1,4 +1,7 @@
-$.widget("booking.viewHotel", {
+(function($) {
+
+var viewHotel =
+{
     options: {
         data : {},
         template : 'components/hotel/view.html',
@@ -8,16 +11,22 @@ $.widget("booking.viewHotel", {
 		this.element.addClass('bd-hotel-detail');
     },
     _init: function() {
-		var context = this.options.context;
-		var id = this.options.data.id;
-		this.element.render(this.options.template, {hotel: this.options.data});
-		
-		$('input#book-request').bind('click', function() {
-			context.redirect('#/booking/hotel', id)
-		});
+		this._ajax('api/hotel/' + this.options.data.id, this, '_displayHotel');
     },
+	_displayHotel: function(hotel) {
+		this.element.render(this.options.template, {hotel: hotel});
+
+		var id = hotel.id;
+		var context = this.options.context;
+		$('input#book-request').bind('click', function() {
+			context.redirect('#/booking/hotel', id);
+		});
+	},
     destroy: function() {
         this.element.removeClass('bd-hotel-detail');
         $.Widget.prototype.destroy.call( this );
     }
-});
+};
+
+$.widget("booking.viewHotel", $.resthub.resthubController, viewHotel);
+})(jQuery);

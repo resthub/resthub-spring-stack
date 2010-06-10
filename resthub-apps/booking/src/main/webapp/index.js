@@ -7,6 +7,7 @@
 
 		this.use(Sammy.Title);
 		this.use(Sammy.Session);
+		this.use(Sammy.Resthub);
 
 		this.get('#/', function() {
 			this.title('Login');
@@ -16,8 +17,7 @@
 		});
 
 		this.get('#/logout', function(context) {
-			this.store('session').clearAll();
-			context.redirect('#/');
+			$('#content').resthubAuth('testeuh');
 		});
 
 		this.get('#/register', function() {
@@ -31,68 +31,64 @@
 		this.get('#/home', function(context) {
 			this.title('Home');
 			var user = this.session('user', function() {return {};});
-			$('#content').restController({url: 'api/booking/user/' + user.id, jsFile: 'components/booking/list.js', callbackFunction: 'listBookings', context: context});
-		});
+			$('#content').listBookings({data: {user: user}, context: context});			
+		}, 'components/booking/list.js');
 
 		/*
 		 * Search hotels
 		 */
 		this.get('#/hotel/search', function() {
-			var searchVal = this.params['q'];
-			$('#result').restController({url: 'api/hotel/search?q=' + searchVal, jsFile: 'components/hotel/list.js', callbackFunction: 'listHotels'});
-		});
+			$('#result').listHotels({data: {searchVal: this.params['q']}});
+		}, 'components/hotel/list.js');
 
 		/*
 		 * List bookings
 		 */
 		this.get('#/booking/list', function() {
-			$('#content').restController({url: 'api/booking', jsFile: 'components/booking/list.js', callbackFunction: 'listBookings'});
-		});
+			$('#content').listBookings();
+		}, 'components/booking/list.js');
 
 		/*
 		 * List hotels
 		 */
 		this.get('#/hotel/list', function() {
-			$('#result').restController({url: 'api/hotel', jsFile: 'components/hotel/list.js', callbackFunction: 'listHotels'});
-		});
+			$('#result').listHotels();
+		}, 'components/hotel/list.js');
 
 		/**
 		 * View hotel
 		 */
 		this.get('#/hotel/:id', function(context) {
-			var id = this.params['id'];
-			$('#content').restController({url: 'api/hotel/'+id, jsFile: 'components/hotel/view.js', callbackFunction: 'viewHotel', context: context});
-        });
+			alert(this.params['id']);
+			$('#content').viewHotel({data: {id: this.params['id']}, context: context});
+        }, 'components/hotel/view.js');
 
 		/**
 		 * Book hotel identified by 'id'
 		 */
 		 this.get('#/booking/hotel/:id', function(context) {
-			var id = this.params['id'];
-			$('#content').restController({jsFile: 'components/booking/book.js', callbackFunction: 'bookBooking', data: id, context: context});
-        });
+			$('#content').bookBooking({id: this.params['id'], context: context});
+        }, 'components/booking/book.js');
         
 		/**
 		 * Booking confirmation page
 		 */
 		this.get('#/booking/confirm', function() {
-			$('div#booking-form').restController({jsFile: 'components/booking/confirm.js', callbackFunction: 'confirmBooking'});
-		});
+			$('div#booking-form').confirmBooking();
+		}, 'components/booking/confirm.js');
 
 		/**
 		 * Save booking in database
 		 */
 		this.post('#/booking', function() {
-
 			alert('Not supported yet!');
-
 		});
 
 		/**
 		 * User authentication
 		 */
 		this.post('#/user/check', function(context) {
-			$('#content').resthubAuth({context: context});
+			$('#header').resthubAuth({context: context});
 		});
 	});
 

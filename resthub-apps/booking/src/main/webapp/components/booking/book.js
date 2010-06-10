@@ -1,4 +1,7 @@
-$.widget("booking.bookBooking", {
+(function($) {
+
+var bookBooking =
+{
     options: {
         data : {},
         template : 'components/booking/book.html',
@@ -8,7 +11,6 @@ $.widget("booking.bookBooking", {
 		this.element.addClass('bd-booking-book');
     },
     _init: function() {
-
 		var id = this.options.data;
 		var context = this.options.context;
 		
@@ -16,25 +18,28 @@ $.widget("booking.bookBooking", {
 		$('a#cancel-request').attr('href', '/#/hotel/'+ id);
 		$('a#cancel-request').html('Cancel');
 		$('input#book-request').attr('value', 'Proceed');
+
 		$('div#booking-form').load('components/booking/book.html', null, function() {
 			$('input[name=checkinDate]').datepicker();
 			$('input[name=checkoutDate]').datepicker();
+			$('#booking-form').validate();
 		});
-		$('input#book-request').bind('click', function() {
-
+		
+		// $('input#book-request').click(this._proceedBookForm);
+		$('input#book-request').click(function() {
 			var checkinDate = $('input[name=checkinDate]').val();
 			var checkoutDate = $('input[name=checkoutDate]').val();
-			
+
 			try {
 				var checkinDateTimestamp = $.datepicker.parseDate('mm/dd/yy', checkinDate).getTime();
 				var checkoutDateTimestamp = $.datepicker.parseDate('mm/dd/yy', checkoutDate).getTime();
 			} catch(err) {
 				console.log('Bad date format...');
 			}
-			
+
 			var secondsBetween = (checkoutDateTimestamp - checkinDateTimestamp) / 1000;
 			var daysBetween = secondsBetween / 86400;
-			
+
 			var beds = $('select[name=beds] option:selected').val();
 			var total = daysBetween * beds;
 
@@ -56,8 +61,14 @@ $.widget("booking.bookBooking", {
 			context.redirect('#/booking/confirm');
 		});
     },
+	_proceedBookForm: function() {
+		// TODO
+	},
     destroy: function() {
         this.element.removeClass('bd-booking-book');
         $.Widget.prototype.destroy.call( this );
     }
-});
+};
+
+$.widget("booking.bookBooking", $.resthub.resthubController, bookBooking);
+})(jQuery);

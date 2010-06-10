@@ -1,4 +1,7 @@
-$.widget("booking.listHotels", {
+(function($) {
+
+var listHotels =
+{
 	options: {
 		data : {},
 		template : 'components/hotel/list.html',
@@ -8,10 +11,22 @@ $.widget("booking.listHotels", {
 		this.element.addClass('bd-hotel-list');
 	},
 	_init: function() {
-		this.element.render(this.options.template, {hotels: this.options.data});
+		var url;
+		if(this.options.data.searchVal) {
+			url = 'api/hotel/search?q=' + this.options.data.searchVal;
+		} else {
+			url = 'api/hotel';
+		}
+		this._ajax(url, this, '_displayHotels');
+	},
+	_displayHotels: function(hotels) {
+		this.element.render(this.options.template, {hotels: hotels});
 	},
 	destroy: function() {
 		this.element.removeClass('bd-hotel-list');
 		$.Widget.prototype.destroy.call( this );
 	}
-});
+};
+
+$.widget("booking.listHotels", $.resthub.resthubController, listHotels);
+})(jQuery);
