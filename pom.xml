@@ -116,7 +116,7 @@
                 </developer>
             </developers>
             <scm>
-                <connection>scm:hg:http://bitbucket.org/ilabs/resthub/</connection>
+                <connection>scm:hg:https://bitbucket.org/ilabs/resthub/</connection>
                 <url>http://bitbucket.org/ilabs/resthub/src/</url>
             </scm>
 
