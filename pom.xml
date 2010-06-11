@@ -27,7 +27,7 @@
         <hibernate.version>3.5.2-Final</hibernate.version>
         <hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
         <h2.version>1.2.136</h2.version>
-        <hades.version>2.0.0.BUILD-SNAPSHOT</hades.version>
+        <hades.version>2.0.0.v20100512</hades.version>
         <spring.version>3.0.2.RELEASE</spring.version>
         <spring.security.version>3.0.2.RELEASE</spring.security.version>
         <log4j.version>1.2.14</log4j.version>
