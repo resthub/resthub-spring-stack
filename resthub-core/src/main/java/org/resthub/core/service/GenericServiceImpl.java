@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.resthub.core.annotation.Auditable;
 import org.resthub.core.dao.GenericDao;
-import org.resthub.core.service.GenericService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
