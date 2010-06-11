@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-apps</artifactId>
-	<name>Applications based on RESThub</name>
+	<name>RESThub based applications</name>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>
@@ -19,7 +19,6 @@
 
 	<modules>
 		<module>roundtable</module>
-		<module>identity-manager</module>
 		<module>booking</module>
 	</modules>
 

@@ -16,6 +16,7 @@
     <modules>
         <module>resthub-core</module>
         <module>resthub-web</module>
+        <module>resthub-js</module>
         <module>resthub-apps</module>
         <module>resthub-archetypes</module>
     </modules>
@@ -133,8 +134,8 @@
                             <version>2.3</version>
                             <configuration>
                                 <encoding>UTF-8</encoding>
-                                <source>1.6</source>
-                                <target>1.6</target>
+                                <source>1.5</source>
+                                <target>1.5</target>
                             </configuration>
                         </plugin>
                         <plugin>

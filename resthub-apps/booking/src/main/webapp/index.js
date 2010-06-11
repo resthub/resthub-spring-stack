@@ -7,17 +7,14 @@
 
 		this.use(Sammy.Title);
 		this.use(Sammy.Session);
-		this.use(Sammy.Resthub);
 
 		this.get('#/', function() {
 			this.title('Login');
-			var user = this.session('user', function() {return {};});
-			$('#header').render('components/header.html', {user: user});
 			$('#content').render('components/login.html', {})
-		});
+		}, 'components/login.js');
 
-		this.get('#/logout', function(context) {
-			$('#content').resthubAuth('testeuh');
+		this.get('#/logout', function() {
+			Alert('logout !');
 		});
 
 		this.get('#/register', function() {
@@ -30,7 +27,9 @@
 		 */
 		this.get('#/home', function(context) {
 			this.title('Home');
-			var user = this.session('user', function() {return {};});
+			var user = this.session('user');
+                         
+                $('#header').render('components/header.html', {user: user});
 			$('#content').listBookings({data: {user: user}, context: context});			
 		}, 'components/booking/list.js');
 
@@ -87,7 +86,7 @@
 		 * User authentication
 		 */
 		this.post('#/user/check', function(context) {
-			$('#header').resthubAuth({context: context});
+			$('#header').login({context: context});
 		});
 	});
 
@@ -99,6 +98,13 @@
 			dataType: 'json',
 			type: 'POST'
 		});
-		app.run('#/');
+		
+                app.run('#/');
+
+                bind('run-route', function() {
+                    var user = this.session('user');
+                    $('#header').render('components/header.html', {user: user});
+                });
+
 	});
 })(jQuery);

@@ -1,0 +1,77 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>resthub</artifactId>
+        <groupId>org.resthub</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <groupId>org.resthub</groupId>
+    <artifactId>resthub-js</artifactId>
+    <name>RESThub javascript stack</name>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <description>
+		RESThub Javascript Stack including frameworks and helpers
+    </description>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <!--  To compress javascript : mvn net.alchim31.maven:yuicompressor-maven-plugin:0.9:compress -->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <version>0.9</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <aggregations>
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+
+                            <output>${project.build.directory}/${project.build.finalName}/lib/resthub.stack.js</output>
+                            <includes>
+                                <include>${basedir}/src/main/webapp/lib/readme.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/dominoes.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/ejs.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.class.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.ejs.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.json.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.core.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.widget.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.mouse.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.position.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/resthub.controller.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/sammy.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/sammy.title.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/sammy.json.js</include>
+                                <include>${basedir}/src/main/webapp/lib/core/sammy.storage.js</include>
+                            </includes>
+
+                        </aggregation>
+
+                    </aggregations>
+                    <jswarn>false</jswarn>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

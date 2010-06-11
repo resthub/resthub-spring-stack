@@ -10,32 +10,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<profiles>
-		<profile>
-			<id>compress</id>
-			<build>
-				<plugins>
-					<!--  To compress javascript : mvn net.alchim31.maven:yuicompressor-maven-plugin:0.9:compress -->
-					<plugin>
-						<groupId>net.alchim31.maven</groupId>
-						<artifactId>yuicompressor-maven-plugin</artifactId>
-						<version>0.9</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>compress</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<jswarn>false</jswarn>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<groupId>org.resthub</groupId>
 	<artifactId>roundtable</artifactId>
 	<packaging>war</packaging>
@@ -46,6 +20,12 @@
 	</description>
 
 	<dependencies>
+                <dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-js</artifactId>
+			<version>1.0-SNAPSHOT</version>
+                        <type>war</type>
+		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web</artifactId>
