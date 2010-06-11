@@ -39,6 +39,10 @@ a {
 	padding: 20px;
 }
 
+span.error {
+	color: red;
+}
+
 
 /** Header **/
 

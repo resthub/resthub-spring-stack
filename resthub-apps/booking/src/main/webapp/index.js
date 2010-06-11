@@ -59,7 +59,6 @@
 		 * View hotel
 		 */
 		this.get('#/hotel/:id', function(context) {
-			alert(this.params['id']);
 			$('#content').viewHotel({data: {id: this.params['id']}, context: context});
         }, 'components/hotel/view.js');
 
@@ -74,7 +73,7 @@
 		 * Booking confirmation page
 		 */
 		this.get('#/booking/confirm', function() {
-			$('div#booking-form').confirmBooking();
+			$('div#booking-form-fields').confirmBooking();
 		}, 'components/booking/confirm.js');
 
 		/**

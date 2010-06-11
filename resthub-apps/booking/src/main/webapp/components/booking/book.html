@@ -1,15 +1,11 @@
 <p>
 	<strong>Check In Date:</strong>
-	<input size="10" name="checkinDate" value="" type="text"> *
-	<span class="error"></span>
+	<input size="10" name="checkinDate" value="08/10/2010" type="text" class="required" date="true"> *
 </p>
-<div ></div>
-
 
 <p>
 	<strong>Check Out Date:</strong>
-	<input size="10" name="checkoutDate" value="" type="text"> *
-	<span class="error"></span>
+	<input size="10" name="checkoutDate" value="08/15/2010" type="text" class="required" date="true"> *
 </p>
 
 <p>
@@ -29,19 +25,17 @@
 
 <p>
 	<strong>Credit Card #:</strong>
-	<input name="creditCard" size="16" value="" type="text" class="required"> *
-	<span class="error"></span>
+	<input id="creditCardNumber" name="creditCard" size="16" value="1234567891234567" type="text" class="required" minlength="16" maxlength="16" digits="true">*
 </p>
 
 <p>
 	<strong>Credit Card Name:</strong>
-	<input name="creditCardName" size="16" value="" type="text"> *
-	<span class="error"></span>
+	<input name="creditCardName" size="16" value="TOTO" type="text" class="required" minlength="4"> *
 </p>
 
 <p>
 	<strong>Credit Card Expiry:</strong>
-	<select name="creditCardExpiryMonth" size="1" value="">
+	<select name="creditCardExpiryMonth" size="1">
 		<option value="1">Jan</option>
 		<option value="2">Feb</option>
 		<option value="3">Mar</option>
@@ -56,7 +50,7 @@
 		<option value="112">Dec</option>
 	</select>
 
-	<select name="creditCardExpiryYear" size="1" value="">
+	<select name="creditCardExpiryYear" size="1">
 		<option value="2010">2010</option>
 		<option value="2011">2011</option>
 		<option value="2012">2012</option>

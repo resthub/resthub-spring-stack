@@ -36,7 +36,7 @@
 		any: _routeWrapper('any'),
 
 		route: function(verb, path, callback, jsFile) {
-		  console.log('nouvelle route');
+		  // console.log('nouvelle route');
 		  var app = this, param_names = [], add_route;
 
 		  // if the method signature is just (path, callback)
@@ -88,7 +88,7 @@
 		},
 
 		runRoute: function(verb, path, params, target) {
-		  console.log('nouveau run route');
+		  // console.log('nouveau run route');
 		  var app = this,
 			  route = this.lookupRoute(verb, path),
 			  context,
@@ -153,7 +153,7 @@
 			  }
 			  else
 			  {
-				  console.log('Passage dans le dominoes...');
+				  // console.log('Passage dans le dominoes...');
 				  dominoes(route.jsFile, function() {
 					  returned = route.callback.apply(context, callback_args);
 				  });

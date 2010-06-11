@@ -8,12 +8,14 @@ $.widget("booking.confirmBooking", {
 		this.element.addClass('bd-booking-confirm');
     },
     _init: function() {
-		this.element.find('h1:first').html("Confirm hotel booking");
+		$('h1:first').html("Confirm hotel booking");
 
 		var booking = $.session.getJSONItem('booking');
         this.element.render(this.options.template, {booking: booking});
 		
-		this.element.find('#cancel-request').attr('href', '#');
+		$('#cancel-request').attr('href', '#/hotel/' + booking.hotelId);
+		$('input#book-request').attr('value', 'Confirm');
+		$('<input id="book-revise" value="Revise" type="button">').insertAfter('input#book-request');
     },
     destroy: function() {
         this.element.removeClass('bd-booking-confirm');
