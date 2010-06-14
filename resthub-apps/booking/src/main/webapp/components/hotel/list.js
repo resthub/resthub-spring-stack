@@ -17,7 +17,7 @@ var listHotels =
 		} else {
 			url = 'api/hotel';
 		}
-		this._ajax(url, this, '_displayHotels');
+		this._get(url, this, '_displayHotels');
 	},
 	_displayHotels: function(hotels) {
 		this.element.render(this.options.template, {hotels: hotels});

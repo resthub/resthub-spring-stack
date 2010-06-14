@@ -17,16 +17,11 @@ var listBookings =
 		} else {
 			url = 'api/booking';
 		}
-		this._ajax(url, this, '_displayBookings');
+		this._get(url, this, '_displayBookings');
 	},
 	_displayBookings: function(bookings) {
 		
 		this.element.render(this.options.template, {bookings: bookings});
-
-		this.element.find('tr.booking-item').click(function() {
-			var id = $(this).attr('id').split("-")[1];
-			self.options.context.redirect('#/booking', id);
-		});
 
 		var self = this;
 		$('#search-submit').bind('click', function() {

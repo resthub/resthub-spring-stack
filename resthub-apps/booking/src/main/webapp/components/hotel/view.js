@@ -11,7 +11,7 @@ var viewHotel =
 		this.element.addClass('bd-hotel-detail');
     },
     _init: function() {
-		this._ajax('api/hotel/' + this.options.data.id, this, '_displayHotel');
+		this._get('api/hotel/' + this.options.data.id, this, '_displayHotel');
     },
 	_displayHotel: function(hotel) {
 		this.element.render(this.options.template, {hotel: hotel});
@@ -19,6 +19,8 @@ var viewHotel =
 		var id = hotel.id;
 		var context = this.options.context;
 		$('input#book-request').bind('click', function() {
+			var booking = { hotel: hotel, user: context.session('user') };
+			context.session('booking', booking);
 			context.redirect('#/booking/hotel', id);
 		});
 	},

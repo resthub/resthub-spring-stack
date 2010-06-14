@@ -1,7 +1,5 @@
 <h1>Search Hotels</h1>
 
-<% console.log($.toJSON(bookings)); %>
-
 <p>
 	<input type="text" id="search-value" size="30">
 	<input type="submit" id="search-submit" value="Find Hotels">
@@ -48,7 +46,7 @@
 					<td><%= booking.checkoutDate %></td>
 					<td><%= booking.id %></td>
 					<td>
-						<a href="#/cancelBooking/<%= booking.id %>">Cancel</a>
+						<a href="#/booking/del/<%= booking.id %>">Cancel</a>
 					</td>
 				</tr>
 			<% } %>
