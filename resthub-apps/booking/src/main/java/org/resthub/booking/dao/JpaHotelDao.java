@@ -27,7 +27,7 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDa
 	private static int BATCH_SIZE = 10;
 
 	@Override
-	public List<Hotel> find(String query) throws ParseException {
+	public List<Hotel> find(String query, Integer offset, Integer limit) throws ParseException {
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		// create native Lucene query
 		String[] fields = new String[]{"name", "address", "city", "state", "country"};
@@ -37,7 +37,7 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDa
 		javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(q, Hotel.class);
 
 		// execute search
-		return persistenceQuery.getResultList();
+		return persistenceQuery.setFirstResult(offset * limit).setMaxResults(limit).getResultList();
 	}
 	
 	@Override
@@ -64,15 +64,4 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDa
 			}
 		}
 	}
-
-	/*@Override
-	public void rebuildIndex() {
-
-		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
-
-		List<Hotel> hotels = getEntityManager().createQuery("select hotel from HOTEL as hotel").getResultList();
-		for (Hotel hotel : hotels) {
-			fullTextEntityManager.index(hotel);
-		}
-	}*/
 }

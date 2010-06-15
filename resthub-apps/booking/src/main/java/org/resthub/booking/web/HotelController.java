@@ -32,13 +32,13 @@ public class HotelController extends GenericResourceController<Hotel, HotelServi
 	@GET
 	@Path("/search")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response searchHotels(@QueryParam("q") String query) {
-
+	public Response searchHotels(@QueryParam("q") String query, @QueryParam("off") Integer offset, @QueryParam("lim") Integer limit) {
+		
 		List<Hotel> hotels;
-		if(query.isEmpty()) {
-			hotels = this.service.findAll(null, null);
+		if(query == null || query.isEmpty()) {
+			hotels = this.service.findAll(offset, limit);
 		} else {
-			hotels = this.service.find(query);
+			hotels = this.service.find(query, offset, limit);
 		}
 
 		if (hotels.isEmpty()) {

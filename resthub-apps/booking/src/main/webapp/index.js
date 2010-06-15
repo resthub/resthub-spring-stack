@@ -8,6 +8,13 @@
 		this.use(Sammy.Title);
 		this.use(Sammy.Session);
 
+		/**
+		 * Load app managed events
+		 */
+		// $.get('events.js');
+
+		/* BEGIN EVENTS */
+
 		this.bind('run-route', function() {
 			var user = this.session('user');
 			$('#header').render('components/header.html', {user: user});
@@ -26,7 +33,23 @@
 
 		this.bind('user-logged-out', function() {
 			$.pnotify('See ya !');
+			this.store('session').clearAll();
+			this.redirect('#/');
 		});
+
+		this.bind('hotel-search', function() {
+			var searchVal = $('#search-value').attr('value');
+			var limit = $('#search-limit').attr('value');
+			var offset = this.session('search-offset');
+			this.redirect('#/hotel/search?q=' + searchVal + '&off=' + offset + '&lim=' + limit);
+		});
+
+		this.bind('user-registered', function(e, user) {
+			$.pnotify('Your are now registered ' + user.name + ' !');
+			this.redirect('#/');
+		});
+
+		/* END EVENTS */
 
 		/**
 		 * Login page
@@ -36,64 +59,44 @@
 				context.redirect('#/home');
 			} else {
 				this.title('Login');
-				$('#content').render('components/login.html', {})
+				$('#content').render('components/user/login.html', {})
 			}
-		}, 'components/login.js');
+		});
 
 		/**
 		 * User authentication
 		 */
 		this.post('#/user/check', function(context) {
-			$('#header').login({context: context});
-		}, 'components/login.js');
+			$('#header').userLogin({context: context});
+		}, 'components/user/login.js');
 
 		/**
 		 * User logout
 		 */
 		this.get('#/logout', function(context) {
 			context.trigger('user-logged-out');
-			context.store('session').clearAll();
-			context.redirect('#/');
-		}, 'components/login.js');
+		});
 
 		/**
 		 * User register
 		 */
-		this.get('#/register', function() {
-			this.title('Register');
-			$('#content').render('components/register.html', {});
-		});
+		this.get('#/register', function(context) {
+			$('#content').userRegister({context: context});
+		}, 'components/user/register.js');
 
 		/**
 		 * Home page after authentication
 		 */
 		this.get('#/home', function(context) {
-			this.title('Home');
 			var user = this.session('user');
-                         
-            $('#header').render('components/header.html', {user: user});
-			$('#content').listBookings({data: {user: user}, context: context});			
+			$('#content').listBookings({user: user, context: context});			
 		}, 'components/booking/list.js');
 
 		/**
 		 * Search hotels
 		 */
-		this.get('#/hotel/search', function() {
-			$('#result').listHotels({data: {searchVal: this.params['q']}});
-		}, 'components/hotel/list.js');
-
-		/**
-		 * List bookings
-		 */
-		this.get('#/booking/list', function() {
-			$('#content').listBookings();
-		}, 'components/booking/list.js');
-
-		/**
-		 * List hotels
-		 */
-		this.get('#/hotel/list', function() {
-			$('#result').listHotels();
+		this.get('#/hotel/search', function(context) {
+			$('#result').listHotels({searchVal: this.params['q'], off: this.params['off'], lim: this.params['lim'], context: context});
 		}, 'components/hotel/list.js');
 
 		/**

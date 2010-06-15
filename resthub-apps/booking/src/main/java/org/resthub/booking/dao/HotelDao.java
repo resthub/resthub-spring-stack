@@ -14,10 +14,12 @@ public interface HotelDao extends GenericResourceDao<Hotel>  {
     /**
      * Find hotel by fulltext search.
      * @param query query
+	 * @param offset rows sets to ignore. A set contains 'limit' rows.
+	 * @param limit max rows number to fetch
      * @return hotels matching query
      * @throws ParseException if bad query syntaxe
      */
-    List<Hotel> find(String query) throws ParseException;
+    List<Hotel> find(String query, Integer offset, Integer limit) throws ParseException;
 
     /**
      * Rebuil full index.

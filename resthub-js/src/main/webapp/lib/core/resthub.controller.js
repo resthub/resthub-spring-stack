@@ -38,8 +38,8 @@
 
 			$.ajax({
 				url: url,
-				dataType: this.options.format,
-				contentType: 'application/json; charset=utf-8',
+				dataType: this.options.dataType,
+				contentType: this.options.contentType,
 				type: type,
 				data: data,
 				success: function(data) {
@@ -70,8 +70,8 @@
 		},
 
 		options: {
-			url: null,
-			format: 'json'
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8'
 		}
 	};
 

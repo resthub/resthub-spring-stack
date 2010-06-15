@@ -23,9 +23,11 @@ public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao
 
     @Override
     @Auditable
-    public List<Hotel> find(String query) {
+    public List<Hotel> find(String query, Integer offset, Integer limit) {
 		try {
-			return this.dao.find(query);
+			Integer o = (offset == null || offset < 0) ? 0 : offset;
+			Integer l = (limit == null || limit < 0) ? 100 : limit;
+			return this.dao.find(query, offset, limit);
 		} catch (ParseException ex) {
 			Logger.getLogger(HotelServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
 		}

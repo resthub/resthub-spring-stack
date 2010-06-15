@@ -3,7 +3,7 @@
 var listBookings =
 {
 	options: {
-		data : {},
+		user : null,
 		template : 'components/booking/list.html',
 		context : null
 	},
@@ -11,22 +11,32 @@ var listBookings =
 		this.element.addClass('bd-booking-list');
 	},
 	_init: function() {
+		this.options.context.title('Home');
 		var url;
-		if(this.options.data.user.id) {
-			url = 'api/booking/user/' + this.options.data.user.id;
-		} else {
-			url = 'api/booking';
+		if(this.options.user.id) {
+			url = 'api/booking/user/' + this.options.user.id;
+			this._get(url, this, '_displayBookings');
 		}
-		this._get(url, this, '_displayBookings');
 	},
 	_displayBookings: function(bookings) {
 		
 		this.element.render(this.options.template, {bookings: bookings});
+		this.options.context.session('search-offset', 0);
 
 		var self = this;
 		$('#search-submit').bind('click', function() {
-			var searchVal = $('#search-value').val();
-			self.options.context.redirect('#/hotel/search?q=' + searchVal);
+			self.options.context.session('search-offset', 0);
+			self.options.context.trigger('hotel-search');
+		});
+
+		$('#search-value').bind('keyup', function() {
+			self.options.context.session('search-offset', 0);
+			self.options.context.trigger('hotel-search');
+		});
+
+		$('#search-limit').bind('change', function() {
+			self.options.context.session('search-offset', 0);
+			self.options.context.trigger('hotel-search');
 		});
 	},
 	destroy: function() {

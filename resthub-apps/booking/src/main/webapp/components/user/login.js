@@ -1,6 +1,6 @@
 (function($)
 {
-	var login =
+	var userLogin =
 	{
 		_init: function() {
 			this.options.context.store('session').clearAll();
@@ -20,5 +20,5 @@
 		}
 	};
 
-	$.widget("resthub.login", $.resthub.resthubController, login);
+	$.widget("booking.userLogin", $.resthub.resthubController, userLogin);
 })(jQuery);
