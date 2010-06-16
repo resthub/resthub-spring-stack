@@ -135,17 +135,14 @@ label {
 	margin-right: 5px;
 }
 
-form p {
-	text-align: center;
-	height: 20px;
-}
+
 
 form p.field {
 	text-align: left;
 	margin: 0 0 5px 0;
 }
 
-form strong {
+strong {
 	display: block;
 	width: 150px;
 	float: left;
@@ -155,11 +152,11 @@ form strong {
 	padding: 2px;
 }
 
-form p {
+p {
 	clear: both;
 	text-align: left;
 	margin: 7px 0;
-	min-height: 15px;
+	min-height: 20px;
 }
 
 form p.hasError {
@@ -170,7 +167,7 @@ form .hasError .error {
 	font-size: 80%;
 }
 
-form .buttons {
+.buttons {
 	text-align: left;
 	background: #dedede;
 	padding: 10px;

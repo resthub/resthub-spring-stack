@@ -1,59 +1,15 @@
-<p>
-	<strong>Check In Date:</strong>
-	<input size="10" name="checkinDate" value="2010-08-10" type="text" class="required" date="true"> *
-</p>
+<h1>Book hotel</h1>
 
-<p>
-	<strong>Check Out Date:</strong>
-	<input size="10" name="checkoutDate" value="2010-08-15" type="text" class="required" date="true"> *
-</p>
+<div id="hotel-data">
 
-<p>
-	<strong>Room preference:</strong>
-	<select name="beds" size="1">
-		<option value="1">One king-size bed</option>
-		<option value="2">Two double beds</option>
-		<option value="3">Three beds</option>
-	</select>
-</p>
+</div>
 
-<p>
-	<strong>Smoking preference:</strong>
-	<input name="smoking" value="true" type="radio"> Smoking
-	<input name="smoking" value="false" checked="checked" type="radio"> Non smoking
-</p>
+<div id="booking-data">
 
-<p>
-	<strong>Credit Card #:</strong>
-	<input id="creditCardNumber" name="creditCard" size="16" value="1234567891234567" type="text" class="required" minlength="16" maxlength="16" digits="true">*
-</p>
+</div>
 
-<p>
-	<strong>Credit Card Name:</strong>
-	<input name="creditCardName" size="16" value="TOTO" type="text" class="required" minlength="4"> *
-</p>
-
-<p>
-	<strong>Credit Card Expiry:</strong>
-	<select name="creditCardExpiryMonth" size="1">
-		<option value="1">Jan</option>
-		<option value="2">Feb</option>
-		<option value="3">Mar</option>
-		<option value="4">Apr</option>
-		<option value="5">May</option>
-		<option value="6">Jun</option>
-		<option value="7">Jul</option>
-		<option value="8">Aug</option>
-		<option value="9">Sep</option>
-		<option value="10">Oct</option>
-		<option value="11">Nov</option>
-		<option value="112">Dec</option>
-	</select>
-
-	<select name="creditCardExpiryYear" size="1">
-		<option value="2010">2010</option>
-		<option value="2011">2011</option>
-		<option value="2012">2012</option>
-		<option value="2012">2013</option>
-	</select>
+<p class="buttons">
+	<input id="book-proceed" value="Proceed" type="button">
+	<input id="book-revise" value="Revise" type="button" style="display: none">
+	<a id="cancel-request" href="/#/hotel/<%= hotel.id %>">Cancel</a>
 </p>

@@ -38,10 +38,7 @@
 		});
 
 		this.bind('hotel-search', function() {
-			var searchVal = $('#search-value').attr('value');
-			var limit = $('#search-limit').attr('value');
-			var offset = this.session('search-offset');
-			this.redirect('#/hotel/search?q=' + searchVal + '&off=' + offset + '&lim=' + limit);
+			$('#content').home({context: this});
 		});
 
 		this.bind('user-registered', function(e, user) {
@@ -88,37 +85,22 @@
 		 * Home page after authentication
 		 */
 		this.get('#/home', function(context) {
-			var user = this.session('user');
-			$('#content').listBookings({user: user, context: context});			
-		}, 'components/booking/list.js');
-
-		/**
-		 * Search hotels
-		 */
-		this.get('#/hotel/search', function(context) {
-			$('#result').listHotels({searchVal: this.params['q'], off: this.params['off'], lim: this.params['lim'], context: context});
-		}, 'components/hotel/list.js');
+			$('#content').home({context: context});
+		}, 'components/home.js');
 
 		/**
 		 * View hotel
 		 */
 		this.get('#/hotel/:id', function(context) {
-			$('#content').viewHotel({data: {id: this.params['id']}, context: context});
+			$('#content').viewHotel({id: this.params['id'], context: context});
         }, 'components/hotel/view.js');
 
 		/**
 		 * Book hotel identified by 'id'
 		 */
 		 this.get('#/booking/hotel/:id', function(context) {
-			$('#content').bookBooking({id: this.params['id'], context: context});
+			$('#content').bookBooking({hotelId: this.params['id'], context: context});
         }, 'components/booking/book.js');
-        
-		/**
-		 * Booking confirmation page
-		 */
-		this.get('#/booking/confirm', function(context) {
-			$('div#booking-form-fields').confirmBooking({context: context});
-		}, 'components/booking/confirm.js');
 
 		/**
 		 * Delete booking
