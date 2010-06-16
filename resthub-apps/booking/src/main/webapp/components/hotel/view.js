@@ -8,13 +8,12 @@ var viewHotel =
         context: null
     },
     _init: function() {
-		
 		if(!isNaN(this.options.id)) {
 			this._get('api/hotel/' + this.options.id, this, '_displayHotel');
 		}
     },
 	_displayHotel: function(hotel) {
-		this.element.render(this.options.template, {hotel: hotel});
+		this.element.render(this.options.template, {hotel: hotel, display_buttons: true});
 		
 		var id = hotel.id;
 		var context = this.options.context;

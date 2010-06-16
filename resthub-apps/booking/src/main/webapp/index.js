@@ -99,15 +99,8 @@
 		 * Book hotel identified by 'id'
 		 */
 		 this.get('#/booking/hotel/:id', function(context) {
-			$('#content').bookBooking({id: this.params['id'], context: context});
+			$('#content').bookBooking({hotelId: this.params['id'], context: context});
         }, 'components/booking/book.js');
-        
-		/**
-		 * Booking confirmation page
-		 */
-		this.get('#/booking/confirm', function(context) {
-			$('div#booking-form-fields').confirmBooking({context: context});
-		}, 'components/booking/confirm.js');
 
 		/**
 		 * Delete booking
