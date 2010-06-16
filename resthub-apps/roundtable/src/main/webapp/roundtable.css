@@ -32,6 +32,7 @@ body{
     text-shadow:0 1px 0 #fff;
 }
 a{color:#333;text-decoration:underline;}
+a.more{font-weight: bold}
 #main form, div.poll {
     background:#f7f7f7;
     background:-moz-linear-gradient(90deg, #ccc, #fff); /* Firefox */
@@ -261,7 +262,7 @@ div.grippie {
     line-height:24px;
     font-weight: bold;
 }
-.rt-poll-detail td.rt-voter input[type="text"] {width:90%;margin:0;}
+.rt-poll-detail td.rt-voter input[type="text"] {width:90% !important;;margin:0;}
 .rt-poll-detail div.main {
     height:auto;
     margin:0;
@@ -316,6 +317,8 @@ table tr.result {
 /**
  * LIST SCREEN
  */
+
+.rt-poll-list ul {margin-bottom: 1em}
 .rt-poll-list li.poll-item {
     background:#f7f7f7;
     background:-moz-linear-gradient(90deg, #ccc, #fff); /* Firefox */

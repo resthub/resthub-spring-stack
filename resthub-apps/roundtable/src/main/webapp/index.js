@@ -5,58 +5,49 @@
 (function($) {
 	
     var app = $.sammy(function() {
+        this.use(Sammy.Title);
+
         this.get('#/', function() {
+            this.title('Round Table');
             $('#main').html('<p>Welcome to <strong>Roundtable</strong></p>');
-            dominoes("components/poll/list.js", function() {
+            /*dominoes("components/poll/list.js", function() {
                 $('#main').listPoll("destroy");
-            });
+            });*/
         });
 
         /**
          * View polls.
          */
-        this.get('#/poll/list', function(context) {
-            dominoes("components/poll/list.js", function() {
-                $.ajax({
-                    url: 'api/poll/',
-                    dataType: 'json',
-                    success: function(polls) {
-                        $('#main').listPoll({
-                            data : {polls : polls},
-                            context: context
-                        });
-                    }
-                });
-            });
-        });
+        this.get('#/poll', function(context) {
+            var page = 0;
+            if (this.params['page'] != undefined) {
+                page = this.params['page']
+            }
 
+            var query = null;
+            if (this.params['q'] != undefined) {
+                query = this.params['q']
+            }
+
+            $('#main').listPolls({context: context});
+            $('#main').listPolls("search", query, page);
+        }, "components/poll/list.js");
        	
         /**
          * View new poll creation form.
          */
-        this.get('#/poll/create', function(context) {
-            dominoes("components/poll/edit.js", function() {
-                $('#main').editPoll();
-            });
-        });
+        this.get('#/poll/new', function(context) {
+            $('#main').editPoll({context: context});
+        }, 'components/poll/edit.js');
 
         /**
          * View poll.
          */
         this.get('#/poll/:id', function(context) {
             var id = this.params['id'];
-            dominoes("components/poll/view.js", function() {
-                $.ajax({
-                    url: 'api/poll/' + id,
-                    dataType: 'json',
-                    success: function(poll) {
-                        $('#main').viewPoll({
-                            data : poll
-                        });
-                    }
-                });
-            });
-        });
+            $('#main').viewPoll({context: context});
+            $('#main').viewPoll("view", id);
+        }, 'components/poll/view.js');
 
         /**
          * Post a new poll.
@@ -86,28 +77,6 @@
                 success: function(poll) {
                     $.pnotify('Poll created with success.');
                     context.redirect('#/poll', poll.id);
-                }
-            });
-        });
-
-        /**
-         * Search polls.
-         */
-        this.post('#/post/search', function(context) {
-            var q = this.params['query'];
-
-            $.ajax({
-                type: 'GET',
-                url: 'api/poll/search?q=' + q,
-                dataType: 'json',
-                success: function(polls) {
-                    $.pnotify('Polls found...');
-                    dominoes("components/poll/list.js", function() {
-                        $('#main').listPoll({
-                            data : {polls : polls},
-                            context: context
-                        });
-                    });
                 }
             });
         });
