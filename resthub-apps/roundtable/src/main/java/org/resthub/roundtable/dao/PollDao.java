@@ -1,9 +1,10 @@
 package org.resthub.roundtable.dao;
 
-import java.util.List;
 import org.apache.lucene.queryParser.ParseException;
 import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.roundtable.model.Poll;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.Pageable;
 
 
 /**
@@ -17,7 +18,7 @@ public interface PollDao extends GenericResourceDao<Poll>  {
      * @return polls matching query
      * @throws ParseException if bad query syntaxe
      */
-    List<Poll> find(String query) throws ParseException;
+    Page<Poll> find(String query, Pageable pageable) throws ParseException;
 
     /**
      * Rebuil full index.

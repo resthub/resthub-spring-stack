@@ -24,7 +24,10 @@ import org.resthub.core.util.ClassUtils;
 
 import com.sun.jersey.api.view.ImplicitProduces;
 import java.io.Serializable;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.QueryParam;
 import org.resthub.core.service.GenericService;
+import org.synyx.hades.domain.PageRequest;
 
 /**
  * Generic REST controller
@@ -80,9 +83,12 @@ public abstract class GenericController<T, S extends GenericService<T, ID>, ID e
 
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getEntities() {
-		List<T> entitys = this.service.findAll(null, null);
-		return Response.ok(entitys.toArray(entityClassArray)).build();
+	public Response getEntities(
+                @QueryParam("page") @DefaultValue("0") Integer page,
+                @QueryParam("size") @DefaultValue("5") Integer size) {
+
+            List<T> entitys = this.service.findAll(new PageRequest(page, size)).asList();
+            return Response.ok(entitys.toArray(entityClassArray)).build();
 	}
 
 	@GET

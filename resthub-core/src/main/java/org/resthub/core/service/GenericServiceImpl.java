@@ -7,6 +7,8 @@ import org.resthub.core.annotation.Auditable;
 import org.resthub.core.dao.GenericDao;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.Pageable;
 
 /**
  * Generic Service implementation.
@@ -91,6 +93,11 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 		Integer l = (limit == null || limit < 0) ? 100 : limit;
 		return dao.readAll(o, l);
 	}
+
+        @Override
+        public Page<T> findAll(Pageable pageRequest) {
+            return dao.readAll(pageRequest);
+        }
 
 	/**
 	 * {@inheritDoc}

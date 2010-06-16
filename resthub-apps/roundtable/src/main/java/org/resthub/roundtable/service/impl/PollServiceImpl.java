@@ -17,6 +17,8 @@ import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.service.PollService;
 import org.resthub.roundtable.service.common.ServiceException;
 import org.springframework.transaction.annotation.Transactional;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.Pageable;
 
 /**
  * Poll service implementation.
@@ -35,7 +37,7 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
     @Override
     @Auditable
     @Transactional(readOnly = false)
-    public Poll create(Poll resource) {
+    public Poll create(final Poll resource) {
         Calendar date = Calendar.getInstance();
 
         Poll poll = new Poll();
@@ -67,9 +69,12 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
 
     @Override
     @Auditable
-    public List<Poll> find(String query) throws ServiceException {
+    public Page<Poll> find(final String query, final Pageable pageable) throws ServiceException {
+        if (query == null || "".equals(query.trim())) {
+            return this.findAll(pageable);
+        }
         try {
-            return this.dao.find(query);
+            return this.dao.find(query, pageable);
         } catch (ParseException ex) {
             throw new ServiceException(ex.getMessage(), ex);
         }

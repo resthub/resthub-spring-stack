@@ -1,7 +1,6 @@
 package org.resthub.roundtable.dao.jpa;
 
 
-import java.util.List;
 import javax.inject.Named;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
@@ -15,12 +14,14 @@ import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
 
 import org.resthub.core.dao.GenericJpaResourceDao;
 import org.resthub.roundtable.dao.PollDao;
 import org.resthub.roundtable.model.Poll;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.PageImpl;
+import org.synyx.hades.domain.Pageable;
 
 /**
  * {@inheritDoc}
@@ -30,17 +31,24 @@ public class JpaPollDao extends GenericJpaResourceDao<Poll> implements PollDao {
     private static int BATCH_SIZE = 10;
 
     @Override
-    public List<Poll> find(String query) throws ParseException {
+    public Page<Poll> find(final String query, final Pageable pageable) throws ParseException {
         FullTextEntityManager fullTextEntityManager =
                 org.hibernate.search.jpa.Search.getFullTextEntityManager(getEntityManager());
+
         // create native Lucene query
         String[] fields = new String[]{"author", "topic", "body"};
         MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, fields, new StandardAnalyzer(Version.LUCENE_29));
         org.apache.lucene.search.Query q = parser.parse(query);
-        // wrap Lucene query in a javax.persistence.Query
-        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(q, Poll.class);
-        // execute search
-        return persistenceQuery.getResultList();
+
+        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(q, Poll.class);
+        if (pageable != null) {
+            fullTextQuery.setFirstResult(pageable.getFirstItem());
+            fullTextQuery.setMaxResults(pageable.getPageSize());
+            return new PageImpl<Poll>(fullTextQuery.getResultList(), pageable, fullTextQuery.getResultSize());
+        }
+        else {
+            return new PageImpl<Poll>(fullTextQuery.getResultList());
+        }
     }
 
     @Override

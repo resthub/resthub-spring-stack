@@ -61,7 +61,7 @@ public abstract class AbstractResourceServiceTest<T extends Resource, D extends 
 
 	@Test
 	public void testFindAll() throws Exception {
-		List<T> resourceList = resourceService.findAll(null, null);
+		List<T> resourceList = resourceService.findAll(null).asList();
 		Assert.assertTrue("No resources found!", resourceList.size() >= 1);
 	}
 

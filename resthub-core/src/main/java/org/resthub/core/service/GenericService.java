@@ -2,6 +2,8 @@ package org.resthub.core.service;
 
 import java.io.Serializable;
 import java.util.List;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.Pageable;
 
 /**
  * Generic Service interface.
@@ -48,8 +50,16 @@ public interface GenericService<T, ID extends Serializable> {
      * @param offset offset (default 0)
      * @param limit limit (default 100)
      * @return resources.
+     * @deprecated use findAll(Pageable) instead.
      */
     List<T> findAll(Integer offset, Integer limit);
+    
+    /**
+     * Find all resources (pageable).
+     * @param pageRequest page request
+     * @return resources
+     */
+    Page<T> findAll(Pageable pageRequest);
 
     /**
      * Count all resources.
