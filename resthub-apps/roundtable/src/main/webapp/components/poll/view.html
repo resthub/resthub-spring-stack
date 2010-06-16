@@ -41,7 +41,7 @@
                         <tr class="votes">
                             <% for each(answer in answers) {%>
                                 <% var vote = voter.votes[answer.order - 1] %>
-                                <td class="<%= vote.value %>" title="<%= voter %>, <%= answer.body %>: <%= vote.value %>" ></td>
+                                <td class="<%= vote.value %>" title="<%= voter.name %>, <%= answer.body %>: <%= vote.value %>" ></td>
                             <% } %>
                             <td style="background-color: transparent; border: 0px none;"></td>
                         </tr>
