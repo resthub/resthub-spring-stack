@@ -2,18 +2,18 @@
 
 var viewHotel =
 {
-    options: {
-        id: null,
-        template: 'components/hotel/view.html',
-        context: null
-    },
-    _init: function() {
+	options: {
+		id: null,
+		template: 'components/hotel/view.html',
+		context: null
+	},
+	_init: function() {
 		if(!isNaN(this.options.id)) {
 			this._get('api/hotel/' + this.options.id, this, '_displayHotel');
 		}
-    },
+	},
 	_displayHotel: function(hotel) {
-		this.element.render(this.options.template, {hotel: hotel, display_buttons: true});
+		this.element.render(this.options.template, {hotel: hotel, only_data: false});
 		
 		var id = hotel.id;
 		var context = this.options.context;

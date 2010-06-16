@@ -1,4 +1,6 @@
-<h1>View hotel</h1>
+<% if (!only_data) { %>
+	<h1>View hotel</h1>
+<% } %>
 
 <p>
 	<strong>Name:</strong> <%= hotel.name %>
@@ -22,7 +24,7 @@
 	<strong>Nightly rate:</strong> <%= hotel.price %>
 </p>
 
-<% if (display_buttons) { %>
+<% if (!only_data) { %>
 	<p class="buttons">
 		<input id="book-request" value="Book Hotel" type="button">
 		<a id="cancel-request" href="/#/home">Back to search</a>
