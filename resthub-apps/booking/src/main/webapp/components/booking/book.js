@@ -6,7 +6,8 @@ var bookBooking =
 		hotelId: null,
 		booking: {},
 		template: 'components/booking/book.html',
-		context: null
+		context: null,
+		mode: 'edit'
 	},
 	_init: function() {
 

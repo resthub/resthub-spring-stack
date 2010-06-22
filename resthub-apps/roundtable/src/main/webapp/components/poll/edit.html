@@ -26,11 +26,11 @@
             <input type="button" name="delete" value="Delete" title="Delete selected answer" />
 
             <ul class="answers" >
-               <% for(var i = 0; i < answers.length ; i++) {%>
+                <% for each(answer in answers) {%>
                     <li>
-                        <div><input type="checkbox" name="answers" value="<%= answers[i].body %>"></div>
+                        <div><input type="checkbox" name="answers" value="<%= answer.body %>"></div>
                         <span>
-                            <%= answers[i].body %>
+                            <%= answer.body %>
                         </span>
                     </li>
                 <% } %>
