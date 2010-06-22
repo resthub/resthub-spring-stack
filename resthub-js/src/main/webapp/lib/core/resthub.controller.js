@@ -23,8 +23,8 @@
 			this._ajax(url, widget, callback, 'get', null);
 		},
 
-		_put: function(url, widget, callback) {
-			this._ajax(url, widget, callback, 'put', null);
+		_put: function(url, widget, callback, data) {
+			this._ajax(url, widget, callback, 'put', data);
 		},
 
 		_delete: function(url, widget, callback) {
