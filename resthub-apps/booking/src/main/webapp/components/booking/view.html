@@ -13,3 +13,11 @@
 <p>
 	<strong>Credit card #:</strong> <%= booking.creditCard %>
 </p>
+
+<% if (mode == 'confirm') { %>
+	<p class="buttons">
+		<input id="book-confirm" value="Confirm" type="button">
+		<input id="book-revise" value="Revise" type="button">
+		<a id="cancel-request" href="/#/hotel/<%= booking.hotel.id %>">Cancel</a>
+	</p>
+<% } %>

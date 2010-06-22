@@ -5,7 +5,8 @@ var viewHotel =
 	options: {
 		id: null,
 		template: 'components/hotel/view.html',
-		context: null
+		context: null,
+		only_data: false
 	},
 	_init: function() {
 		if(!isNaN(this.options.id)) {
@@ -13,7 +14,7 @@ var viewHotel =
 		}
 	},
 	_displayHotel: function(hotel) {
-		this.element.render(this.options.template, {hotel: hotel, only_data: false});
+		this.element.render(this.options.template, {hotel: hotel, only_data: this.options.only_data});
 		
 		var id = hotel.id;
 		var context = this.options.context;

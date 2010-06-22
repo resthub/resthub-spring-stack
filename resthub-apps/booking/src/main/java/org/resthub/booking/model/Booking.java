@@ -23,141 +23,141 @@ import org.resthub.core.model.Resource;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Booking extends Resource {
-    
-    private User user;
-    private Hotel hotel;
-    private Date checkinDate;
-    private Date checkoutDate;
-    private String creditCard;
-    private String creditCardName;
-    private int creditCardExpiryMonth;
-    private int creditCardExpiryYear;
-    private boolean smoking;
-    private int beds;
 
-    public Booking() {
+	private User user;
+	private Hotel hotel;
+	private Date checkinDate;
+	private Date checkoutDate;
+	private String creditCard;
+	private String creditCardName;
+	private int creditCardExpiryMonth;
+	private int creditCardExpiryYear;
+	private boolean smoking;
+	private int beds;
 
-    }
-    
-    public Booking(Hotel hotel, User user) {
-        this.hotel = hotel;
-        this.user = user;
-    }
+	public Booking() {
 
-    @Transient
-    public BigDecimal getTotal() {
-        return getHotel().getPrice().multiply( new BigDecimal( getNights() ) );
-    }
+	}
 
-    @Transient
-    public int getNights() {
-        return (int) ( getCheckoutDate().getTime() - getCheckinDate().getTime() ) / 1000 / 60 / 60 / 24;
-    }
+	public Booking(Hotel hotel, User user) {
+		this.hotel = hotel;
+		this.user = user;
+	}
 
-    @Transient
-    public String getDescription() {
-        DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        return getHotel()==null ? null : getHotel().getName() +
-            ", " + df.format( getCheckinDate()) +
-            " to " + df.format( getCheckoutDate());
-    }
+	@Transient
+	public BigDecimal getTotal() {
+		return getHotel().getPrice().multiply( new BigDecimal( getNights() ) );
+	}
 
-    @Override
-    public String toString() {
-        return "Booking(" + getUser() + ","+ getHotel() + ")";
-    }
+	@Transient
+	public int getNights() {
+		return (int) ( getCheckoutDate().getTime() - getCheckinDate().getTime() ) / 1000 / 60 / 60 / 24;
+	}
 
-    @NotNull
-    @ManyToOne
-    public User getUser() {
-        return user;
-    }
+	@Transient
+	public String getDescription() {
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+		return getHotel()==null ? null : getHotel().getName() +
+			", " + df.format( getCheckinDate()) +
+			" to " + df.format( getCheckoutDate());
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	@Override
+	public String toString() {
+		return "Booking(" + getUser() + ","+ getHotel() + ")";
+	}
 
-    @NotNull
-    @ManyToOne
-    public Hotel getHotel() {
-        return hotel;
-    }
+	@NotNull
+	@ManyToOne
+	public User getUser() {
+		return user;
+	}
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    @NotNull
-    @Temporal(TemporalType.DATE) 
-    public Date getCheckinDate() {
-        return checkinDate;
-    }
+	@NotNull
+	@ManyToOne
+	public Hotel getHotel() {
+		return hotel;
+	}
 
-    public void setCheckinDate(Date checkinDate) {
-        this.checkinDate = checkinDate;
-    }
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
 
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    public Date getCheckoutDate() {
-        return checkoutDate;
-    }
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	public Date getCheckinDate() {
+		return checkinDate;
+	}
 
-    public void setCheckoutDate(Date checkoutDate) {
-        this.checkoutDate = checkoutDate;
-    }
+	public void setCheckinDate(Date checkinDate) {
+		this.checkinDate = checkinDate;
+	}
 
-    @NotNull(message="Credit card number is required")
-    @Pattern(regexp="^\\d{16}$", message="Credit card number must be numeric and 16 digits long")
-    public String getCreditCard() {
-        return creditCard;
-    }
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	public Date getCheckoutDate() {
+		return checkoutDate;
+	}
 
-    public void setCreditCard(String creditCard) {
-        this.creditCard = creditCard;
-    }
+	public void setCheckoutDate(Date checkoutDate) {
+		this.checkoutDate = checkoutDate;
+	}
 
-    @NotNull(message="Credit card name is required")
-    @Size(min=3, max=70, message="Credit card name is required")
-    public String getCreditCardName() {
-        return creditCardName;
-    }
+	@NotNull(message="Credit card number is required")
+	@Pattern(regexp="^\\d{16}$", message="Credit card number must be numeric and 16 digits long")
+	public String getCreditCard() {
+		return creditCard;
+	}
 
-    public void setCreditCardName(String creditCardName) {
-        this.creditCardName = creditCardName;
-    }
+	public void setCreditCard(String creditCard) {
+		this.creditCard = creditCard;
+	}
 
-    public int getCreditCardExpiryMonth() {
-        return creditCardExpiryMonth;
-    }
+	@NotNull(message="Credit card name is required")
+	@Size(min=3, max=70, message="Credit card name is required")
+	public String getCreditCardName() {
+		return creditCardName;
+	}
 
-    public void setCreditCardExpiryMonth(int creditCardExpiryMonth) {
-        this.creditCardExpiryMonth = creditCardExpiryMonth;
-    }
+	public void setCreditCardName(String creditCardName) {
+		this.creditCardName = creditCardName;
+	}
 
-    public int getCreditCardExpiryYear() {
-        return creditCardExpiryYear;
-    }
+	public int getCreditCardExpiryMonth() {
+		return creditCardExpiryMonth;
+	}
 
-    public void setCreditCardExpiryYear(int creditCardExpiryYear) {
-        this.creditCardExpiryYear = creditCardExpiryYear;
-    }
+	public void setCreditCardExpiryMonth(int creditCardExpiryMonth) {
+		this.creditCardExpiryMonth = creditCardExpiryMonth;
+	}
 
-    public boolean isSmoking() {
-        return smoking;
-    }
+	public int getCreditCardExpiryYear() {
+		return creditCardExpiryYear;
+	}
 
-    public void setSmoking(boolean smoking) {
-        this.smoking = smoking;
-    }
+	public void setCreditCardExpiryYear(int creditCardExpiryYear) {
+		this.creditCardExpiryYear = creditCardExpiryYear;
+	}
 
-    public int getBeds() {
-        return beds;
-    }
+	public boolean isSmoking() {
+		return smoking;
+	}
 
-    public void setBeds(int beds) {
-        this.beds = beds;
-    }
-    
+	public void setSmoking(boolean smoking) {
+		this.smoking = smoking;
+	}
+
+	public int getBeds() {
+		return beds;
+	}
+
+	public void setBeds(int beds) {
+		this.beds = beds;
+	}
+
 
 }

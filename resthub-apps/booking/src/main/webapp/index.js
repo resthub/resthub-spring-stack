@@ -46,6 +46,16 @@
 			this.redirect('#/');
 		});
 
+		this.bind('password-updated', function() {
+			$.pnotify('Your password has been updated.');
+			this.redirect('#/home');
+		});
+
+		this.bind('booking-deleted', function() {
+			$.pnotify('Your booking has been deleted.');
+			this.redirect('#/home');
+		});
+
 		/* END EVENTS */
 
 		/**
@@ -99,7 +109,15 @@
 		 * Book hotel identified by 'id'
 		 */
 		 this.get('#/booking/hotel/:id', function(context) {
-			$('#content').bookBooking({hotelId: this.params['id'], context: context});
+			var booking = {hotel: {id: this.params['id']}};
+			$('#content').bookBooking({booking: booking, context: context, mode: 'edit'});
+        }, 'components/booking/book.js');
+
+		/**
+		 * Booking confirmation
+		 */
+		 this.get('#/booking/confirm', function(context) {
+			$('#content').bookBooking({context: context, mode: 'view'});
         }, 'components/booking/book.js');
 
 		/**
@@ -108,6 +126,13 @@
 		this.get('#/booking/del/:id', function(context) {
 			$('#content').deleteBooking({id: this.params['id'], context: context});
 		}, 'components/booking/delete.js');
+
+		/**
+		 * Update user
+		 */
+		this.get('#/settings', function(context) {
+			$('#content').editUser({context: context});
+		}, 'components/user/edit.js');
 	});
 
 	$(function() {

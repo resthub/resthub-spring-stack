@@ -10,7 +10,7 @@ var deleteBooking =
 		this._delete('api/booking/' + this.options.id, this, '_bookingDeleted');
     },
 	_bookingDeleted: function() {
-		this.options.context.redirect('#/home');
+		this.options.context.trigger('booking-deleted');
 	}
 };
 
