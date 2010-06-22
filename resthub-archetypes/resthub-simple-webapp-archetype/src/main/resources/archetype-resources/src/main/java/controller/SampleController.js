@@ -13,7 +13,7 @@ import org.resthub.web.controller.GenericResourceController;
 
 @Path("/sample")
 @Named("sampleController")
-public class PollController extends GenericResourceController<SampleResource, SampleService> {
+public class SampleController extends GenericResourceController<SampleResource, SampleService> {
 
     @Inject
     @Named("sampleService")
