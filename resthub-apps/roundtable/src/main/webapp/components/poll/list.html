@@ -2,7 +2,8 @@
     <% if ($.isEmptyObject(polls)) {%>
         <li>No polls found...</li>
     <% } else { %>
-        <% for each(poll in polls) { %>
+        <% for(var i = 0; i < polls.length ; i++) { %>
+            <% var poll = polls[i] %>
             <li class="poll-item" id="poll-<%= poll.id %>" >
                 <h3><%= poll.topic %>
                     <% var date = new Date(poll.creationDate) %>
