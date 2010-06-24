@@ -22,12 +22,12 @@
         <property name="classpathPatterns" value="classpath*:org/resthub/core/model/Resource.class;classpath:${packageInPathFormat}/model/**/*.class" />
     </bean>
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:mem:${artifactId};DB_CLOSE_DELAY=-1" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
-	</bean>
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:mem:${artifactId};DB_CLOSE_DELAY=-1" />
+        <property name="username" value="sa" />
+        <property name="password" value="" />
+    </bean>
 
 </beans>
