@@ -8,7 +8,7 @@
 				username: this.options.context.params['username'],
 				password: this.options.context.params['password']
 			}
-			this._post('api/user/check/', this, '_userLoggedIn', $.toJSON(user));
+			this._post('api/user/check/', this._userLoggedIn, $.toJSON(user));
 		},
 		_userLoggedIn: function(user) {
 			this.options.context.session('user', user);

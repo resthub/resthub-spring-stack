@@ -11,7 +11,7 @@ var listBookings =
 		var url;
 		if(user.id) {
 			url = 'api/booking/user/' + user.id;
-			this._get(url, this, '_displayBookings');
+			this._get(url, this._displayBookings);
 		}
 	},
 	_displayBookings: function(bookings) {

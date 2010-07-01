@@ -11,7 +11,7 @@ var viewBooking =
 	_init: function() {
 
 		if(this.options.mode == 'view') {
-			this._get('api/booking/' + this.options.booking.id, this, '_displayViewMode');
+			this._get('api/booking/' + this.options.booking.id, this._displayViewMode);
 		} else {
 			this._displayConfirmMode();
 		}
@@ -45,7 +45,7 @@ var viewBooking =
 		this.options.context.redirect('#/booking/hotel', this.options.booking.hotel.id);
 	},
 	_sendBooking: function() {
-		this._post('api/booking', this, '_endOfBooking', $.toJSON(this.options.booking));
+		this._post('api/booking', this._endOfBooking, $.toJSON(this.options.booking));
 	},
 	/* Go back home page and trigger end-of-booking event */
 	_endOfBooking: function(booking) {

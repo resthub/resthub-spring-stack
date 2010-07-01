@@ -16,7 +16,7 @@ var bookBooking =
 		this.options.booking = this.options.context.session('booking');
 		
 		if(this.options.booking == undefined) {
-			this._get('api/hotel/' + this.options.hotelId, this, '_initBookingData');
+			this._get('api/hotel/' + this.options.hotelId, this._initBookingData);
 		} else {
 			this._displayBookingView(this.options.booking);
 		}
