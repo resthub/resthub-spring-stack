@@ -8,67 +8,45 @@
 	var resthubController =
 	{
 		_create: function() {
-			// TODO
+		// TODO
 		},
 
 		_init: function() {
-			// TODO
+		// TODO
 		},
 
-		_post: function(url, widget, callback, data) {
-			this._ajax(url, widget, callback, 'post', data);
+		_post: function _post(url, callback, data) {
+			this._ajax(url, callback, 'post', data);
 		},
 
-		_get: function(url, widget, callback) {
-			this._ajax(url, widget, callback, 'get', null);
+		_get: function _get(url, callback) {
+			this._ajax(url, callback, 'get', null);
 		},
 
-		_put: function(url, widget, callback, data) {
-			this._ajax(url, widget, callback, 'put', data);
+		_put: function _put(url, callback, data) {
+			this._ajax(url, callback, 'put', data);
 		},
 
-		_delete: function(url, widget, callback) {
-			this._ajax(url, widget, callback, 'delete', null);
+		_delete: function _delete(url, callback) {
+			this._ajax(url, callback, 'delete', null);
 		},
 
 		/**
 		 * Perform basic ajax request and call your widget back.
 		 */
-		_ajax: function(url, widget, callback, type, data) {
-
+		_ajax: function(url, callback, type, data) {
 			$.ajax({
 				url: url,
 				dataType: this.options.dataType,
 				contentType: this.options.contentType,
 				type: type,
 				data: data,
-				success: function(data) {
-					(widget)[callback](data);
-				},
-				error: function(request, status, error) {
-					switch (request.status) {
-						case 403:
-							$.pnotify('Forbidden (' + request.status + ').');
-							break;
-						case 404:
-							$.pnotify('No data found (' + request.status + ').');
-							break;
-						case 500:
-							$.pnotify('An error occurred during Ajax request (' + request.status + ').');
-							if( error != undefined ) {console.log(error);}
-							break;
-						default:
-							$.pnotify('An error occurred during Ajax request (' + request.status + ').');
-							break;
-					}
-				}
+				success: $.proxy( callback , this )
 			});
 		},
-
 		_set: function(key, value) {
 			this.options[key] = value;
 		},
-
 		options: {
 			dataType: 'json',
 			contentType: 'application/json; charset=utf-8'
@@ -76,4 +54,5 @@
 	};
 
 	$.widget("resthub.resthubController", resthubController);
+	
 })(jQuery);
