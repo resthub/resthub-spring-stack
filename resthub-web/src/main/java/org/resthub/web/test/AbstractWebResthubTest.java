@@ -2,11 +2,6 @@ package org.resthub.web.test;
 
 
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.junit.After;
@@ -15,10 +10,19 @@ import org.resthub.web.jackson.JacksonProvider;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
+
 public abstract class AbstractWebResthubTest {
 
     protected int port = 9797;
+
     protected Server server;
+
+    protected String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml";
 
     @Before
     public void setUp() throws Exception {
@@ -30,7 +34,7 @@ public abstract class AbstractWebResthubTest {
         context.setDisplayName("resthub test webapp");
         context.setContextPath("/");
 
-        context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml");
+        context.getInitParams().put("contextConfigLocation", contextLocations);
         context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
         context.addServlet(SpringServlet.class, "/*");
         context.addEventListener(new ContextLoaderListener());
