@@ -1,8 +1,10 @@
 package org.resthub.oauth2.provider.front;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import javax.ws.rs.core.MediaType;
@@ -12,6 +14,7 @@ import org.resthub.oauth2.provider.exception.ProtocolException.Type;
 import org.resthub.oauth2.provider.front.model.ObtainTokenErrorResponse;
 import org.resthub.oauth2.provider.front.model.TokenResponse;
 import org.resthub.oauth2.provider.model.Token;
+import org.resthub.oauth2.provider.service.MockAuthenticationService;
 import org.resthub.web.test.AbstractWebResthubTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,12 +75,50 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		assertNotNull("Generated refresh token is null", token.refreshToken);
 		assertNotNull("Token creation date is null", token.createdOn);
 		assertNotNull("Token's permissions are null", token.permissions);
+		assertTrue("Admin right was lost", token.permissions.contains(MockAuthenticationService.ADMIN_RIGHT));
+		assertTrue("User right was lost", token.permissions.contains(MockAuthenticationService.USER_RIGHT));
 		assertNotNull("Token's user identifier is null", token.userId);
 		
 		// Compares to original response.
 		assertEquals("Retrieved token has not good access token", response.accessToken, token.accessToken);
 		assertEquals("Retrieved token has not good refresh token", response.refreshToken, token.refreshToken);
 		assertEquals("Retrieved token has not good lifetime", response.expiresIn, token.lifeTime);
+
+		// gets another token with no permissions
+		form = new Form();
+		form.add("grant_type", "basic-credentials");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("username", MockAuthenticationService.NO_PERMISSIONS_USERNAME);
+		form.add("password", "t3st");
+		response = server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+		
+		logger.info("[obtainAndRetrieveToken] generated token: {}", response);
+		assertNotNull("Generated token is null", response);
+		assertNotNull("Generated access token is null", response.accessToken);
+		assertNotNull("Token doesn't have expire date", response.expiresIn);
+		assertNotNull("Generated refresh token is null", response.refreshToken);
+		assertNull("Token must not have scope", response.scope);
+		
+		// Retrieves informations
+		token = server.path("tokenDetails").queryParam("access_token", response.accessToken).get(Token.class);
+		
+		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
+		assertNotNull("Retreived token is null", token);
+		assertNotNull("Retreived access token is null", token.accessToken);
+		assertNotNull("Token doesn't have expire date", token.lifeTime);
+		assertNotNull("Generated refresh token is null", token.refreshToken);
+		assertNotNull("Token creation date is null", token.createdOn);
+		assertNotNull("Token's permissions are null", token.permissions);
+		assertFalse("Admin right was returned", token.permissions.contains(MockAuthenticationService.ADMIN_RIGHT));
+		assertFalse("User right was returned", token.permissions.contains(MockAuthenticationService.USER_RIGHT));
+		assertNotNull("Token's user identifier is null", token.userId);
+		
+		// Compares to original response.
+		assertEquals("Retrieved token has not good access token", response.accessToken, token.accessToken);
+		assertEquals("Retrieved token has not good refresh token", response.refreshToken, token.refreshToken);
+		assertEquals("Retrieved token has not good lifetime", response.expiresIn, token.lifeTime);
+
 	} // obtainAndRetrieveToken().
 
 	/**

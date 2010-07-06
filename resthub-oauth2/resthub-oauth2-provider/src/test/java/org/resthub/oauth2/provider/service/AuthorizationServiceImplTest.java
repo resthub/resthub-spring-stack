@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -48,7 +49,9 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 	public void testUpdate() throws Exception {
 		Token token = new Token();
 		token.accessToken = "XXXXXX";
-		token.userId = "123456";
+		token.userId = "789456";
+		token.permissions.add(MockAuthenticationService.ADMIN_RIGHT);
+		token.permissions.add(MockAuthenticationService.USER_RIGHT);
 		
 		// saves a news user in DB
 		token = resourceService.create(token);
@@ -64,12 +67,15 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		assertEquals("token's value was not persisted", token.accessToken, retrieved.accessToken);
 		assertEquals("token's creation date was not persisted", token.createdOn, retrieved.createdOn);
 		assertEquals("token's permissions was not persisted", token.permissions, retrieved.permissions);
+		assertTrue("token's admin right was lost", retrieved.permissions.contains(MockAuthenticationService.ADMIN_RIGHT));
+		assertTrue("token's user right was lost", retrieved.permissions.contains(MockAuthenticationService.USER_RIGHT));
 		assertEquals("token's user id was not persisted", token.userId, retrieved.userId);
 
 		String newValue = "YYYYYY";
 		String newUserId = "654321";
 		retrieved.accessToken = newValue;
 		retrieved.createdOn.setTime(retrieved.createdOn.getTime()+5000);
+		retrieved.permissions.remove(MockAuthenticationService.ADMIN_RIGHT);
 		retrieved.userId = newUserId;
 
 		// updates the user and checks new values
@@ -78,6 +84,9 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		assertEquals("token's id has changed", token.getId(), updated.getId());
 		assertEquals("token's value should have changed", newValue, updated.accessToken);
 		assertEquals("token's user id name should have changed", newUserId, updated.userId);
+		assertFalse("token's admin right still here", retrieved.permissions.contains(
+				MockAuthenticationService.ADMIN_RIGHT));
+		assertTrue("token's user right was lost", retrieved.permissions.contains(MockAuthenticationService.USER_RIGHT));
 
 		// deletes the user
 		resourceService.delete(updated);
@@ -179,6 +188,28 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		assertEquals("Refresh tokens not equal", token.refreshToken, retrievedToken.refreshToken);
 		assertEquals("Creation dates not equal", token.createdOn, retrievedToken.createdOn);
 		assertEquals("Lifetimes not equal", token.lifeTime, retrievedToken.lifeTime);		
+		assertTrue("token's admin right was lost", retrievedToken.permissions.contains(
+				MockAuthenticationService.ADMIN_RIGHT));
+		assertTrue("token's user right was lost", retrievedToken.permissions.contains(
+				MockAuthenticationService.USER_RIGHT));
+
+		// Generates another token for user with no permissions.
+		token = resourceService.generateToken(new ArrayList<String>(), null, null, 
+				MockAuthenticationService.NO_PERMISSIONS_USERNAME, password);
+		assertNotNull("No token generated", token);
+		assertNotNull("No access token generated", token.accessToken);
+		
+		// Retreives token.
+		retrievedToken = resourceService.getTokenInformation(token.accessToken);
+		assertNotNull("No token retrieved", retrievedToken);
+		assertEquals("Tokens not equals", token, retrievedToken);
+		assertEquals("Access tokens not equals", token.accessToken, retrievedToken.accessToken);
+		assertEquals("User ids not equal", token.userId, retrievedToken.userId);
+		assertEquals("Refresh tokens not equal", token.refreshToken, retrievedToken.refreshToken);
+		assertEquals("Creation dates not equal", token.createdOn, retrievedToken.createdOn);
+		assertEquals("Lifetimes not equal", token.lifeTime, retrievedToken.lifeTime);		
+		assertEquals("token has got permissions", 0, retrievedToken.permissions.size());
+
 	} // getTokenInformation().
 
 } // Classe AuthorizationServiceImplTest
