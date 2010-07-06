@@ -2,11 +2,15 @@ package org.resthub.oauth2.provider.front;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.resthub.oauth2.provider.model.Token;
 
 /**
  * REST Controller for authorisation requests.
@@ -27,10 +31,14 @@ public interface AuthorizationController {
 	 * @param scopes Space separated list of object that will be accessed. <b>For now, must be empty.</b>.
 	 * @param userName End-user name. 
 	 * @param password End-user password.
+	 * @return An TokenResponse (HTTP 200) if the request is successful, a ObtainTokenErrorResponse (HTTP 400) otherwise.
 	 * 
 	 * @throws ProtocolException INVALID_REQUEST: if the request is missing a required parameter, includes an unknown 
 	 * parameter or parameter value, repeats a parameter, includes multiple credentials, utilizes more than one 
 	 * mechanism for authenticating the client, or is otherwise malformed.
+	 * @throws ProtocolException UNSUPPORTED_GRANT_TYPE: if the grant-type parameter is not 'basic-credentials'.
+	 * @throws ProtocolException INVALID_CLIENT_CREDENTIALS: if the client Identifier and password are not empty.
+	 * @throws ProtocolException INVALID_SCOPE: if the scope parameter is not well formated, or if it's not empty.
 	 */
 	@POST
 	@Path("token")
@@ -43,5 +51,18 @@ public interface AuthorizationController {
 			@FormParam("scope") String scopes,
 			@FormParam("username") String userName,
 			@FormParam("password") String password);
+	
+	/**
+	 * Retrieves all information relative to an access token.
+	 * 
+	 * @param accessToken The access token.
+	 * @return A Token object (HTTP 200) containing all informations, or null if no access token found (HTTP 204)
+	 * 
+	 * @throws IllegalArgumentException If the accessToken parameter is missing.
+	 */
+	@GET
+	@Path("tokenDetails")
+	@Produces(MediaType.APPLICATION_JSON)
+	Token obtainTokenInformation(@QueryParam("access_token")String accessToken);
 	
 } // interface AuthorizationController

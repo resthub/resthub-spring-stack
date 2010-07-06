@@ -1,6 +1,8 @@
 package org.resthub.oauth2.provider.front;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import javax.ws.rs.core.MediaType;
@@ -9,6 +11,7 @@ import org.junit.Test;
 import org.resthub.oauth2.provider.exception.ProtocolException.Type;
 import org.resthub.oauth2.provider.front.model.ObtainTokenErrorResponse;
 import org.resthub.oauth2.provider.front.model.TokenResponse;
+import org.resthub.oauth2.provider.model.Token;
 import org.resthub.web.test.AbstractWebResthubTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +40,8 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 	 * Test the protocol implementation of the token obtention. 
 	 */
 	@Test
-	public void obtainToken() {
-		logger.info("[obtainToken] ask for a token");
+	public void obtainAndRetrieveToken() {
+		logger.info("[obtainAndRetrieveToken] ask for a token");
 		WebResource server = resource();
 		
 		Form form = new Form();
@@ -52,8 +55,46 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		TokenResponse response = server.path("token").
 			type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 		
-		logger.info("[obtainToken] response: {}", response);
-	} // obtainToken().
+		logger.info("[obtainAndRetrieveToken] generated token: {}", response);
+		assertNotNull("Generated token is null", response);
+		assertNotNull("Generated access token is null", response.accessToken);
+		assertNotNull("Token doesn't have expire date", response.expiresIn);
+		assertNotNull("Generated refresh token is null", response.refreshToken);
+		assertNull("Token must not have scope", response.scope);
+		
+		// Retrieves informations
+		Token token = server.path("tokenDetails").queryParam("access_token", response.accessToken).get(Token.class);
+		
+		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
+		assertNotNull("Retreived token is null", token);
+		assertNotNull("Retreived access token is null", token.accessToken);
+		assertNotNull("Token doesn't have expire date", token.lifeTime);
+		assertNotNull("Generated refresh token is null", token.refreshToken);
+		assertNotNull("Token creation date is null", token.createdOn);
+		assertNotNull("Token's permissions are null", token.permissions);
+		assertNotNull("Token's user identifier is null", token.userId);
+		
+		// Compares to original response.
+		assertEquals("Retrieved token has not good access token", response.accessToken, token.accessToken);
+		assertEquals("Retrieved token has not good refresh token", response.refreshToken, token.refreshToken);
+		assertEquals("Retrieved token has not good lifetime", response.expiresIn, token.lifeTime);
+	} // obtainAndRetrieveToken().
+
+	/**
+	 * Test error cases for token retrieval.
+	 */
+	@Test
+	public void obtainTokenDetailsErrorCase() {
+		WebResource server = resource();
+		
+		try {
+			logger.info("[obtainTokenDetailsErrorCase] no access_type");
+			server.path("tokenDetails").get(Token.class);
+			fail("An UniformInterfaceException must be raised for missing grant_type");
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 500, exc.getResponse().getStatus());
+		}
+	} // obtainTokenDetailsErrorCase().
 
 	/**
 	 * Test error cases for token obtention.

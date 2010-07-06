@@ -54,23 +54,28 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 				"{} and scopes {}", new Object[]{clientId, userName, grant, scopes});
 		// Checks mandatory parameters.
 		if(grant == null || clientId == null || clientSecret == null || userName == null || password == null) {
+			logger.debug("[obtainAccessTokenBasicCredentials] missing mandatory parameters");
 			throw new ProtocolException(Type.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
 					"password parameters are mandatory");
 		}
 		// Checks grant_type
 		if(grant.compareTo("basic-credentials") != 0) {	
+			logger.debug("[obtainAccessTokenBasicCredentials] unsupported grant-type {}", grant);
 			throw new ProtocolException(Type.UNSUPPORTED_GRANT_TYPE, "Only grant_type 'basic-credentials' is supported");
 		}		
 		// Checks clientId and clientSecret
 		if(clientId.compareTo("") != 0 || clientSecret.compareTo("") != 0) {	
+			logger.debug("[obtainAccessTokenBasicCredentials] non-empty client credentials {}|{}", clientId,
+						clientSecret);
 			throw new ProtocolException(Type.INVALID_CLIENT_CREDENTIALS, "For now, client id and secret must be empty");
 		}		
 		// Checks scope
 		List<String> scopesList = new ArrayList<String>();
 		// Scopes are optional
 		if (scopes != null) {
-			// TODO test scope syntax.
+			// Test scope syntax.
 			if(scopes.length() != 0 && !scopes.matches("^(\\w*\\s)*\\w*$")) {
+				logger.debug("[obtainAccessTokenBasicCredentials] malformed scope {}",scopes);
 				throw new ProtocolException(Type.INVALID_SCOPE, "Scope must be a whitespace delimited string");
 			}
 			// Split with spaces, and skip whitespaces 
@@ -87,8 +92,11 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		try {
 			token = service.generateToken(scopesList, clientId, clientSecret, userName, password);
 		} catch (IllegalArgumentException exc) {
-			// TODO
+			logger.debug("[obtainAccessTokenBasicCredentials] invalid parameter: {}", exc.getMessage());
+			throw new ProtocolException(Type.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
+				"password parameters are mandatory");
 		}
+		logger.trace("[obtainAccessTokenBasicCredentials] Generated token: {}", token);
 		// Builds a 200 response.
 		ResponseBuilder builder = Response.status(Status.OK);
 		// Response body.
@@ -100,5 +108,21 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		// Sends response.
 		return builder.build(); 
 	} // obtainAccessTokenBasicCredentials().
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Token obtainTokenInformation(String accessToken) {
+		logger.trace("[obtainTokenInformation] Token retrieval for accessToken '{}'", accessToken);
+		// Checks mandatory parameters.
+		if(accessToken == null) {
+			logger.debug("[obtainAccessTokenBasicCredentials] missing mandatory parameters");
+			throw new IllegalArgumentException("accessToken parameter is mandatory");
+		}
+		Token token = service.getTokenInformation(accessToken);
+		logger.trace("[obtainTokenInformation] Retrieved token: {}", token);
+		return token;
+	} // obtainTokenInformation().
 
 } // class AuthorizationControllerImpl
