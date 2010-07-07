@@ -1,5 +1,5 @@
 // name: sammy
-// version: 0.5.2
+// version: 0.5.4
 
 (function($) {
 
@@ -7,9 +7,14 @@
       PATH_REPLACER = "([^\/]+)",
       PATH_NAME_MATCHER = /:([\w\d]+)/g,
       QUERY_STRING_MATCHER = /\?([^#]*)$/,
+      // mainly for making `arguments` an Array
+      _makeArray = function(nonarray) { return Array.prototype.slice.call(nonarray); },
+      // borrowed from jQuery
+      _isFunction = function( obj ) { return Object.prototype.toString.call(obj) === "[object Function]"; },
+      _isArray = function( obj ) { return Object.prototype.toString.call(obj) === "[object Array]"; },
       _decode = decodeURIComponent,
       _routeWrapper = function(verb) {
-	  return function(path, callback, jsFile) { return this.route.apply(this, [verb, path, callback, jsFile]); };
+        return function(path, callback) { return this.route.apply(this, [verb, path, callback]); };
       },
       loggers = [];
 
@@ -39,10 +44,10 @@
   //      Sammy('#main', function() { ... });
   //
   Sammy = function() {
-    var args = $.makeArray(arguments),
+    var args = _makeArray(arguments),
         app, selector;
     Sammy.apps = Sammy.apps || {};
-    if (args.length === 0 || args[0] && $.isFunction(args[0])) { // Sammy()
+    if (args.length === 0 || args[0] && _isFunction(args[0])) { // Sammy()
       return Sammy.apply(Sammy, ['body'].concat(args));
     } else if (typeof (selector = args.shift()) == 'string') { // Sammy('#main')
       app = Sammy.apps[selector] || new Sammy.Application();
@@ -74,7 +79,7 @@
   // loggers pool. Can take any number of arguments.
   // Also prefixes the arguments with a timestamp.
   Sammy.log = function()  {
-    var args = $.makeArray(arguments);
+    var args = _makeArray(arguments);
     args.unshift("[" + Date() + "]");
     $.each(loggers, function(i, logger) {
       logger.apply(Sammy, args);
@@ -82,7 +87,7 @@
   };
 
   if (typeof window.console != 'undefined') {
-    if ($.isFunction(console.log.apply)) {
+    if (_isFunction(console.log.apply)) {
       Sammy.addLogger(function() {
         window.console.log.apply(console, arguments);
       });
@@ -97,6 +102,12 @@
     });
   }
 
+  $.extend(Sammy, {
+    makeArray: _makeArray,
+    isFunction: _isFunction,
+    isArray: _isArray
+  })
+
   // Sammy.Object is the base for all other Sammy classes. It provides some useful
   // functionality, including cloning, iterating, etc.
   Sammy.Object = function(obj) { // constructor
@@ -109,7 +120,7 @@
     toHash: function() {
       var json = {};
       $.each(this, function(k,v) {
-        if (!$.isFunction(v)) {
+        if (!_isFunction(v)) {
           json[k] = v;
         }
       });
@@ -126,7 +137,7 @@
     toHTML: function() {
       var display = "";
       $.each(this, function(k, v) {
-        if (!$.isFunction(v)) {
+        if (!_isFunction(v)) {
           display += "<strong>" + k + "</strong> " + v + "<br />";
         }
       });
@@ -138,7 +149,7 @@
     keys: function(attributes_only) {
       var keys = [];
       for (var property in this) {
-        if (!$.isFunction(this[property]) || !attributes_only) {
+        if (!_isFunction(this[property]) || !attributes_only) {
           keys.push(property);
         }
       }
@@ -153,7 +164,7 @@
     // convenience method to join as many arguments as you want
     // by the first argument - useful for making paths
     join: function() {
-      var args = $.makeArray(arguments);
+      var args = _makeArray(arguments);
       var delimiter = args.shift();
       return args.join(delimiter);
     },
@@ -169,7 +180,7 @@
     toString: function(include_functions) {
       var s = [];
       $.each(this, function(k, v) {
-        if (!$.isFunction(v) || include_functions) {
+        if (!_isFunction(v) || include_functions) {
           s.push('"' + k + '": ' + v.toString());
         }
       });
@@ -252,45 +263,6 @@
     }
   };
 
-  // The DataLocationProxy is an optional location proxy prototype. As opposed to
-  // the `HashLocationProxy` it gets its location from a jQuery.data attribute
-  // tied to the application's element. You can set the name of the attribute by
-  // passing a string as the second argument to the constructor. The default attribute
-  // name is 'sammy-location'. To read more about location proxies, check out the
-  // documentation for `Sammy.HashLocationProxy`
-  Sammy.DataLocationProxy = function(app, data_name) {
-    this.app = app;
-    this.data_name = data_name || 'sammy-location';
-  };
-
-  Sammy.DataLocationProxy.prototype = {
-    bind: function() {
-      var proxy = this;
-      this.app.$element().bind('setData', function(e, key, value) {
-        if (key == proxy.data_name) {
-          // jQuery unfortunately fires the event before it sets the value
-          // work around it, by setting the value ourselves
-          proxy.app.$element().each(function() {
-            $.data(this, proxy.data_name, value);
-          });
-          proxy.app.trigger('location-changed');
-        }
-      });
-    },
-
-    unbind: function() {
-      this.app.$element().unbind('setData');
-    },
-
-    getLocation: function() {
-      return this.app.$element().data(this.data_name);
-    },
-
-    setLocation: function(new_location) {
-      return this.app.$element().data(this.data_name, new_location);
-    }
-  };
-
   // Sammy.Application is the Base prototype for defining 'applications'.
   // An 'application' is a collection of 'routes' and bound events that is
   // attached to an element when `run()` is called.
@@ -306,7 +278,7 @@
     this.context_prototype = function() { Sammy.EventContext.apply(this, arguments); };
     this.context_prototype.prototype = new Sammy.EventContext();
 
-    if ($.isFunction(app_function)) {
+    if (_isFunction(app_function)) {
       app_function.apply(this, [this]);
     }
     // set the location proxy if not defined to the default (HashLocationProxy)
@@ -406,7 +378,7 @@
     //
     use: function() {
       // flatten the arguments
-      var args = $.makeArray(arguments);
+      var args = _makeArray(arguments);
       var plugin = args.shift();
       try {
         args.unshift(this);
@@ -414,7 +386,7 @@
       } catch(e) {
         if (typeof plugin == 'undefined') {
           this.error("Plugin Error: called use() but plugin is not defined", e);
-        } else if (!$.isFunction(plugin)) {
+        } else if (!_isFunction(plugin)) {
           this.error("Plugin Error: called use() but '" + plugin.toString() + "' is not a function", e);
         } else {
           this.error("Plugin Error", e);
@@ -439,12 +411,12 @@
     //    It is also possible to pass a string as the callback, which is looked up as the name
     //    of a method on the application.
     //
-    route: function(verb, path, callback, jsFile) {
+    route: function(verb, path, callback) {
       var app = this, param_names = [], add_route;
 
       // if the method signature is just (path, callback)
       // assume the verb is 'any'
-      if (!callback && $.isFunction(path)) {
+      if (!callback && _isFunction(path)) {
         path = verb;
         callback = path;
         verb = 'any';
@@ -473,7 +445,7 @@
       }
 
       add_route = function(with_verb) {
-        var r = {verb: with_verb, path: path, jsFile: jsFile, callback: callback, param_names: param_names};
+        var r = {verb: with_verb, path: path, callback: callback, param_names: param_names};
         // add route to routes array
         app.routes[with_verb] = app.routes[with_verb] || [];
         // place routes in order of definition
@@ -632,7 +604,7 @@
     // See `contextMatchesOptions()` for a full list of supported options
     //
     before: function(options, callback) {
-      if ($.isFunction(options)) {
+      if (_isFunction(options)) {
         callback = options;
         options = {};
       }
@@ -954,18 +926,7 @@
           }
           app.last_route = route;
           context.trigger('event-context-before', {context: context});
-
-          if(route.jsFile == undefined)
-          {
-            returned = route.callback.apply(context, callback_args);
-          }
-          else
-          {
-            dominoes(route.jsFile, function() {
-              returned = route.callback.apply(context, callback_args);
-            });
-          }
-
+          returned = route.callback.apply(context, callback_args);
           context.trigger('event-context-after', {context: context});
           return returned;
         };
@@ -1024,7 +985,7 @@
         positive = true;
       }
       // normalize options
-      if (typeof options === 'string' || $.isFunction(options.test)) {
+      if (typeof options === 'string' || _isFunction(options.test)) {
         options = {path: options};
       }
       if (options.only) {
@@ -1035,7 +996,7 @@
       var path_matched = true, verb_matched = true;
       if (options.path) {
         // wierd regexp test
-        if ($.isFunction(options.path.test)) {
+        if (_isFunction(options.path.test)) {
           path_matched = options.path.test(context.path);
         } else {
           path_matched = (options.path.toString() === context.path);
@@ -1171,7 +1132,7 @@
 
     _parseParamPair: function(params, key, value) {
       if (params[key]) {
-        if ($.isArray(params[key])) {
+        if (_isArray(params[key])) {
           params[key].push(value);
         } else {
           params[key] = [params[key], value];
@@ -1298,23 +1259,23 @@
       // engine setup
       if ((engine = path.match(/\.([^\.]+)$/))) { engine = engine[1]; }
       // set the engine to the default template engine if no match is found
-      if ((!engine || !$.isFunction(context[engine])) && this.app.template_engine) {
+      if ((!engine || !_isFunction(context[engine])) && this.app.template_engine) {
         engine = this.app.template_engine;
       }
-      if (engine && !$.isFunction(engine) && $.isFunction(context[engine])) {
+      if (engine && !_isFunction(engine) && _isFunction(context[engine])) {
         engine = context[engine];
       }
-      if (!callback && $.isFunction(data)) {
+      if (!callback && _isFunction(data)) {
         // callback is in the data position
         callback = data;
         data = {};
       }
-      data_array = ($.isArray(data) ? data : [data || {}]);
+      data_array = (_isArray(data) ? data : [data || {}]);
       wrapped_callback = function(response) {
         var new_content = response,
             all_content =  "";
         $.each(data_array, function(i, idata) {
-          if ($.isFunction(engine)) {
+          if (_isFunction(engine)) {
             new_content = engine.apply(context, [response, idata]);
           }
           // collect the content
@@ -1352,7 +1313,7 @@
     //      redirect('#', 'other', 'route');
     //
     redirect: function() {
-      var to, args = $.makeArray(arguments),
+      var to, args = _makeArray(arguments),
           current_location = this.app.getLocation();
       if (args.length > 1) {
         args.unshift('/');

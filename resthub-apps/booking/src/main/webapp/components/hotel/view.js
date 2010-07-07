@@ -10,7 +10,7 @@ var viewHotel =
 	},
 	_init: function() {
 		if(!isNaN(this.options.id)) {
-			this._get('api/hotel/' + this.options.id, this, '_displayHotel');
+			this._get('api/hotel/' + this.options.id, this._displayHotel);
 		}
 	},
 	_displayHotel: function(hotel) {

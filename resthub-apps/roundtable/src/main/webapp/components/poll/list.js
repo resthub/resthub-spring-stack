@@ -55,7 +55,7 @@
             }
             var url = this._url() + params;
 
-            this._get(url, this, '_updatePolls');
+            this._get(url, this._updatePolls);
             return this;
         }
     };

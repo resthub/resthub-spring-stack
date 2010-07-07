@@ -62,6 +62,7 @@
                                 <include>${basedir}/src/main/webapp/lib/core/sammy.title.js</include>
                                 <include>${basedir}/src/main/webapp/lib/core/sammy.json.js</include>
                                 <include>${basedir}/src/main/webapp/lib/core/sammy.storage.js</include>
+								<include>${basedir}/src/main/webapp/lib/core/resthub.wrappers.js</include>
                             </includes>
 
                         </aggregation>
