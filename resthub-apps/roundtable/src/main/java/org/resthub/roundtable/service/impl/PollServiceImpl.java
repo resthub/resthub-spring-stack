@@ -3,7 +3,6 @@ package org.resthub.roundtable.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;

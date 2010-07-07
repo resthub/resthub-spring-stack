@@ -11,6 +11,7 @@
                 author : null,
                 topic : 'New poll',
                 body : '',
+                expirationDate : new Date(),
                 answers: []
                 },
             context : null

@@ -24,10 +24,10 @@ public class TestJSONWebSampleResourceController extends AbstractWebResthubTest 
     @Test
     public void testFindAllResources() {
     	WebResource r = resource().path("resources");
-    	r.type(MediaType.APPLICATION_JSON).post(new WebSampleResource());
-    	r.type(MediaType.APPLICATION_JSON).post(new WebSampleResource());
-        String response = r.type(MediaType.APPLICATION_JSON).get(String.class);
-        System.out.println(response);
+    	r.type(MediaType.APPLICATION_JSON).post(WebSampleResource.class, new WebSampleResource("A"));
+    	r.type(MediaType.APPLICATION_JSON).post(WebSampleResource.class, new WebSampleResource("B"));
+        String response = r.accept(MediaType.APPLICATION_JSON).get(String.class);
+        Assert.assertTrue("Bad JSON response", response.contains("\"totalElements\":2"));
     }
     
 }

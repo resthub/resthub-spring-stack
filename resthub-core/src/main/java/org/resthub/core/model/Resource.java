@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Base resource model class defined by an id and a reference.
@@ -15,6 +16,7 @@ import javax.persistence.MappedSuperclass;
 @SuppressWarnings("serial")
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
+@XmlRootElement
 public abstract class Resource implements Serializable {
     
     private Long id;

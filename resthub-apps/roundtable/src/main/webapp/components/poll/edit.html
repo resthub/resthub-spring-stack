@@ -3,7 +3,7 @@
     <fieldset>
         <legend style="display: none">Create a new poll</legend>
         <label for="inp-author"><em>*</em>Author</label>
-        <input type="email" id="inp-author" name="author" value="<%= author %>" class="required" />
+        <input type="email" id="inp-author" name="author" value="<%= author %>" class="required email" />
 
         <br/>
 
@@ -14,6 +14,11 @@
 
         <label for="inp-body"><em>*</em>Body</label>
         <textarea id="inp-body" name="body" cols="10" rows="3" class="required resizable"><%= body %></textarea>
+
+        <br/>
+
+        <label for="inp-exp-date"><em>*</em>Expiration date</label>
+        <input type="text" id="inp-exp-date" name="expirationDate" value="<%= expirationDate %>" class="required" />
 
         <fieldset class="answer">
             <legend style="display: none"><em>*</em>Answers</legend>
