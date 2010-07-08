@@ -5,7 +5,6 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
@@ -27,8 +26,8 @@ public class ProtocolExceptionHandler implements ExceptionMapper<ProtocolExcepti
 	 */
 	@Override
 	public Response toResponse(ProtocolException exception) {
-		// HTTP code is always 400.
-		ResponseBuilder builder = Response.status(Status.BAD_REQUEST);
+		// HTTP code
+		ResponseBuilder builder = Response.status(exception.errorCase.status());
 		// Response body.
 		ObtainTokenErrorResponse response = new ObtainTokenErrorResponse(exception);
 		builder.entity(response);

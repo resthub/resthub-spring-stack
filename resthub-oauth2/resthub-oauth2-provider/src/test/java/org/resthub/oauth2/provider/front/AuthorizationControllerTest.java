@@ -10,7 +10,7 @@ import static org.junit.Assert.fail;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.Test;
-import org.resthub.oauth2.provider.exception.ProtocolException.Type;
+import org.resthub.oauth2.provider.exception.ProtocolException.Error;
 import org.resthub.oauth2.provider.front.model.ObtainTokenErrorResponse;
 import org.resthub.oauth2.provider.front.model.TokenResponse;
 import org.resthub.oauth2.provider.model.Token;
@@ -158,7 +158,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 		
@@ -176,7 +176,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.UNSUPPORTED_GRANT_TYPE.value(), response.error);
+			assertEquals("Response code is incorrect", Error.UNSUPPORTED_GRANT_TYPE.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -193,7 +193,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -211,7 +211,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_CLIENT_CREDENTIALS.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_CLIENT_CREDENTIALS.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -228,7 +228,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -246,7 +246,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_CLIENT_CREDENTIALS.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_CLIENT_CREDENTIALS.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -263,7 +263,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -280,7 +280,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -299,7 +299,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_SCOPE.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_SCOPE.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
@@ -318,7 +318,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Type.INVALID_SCOPE.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_SCOPE.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 

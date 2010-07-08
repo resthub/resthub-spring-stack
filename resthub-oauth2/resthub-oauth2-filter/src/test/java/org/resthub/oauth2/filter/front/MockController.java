@@ -1,0 +1,60 @@
+package org.resthub.oauth2.filter.front;
+
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Named;
+import javax.inject.Singleton;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+@Named("mockController")
+@Singleton
+@Path("/")
+public class MockController {
+	
+	/**
+	 * Simply returns a string.
+	 * @return "Hello world".
+	 */
+	@GET
+	@PermitAll
+	public String helloWorld() {
+		return "Hello world";
+	} // helloWorld()
+
+	/**
+	 * Simply returns a string.
+	 * @return "Hello world Admin".
+	 */
+	@GET
+	@Path("admin")
+	@RolesAllowed({"ADMIN", "USER"})
+	public String helloWorldAdmin() {
+		return "Hello world Admin";
+	} // helloWorldAdmin()
+
+	/**
+	 * Simply returns a string.
+	 * @return "Hello world Other".
+	 */
+	@GET
+	@Path("other")
+	@RolesAllowed("OTHER")
+	public String helloWorldOther() {
+		return "Hello world Other";
+	} // helloWorldOther()
+
+	/**
+	 * Simply returns a string.
+	 * @return "Hello world Secured".
+	 */
+	@GET
+	@Path("secured")
+	@DenyAll
+	public String helloWorldSecured() {
+		return "Hello world Secured";
+	} // helloWorldSecured()
+
+	
+} // Class MockController.

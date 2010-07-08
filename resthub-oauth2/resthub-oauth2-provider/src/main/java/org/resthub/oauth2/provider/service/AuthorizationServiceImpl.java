@@ -6,7 +6,7 @@ import java.util.List;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.oauth2.provider.dao.TokenDao;
 import org.resthub.oauth2.provider.exception.ProtocolException;
-import org.resthub.oauth2.provider.exception.ProtocolException.Type;
+import org.resthub.oauth2.provider.exception.ProtocolException.Error;
 import org.resthub.oauth2.provider.model.Token;
 import org.resthub.oauth2.utils.Utils;
 import org.slf4j.Logger;
@@ -97,7 +97,7 @@ public class AuthorizationServiceImpl extends GenericResourceServiceImpl<Token, 
 			throw new IllegalArgumentException("scopes nor userName parameter mustn't be null");
 		}
 		if (scopes.size() != 0) {
-			throw new ProtocolException(Type.INVALID_SCOPE, "no scopes are supported");
+			throw new ProtocolException(Error.INVALID_SCOPE, "no scopes are supported");
 		}
 		// Generate a token.
 		Token token = new Token();
@@ -120,7 +120,7 @@ public class AuthorizationServiceImpl extends GenericResourceServiceImpl<Token, 
 		}
 		// No user found
 		if(token.userId == null) {
-			throw new ProtocolException(Type.INVALID_CLIENT_CREDENTIALS, "no user found for " + userName + 
+			throw new ProtocolException(Error.INVALID_CLIENT_CREDENTIALS, "no user found for " + userName + 
 					" or wrong password");
 		}
 		// All's fine : generate tokens.

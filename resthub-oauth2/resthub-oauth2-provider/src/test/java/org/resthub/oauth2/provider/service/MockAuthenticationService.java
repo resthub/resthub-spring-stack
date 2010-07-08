@@ -14,6 +14,9 @@ import javax.inject.Singleton;
 @Singleton
 public class MockAuthenticationService implements AuthenticationService {
 
+	// -----------------------------------------------------------------------------------------------------------------
+	// Public constants
+
 	/**
 	 * Administrator permission.
 	 */
@@ -38,6 +41,9 @@ public class MockAuthenticationService implements AuthenticationService {
 	 * UserId used to get empty result with <code>getUserPermissions().</code>
 	 */
 	public static final String NO_PERMISSIONS_USER_ID = "123456";
+
+	// -----------------------------------------------------------------------------------------------------------------
+	// Public AuthenticationService inherited methods
 
 	/**
 	 * This mock implementation returns always a random user Id, except when passing 

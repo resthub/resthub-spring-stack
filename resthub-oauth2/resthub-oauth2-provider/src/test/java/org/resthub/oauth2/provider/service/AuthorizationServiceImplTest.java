@@ -16,7 +16,7 @@ import javax.inject.Named;
 import org.junit.Test;
 import org.resthub.core.test.AbstractResourceServiceTest;
 import org.resthub.oauth2.provider.exception.ProtocolException;
-import org.resthub.oauth2.provider.exception.ProtocolException.Type;
+import org.resthub.oauth2.provider.exception.ProtocolException.Error;
 import org.resthub.oauth2.provider.model.Token;
 
 /**
@@ -117,7 +117,7 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 			fail("A ProtocolException must be raised for unknown userName");
 		} catch (ProtocolException exc) {
 			// All things right
-			assertEquals("The error case is not good", Type.INVALID_CLIENT_CREDENTIALS, exc.errorCase);
+			assertEquals("The error case is not good", Error.INVALID_CLIENT_CREDENTIALS, exc.errorCase);
 		}		
 		try {
 			List<String> scopes = new ArrayList<String>();
@@ -126,7 +126,7 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 			fail("A ProtocolException must be raised for unknown scope");
 		} catch (ProtocolException exc) {
 			// All things right
-			assertEquals("The error case is not good", Type.INVALID_SCOPE, exc.errorCase);
+			assertEquals("The error case is not good", Error.INVALID_SCOPE, exc.errorCase);
 		}		
 	} // generateAccessTokenErrors().
 
