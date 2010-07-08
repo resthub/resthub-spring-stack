@@ -3,7 +3,6 @@ package org.resthub.oauth2.filter.dao;
 import org.resthub.oauth2.provider.model.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -27,14 +26,34 @@ public class TokenDaoRestService implements TokenDao {
 	/**
 	 * Url of the central authorization service.
 	 */
-	@Value("#{securityConfig.tokenInformationEndpoint}")
 	protected String tokenInformationEndpoint = "";
 	
 	/**
 	 * Name of the parameter used to pass the access token to the central authorization service.
 	 */
-	@Value("#{securityConfig.accessTokenParam}")
 	protected String accessTokenParam = "";
+
+	// -----------------------------------------------------------------------------------------------------------------
+	// Public methods
+
+	/**
+	 * Used by Spring to inject the Url of the central authorization service.
+	 * 
+	 * @param tokenInformationEndpoint The url.
+	 */
+	public void setTokenInformationEndpoint(String tokenInformationEndpoint) {
+		this.tokenInformationEndpoint = tokenInformationEndpoint;
+	} // setTokenInformationEndpoint().
+
+	/**
+	 * Used by Spring to inject the Name of the parameter used to pass the access token to the central authorization 
+	 * service.
+	 * 
+	 * @param accessTokenParam The parameter name.
+	 */
+	public void setAccessTokenParam(String accessTokenParam) {
+		this.accessTokenParam = accessTokenParam;
+	} // setAccessTokenParam().
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public TokenDao inherited methods
