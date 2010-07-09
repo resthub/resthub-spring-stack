@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.Test;
@@ -66,7 +67,8 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		assertNull("Token must not have scope", response.scope);
 		
 		// Retrieves informations
-		Token token = server.path("tokenDetails").queryParam("access_token", response.accessToken).get(Token.class);
+		Token token = server.path("tokenDetails").queryParam("access_token", response.accessToken).
+				header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
 		
 		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
 		assertNotNull("Retreived token is null", token);
@@ -101,7 +103,8 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		assertNull("Token must not have scope", response.scope);
 		
 		// Retrieves informations
-		token = server.path("tokenDetails").queryParam("access_token", response.accessToken).get(Token.class);
+		token = server.path("tokenDetails").queryParam("access_token", response.accessToken).
+				header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
 		
 		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
 		assertNotNull("Retreived token is null", token);
@@ -129,9 +132,17 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		WebResource server = resource();
 		
 		try {
-			logger.info("[obtainTokenDetailsErrorCase] no access_type");
+			logger.info("[obtainTokenDetailsErrorCase] no password");
 			server.path("tokenDetails").get(Token.class);
-			fail("An UniformInterfaceException must be raised for missing grant_type");
+			fail("An UniformInterfaceException must be raised for missing access_type");
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 403, exc.getResponse().getStatus());
+		}
+
+		try {
+			logger.info("[obtainTokenDetailsErrorCase] no access_type");
+			server.path("tokenDetails").header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
+			fail("An UniformInterfaceException must be raised for missing access_type");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 500, exc.getResponse().getStatus());
 		}

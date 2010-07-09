@@ -3,10 +3,12 @@ package org.resthub.oauth2.provider.front;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -55,7 +57,8 @@ public interface AuthorizationController {
 	/**
 	 * Retrieves all information relative to an access token.
 	 * 
-	 * @param accessToken The access token.
+	 * @param accessToken The access token (query parameter access_token").
+	 * @param password The service shared secret (header value of "Authorization" header).
 	 * @return A Token object (HTTP 200) containing all informations, or null if no access token found (HTTP 204)
 	 * 
 	 * @throws IllegalArgumentException If the accessToken parameter is missing.
@@ -63,6 +66,7 @@ public interface AuthorizationController {
 	@GET
 	@Path("tokenDetails")
 	@Produces(MediaType.APPLICATION_JSON)
-	Token obtainTokenInformation(@QueryParam("access_token")String accessToken);
+	Token obtainTokenInformation(@QueryParam("access_token")String accessToken,
+			@HeaderParam(HttpHeaders.AUTHORIZATION)String password);
 	
 } // interface AuthorizationController

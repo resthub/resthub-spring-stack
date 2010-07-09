@@ -14,23 +14,24 @@
 		to your project
 	-->
 	<context:annotation-config />
-	<context:component-scan base-package="org.resthub.oauth2" />
+	<context:component-scan base-package="org.resthub.oauth2.filter" />
 
-	<!-- Declaration of the authorization service -->
-	<bean name="authorizationService"
-		class="org.resthub.oauth2.provider.service.AuthorizationServiceImpl">
-		<property name="dao" ref="tokenDao" />
-		<property name="tokenLifeTime" value="500" />
-		<property name="tokenLength" value="15" />
-		<property name="authenticationProviders">
-			<list>
-				<ref bean="mockAuthenticationService" />
-			</list>
-		</property>
-	</bean>
-
+	<!-- Declares the validation service -->
+	<bean id="validationService" 
+			class="org.resthub.oauth2.filter.service.CachedExternalValidationService"
+			init-method="postInit">
+		<property name="accessTokenParam" value="#{securityConfig.accessTokenParam}"/>
+		<property name="tokenInformationEndpoint" value="#{securityConfig.tokenInformationEndpoint}"/>
+		<property name="authorizationPassword" value="#{securityConfig.authorizationPassword}"/>
+		<property name="discardPeriod" value="#{securityConfig.discardPeriod}"/>
+	</bean> 
+		
 	<!-- Security configuration -->
 	<util:properties id="securityConfig">
-		<prop key="auhorizationPassword">p@ssw0rd</prop>
+		<prop key="resourceName">MyService</prop>
+		<prop key="accessTokenParam">access_token</prop>
+		<prop key="tokenInformationEndpoint">http://localhost:9797/authorization</prop>
+		<prop key="authorizationPassword">p@ssw0rd</prop>
+		<prop key="discardPeriod">0</prop>
 	</util:properties>
 </beans>

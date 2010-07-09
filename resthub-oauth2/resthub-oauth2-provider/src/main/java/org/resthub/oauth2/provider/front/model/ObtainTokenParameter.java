@@ -52,7 +52,6 @@ public class ObtainTokenParameter implements Serializable {
 	 * End-user password.
 	 */
 	public String password;
-
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Constructors

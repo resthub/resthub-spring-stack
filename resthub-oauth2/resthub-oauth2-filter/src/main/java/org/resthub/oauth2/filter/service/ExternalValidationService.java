@@ -1,4 +1,6 @@
-package org.resthub.oauth2.filter.dao;
+package org.resthub.oauth2.filter.service;
+
+import javax.ws.rs.core.HttpHeaders;
 
 import org.resthub.oauth2.provider.model.Token;
 import org.slf4j.Logger;
@@ -11,12 +13,12 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 /**
- * Implementation of Token DAO which makes a call to the Authorization service.
+ * Implementation of the token validation service.
  */
-public class TokenDaoRestService implements TokenDao {
+public class ExternalValidationService implements ValidationService {
 
 	// -----------------------------------------------------------------------------------------------------------------
-	// Protected attributes
+	// Private attributes
 
 	/**
 	 * Class logger.
@@ -33,6 +35,16 @@ public class TokenDaoRestService implements TokenDao {
 	 */
 	protected String accessTokenParam = "";
 
+	/**
+	 * Password used to get token information on the central authorization service.
+	 */
+	protected String authorizationPassword = "";
+
+	/**
+	 * Object used to communicates with the authorization service.
+	 */
+	protected WebResource authorizationService = null;
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public methods
 
@@ -46,7 +58,7 @@ public class TokenDaoRestService implements TokenDao {
 	} // setTokenInformationEndpoint().
 
 	/**
-	 * Used by Spring to inject the Name of the parameter used to pass the access token to the central authorization 
+	 * Used by Spring to inject the name of the parameter used to pass the access token to the central authorization 
 	 * service.
 	 * 
 	 * @param accessTokenParam The parameter name.
@@ -55,30 +67,49 @@ public class TokenDaoRestService implements TokenDao {
 		this.accessTokenParam = accessTokenParam;
 	} // setAccessTokenParam().
 
+	/**
+	 * Used by Spring to inject the password used to get token information on the central authorization service.
+	 * 
+	 * @param authorizationPassword The central authorization service password
+	 */
+	public void setAuthorizationPassword(String authorizationPassword) {
+		this.authorizationPassword = authorizationPassword;
+	} // setAuthorizationPassword().
+	
+	/**
+	 * Post initialization method.
+	 * 
+	 * Initialize the HTTP client with the central service. 
+	 */
+	public void postInit() {
+		logger.debug("[getByAccessToken] Hit on endpoint '{}'", tokenInformationEndpoint);
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		authorizationService = client.resource(tokenInformationEndpoint);		
+	} // postInit().
+	
 	// -----------------------------------------------------------------------------------------------------------------
-	// Public TokenDao inherited methods
+	// Public inherited methods
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Token getByAccessToken(String accessToken) {
+	public Token validateToken(String accessToken) {
 		logger.trace("[getByAccessToken] Retrieves information about token '{}'", accessToken);
 		// Gets the token on the central service.
-		ClientConfig config = new DefaultClientConfig();
-		Client client = Client.create(config);
-		logger.trace("[getByAccessToken] Hit on endpoint '{}'", tokenInformationEndpoint);
-		WebResource resource = client.resource(tokenInformationEndpoint);
 		// Perform the request.
 		Token token = null;
 		try {
-			token = resource.queryParam(accessTokenParam, accessToken).get(Token.class);
+			token = authorizationService.queryParam(accessTokenParam, accessToken).
+				header(HttpHeaders.AUTHORIZATION, authorizationPassword).
+				get(Token.class);
 		} catch (UniformInterfaceException exc) {
 			logger.warn("[getByAccessToken] Cannot retrieved information on token '" + accessToken + "'", exc);
 		} catch (Exception exc) {
 			logger.warn("[getByAccessToken] Error while retrieving information on token '" + accessToken + "'", exc);
 		}
 		return token;
-	} // getByAccessToken().
-	
-} // class TokenDaoRestService.
+	} // validateToken()
+
+} // class ValidationServiceImpl

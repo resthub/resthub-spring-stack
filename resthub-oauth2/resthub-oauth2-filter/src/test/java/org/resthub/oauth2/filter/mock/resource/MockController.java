@@ -1,4 +1,4 @@
-package org.resthub.oauth2.filter.front;
+package org.resthub.oauth2.filter.mock.resource;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -6,6 +6,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 @Named("mockController")
@@ -33,6 +34,28 @@ public class MockController {
 	public String helloWorldAdmin() {
 		return "Hello world Admin";
 	} // helloWorldAdmin()
+
+	/**
+	 * Simply returns a string.
+	 * @return "Hello world Admin".
+	 */
+	@POST
+	@Path("postadmin")
+	@RolesAllowed({"ADMIN", "USER"})
+	public String helloWorldPostAdmin() {
+		return "Hello world Admin";
+	} // helloWorldPostAdmin()
+
+	/**
+	 * Simply returns a string.
+	 * @return "Hello world".
+	 */
+	@POST
+	@Path("post")
+	@PermitAll
+	public String helloWorldPost() {
+		return "Hello world";
+	} // helloWorldPost()
 
 	/**
 	 * Simply returns a string.

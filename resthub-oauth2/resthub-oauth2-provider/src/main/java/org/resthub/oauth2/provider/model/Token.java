@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.resthub.core.model.Resource;
 
@@ -23,6 +24,7 @@ import org.resthub.core.model.Resource;
 @Entity
 @Table(name="tokens")
 @Access(AccessType.FIELD)
+@XmlRootElement
 public class Token extends Resource implements Serializable {
 
 	private static final long serialVersionUID = 2902107409296353744L;

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -18,6 +19,7 @@ import org.resthub.oauth2.provider.model.Token;
 import org.resthub.oauth2.provider.service.AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Authorization controller implementation.
@@ -39,6 +41,12 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 */
 	@Inject
 	protected AuthorizationService service;
+	
+	/**
+	 * Inject the auhorization password to obtain token information.
+	 */
+	@Value("#{securityConfig.auhorizationPassword}")
+	protected String auhorizationPassword;
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public attributes
@@ -113,7 +121,11 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Token obtainTokenInformation(String accessToken) {
+	public Token obtainTokenInformation(String accessToken, String password) {
+		// Checks password.
+		if (password == null || password.compareTo(auhorizationPassword) != 0) {
+			throw new WebApplicationException(Status.FORBIDDEN);
+		}
 		logger.trace("[obtainTokenInformation] Token retrieval for accessToken '{}'", accessToken);
 		// Checks mandatory parameters.
 		if(accessToken == null) {

@@ -1,15 +1,16 @@
-package org.resthub.oauth2.filter.dao;
+package org.resthub.oauth2.filter.service;
 
 
 import java.util.Date;
 
+import org.resthub.oauth2.filter.service.ExternalValidationService;
 import org.resthub.oauth2.provider.model.Token;
 import org.resthub.oauth2.utils.Utils;
 
 /**
- * Mock Implementation of Token DAO.
+ * Mock Implementation of validation service.
  */
-public class MockTokenDao implements TokenDao {
+public class MockExternalValidationService extends ExternalValidationService {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public constants
@@ -55,7 +56,7 @@ public class MockTokenDao implements TokenDao {
 	 * @return All token information, or null if no token found.
 	 */
 	@Override
-	public Token getByAccessToken(String accessToken) {
+	public Token validateToken(String accessToken) {
 		Token token = null;
 		if(UNKNOWN_TOKEN.compareTo(accessToken) != 0) {
 			token = new Token();

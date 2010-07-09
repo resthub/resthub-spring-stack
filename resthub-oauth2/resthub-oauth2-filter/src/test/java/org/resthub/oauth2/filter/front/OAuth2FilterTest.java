@@ -1,4 +1,4 @@
-package org.resthub.oauth2.filter;
+package org.resthub.oauth2.filter.front;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -7,6 +7,8 @@ import static org.junit.Assert.fail;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.ws.rs.core.MediaType;
 
 import org.eclipse.jetty.http.HttpHeaders;
 import org.eclipse.jetty.server.Server;
@@ -17,7 +19,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.resthub.oauth2.filter.dao.MockTokenDao;
+import org.resthub.oauth2.filter.mock.authorization.AuthorizationService;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
@@ -27,22 +29,37 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.representation.Form;
+import com.sun.jersey.spi.container.servlet.ServletContainer;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
+/**
+ * TODO OAuth2FilterTest documentation
+ */
 public class OAuth2FilterTest {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Static private attributes
 
 	/**
-	 * Jetty memory server instance.
+	 * Jetty memory server instance for resource server.
 	 */
-	protected static Server server;
+	protected static Server resourceServer;
+	
+	/**
+	 * Jetty memory server instance for authorization server.
+	 */
+	protected static Server authorizationServer;
 	
 	/**
 	 * Jetty memory server port.
 	 */
-	protected static int port = 9797;
+	protected static int resourceServerPort = 9796;
+	
+	/**
+	 * Jetty memory server port.
+	 */
+	protected static int authorizationServerPort = 9797;
  
 	/**
 	 * Spring configuration locations
@@ -57,8 +74,8 @@ public class OAuth2FilterTest {
 	 */
 	@BeforeClass
 	public static void suiteSetUp() throws Exception {
-		// Creates a Jetty server.
-		server = new Server(port);
+		// Creates a Jetty for the resource server.
+		resourceServer = new Server(resourceServerPort);
 
 		// Configures it
 		ServletContextHandler context = new ServletContextHandler(
@@ -68,9 +85,6 @@ public class OAuth2FilterTest {
 		// Spring configuration.
 		context.getInitParams().put("contextConfigLocation", contextLocations);
         context.addEventListener(new ContextLoaderListener());
-
-        // Jersy-Spring servlet
-		context.addServlet(SpringServlet.class, "/*");
 
 		// Tested filter.
         FilterHolder filter = new FilterHolder(DelegatingFilterProxy.class);
@@ -85,8 +99,26 @@ public class OAuth2FilterTest {
 		context.addServlet(servlet, "/*");
 		
 		// Jetty start.
-		server.setHandler(context);
-		server.start();
+		resourceServer.setHandler(context);
+		resourceServer.start();
+		
+		
+		// Creates a Jetty for the authorization server.
+		authorizationServer = new Server(authorizationServerPort);
+
+		// Configures it
+		context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		context.setContextPath("/authorization");
+						
+		// Jersey Servlet
+		servlet = new ServletHolder(ServletContainer.class);
+		servlet.setInitParameter("com.sun.jersey.config.property.packages", 
+				"org.resthub.oauth2.filter.mock.authorization");
+		context.addServlet(servlet, "/*");
+		
+		// Jetty start.
+		authorizationServer.setHandler(context);
+		authorizationServer.start();
 	} // suiteSetUp().
 
 	/**
@@ -94,8 +126,11 @@ public class OAuth2FilterTest {
 	 */
 	@AfterClass
 	public static void suiteTearDown() throws Exception {
-		if (server != null) {
-			server.stop();
+		if (resourceServer != null) {
+			resourceServer.stop();
+		}
+		if (authorizationServer != null) {
+			authorizationServer.stop();
 		}
 	} // suiteTearDown().
 
@@ -110,7 +145,7 @@ public class OAuth2FilterTest {
 	protected WebResource resource() {
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
-		return client.resource("http://localhost:" + port +"/inmemory");
+		return client.resource("http://localhost:" + resourceServerPort +"/inmemory");
 	} // resource()
 
 	/**
@@ -147,12 +182,32 @@ public class OAuth2FilterTest {
 	public void accessRestriction() {
 		WebResource server = resource();
 		String result = "";
-		// Access free url.
+		// Access free url  with header
 		result = server.path("/").header(HttpHeaders.AUTHORIZATION, "Token token=\"toto\"").get(String.class);
 		assertEquals("The result is incorrect", "Hello world", result);
-		
-		// Access protected admin url
+ 
+		// Access free url with parameter
+		result = server.path("/").queryParam("oauth_token", "Token token=\"toto\"").get(String.class);
+		assertEquals("The result is incorrect", "Hello world", result);
+
+		// Access free url with form
+		Form form = new Form();
+		form.add("oauth_token", "Token token=\"toto\"");
+		result = server.path("/post").type(MediaType.APPLICATION_FORM_URLENCODED).post(String.class, form);
+		assertEquals("The result is incorrect", "Hello world", result);
+
+		// Access protected admin url with header
 		result = server.path("/admin").header(HttpHeaders.AUTHORIZATION, "Token token=\"toto\"").get(String.class);
+		assertEquals("The result is incorrect", "Hello world Admin", result);
+
+		// Access protected admin url with parameter
+		result = server.path("/admin").queryParam("oauth_token", "Token token=\"toto\"").get(String.class);
+		assertEquals("The result is incorrect", "Hello world Admin", result);
+
+		// Access protected admin url with form
+		form = new Form();
+		form.add("oauth_token", "Token token=\"toto\"");
+		result = server.path("/postadmin").type(MediaType.APPLICATION_FORM_URLENCODED).post(String.class, form);
 		assertEquals("The result is incorrect", "Hello world Admin", result);
 
 		// Access protected other url
@@ -210,8 +265,8 @@ public class OAuth2FilterTest {
 		
 		// Simple hit with unknown accessToken.
 		try {
-			server.path("/").header(HttpHeaders.AUTHORIZATION, "Token token=\""+MockTokenDao.UNKNOWN_TOKEN+"\"").get(
-					String.class);
+			server.path("/").header(HttpHeaders.AUTHORIZATION, "Token token=\""+
+					AuthorizationService.UNKNOWN_TOKEN+"\"").get(String.class);
 			fail("An UniformInterfaceException must be raised for request with unknown token");
 		} catch( UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 401, exc.getResponse().getStatus());
@@ -222,14 +277,26 @@ public class OAuth2FilterTest {
 		
 		// Simple hit with expired accessToken.
 		try {
-			server.path("/").header(HttpHeaders.AUTHORIZATION, "Token token=\""+MockTokenDao.EXPIRED_TOKEN+"\"").get(
-					String.class);
+			server.path("/").header(HttpHeaders.AUTHORIZATION, "Token token=\""+
+					AuthorizationService.EXPIRED_TOKEN+"\"").get(String.class);
 			fail("An UniformInterfaceException must be raised for request with expired token");
 		} catch( UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 401, exc.getResponse().getStatus());
 			// Test response content.
 			String cause = checkAuthenticateHeader(exc.getResponse());
 			assertEquals("error is not good", "expired-token", cause);
+		}
+
+		// Simple hit with too many accessToken.
+		try {
+			server.path("/").queryParam("oauth_token", "Token token=\"toto\"").
+					header(HttpHeaders.AUTHORIZATION, "Token token=\"toto\"").get(String.class);
+			fail("An UniformInterfaceException must be raised for request with expired token");
+		} catch( UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Test response content.
+			String cause = checkAuthenticateHeader(exc.getResponse());
+			assertEquals("error is not good", "invalid-request", cause);
 		}
 
 	} // errorCase().
