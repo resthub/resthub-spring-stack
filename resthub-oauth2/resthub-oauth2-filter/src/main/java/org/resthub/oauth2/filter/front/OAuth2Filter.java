@@ -190,8 +190,7 @@ public class OAuth2Filter implements Filter {
 					}
 				} else {
 					// invalid token
-					StringBuilder sb = new StringBuilder("The ").append(HttpHeaders.WWW_AUTHENTICATE).append(
-							" header is misformated");
+					StringBuilder sb = new StringBuilder("The token passed is misformated");
 					logger.trace("[doFilter] {}", sb.toString());
 					setError(response, Error.INVALID_REQUEST.value(), sb.toString(), Error.INVALID_REQUEST.status());
 				}

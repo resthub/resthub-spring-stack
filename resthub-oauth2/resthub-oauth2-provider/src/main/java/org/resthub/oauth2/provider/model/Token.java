@@ -11,6 +11,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -63,7 +64,7 @@ public class Token extends Resource implements Serializable {
 	/**
 	 * The user's permissions.
 	 */
-	@ElementCollection  
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name = "user_permissions")  
 	public List<String> permissions = new ArrayList<String>();
 	

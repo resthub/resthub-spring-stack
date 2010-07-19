@@ -3,6 +3,7 @@ package org.resthub.oauth2.filter.service;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.resthub.oauth2.provider.model.Token;
+import org.resthub.web.jackson.JacksonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +85,8 @@ public class ExternalValidationService implements ValidationService {
 	public void postInit() {
 		logger.debug("[getByAccessToken] Hit on endpoint '{}'", tokenInformationEndpoint);
 		ClientConfig config = new DefaultClientConfig();
+		// For json deserialization.
+		config.getSingletons().add(new JacksonProvider());
 		Client client = Client.create(config);
 		authorizationService = client.resource(tokenInformationEndpoint);		
 	} // postInit().

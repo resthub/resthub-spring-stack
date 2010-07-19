@@ -31,6 +31,6 @@
 
 	<!-- Security configuration -->
 	<util:properties id="securityConfig">
-		<prop key="auhorizationPassword">p@ssw0rd</prop>
+		<prop key="authorizationPassword">p@ssw0rd</prop>
 	</util:properties>
 </beans>

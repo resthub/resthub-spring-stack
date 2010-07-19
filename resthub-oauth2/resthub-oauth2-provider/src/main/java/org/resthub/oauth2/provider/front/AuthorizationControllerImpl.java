@@ -45,8 +45,8 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	/**
 	 * Inject the auhorization password to obtain token information.
 	 */
-	@Value("#{securityConfig.auhorizationPassword}")
-	protected String auhorizationPassword;
+	@Value("#{securityConfig.authorizationPassword}")
+	protected String authorizationPassword;
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public attributes
@@ -123,7 +123,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	@Override
 	public Token obtainTokenInformation(String accessToken, String password) {
 		// Checks password.
-		if (password == null || password.compareTo(auhorizationPassword) != 0) {
+		if (password == null || password.compareTo(authorizationPassword) != 0) {
 			throw new WebApplicationException(Status.FORBIDDEN);
 		}
 		logger.trace("[obtainTokenInformation] Token retrieval for accessToken '{}'", accessToken);
