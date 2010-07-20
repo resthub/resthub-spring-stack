@@ -15,7 +15,22 @@
 		// TODO
 		},
 
-		_authenticate: function(username, password, callback) {
+		/**
+		 * Sends a request to get the access token.
+		 * An OAuth 2 "token request" is sent to the $.oauth2Conf.tokenEndPoint url.
+		 * 
+		 * Used the getOauth2token() method, and stores the access token (if successful)
+		 * in session, for further resource calles.
+		 * 
+		 * @param username The resource owner login (end-user login).
+		 * @param password The resource owner password (end-user password).
+		 * @param success A callback, called when the token is returned by the server.
+		 * This function takes only one parameter, which is the token (JSON structure).
+		 * @param error A callback, called when the server refused to issue a token.
+		 * This function takes two parameters: the first is the error string, and the second
+		 * an option explanation.
+		 */
+		_authenticate: function(username, password, success, error) {
 			// Clears previous session storage.
 			var accessToken = this.options.context.store('session').clear('accessToken');
 			// Sends a token request.
@@ -26,10 +41,11 @@
 					// Stores the token in session.
 					this.options.context.session('accessToken', accessToken);
 					// Calls the callback
-					if (callback) {
-						callback.call(this);
+					if (success) {
+						success.call(this);
 					}
-				}, this)
+				}, this),
+				error
 			);
 		},
 
@@ -51,6 +67,8 @@
 
 		/**
 		 * Perform basic ajax request and call your widget back.
+		 * 
+		 * If an OAuth 2 accessToken is found un session, use it to access the protected URL.
 		 */
 		_ajax: function(url, callback, type, data) {
 			// Gets the token existing in session.

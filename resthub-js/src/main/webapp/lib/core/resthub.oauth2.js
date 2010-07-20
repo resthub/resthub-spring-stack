@@ -42,35 +42,44 @@
 		 * 
 		 * @param username The resource owner login (end-user login).
 		 * @param password The resource owner password (end-user password).
-		 * @param callback An optionnal callback, called when the token is returned by the server.
+		 * @param success A callback, called when the token is returned by the server.
 		 * This function takes only one parameter, which is the token (JSON structure).
+		 * @param error A callback, called when the server refused to issue a token.
+		 * This function takes two parameters: the first is the error string, and the second
+		 * an option explanation.
 		 */
-		getOauth2token: function( username, password, callback ) {					
+		getOauth2token: function( username, password, success, error ) {					
 			var _this = this;
 			
 			// Performs a request to get an authentication token.
-			$.post(
-					// Url
-					jQuery.oauth2Conf.tokenEndPoint,
-					
-					// Send data.
-					{
+			$.ajax({
+					url:jQuery.oauth2Conf.tokenEndPoint,
+					type: 'POST',
+					data: {
 						client_id: jQuery.oauth2Conf.client_id,
 						client_secret: jQuery.oauth2Conf.client_secret,
 						grant_type: "basic-credentials",
 						username: username,
 						password: password
 					},
-						
-					// Success callback.
-					function ( data ) {
+					success: function ( data, textStatus, XMLHttpRequest ) {
 						// Calls the callback
-						callback.call( this, $.parseJSON(data));
+						if (success instanceof Function) {
+							success.call( this, data );
+						}
 					},
-					
-					// Awaited response format.
-					"application/json"
-			);
+					error: function ( XMLHttpRequest, textStatus, errorThrown ) {
+						// Only for OAuth protocol errors.
+						if (XMLHttpRequest.status == 400 || XMLHttpRequest.status == 401) {
+							// Parse the server's response.
+							var err = $.parseJSON(XMLHttpRequest.responseText);
+							// Calls the callback
+							if (error instanceof Function) {
+								error.call( this, err.error, err.error_description);
+							}
+						}
+					} 
+			});
 		}, // getOauth2token().
 		
 		/**
