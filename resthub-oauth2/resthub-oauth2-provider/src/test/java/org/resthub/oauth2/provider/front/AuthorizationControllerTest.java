@@ -56,7 +56,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		form.add("password", "t3st");
 
 		// gets a token
-		TokenResponse response = server.path("token").
+		TokenResponse response = server.path("authorize/token").
 			type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 		
 		logger.info("[obtainAndRetrieveToken] generated token: {}", response);
@@ -67,7 +67,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		assertNull("Token must not have scope", response.scope);
 		
 		// Retrieves informations
-		Token token = server.path("tokenDetails").queryParam("access_token", response.accessToken).
+		Token token = server.path("authorize/tokenDetails").queryParam("access_token", response.accessToken).
 				header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
 		
 		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
@@ -93,7 +93,8 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		form.add("client_secret", null);
 		form.add("username", MockAuthenticationService.NO_PERMISSIONS_USERNAME);
 		form.add("password", "t3st");
-		response = server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+		response = server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, 
+				form);
 		
 		logger.info("[obtainAndRetrieveToken] generated token: {}", response);
 		assertNotNull("Generated token is null", response);
@@ -103,7 +104,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		assertNull("Token must not have scope", response.scope);
 		
 		// Retrieves informations
-		token = server.path("tokenDetails").queryParam("access_token", response.accessToken).
+		token = server.path("authorize/tokenDetails").queryParam("access_token", response.accessToken).
 				header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
 		
 		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
@@ -133,7 +134,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		
 		try {
 			logger.info("[obtainTokenDetailsErrorCase] no password");
-			server.path("tokenDetails").get(Token.class);
+			server.path("authorize/tokenDetails").get(Token.class);
 			fail("An UniformInterfaceException must be raised for missing access_type");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 403, exc.getResponse().getStatus());
@@ -141,7 +142,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 
 		try {
 			logger.info("[obtainTokenDetailsErrorCase] no access_type");
-			server.path("tokenDetails").header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
+			server.path("authorize/tokenDetails").header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
 			fail("An UniformInterfaceException must be raised for missing access_type");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 500, exc.getResponse().getStatus());
@@ -163,7 +164,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_secret", null);
 			form.add("username", "test");
 			form.add("password", "t3st");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for missing grant_type");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -181,7 +182,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_secret", null);
 			form.add("username", "test");
 			form.add("password", "t3st");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for unsupported grant_type");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -198,7 +199,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_secret", null);
 			form.add("username", "test");
 			form.add("password", "t3st");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for missing client_id");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -216,7 +217,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_secret", null);
 			form.add("username", "test");
 			form.add("password", "t3st");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for invalid client_id");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -233,7 +234,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_id", null);
 			form.add("username", "test");
 			form.add("password", "t3st");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for missing client_secret");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -251,7 +252,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_secret", "unknown");
 			form.add("username", "test");
 			form.add("password", "t3st");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for invalid client_secret");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -268,7 +269,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_id", null);
 			form.add("client_secret", null);
 			form.add("password", "t3st");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for missing username");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -285,7 +286,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("client_id", null);
 			form.add("client_secret", null);
 			form.add("username", "test");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for missing password");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -304,7 +305,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("username", "test");
 			form.add("password", "t3st");
 			form.add("scope", "123 5435, aDIF");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for invalid scope");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
@@ -323,7 +324,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			form.add("username", "test");
 			form.add("password", "t3st");
 			form.add("scope", "123 5435 aDIF");
-			server.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
 			fail("An UniformInterfaceException must be raised for unknown scope");
 		} catch (UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());

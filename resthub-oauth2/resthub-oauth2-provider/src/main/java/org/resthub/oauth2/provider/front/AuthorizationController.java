@@ -17,7 +17,7 @@ import org.resthub.oauth2.provider.model.Token;
 /**
  * REST Controller for authorisation requests.
  */
-@Path("/")
+@Path("/authorize/")
 public interface AuthorizationController {
 
 	/**
