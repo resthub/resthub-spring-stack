@@ -61,21 +61,26 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		logger.trace("[obtainAccessTokenBasicCredentials] Token generation for clientId '{}', user name '{}', grant " +
 				"{} and scopes {}", new Object[]{clientId, userName, grant, scopes});
 		// Checks mandatory parameters.
-		if(grant == null || clientId == null || clientSecret == null || userName == null || password == null) {
+		if(grant == null || userName == null || password == null) {
 			logger.debug("[obtainAccessTokenBasicCredentials] missing mandatory parameters");
-			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
-					"password parameters are mandatory");
+			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, username and password parameters are " +
+					"mandatory");
+		} 
+		if (clientId == null || clientSecret == null) {
+			logger.debug("[obtainAccessTokenBasicCredentials] missing client credentials");
+			throw new ProtocolException(Error.INVALID_CLIENT, "client_id and client_secret parameters are mandatory");
+
 		}
 		// Checks grant_type
-		if(grant.compareTo("basic-credentials") != 0) {	
+		if(grant.compareTo("password") != 0) {	
 			logger.debug("[obtainAccessTokenBasicCredentials] unsupported grant-type {}", grant);
-			throw new ProtocolException(Error.UNSUPPORTED_GRANT_TYPE, "Only grant_type 'basic-credentials' is supported");
+			throw new ProtocolException(Error.UNSUPPORTED_GRANT_TYPE, "Only grant_type 'password' is supported");
 		}		
 		// Checks clientId and clientSecret
 		if(clientId.compareTo("") != 0 || clientSecret.compareTo("") != 0) {	
 			logger.debug("[obtainAccessTokenBasicCredentials] non-empty client credentials {}|{}", clientId,
 						clientSecret);
-			throw new ProtocolException(Error.INVALID_CLIENT_CREDENTIALS, "For now, client id and secret must be empty");
+			throw new ProtocolException(Error.INVALID_CLIENT, "For now, client id and secret must be empty");
 		}		
 		// Checks scope
 		List<String> scopesList = new ArrayList<String>();

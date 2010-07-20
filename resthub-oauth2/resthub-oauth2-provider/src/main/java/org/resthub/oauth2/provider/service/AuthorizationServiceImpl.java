@@ -120,7 +120,7 @@ public class AuthorizationServiceImpl extends GenericResourceServiceImpl<Token, 
 		}
 		// No user found
 		if(token.userId == null) {
-			throw new ProtocolException(Error.INVALID_CLIENT_CREDENTIALS, "no user found for " + userName + 
+			throw new ProtocolException(Error.INVALID_CLIENT, "no user found for " + userName + 
 					" or wrong password");
 		}
 		// All's fine : generate tokens.

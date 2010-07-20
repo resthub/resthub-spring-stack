@@ -117,7 +117,7 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 			fail("A ProtocolException must be raised for unknown userName");
 		} catch (ProtocolException exc) {
 			// All things right
-			assertEquals("The error case is not good", Error.INVALID_CLIENT_CREDENTIALS, exc.errorCase);
+			assertEquals("The error case is not good", Error.INVALID_CLIENT, exc.errorCase);
 		}		
 		try {
 			List<String> scopes = new ArrayList<String>();

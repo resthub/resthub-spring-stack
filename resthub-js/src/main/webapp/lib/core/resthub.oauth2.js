@@ -58,7 +58,7 @@
 					data: {
 						client_id: jQuery.oauth2Conf.client_id,
 						client_secret: jQuery.oauth2Conf.client_secret,
-						grant_type: "basic-credentials",
+						grant_type: "password",
 						username: username,
 						password: password
 					},
@@ -102,7 +102,7 @@
 			params.beforeSend = function( XMLHttpRequest ) {
 				if(accessToken && "access_token" in accessToken) {
 					XMLHttpRequest.setRequestHeader("Authorization", 
-							'Token token="'+ accessToken.access_token +'"');
+							'OAuth '+ accessToken.access_token);
 				}
 				// Relaunches the existing callback, on the params context.
 				if(existingBefore instanceof Function) {
@@ -125,9 +125,9 @@
 					if (i != -1) {
 						errorObj.status = error.substring(i+7, error.indexOf('"', i+7));
 					} else {
-						errorObj.status = "invalid-request";
+						errorObj.status = "invalid_request";
 					}
-					i = error.indexOf('error-description="');
+					i = error.indexOf('error_description="');
 					if (i != -1) {
 						errorObj.message = error.substring(i+19, error.indexOf('"', i+19));
 					}

@@ -24,12 +24,12 @@ public interface AuthorizationController {
 	 * Token edpoint to obtain access token with "Resource Owner Basic Credentials" as described
 	 * in the OAuth 2 specification (Section 4.1.2).
 	 * 
-	 * The only gant_type supported is "basic-credentials".
+	 * The only gant_type supported is "password".
 	 * The only way to send client credentials is the use of query parameters.
 	 * 
 	 * @param clientId Client identifier. <b>Not used now, must be null</b>.
 	 * @param clientSecret Client secret. <b>Not used now, must be null</b>.
-	 * @param grant Access grant type. <b>For now, only "basic-credentials" supported</b>.
+	 * @param grant Access grant type. <b>For now, only "password" supported</b>.
 	 * @param scopes Space separated list of object that will be accessed. <b>For now, must be empty.</b>.
 	 * @param userName End-user name. 
 	 * @param password End-user password.
@@ -38,7 +38,7 @@ public interface AuthorizationController {
 	 * @throws ProtocolException INVALID_REQUEST: if the request is missing a required parameter, includes an unknown 
 	 * parameter or parameter value, repeats a parameter, includes multiple credentials, utilizes more than one 
 	 * mechanism for authenticating the client, or is otherwise malformed.
-	 * @throws ProtocolException UNSUPPORTED_GRANT_TYPE: if the grant-type parameter is not 'basic-credentials'.
+	 * @throws ProtocolException UNSUPPORTED_GRANT_TYPE: if the grant-type parameter is not 'password'.
 	 * @throws ProtocolException INVALID_CLIENT_CREDENTIALS: if the client Identifier and password are not empty.
 	 * @throws ProtocolException INVALID_SCOPE: if the scope parameter is not well formated, or if it's not empty.
 	 */

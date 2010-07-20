@@ -85,7 +85,7 @@ public class OAuth2Filter implements Filter {
 		if (error != null) {
 			sb.append(", error=\"").append(error).append("\"");
 			if (description != null) {
-				sb.append(", error-description=\"").append(description).append("\"");
+				sb.append(", error_description=\"").append(description).append("\"");
 			}
 		}
 		// Sets the autication header.
@@ -131,34 +131,39 @@ public class OAuth2Filter implements Filter {
 			
 			logger.trace("[doFilter] Filters request {}", request.getRequestURL());
 			// Extract Authorization Header Request.
-			String tokenValue = request.getHeader(HttpHeaders.AUTHORIZATION);
-			String otherValue = null;
-			
-			String method = request.getMethod();
-			// Specification says that boty parameter may not be extracted
-			// systematically.
-			if (request.getHeader(HttpHeaders.CONTENT_TYPE) == MediaType.APPLICATION_FORM_URLENCODED
-					&& (method == HttpMethod.POST || method == HttpMethod.DELETE || method == HttpMethod.PUT)) {
-				otherValue = request.getParameter(ACCESSTOKEN_PARAMETER);
+			String headerValue = request.getHeader(HttpHeaders.AUTHORIZATION);
+			if (headerValue != null && !headerValue.matches("^OAuth .*$")) {
+				// invalid token
+				StringBuilder sb = new StringBuilder("The token passed is misformated");
+				logger.trace("[doFilter] {}", sb.toString());
+				setError(response, Error.INVALID_REQUEST.value(), sb.toString(), Error.INVALID_REQUEST.status());				
 			} else {
-				otherValue = request.getParameter(ACCESSTOKEN_PARAMETER);
-			}
-			if(tokenValue == null && otherValue == null) {
-				// No token at all.
-				logger.trace("[doFilter] No token found");
-				setError(response, Error.UNAUTHORIZED_REQUEST.value(), null, Error.UNAUTHORIZED_REQUEST.status());
-			} else if (tokenValue != null && otherValue != null) {
-				// Too lany tokens !
-				String error = "More than one method used to exchange token";
-				logger.trace("[doFilter] {}", error);
-				setError(response, Error.INVALID_REQUEST.value(), error, Error.INVALID_REQUEST.status());
-			} else {
-				// Just one
-				tokenValue = tokenValue == null ? otherValue : tokenValue;
-				if (tokenValue.matches("^Token token=\".*\"$")) {
-					// Extracts the token
-					String accessToken = tokenValue.replace("Token token=\"", "");
-					accessToken = accessToken.substring(0, accessToken.length() - 1);
+				// Try to extract the accessToken value.
+				if (headerValue != null) {
+					headerValue = headerValue.replace("OAuth", "").trim();
+				}
+				String otherValue = null;
+				String method = request.getMethod();
+				// Specification says that boty parameter may not be extracted
+				// systematically.
+				if (request.getHeader(HttpHeaders.CONTENT_TYPE) == MediaType.APPLICATION_FORM_URLENCODED
+						&& (method == HttpMethod.POST || method == HttpMethod.DELETE || method == HttpMethod.PUT)) {
+					otherValue = request.getParameter(ACCESSTOKEN_PARAMETER);
+				} else {
+					otherValue = request.getParameter(ACCESSTOKEN_PARAMETER);
+				}
+				if(headerValue == null && otherValue == null) {
+					// No token at all.
+					logger.trace("[doFilter] No token found");
+					setError(response, Error.UNAUTHORIZED_REQUEST.value(), null, Error.UNAUTHORIZED_REQUEST.status());
+				} else if (headerValue != null && otherValue != null) {
+					// Too lany tokens !
+					String error = "More than one method used to exchange token";
+					logger.trace("[doFilter] {}", error);
+					setError(response, Error.INVALID_REQUEST.value(), error, Error.INVALID_REQUEST.status());
+				} else {
+					// Just one
+					String accessToken = headerValue == null ? otherValue : headerValue;
 					logger.trace("[doFilter] Accessing with accessToken '{}'", accessToken);
 					// Match the token.
 					try {
@@ -188,12 +193,7 @@ public class OAuth2Filter implements Filter {
 							token = null;
 						}
 					}
-				} else {
-					// invalid token
-					StringBuilder sb = new StringBuilder("The token passed is misformated");
-					logger.trace("[doFilter] {}", sb.toString());
-					setError(response, Error.INVALID_REQUEST.value(), sb.toString(), Error.INVALID_REQUEST.status());
-				}
+				}				
 			}
 			if (token != null) {
 				// Process request.

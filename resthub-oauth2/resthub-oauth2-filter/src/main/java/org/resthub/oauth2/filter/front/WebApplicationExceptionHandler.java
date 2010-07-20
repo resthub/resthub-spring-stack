@@ -57,7 +57,7 @@ public class WebApplicationExceptionHandler implements ExceptionMapper<WebApplic
 				append(Error.INSUFFICIENT_SCOPE.value()).
 				append("\"");
 			if (exception.getMessage() != null) {
-				sb.append(", error-description=\"").
+				sb.append(", error_description=\"").
 					append(exception.getMessage()).
 					append("\"");
 			}

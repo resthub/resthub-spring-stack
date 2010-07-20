@@ -20,7 +20,7 @@ public class ObtainTokenParameter implements Serializable {
 	// Properties
 
 	/**
-	 * Access grant type. <b>For now, only "basic-credentials" supported</b>.
+	 * Access grant type. <b>For now, only "password" supported</b>.
 	 */
 	@XmlElement(name="grant_type")
 	public String grant;
@@ -68,7 +68,7 @@ public class ObtainTokenParameter implements Serializable {
 	 * 
 	 * @param clientId Client identifier. <b>Not used now, must be null</b>.
 	 * @param clientSecret Client secret. <b>Not used now, must be null</b>.
-	 * @param grant Access grant type. <b>For now, only "basic-credentials" supported</b>.
+	 * @param grant Access grant type. <b>For now, only "password" supported</b>.
 	 * @param scopes Space separated list of object that will be accessed. <b>For now, must be empty.</b>.
 	 * @param userName End-user name. 
 	 * @param password End-user password.

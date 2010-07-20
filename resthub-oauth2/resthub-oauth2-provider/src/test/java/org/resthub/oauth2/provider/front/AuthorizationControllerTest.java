@@ -49,7 +49,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		WebResource server = resource();
 		
 		Form form = new Form();
-		form.add("grant_type", "basic-credentials");
+		form.add("grant_type", "password");
 		form.add("client_id", null);
 		form.add("client_secret", null);
 		form.add("username", "test");
@@ -88,7 +88,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 
 		// gets another token with no permissions
 		form = new Form();
-		form.add("grant_type", "basic-credentials");
+		form.add("grant_type", "password");
 		form.add("client_id", null);
 		form.add("client_secret", null);
 		form.add("username", MockAuthenticationService.NO_PERMISSIONS_USERNAME);
@@ -195,7 +195,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		try {
 			logger.info("[obtainToken] missing client_id");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_secret", null);
 			form.add("username", "test");
 			form.add("password", "t3st");
@@ -205,14 +205,14 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_CLIENT.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
 		try {
 			logger.info("[obtainToken] invalid client_id");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_id", "unknown");
 			form.add("client_secret", null);
 			form.add("username", "test");
@@ -223,14 +223,14 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Error.INVALID_CLIENT_CREDENTIALS.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_CLIENT.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
 		try {
 			logger.info("[obtainToken] missing client_secret");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_id", null);
 			form.add("username", "test");
 			form.add("password", "t3st");
@@ -240,14 +240,14 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_CLIENT.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
 		try {
 			logger.info("[obtainToken] invalid client_secret");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_id", null);
 			form.add("client_secret", "unknown");
 			form.add("username", "test");
@@ -258,14 +258,14 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Test response content.
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Error.INVALID_CLIENT_CREDENTIALS.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_CLIENT.value(), response.error);
 			logger.info("[obtainToken] response returned: {}", response);
 		}
 
 		try {
 			logger.info("[obtainToken] missing username");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_id", null);
 			form.add("client_secret", null);
 			form.add("password", "t3st");
@@ -282,7 +282,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		try {
 			logger.info("[obtainToken] missing password");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_id", null);
 			form.add("client_secret", null);
 			form.add("username", "test");
@@ -299,7 +299,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		try {
 			logger.info("[obtainToken] invalid scope");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_id", null);
 			form.add("client_secret", null);
 			form.add("username", "test");
@@ -318,7 +318,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		try {
 			logger.info("[obtainToken] unknown scope");
 			form = new Form();
-			form.add("grant_type", "basic-credentials");
+			form.add("grant_type", "password");
 			form.add("client_id", null);
 			form.add("client_secret", null);
 			form.add("username", "test");
