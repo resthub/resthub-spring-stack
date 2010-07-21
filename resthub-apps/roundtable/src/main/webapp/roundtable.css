@@ -44,7 +44,6 @@ a.more{font-weight: bold}
     -webkit-box-shadow:0 0 15px #aaa;
     margin:20px auto 0;
     padding:20px;
-    min-width:440px;
 }
 #main form > h1, div.poll > h1 {
     border-bottom:1px solid #ccc;
@@ -66,7 +65,12 @@ label:after {content: " :";}
 label.error:after {content: "";}
 label > em.required {font-weight: bold;}
 
-input[type=text], input[type=password], textarea {
+input[type=text],
+input[type=search],
+input[type=email],
+input[type=date],
+input[type=password],
+textarea {
 	background: rgba(255, 255, 255, 0.9);
 	background:-moz-linear-gradient(90deg, #fff, #eee); /* Firefox */
 	background:-webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff), color-stop(0.2, #fff)); /* Webkit */
@@ -77,13 +81,21 @@ input[type=text], input[type=password], textarea {
 	-webkit-box-shadow:0 0 3px #aaa;
 	padding:5px;
 }
-input[type=text]:focus, input[type=password]:focus, textarea:focus {
+input[type=text]:focus,
+input[type=search]:focus,
+input[type=email]:focus,
+input[type=date]:focus,
+input[type=password]:focus,
+textarea:focus {
 	border-color:#093c75;
 	-moz-box-shadow:0 0 3px #0459b7;
 	-webkit-box-shadow:0 0 3px #0459b7;
 	outline:none; /* Pour enlever le contour jaune lorsque l'on s�lectionne un input dans Chrome */
 }
-#main input[type=text], #main input[type=password], #main textarea {
+#main input[type=text],
+#main input[type=password],
+input[type=email],
+#main textarea {
     width: 100%;
 }
 
@@ -146,9 +158,9 @@ div.grippie {
 }
 
 #container {
-    background:url("image/logo.png") no-repeat scroll 835px 55px transparent;
+    background:url("image/logo.png") no-repeat scroll 835px -16px transparent;
     margin:0 auto;
-    width:980px;
+    max-width:980px;
     position:relative;
 }
 
@@ -157,7 +169,7 @@ div.grippie {
  */
 #header {
      background: #FFFFFF url(image/bg.png) repeat-x top left;
-     height: 150px;
+     height: 80px;
      width: 100%;
      overflow: hidden;
 }
@@ -165,7 +177,6 @@ div.grippie {
 #header > h1 {
     background: transparent url(image/title.png) no-repeat;
     height:82px;
-    width:390px;
     margin-top:-7px;
 }
 
@@ -203,7 +214,7 @@ div.grippie {
  * MAIN
  */
 #main {
-    width:900px;
+    max-width:900px;
     min-height: 200px;
 }
 
@@ -330,7 +341,6 @@ table tr.result {
     -webkit-box-shadow:0 0 15px #aaa;
     margin:20px auto 0;
     padding:20px;
-    min-width:440px;
     cursor: pointer;
 }
 
@@ -358,5 +368,30 @@ table tr.result {
 
 .rt-poll-list li.poll-item p {
     font-style: italic;
+}
+
+.rt-poll-list ul.pagination {
+    text-align:center;
+    width:100%;
+}
+
+.rt-poll-list ul.pagination li {
+    border:1px solid #0459B7;
+    padding:3px 5px;
+    display:inline-block;
+}
+
+.rt-poll-list ul.pagination li.current {
+    background-color:#0459B7;
+}
+
+.rt-poll-list ul.pagination li.current a {
+    color:#FFFFFF;
+    font-weight:bolder;
+}
+
+.rt-poll-list ul.pagination a {
+    text-decoration: none;
+    text-shadow: none;
 }
 

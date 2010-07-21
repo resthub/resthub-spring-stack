@@ -8,7 +8,8 @@
                 </tr>
                 <!-- list voters -->
                 <% if (!$.isEmptyObject(voters)) {%>
-                    <% for each(voter in voters) { %>
+                    <% for(var i = 0; i < voters.length ; i++) { %>
+                        <% var voter = voters[i] %>
                         <tr>
                             <td class="rt-voter">
                                 <span class="name"><%= voter.name %></span>
@@ -31,15 +32,18 @@
         <table cellspacing="1">
             <tbody>
                 <tr class="choices">
-                    <% for each(answer in answers) {%>
+                    <% for(var i = 0; i < answers.length ; i++) { %>
+                        <% var answer = answers[i] %>
                         <th><%= answer.body %></th>
                     <% } %>
                     <th style="background-color: transparent; border: 0px none;width:50px;"></th>
                 </tr>
                 <% if (!$.isEmptyObject(voters)) {%>
-                    <% for each(voter in voters) {%>
+                    <% for(var i = 0; i < voters.length ; i++) { %>
+                        <% var voter = voters[i] %>
                         <tr class="votes">
-                            <% for each(answer in answers) {%>
+                            <% for(var j = 0; j < answers.length ; j++) { %>
+                                <% var answer = answers[j] %>
                                 <% var vote = voter.votes[answer.order - 1] %>
                                 <td class="<%= vote.value %>" title="<%= voter.name %>, <%= answer.body %>: <%= vote.value %>" ></td>
                             <% } %>
@@ -48,12 +52,14 @@
                     <% } %>
                 <% } %>
                 <tr>
-                    <% for each(answer in answers) {%>
+                    <% for(var i = 0; i < answers.length ; i++) { %>
+                        <% var answer = answers[i] %>
                         <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
                     <% } %>
                 </tr>
                 <tr class="rt-vote-inputs">
-                    <% for each(answer in answers) {%>
+                    <% for(var i = 0; i < answers.length ; i++) { %>
+                        <% var answer = answers[i] %>
                         <td class="no rt-vote" title="<%= answer.body %>" id="p-<%= id %>-vote-<%= answer.order %>"></td>
                     <% } %>
                     <td>
@@ -64,7 +70,8 @@
                     <% for(var i = 0; i < answers.length ; i++) {%>
                         <% var vote_sum = 0 %>
                         <% if (!$.isEmptyObject(voters)) {%>
-                            <% for each(voter in voters) {%>
+                            <% for(var j = 0; j < voters.length ; j++) { %>
+                                <% var voter = voters[j] %>
                                 <% vote_sum += (voter.votes[i].value == "yes") ? 1 : 0 %>
                             <% } %>
                         <% } %>

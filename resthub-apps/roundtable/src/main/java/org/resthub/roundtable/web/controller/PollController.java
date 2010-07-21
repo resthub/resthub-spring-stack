@@ -10,11 +10,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.resthub.core.model.Resource;
 
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.service.PollService;
 import org.resthub.roundtable.service.common.ServiceException;
 import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
 
 /**
@@ -40,15 +42,14 @@ public class PollController extends GenericResourceController<Poll, PollService>
             @QueryParam("page") @DefaultValue("0") Integer page,
             @QueryParam("size") @DefaultValue("5") Integer size) {
 
-        List<Poll> entitys;
+        PageResponse<Poll> polls;
         try {
-            entitys = this.service.find(q, new PageRequest(page, size)).asList();
+            polls = new PageResponse<Poll>(
+                    this.service.find(q, new PageRequest(page, size)));
         } catch (ServiceException ex) {
-            return Response.serverError().build();
+            return Response.serverError().header("ServiceException", ex.getMessage()).build();
         }
-        if (entitys.size() == 0) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        return Response.ok(entitys.toArray(entityClassArray)).build();
+
+        return Response.ok(polls).build();
     }
 }

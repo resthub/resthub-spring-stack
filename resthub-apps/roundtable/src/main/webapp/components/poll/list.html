@@ -1,8 +1,9 @@
 <ul>
-    <% if ($.isEmptyObject(polls)) {%>
+    <% if ($.isEmptyObject(page.elements)) {%>
         <li>No polls found...</li>
     <% } else { %>
-        <% for each(poll in polls) { %>
+        <% for(var i = 0; i < page.elements.length ; i++) { %>
+            <% var poll = page.elements[i] %>
             <li class="poll-item" id="poll-<%= poll.id %>" >
                 <h3><%= poll.topic %>
                     <% var date = new Date(poll.creationDate) %>
@@ -13,6 +14,14 @@
         <% } %>
     <% } %>
 </ul>
-<% if (!$.isEmptyObject(polls) && polls.length % 5 == 0) {%>
-    <a href="#/poll?page=<%= page + 1 %>&q=<%= query %>" class="more">Next Page &gt;</a>
+
+<% if (page.totalPages > 1) {%>
+    <ul class="pagination">
+        <% for(var i = 0; i < page.totalPages ; i++) { %>
+            <% var clazz = (i == page.number) ? 'current' : '' %>
+            <li class="<%= clazz %>">
+                <a href="#/poll?page=<%= i %>&q=<%= query %>"><%= i %></a>
+            </li>
+        <% } %>
+    </ul>
 <% } %>

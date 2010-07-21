@@ -23,20 +23,26 @@
         _url: function() {  
             return this.options.url;
         },
-        _updatePolls: function(polls) {
+        _updatePolls: function(pageData) {
             var self = this;
-            this.element.render(this._template, {
-                polls: polls,
-                query: this._query,
-                page: this._page
-            });
 
-            this.element.find('li.poll-item').click(function() {
-                var id = $(this).attr('id').split("-")[1];
-                self._context().redirect('#/poll', id);
-            });
+            if (pageData == null || pageData.totalElements == 0) {
+                $.pnotify('No poll found.');
+            }
+            else {
+                $.pnotify(pageData.totalElements + ' poll(s) found.');
+                this.element.render(this._template, {
+                    page: pageData,
+                    query: this._query
+                });
 
-            this._trigger("change");
+                this.element.find('li.poll-item').click(function() {
+                    var id = $(this).attr('id').split("-")[1];
+                    self._context().redirect('#/poll', id);
+                });
+
+                this._trigger("change");
+            }
         },
 
         search: function(query, page) {
@@ -49,7 +55,7 @@
             }
             var url = this._url() + params;
 
-            this._get(url, this, '_updatePolls');
+            this._get(url, this._updatePolls);
             return this;
         }
     };

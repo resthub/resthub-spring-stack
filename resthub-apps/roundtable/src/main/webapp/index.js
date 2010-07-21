@@ -57,6 +57,7 @@
                 author: this.params['author'],
                 topic: this.params['topic'],
                 body: this.params['body'],
+                // expirationDate: (new Date(this.params['expirationDate'])).format('Y-m-d'),
                 answers: []
             }
             // FIXME found another way...

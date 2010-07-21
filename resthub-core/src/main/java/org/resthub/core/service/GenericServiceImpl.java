@@ -94,6 +94,9 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 		return dao.readAll(o, l);
 	}
 
+        /**
+	 * {@inheritDoc}
+	 */
         @Override
         public Page<T> findAll(Pageable pageRequest) {
             return dao.readAll(pageRequest);

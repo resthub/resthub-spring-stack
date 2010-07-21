@@ -6,14 +6,16 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.resthub.web.test.AbstractWebResthubTest;
 import com.sun.jersey.api.client.WebResource;
+import org.junit.Ignore;
 import org.resthub.booking.model.Hotel;
 
 public class TestHotelController extends AbstractWebResthubTest {
 
 
 	@Test
+        @Ignore
     public void testCreateHotel() {
-		/*WebResource r = resource().path("hotel");
+		WebResource r = resource().path("hotel");
 		Hotel hotel = new Hotel();
 		hotel.setName("Westin Diplomat");
 		hotel.setAddress("3555 S. Ocean Drive");
@@ -22,7 +24,7 @@ public class TestHotelController extends AbstractWebResthubTest {
 		hotel.setState("FL");
 		hotel.setCountry("USA");
 
-		r.type(MediaType.APPLICATION_XML).post(String.class, hotel);*/
+		r.type(MediaType.APPLICATION_XML).post(String.class, hotel);
     }
 
 	@Test
@@ -32,16 +34,17 @@ public class TestHotelController extends AbstractWebResthubTest {
 		
         String response = r.type(MediaType.APPLICATION_XML).get(String.class);
 		System.out.print(response + "\n");
-        Assert.assertTrue(response.contains("<hotels>"));
-        Assert.assertTrue(response.contains("<hotel>"));
+        Assert.assertTrue(response.contains("<pageResponse>"));
+        Assert.assertTrue(response.contains("<elements>"));
     }
 
     @Test
+    @Ignore
     public void testSearchHotels() {
-        /*WebResource r = resource().path("hotel/search").queryParam("q", "Westin");
+        WebResource r = resource().path("hotel/search").queryParam("q", "Westin");
         String s = r.accept(MediaType.APPLICATION_XML).get(String.class);
         System.out.print(s + "\n");
-        Assert.assertTrue(s.contains("Westin"));*/
+        Assert.assertTrue(s.contains("Westin"));
     }
 
 }

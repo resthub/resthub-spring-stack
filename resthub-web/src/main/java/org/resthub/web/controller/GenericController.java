@@ -2,7 +2,6 @@ package org.resthub.web.controller;
 
 import java.lang.reflect.Array;
 import java.net.URI;
-import java.util.List;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -26,7 +25,9 @@ import com.sun.jersey.api.view.ImplicitProduces;
 import java.io.Serializable;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
+import org.resthub.core.model.Resource;
 import org.resthub.core.service.GenericService;
+import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
 
 /**
@@ -37,7 +38,7 @@ import org.synyx.hades.domain.PageRequest;
  */
 @Singleton
 @ImplicitProduces("text/html;qs=5")
-public abstract class GenericController<T, S extends GenericService<T, ID>, ID extends Serializable> {
+public abstract class GenericController<T extends Resource, S extends GenericService<T, ID>, ID extends Serializable> {
 
 	protected T[] entityClassArray;
 	protected S service;
@@ -87,8 +88,9 @@ public abstract class GenericController<T, S extends GenericService<T, ID>, ID e
                 @QueryParam("page") @DefaultValue("0") Integer page,
                 @QueryParam("size") @DefaultValue("5") Integer size) {
 
-            List<T> entitys = this.service.findAll(new PageRequest(page, size)).asList();
-            return Response.ok(entitys.toArray(entityClassArray)).build();
+            PageResponse<T> entitys = new PageResponse<T>(
+                    this.service.findAll(new PageRequest(page, size)));
+            return Response.ok(entitys).build();
 	}
 
 	@GET

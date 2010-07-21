@@ -18,24 +18,24 @@ public class TestXMLWebSampleResourceController extends AbstractWebResthubTest {
     @Test
     public void testCreateResource() {
         WebResource r = resource().path("resources");
-        Resource res = r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource());
+        Resource res = r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource("test"));
         Assert.assertNotNull("Unable to create resource", res.getId());
     }
     
     @Test
     public void testFindAllResources() {
     	WebResource r = resource().path("resources");
-    	r.type(MediaType.APPLICATION_XML).post(new WebSampleResource());
-    	r.type(MediaType.APPLICATION_XML).post(new WebSampleResource());
-        String response = r.type(MediaType.APPLICATION_XML).get(String.class);
-        Assert.assertTrue(response.contains("<webSampleResources>"));
-        Assert.assertTrue(response.contains("<webSampleResource>"));
+    	r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource("A"));
+    	r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource("B"));
+        String response = r.accept(MediaType.APPLICATION_XML).get(String.class);
+        Assert.assertTrue(response.contains("<pageResponse>"));
+        Assert.assertTrue(response.contains("<totalElements>2</totalElements>"));
     }
     
     @Test
     public void testFindResource() {
         WebResource r = resource().path("resources");
-        Resource res = r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource());
+        Resource res = r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource("test"));
         Assert.assertNotNull("Resource not created", res);
         
         r = resource().path("resources/" + res.getId());
@@ -46,7 +46,7 @@ public class TestXMLWebSampleResourceController extends AbstractWebResthubTest {
     @Test
     public void testDeleteResource() {
         WebResource r = resource().path("resources");
-        Resource res = r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource());
+        Resource res = r.type(MediaType.APPLICATION_XML).post(WebSampleResource.class, new WebSampleResource("test"));
         Assert.assertNotNull("Resource not created", res);
         
         r = resource().path("resources/" + res.getId());

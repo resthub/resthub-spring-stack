@@ -65,7 +65,7 @@
         },
         view: function(id) {
             this._context().title('Round Table - Poll #' + id);
-            this._get(this._url() + id, this, '_updatePoll');
+            this._get(this._url() + id, this._updatePoll);
             return this;
         }
     };
