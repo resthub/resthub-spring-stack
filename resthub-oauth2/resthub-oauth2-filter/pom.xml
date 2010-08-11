@@ -1,14 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>resthub-oauth2</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-beta2</version>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-oauth2-filter</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-beta2</version>
 	<name>RESThub OAuth v2 Filter</name>
 	<description>Servlet Filter for RESThub services secured by OAuth v2 protocol</description>
 	  
@@ -36,7 +35,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-provider</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0-beta2</version>
 		</dependency>
 		<dependency>
 		    <groupId>javax.annotation</groupId>
