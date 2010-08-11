@@ -65,12 +65,42 @@
 			this._ajax(url, callback, 'delete', null);
 		},
 
+		_securedGet: function _get(url, callback) {
+			this._securedAjax(url, callback, 'get', null);
+		},
+
+		_securedPut: function _put(url, callback, data) {
+			this._securedAjax(url, callback, 'put', data);
+		},
+
+		_securedDelete: function _delete(url, callback) {
+			this._securedAjax(url, callback, 'delete', null);
+		},
+
+		_securedPost: function _post(url, callback, data) {
+			this._securedAjax(url, callback, 'post', data);
+		},
+
+		/**
+		 * Perform basic ajax request and call your widget back.
+		 */
+		_ajax: function(url, callback, type, data) {
+			$.ajax({
+				url: url,
+				dataType: this.options.dataType,
+				contentType: this.options.contentType,
+				type: type,
+				data: data,
+				success: $.proxy( callback , this )
+			});
+		},
+		
 		/**
 		 * Perform basic ajax request and call your widget back.
 		 * 
 		 * If an OAuth 2 accessToken is found un session, use it to access the protected URL.
 		 */
-		_ajax: function(url, callback, type, data) {
+		_securedAjax: function(url, callback, type, data) {
 			// Gets the token existing in session.
 			var accessToken = this.options.context.session('accessToken');
 			// Performs an Ajax's Oauth secured request.
@@ -84,6 +114,8 @@
 			},
 			accessToken);
 		},
+
+		
 		_set: function(key, value) {
 			this.options[key] = value;
 		},
