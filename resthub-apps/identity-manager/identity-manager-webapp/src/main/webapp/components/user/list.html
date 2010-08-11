@@ -1,0 +1,25 @@
+<h2>User list</h2>
+<% if ($.isEmptyObject(users)) { %>
+    <p>No users found...</p>
+<% } else { %>
+   <table>
+       <thead>
+           <tr>
+			   <th>Id</th>
+               <th>Login</th>
+               <th>Password</th>
+			   <th>Email</th>
+           </tr>
+       </thead>
+       <tbody>
+           <% for each(user in users) { %>
+               <tr class="user-item" id="user-<%= user.id %>">
+				   <td><%= user.id %></td>
+                   <td><%= user.login %></td>
+                   <td><%= user.password %></td>
+				   <td><%= user.email %></td>
+               </tr>
+           <% } %>
+       </tbody>
+   </table>
+<% } %>
