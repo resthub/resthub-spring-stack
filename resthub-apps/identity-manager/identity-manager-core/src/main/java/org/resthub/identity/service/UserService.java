@@ -9,4 +9,11 @@ import org.resthub.identity.model.User;
  */
 public interface UserService extends GenericResourceService<User> {
 
+	/**
+	 * Find user by login.
+	 * @param login User login
+	 * @return the user or null if more than one user is found
+	 */
+	public User findByLogin( String login );
+
 }

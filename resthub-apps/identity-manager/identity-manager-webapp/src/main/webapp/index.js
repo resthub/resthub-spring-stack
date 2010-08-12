@@ -1,101 +1,44 @@
-
 /**
  * Routes
  */
 (function($) {
 	
-    var app = $.sammy(function() {
+	var app = $.sammy(function() {
 
-        this.use(Sammy.Title);
-        
-        this.get('#/', function() {
-            this.title('Welcome to Identity Manager');
-            $('#content').render('components/home.html', {})
-        });
+		this.use(Sammy.Title);
 
-		/**
-         * View users.
-         */
-        this.get('#/user/list', function(context) {
+		/* Home page */
+		this.get('#/', function() {
+			this.title('Welcome to Identity Manager');
+		});
+
+		/* List users */
+		this.get('#/user/list', function(context) {
 			this.title('Identity Manager - User list');
-			dominoes("components/user/list.js", function() {
-				$.ajax({
-					url: 'api/user/',
-					dataType: 'json',
-					success: function(data) {
-						console.log($.toJSON(data));
-						$('#content').listUsers({
-							data: data,
-							context: context
-						});
-					}
-				});
-			});
-        });
+			$('#content').listUsers({context: context});
+		}, 'components/user/list.js');
 
-		/**
-         * View user.
-         */
-        this.get('#/user/:id', function(context) {
+		/* View user details */
+		this.get('#/user/:login', function(context) {
 			this.title('Identity Manager - User details');
-            var id = this.params['id'];
-			dominoes("components/user/view.js", function() {
-				$.ajax({
-					url: 'api/user/'+ id,
-					dataType: 'json',
-					success: function(data) {
-						$('#content').viewUser({
-							data: data,
-							context: context
-						});
-					}
-				});
-			});
-        });
+			$('#content').viewUser({ context: context, userLogin: this.params.login });
+		}, 'components/user/view.js');
 
-		/**
-         * View groups.
-         */
-        this.get('#/group/list', function(context) {
+
+		/* List groups */
+		this.get('#/group/list', function(context) {
 			this.title('Identity Manager - Group list');
-			dominoes("components/group/list.js", function() {
-				$.ajax({
-					url: 'api/group/',
-					dataType: 'json',
-					success: function(data) {
-						console.log($.toJSON(data));
-						$('#content').listGroups({
-							data: data,
-							context: context
-						});
-					}
-				});
-			});
-        });
+			$('#content').listGroups({context: context});
+		}, 'components/group/list.js');
 
-		/**
-         * View group.
-         */
-        this.get('#/group/:id', function(context) {
+		/* View group details */
+		this.get('#/group/:name', function(context) {
 			this.title('Identity Manager - Group details');
-            var id = this.params['id'];
-			dominoes("components/group/view.js", function() {
-				$.ajax({
-					url: 'api/group/'+ id,
-					dataType: 'json',
-					success: function(data) {
-						console.log($.toJSON(data));
-						$('#content').viewGroup({
-							data: data,
-							context: context
-						});
-					}
-				});
-			});
-        });
-    });
+			$('#content').viewGroup({ context: context, groupName: this.params.name });
+		}, 'components/group/view.js');
+	});
 
-    $(function() {
-        app.run('#/');
-    });
+	$(function() {
+		app.run('#/');
+	});
 })(jQuery);

@@ -26,14 +26,18 @@ public class TestGroupJaxb {
 
     @Before
     public void setUp() {
-    	group = new Group("GroupRef");
-    	user1 = new User("User1Login");
-    	user2 = new User("User2Login");
-    	
+    	group = new Group();
+    	user1 = new User();
+    	user2 = new User();
+
     	group.setName("GroupName");
     	group.addPermission("perm1");
     	group.addPermission("perm2");
-    	group.addUser(user1);
+
+		user1.setLogin("User1Login");
+		user2.setLogin("User2Login");
+		
+		group.addUser(user1);
     	group.addUser(user2);
     	user1.addGroup(group);
     }

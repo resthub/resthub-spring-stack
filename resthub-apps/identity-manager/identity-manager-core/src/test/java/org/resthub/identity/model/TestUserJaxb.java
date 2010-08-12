@@ -27,21 +27,28 @@ public class TestUserJaxb {
 
 	@Before
 	public void setUp() {
-		user = new User("UserLogin");
-		user2 = new User("User2Login");
-		group1 = new Group("Group1Name");
-		group2 = new Group("Group2Name");
+		user = new User();
+		user2 = new User();
+		group1 = new Group();
+		group2 = new Group();
 
+		user.setId(Long.parseLong("1"));
+		user.setLogin("UserLogin");
 		user.setEmail("test@check.com");
 		user.setPassword("TestPassword");
-		user.setId(Long.parseLong("1"));
 		user.addPermission("perm1");
 		user.addPermission("perm2");
-		user.addGroup(group1);
-		user.addGroup(group2);
-
+		
+		user2.setId(Long.parseLong("2"));
+		user2.setLogin("User2Login");
 		user2.setEmail("test2@check.com");
 		user2.setPassword("Test2Password");
+
+		group1.setName("Group1Name");
+		group2.setName("Group2Name");
+
+		user.addGroup(group1);
+		user.addGroup(group2);
 	}
 
 	@Test

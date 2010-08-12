@@ -11,22 +11,5 @@
 
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
-    
-	<!--	
-	<http>
-	    <form-login />
-	    <anonymous />
-	    <http-basic />
-	    <logout />
-	    <remember-me user-service-ref="resthubUserDetailsService"/>
-	</http>
-	
-	
-	<authentication-manager>
-		<authentication-provider user-service-ref="resthubUserDetailsService" />
-	</authentication-manager> 
-		       	
- 	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />
- 	-->
  	
 </beans>
