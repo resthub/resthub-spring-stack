@@ -1,9 +1,7 @@
-package org.resthub.oauth2.provider.front.model;
+package org.resthub.oauth2.common.front.model;
 
 import java.io.Serializable;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Parameter of the token obtention end-point, as described in the Oauth 2 specification (Section 4.1.2).
  */
 @XmlRootElement
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public class ObtainTokenParameter implements Serializable {
 	
 	private static final long serialVersionUID = 7530540767006126301L;

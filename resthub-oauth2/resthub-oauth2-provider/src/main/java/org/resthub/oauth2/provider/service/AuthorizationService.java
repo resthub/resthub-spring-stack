@@ -2,14 +2,13 @@ package org.resthub.oauth2.provider.service;
 
 import java.util.List;
 
-import org.resthub.core.service.GenericResourceService;
-import org.resthub.oauth2.provider.exception.ProtocolException;
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.core.service.GenericService;
+import org.resthub.oauth2.common.model.Token;
 
 /**
  * Service interface to manage tokens.
  */
-public interface AuthorizationService extends GenericResourceService<Token>{
+public interface AuthorizationService extends GenericService<Token, Long>{
 
 	/**
 	 * Generates a new access token for a given user and for given scopes.<br/><br/>

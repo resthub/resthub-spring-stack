@@ -11,10 +11,10 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.Test;
-import org.resthub.oauth2.provider.exception.ProtocolException.Error;
-import org.resthub.oauth2.provider.front.model.ObtainTokenErrorResponse;
-import org.resthub.oauth2.provider.front.model.TokenResponse;
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.oauth2.common.exception.ProtocolException.Error;
+import org.resthub.oauth2.common.front.model.ObtainTokenErrorResponse;
+import org.resthub.oauth2.common.front.model.TokenResponse;
+import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.provider.service.MockAuthenticationService;
 import org.resthub.web.test.AbstractWebResthubTest;
 import org.slf4j.Logger;

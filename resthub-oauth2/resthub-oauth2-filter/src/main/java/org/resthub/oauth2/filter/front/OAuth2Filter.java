@@ -3,8 +3,6 @@ package org.resthub.oauth2.filter.front;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,12 +16,11 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
+import org.resthub.oauth2.common.exception.ProtocolException.Error;
+import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.filter.service.ValidationService;
-import org.resthub.oauth2.provider.exception.ProtocolException.Error;
-import org.resthub.oauth2.provider.model.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * OAuth 2 Servlet filter to protect resources on a Resource server.
@@ -34,7 +31,6 @@ import org.springframework.beans.factory.annotation.Value;
  * <li>Process if possible the request.</li>
  * </ul>
  */
-@Named("oauth2Filter")
 public class OAuth2Filter implements Filter {
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -46,15 +42,17 @@ public class OAuth2Filter implements Filter {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
-	 * The validation service. managed by Spring.
+	 * The validation service.
+	 * The implementation class for this class is specified in servlet configuration: 
+	 * init-parameter "validationServiceClass".
+	 * This class must implements the ValidationService interface and have a default constructor.
 	 */
-	@Inject
 	protected ValidationService service;
 
 	/**
 	 * Resource protected and served by this server.
+	 * Value read in servlet configuration: init-parameter "securedResourceName".
 	 */
-	@Value("#{securityConfig.resourceName}")
 	protected String resource = "";
 
 	/**
@@ -103,7 +101,15 @@ public class OAuth2Filter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 		// Emtpy
 		logger.trace("[init] OAuth 2 filter initialization");
-
+		// Read the service used and the resource name.
+		resource = config.getInitParameter("securedResourceName");
+		String validationServiceClass = config.getInitParameter("validationServiceClass");
+		// Creates a validation service.
+		try {
+			service = (ValidationService)Class.forName(validationServiceClass).newInstance();
+		} catch (Exception exc) {
+			// TODO
+		}
 	} // init().
 
 	/**

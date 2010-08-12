@@ -20,8 +20,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.resthub.oauth2.filter.mock.authorization.AuthorizationService;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.filter.DelegatingFilterProxy;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -31,7 +29,6 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.representation.Form;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
-import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
  * TODO OAuth2FilterTest documentation
@@ -73,6 +70,7 @@ public class OAuth2FilterTest {
 	 * Before the test suite, launches a Jetty inmemory server.
 	 */
 	@BeforeClass
+	@SuppressWarnings("unchecked")
 	public static void suiteSetUp() throws Exception {
 		// Creates a Jetty for the resource server.
 		resourceServer = new Server(resourceServerPort);
@@ -82,20 +80,21 @@ public class OAuth2FilterTest {
 				ServletContextHandler.SESSIONS);
 		context.setContextPath("/inmemory");
 		
-		// Spring configuration.
-		context.getInitParams().put("contextConfigLocation", contextLocations);
-        context.addEventListener(new ContextLoaderListener());
-
 		// Tested filter.
-        FilterHolder filter = new FilterHolder(DelegatingFilterProxy.class);
+        FilterHolder filter = new FilterHolder(OAuth2Filter.class);
         // Name must be the same as the filter bean name.
         filter.setName("oauth2Filter");
+        filter.setInitParameter("securedResourceName", "myResource");
+        filter.setInitParameter("validationServiceClass", 
+        		"org.resthub.oauth2.filter.service.MockExternalValidationService");
 		context.addFilter(filter, "/*", FilterMapping.REQUEST);
 		
 		// Jersey Servlet
-		ServletHolder servlet = new ServletHolder(SpringServlet.class);
+		ServletHolder servlet = new ServletHolder(ServletContainer.class);
 		servlet.setInitParameter("com.sun.jersey.spi.container.ResourceFilters", 
 				"com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory");
+		servlet.setInitParameter("com.sun.jersey.config.property.packages", 
+				"org.resthub.oauth2.filter.mock.resource;org.resthub.oauth2.filter.front");
 		context.addServlet(servlet, "/*");
 		
 		// Jetty start.

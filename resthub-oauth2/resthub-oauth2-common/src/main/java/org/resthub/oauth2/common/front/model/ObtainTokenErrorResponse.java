@@ -1,4 +1,4 @@
-package org.resthub.oauth2.provider.front.model;
+package org.resthub.oauth2.common.front.model;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.resthub.oauth2.provider.exception.ProtocolException;
+import org.resthub.oauth2.common.exception.ProtocolException;
 
 /**
  * Error response for of the token obtention end-point, as described in the Oauth 2 specification (Section 4.3).

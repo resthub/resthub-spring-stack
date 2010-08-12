@@ -3,14 +3,10 @@ package org.resthub.oauth2.filter.mock.resource;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-@Named("mockController")
-@Singleton
 @Path("/")
 public class MockController {
 	

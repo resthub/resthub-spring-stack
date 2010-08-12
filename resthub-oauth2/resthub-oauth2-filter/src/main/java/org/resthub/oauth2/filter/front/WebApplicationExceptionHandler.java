@@ -1,7 +1,5 @@
 package org.resthub.oauth2.filter.front;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -10,8 +8,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.resthub.oauth2.provider.exception.ProtocolException.Error;
-import org.springframework.beans.factory.annotation.Value;
+import org.resthub.oauth2.common.exception.ProtocolException.Error;
 
 /**
  * Jersey Exception handler to set the WWW-Authenticate header when receiving a FORBIDDEN exception 
@@ -20,8 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
  * Used to handler Jersey own's exception raised when the JSR-250 annotations are parsed and failed on security issues.
  */
 @Provider
-@Named("webApplicationHandler")
-@Singleton
 public class WebApplicationExceptionHandler implements ExceptionMapper<WebApplicationException> {
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -30,9 +25,18 @@ public class WebApplicationExceptionHandler implements ExceptionMapper<WebApplic
 	/**
 	 * Resource protected and served by this server.
 	 */
-	@Value("#{securityConfig.resourceName}")
 	protected String resource = "";
 
+	// -----------------------------------------------------------------------------------------------------------------
+	// Constructeur
+
+	/**
+	 * Constructor
+	 */
+	public WebApplicationExceptionHandler() {
+		// TODO Initialized the resource name
+	} // Default 
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public ExceptionMapper inherited methods
 

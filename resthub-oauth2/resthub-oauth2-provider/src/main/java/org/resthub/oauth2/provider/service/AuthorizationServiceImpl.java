@@ -3,11 +3,11 @@ package org.resthub.oauth2.provider.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.resthub.core.service.GenericResourceServiceImpl;
+import org.resthub.core.service.GenericServiceImpl;
+import org.resthub.oauth2.common.exception.ProtocolException;
+import org.resthub.oauth2.common.exception.ProtocolException.Error;
+import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.provider.dao.TokenDao;
-import org.resthub.oauth2.provider.exception.ProtocolException;
-import org.resthub.oauth2.provider.exception.ProtocolException.Error;
-import org.resthub.oauth2.provider.model.Token;
 import org.resthub.oauth2.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import org.springframework.util.StringUtils;
  * Relies on an list of <code>AuthenticationProvider</code> services.
  * This Spring beans is declared within XML configuration files.
  */
-public class AuthorizationServiceImpl extends GenericResourceServiceImpl<Token, TokenDao> implements
+public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao, Long> implements
 		AuthorizationService {
 
 	// -----------------------------------------------------------------------------------------------------------------

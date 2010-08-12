@@ -12,15 +12,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import org.resthub.oauth2.provider.exception.ProtocolException;
-import org.resthub.oauth2.provider.exception.ProtocolException.Error;
-import org.resthub.oauth2.provider.front.model.TokenResponse;
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.oauth2.common.exception.ProtocolException;
+import org.resthub.oauth2.common.exception.ProtocolException.Error;
+import org.resthub.oauth2.common.front.model.TokenResponse;
+import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.provider.service.AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-
 /**
  * Authorization controller implementation.
  */

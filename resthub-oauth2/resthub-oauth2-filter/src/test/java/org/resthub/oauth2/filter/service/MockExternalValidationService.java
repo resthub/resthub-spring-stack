@@ -3,14 +3,13 @@ package org.resthub.oauth2.filter.service;
 
 import java.util.Date;
 
-import org.resthub.oauth2.filter.service.ExternalValidationService;
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.utils.Utils;
 
 /**
  * Mock Implementation of validation service.
  */
-public class MockExternalValidationService extends ExternalValidationService {
+public class MockExternalValidationService implements ValidationService {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public constants
@@ -67,7 +66,7 @@ public class MockExternalValidationService extends ExternalValidationService {
 			token.createdOn.setTime(token.createdOn.getTime()-(5*60*1000));
 			token.lifeTime = 900;
 			token.userId = Utils.generateString(5);
-			token.setId((long)Math.random()*1000);
+			token.id = (long)Math.random()*1000;
 			// Permissions
 			token.permissions.add(ADMIN_RIGHT);
 			token.permissions.add(USER_RIGHT);

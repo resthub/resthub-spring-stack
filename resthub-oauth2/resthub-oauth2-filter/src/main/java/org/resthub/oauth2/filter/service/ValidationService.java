@@ -1,8 +1,6 @@
 package org.resthub.oauth2.filter.service;
 
-import org.resthub.oauth2.filter.front.WebApplicationExceptionHandler;
-import org.resthub.oauth2.provider.model.Token;
-
+import org.resthub.oauth2.common.model.Token;
 
 /**
  * Service used to validate tokens.<br/>
@@ -10,7 +8,7 @@ import org.resthub.oauth2.provider.model.Token;
  * here.<br/><br/>
  * 
  * The scope validation is done with the permissions management (JSR 250 annotations) and the error response done with 
- * {@link WebApplicationExceptionHandler}.
+ * WebApplicationExceptionHandler.
  */
 public interface ValidationService {
 

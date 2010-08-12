@@ -11,13 +11,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.test.AbstractResourceDaoTest;
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.core.test.AbstractDaoTest;
+import org.resthub.oauth2.common.model.Token;
 
 /**
  * Test class for token DAO.
  */
-public class TokenDaoImplTest extends AbstractResourceDaoTest<Token, TokenDao> {
+public class TokenDaoImplTest extends AbstractDaoTest<Token, Long, TokenDao> {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Attributes
@@ -30,10 +30,22 @@ public class TokenDaoImplTest extends AbstractResourceDaoTest<Token, TokenDao> {
 	@Inject
 	@Named("tokenDao")
 	@Override
-	public void setResourceDao(TokenDao resourceDao) {
-		this.resourceDao = resourceDao;
+	public void setDao(TokenDao dao) {
+		super.setDao(dao);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long getIdFromObject(Token obj) {
+		Long id = null;
+		if (obj != null) {
+			id = obj.id;
+		}
+		return id;
+	} // getIdFromObject().
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Tests
 
@@ -47,14 +59,14 @@ public class TokenDaoImplTest extends AbstractResourceDaoTest<Token, TokenDao> {
 		token.userId = "123456";
 		
 		// saves a news user in DB
-		token = resourceDao.save(token);
+		token = dao.save(token);
 
 		assertNotNull("token has not been created", token);
 
-		assertNotNull("database id has not been generated", token.getId());
+		assertNotNull("database id has not been generated", token.id);
 
 		// retrieves a user by his id
-		Token retrieved = resourceDao.readByPrimaryKey(token.getId());
+		Token retrieved = dao.readByPrimaryKey(token.id);
 
 		assertEquals("token created has changed : finder not valid", token, retrieved);
 		assertEquals("token's value was not persisted", token.accessToken, retrieved.accessToken);
@@ -69,16 +81,16 @@ public class TokenDaoImplTest extends AbstractResourceDaoTest<Token, TokenDao> {
 		retrieved.userId = newUserId;
 
 		// updates the user and checks new values
-		Token updated = resourceDao.save(retrieved);
+		Token updated = dao.save(retrieved);
 
-		assertEquals("token's id has changed", token.getId(), updated.getId());
+		assertEquals("token's id has changed", token.id, updated.id);
 		assertEquals("token's value should have changed", newValue, updated.accessToken);
 		assertEquals("token's user id name should have changed", newUserId, updated.userId);
 
 		// deletes the user
-		resourceDao.delete(updated);
+		dao.delete(updated);
 
-		assertNull("token not deleted", resourceDao.readByPrimaryKey(updated.getId()));
+		assertNull("token not deleted", dao.readByPrimaryKey(updated.id));
 	} // testUpdate().
 	
 	/**
@@ -89,8 +101,8 @@ public class TokenDaoImplTest extends AbstractResourceDaoTest<Token, TokenDao> {
 		Token token = new Token();
 		token.accessToken = "XXXXXX";
 		token.userId = "123456";
-		token = resourceDao.save(token);		
-		List<Token> results = resourceDao.findEquals("userId", token.userId);
+		token = dao.save(token);		
+		List<Token> results = dao.findEquals("userId", token.userId);
 
 		assertNotNull("Result must not be null", results);
 		assertEquals("Only one token must be returned", 1 , results.size());

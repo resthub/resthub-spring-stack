@@ -6,9 +6,7 @@ import java.util.Date;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.utils.Utils;
@@ -64,7 +62,6 @@ public class AuthorizationService {
 	 */
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public Token obtainTokenInformation(@QueryParam("access_token")String accessToken) {
 		Token token = null;
 		if(UNKNOWN_TOKEN.compareTo(accessToken) != 0) {

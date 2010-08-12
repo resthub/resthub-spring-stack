@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.oauth2.common.model.Token;
 
 /**
  * Implementation of the token validation service, that caches token during their lifetime to avoid unnecessary calls to

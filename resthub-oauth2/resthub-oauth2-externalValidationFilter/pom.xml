@@ -7,31 +7,26 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.resthub</groupId>
-	<artifactId>resthub-oauth2-filter</artifactId>
+	<artifactId>resthub-oauth2-externalValidationFilter</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>RESThub OAuth v2 Filter</name>
-	<description>Servlet Filter for RESThub services secured by OAuth v2 protocol</description>
-	  
+	<name>RESThub Oauth v2 Filter (external validation)</name>
+	<description>Implementation of the filter with external call to Authentication service</description>
+
 	<dependencies>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.resthub</groupId>
-			<artifactId>resthub-oauth2-common</artifactId>
+			<artifactId>resthub-oauth2-filter</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>javax.annotation</groupId>
-		    <artifactId>jsr250-api</artifactId>
-		    <version>1.0</version>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.5.2</version>
 		</dependency>
 		
 		<dependency>
@@ -41,9 +36,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>test-jetty-servlet</artifactId>
-			<version>${jetty.version}</version>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -59,17 +54,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>test-jetty-servlet</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>${jersey.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>${jersey.version}</version>
-			<scope>test</scope>
-		</dependency>
-		
 	</dependencies>
 </project>

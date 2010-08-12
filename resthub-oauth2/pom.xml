@@ -12,7 +12,9 @@
   <name>RESThub OAuth v2</name>
   <description>Security layer for RESThub service with OAuth v2</description>
   <modules>
+  	<module>resthub-oauth2-common</module>
   	<module>resthub-oauth2-provider</module>
   	<module>resthub-oauth2-filter</module>
+  	<module>resthub-oauth2-externalValidationFilter</module>
   </modules>
 </project>

@@ -1,4 +1,4 @@
-package org.resthub.oauth2.provider.exception;
+package org.resthub.oauth2.common.exception;
 
 import javax.ws.rs.core.Response.Status;
 

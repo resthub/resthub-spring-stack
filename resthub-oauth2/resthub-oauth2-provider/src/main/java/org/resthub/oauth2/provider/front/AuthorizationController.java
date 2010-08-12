@@ -12,7 +12,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.oauth2.common.model.Token;
 
 /**
  * REST Controller for authorisation requests.
@@ -65,7 +65,7 @@ public interface AuthorizationController {
 	 */
 	@GET
 	@Path("tokenDetails")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	Token obtainTokenInformation(@QueryParam("access_token")String accessToken,
 			@HeaderParam(HttpHeaders.AUTHORIZATION)String password);
 	

@@ -1,9 +1,9 @@
 package org.resthub.oauth2.filter.service;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response.Status;
 
-import org.resthub.oauth2.provider.model.Token;
-import org.resthub.web.jackson.JacksonProvider;
+import org.resthub.oauth2.common.model.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,8 +85,6 @@ public class ExternalValidationService implements ValidationService {
 	public void postInit() {
 		logger.debug("[getByAccessToken] Hit on endpoint '{}'", tokenInformationEndpoint);
 		ClientConfig config = new DefaultClientConfig();
-		// For json deserialization.
-		config.getSingletons().add(new JacksonProvider());
 		Client client = Client.create(config);
 		authorizationService = client.resource(tokenInformationEndpoint);		
 	} // postInit().
@@ -108,7 +106,10 @@ public class ExternalValidationService implements ValidationService {
 				header(HttpHeaders.AUTHORIZATION, authorizationPassword).
 				get(Token.class);
 		} catch (UniformInterfaceException exc) {
-			logger.warn("[getByAccessToken] Cannot retrieved information on token '" + accessToken + "'", exc);
+			// Do not trace exception for unknown tokens.
+			if (exc.getResponse().getStatus() != Status.NO_CONTENT.getStatusCode()) {
+				logger.warn("[getByAccessToken] Cannot retrieved information on token '" + accessToken + "'", exc);
+			}
 		} catch (Exception exc) {
 			logger.warn("[getByAccessToken] Error while retrieving information on token '" + accessToken + "'", exc);
 		}

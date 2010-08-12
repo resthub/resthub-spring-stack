@@ -4,37 +4,29 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import javax.inject.Inject;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.filter.mock.authorization.AuthorizationService;
-import org.resthub.oauth2.provider.model.Token;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 /**
  * TODO CachedExternalValidationServiceTest documentation
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath*:resthubContext.xml", "classpath:cacheContext.xml"})
 public class CachedExternalValidationServiceTest {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Static private attributes
 
 	/**
-	 * Tested service, not managed by spring.
+	 * Tested service.
 	 */
-	@Inject
-	protected ValidationService service;
+	protected static ValidationService service;
 
 	/**
 	 * Jetty memory server instance.
@@ -71,6 +63,17 @@ public class CachedExternalValidationServiceTest {
 		// Jetty start.
 		authorizationServer.setHandler(context);
 		authorizationServer.start();
+		
+		// Tested service initialization.
+		CachedExternalValidationService myService = new CachedExternalValidationService();
+		myService.setAccessTokenParam("access_token");
+		myService.setTokenInformationEndpoint("http://localhost:9797/authorization");
+		myService.setAuthorizationPassword("p@ssw0rd");
+		myService.setDiscardPeriod(0);
+		myService.postInit();
+		
+		service = myService;
+
 	} // suiteSetUp().
 
 	/**

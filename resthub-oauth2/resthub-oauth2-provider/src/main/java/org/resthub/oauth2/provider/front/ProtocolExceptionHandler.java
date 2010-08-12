@@ -8,15 +8,15 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.resthub.oauth2.provider.exception.ProtocolException;
-import org.resthub.oauth2.provider.front.model.ObtainTokenErrorResponse;
+import org.resthub.oauth2.common.exception.ProtocolException;
+import org.resthub.oauth2.common.front.model.ObtainTokenErrorResponse;
 
 /**
  * Jersey Handler for ProtocolException raised in Controller or Service objects.
  */
 @Provider
 @Named("protocolExceptionHandler")
-public class ProtocolExceptionHandler implements ExceptionMapper<ProtocolException> {
+public class ProtocolExceptionHandler implements ExceptionMapper<org.resthub.oauth2.common.exception.ProtocolException> {
 
 	/**
 	 * Invoked by jersey when a ProtocolException is raised.

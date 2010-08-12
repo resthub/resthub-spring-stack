@@ -14,15 +14,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.test.AbstractResourceServiceTest;
-import org.resthub.oauth2.provider.exception.ProtocolException;
-import org.resthub.oauth2.provider.exception.ProtocolException.Error;
-import org.resthub.oauth2.provider.model.Token;
+import org.resthub.core.test.AbstractServiceTest;
+import org.resthub.oauth2.common.exception.ProtocolException;
+import org.resthub.oauth2.common.exception.ProtocolException.Error;
+import org.resthub.oauth2.common.model.Token;
 
 /**
  * Test class for authorization service.
  */
-public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<Token, AuthorizationService>{
+public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Long, AuthorizationService>{
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Attributes
@@ -30,14 +30,26 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 	/**
 	 * Sets the tested service implementation
 	 * 
-	 * @param resourceService: the tested service.
+	 * @param service: the tested service.
 	 */
 	@Inject
 	@Named("authorizationService")
 	@Override
-	public void setResourceService(AuthorizationService resourceService) {
-		super.setResourceService(resourceService);
-	} // setResourceService
+	public void setService(AuthorizationService Service) {
+		super.setService(Service);
+	} // setservice
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long getIdFromObject(Token obj) {
+		Long id = null;
+		if (obj != null) {
+			id = obj.id;
+		}
+		return id;
+	} // getIdFromObject().
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Tests
@@ -54,14 +66,14 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		token.permissions.add(MockAuthenticationService.USER_RIGHT);
 		
 		// saves a news user in DB
-		token = resourceService.create(token);
+		token = service.create(token);
 
 		assertNotNull("token has not been created", token);
 
-		assertNotNull("database id has not been generated", token.getId());
+		assertNotNull("database id has not been generated", token.id);
 
 		// retrieves a user by his id
-		Token retrieved = resourceService.findById(token.getId());
+		Token retrieved = service.findById(token.id);
 
 		assertEquals("token created has changed : finder not valid", token, retrieved);
 		assertEquals("token's value was not persisted", token.accessToken, retrieved.accessToken);
@@ -79,9 +91,9 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		retrieved.userId = newUserId;
 
 		// updates the user and checks new values
-		Token updated = resourceService.update(retrieved);
+		Token updated = service.update(retrieved);
 
-		assertEquals("token's id has changed", token.getId(), updated.getId());
+		assertEquals("token's id has changed", token.id, updated.id);
 		assertEquals("token's value should have changed", newValue, updated.accessToken);
 		assertEquals("token's user id name should have changed", newUserId, updated.userId);
 		assertFalse("token's admin right still here", retrieved.permissions.contains(
@@ -89,9 +101,9 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		assertTrue("token's user right was lost", retrieved.permissions.contains(MockAuthenticationService.USER_RIGHT));
 
 		// deletes the user
-		resourceService.delete(updated);
+		service.delete(updated);
 
-		assertNull("token not deleted", resourceService.findById(updated.getId()));
+		assertNull("token not deleted", service.findById(updated.id));
 	} // testUpdate().
 	
 	/**
@@ -100,19 +112,19 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 	@Test
 	public void generateAccessTokenErrors() {
 		try {
-			resourceService.generateToken(null, "", "", "", "");
+			service.generateToken(null, "", "", "", "");
 			fail("An IllegalArgumentException must be raised for null scopes parameter");
 		} catch (IllegalArgumentException exc) {
 			// All things right
 		}		
 		try {
-			resourceService.generateToken(new ArrayList<String>(), null, null, null, "");
+			service.generateToken(new ArrayList<String>(), null, null, null, "");
 			fail("An IllegalArgumentException must be raised for null userName parameter");
 		} catch (IllegalArgumentException exc) {
 			// All things right
 		}		
 		try {
-			resourceService.generateToken(new ArrayList<String>(), null, null, 
+			service.generateToken(new ArrayList<String>(), null, null, 
 					MockAuthenticationService.UNKNOWN_USERNAME, null);
 			fail("A ProtocolException must be raised for unknown userName");
 		} catch (ProtocolException exc) {
@@ -122,7 +134,7 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		try {
 			List<String> scopes = new ArrayList<String>();
 			scopes.add("unknown");
-			resourceService.generateToken(scopes, null, null, "someone", null);
+			service.generateToken(scopes, null, null, "someone", null);
 			fail("A ProtocolException must be raised for unknown scope");
 		} catch (ProtocolException exc) {
 			// All things right
@@ -139,15 +151,15 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 		String password = "t3st";
 		
 		// Generates token.
-		Token token = resourceService.generateToken(new ArrayList<String>(), null, null, userName, password);
+		Token token = service.generateToken(new ArrayList<String>(), null, null, userName, password);
 		assertNotNull("No token generated", token);
-		assertNotNull("Token does not have database id", token.getId());
+		assertNotNull("Token does not have database id", token.id);
 		assertNotNull("No access token generated", token.accessToken);
 		assertNotNull("No refresh token generated", token.refreshToken);
 		assertFalse("Refresh and access token must be different", token.refreshToken.compareTo(token.accessToken) == 0);
 		
 		// Gets the token from database to check its existence.
-		assertEquals("Token not serialized", token, resourceService.findById(token.getId()));		
+		assertEquals("Token not serialized", token, service.findById(token.id));		
 	} // generateAccessToken().
 
 	
@@ -157,7 +169,7 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 	@Test
 	public void getTokenInformationErrors() {
 		try {
-			resourceService.getTokenInformation(null);
+			service.getTokenInformation(null);
 			fail("An IllegalArgumentException must be raised for null scopes parameter");
 		} catch (IllegalArgumentException exc) {
 			// All things right
@@ -169,18 +181,18 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 	 */
 	@Test
 	public void getTokenInformation() {
-		assertNull("No token may have been retrieved !", resourceService.getTokenInformation("unknown"));
+		assertNull("No token may have been retrieved !", service.getTokenInformation("unknown"));
 
 		String userName = "test";
 		String password = "t3st";
 
 		// Generates token.
-		Token token = resourceService.generateToken(new ArrayList<String>(), null, null, userName, password);
+		Token token = service.generateToken(new ArrayList<String>(), null, null, userName, password);
 		assertNotNull("No token generated", token);
 		assertNotNull("No access token generated", token.accessToken);
 		
 		// Retreives token.
-		Token retrievedToken = resourceService.getTokenInformation(token.accessToken);
+		Token retrievedToken = service.getTokenInformation(token.accessToken);
 		assertNotNull("No token retrieved", retrievedToken);
 		assertEquals("Tokens not equals", token, retrievedToken);
 		assertEquals("Access tokens not equals", token.accessToken, retrievedToken.accessToken);
@@ -194,13 +206,13 @@ public class AuthorizationServiceImplTest extends AbstractResourceServiceTest<To
 				MockAuthenticationService.USER_RIGHT));
 
 		// Generates another token for user with no permissions.
-		token = resourceService.generateToken(new ArrayList<String>(), null, null, 
+		token = service.generateToken(new ArrayList<String>(), null, null, 
 				MockAuthenticationService.NO_PERMISSIONS_USERNAME, password);
 		assertNotNull("No token generated", token);
 		assertNotNull("No access token generated", token.accessToken);
 		
 		// Retreives token.
-		retrievedToken = resourceService.getTokenInformation(token.accessToken);
+		retrievedToken = service.getTokenInformation(token.accessToken);
 		assertNotNull("No token retrieved", retrievedToken);
 		assertEquals("Tokens not equals", token, retrievedToken);
 		assertEquals("Access tokens not equals", token.accessToken, retrievedToken.accessToken);

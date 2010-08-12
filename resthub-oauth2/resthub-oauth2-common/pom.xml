@@ -7,21 +7,19 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.resthub</groupId>
-	<artifactId>resthub-oauth2-provider</artifactId>
+	<artifactId>resthub-oauth2-common</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>RESThub OAuth v2 Provider</name>
-	<description>OAuth v2 Provider implementation for a RESThub identity manager.</description>
+	<name>RESThub Oauth v2 Common</name>
+	<description>Common classes used in filter and provider sub-modules</description>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-oauth2-common</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+        </dependency>
 	</dependencies>
 </project>
