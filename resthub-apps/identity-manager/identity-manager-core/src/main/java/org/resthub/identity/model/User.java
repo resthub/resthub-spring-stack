@@ -32,7 +32,7 @@ public class User extends Identity {
 		
 	}
 
-	@Column(unique=true, nullable=false)
+	@Column(unique=true/*, nullable=false*/)
 	public String getLogin() {
 		return login;
 	}

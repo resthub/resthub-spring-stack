@@ -6,17 +6,17 @@ import javax.inject.Named;
 import org.junit.Test;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.test.AbstractResourceServiceTest;
-import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
 
-public class TestGroupService extends AbstractResourceServiceTest<Group, GenericResourceService<Group>> {
+public class UserServiceTest extends AbstractResourceServiceTest<User, GenericResourceService<User>> {
 
 	@Inject
-	@Named("groupService")
+	@Named("userService")
 	@Override
-	public void setResourceService(GenericResourceService<Group> resourceService) {
+	public void setResourceService(GenericResourceService<User> resourceService) {
 		super.setResourceService(resourceService);
 	}
-
+	
 	@Override
     @Test(expected = UnsupportedOperationException.class)
     public void testUpdate() throws Exception {

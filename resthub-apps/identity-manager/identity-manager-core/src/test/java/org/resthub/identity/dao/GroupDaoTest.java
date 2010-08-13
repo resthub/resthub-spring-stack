@@ -7,7 +7,6 @@ import javax.inject.Named;
 
 import org.junit.Test;
 import org.resthub.core.test.AbstractResourceDaoTest;
-import org.resthub.identity.dao.GroupDao;
 import org.resthub.identity.model.Group;
 
 public class GroupDaoTest extends AbstractResourceDaoTest<Group, GroupDao> {
@@ -21,19 +20,12 @@ public class GroupDaoTest extends AbstractResourceDaoTest<Group, GroupDao> {
 
 	@Override
 	@Test
-	/* (expected = UnsupportedOperationException.class) */
 	public void testUpdate() throws Exception {
+		Group g1 = resourceDao.readByPrimaryKey(this.getRessourceId());
+		g1.setName("GroupName");
+		resourceDao.save(g1);
 
-		Group group = resourceDao.readByPrimaryKey(this.getRessourceId());
-
-		group.setName("GroupName");
-		group.addPermission("Perm1");
-		group.addPermission("Perm2");
-
-		group = resourceDao.save(group);
-
-		group = resourceDao.readByPrimaryKey(group.getId());
-		assertEquals("Group not updated!", group.getName(), "GroupName");
-
+		Group g2 = resourceDao.readByPrimaryKey(this.getRessourceId());
+		assertEquals("Group not updated!", g2.getName(), "GroupName");
 	}
 }

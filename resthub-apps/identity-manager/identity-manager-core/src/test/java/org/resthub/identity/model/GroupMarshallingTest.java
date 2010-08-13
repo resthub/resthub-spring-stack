@@ -18,7 +18,7 @@ import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestGroupJaxb {
+public class GroupMarshallingTest {
 	
 	private Group group;
 	private User user1;

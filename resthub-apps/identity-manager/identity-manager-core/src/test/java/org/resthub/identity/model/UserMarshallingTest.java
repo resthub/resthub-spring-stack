@@ -18,7 +18,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestUserJaxb {
+public class UserMarshallingTest {
 
 	private User user;
 	private User user2;
