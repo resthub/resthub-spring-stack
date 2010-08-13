@@ -28,11 +28,11 @@ public class Identity extends Resource {
 	protected List<String> permissions = null;
 
 	public Identity() {
-		super();
+		
 	}
 
 	public Identity(List<String> permissions) {
-		this.setPermissions(permissions);
+		this.permissions = permissions;
 	}
 
 	@ElementCollection(fetch=FetchType.EAGER)

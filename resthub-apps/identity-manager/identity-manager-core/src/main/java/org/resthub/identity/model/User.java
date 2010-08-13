@@ -29,24 +29,10 @@ public class User extends Identity {
 	protected List<Group> groups = null;
 
 	public User() {
-		super();
+		
 	}
 
-	public User(String login) {
-		this.setLogin(login);
-	}
-
-	public User(String login, String password, String firstName, String lastName, String email, List<String> permissions, List<Group> groups) {
-		super(permissions);
-		this.setLogin(login);
-		this.setPassword(password);
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
-		this.setEmail(email);
-		this.setGroups(groups);
-	}
-
-	@Column(/* nullable = false */)
+	@Column(unique=true, nullable=false)
 	public String getLogin() {
 		return login;
 	}

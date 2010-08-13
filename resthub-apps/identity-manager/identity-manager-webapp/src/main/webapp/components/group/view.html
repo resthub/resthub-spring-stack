@@ -1,21 +1,23 @@
-<h2>Group details</h2>
+<h1>Group details (<%= group.name %>)</h1>
 <table>
-	<thead>
-		<tr>
+   <thead>
+	   <tr>
 			<th>Id</th>
 			<th>Name</th>
 			<th>Users</th>
-		</tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td><%= group.id %></td>
-		<td><%= group.name %></td>
-		<td>
-			<% for each(user in group.users) { %>
-				<%= user.login %>
-			<% } %>
-		</td>
-	</tr>
-	</tbody>
+	   </tr>
+   </thead>
+   <tbody>
+	   <tr>
+			<td><%= group.id %></td>
+			<td><%= group.name %></td>
+			<td>
+				<% var users = group.users %>
+				<% for(index in users) { %>
+				<%=  %>
+					<%= link_to( users[index].login, '#/user/' + users[index].login ) %>
+				<% } %>
+			</td>
+	   </tr>
+   </tbody>
 </table>

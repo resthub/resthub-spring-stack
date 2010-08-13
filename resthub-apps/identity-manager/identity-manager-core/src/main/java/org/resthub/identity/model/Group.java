@@ -25,19 +25,10 @@ public class Group extends Identity {
 	protected List<User> users = null;
 
 	public Group() {
-		super();
+		
 	}
 
-	public Group(String name) {
-		this.setName(name);
-	}
-
-	public Group(String name, List<String> permissions) {
-		super(permissions);
-		this.setName(name);
-	}
-
-	@Column(/* nullable = false */)
+	@Column(unique=true, nullable=false)
 	public String getName() {
 		return name;
 	}
@@ -64,7 +55,7 @@ public class Group extends Identity {
 		this.users.add(user);
 	}
 
-	public void removeUser(String user) {
+	public void removeUser(User user) {
 		if (users != null) {
 			users.remove(user);
 		}

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.resthub</groupId>
@@ -27,7 +26,7 @@
 		<jackson.version>1.5.2</jackson.version>
 		<hibernate.version>3.5.2-Final</hibernate.version>
 		<hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
-		<h2.version>1.2.136</h2.version>
+        <h2.version>1.2.139</h2.version>
 		<hades.version>2.0.0.v20100512</hades.version>
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<spring.security.version>3.0.2.RELEASE</spring.security.version>
@@ -176,7 +175,7 @@
 						<docencoding>UTF-8</docencoding>
 						<charset>UTF-8</charset>
 						<encoding>UTF-8</encoding>
-						<excludePackageNames>org.resthub.roundtable.*:org.resthub.identity.*</excludePackageNames>
+                        <excludePackageNames>org.resthub.booking.*:org.resthub.roundtable.*:org.resthub.identity.*</excludePackageNames>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -208,6 +207,21 @@
 						</execution>
 					</executions>
 				</plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.3.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>2.4.3</version>
+                </plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -234,6 +248,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <phase>site</phase>
+                    </execution>
+                </executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -259,12 +282,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.1.2</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.4.3</version>
 			</plugin>
 		</plugins>
 	</reporting>
