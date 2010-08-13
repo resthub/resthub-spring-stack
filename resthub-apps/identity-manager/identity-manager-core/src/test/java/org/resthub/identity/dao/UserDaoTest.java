@@ -1,13 +1,14 @@
 package org.resthub.identity.dao;
 
+import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
 import org.resthub.core.test.AbstractResourceDaoTest;
-import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
 
 /**
@@ -23,28 +24,22 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 		super.setResourceDao(resourceDao);
 	}
 
-	@Override
 	@Test
-	// (expected = UnsupportedOperationException.class)
+	@Override
+	public void testFindAll() throws Exception {
+		List<User> resourceList = resourceDao.readAll();
+		System.out.println( "Taille de la liste : " + resourceList.size() );
+		assertTrue("No resources found!", resourceList.size() == 1);
+	}
+
+	@Test
+	@Override
 	public void testUpdate() throws Exception {
-
-		/*
-		 * User user = (User)
-		 * ClassUtils.getGenericTypeFromBean(this.resourceDao) .newInstance();
-		 */
-
-		User user = resourceDao.readByPrimaryKey(this.getRessourceId());
-
-		user.setEmail("test@plop.fr");
-		user.setLogin("UserLogin");
-		user.setPassword("UserPass");
-		user.addPermission("Perm1");
-		user.addPermission("Perm2");
-
-		user = resourceDao.save(user);
-
-		user = resourceDao.readByPrimaryKey(user.getId());
-		assertEquals("User not updated!", user.getEmail(), "test@plop.fr");
-
+		User u1 = resourceDao.readByPrimaryKey(this.getRessourceId());
+		u1.setEmail("test@plop.fr");
+		resourceDao.save(u1);
+		
+		User u2 = resourceDao.readByPrimaryKey(this.getRessourceId());
+		assertEquals("User not updated!", u2.getEmail(), "test@plop.fr");
 	}
 }

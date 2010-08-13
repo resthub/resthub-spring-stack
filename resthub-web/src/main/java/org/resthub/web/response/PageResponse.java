@@ -1,6 +1,8 @@
 package org.resthub.web.response;
 
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.resthub.core.model.Resource;
 import org.synyx.hades.domain.Page;
@@ -32,6 +34,8 @@ public class PageResponse<T extends Resource> {
     }
 
     //@XmlJavaTypeAdapter(value=GenericTypeAdapter.class)
+	@XmlElementWrapper(name = "elements")
+	@XmlElement(name = "element")
     public List<T> getElements() {
         return elements;
     }

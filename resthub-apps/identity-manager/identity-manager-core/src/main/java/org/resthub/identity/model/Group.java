@@ -28,7 +28,7 @@ public class Group extends Identity {
 		
 	}
 
-	@Column(unique=true, nullable=false)
+	@Column(unique=true/*, nullable=false*/)
 	public String getName() {
 		return name;
 	}
