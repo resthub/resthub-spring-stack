@@ -23,16 +23,16 @@
     </modules>
 
     <properties>
-        <jersey.version>1.2</jersey.version>
-        <jackson.version>1.5.2</jackson.version>
-        <hibernate.version>3.5.2-Final</hibernate.version>
-        <hibernate.validator.version>4.0.2.GA</hibernate.validator.version>
-        <h2.version>1.2.139</h2.version>
-        <hades.version>2.0.0.v20100512</hades.version>
-        <spring.version>3.0.2.RELEASE</spring.version>
-        <spring.security.version>3.0.2.RELEASE</spring.security.version>
+        <jersey.version>1.3</jersey.version>
+        <jackson.version>1.5.5</jackson.version>
+        <hibernate.version>3.5.4-Final</hibernate.version>
+        <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
+        <h2.version>1.2.140</h2.version>
+        <hades.version>2.0.0.RC3</hades.version>
+        <spring.version>3.0.3.RELEASE</spring.version>
+        <spring.security.version>3.0.3.RELEASE</spring.security.version>
         <log4j.version>1.2.14</log4j.version>
-        <slf4j.version>1.5.8</slf4j.version>
+        <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.7</junit.version>
         <jamon.version>2.7</jamon.version>
         <jetty.version>7.1.3.v20100526</jetty.version>
