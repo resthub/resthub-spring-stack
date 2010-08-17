@@ -1,22 +1,28 @@
-insert into identity (id) values (1);
-insert into user (firstName, lastName, email, login, password, id) values ('Bob', 'Martin', 'user1@atosorigin.com', 'a185329', 'pass?w0rd', 1);
+INSERT INTO IDENTITY (ID) VALUES (1);
+INSERT INTO IDENTITY (ID) VALUES (2);
+INSERT INTO IDENTITY (ID) VALUES (3);
+INSERT INTO IDENTITY (ID) VALUES (4);
+INSERT INTO IDENTITY (ID) VALUES (5);
+INSERT INTO IDENTITY (ID) VALUES (6);
+INSERT INTO IDENTITY (ID) VALUES (7);
+INSERT INTO IDENTITY (ID) VALUES (8);
+INSERT INTO IDENTITY (ID) VALUES (9);
+INSERT INTO IDENTITY (ID) VALUES (10);
 
-insert into identity (id) values (2);
-insert into user (firstName, lastName, email, login, password, id) values ('Alice', 'Dubois', 'user2@atosorigin.com', 'a185330', 'pass?w0rd', 2);
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (1, 'Bob', 'Martin', 'user1@atosorigin.com', 'a185329', 'pass?w0rd');
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (2, 'Alice', 'Dubois', 'user2@atosorigin.com', 'a185330', 'pass?w0rd');
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (3, 'Jean', 'Bonneau', 'user3@atosorigin.com', 'a185331', 'pass?w0rd');
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (4, 'Estelle', 'Ludinard', 'user4@atosorigin.com', 'a185332', 'pass?w0rd');
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (5, 'Bob', 'Synclar', 'user5@atosorigin.com', 'a185333', 'pass?w0rd');
 
-insert into identity (id) values (3);
-insert into user (firstName, lastName, email, login, password, id) values ('Jean', 'Bonneau', 'user3@atosorigin.com', 'a185331', 'pass?w0rd', 3);
+INSERT INTO USERSGROUP (ID, NAME) VALUES (6, 'resthub-developpers');
+INSERT INTO USERSGROUP (ID, NAME) VALUES (7, 'resthub-admins');
+INSERT INTO USERSGROUP (ID, NAME) VALUES (8, 'nouveau-groupe');
+INSERT INTO USERSGROUP (ID, NAME) VALUES (9, 'group-test');
+INSERT INTO USERSGROUP (ID, NAME) VALUES (10, 'ctoilegroupe');
 
-insert into identity (id) values (4);
-insert into user (firstName, lastName, email, login, password, id) values ('Estelle', 'Ludinard', 'user4@atosorigin.com', 'a185332', 'pass?w0rd', 4);
-
-insert into identity (id) values (5);
-insert into usersgroup ( name, id ) values ( 'resthub-developpers', 5 );
-
-insert into identity (id) values (6);
-insert into usersgroup ( name, id ) values ( 'resthub-admins', 6 );
-
-insert into user_group ( groups_id , users_id ) values ( 5, 1 );
-insert into user_group ( groups_id , users_id ) values ( 5, 2 );
-insert into user_group ( groups_id , users_id ) values ( 6, 3 );
-insert into user_group ( groups_id , users_id ) values ( 6, 4 );
+INSERT INTO USER_GROUP ( GROUPS_ID , USERS_ID ) VALUES ( 6, 1 );
+INSERT INTO USER_GROUP ( GROUPS_ID , USERS_ID ) VALUES ( 6, 2 );
+INSERT INTO USER_GROUP ( GROUPS_ID , USERS_ID ) VALUES ( 7, 3 );
+INSERT INTO USER_GROUP ( GROUPS_ID , USERS_ID ) VALUES ( 9, 4 );
+INSERT INTO USER_GROUP ( GROUPS_ID , USERS_ID ) VALUES ( 10, 5 );

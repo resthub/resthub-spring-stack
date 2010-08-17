@@ -2,7 +2,6 @@ package org.resthub.identity.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -12,7 +11,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Describe a group.
+ * Describes a group.
  */
 @Entity
 @Table(name = "UsersGroup") /* "Group" conflicts with SQL keyword */

@@ -2,7 +2,6 @@ package org.resthub.identity.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
@@ -28,9 +27,7 @@ public class User extends Identity {
 	protected String email = null;
 	protected List<Group> groups = null;
 
-	public User() {
-		
-	}
+	public User() {}
 
 	@Column(unique=true/*, nullable=false*/)
 	public String getLogin() {

@@ -7,6 +7,7 @@
 		<thead>
 			<tr>
 				<th>Id</th>
+				<th>Name</th>
 				<th>Login</th>
 				<th>Password</th>
 				<th>Email</th>
@@ -18,11 +19,12 @@
 			<% for (var index in users) { %>
 				<tr class="user-item" id="user-<%= users[index].id %>">
 					<td><%= users[index].id %></td>
+					<td><%= users[index].firstName + ' ' + users[index].lastName %></td>
 					<td><%= users[index].login %></td>
 					<td><%= users[index].password %></td>
 					<td><%= users[index].email %></td>
 					<td>
-						<%= link_to( 'details', '#/user/' + users[index].login ) %>
+						<%= link_to( 'details', '#/user/details/' + users[index].login ) %>
 					</td>
 				</tr>
 			<% } %>

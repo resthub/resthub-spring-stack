@@ -1,0 +1,48 @@
+<h1>Edit user</h1>
+
+<form id="user-form" action="" method="" enctype="UTF-8">
+
+	<p>
+		<strong>First name:</strong>
+		<input size="10" name="firstName" type="text" class="required"> *
+	</p>
+
+	<p>
+		<strong>Last name:</strong>
+		<input size="10" name="lastName" type="text" class="required"> *
+	</p>
+
+	<p>
+		<strong>Login:</strong>
+		<input size="10" name="login" type="text" class="required"> *
+	</p>
+
+	<p>
+		<strong>Password:</strong>
+		<input size="10" name="password" type="text" class="required"> *
+	</p>
+
+	<p>
+		<strong>Email:</strong>
+		<input size="10" name="email" type="text" class="required"> *
+	</p>
+
+	<p>
+		<strong>This user belongs to the following groups:</strong>
+		<p>
+			<% if ($.isEmptyObject(groups)) { %>
+				<span>[No groups available]</span>
+			<% } else { %>
+				<% for (var index in groups) { %>
+					<input type="checkbox" name="usergroup" value="<%= groups[index].id %>" > <%= groups[index].name %>
+				<% } %>
+			<% } %>
+		</p>
+	</p>
+	
+</form>
+
+<p class="buttons">
+	<input id="user-proceed" value="Create" type="button">
+	<a id="cancel-request" href="#/user/list">Back to list</a>
+</p>

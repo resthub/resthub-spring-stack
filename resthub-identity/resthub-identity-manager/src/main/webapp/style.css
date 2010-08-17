@@ -2,6 +2,7 @@ table {
 	background-color: black;
 	/*border: 1px black solid;*/
 	border-collapse: collapse;
+	width: 60%;
 }
 th {
 	/*border: 1px outset silver;*/
@@ -17,4 +18,5 @@ tr.striped {
 }
 td {
 	padding: 1px 8px;
+	text-align: center;
 }

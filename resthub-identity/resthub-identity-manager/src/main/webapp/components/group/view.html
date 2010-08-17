@@ -1,23 +1,24 @@
 <h1>Group details (<%= group.name %>)</h1>
 <table>
-   <thead>
-	   <tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>Users</th>
-	   </tr>
-   </thead>
-   <tbody>
-	   <tr>
-			<td><%= group.id %></td>
-			<td><%= group.name %></td>
-			<td>
-				<% var users = group.users %>
-				<% for(index in users) { %>
-				<%=  %>
-					<%= link_to( users[index].login, '#/user/' + users[index].login ) %>
-				<% } %>
-			</td>
-	   </tr>
-   </tbody>
+	<thead>
+		<tr>
+			<th>Users belonging to this group</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% var users = group.users %>
+		<% for(index in users) { %>
+			<tr>
+				<td>
+					<%= users[index].firstName + ' ' + users[index].lastName %>
+				</td>
+				<td>
+					<%= link_to( 'details', '#/user/details/' + users[index].login ) %>
+					<!-- <%= link_to( 'remove', '#/group/remove_user/' + users[index].login ) %> -->
+					<span class="remove-user" id="<%= users[index].login %>">remove</span>
+				</td>
+			</tr>
+		<% } %>
+	</tbody>
 </table>

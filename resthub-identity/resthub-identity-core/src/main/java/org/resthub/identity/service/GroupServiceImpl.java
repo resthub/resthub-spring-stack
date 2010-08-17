@@ -7,16 +7,27 @@ import org.resthub.core.annotation.Auditable;
 
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.GroupDao;
+import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 @Named("groupService")
 public class GroupServiceImpl extends GenericResourceServiceImpl<Group, GroupDao> implements GroupService {
 
+	UserDao userDao;
+
 	@Inject
 	@Named("groupDao")
 	public void setResourceDao(GroupDao groupDao) {
 		super.setDao(groupDao);
+	}
+
+	@Inject
+	@Named("userDao")
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 
 	/**
@@ -35,4 +46,25 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, GroupDao
 		}
 	}
 
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Auditable
+	public List<Group> findAllGroups() {
+		return this.dao.readAll();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Auditable
+	@Transactional(readOnly = false)
+	public void removeUser( Group group, User user ) {
+		//group.removeUser( user );
+		user.removeGroup( group );
+		this.userDao.save( user );
+	}
 }
