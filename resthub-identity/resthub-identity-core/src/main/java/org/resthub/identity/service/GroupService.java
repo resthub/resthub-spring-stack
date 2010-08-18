@@ -14,7 +14,7 @@ public interface GroupService extends GenericResourceService<Group> {
 	/**
 	 * Find user by login.
 	 * @param login User login
-	 * @return the user or null if more than one user is found
+	 * @return the user or null if no user is found or if multiple users are found
 	 */
 	public Group findByName( String name );
 

@@ -52,7 +52,8 @@ public class GroupController extends GenericResourceController<Group, GroupServi
 	public Response getUserByLogin( @PathParam("name") String name ) {
 		Group group = this.service.findByName( name );
 		if (group == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			return Response.status(Status.NOT_FOUND).
+					entity("Unable to find the requested group.").build();
 		}
 		return Response.ok(group).build();
 	}
@@ -73,7 +74,7 @@ public class GroupController extends GenericResourceController<Group, GroupServi
 	 * Remove a user from the specified group.
 	 * @param name the group name
 	 * @param login the user login
-	 * @return the group after the user removing
+	 * @return the group updated after user removing
 	 */
 	@DELETE
 	@Path("/{name}/user/{login}")
@@ -81,19 +82,24 @@ public class GroupController extends GenericResourceController<Group, GroupServi
 	public Response removeUser( @PathParam("name") String name,
 								@PathParam("login") String login ) {
 
-		logger.info("Remove user " + login + " from group " + name + ".");
+		logger.info("Remove user '" + login + "' from group '" + name + "'.");
 
-		if( name != null && login != null )
-		{
-			Group group = this.service.findByName( name );
-			User user = this.userService.findByLogin( login );
+		Group group = this.service.findByName( name );
+		User user = this.userService.findByLogin( login );
 
-			this.service.removeUser( group, user );
-			return Response.ok(group).build();
+		if (group == null) {
+			return Response.status(Status.NOT_FOUND).
+					entity("Unable to find the requested group.").build();
+		}
+		if (user == null) {
+			return Response.status(Status.NOT_FOUND).
+					entity("Unable to find the requested user.").build();
 		}
 		else
 		{
-			return Response.status(Status.BAD_REQUEST).build();
+			this.service.removeUser( group, user );
+			return Response.ok(group).build();
+			
 		}
 	}
 }

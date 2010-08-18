@@ -22,7 +22,14 @@ var viewGroup =
 		});
 	},
 	_removeUser: function(userLogin) {
-		this._delete('api/group/' + this.options.groupName + '/user/' + userLogin, this._displayGroup);
+		this._delete('api/group/' + this.options.groupName + '/user/' + userLogin, this._userRemoved);
+	},
+	_userRemoved: function(updatedGroup) {
+		$.pnotify ({
+			pnotify_title: 'Information',
+			pnotify_text: 'User deleted successfully from group ' + updatedGroup.name + '.'
+		});
+		this._displayGroup(updatedGroup);
 	}
 };
 
