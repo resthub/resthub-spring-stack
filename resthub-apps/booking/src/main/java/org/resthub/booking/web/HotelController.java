@@ -3,6 +3,7 @@ package org.resthub.booking.web;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,6 +14,8 @@ import javax.ws.rs.core.Response.Status;
 import org.resthub.booking.model.Hotel;
 import org.resthub.booking.service.HotelService;
 import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.response.PageResponse;
+import org.synyx.hades.domain.PageRequest;
 
 @Path("/hotel")
 @Named("hotelController")
@@ -32,17 +35,18 @@ public class HotelController extends GenericResourceController<Hotel, HotelServi
 	@GET
 	@Path("/search")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response searchHotels(@QueryParam("q") String query, @QueryParam("off") Integer offset, @QueryParam("lim") Integer limit) {
+	public Response searchHotels(
+			@QueryParam("q") String query,
+			@QueryParam("page") @DefaultValue("0") Integer page,
+			@QueryParam("size") @DefaultValue("5") Integer size) {
 		
-		List<Hotel> hotels;
-		if(query == null || query.isEmpty()) {
-			hotels = this.service.findAll(offset, limit);
-		} else {
-			hotels = this.service.find(query, offset, limit);
-		}
+		PageResponse<Hotel> hotels;
 
-		if (hotels.isEmpty()) {
-			return Response.status(Status.NOT_FOUND).build();
+		hotels = new PageResponse<Hotel>(
+                    this.service.find(query, new PageRequest(page, size)));
+
+		if (hotels == null) {
+			return Response.status(Status.BAD_REQUEST).entity("Bad query.").build();
 		}
 		return Response.ok(hotels).build();
 	}

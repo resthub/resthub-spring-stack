@@ -4,26 +4,26 @@ var listHotels =
 {
 	options: {
 		searchVal: null,
-		off: 0,
-		lim: 5,
+		page: 0,
+		size: 5,
 		template: 'components/hotel/list.html',
 		context: null
 	},
 	_init: function() {
 		var url;
 		if(this.options.searchVal) {
-			url = 'api/hotel/search?q=' + this.options.searchVal + '&off=' + this.options.off + '&lim=' + this.options.lim;
+			url = 'api/hotel/search?q=' + this.options.searchVal + '&page=' + this.options.page + '&size=' + this.options.size;
 		} else {
-			url = 'api/hotel/search?off=' + this.options.off + '&lim=' + this.options.lim;
+			url = 'api/hotel/search?page=' + this.options.page + '&size=' + this.options.size;
 		}
 		this._get(url, this._displayHotels);
 	},
-	_displayHotels: function(hotels) {
-		this.element.render(this.options.template, {hotels: hotels});
+	_displayHotels: function(result) {
+		this.element.render(this.options.template, {result: result});
 
 		var self = this;
 		$('#search-next').bind('click', function() {
-			self.options.off++;
+			self.options.page++;
 			self._init();
 		});
 	}

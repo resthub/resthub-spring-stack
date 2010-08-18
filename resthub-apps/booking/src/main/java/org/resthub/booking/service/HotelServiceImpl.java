@@ -1,15 +1,13 @@
 package org.resthub.booking.service;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.lucene.queryParser.ParseException;
 import org.resthub.booking.dao.HotelDao;
 import org.resthub.booking.model.Hotel;
 import org.resthub.core.annotation.Auditable;
 import org.resthub.core.service.GenericResourceServiceImpl;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.Pageable;
 
 @Named("hotelService")
 public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao> implements HotelService {
@@ -21,19 +19,22 @@ public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao
         this.dao = hotelDao;
     }
 
+	/**
+	 * {@inheritDoc}
+	 */
     @Override
     @Auditable
-    public List<Hotel> find(String query, Integer offset, Integer limit) {
-		try {
-			Integer o = (offset == null || offset < 0) ? 0 : offset;
-			Integer l = (limit == null || limit < 0) ? 100 : limit;
-			return this.dao.find(query, offset, limit);
-		} catch (ParseException ex) {
-			Logger.getLogger(HotelServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return null;
+	public Page<Hotel> find(final String query, final Pageable pageable) {
+        if (query == null || "".equals(query.trim())) {
+            return this.findAll(pageable);
+        } else {
+            return this.dao.find(query, pageable);
+        }
     }
 
+	/**
+	 * {@inheritDoc}
+	 */
     @Override
     @Auditable
     public void rebuildIndex() {
