@@ -114,7 +114,7 @@ public class SecuredHttpRequest extends HttpServletRequestWrapper {
 	} // getUserPrincipal().
 	
 	/**
-	 * TODO
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String getHeader(String name) {
@@ -128,7 +128,7 @@ public class SecuredHttpRequest extends HttpServletRequestWrapper {
 	} // getHeader()
 	
 	/**
-	 * TODO
+	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -145,7 +145,7 @@ public class SecuredHttpRequest extends HttpServletRequestWrapper {
 	} // getHeaders()
 
 	/**
-	 * TODO
+	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
