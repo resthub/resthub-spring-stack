@@ -12,25 +12,26 @@ import java.util.List;
 public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.dao.GenericDao<T, PK> {
 
 	/**
-	 * Delete Persisted Entity by id.
-	 * 
-	 * @param id
-	 *			Resource ID to delete
+	 * Delete persisted entity by id.
+	 * @param id entity ID to delete
 	 */
 	void delete(PK id);
 
 	/**
-	 * Get all Resources (in scrollable resulset).
-	 * 
-	 * @param offset
-	 *			offset
-	 * @param limit
-	 *			limit
-	 * @return list of Resources.
+	 * Retrieves entities whose value corresponding to propertyName parameter
+	 * matches approximately with the value of propertyValue parameter.
+	 * @param propertyName property name
+	 * @param propertyValue property value (e.g. %jean%)
+	 * @return a list of entities.
 	 */
-	List<T> readAll(Integer offset, Integer limit);
-
 	List<T> findLike(String propertyName, String propertyValue);
 
+	/**
+	 * Retrieves entities whose value corresponding to propertyName parameter
+	 * matches exactly with the value of propertyValue parameter.
+	 * @param propertyName property name
+	 * @param propertyValue property value (e.g. jean)
+	 * @return a list of entities.
+	 */
 	List<T> findEquals(String propertyName, String propertyValue);
 }

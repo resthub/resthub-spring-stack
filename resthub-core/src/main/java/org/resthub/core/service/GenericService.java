@@ -47,12 +47,9 @@ public interface GenericService<T, ID extends Serializable> {
 
     /**
      * Find all resources.
-     * @param offset offset (default 0)
-     * @param limit limit (default 100)
-     * @return resources.
-     * @deprecated use findAll(Pageable) instead.
+     * @return a list of all resources.
      */
-    List<T> findAll(Integer offset, Integer limit);
+    List<T> findAll();
     
     /**
      * Find all resources (pageable).
