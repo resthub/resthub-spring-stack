@@ -2,6 +2,8 @@ package org.resthub.oauth2.filter.front;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,14 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class SecuredHttpRequest extends HttpServletRequestWrapper {
 
+	// -----------------------------------------------------------------------------------------------------------------
+	// Public constants
+
+	/**
+	 * Fake header name that contains the connected user_id.
+	 */
+	public static final String USER_ID = "user_id";
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Protected attributes
 
@@ -103,4 +113,57 @@ public class SecuredHttpRequest extends HttpServletRequestWrapper {
 		return principal;
 	} // getUserPrincipal().
 	
+	/**
+	 * TODO
+	 */
+	@Override
+	public String getHeader(String name) {
+		// Superclass treatment. 
+		String header = super.getHeader(name);
+		// If someone asks for USER_ID header, sends it.
+		if (USER_ID.equals(name)) {
+			header = userId;
+		}
+		return header;
+	} // getHeader()
+	
+	/**
+	 * TODO
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Enumeration<String> getHeaders(String name) {
+		// Superclass treatment. 
+		Enumeration<String> headers = super.getHeaders(name);
+		// If someone asks for USER_ID header, sends it.
+		if (USER_ID.equals(name)) {
+			List<String> values= new ArrayList<String>();
+			values.add(userId);
+			headers = Collections.enumeration(values);
+		}
+		return headers;
+	} // getHeaders()
+
+	/**
+	 * TODO
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Enumeration<?> getHeaderNames() {
+		// Superclass treatment. 
+		Enumeration<String> headerNames = super.getHeaderNames();
+		ArrayList<String> list = new ArrayList<String>();
+		while(headerNames.hasMoreElements()) {
+			// add the names of the request headers into the list
+			String n = (String)headerNames.nextElement();
+			list.add(n);
+		}
+		// Adds the USER_ID fake header.
+		if (!list.contains(USER_ID)) {
+			list.add(USER_ID);
+		}
+		// Returns an enumeration from the list
+		return Collections.enumeration(list);
+	} // getHeaderNames()
+
 } // class SecuredHttpRequest.
