@@ -1,4 +1,3 @@
-
 /**
  * Routes
  */
@@ -17,6 +16,9 @@
             $('#main').html('<p>This is a test !</p>');
         });
 
+        this.get('#/sample/:id', function(context) {
+            $('#main').viewSample({context:context, sampleId:this.params.id});
+        }, 'components/sample/view.js');
     });
 
     $(function() {
