@@ -25,11 +25,11 @@
     <properties>
         <jersey.version>1.3</jersey.version>
         <jackson.version>1.5.5</jackson.version>
-        <hibernate.version>3.5.4-Final</hibernate.version>
+        <hibernate.version>3.5.5-Final</hibernate.version>
         <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
         <h2.version>1.2.140</h2.version>
         <hades.version>2.0.0.RC3</hades.version>
-        <spring.version>3.0.3.RELEASE</spring.version>
+        <spring.version>3.0.4.RELEASE</spring.version>
         <spring.security.version>3.0.3.RELEASE</spring.security.version>
         <log4j.version>1.2.14</log4j.version>
         <slf4j.version>1.6.0</slf4j.version>
@@ -389,7 +389,7 @@
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.0-api</artifactId>
-                <version>1.0.0.FINAL</version>
+                <version>1.0.0.Final</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
