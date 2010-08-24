@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 
-import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.junit.After;
 import org.junit.Before;

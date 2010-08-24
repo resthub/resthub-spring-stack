@@ -5,9 +5,11 @@ import javax.ws.rs.core.MediaType;
 import junit.framework.Assert;
 import com.sun.jersey.api.client.WebResource;
 import java.io.Serializable;
+import java.util.List;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response.Status;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.core.service.GenericService;
@@ -63,10 +65,10 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, C exten
 	 */
 	@After
 	public void cleanAll() throws Exception {
-		/*List<T> list = controller.getService().findAll();
+		List<T> list = controller.getService().findAll();
 		for(T entity : list) {
-			controller.getService().delete(entity);
-		}*/
+			controller.delete(getIdFromObject(entity));
+		}
 	}
 
 	/**
