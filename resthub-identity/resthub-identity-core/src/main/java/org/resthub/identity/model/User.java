@@ -109,9 +109,10 @@ public class User extends Identity {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("User [");
+		sb.append("User[");
+		sb.append("Id: ").append(this.getId()).append(", ");
 		sb.append("Login: ").append(this.getLogin()).append(", ");
-		sb.append("Email: ").append(this.getEmail()).append(", ");
+		sb.append("Email: ").append(this.getEmail());
 		sb.append("]");
 		return sb.toString();
 	}

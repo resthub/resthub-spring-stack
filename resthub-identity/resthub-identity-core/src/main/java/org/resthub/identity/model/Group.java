@@ -63,8 +63,9 @@ public class Group extends Identity {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Group [");
-		sb.append("Name: ").append(this.getName()).append(", ");
+		sb.append("Group[");
+		sb.append("Id: ").append(this.getId()).append(", ");
+		sb.append("Name: ").append(this.getName());
 		sb.append("]");
 		return sb.toString();
 	}
