@@ -4,25 +4,34 @@ package org.resthub.web.test;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.junit.After;
-import org.junit.Before;
+
 import org.resthub.web.jackson.JacksonProvider;
+
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
+
+import org.junit.AfterClass;
+import org.junit.runner.RunWith;
+import org.junit.After;
+import org.junit.Before;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
+import org.springframework.test.context.ContextConfiguration;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml" })
 public abstract class AbstractWebResthubTest {
 
-    protected int port = 9797;
+    protected static int port = 9797;
 
-    protected Server server;
+    protected static Server server;
 
-    protected String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml";
+    protected static String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml";
 
     @Before
     public void setUp() throws Exception {

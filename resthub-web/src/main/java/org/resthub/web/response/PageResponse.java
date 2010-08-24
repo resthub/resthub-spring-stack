@@ -12,15 +12,15 @@ import org.synyx.hades.domain.Page;
  * @author Nicolas Carlier
  */
 @XmlRootElement
-public class PageResponse<T extends Resource> {
-    private int number;
-    private int size;
-    private int totalPages;
-    private int numberOfElements;
-    private long totalElements;
-    private List<T> elements;
+public class PageResponse<T> {
+    protected int number;
+    protected int size;
+    protected int totalPages;
+    protected int numberOfElements;
+    protected long totalElements;
+    protected List<T> elements;
 
-    private PageResponse() {
+    protected PageResponse() {
         super();
     }
 

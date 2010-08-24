@@ -25,7 +25,6 @@ import com.sun.jersey.api.view.ImplicitProduces;
 import java.io.Serializable;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
-import org.resthub.core.model.Resource;
 import org.resthub.core.service.GenericService;
 import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
@@ -38,7 +37,7 @@ import org.synyx.hades.domain.PageRequest;
  */
 @Singleton
 @ImplicitProduces("text/html;qs=5")
-public abstract class GenericController<T extends Resource, S extends GenericService<T, ID>, ID extends Serializable> {
+public abstract class GenericController<T, S extends GenericService<T, ID>, ID extends Serializable> {
 
 	protected T[] entityClassArray;
 	protected S service;
@@ -59,6 +58,10 @@ public abstract class GenericController<T extends Resource, S extends GenericSer
 
 	public void setService(S service) {
 		this.service = service;
+	}
+
+	public S getService() {
+		return this.service;
 	}
 
 	@POST
