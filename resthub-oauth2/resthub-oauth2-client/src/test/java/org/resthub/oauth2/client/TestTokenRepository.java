@@ -127,7 +127,7 @@ public class TestTokenRepository {
 		tested.setClientSecret("any");
 		List<String> endPoints = new ArrayList<String>();
 		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
-		tested.setAuthenticationServices(endPoints);
+		tested.setAuthorizationendPoints(endPoints);
 		
 		String resource = "/myResource";
 		String scope = "";
@@ -156,7 +156,7 @@ public class TestTokenRepository {
 		
 		// No providers.
 		try {
-			tested.setAuthenticationServices(new ArrayList<String>());
+			tested.setAuthorizationendPoints(new ArrayList<String>());
 			tested.obtain(resource, scope);
 			fail("An NoTokenFoundException must be raised for token obtention with no providers");
 		} catch (NoTokenFoundException exc) {
@@ -250,7 +250,7 @@ public class TestTokenRepository {
 		tested.setClientSecret("any");
 		List<String> endPoints = new ArrayList<String>();
 		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
-		tested.setAuthenticationServices(endPoints);
+		tested.setAuthorizationendPoints(endPoints);
 		
 		// Enrich and trigger a request.
 		String result = tested.enrich(httpClient.path(resource)).get(String.class);
@@ -280,7 +280,7 @@ public class TestTokenRepository {
 		tested.setClientSecret("any");
 		List<String> endPoints = new ArrayList<String>();
 		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
-		tested.setAuthenticationServices(endPoints);
+		tested.setAuthorizationendPoints(endPoints);
 		
 		// Enrich a request to an unknown resource
 		try {

@@ -62,16 +62,16 @@ public class TokenRepository {
 	/**
 	 * List of HTTP end-points of known authentication services.
 	 */
-	protected List<String> authenticationEndPoints = new ArrayList<String>();
+	protected List<String> authorizationEndPoints = new ArrayList<String>();
 	
 	/**
 	 * Used to inject the list of authentication end-points (urls).
 	 * 
 	 * @param value List of known authentication services.
 	 */
-	public void setAuthenticationServices(List<String> value) {
+	public void setAuthorizationendPoints(List<String> value) {
 		if (value != null) {
-			authenticationEndPoints.addAll(value);
+			authorizationEndPoints.addAll(value);
 		}
 	} // setAuthenticationServices().
 	
@@ -139,7 +139,7 @@ public class TokenRepository {
 		
 		TokenResponse result = null;
 		// Try each authentication servers.
-		for (String endPoint : authenticationEndPoints) {
+		for (String endPoint : authorizationEndPoints) {
 			try {
 				logger.debug("[obtain] Try to get token at " + endPoint);
 				result = httpClient.resource(endPoint).path("/token").type(MediaType.APPLICATION_FORM_URLENCODED).
