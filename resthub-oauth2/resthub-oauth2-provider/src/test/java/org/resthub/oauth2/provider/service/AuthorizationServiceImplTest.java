@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.test.AbstractServiceTest;
+import org.resthub.core.test.service.AbstractServiceTest;
 import org.resthub.oauth2.common.exception.ProtocolException;
 import org.resthub.oauth2.common.exception.ProtocolException.Error;
 import org.resthub.oauth2.common.model.Token;

@@ -8,7 +8,7 @@ import javax.inject.Named;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.resthub.core.test.AbstractResourceServiceTest;
+import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 import org.springframework.test.context.transaction.TransactionConfiguration;
