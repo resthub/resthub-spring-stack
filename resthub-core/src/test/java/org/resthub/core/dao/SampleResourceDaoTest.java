@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import org.junit.Test;
 import org.resthub.core.model.SampleResource;
-import org.resthub.core.test.AbstractResourceDaoTest;
+import org.resthub.core.test.dao.AbstractResourceDaoTest;
 
 public class SampleResourceDaoTest extends AbstractResourceDaoTest<SampleResource, SampleResourceDao> {
 

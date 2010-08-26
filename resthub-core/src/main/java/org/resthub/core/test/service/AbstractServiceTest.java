@@ -1,5 +1,6 @@
-package org.resthub.core.test;
+package org.resthub.core.test.service;
 
+import org.resthub.core.test.AbstractResthubTest;
 import java.io.Serializable;
 import java.util.List;
 
