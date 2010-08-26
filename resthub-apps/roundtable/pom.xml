@@ -49,7 +49,7 @@
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webAppConfig>
-						<contextPath>/roundtable</contextPath>
+						<contextPath>/</contextPath>
 					</webAppConfig>
 				</configuration>
 			</plugin>
