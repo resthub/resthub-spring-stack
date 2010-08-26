@@ -1,4 +1,4 @@
-package org.resthub.web.test;
+package org.resthub.web.test.controller;
 
 import com.sun.jersey.api.client.ClientResponse;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.resthub.core.service.GenericService;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.web.controller.GenericController;
+import org.resthub.web.test.AbstractWebResthubTest;
 
 /**
  *

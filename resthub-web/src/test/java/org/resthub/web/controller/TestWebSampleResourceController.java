@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.Assert;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.web.model.WebSampleResource;
-import org.resthub.web.test.AbstractResourceControllerTest;
+import org.resthub.web.test.controller.AbstractResourceControllerTest;
 
 public class TestWebSampleResourceController extends AbstractResourceControllerTest<WebSampleResource, GenericResourceController<WebSampleResource, GenericResourceService<WebSampleResource>>> {
 
