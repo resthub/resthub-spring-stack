@@ -10,7 +10,7 @@
 			 * If an error message is specified (other than html), it is displayed.
 			 * Otherwise, a generic message is displayed according to the error code.
 			 */
-			if(request.responseText && request.responseText.substring(0, 6) != '<html>')
+			if(request.responseText && request.responseText.substring(0, 6) != '<html>' && request.status >= 300)
 			{
 				$.pnotify ({
 					pnotify_title: 'Error ' + request.status,
