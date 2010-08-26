@@ -48,7 +48,7 @@
                     url: 'api/beans',
                     dataType: 'json',
                     success: function(data) {
-                        $('#main').render("components/beans/beans.html", data);
+                        $('#main').render("components/beans/beans.html", { beanDetails: data});
                     }
                 });
         });
