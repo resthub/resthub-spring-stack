@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>resthub-oauth2</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.resthub</groupId>
+	<artifactId>resthub-oauth2-client</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>RESThub OAuth v2 Client</name>
+	<description>Java OAuth v2 client for accessing protected resources</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-oauth2-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-oauth2-provider</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-oauth2-externalValidationFilter</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>test-jetty-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

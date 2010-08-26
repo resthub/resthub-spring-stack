@@ -42,12 +42,13 @@ public class OAuth2Filter implements Filter {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
-	 * The validation service.
-	 * The implementation class for this class is specified in servlet configuration: 
-	 * init-parameter "validationServiceClass".
-	 * This class must implements the ValidationService interface and have a default constructor.
+	 * Constants storing the HTTP parameter name used to extract the access
+	 * token.
 	 */
-	protected ValidationService service;
+	protected static final String ACCESSTOKEN_PARAMETER = "oauth_token";
+
+	// -----------------------------------------------------------------------------------------------------------------
+	// Public properties
 
 	/**
 	 * Resource protected and served by this server.
@@ -56,10 +57,28 @@ public class OAuth2Filter implements Filter {
 	protected String resource = "";
 
 	/**
-	 * Constants storing the HTTP parameter name used to extract the access
-	 * token.
+	 * Used to inject the service implementation when working with spring.
+	 * @param service
 	 */
-	protected static final String ACCESSTOKEN_PARAMETER = "oauth_token";
+	public void setResource(String resource) {
+		this.resource = resource;
+	} // setResource().
+
+	/**
+	 * The validation service.
+	 * The implementation class for this class is specified in servlet configuration: 
+	 * init-parameter "validationServiceClass".
+	 * This class must implements the ValidationService interface and have a default constructor.
+	 */
+	protected ValidationService service;
+
+	/**
+	 * Used to inject the service implementation when working with spring.
+	 * @param service
+	 */
+	public void setService(ValidationService service) {
+		this.service = service;
+	} // setService().
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Protected methods
@@ -102,11 +121,11 @@ public class OAuth2Filter implements Filter {
 		// Emtpy
 		logger.trace("[init] OAuth 2 filter initialization");
 		// Read the service used and the resource name.
-		resource = config.getInitParameter("securedResourceName");
+		setResource(config.getInitParameter("securedResourceName"));
 		String validationServiceClass = config.getInitParameter("validationServiceClass");
 		// Creates a validation service.
 		try {
-			service = (ValidationService)Class.forName(validationServiceClass).newInstance();
+			setService((ValidationService)Class.forName(validationServiceClass).newInstance());
 		} catch (Exception exc) {
 			// TODO
 		}
