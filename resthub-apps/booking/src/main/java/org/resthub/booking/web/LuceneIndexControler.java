@@ -32,6 +32,6 @@ public class LuceneIndexControler {
     @Produces(MediaType.TEXT_PLAIN)
     public Response rebuildIndex() {
         this.hotelService.rebuildIndex();
-        return Response.ok("index rebuiled").build();
+        return Response.ok("Search engine index rebuilded.").build();
     }
 }
