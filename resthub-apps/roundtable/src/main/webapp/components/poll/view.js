@@ -22,6 +22,8 @@
             var self = this;
             this.element.render(this._template, poll);
 
+            this.element.find('a.zgal').zoomimage();
+
             this.element.find('tr.rt-vote-inputs td.no').click(function() {
                 $(this).toggleClass('no');
                 $(this).toggleClass('yes');

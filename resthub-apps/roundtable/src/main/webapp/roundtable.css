@@ -53,6 +53,23 @@ a.more{font-weight: bold}
     margin-bottom:20px;
     text-transform:uppercase;
 }
+blockquote {
+    padding-left: 22px;
+    font-family:Georgia,'Times New Roman',Times,Serif;
+    font-style:italic;
+    font-weight:normal;
+    line-height:1.5em;
+}
+blockquote:before {
+    display: block;
+    font-size: 400%;
+    width: 50px;
+}
+blockquote:before {
+    content: open-quote;
+    height: 0;
+    margin-left: -0.55em;
+}
 label{
     cursor:pointer;
     display:block;
@@ -246,11 +263,27 @@ div.grippie {
     background-color: yellow;
     background-image: none;
 }
+#attached-file-name{float:left;padding-right:1em;}
+#attached-file-remove{text-decoration: underline;cursor: pointer;}
 
 /**
  * VISUALIZATION SCREEN
  */
-.rt-poll-detail div.legend {display:inline;float:left;margin-left:10px;width:190px;}
+
+.rt-poll-detail div.body {height: 100px;}
+.rt-poll-detail div.illustration {float:left;}
+.rt-poll-detail div.body blockquote {
+    float:left;
+    margin-top:16px;
+    font-size:17px;
+    padding-left:40px;
+}
+.rt-poll-detail img {
+    border: 4px double #093C75;
+    cursor: url(lib/zoomimage/zoomin.cur), default;
+}
+
+.rt-poll-detail div.legend {display:inline;float:left;width:190px;}
 .rt-poll-detail div.legend  table {
     border-collapse:separate;
     border-spacing:1px;
@@ -328,6 +361,21 @@ table tr.result {
 /**
  * LIST SCREEN
  */
+
+.rt-poll-list p.result-summary {
+    background-color:#0459B7;;
+    border:1px solid;
+    color:white;
+    font-weight:normal;
+    padding:0.5em;
+    text-decoration:none;
+    margin-top:1em;
+    -moz-border-radius:5px;
+    -webkit-border-radius:10px;
+    -moz-box-shadow:0 0 15px #aaa;
+    -webkit-box-shadow:0 0 15px #aaa;
+}
+
 
 .rt-poll-list ul {margin-bottom: 1em}
 .rt-poll-list li.poll-item {

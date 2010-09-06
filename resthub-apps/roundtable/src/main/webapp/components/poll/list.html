@@ -1,7 +1,13 @@
-<ul>
-    <% if ($.isEmptyObject(page.elements)) {%>
-        <li>No polls found...</li>
+<p class="result-summary">
+    <% if (query != null && query != '') {%>
+	<%= page.totalElements %> poll(s) found foor query : <%= query %>
     <% } else { %>
+	<%= page.totalElements %> total polls
+    <% } %>
+</p>
+
+<ul>
+    <% if (!$.isEmptyObject(page.elements)) {%>
         <% for(var i = 0; i < page.elements.length ; i++) { %>
             <% var poll = page.elements[i] %>
             <li class="poll-item" id="poll-<%= poll.id %>" >
@@ -9,7 +15,7 @@
                     <% var date = new Date(poll.creationDate) %>
                     <span class="author">(by <%= poll.author %> on <%= date.toDateString() %>)</span>
                 </h3>
-                <p><%= poll.body %></p>
+                <blockquote><p><%= poll.body %></p></blockquote>
             </li>
         <% } %>
     <% } %>

@@ -58,6 +58,21 @@
                     self.element.find('textarea[name=answer]').val("");
                 }
             });
+
+	    var uploader = new qq.FileUploader({
+		// pass the dom node (ex. $(selector)[0] for jQuery users)
+		element: document.getElementById('attach-illustration-to-body'),
+		// path to server-side upload script
+		action: 'api/illustration/upload',
+		onComplete: function(id, fileName, responseJSON){
+		    $('#attach-illustration-to-body').remove();
+		    $('#illustration').attr('alt', fileName);
+		    $('#illustration').attr('src', 'api/thumbnail/' + responseJSON.files[0] + '?tmp=true');
+		    $('#inp-illustration').val(responseJSON.files[0]);
+		    $('#illustration-block').show();
+		}
+	    });
+
         },
         _context: function() {
             return this.options.context;

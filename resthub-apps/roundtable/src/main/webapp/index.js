@@ -57,10 +57,11 @@
                 author: this.params['author'],
                 topic: this.params['topic'],
                 body: this.params['body'],
+		illustration: this.params['illustration'],
                 // expirationDate: (new Date(this.params['expirationDate'])).format('Y-m-d'),
                 answers: []
             }
-            // FIXME found another way...
+            // FIXME find a cleaner way...
             var answers = this.target.answers;
             for (i = 0; i < answers.length; i++) {
                 poll.answers.push({

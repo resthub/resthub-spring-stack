@@ -15,7 +15,14 @@
         <label for="inp-body"><em>*</em>Body</label>
         <textarea id="inp-body" name="body" cols="10" rows="3" class="required resizable"><%= body %></textarea>
 
-        <br/>
+	<div id="attach-illustration-to-body"></div>
+
+	<div id="illustration-block" style="display:none">
+	    <label for="inp-illustration">Illustration</label>
+	    <img id="illustration" />
+	    <div id="illustration-remove">remove</div>
+	    <input type="hidden" id="inp-illustration" name="illustration" value="" />
+	</div>
 
         <label for="inp-exp-date"><em>*</em>Expiration date</label>
         <input type="text" id="inp-exp-date" name="expirationDate" value="<%= expirationDate %>" class="required" />

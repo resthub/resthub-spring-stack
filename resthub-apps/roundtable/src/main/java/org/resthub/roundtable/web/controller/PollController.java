@@ -1,6 +1,5 @@
 package org.resthub.roundtable.web.controller;
 
-import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.DefaultValue;
@@ -10,14 +9,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.resthub.core.model.Resource;
 
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.service.PollService;
 import org.resthub.roundtable.service.common.ServiceException;
 import org.resthub.web.controller.GenericResourceController;
 import org.resthub.web.response.PageResponse;
+import org.synyx.hades.domain.Order;
 import org.synyx.hades.domain.PageRequest;
+import org.synyx.hades.domain.Sort;
 
 /**
  * Poll controller.
@@ -45,7 +45,7 @@ public class PollController extends GenericResourceController<Poll, PollService>
         PageResponse<Poll> polls;
         try {
             polls = new PageResponse<Poll>(
-                    this.service.find(q, new PageRequest(page, size)));
+                    this.service.find(q, new PageRequest(page, size, Order.DESCENDING, "creationDate")));
         } catch (ServiceException ex) {
             return Response.serverError().header("ServiceException", ex.getMessage()).build();
         }
