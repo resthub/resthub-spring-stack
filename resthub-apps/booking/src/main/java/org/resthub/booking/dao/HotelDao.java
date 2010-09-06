@@ -1,9 +1,9 @@
 package org.resthub.booking.dao;
 
-import java.util.List;
-import org.apache.lucene.queryParser.ParseException;
 import org.resthub.booking.model.Hotel;
 import org.resthub.core.dao.GenericResourceDao;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.Pageable;
 
 
 /**
@@ -11,15 +11,14 @@ import org.resthub.core.dao.GenericResourceDao;
  * @author Nicolas Carlier
  */
 public interface HotelDao extends GenericResourceDao<Hotel>  {
-    /**
+
+	/**
      * Find hotel by fulltext search.
      * @param query query
-	 * @param offset rows sets to ignore. A set contains 'limit' rows.
-	 * @param limit max rows number to fetch
-     * @return hotels matching query
-     * @throws ParseException if bad query syntaxe
+	 * @param pageable
+     * @return hotels matching query or null if query string is in an incorrect format.
      */
-    List<Hotel> find(String query, Integer offset, Integer limit) throws ParseException;
+    Page<Hotel> find(String query, Pageable pageable);
 
     /**
      * Rebuil full index.

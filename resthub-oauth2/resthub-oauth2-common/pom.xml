@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>resthub-oauth2</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.resthub</groupId>
+	<artifactId>resthub-oauth2-common</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>RESThub Oauth v2 Common</name>
+	<description>Common classes used in filter and provider sub-modules</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+		</dependency>
+	</dependencies>
+</project>

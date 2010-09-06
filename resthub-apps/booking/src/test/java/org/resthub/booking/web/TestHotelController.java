@@ -13,7 +13,7 @@ public class TestHotelController extends AbstractWebResthubTest {
 
 
 	@Test
-        @Ignore
+    @Ignore
     public void testCreateHotel() {
 		WebResource r = resource().path("hotel");
 		Hotel hotel = new Hotel();
@@ -28,6 +28,7 @@ public class TestHotelController extends AbstractWebResthubTest {
     }
 
 	@Test
+	@Ignore
     public void testFindAllHotels() {
 
 		WebResource r = resource().path("hotel");

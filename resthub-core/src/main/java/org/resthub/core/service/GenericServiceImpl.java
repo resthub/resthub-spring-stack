@@ -88,19 +88,17 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 */
 	@Override
 	@Auditable
-	public List<T> findAll(Integer offset, Integer limit) {
-		Integer o = (offset == null || offset < 0) ? 0 : offset;
-		Integer l = (limit == null || limit < 0) ? 100 : limit;
-		return dao.readAll(o, l);
+	public List<T> findAll() {
+		return dao.readAll();
 	}
 
-        /**
+    /**
 	 * {@inheritDoc}
 	 */
-        @Override
-        public Page<T> findAll(Pageable pageRequest) {
-            return dao.readAll(pageRequest);
-        }
+	@Override
+	public Page<T> findAll(Pageable pageRequest) {
+		return dao.readAll(pageRequest);
+	}
 
 	/**
 	 * {@inheritDoc}

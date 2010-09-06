@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>resthub-oauth2</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.resthub</groupId>
+	<artifactId>resthub-oauth2-provider</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>RESThub OAuth v2 Provider</name>
+	<description>OAuth v2 Provider implementation for a RESThub identity manager.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-oauth2-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-web</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

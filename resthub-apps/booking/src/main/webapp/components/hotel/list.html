@@ -1,4 +1,4 @@
-<% if ($.isEmptyObject(hotels)) { %>
+<% if ($.isEmptyObject(result.elements)) { %>
 	<p>No hotels found...</p>
 <% } else { %>
 	<table>
@@ -12,6 +12,7 @@
 			</tr>
 		</thead>
 		<tbody>
+			<% var hotels = result.elements %>
 			<% for (index in hotels) { %>
 				<tr class="hotel-item" id="hotel-<%= hotels[index].id %>">
 					<td><%= hotels[index].name %></td>

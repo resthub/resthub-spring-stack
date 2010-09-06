@@ -1,6 +1,8 @@
 package org.resthub.booking.dao;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 
 import org.resthub.booking.model.Hotel;
@@ -20,26 +22,48 @@ import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.PageImpl;
+import org.synyx.hades.domain.Pageable;
 
 @Named("hotelDao")
 public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDao {
 
 	private static int BATCH_SIZE = 10;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public List<Hotel> find(String query, Integer offset, Integer limit) throws ParseException {
+	public Page<Hotel> find(final String query, final Pageable pageable) {
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		// create native Lucene query
 		String[] fields = new String[]{"name", "address", "city", "state", "country"};
 		MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, fields, new StandardAnalyzer(Version.LUCENE_29));
-		Query q = parser.parse(query);
-		// wrap Lucene query in a javax.persistence.Query
-		javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(q, Hotel.class);
 
-		// execute search
-		return persistenceQuery.setFirstResult(offset * limit).setMaxResults(limit).getResultList();
+		Query q;
+		try {
+			q = parser.parse(query);
+		} catch (ParseException ex) {
+			return null;
+		}
+
+		FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(q, Hotel.class);
+
+		if (pageable != null) {
+            persistenceQuery.setFirstResult(pageable.getFirstItem());
+            persistenceQuery.setMaxResults(pageable.getPageSize());
+            return new PageImpl<Hotel>(persistenceQuery.getResultList(), pageable, persistenceQuery.getResultSize());
+        }
+		else {
+            return new PageImpl<Hotel>(persistenceQuery.getResultList());
+        }
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void rebuildIndex() {
 

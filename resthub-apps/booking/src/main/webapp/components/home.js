@@ -4,7 +4,7 @@ var home =
 {
 	options: {
 		searchVal: null,
-		lim: 5,
+		size: 5,
 		template : 'components/home.html',
 		context : null
 	},
@@ -12,7 +12,7 @@ var home =
 		this.options.context.title('Home');
 		
 		this.options.searchVal = $('#search-value').val();
-		this.options.lim = $('#search-limit').val();
+		this.options.size = $('#search-size').val();
 
 		this.element.render(this.options.template, null);
 
@@ -21,7 +21,7 @@ var home =
 			$('#search').searchHotels({
 				searchVal: self.options.searchVal,
 				off: self.options.off,
-				lim: self.options.lim,
+				size: self.options.size,
 				context: self.options.context
 			});
 		});

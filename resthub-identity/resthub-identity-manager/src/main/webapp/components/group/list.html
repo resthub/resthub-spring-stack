@@ -1,0 +1,45 @@
+<h1>Group list</h1>
+
+<% if ($.isEmptyObject(result.elements)) { %>
+	<p>No groups found...</p>
+<% } else { %>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% var groups = result.elements %>
+			<% for (var index in groups) { %>
+				<tr class="group-item" id="group-<%= groups[index].id %>">
+					<td><%= groups[index].id %></td>
+					<td><%= groups[index].name %></td>
+					<td>
+						<%= link_to( 'details', '#/group/details/' + groups[index].name ) %>
+					</td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+
+	<br/>
+	Page navigator...<br/>
+	<% if (result.number > 0) { %>
+		<span class="page-switcher" id="page-<%= result.number - 1 %>"> Previous </span>
+	<% } %>
+
+	<% for (var page=1; page <= result.totalPages; page++) { %>
+		<% if (page == result.number + 1) { %>
+			<span> <%= page %> </span>
+		<% } else { %>
+			<span class="page-switcher" id="page-<%= page - 1 %>"> <%= page %> </span>
+		<% } %>
+	<% } %>
+
+	<% if (result.number < result.totalPages - 1) { %>
+		<span class="page-switcher" id="page-<%= result.number + 1 %>"> Next </span>
+	<% } %>
+<% } %>

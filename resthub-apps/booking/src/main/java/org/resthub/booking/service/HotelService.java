@@ -1,8 +1,9 @@
 package org.resthub.booking.service;
 
-import java.util.List;
 import org.resthub.booking.model.Hotel;
 import org.resthub.core.service.GenericResourceService;
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.Pageable;
 
 /**
  * @author Guillaume Zurbach
@@ -10,14 +11,12 @@ import org.resthub.core.service.GenericResourceService;
 public interface HotelService extends GenericResourceService<Hotel> {
 
 	/**
-     * Find hotels by full text query.
-     * @param query query
-	 * @param offset rows sets to ignore. A set contains 'limit' rows.
-	 * @param limit max rows number to fetch
-     * @return hotels matches
-     * @throws ServiceException if bad query
-     */
-    List<Hotel> find(String query, Integer offset, Integer limit);
+	 * Find hotels by full text query.
+	 * @param query query
+	 * @param pageable
+	 * @return hotels matching query or null if query string is in an incorrect format.
+	 */
+    public Page<Hotel> find(final String query, final Pageable pageable);
 
 	/**
      * Rebuild full index.
