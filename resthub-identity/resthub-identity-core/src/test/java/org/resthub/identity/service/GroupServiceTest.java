@@ -5,7 +5,7 @@ import javax.inject.Named;
 
 import org.junit.Test;
 import org.resthub.core.service.GenericResourceService;
-import org.resthub.core.test.AbstractResourceServiceTest;
+import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.Group;
 
 public class GroupServiceTest extends AbstractResourceServiceTest<Group, GenericResourceService<Group>> {

@@ -1,4 +1,4 @@
-package org.resthub.web.test;
+package org.resthub.web.test.controller;
 
 import java.io.Serializable;
 import org.resthub.core.model.Resource;

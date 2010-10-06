@@ -5,6 +5,7 @@ import javax.inject.Named;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.search.Sort;
 import org.apache.lucene.util.Version;
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;

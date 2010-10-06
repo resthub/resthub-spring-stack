@@ -1,5 +1,16 @@
 <div class="poll">
-    <h2><%= body %></h2>
+    <div class="body">
+        <% if (!$.isEmptyObject(illustration)) {%>
+            <div class="illustration">
+                <a href="api/illustration/<%= illustration %>" target="_blank" class="zgal">
+                    <img alt="illustration" src="api/thumbnail/<%= illustration %>" />
+                </a>
+            </div>
+        <% } %>
+        <blockquote>
+            <p><%= body %></p>
+        </blockquote>
+    </div>
     <div class="legend">
         <table cellspacing="1">
             <tbody>

@@ -1,6 +1,3 @@
-/*
- * Copyright (c) 2010 nunux.org. All rights reserved.
- */
 package org.resthub.roundtable.model;
 
 import java.util.ArrayList;
@@ -19,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,6 +26,7 @@ import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import org.resthub.core.model.Resource;
 
@@ -44,17 +44,26 @@ public class Poll extends Resource {
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty
+    @Size(max=50)
     @Column(name = "author", nullable = false)
     @Field(index = Index.TOKENIZED, store = Store.NO)
     private String author;
 
+    @NotEmpty
+    @Size(max=100)
     @Column(name = "topic", nullable = false)
     @Field(index = Index.TOKENIZED, store = Store.NO)
     private String topic;
 
+    @NotEmpty
+    @Size(max=1000)
     @Column(name = "body", nullable = false)
     @Field(index = Index.TOKENIZED, store = Store.NO)
     private String body;
+
+    @Column(name = "illustration")
+    private String illustration;
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @IndexedEmbedded
@@ -67,6 +76,7 @@ public class Poll extends Resource {
     @Column(name = "creation_date", nullable = false)
     private Date creationDate;
 
+    @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "expiration_date", nullable = false)
     private Date expirationDate;
@@ -116,6 +126,14 @@ public class Poll extends Resource {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public String getIllustration() {
+	return illustration;
+    }
+
+    public void setIllustration(String illustration) {
+	this.illustration = illustration;
     }
 
     public String getTopic() {

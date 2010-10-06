@@ -10,7 +10,7 @@ import junit.framework.Assert;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.User;
 import org.resthub.web.controller.GenericResourceController;
-import org.resthub.web.test.AbstractResourceControllerTest;
+import org.resthub.web.test.controller.AbstractResourceControllerTest;
 
 /**
  *

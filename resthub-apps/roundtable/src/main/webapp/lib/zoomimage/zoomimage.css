@@ -1,0 +1,168 @@
+.zoomimage {
+	position: absolute;
+	display: none;
+	z-index: 5000;
+	outline: none;
+    cursor: url(zoomout.cur), default;
+}
+.zoomimage_focused {
+	z-index: 51000;
+}
+.zoomimage_s {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: none;
+}
+.zoomimage_st {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 6px;
+	overflow: hidden;
+}
+.zoomimage_stl {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
+	background:transparent url(shadow.png) no-repeat scroll 0 0;
+}
+.zoomimage_stc {
+	overflow: hidden;
+	height: 6px;
+	margin: 0 6px;
+	background: transparent url(shadow.png) repeat-x scroll 0 -30px;
+}
+.zoomimage_str {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
+	background:transparent url(shadow.png) no-repeat scroll 0 -18px;
+}
+.zoomimage_sc {
+	position: absolute;
+	top: 6px;
+	width: 100%;
+	left: 0;
+	overflow: hidden;
+}
+.zoomimage_scl {
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 6px;
+	background: transparent url(shadow-lr.png) repeat-y scroll 0pt;
+}
+.zoomimage_scr {
+	position: absolute;
+	overflow: hidden;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 6px;
+	background:transparent url(shadow-lr.png) repeat-y scroll -6px 0pt
+}
+.zoomimage_scc {
+	margin: 0 6px;
+	height: 100%;
+	background:transparent url(shadow-c.png);
+	overflow: hidden;
+}
+.zoomimage_sb {
+	position: absolute;
+	overflow: hidden;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 6px;
+}
+.zoomimage_sbl {
+	position: absolute;
+	overflow: hidden;
+	width: 6px;
+	height: 6px;
+	left: 0;
+	top: 0;
+	background:transparent url(shadow.png) no-repeat scroll 0pt -12px;
+}
+.zoomimage_sbc {
+	height: 6px;
+	overflow: hidden;
+	margin: 0 6px;
+	background:transparent url(shadow.png) repeat-x scroll 0pt -36px;
+}
+.zoomimage_sbr {
+	position: absolute;
+	overflow: hidden;
+	width: 6px;
+	height: 6px;
+	right: 0;
+	top: 0;
+	background:transparent url(shadow.png) no-repeat scroll 0pt -6px;
+}
+.zoomimage img {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	display: none;
+	border: 20px solid #000;
+}
+.zoomimage_caption {
+	position: absolute;
+	background-color: #fff;
+	color: #000;
+	width: 100%;
+}
+.zoomimage_caption p {
+	padding: 10px;
+	margin: 0;
+	font-size: 11px;
+	font-weight: bold;
+}
+.zoomimage_loading {
+	background-image: url(ajax_small.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 100%;
+	position: absolute;
+	background-color: #fff;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+.zoomimage_move {
+	cursor: move;
+}
+.zoomimage_controls {
+	position: absolute;
+	background: #fff;
+	height: 30px;
+	overflow: hidden;
+}
+.zoomimage_prev {
+	background: #fff url(zoomimage_prev.gif) no-repeat center;
+	width: 39px;
+	height: 29px;
+	position: absolute;
+	bottom: 1px;
+	left: 10px;
+}
+.zoomimage_next {
+	background: #fff url(zoomimage_next.gif) no-repeat center;
+	width: 39px;
+	height: 29px;
+	position: absolute;
+	bottom: 1px;
+	right: 10px;
+}

@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.test.AbstractDaoTest;
+import org.resthub.core.test.dao.AbstractDaoTest;
 import org.resthub.oauth2.common.model.Token;
 
 /**

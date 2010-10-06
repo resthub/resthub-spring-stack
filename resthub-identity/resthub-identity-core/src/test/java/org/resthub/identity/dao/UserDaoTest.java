@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.test.AbstractResourceDaoTest;
+import org.resthub.core.test.dao.AbstractResourceDaoTest;
 import org.resthub.identity.model.User;
 
 /**

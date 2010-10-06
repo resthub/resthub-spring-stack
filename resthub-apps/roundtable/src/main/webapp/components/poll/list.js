@@ -26,23 +26,17 @@
         _updatePolls: function(pageData) {
             var self = this;
 
-            if (pageData == null || pageData.totalElements == 0) {
-                $.pnotify('No poll found.');
-            }
-            else {
-                $.pnotify(pageData.totalElements + ' poll(s) found.');
-                this.element.render(this._template, {
-                    page: pageData,
-                    query: this._query
-                });
+            this.element.render(this._template, {
+		page: pageData,
+		query: this._query
+	    });
 
-                this.element.find('li.poll-item').click(function() {
-                    var id = $(this).attr('id').split("-")[1];
-                    self._context().redirect('#/poll', id);
-                });
+	    this.element.find('li.poll-item').click(function() {
+		var id = $(this).attr('id').split("-")[1];
+		self._context().redirect('#/poll', id);
+	    });
 
-                this._trigger("change");
-            }
+	    this._trigger("change");
         },
 
         search: function(query, page) {
