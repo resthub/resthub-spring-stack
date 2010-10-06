@@ -16,6 +16,16 @@ public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.
 	 * @param id entity ID to delete
 	 */
 	void delete(PK id);
+	
+	/**
+	 * Get all Resources (in scrollable resulset).
+	 * 
+	 * @param offset
+	 * @param limit
+	 * @return list of Resources.
+	 */
+	List<T> readAll(Integer offset, Integer limit);
+
 
 	/**
 	 * Retrieves entities whose value corresponding to propertyName parameter

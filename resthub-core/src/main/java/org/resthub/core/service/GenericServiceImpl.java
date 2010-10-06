@@ -82,6 +82,17 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 		Assert.notNull(id, "Resource ID can't be null");
 		return dao.readByPrimaryKey(id);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Auditable
+	public List<T> findAll(Integer offset, Integer limit) {
+		Integer o = (offset == null || offset < 0) ? 0 : offset;
+		Integer l = (limit == null || limit < 0) ? 100 : limit;
+		return dao.readAll(o, l);
+	}
 
 	/**
 	 * {@inheritDoc}
