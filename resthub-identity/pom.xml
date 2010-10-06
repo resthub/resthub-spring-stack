@@ -3,11 +3,11 @@
   <parent>
     <artifactId>resthub</artifactId>
     <groupId>org.resthub</groupId>
-    <version>1.0-beta3</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>org.resthub</groupId>
   <artifactId>resthub-identity</artifactId>
-  <version>1.0-beta3</version>
+  <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>RESThub Identity</name>
   <description>RESThub identity management in order to allow you to build quickly identity functionnalities on your applications</description>
