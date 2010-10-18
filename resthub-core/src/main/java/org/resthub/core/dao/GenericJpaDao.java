@@ -43,7 +43,7 @@ org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements GenericDao<T, PK> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findLike(String propertyName, String propertyValue) {
-		String queryString = "from " + this.getDomainClass().getSimpleName() + " where " + propertyName + " like :propertyValue";
+		String queryString = "from " + this.getDomainClass().getName() + " where " + propertyName + " like :propertyValue";
 		Query q = this.getEntityManager().createQuery(queryString);
 		q.setParameter("propertyValue", propertyValue);
 		return (List<T>) q.getResultList();
@@ -51,7 +51,7 @@ org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements GenericDao<T, PK> {
 
 	@Override
 	public List<T> findEquals(String propertyName, String propertyValue) {
-		String queryString = "from " + this.getDomainClass().getSimpleName() + " where " + propertyName + " = :propertyValue";
+		String queryString = "from " + this.getDomainClass().getName() + " where " + propertyName + " = :propertyValue";
 		Query q = this.getEntityManager().createQuery(queryString);
 		q.setParameter("propertyValue", propertyValue);
 		return (List<T>) q.getResultList();
