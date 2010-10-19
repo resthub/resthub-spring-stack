@@ -2,8 +2,8 @@
  * RESThub Javascript Stack
  *
  * Sammy 0.5.4 patched for js files loading
- * jQuery 1.4.2
- * jQuery UI 1.8.1
+ * jQuery 1.4.3
+ * jQuery UI 1.8.5
  * Dominoes 1.0-rc2
  * ejs 1.0
  * jQuery json 2.2
