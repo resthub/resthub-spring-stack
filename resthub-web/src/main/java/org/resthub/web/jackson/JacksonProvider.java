@@ -5,10 +5,10 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
+
 import org.codehaus.jackson.jaxrs.Annotations;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig.Feature;
 
 
 @Provider
@@ -30,8 +30,7 @@ public class JacksonProvider extends JacksonJsonProvider {
      */
     public JacksonProvider()
     {
-        
-        this(null, DEFAULT_ANNOTATIONS);
+    	this(null, DEFAULT_ANNOTATIONS);
     }
 
     /**
