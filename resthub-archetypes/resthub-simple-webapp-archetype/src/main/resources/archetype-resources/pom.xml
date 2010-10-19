@@ -59,9 +59,9 @@
                 <version>7.1.6.v20100715</version>
                 <configuration>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
-                    <webDefaultXml>src/test/resources/webdefault.xml</webDefaultXml>
                     <webAppConfig>
                             <contextPath>/</contextPath>
+                            <defaultsDescriptor>src/test/resources/webdefault.xml</defaultsDescriptor>
                     </webAppConfig>
                 </configuration>
             </plugin>

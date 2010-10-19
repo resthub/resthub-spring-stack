@@ -48,9 +48,9 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
-                                        <webDefaultXml>src/test/resources/webdefault.xml</webDefaultXml>
 					<webAppConfig>
 						<contextPath>/</contextPath>
+						<defaultsDescriptor>src/test/resources/webdefault.xml</defaultsDescriptor>
 					</webAppConfig>
 				</configuration>
 			</plugin>
