@@ -8,12 +8,11 @@
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-archetypes</artifactId>
-	<name>RESThub archetypes</name>
+	<name>Archetypes</name>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>
-		Sample web applications provided to help you to build your own RESThub based
-		application
+		Archetypes provided to allow quick start for your RESThub based projects
   </description>
 
 	<modules>

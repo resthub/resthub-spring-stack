@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-apps</artifactId>
-	<name>RESThub based applications</name>
+	<name>Sample applications</name>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>

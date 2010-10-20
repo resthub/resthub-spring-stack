@@ -5,7 +5,7 @@
     <groupId>org.resthub</groupId>
     <artifactId>resthub</artifactId>
     <packaging>pom</packaging>
-    <name>RESThub</name>
+    <name>RESThub framework</name>
     <version>1.0-SNAPSHOT</version>
     <url>http://resthub.org</url>
     <description>
@@ -113,6 +113,11 @@
         <developer>
             <id>loicfrering</id>
             <name>Loic Frering</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>dst17</id>
+            <name>Johan Poirier</name>
             <timezone>+1</timezone>
         </developer>
     </developers>

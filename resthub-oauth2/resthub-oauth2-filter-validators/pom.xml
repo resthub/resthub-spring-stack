@@ -6,10 +6,13 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.resthub</groupId>
-	<artifactId>resthub-oauth2-externalValidationFilter</artifactId>
+	<artifactId>resthub-oauth2-filter-validators</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>RESThub Oauth v2 Filter (external validation)</name>
-	<description>Implementation of the filter with external call to Authentication service</description>
+	<name>OAuth v2 filter validators</name>
+	<description>
+	  Implementation of the OAuth v2 filter with external call to Authentication service.
+	  It is in its own module in order to avoid too much depedencies in resthub-auth2-filter.   
+	</description>
 
 	<dependencies>
 		<dependency>

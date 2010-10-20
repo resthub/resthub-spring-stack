@@ -14,7 +14,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
-  <name>RESThub simple webapp archetype</name>
+  <name>Simple webapp archetype</name>
 
   <build>
     <extensions>
