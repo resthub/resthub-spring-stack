@@ -23,9 +23,9 @@
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-js</artifactId>
 			<version>1.0-SNAPSHOT</version>
-                        <type>war</type>
+      <type>war</type>
 		</dependency>
-                <dependency>
+    <dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web</artifactId>
 			<version>1.0-SNAPSHOT</version>
@@ -46,13 +46,6 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<webAppConfig>
-						<contextPath>/</contextPath>
-						<defaultsDescriptor>src/test/resources/webdefault.xml</defaultsDescriptor>
-					</webAppConfig>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

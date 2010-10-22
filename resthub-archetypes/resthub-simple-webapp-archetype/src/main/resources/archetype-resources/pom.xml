@@ -56,12 +56,18 @@
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>7.1.6.v20100715</version>
+                <version>7.2.0.v20101020</version>
                 <configuration>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <!-- We use non NIO connector in order to avoid read only static files under windows -->
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
+                            <port>8080</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
                     <webAppConfig>
                             <contextPath>/</contextPath>
-                            <defaultsDescriptor>src/test/resources/webdefault.xml</defaultsDescriptor>
                     </webAppConfig>
                 </configuration>
             </plugin>
