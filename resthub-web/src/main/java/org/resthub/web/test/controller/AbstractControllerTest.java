@@ -1,21 +1,23 @@
 package org.resthub.web.test.controller;
 
-import com.sun.jersey.api.client.ClientResponse;
-import javax.ws.rs.core.MediaType;
-import junit.framework.Assert;
-import com.sun.jersey.api.client.WebResource;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
+
+import junit.framework.Assert;
+
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.core.service.GenericService;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.web.controller.GenericController;
 import org.resthub.web.test.AbstractWebResthubTest;
+
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 
 /**
  *
@@ -102,7 +104,6 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, C exten
 	}
 
 	@Test
-	@Ignore
 	public void testFindAllResourcesXml() throws Exception {
 		WebResource r = resource().path(getResourcePath());
 		r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
