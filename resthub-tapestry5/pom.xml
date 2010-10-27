@@ -20,7 +20,7 @@
 
 	<modules>
 		<module>resthub-tapestry5-jpa</module>
-		<module>resthub-tapestry5-validation</module>
+		<module>resthub-tapestry5-integration</module>
 		<module>resthub-tapestry5-spring-security</module>
 		<module>resthub-tapestry5-components</module>
 	</modules>
