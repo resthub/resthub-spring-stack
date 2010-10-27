@@ -10,6 +10,8 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-components</artifactId>
 	<version>1.0-SNAPSHOT</version>
+	<name>Resthub Tapestry5 Components contrib</name>
+	<description>Provide some Tapestry5 components and mixins</description>
 
 	<dependencies>
 		<dependency>
