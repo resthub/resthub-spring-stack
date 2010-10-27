@@ -14,3 +14,15 @@ syntax: regexp
 ^resthub-wadl-explorer/src/main/webapp/META-INF/MANIFEST\.MF$
 syntax: regexp
 ^resthub-couchdb/test-output$
+syntax: regexp
+^resthub-js/src/main/webapp/WEB-INF/web\.xml$
+syntax: regexp
+^resthub-js/src/main/webapp/META-INF$
+syntax: regexp
+^resthub-identity/resthub-identity-manager/src/main/webapp/META-INF$
+syntax: regexp
+^resthub-identity/resthub-identity-core/src/main/java/META-INF$
+syntax: regexp
+^resthub-apps/booking/src/main/webapp/META-INF/MANIFEST\.MF$
+syntax: regexp
+^resthub-tapestry5/resthub-tapestry5-spring-security/src/main/java/META-INF$
