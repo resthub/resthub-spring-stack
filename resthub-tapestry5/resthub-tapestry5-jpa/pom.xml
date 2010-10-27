@@ -14,7 +14,7 @@
 	<description>Resthub Tapestry5 contrib to integrate JPA</description>
 
 	<properties>
-		<tapestry-jpa-version>2.0.2-SNAPSHOT</tapestry-jpa-version>
+		<tapestry-jpa-version>2.0.2</tapestry-jpa-version>
 	</properties>
 
 	<dependencies>
