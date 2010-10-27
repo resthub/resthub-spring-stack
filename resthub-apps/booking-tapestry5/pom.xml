@@ -12,7 +12,7 @@
 	<artifactId>booking-tapestry5</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>t5-booking</name>
+	<name>Tapestry5 Resthub Booking sample</name>
 
 	<properties>
 		<hibernate-search-version>3.2.1.Final</hibernate-search-version>
@@ -34,13 +34,13 @@
 			<artifactId>resthub-tapestry5-integration</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-spring-security</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		<!-- We use RESThub web classes and dependencies built around Jersey -->
 		<dependency>
 			<groupId>org.resthub</groupId>
@@ -118,6 +118,15 @@
 		<repository>
 			<id>resthub</id>
 			<url>http://resthub.org/nexus/content/groups/resthub</url>
+		</repository>
+		<!--  TAPX -->
+		<repository>
+			<id>tapestry360-stable</id>
+			<url>http://tapestry.formos.com/maven-repository</url>
+		</repository>
+		<repository>
+			<id>tapestry360-snapshot</id>
+			<url>http://tapestry.formos.com/maven-snapshot-repository</url>
 		</repository>
 	</repositories>
 </project>
