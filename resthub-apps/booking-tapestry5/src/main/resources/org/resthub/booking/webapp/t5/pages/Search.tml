@@ -1,0 +1,28 @@
+<html t:type="layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+    <h1>${message:searchHotels}</h1>
+    <t:block id="hotelsGridBlock">
+        <t:grid t:source="hotels" t:row="hotel" t:pagerPosition="bottom" class="hotels" t:rowsPerPage="${searchSize}" t:inplace="true" t:include="name,address,zip" t:add="cityState,actions" t:rowClass="literal:hotels-row" t:lean="true">
+            <t:parameter name="cityStateCell">
+                ${hotel.city}, ${hotel.state}, ${hotel.country}
+            </t:parameter>
+            <t:parameter name="actionsCell">
+                <t:pageLink t:page="hotel/hotelView" t:context="hotel">
+                    ${message:viewHotel}
+                </t:pageLink>
+            </t:parameter>
+        </t:grid>
+    </t:block>
+    <t:form id="search-form" t:zone="result">
+        <p>
+            <t:textField id="search-value" size="30" t:value="searchValue" zone="result" t:mixins="resthub/zoneUpdater" t:clientEvent="keyup" t:event="searchValueChanged"/><t:submit id="search-submit" value="${message:findHotels}"/>
+            <br/>
+            ${message:maxResults} <t:select id="search-size" model="literal:5,10,20" t:value="searchSize"/>
+        </p>
+    </t:form>
+    <t:zone t:id="result">
+        <t:delegate to="prop:hotelsGridBlock" />
+    </t:zone>
+	<div id="bookings">
+		<t:booking.BookingList/>
+	</div>
+</html>

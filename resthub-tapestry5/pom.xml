@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>resthub</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.resthub</groupId>
+	<artifactId>resthub-tapestry5</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Resthub Tapestry5</name>
+	<description>Resthub Tapestry5 contributions to integrate to the stack </description>
+
+	<properties>
+		<tapestry-version>5.2.2-SNAPSHOT</tapestry-version>
+	</properties>
+
+	<modules>
+		<module>resthub-tapestry5-jpa</module>
+		<module>resthub-tapestry5-validation</module>
+		<module>resthub-tapestry5-spring-security</module>
+		<module>resthub-tapestry5-components</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Tapestry -->
+			<dependency>
+				<groupId>org.apache.tapestry</groupId>
+				<artifactId>tapestry-core</artifactId>
+				<version>${tapestry-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tapestry</groupId>
+				<artifactId>tapestry-ioc</artifactId>
+				<version>${tapestry-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tapestry</groupId>
+				<artifactId>tapestry-beanvalidator</artifactId>
+				<version>${tapestry-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tapestry</groupId>
+				<artifactId>tapestry-test</artifactId>
+				<version>${tapestry-version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>
