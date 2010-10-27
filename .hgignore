@@ -12,3 +12,5 @@ target
 
 syntax: regexp
 ^resthub-wadl-explorer/src/main/webapp/META-INF/MANIFEST\.MF$
+syntax: regexp
+^resthub-couchdb/test-output$

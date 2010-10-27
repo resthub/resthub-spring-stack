@@ -1,0 +1,59 @@
+img.t-sort-icon {
+    margin-left: 4px;
+}
+
+table.hotels th.zip {
+    width: 5em;
+}
+
+table.hotels th.actions {
+    width: 5em;
+}
+
+img {
+    border: medium none;
+}
+
+div.t-data-grid-pager {
+    margin: 8px 0;
+}
+
+div.t-data-grid-pager a, div.t-data-grid-pager span.current {
+    border: 1px solid silver;
+    color: black;
+    margin-right: 5px;
+    padding: 2px 5px;
+    text-decoration: none;
+}
+
+div.t-data-grid-pager a:hover {
+    border: 1px solid black;
+}
+
+div.t-data-grid-pager span.current {
+    background-color: #AAAAAA;
+    color: white;
+}
+
+p.radio label {
+	width: auto;
+	float:none;
+	display:inline;
+	margin-left:5px;
+}
+
+#login p {
+	text-align:center;
+}
+
+strong.long {
+	width:200px;
+}
+
+strong.medium {
+	width:130px;
+}
+
+p.kaptcha {
+	margin-left:214px;
+}

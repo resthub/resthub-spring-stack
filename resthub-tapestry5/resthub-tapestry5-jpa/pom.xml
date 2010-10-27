@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>resthub-tapestry5</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.resthub</groupId>
+	<artifactId>resthub-tapestry5-jpa</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>Resthub Tapestry5 JPA contrib</name>
+	<description>Resthub Tapestry5 contrib to integrate JPA</description>
+
+	<properties>
+		<tapestry-jpa-version>2.0.2-SNAPSHOT</tapestry-jpa-version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.tynamo</groupId>
+			<artifactId>tapestry-jpa</artifactId>
+			<version>${tapestry-jpa-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>javax.persistence</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-ioc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<!-- For tapestry-jpa libraries -->
+		<repository>
+			<id>codehaus.snapshots</id>
+			<url>http://ci.repository.codehaus.org</url>
+		</repository>
+	</repositories>
+
+</project>
