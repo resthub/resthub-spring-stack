@@ -4,6 +4,7 @@ import org.resthub.core.test.AbstractResthubTest;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -13,7 +14,8 @@ import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.core.model.Resource;
 import org.resthub.core.util.ClassUtils;
 
-public abstract class AbstractResourceDaoTest<T extends Resource, D extends GenericResourceDao<T>> extends AbstractResthubTest {
+public abstract class AbstractResourceDaoTest<T extends Resource, D extends GenericResourceDao<T>>
+		extends AbstractResthubTest {
 
 	protected D resourceDao;
 
@@ -23,23 +25,26 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 		this.resourceDao = resourceDao;
 	}
 
-        public Long getRessourceId()
-        {
-            return this.resourceId;
-        }
+	public Long getRessourceId() {
+		return this.resourceId;
+	}
 
 	@SuppressWarnings("unchecked")
+	protected T createTestRessource() throws Exception {
+		return (T) ClassUtils.getGenericTypeFromBean(this.resourceDao)
+				.newInstance();
+	}
+
 	@Before
 	public void setUp() throws Exception {
-		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();
+		T resource = this.createTestRessource();
 		resource = resourceDao.save(resource);
 		this.resourceId = resource.getId();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testSave() throws Exception {
-		T resource = (T) ClassUtils.getGenericTypeFromBean(this.resourceDao).newInstance();
+		T resource = (T) this.createTestRessource();
 		resource = resourceDao.save(resource);
 
 		T foundResource = resourceDao.readByPrimaryKey(resource.getId());
@@ -69,12 +74,19 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 	@Test
 	public void testFindAll() throws Exception {
 		List<T> resourceList = resourceDao.readAll();
-		assertTrue("No resources found!", resourceList.size() == 1);
+		assertTrue("No resources found!", resourceList.size() >= 1);
 	}
 
 	@Test
 	public void testCount() throws Exception {
 		Long nb = resourceDao.count();
 		assertTrue("No resources found!", nb >= 1);
+	}
+	
+	@Test
+	public void testReadByPrimaryKey() throws Exception {
+		T foundResource = resourceDao.readByPrimaryKey(this.resourceId) ;
+		assertNotNull("Resource not found!", foundResource);
+		assertEquals("Resource does not contain the correct Id!", this.resourceId, foundResource.getId());
 	}
 }

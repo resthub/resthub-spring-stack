@@ -1,6 +1,6 @@
 package org.resthub.core.test.dao;
 
-import org.resthub.core.test.AbstractResthubTest;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.dao.GenericDao;
+import org.resthub.core.test.AbstractResthubTest;
 import org.resthub.core.util.ClassUtils;
 
 public abstract class AbstractDaoTest<T, PK extends Serializable, D extends GenericDao<T, PK>> extends
@@ -49,14 +50,18 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
 	 * @return The corresponding primary key.
 	 */
 	public abstract PK getIdFromObject(T obj);
+	
+	@SuppressWarnings("unchecked")
+	protected T createTestRessource() throws Exception {
+		return (T) ClassUtils.getGenericTypeFromBean(this.dao).newInstance();
+	}
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Setup/finalize
 
-	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
-		T resource = (T) ClassUtils.getGenericTypeFromBean(this.dao).newInstance();
+		T resource = this.createTestRessource();
 		resource = dao.save(resource);
 		this.id = getIdFromObject(resource);
 	}
@@ -67,10 +72,9 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
 	@Test
 	public abstract void testUpdate() throws Exception;
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testSave() throws Exception {
-		T resource = (T) ClassUtils.getGenericTypeFromBean(this.dao).newInstance();
+		T resource = this.createTestRessource();
 		resource = dao.save(resource);
 
 		T foundResource = dao.readByPrimaryKey(getIdFromObject(resource));
@@ -104,5 +108,12 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
 	public void testCount() throws Exception {
 		Long nb = dao.count();
 		assertTrue("No resources found!", nb >= 1);
+	}
+	
+	@Test
+	public void testReadByPrimaryKey() throws Exception {
+		T foundResource = dao.readByPrimaryKey(this.id) ;
+		assertNotNull("Resource not found!", foundResource);
+		assertEquals("Resource does not contain the correct Id!", this.id, getIdFromObject(foundResource));
 	}
 }
