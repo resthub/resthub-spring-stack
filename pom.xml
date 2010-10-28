@@ -26,12 +26,12 @@
     <properties>
         <jersey.version>1.4</jersey.version>
         <jackson.version>1.5.5</jackson.version>
-        <hibernate.version>3.5.5-Final</hibernate.version>
+        <hibernate.version>3.5.6-Final</hibernate.version>
         <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
         <h2.version>1.2.144</h2.version>
-        <hades.version>2.0.0.RC3</hades.version>
-        <spring.version>3.0.4.RELEASE</spring.version>
-        <spring.security.version>3.0.3.RELEASE</spring.security.version>
+        <hades.version>2.0.0.RELEASE</hades.version>
+        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.security.version>3.0.4.RELEASE</spring.security.version>
         <log4j.version>1.2.16</log4j.version>
         <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.8.2</junit.version>
@@ -404,6 +404,11 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
