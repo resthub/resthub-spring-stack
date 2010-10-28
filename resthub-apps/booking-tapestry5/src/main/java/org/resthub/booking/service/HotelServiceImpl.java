@@ -13,10 +13,16 @@ import org.resthub.core.service.GenericResourceServiceImpl;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
 
-
+/**
+ * @author Guillaume Zurbach
+ * @author Baptiste Meurant
+ */
 @Named("hotelService")
 public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao> implements HotelService {
 
+    /**
+     * {@InheritDoc}
+     */
     @Inject
     @Named("hotelDao")
     @Override

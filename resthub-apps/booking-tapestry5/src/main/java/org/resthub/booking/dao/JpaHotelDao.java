@@ -22,9 +22,12 @@ import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.PageImpl;
 import org.synyx.hades.domain.Pageable;
 
-
+/**
+ * @author Guillaume Zurbach
+ */
 @Named("hotelDao")
-public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDao {
+public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements
+		HotelDao {
 
 	private static int BATCH_SIZE = 10;
 
@@ -33,10 +36,14 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDa
 	 */
 	@SuppressWarnings("unchecked")
 	public Page<Hotel> find(final String query, final Pageable pageable) {
-		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
+		FullTextEntityManager fullTextEntityManager = Search
+				.getFullTextEntityManager(getEntityManager());
 		// create native Lucene query
-		String[] fields = new String[]{"name", "address", "city", "state", "country"};
-		MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, fields, new StandardAnalyzer(Version.LUCENE_29));
+		String[] fields = new String[] { "name", "address", "city", "state",
+				"country" };
+		MultiFieldQueryParser parser = new MultiFieldQueryParser(
+				Version.LUCENE_29, fields, new StandardAnalyzer(
+						Version.LUCENE_29));
 
 		Query q;
 		try {
@@ -45,16 +52,17 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDa
 			return null;
 		}
 
-		FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(q, Hotel.class);
+		FullTextQuery persistenceQuery = fullTextEntityManager
+				.createFullTextQuery(q, Hotel.class);
 
 		if (pageable != null) {
-            persistenceQuery.setFirstResult(pageable.getFirstItem());
-            persistenceQuery.setMaxResults(pageable.getPageSize());
-            return new PageImpl<Hotel>(persistenceQuery.getResultList(), pageable, persistenceQuery.getResultSize());
-        }
-		else {
-            return new PageImpl<Hotel>(persistenceQuery.getResultList());
-        }
+			persistenceQuery.setFirstResult(pageable.getFirstItem());
+			persistenceQuery.setMaxResults(pageable.getPageSize());
+			return new PageImpl<Hotel>(persistenceQuery.getResultList(),
+					pageable, persistenceQuery.getResultSize());
+		} else {
+			return new PageImpl<Hotel>(persistenceQuery.getResultList());
+		}
 	}
 
 	/**
@@ -62,24 +70,28 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDa
 	 */
 	public void rebuildIndex() {
 
-		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
-		
+		FullTextEntityManager fullTextEntityManager = Search
+				.getFullTextEntityManager(getEntityManager());
+
 		Session session = (Session) fullTextEntityManager.getDelegate();
 
-		FullTextSession fullTextSession = org.hibernate.search.Search.getFullTextSession(session);
+		FullTextSession fullTextSession = org.hibernate.search.Search
+				.getFullTextSession(session);
 
 		fullTextSession.setFlushMode(FlushMode.MANUAL);
 		fullTextSession.setCacheMode(CacheMode.IGNORE);
 
-		//Scrollable results will avoid loading too many objects in memory
-		ScrollableResults results = fullTextSession.createCriteria(Hotel.class).setFetchSize(BATCH_SIZE).scroll(ScrollMode.FORWARD_ONLY);
+		// Scrollable results will avoid loading too many objects in memory
+		ScrollableResults results = fullTextSession.createCriteria(Hotel.class)
+				.setFetchSize(BATCH_SIZE).scroll(ScrollMode.FORWARD_ONLY);
 		int index = 0;
 		while (results.next()) {
 			index++;
-			fullTextSession.index(results.get(0)); //index each element
+			fullTextSession.index(results.get(0)); // index each element
 			if (index % BATCH_SIZE == 0) {
-				fullTextSession.flushToIndexes(); //apply changes to indexes
-				fullTextSession.clear(); //free memory since the queue is processed
+				fullTextSession.flushToIndexes(); // apply changes to indexes
+				fullTextSession.clear(); // free memory since the queue is
+											// processed
 			}
 		}
 	}

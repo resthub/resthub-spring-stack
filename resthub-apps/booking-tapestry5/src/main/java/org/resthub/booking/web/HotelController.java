@@ -17,11 +17,16 @@ import org.resthub.web.controller.GenericResourceController;
 import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
 
-
+/**
+ * @author Guillaume Zurbach
+ */
 @Path("/hotel")
 @Named("hotelController")
 public class HotelController extends GenericResourceController<Hotel, HotelService> {
 
+	/**
+	 * {@InheritDoc}
+	 */
 	@Inject
 	@Named("hotelService")
 	@Override
@@ -30,7 +35,7 @@ public class HotelController extends GenericResourceController<Hotel, HotelServi
 	}
 
 	/**
-	 * Fetch all hotels containing the value given in parameter
+	 * @return all hotels containing the value given in parameter
 	 * If query string is empty, fetch all hotels in DB
 	 */
 	@GET

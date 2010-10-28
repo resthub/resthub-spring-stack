@@ -13,7 +13,9 @@ import org.resthub.booking.model.User;
 import org.resthub.booking.service.UserService;
 import org.resthub.web.controller.GenericController;
 
-
+/**
+ * @author Guillaume Zurbach
+ */
 @Path("/user")
 @Named("userController")
 public class UserController extends GenericController<User, UserService, Long> {
@@ -25,13 +27,20 @@ public class UserController extends GenericController<User, UserService, Long> {
 		this.service = service;
 	}
 
+	/**
+	 * @param user
+	 * 
+	 * @return ok if credentials holded by user parameter are correct, forbidden
+	 *         otherwise
+	 */
 	@POST
-	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/check")
 	public Response checkCredentials(User user) {
-		User validUser = this.service.checkCredentials(user.getUsername(), user.getPassword());
-		if(validUser != null) {
+		User validUser = this.service.checkCredentials(user.getUsername(), user
+				.getPassword());
+		if (validUser != null) {
 			return Response.ok().entity(validUser).build();
 		} else {
 			return Response.status(Response.Status.FORBIDDEN).build();
@@ -39,9 +48,11 @@ public class UserController extends GenericController<User, UserService, Long> {
 
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	@Override
 	public Long generateIdentifierFromEntity(User entity) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NoSuchMethodError("Not implemented");
 	}
 }

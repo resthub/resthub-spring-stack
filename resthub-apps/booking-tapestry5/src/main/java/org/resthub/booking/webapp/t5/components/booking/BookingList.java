@@ -14,16 +14,15 @@ import org.resthub.booking.service.BookingService;
 import org.resthub.booking.service.UserService;
 import org.resthub.booking.webapp.t5.pages.Search;
 
-
 /**
- * List all the bookings of the current user.
- * Inspirated by Tapestry5 booking sample (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
+ * List all the bookings of the current user. Inspirated by Tapestry5 booking
+ * sample (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
- * @author bmeurant
+ * @author Baptiste Meurant
  * @author ccordenier
  */
 public class BookingList {
-	
+
 	@Inject
 	@Service("bookingService")
 	private BookingService bookingService;
@@ -31,9 +30,6 @@ public class BookingList {
 	@Inject
 	@Service("userService")
 	private UserService userService;
-
-//	@Inject
-//	private PageRenderLinkSource pageRenderLinkSource;
 
 	@SuppressWarnings("unused")
 	@Parameter(required = false, cache = false)
@@ -52,7 +48,7 @@ public class BookingList {
 	@SetupRender
 	boolean listBookings() {
 		User user = userService.findAll().get(0);
-		bookings = bookingService.findByUserId(Long.toString(user.getId()));
+		bookings = bookingService.findByUserId(user.getId());
 		return bookings.size() > 0 ? true : false;
 	}
 

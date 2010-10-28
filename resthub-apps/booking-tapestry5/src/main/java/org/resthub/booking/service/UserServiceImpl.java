@@ -9,12 +9,17 @@ import org.resthub.booking.dao.UserDao;
 import org.resthub.booking.model.User;
 import org.resthub.core.service.GenericServiceImpl;
 
-
+/**
+ * @author Guillaume Zurbach
+ * @author Baptiste Meurant
+ */
 @Named("userService")
-public class UserServiceImpl extends
-		GenericServiceImpl<User, UserDao, Long> implements
-		UserService {
+public class UserServiceImpl extends GenericServiceImpl<User, UserDao, Long>
+		implements UserService {
 
+	/**
+	 * {@InheritDoc}
+	 */
 	@Inject
 	@Named("userDao")
 	@Override
@@ -36,6 +41,9 @@ public class UserServiceImpl extends
 		return null;
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public User findByUsername(String username) {
 
 		List<User> users = this.dao.findEquals("username", username);
@@ -51,6 +59,9 @@ public class UserServiceImpl extends
 		return users.get(0);
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public User findByEmail(String email) {
 
 		List<User> users = this.dao.findEquals("email", email);

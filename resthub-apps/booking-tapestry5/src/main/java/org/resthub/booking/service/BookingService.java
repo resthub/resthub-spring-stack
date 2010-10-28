@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.resthub.booking.service;
 
 import java.util.List;
@@ -10,10 +5,15 @@ import java.util.List;
 import org.resthub.booking.model.Booking;
 import org.resthub.core.service.GenericResourceService;
 
-
 /**
  * @author Guillaume Zurbach
+ * @author Baptiste Meurant
  */
 public interface BookingService extends GenericResourceService<Booking> {
-	public List<Booking> findByUserId(String userId);
+
+	/**
+	 * @param userId
+	 * @return all bookings made by user identified by userId
+	 */
+	List<Booking> findByUserId(Long userId);
 }

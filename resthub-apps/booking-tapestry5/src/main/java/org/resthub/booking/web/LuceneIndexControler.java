@@ -12,7 +12,8 @@ import javax.ws.rs.core.Response;
 import org.resthub.booking.service.HotelService;
 
 /**
- * Lucene Index controller.
+ * Provide access to indexation functions from HibernateSearch
+ * 
  * @author Nicolas Carlier
  */
 @Path("/lucene")
@@ -20,19 +21,24 @@ import org.resthub.booking.service.HotelService;
 @Singleton
 public class LuceneIndexControler {
 
-    protected HotelService hotelService;
+	protected HotelService hotelService;
 
-    @Inject
-    @Named("hotelService")
-    public void setService(HotelService pollService) {
-        this.hotelService = pollService;
-    }
+	@Inject
+	@Named("hotelService")
+	public void setService(HotelService hotelService) {
+		this.hotelService = hotelService;
+	}
 
-    @POST
-    @Path("/rebuild")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response rebuildIndex() {
-        this.hotelService.rebuildIndex();
-        return Response.ok("Search engine index rebuilded.").build();
-    }
+	/**
+	 * rebuild the HibernateSearch index
+	 * 
+	 * @return ok response or error code
+	 */
+	@POST
+	@Path("/rebuild")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response rebuildIndex() {
+		this.hotelService.rebuildIndex();
+		return Response.ok("Search engine index rebuilded.").build();
+	}
 }

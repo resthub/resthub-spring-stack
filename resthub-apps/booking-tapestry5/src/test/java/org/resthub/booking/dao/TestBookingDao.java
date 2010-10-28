@@ -1,7 +1,7 @@
 package org.resthub.booking.dao;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.List;
@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Test;
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.model.CreditCardType;
 import org.resthub.booking.model.Hotel;
@@ -20,6 +21,7 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 
 	private static final String TEST_CARD_NAME = "testCardName";
 	private static final String CHANGED_TEST_CARD_NAME = "changedTestCardName";
+	private User user;
 
 	@Override
 	@Inject
@@ -37,7 +39,7 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 		hotel.setZip("ZIP");
 		hotel.setCountry("testBookingCountry");
 		
-		User user = new User ();
+		user = new User ();
 		String username = "user"+new Random().nextInt(100);
 		user.setUsername(username);
 		user.setEmail(Calendar.getInstance().getTimeInMillis()+"test@booking.user");
@@ -65,6 +67,13 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 		booking.setCreditCardName(CHANGED_TEST_CARD_NAME);
 		booking = this.resourceDao.save(booking);
 		assertEquals("Card name should have been modified", CHANGED_TEST_CARD_NAME, booking.getCreditCardName());
+	}
+	
+	@Test
+	public void testFindByUser() {
+		List<Booking> bookings = this.resourceDao.findByUser(user);
+		assertTrue("bookings list should contain an unique result", bookings.size() == 1);
+		assertEquals("credit card names should be equals", TEST_CARD_NAME, bookings.get(0).getCreditCardName());
 	}
 
 
