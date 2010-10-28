@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -95,7 +96,7 @@ public class Booking extends Resource implements Serializable
     }
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     public Hotel getHotel()
     {
         return hotel;
@@ -107,7 +108,7 @@ public class Booking extends Resource implements Serializable
     }
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     public User getUser()
     {
         return user;
