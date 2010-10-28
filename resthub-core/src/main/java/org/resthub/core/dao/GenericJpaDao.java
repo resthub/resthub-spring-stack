@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
-import org.resthub.core.annotation.Auditable;
+import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.core.util.ClassUtils;
 
 /**

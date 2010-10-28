@@ -1,4 +1,4 @@
-package org.resthub.core.annotation;
+package org.resthub.core.audit.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

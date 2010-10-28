@@ -1,4 +1,4 @@
-package org.resthub.core;
+package org.resthub.core.audit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.resthub.core.aop.AdvisorInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;

@@ -1,4 +1,4 @@
-package org.resthub.core;
+package org.resthub.core.aop;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
