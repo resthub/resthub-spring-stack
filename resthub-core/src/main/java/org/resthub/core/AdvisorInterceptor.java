@@ -11,19 +11,23 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 
 /**
- * Advisor Interceptor.
+ * Define if a method invocation should be advised depending on the annotation
+ * the method (or its class) is holding
  * 
  * @author Nicolas Carlier
+ * @author Baptiste Meurant
  */
 @SuppressWarnings("serial")
 public abstract class AdvisorInterceptor extends
 		StaticMethodMatcherPointcutAdvisor implements MethodInterceptor {
 
+	/**
+	 * Annotation type that the method (or its class) should hold to be advised
+	 */
 	protected Class<? extends Annotation> annotationType;
-	protected Annotation annotationTarget;
 
 	/**
-	 * Default constructor.
+	 * Initialize advice
 	 */
 	public AdvisorInterceptor() {
 		setAdvice(this);
@@ -41,14 +45,22 @@ public abstract class AdvisorInterceptor extends
 	@Override
 	public boolean matches(Method method, Class<?> targetClass) {
 
-		boolean matchFromMethod = matchFromMethod(method, targetClass);
-		if (matchFromMethod) {
+		if (matchFromMethod(method, targetClass)) {
 			return true;
 		} else {
 			return matchFromClass(targetClass);
 		}
 	}
 
+	/**
+	 * @param method
+	 *            method to check
+	 * @param targetClass
+	 *            target class that was used to perform method call
+	 * @return true if the method or any of its its parents methods (if
+	 *         annotationType allows it) is holding the target annotation, false
+	 *         otherwise.
+	 */
 	private boolean matchFromMethod(Method method, Class<?> targetClass) {
 		Collection<Annotation> annotations;
 		Method specificMethod = AopUtils.getMostSpecificMethod(method,
@@ -62,6 +74,12 @@ public abstract class AdvisorInterceptor extends
 		return isAnnotationPresent(annotations);
 	}
 
+	/**
+	 * @param targetClass
+	 *            target class that was used to perform method call
+	 * @return true if the target class or any of its parents (if annotationType
+	 *         allows it) is holding the target annotation, false otherwise
+	 */
 	private boolean matchFromClass(Class<?> targetClass) {
 
 		Collection<Annotation> annotations = Arrays.asList(targetClass
@@ -69,36 +87,22 @@ public abstract class AdvisorInterceptor extends
 		if (isAnnotationPresent(annotations)) {
 			return true;
 		}
-
-		// TODO : check why recursivity does not work !
-		// if (targetClass.getSuperclass() != null) {
-		// this.matchFromClass(targetClass.getSuperclass(), ++level);
-		// }
-
-		return checkFromSuperClasses(targetClass);
-
-	}
-
-	private boolean checkFromSuperClasses(Class<?> targetClass) {
-		Collection<Annotation> annotations;
-		Class<?> superClass = targetClass.getSuperclass();
-		while (superClass != null) {
-			annotations = Arrays.asList(superClass.getAnnotations());
-			if (isAnnotationPresent(annotations)) {
-				return true;
-			}
-			superClass = superClass.getSuperclass();
-		}
 		return false;
+
 	}
 
+	/**
+	 * @param annotations
+	 *            annotations collections to check
+	 * @return true if the annotation type (defined at instance level) is
+	 *         present in the annotations collection, false otherwise
+	 */
 	private boolean isAnnotationPresent(Collection<Annotation> annotations) {
 		if ((annotations == null) || (annotations.isEmpty())) {
 			return false;
 		}
 		for (Annotation annot : annotations) {
 			if (annotationType.isAssignableFrom(annot.getClass())) {
-				annotationTarget = annot;
 				return true;
 			}
 		}
@@ -106,7 +110,8 @@ public abstract class AdvisorInterceptor extends
 	}
 
 	/**
-	 * Set annotation.
+	 * Set annotation that the method (or its class) should hold to be advised.
+	 * Do nothing if the annotation does not exists.
 	 * 
 	 * @param annotation
 	 *            annotation

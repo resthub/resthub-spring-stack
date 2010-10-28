@@ -1,84 +1,220 @@
 package org.resthub.core;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 /**
- * Audit interceptor.
+ * Perform audit around a method invocation
+ * 
  * @author Nicolas Carlier
+ * @author Baptiste Meurant
  */
 @SuppressWarnings("serial")
 public class AuditInterceptor extends AdvisorInterceptor {
 
 	/** Quote */
-    private static final String QUOTE = "'";
+	protected static final String QUOTE = "'";
 
-    /** Maximum argument output string length. */
-    private static final int MAX_STRING_LENGTH = 32;
+	/** Maximum argument output string length. */
+	protected static final int MAX_STRING_LENGTH = 32;
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
+	private Logger logger;
+	private List<Object> context;
+	private Throwable occuredError;
+	private MethodInvocation invocation;
+
+	/**
+	 * @return the parameters list of this context invocation
+	 */
+	protected final List<Object> getContext() {
+		return context;
+	}
+
+	/**
+	 * @return the logger for the target class
+	 */
+	protected final Logger getLogger() {
+		return logger;
+	}
+
+	/**
+	 * @return the error if one occured, null otherwise
+	 */
+	protected final Throwable getOccuredError() {
+		return occuredError;
+	}
+
+	/**
+	 * @return true if an error uccured, false otherwise
+	 */
+	protected final Boolean hasErrorOccured() {
+		return occuredError != null;
+	}
+
+	/**
+	 * @return the invocation context
+	 */
+	protected final MethodInvocation getInvocation() {
+		return invocation;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-    public Object invoke(MethodInvocation invocation) throws Throwable {
-        Object result = null;
-        
-        final StringBuilder context = new StringBuilder();
-        context.append(invocation.getMethod().getName());
+	public final Object invoke(MethodInvocation invocation) throws Throwable {
+		this.invocation = invocation;
+		return audit();
+	}
 
-        context.append("(");
-        final Object[] args = invocation.getArguments();
-        for (int i = 0; i < args.length; i++) {
-            final Object o = args[i];
-            if (o instanceof String) {
-                String s = (String) o;
-                if (s.length() > AuditInterceptor.MAX_STRING_LENGTH) {
-                    s = s.substring(0, AuditInterceptor.MAX_STRING_LENGTH);
-                    s = s.concat("...");
-                }
-                context.append(AuditInterceptor.QUOTE).append(s).append(AuditInterceptor.QUOTE);
-            } else {
-                context.append(o);
-            }
+	/**
+	 * Perform audit around the invoked method
+	 * 
+	 * @return the return object from the invoked method
+	 * @throws Throwable
+	 *             exception if one thrown
+	 * @see {@link MethodInterceptor#invoke(MethodInvocation)}
+	 */
+	private final Object audit() throws Throwable {
 
-            context.append((i == args.length - 1) ? "" : ", ");
-        }
-        context.append(")");
+		this.buildTargetLogger();
+		this.buildContext();
 
-        // Logger
-        final Logger logger = LoggerFactory.getLogger(invocation.getThis().getClass());
+		Object result = null;
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("CALL: {} ...", context.toString());
-        }
+		this.preAudit();
 
-        boolean error = false;
-        try {
-            result = invocation.proceed();
-        } catch (Throwable e) {
-            logger.error("*** ERROR: Calling [{}] fail with message [{}].", context.toString(), e.getMessage());
-            if (e instanceof ConstraintViolationException) {
-            	for (ConstraintViolation constraintViolation : ((ConstraintViolationException)e).getConstraintViolations()) {
-            		String[] violationDescriptor = {constraintViolation.getRootBeanClass().toString(), constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage()};
-            		logger.error("*** VALIDATION ERRORS:  [\n class: {} \n property: {} \n violation: {}", violationDescriptor);
+		try {
+			result = invocation.proceed();
+		} catch (Throwable e) {
+			this.occuredError = e;
+			this.auditError();
+			throw e;
+		} finally {
+			postAudit();
+		}
+		return result;
+	}
+
+	/**
+	 * Perform audit before method invocation.
+	 */
+	protected void preAudit() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("CALL: {}.{} ...", context.toArray());
+		}
+	}
+
+	/**
+	 * Perform audit after method invocation. This method is called even an
+	 * exception occured.
+	 */
+	protected void postAudit() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("EXIT: {}.{} [" + ((hasErrorOccured()) ? "ERR" : "OK")
+					+ "]", context.toArray());
+		}
+	}
+
+	/**
+	 * Perform audit when an error occured
+	 */
+	protected void auditError() {
+		Assert.notNull(this.occuredError,
+				"An error should have occured but it seems not!");
+		logger.error("*** ERROR: Calling [{}.{}] fail with message ["
+				+ occuredError.getMessage() + "].", context.toArray());
+		if (occuredError instanceof ConstraintViolationException) {
+			logPreciseContraintViolation((ConstraintViolationException) occuredError);
+
+		}
+
+		logger.error("*** EXCEPTION:", occuredError);
+	}
+
+	/**
+	 * Build context parameters (class name, method signature) from
+	 * MethodInvocation object
+	 */
+	protected void buildContext() {
+		final Class<?> targetClass = this.getTargetClassFromInvocation();
+		final String methodSignature = constructMethodCompleteSignature();
+		final String className = targetClass.getSimpleName();
+
+		this.context = new ArrayList<Object>(Arrays.asList(className,
+				methodSignature));
+	}
+
+	/**
+	 * Build the logger from MethodInvocation object and its target class
+	 */
+	private void buildTargetLogger() {
+		this.logger = LoggerFactory.getLogger(this
+				.getTargetClassFromInvocation());
+	}
+
+	/**
+	 * Specific method that allow to precisely perform audit from a
+	 * {@link ConstraintViolationException}
+	 */
+	@SuppressWarnings("unchecked")
+	protected void logPreciseContraintViolation(ConstraintViolationException e) {
+		for (ConstraintViolation constraintViolation : e
+				.getConstraintViolations()) {
+			String[] violationDescriptor = {
+					constraintViolation.getRootBeanClass().toString(),
+					constraintViolation.getPropertyPath().toString(),
+					constraintViolation.getMessage() };
+			logger
+					.error(
+							"*** VALIDATION ERRORS:  [\n class: {} \n property: {} \n violation: {}",
+							violationDescriptor);
+		}
+	}
+
+	/**
+	 * @return a String representing the full signature of the method
+	 */
+	protected String constructMethodCompleteSignature() {
+		final StringBuilder signature = new StringBuilder();
+		signature.append(invocation.getMethod().getName());
+
+		signature.append("(");
+		final Object[] args = invocation.getArguments();
+		for (int i = 0; i < args.length; i++) {
+			final Object o = args[i];
+			if (o instanceof String) {
+				String s = (String) o;
+				if (s.length() > AuditInterceptor.MAX_STRING_LENGTH) {
+					s = s.substring(0, AuditInterceptor.MAX_STRING_LENGTH);
+					s = s.concat("...");
 				}
-            	
-            }
-            else {
-            	logger.error("*** EXCEPTION:", e);
-            }
-            error = true;
-            throw e;
-        } finally {
-            if (logger.isDebugEnabled()) {
-                logger.debug("EXIT: {} [{}]", context.toString(), (error) ? "ERR" : "OK");
-            }
-        }
-        return result;
-    }
+				signature.append(AuditInterceptor.QUOTE).append(s).append(
+						AuditInterceptor.QUOTE);
+			} else {
+				signature.append(o);
+			}
+
+			signature.append((i == args.length - 1) ? "" : ", ");
+		}
+		signature.append(")");
+		return signature.toString();
+	}
+
+	/**
+	 * @return the target class of this invocation context
+	 */
+	private Class<? extends Object> getTargetClassFromInvocation() {
+		return invocation.getThis().getClass();
+	}
 }
