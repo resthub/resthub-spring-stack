@@ -1,11 +1,14 @@
 package org.resthub.core;
 
-import com.jamonapi.Monitor;
-import com.jamonapi.MonitorFactory;
-import org.aopalliance.intercept.MethodInvocation;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
+import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.jamonapi.Monitor;
+import com.jamonapi.MonitorFactory;
 
 /**
  * Audit interceptor.
@@ -23,17 +26,18 @@ public class AuditInterceptor extends AdvisorInterceptor {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public Object invoke(MethodInvocation invovation) throws Throwable {
+    @SuppressWarnings("unchecked")
+	@Override
+    public Object invoke(MethodInvocation invocation) throws Throwable {
         Object result = null;
-
-        final Monitor mon = MonitorFactory.start(invovation.getMethod().getName());
+        
+        final Monitor mon = MonitorFactory.start(invocation.getMethod().getName());
 
         final StringBuilder context = new StringBuilder();
-        context.append(invovation.getMethod().getName());
+        context.append(invocation.getMethod().getName());
 
         context.append("(");
-        final Object[] args = invovation.getArguments();
+        final Object[] args = invocation.getArguments();
         for (int i = 0; i < args.length; i++) {
             final Object o = args[i];
             if (o instanceof String) {
@@ -52,7 +56,7 @@ public class AuditInterceptor extends AdvisorInterceptor {
         context.append(")");
 
         // Logger
-        final Logger logger = LoggerFactory.getLogger(invovation.getMethod().getDeclaringClass());
+        final Logger logger = LoggerFactory.getLogger(invocation.getThis().getClass());
 
         if (logger.isDebugEnabled()) {
             logger.debug("CALL: {} ...", context.toString());
@@ -60,10 +64,19 @@ public class AuditInterceptor extends AdvisorInterceptor {
 
         boolean error = false;
         try {
-            result = invovation.proceed();
+            result = invocation.proceed();
         } catch (Throwable e) {
             logger.error("*** ERROR: Calling [{}] fail with message [{}].", context.toString(), e.getMessage());
-            logger.error("*** EXCEPTION:", e);
+            if (e instanceof ConstraintViolationException) {
+            	for (ConstraintViolation constraintViolation : ((ConstraintViolationException)e).getConstraintViolations()) {
+            		String[] violationDescriptor = {constraintViolation.getRootBeanClass().toString(), constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage()};
+            		logger.error("*** VALIDATION ERRORS:  [\n class: {} \n property: {} \n violation: {}", violationDescriptor);
+				}
+            	
+            }
+            else {
+            	logger.error("*** EXCEPTION:", e);
+            }
             error = true;
             throw e;
         } finally {
