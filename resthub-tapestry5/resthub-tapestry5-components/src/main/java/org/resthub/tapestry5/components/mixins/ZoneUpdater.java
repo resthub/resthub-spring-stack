@@ -11,7 +11,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
-@Import(library="context:static/js/ZoneUpdater.js" )
+@Import(library="zoneUpdater.js" )
 public class ZoneUpdater {
 
   @Inject
