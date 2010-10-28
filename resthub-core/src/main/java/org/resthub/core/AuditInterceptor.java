@@ -7,9 +7,6 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jamonapi.Monitor;
-import com.jamonapi.MonitorFactory;
-
 /**
  * Audit interceptor.
  * @author Nicolas Carlier
@@ -31,8 +28,6 @@ public class AuditInterceptor extends AdvisorInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Object result = null;
         
-        final Monitor mon = MonitorFactory.start(invocation.getMethod().getName());
-
         final StringBuilder context = new StringBuilder();
         context.append(invocation.getMethod().getName());
 
@@ -83,7 +78,6 @@ public class AuditInterceptor extends AdvisorInterceptor {
             if (logger.isDebugEnabled()) {
                 logger.debug("EXIT: {} [{}]", context.toString(), (error) ? "ERR" : "OK");
             }
-            mon.stop();
         }
         return result;
     }
