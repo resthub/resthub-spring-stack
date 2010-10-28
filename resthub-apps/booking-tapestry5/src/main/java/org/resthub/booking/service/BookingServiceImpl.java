@@ -10,19 +10,19 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.resthub.booking.dao.BookingDao;
 import org.resthub.booking.model.Booking;
-import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.springframework.util.Assert;
 
 
 @Named("bookingService")
-public class BookingServiceImpl extends GenericResourceServiceImpl<Booking, GenericResourceDao<Booking>> implements BookingService {
+public class BookingServiceImpl extends GenericResourceServiceImpl<Booking, BookingDao> implements BookingService {
 
 	@Inject
 	@Named("bookingDao")
 	@Override
-	public void setDao(GenericResourceDao<Booking> bookingDao) {
+	public void setDao(BookingDao bookingDao) {
 		this.dao = bookingDao;
 	}
 

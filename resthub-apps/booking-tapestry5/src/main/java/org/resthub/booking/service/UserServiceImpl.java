@@ -5,20 +5,20 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.resthub.booking.dao.UserDao;
 import org.resthub.booking.model.User;
-import org.resthub.core.dao.GenericDao;
 import org.resthub.core.service.GenericServiceImpl;
 
 
 @Named("userService")
 public class UserServiceImpl extends
-		GenericServiceImpl<User, GenericDao<User, Long>, Long> implements
+		GenericServiceImpl<User, UserDao, Long> implements
 		UserService {
 
 	@Inject
 	@Named("userDao")
 	@Override
-	public void setDao(GenericDao<User, Long> userDao) {
+	public void setDao(UserDao userDao) {
 		this.dao = userDao;
 	}
 
