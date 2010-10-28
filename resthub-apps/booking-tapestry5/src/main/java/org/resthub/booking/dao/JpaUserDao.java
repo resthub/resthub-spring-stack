@@ -7,6 +7,6 @@ import org.resthub.core.dao.GenericJpaDao;
 
 
 @Named("userDao")
-public class JpaUserDao extends GenericJpaDao<User, Long> {
+public class JpaUserDao extends GenericJpaDao<User, Long> implements UserDao {
 
 }

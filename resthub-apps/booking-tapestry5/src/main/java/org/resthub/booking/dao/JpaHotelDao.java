@@ -31,6 +31,7 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements HotelDa
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	public Page<Hotel> find(final String query, final Pageable pageable) {
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		// create native Lucene query

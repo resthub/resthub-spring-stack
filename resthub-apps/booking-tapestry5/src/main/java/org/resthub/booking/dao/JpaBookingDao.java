@@ -7,6 +7,6 @@ import org.resthub.core.dao.GenericJpaResourceDao;
 
 
 @Named("bookingDao")
-public class JpaBookingDao extends GenericJpaResourceDao<Booking> {
+public class JpaBookingDao extends GenericJpaResourceDao<Booking> implements BookingDao {
 
 }
