@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * Audit annotation.
  * @author Nicolas Carlier
  */
-@Target({ElementType.METHOD })
+@Target({ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Auditable {
 
