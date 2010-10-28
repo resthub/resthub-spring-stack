@@ -1,12 +1,5 @@
 package org.resthub.core.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -20,7 +13,6 @@ public class SampleResourceDaoTest extends AbstractResourceDaoTest<SampleResourc
     @Named("sampleResourceDao")
     @Override
     public void setResourceDao(SampleResourceDao resourceDao) {
-        // TODO Auto-generated method stub
         super.setResourceDao(resourceDao);
     }
 
