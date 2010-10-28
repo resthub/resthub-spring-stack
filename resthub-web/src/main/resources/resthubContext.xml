@@ -16,7 +16,7 @@
 	<bean id="specificJAXBResolver" scope="singleton" class="org.resthub.web.jaxb.JAXBContextResolver">
 		<!-- Adds here your custom patterns to your own specific @XmlRootElement classes. -->
 		<property name="classpathPatterns" 
-			value="	classpath*:org/resthub/**/model/*.class;
+			value="	classpath*:org/resthub/**/model/*.class,
 					classpath*:org/resthub/web/response/*.class" />
 	</bean>
 	
