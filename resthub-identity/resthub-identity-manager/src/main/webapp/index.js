@@ -43,6 +43,12 @@
 			$('#content').viewGroup({ context: context, groupName: this.params.name });
 		}, 'components/group/view.js');
 		
+		/* Create group*/
+		this.get('#/group/create', function(context) {
+			this.title('Identity Manager - Create group');
+			$('#content').editGroup({ context: context, mode: 'create' });
+		}, 'components/group/edit.js');
+		
 		/* Get Login page*/
 		this.get('#/user/login', 
 		function(){

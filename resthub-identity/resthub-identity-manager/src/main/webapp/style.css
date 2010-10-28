@@ -55,10 +55,11 @@ div#header {
 }
 
 div#form_left {
-    float: left;
+	 display: inline-block;
 }
 
 div#form_right {
+ display: inline-block;
 }
 
 div#main {

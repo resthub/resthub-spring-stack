@@ -1,0 +1,22 @@
+{
+  "en-US": {
+  		"confirmUserDeletionBegin" : "You are going to delete the user ",
+		"confirmUserDeletionEnd" : ". Are you sure ?",
+		"Hello" : "Hello",
+		"Secured" : "Secured",
+		"NotWellSecured" : "Not Well Secured",
+		"NotSecured" : "Not Secured",
+		"PasswordsEgals" : "Egals",
+		"PasswordsNotEgals" : "Passwords don't match"
+  },
+  "fr": {
+  		"confirmUserDeletionBegin" : "Vous allez supprimer l'utilisateur ",
+		"confirmUserDeletionEnd" : ". Etes-vous sûr ?",
+		"Hello" : "Bonjour",
+		"Secured" : "Sécurisé",
+		"NotWellSecured" : "Moyennement sécurisé",
+		"NotSecured" : "Faiblement sécurisé",
+		"PasswordsEgals" : "Identique",
+		"PasswordsNotEgals" : "Les mots de passe ne correspondent pas"
+  }
+}

@@ -1,16 +1,20 @@
 package org.resthub.identity.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.resthub.identity.model.Group;
@@ -118,5 +122,27 @@ public class GroupController extends GenericResourceController<Group, GroupServi
 			return Response.ok(group).build();
 			
 		}
+	}
+	
+	/*Goal :  support creation of group with  user*/
+	@POST
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Override
+	public Response create(Group entity) {
+		Group e = this.service.create(entity);
+		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString()).build();
+
+		for(User u:entity.getUsers()){
+			User tmpUser = userService.findById(u.getId());
+			tmpUser.addGroup(entity);
+			userService.update(tmpUser);
+		}
+		
+		System.out.println("Entity Groupd"+entity.getUsers().size());
+		System.out.println("e Groupd"+e.getUsers().size());
+		
+		return Response.created(uri).entity(e).build();
 	}
 }

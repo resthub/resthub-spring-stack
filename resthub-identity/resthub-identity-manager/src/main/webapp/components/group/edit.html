@@ -1,0 +1,27 @@
+<h1>Edit Group</h1>
+
+<form id="group-form" action="" method="" enctype="UTF-8">
+
+	<p>
+		<strong> Group name:</strong>
+		<input size="10" name="name" type="text" class="required"> *
+	</p>
+
+		<strong>This groups is composed by the following users</strong>
+		<p>
+			<% if ($.isEmptyObject(users)) { %>
+				<span>[No users available]</span>
+			<% } else { %>
+				<% for (var index in users) { %>
+					<input type="checkbox" name="usergroup" value="<%= users[index].id %>" /> <%= users[index].firstName %> <%= users[index].lastName %>
+				<% } %>
+			<% } %>
+		</p>
+	</p>
+	
+</form>
+
+<p class="buttons">
+	<input id="group-proceed" value="Create" type="button">
+	<a id="cancel-request" href="#/group/list">Back to list</a>
+</p>

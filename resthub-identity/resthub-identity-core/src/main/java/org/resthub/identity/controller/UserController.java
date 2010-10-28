@@ -2,6 +2,7 @@ package org.resthub.identity.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,6 +33,16 @@ public class UserController extends
 		this.service = service;
 	}
 
+	@GET
+	@Path("/all")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getAllUsers() {
+
+       List<User> users=  this.service.findAll();
+        return Response.ok(users).build();
+		
+	}
+	
 	/**
 	 * Find the user identified by the specified login.
 	 * 
