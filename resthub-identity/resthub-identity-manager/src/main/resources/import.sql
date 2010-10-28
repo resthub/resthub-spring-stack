@@ -8,12 +8,14 @@ INSERT INTO IDENTITY (ID) VALUES (7);
 INSERT INTO IDENTITY (ID) VALUES (8);
 INSERT INTO IDENTITY (ID) VALUES (9);
 INSERT INTO IDENTITY (ID) VALUES (10);
+INSERT INTO IDENTITY (ID) VALUES (11);
 
 INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (1, 'Bob', 'Martin', 'user1@atosorigin.com', 'a185329', 'pass?w0rd');
 INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (2, 'Alice', 'Dubois', 'user2@atosorigin.com', 'a185330', 'pass?w0rd');
 INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (3, 'Jean', 'Bonneau', 'user3@atosorigin.com', 'a185331', 'pass?w0rd');
 INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (4, 'Estelle', 'Ludinard', 'user4@atosorigin.com', 'a185332', 'pass?w0rd');
 INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (5, 'Bob', 'Synclar', 'user5@atosorigin.com', 'a185333', 'pass?w0rd');
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (11, 'alex', 'Synclar', 'alex@atosorigin.com', 'alex', 'alex-pass');
 
 INSERT INTO USERSGROUP (ID, NAME) VALUES (6, 'resthub-developpers');
 INSERT INTO USERSGROUP (ID, NAME) VALUES (7, 'resthub-admins');

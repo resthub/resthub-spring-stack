@@ -1,27 +1,59 @@
 <!doctype html>
 <html>
-	<head>
-		<title>Identity Manager</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" href="lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
-		<link rel="stylesheet" href="lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
-		<link rel="stylesheet" href="style.css" type="text/css" media="screen, projection">
-		<script src="lib/resthub.stack.js"></script>
-		<script>
-			dominoes("lib/jquery.pnotify.js lib/jquery.validate.js  libs/ejs/view.js index.js")
-		</script>
-	</head>
-	<body>
-		<div id="navigation">
-			<ul>
-				<li><a href="#/">Home</a></li>
-				<li>List : <a href="#/user/list">users</a> <a href="#/group/list">groups</a></li>
-				<li>Create : <a href="#/user/create">user</a> <a href="#/group/create">group</a></li>
-			</ul>
-		</div>
-		<div id="main">
-			<div id="header"></div>
-			<div id="content"></div>
-		</div>
-	</body>
+    <head>
+        <title>Identity Manager</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen, projection">
+        <link rel="localizations" href="libs/l10n/localizations.json" type="application/x-l10n+json"/>
+        <script src="lib/resthub.stack.js">
+        </script>
+        <script>
+            dominoes("lib/jquery.pnotify.js lib/jquery.validate.js  libs/ejs/view.js libs/l10n/l10n.js index.js")
+        </script>
+    </head>
+    <body>
+        <div id="navigation">
+            <div id="header">
+                <span id="big_header">ODP &raquo;</span>
+                An Atos Wordline Demonstration
+            </div>
+            <!--
+            <ul>
+            <li><a href="">Home</a></li>
+            <li>List : <a href="#/user/list">users</a> <a href="#/group/list">groups</a></li>
+            <li>Create : <a href="#/user/create">user</a> <a href="#/group/create">group</a></li>
+            <li><a href="#/user/login">User Login</a></li>
+            </ul>
+            -->
+        </div>
+        <div id="main">
+            <nav id="main-menu">
+                <div id="Home" class="menu_box">
+                    <a href=".">Home</a>
+                </div>
+                <div id="List" class="menu_box">
+                    List : <a href="#/user/list">users</a>
+                    <a href="#/group/list">groups</a>
+                </div>
+                <div id="Create" class="menu_box">
+                    Create : <a href="#/user/create">user</a>
+                    <a href="#/group/create">group</a>
+                </div>
+                <div id="Login" class="menu_box">
+                    <a href="#/user/login">User Login</a>
+                </div>
+            </nav>
+            <div id="principal">
+                <div id="header">
+                </div>
+                <div id="content">
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            © ODP - an Atos Worldline Solution, 2010 
+        </div>
+    </body>
 </html>

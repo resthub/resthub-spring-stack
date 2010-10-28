@@ -1,22 +1,147 @@
 table {
-	background-color: black;
-	/*border: 1px black solid;*/
-	border-collapse: collapse;
-	width: 60%;
+    background-color: black;
+    /*border: 1px black solid;*/
+    border-collapse: collapse;
+    width: 60%;
 }
+
 th {
-	/*border: 1px outset silver;*/
-	background-color: #003366;
-	color: white;
+    /*border: 1px outset silver;*/
+    background-color: #003366;
+    color: white;
 }
+
 tr {
-	background-color: white;
-	margin: 1px;
+    background-color: white;
+    margin: 1px;
 }
+
 tr.striped {
-	background-color: #E8E8E8;
+    background-color: #E8E8E8;
 }
+
 td {
-	padding: 1px 8px;
-	text-align: center;
+    padding: 1px 8px;
+    text-align: center;
+}
+
+html {
+}
+
+body {
+    font-family: Tahoma;
+    widht = 100%;
+	margin:0;
+}
+
+div#navigation {
+    background-color: #174DFF;
+}
+
+div#footer {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    background-color: #174DFF;
+    font-size: smaller;
+    color: white;
+}
+
+div#header {
+    color: white;
+    width: 100%;
+	padding:5px
+}
+
+div#form_left {
+    float: left;
+}
+
+div#form_right {
+}
+
+div#main {
+    display: table;
+    height: 100px;
+}
+
+#main > * {
+    display: table-cell;
+    vertical-align: top;
+    height: 100%;
+}
+
+#main-menu {
+    background-image: -moz-linear-gradient( top, #174DFF, /*#6185FA*/ #FFFFFF  ); 
+}
+span#big_header{
+	font-size: 36px;
+	
+}
+
+.good{
+	background-color:green;
+	padding:2px;
+	-moz-border-radius:8px;
+-webkit-border-radius:8px;
+-opera-border-radius:8px;
+-khtml-border-radius:8px;
+border-radius:8px;
+}
+.medium{
+	background-color: #ED7F10;
+	padding:2px;
+	-moz-border-radius:8px;
+-webkit-border-radius:8px;
+-opera-border-radius:8px;
+-khtml-border-radius:8px;
+border-radius:8px;
+}
+.bad{
+	background-color:red;
+		padding:2px;
+	-moz-border-radius:8px;
+-webkit-border-radius:8px;
+-opera-border-radius:8px;
+-khtml-border-radius:8px;
+border-radius:8px;
+}
+
+box-list{
+	float:left;
+	backgroud-color=gray;
+}
+
+.menu_box{
+/*	float:left;*/
+/* display: inline-block;*/
+
+	font-size:larger;
+	color:gray;
+	margin-left : 20px;
+	margin-right : 20px;
+	margin-top : 20px;
+	margin-bottom : 20px;
+	padding:2px;
+	
+	background-color:#174DFF;
+	-moz-border-radius:8px;
+-webkit-border-radius:8px;
+-opera-border-radius:8px;
+-khtml-border-radius:8px;
+border-radius:8px;
+border-color:#6185FA;
+border-style:solid;
+border-width:thick;
+
+}
+.menu_box:hover{
+	background-color:white;
+	
+}
+
+#principal{
+	padding:20px;
+	
 }

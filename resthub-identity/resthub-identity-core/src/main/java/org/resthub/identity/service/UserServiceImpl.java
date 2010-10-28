@@ -1,10 +1,11 @@
 package org.resthub.identity.service;
 
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.resthub.core.annotation.Auditable;
 
+import org.resthub.core.annotation.Auditable;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
@@ -34,5 +35,11 @@ public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao> i
 			return null;
 		}
 	}
+	
+	@Override
+	public User authenticateUser(String login, String password) {
+		return dao.getUserByAuthenticationInformation(login,password);		
+	}
+
 
 }

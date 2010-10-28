@@ -3,9 +3,11 @@
 <% if ($.isEmptyObject(result.elements)) { %>
 	<p>No users found...</p>
 <% } else { %>
+<div id="commons-actions"><div id="delete">delete</div></div>
 	<table>
 		<thead>
 			<tr>
+				<th></th>
 				<th>Id</th>
 				<th>Name</th>
 				<th>Login</th>
@@ -18,6 +20,8 @@
 			<% var users = result.elements %>
 			<% for (var index in users) { %>
 				<tr class="user-item" id="user-<%= users[index].id %>">
+					<td><input type='checkbox' class="user-checkbox" id='checkbox-<%= index %>' user='<%= users[index].id %>' /></td>
+					<!-- <td><input type='checkbox' class="user-checkbox" id='checkbox-<%= users[index].id %>' user='<%= users[index].id %>' /></td> -->
 					<td><%= users[index].id %></td>
 					<td><%= users[index].firstName + ' ' + users[index].lastName %></td>
 					<td><%= users[index].login %></td>

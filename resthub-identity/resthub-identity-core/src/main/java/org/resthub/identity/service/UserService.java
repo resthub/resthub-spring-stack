@@ -16,4 +16,10 @@ public interface UserService extends GenericResourceService<User> {
 	 */
 	public User findByLogin( String login );
 
+	/*
+	 * Find user by login and password
+	 * @param login, password
+	 * @return the user or null if no user found with such login and password
+	 */
+	public User authenticateUser(String login, String password);
 }

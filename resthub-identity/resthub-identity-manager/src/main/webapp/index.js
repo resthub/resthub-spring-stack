@@ -42,9 +42,29 @@
 			this.title('Identity Manager - Group details');
 			$('#content').viewGroup({ context: context, groupName: this.params.name });
 		}, 'components/group/view.js');
+		
+		/* Get Login page*/
+		this.get('#/user/login', 
+		function(){
+			$('#content').loginUsers();},
+			'components/user/login.js');			
+		
+		/* Authenticate user*/			
+		this.post('#/user/login', function(ev){
+			$('#content').postLoginUsers({context:ev, userLogin :ev.params['Login'],userPassword:ev.params['Password']});
+			},'components/user/postLogin.js');		
+		
+		/* Cancel all unknow get*/
+		this.get("#(.*)",function(){
+			$('#content').html("");
+				})
 	});
 
 	$(function() {
 		app.run('#/');
 	});
 })(jQuery);
+
+var l = function (string) {
+  				  return string.toLocaleString();
+			};

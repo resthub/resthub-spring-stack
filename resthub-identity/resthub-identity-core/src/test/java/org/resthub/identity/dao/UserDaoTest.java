@@ -1,10 +1,12 @@
 package org.resthub.identity.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Test;
 import org.resthub.core.test.dao.AbstractResourceDaoTest;
 import org.resthub.identity.model.User;
 
@@ -29,4 +31,18 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 		User u2 = resourceDao.readByPrimaryKey(this.getRessourceId());
 		assertEquals("User not updated!", u2.getEmail(), "test@plop.fr");
 	}
+	
+	 @Test
+	    public void testGetUserByAuthenticationInformation(){
+		 User u1= new User();
+		 String login="alexDao";
+		 String password="alexDao-pass";
+		 u1.setLogin(login);
+		 u1.setPassword(password);
+		 resourceDao.save(u1);
+		 
+	    u1 =resourceDao.getUserByAuthenticationInformation(login, password);
+	    	assertNotNull(u1);
+	    }
+	   
 }

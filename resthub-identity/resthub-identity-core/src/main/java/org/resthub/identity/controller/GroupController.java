@@ -1,6 +1,7 @@
 package org.resthub.identity.controller;
 
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.DELETE;
@@ -49,7 +50,7 @@ public class GroupController extends GenericResourceController<Group, GroupServi
 	@GET
 	@Path("/name/{name}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getUserByLogin( @PathParam("name") String name ) {
+	public Response getGroupByName( @PathParam("name") String name ) {
 		Group group = this.service.findByName( name );
 		if (group == null) {
 			return Response.status(Status.NOT_FOUND).
@@ -70,6 +71,22 @@ public class GroupController extends GenericResourceController<Group, GroupServi
 		return Response.ok(result).build();
 	}
 
+
+	/**
+	 * Find all groups without showing users.
+	 * @return a list of group.
+	 */
+	@GET
+	@Path("/list")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getAllGroupsName() {
+		List<Group> result = this.service.findAllGroups();
+		for(Group g : result){
+			g.setUsers(null);
+		}
+		return Response.ok(result).build();
+	}
+	
 	/**
 	 * Remove a user from the specified group.
 	 * @param name the group name

@@ -1,16 +1,20 @@
 package org.resthub.identity.controller;
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.ClientResponse.Status;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
+
 import junit.framework.Assert;
+
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.User;
+import org.resthub.web.controller.GenericController;
 import org.resthub.web.controller.GenericResourceController;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
+
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.ClientResponse.Status;
 
 /**
  *
@@ -45,4 +49,14 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Gen
 		Assert.assertFalse("User not updated", response.contains("u1"));
 		Assert.assertTrue("User not updated", response.contains("u2"));
 	}
+	
+	 @Inject
+	    @Named("userController")
+	    @Override
+	    @SuppressWarnings("unchecked")
+	    public void setController(GenericController controller) {
+	        super.setController(controller);
+	    }
+	    
+	  
 }
