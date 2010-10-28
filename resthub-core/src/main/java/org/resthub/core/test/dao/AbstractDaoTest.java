@@ -101,7 +101,7 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
 	@Test
 	public void testFindAll() throws Exception {
 		List<T> resourceList = dao.readAll();
-		assertTrue("No resources found!", resourceList.size() == 1);
+		assertTrue("No resources found!", resourceList.size() >= 1);
 	}
 
 	@Test
