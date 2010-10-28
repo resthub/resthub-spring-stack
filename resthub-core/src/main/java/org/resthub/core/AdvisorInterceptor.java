@@ -45,7 +45,7 @@ public abstract class AdvisorInterceptor extends
 		if (matchFromMethod) {
 			return true;
 		} else {
-			return matchFromClass(targetClass, 1);
+			return matchFromClass(targetClass);
 		}
 	}
 
@@ -62,7 +62,7 @@ public abstract class AdvisorInterceptor extends
 		return isAnnotationPresent(annotations);
 	}
 
-	private boolean matchFromClass(Class<?> targetClass, Integer level) {
+	private boolean matchFromClass(Class<?> targetClass) {
 
 		Collection<Annotation> annotations = Arrays.asList(targetClass
 				.getAnnotations());
@@ -70,6 +70,7 @@ public abstract class AdvisorInterceptor extends
 			return true;
 		}
 
+		// TODO : check why recursivity does not work !
 		// if (targetClass.getSuperclass() != null) {
 		// this.matchFromClass(targetClass.getSuperclass(), ++level);
 		// }
