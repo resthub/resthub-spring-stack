@@ -3,7 +3,7 @@
 <% if ($.isEmptyObject(result.elements)) { %>
 	<p>No users found...</p>
 <% } else { %>
-<div id="commons-actions"><div id="delete">delete</div></div>
+<div id="commons-actions"><div id="delete">remove</div></div>
 	<table>
 		<thead>
 			<tr>
@@ -29,6 +29,7 @@
 					<td><%= users[index].email %></td>
 					<td>
 						<%= link_to( 'details', '#/user/details/' + users[index].login ) %>
+						<span class="remove-user" id="<%= index %>">remove</span>
 					</td>
 				</tr>
 			<% } %>

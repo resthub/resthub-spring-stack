@@ -1,7 +1,8 @@
 {
   "en-US": {
   		"confirmUserDeletionBegin" : "You are going to delete the user ",
-		"confirmUserDeletionEnd" : ". Are you sure ?",
+		"confirmUserDeletionBegin" : "You are going to delete the users ",
+		"confirmUserDeletionEnd" : "are you sure ?",
 		"Hello" : "Hello",
 		"Secured" : "Secured",
 		"NotWellSecured" : "Not Well Secured",
@@ -11,7 +12,8 @@
   },
   "fr": {
   		"confirmUserDeletionBegin" : "Vous allez supprimer l'utilisateur ",
-		"confirmUserDeletionEnd" : ". Etes-vous sûr ?",
+		"confirmUsersDeletionBegin" : "Vous allez supprimer les utilisateurs ",
+		"confirmUserDeletionEnd" : "êtes-vous sûr ?",
 		"Hello" : "Bonjour",
 		"Secured" : "Sécurisé",
 		"NotWellSecured" : "Moyennement sécurisé",
