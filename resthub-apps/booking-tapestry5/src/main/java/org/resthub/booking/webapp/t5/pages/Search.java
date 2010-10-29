@@ -17,7 +17,13 @@ import org.apache.tapestry5.services.Request;
 import org.resthub.booking.model.Hotel;
 import org.resthub.booking.service.HotelService;
 
-
+/**
+ * Start page of application. Inspirated from Tapestry5 booking sample
+ * (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
+ * 
+ * @author Baptiste Meurant
+ * @author ccordenier
+ */
 public class Search {
 
 	@Inject
@@ -25,14 +31,14 @@ public class Search {
 
 	@Inject
 	private Messages messages;
-	
+
 	@Inject
 	private Request request;
 
 	@Inject
 	@Property
 	private Block hotelsGridBlock;
-	
+
 	@InjectComponent
 	private Zone result;
 
@@ -68,6 +74,9 @@ public class Search {
 		return this.searchSize;
 	}
 
+	/**
+	 * @return customized model for the datagrid
+	 */
 	public BeanModel<Hotel> getGridModel() {
 		BeanModel<Hotel> model = this.beanModelSource.createDisplayModel(
 				Hotel.class, this.messages);
@@ -84,6 +93,9 @@ public class Search {
 		return this.hotelsGridBlock;
 	}
 
+	/**
+	 * @return re-formated query for searching
+	 */
 	private String prepareSearchValueForQuery() {
 		if (this.searchValue == null) {
 			this.searchValue = formatQueryForEmptySearch();
@@ -93,6 +105,9 @@ public class Search {
 		return this.searchValue;
 	}
 
+	/**
+	 * @return re-formated empty query
+	 */
 	private String formatQueryForEmptySearch() {
 		if (this.searchValue == null) {
 			return "";
@@ -100,25 +115,29 @@ public class Search {
 		return this.searchValue;
 	}
 
+	/**
+	 * @return re-formated query by adding wildcards
+	 */
 	private String addQueryWildcardsForPartialSearch() {
 		return this.searchValue + "*";
 	}
 
+	/**
+	 * Manage event on text serach in order to use with ZoneUpdater mixin
+	 * 
+	 * @return block to update
+	 */
 	Object onSearchValueChanged() {
 		this.hotelService.rebuildIndex();
 		this.searchValue = request.getParameter("param");
 
-		if (isValidValueForSearch()) {
+		if (this.searchValue != null) {
 			this.prepareSearchValueForQuery();
 			this.hotels = new ArrayList<Hotel>();
 			this.hotels = this.hotelService.find(this.searchValue);
 			return this.result.getBody();
 		}
 		return null;
-	}
-
-	private boolean isValidValueForSearch() {
-		return (this.searchValue != null);
 	}
 
 }

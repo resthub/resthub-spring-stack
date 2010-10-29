@@ -5,7 +5,7 @@ import org.apache.tapestry5.ioc.annotations.Value;
 import org.apache.tapestry5.services.Request;
 
 /**
- * Login page. This work is really close from tapestry-spring-security-sample
+ * Login page. TInspirated from tapestry-spring-security-sample
  * (http://www.localhost.nu/java/tapestry-spring-security/)
  * 
  * @author Robin Helgelin

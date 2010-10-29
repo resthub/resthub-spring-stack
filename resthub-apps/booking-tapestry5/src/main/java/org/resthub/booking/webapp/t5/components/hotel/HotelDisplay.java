@@ -5,7 +5,9 @@ import org.apache.tapestry5.annotations.Property;
 import org.resthub.booking.model.Hotel;
 
 
-
+/**
+ * @author Baptiste Meurant
+ */
 public class HotelDisplay {
 
 	@SuppressWarnings("unused")

@@ -17,7 +17,7 @@ import org.apache.tapestry5.util.AbstractSelectModel;
  * This component manage i18n messages.
  *
  * @author ccordenier
- * @author bmeurant <Baptiste Meurant>
+ * @author Baptiste Meurant
  *
  */
 public class Months extends AbstractSelectModel

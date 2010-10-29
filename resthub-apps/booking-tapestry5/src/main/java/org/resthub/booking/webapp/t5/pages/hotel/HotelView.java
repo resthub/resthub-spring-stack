@@ -7,7 +7,10 @@ import org.resthub.booking.model.Hotel;
 
 /**
  * This page displays hotel details, and provide access to booking.
+ * Inspirated by Tapestry5 booking sample
+ * (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
+ * @author Baptiste Meurant
  * @author ccordenier
  */
 public class HotelView

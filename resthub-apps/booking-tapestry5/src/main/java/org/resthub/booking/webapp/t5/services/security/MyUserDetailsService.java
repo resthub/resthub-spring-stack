@@ -9,10 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-
+/**
+ * Service allowing to store, retrive and check credential from application
+ * services for a user provided by spring-security. Password check is done by
+ * spring.
+ * 
+ * Initializing authorities
+ * 
+ * @author Baptiste Meurant
+ */
 public class MyUserDetailsService implements UserDetailsService {
 
 	private UserService userService;
+	@SuppressWarnings("unused")
 	private PasswordEncoder encoder;
 
 	public MyUserDetailsService(UserService userService, PasswordEncoder encoder) {
@@ -21,6 +30,9 @@ public class MyUserDetailsService implements UserDetailsService {
 		this.encoder = encoder;
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public UserDetails loadUserByUsername(String name)
 			throws UsernameNotFoundException, DataAccessException {
 

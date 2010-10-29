@@ -18,10 +18,23 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.PlaintextPasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-
+/**
+ * Configuration for integration with tapestry-spring-securitya library in order
+ * to provide complete and integrated login components
+ * 
+ * @author Baptiste Meurant
+ */
 @SubModule( { ResthubSecurityModule.class })
 public class BookingSecurityModule {
 
+	/**
+	 * Configure userDetailsService : service used to provide concrete
+	 * authentication
+	 * 
+	 * @param encoder
+	 * @param userService
+	 * @return built service
+	 */
 	public static UserDetailsService buildUserDetailsService(
 			@Inject PasswordEncoder encoder,
 			@InjectService("userService") UserService userService) {
@@ -29,6 +42,11 @@ public class BookingSecurityModule {
 		return new MyUserDetailsService(userService, encoder);
 	}
 
+	/**
+	 * Configure spring-secuirty mappings
+	 * 
+	 * @param configuration
+	 */
 	public static void contributeFilterSecurityInterceptor(
 			Configuration<RequestInvocationDefinition> configuration) {
 
@@ -52,6 +70,12 @@ public class BookingSecurityModule {
 				daoAuthenticationProvider);
 	}
 
+	/**
+	 * Override default salt service : no salt required in this sample
+	 * application
+	 * 
+	 * @param configuration
+	 */
 	@SuppressWarnings("unchecked")
 	public static void contributeServiceOverride(
 			MappedConfiguration<Class, Object> configuration) {

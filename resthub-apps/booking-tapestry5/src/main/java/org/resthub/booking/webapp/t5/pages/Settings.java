@@ -12,56 +12,50 @@ import org.resthub.booking.service.UserService;
 import org.resthub.tapestry5.security.services.Authenticator;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 /**
- * Allows the user to modify password
- * Copied and adapted from Tapestry5 booking sample
- * (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
+ * Allows the user to modify password Inspirated from Tapestry5 booking
+ * sample (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
- * @author karesti
- * @author bmeurant <Baptiste Meurant>
+ * @author Baptiste Meurant
+ * @author ccordenier
  */
-public class Settings
-{
+public class Settings {
 	@Inject
 	@Service("userService")
 	private UserService userService;
-	
-    @Inject
-    private Messages messages;
 
-    @Inject
-    private Authenticator authenticator;
+	@Inject
+	private Messages messages;
 
-    @InjectPage
-    private Signin signin;
-    
-    @Property
-    private String password;
+	@Inject
+	private Authenticator authenticator;
 
-    @Property
-    private String verifyPassword;
+	@InjectPage
+	private Signin signin;
 
-    @Component
-    private Form settingsForm;
+	@Property
+	private String password;
 
-    public Object onSuccess()
-    {
-        if (!verifyPassword.equals(password))
-        {
-            settingsForm.recordError(messages.get("error.verifypassword"));
+	@Property
+	private String verifyPassword;
 
-            return null;
-        }
+	@Component
+	private Form settingsForm;
 
-        UserDetails userDetails = authenticator.getLoggedUser();
-        authenticator.logout();
+	public Object onSuccess() {
+		if (!verifyPassword.equals(password)) {
+			settingsForm.recordError(messages.get("error.verifypassword"));
+			return null;
+		}
 
-        User user = this.userService.findByUsername(userDetails.getUsername());
-        user.setPassword(password);
+		UserDetails userDetails = authenticator.getLoggedUser();
+		authenticator.logout();
 
-        this.userService.update(user);
+		User user = this.userService.findByUsername(userDetails.getUsername());
+		user.setPassword(password);
 
-        return signin;
-    }
+		this.userService.update(user);
+
+		return signin;
+	}
 }
