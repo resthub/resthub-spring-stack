@@ -19,11 +19,11 @@
 	</description>
 
 	<dependencies>
-                <dependency>
+		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-js</artifactId>
 			<version>1.0-SNAPSHOT</version>
-                        <type>war</type>
+			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
