@@ -10,12 +10,8 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-integration</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>Resthub Tapestry5 stack integration</name>
+	<name>Tapestry5 stack integration</name>
 	<description>Provide integration for simple and extensible integration of Resthub stack in Tapestry</description>
-
-	<properties>
-		<tapestry-spring-version>5.2.1</tapestry-spring-version>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -38,7 +34,7 @@
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-spring</artifactId>
-			<version>${tapestry-spring-version}</version>
+			<version>${tapestry.spring.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -10,19 +10,14 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-spring-security</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>Resthub Tapestry5 SpringSecurity integration</name>
+	<name>Tapestry5 Spring Security integration</name>
 	<description>Provide Integration of SpringSecurity in Tapestry</description>
-
-	<properties>
-		<tapestry-spring-security-version>3.0.0</tapestry-spring-security-version>
-		<spring-security-version>3.0.3.RELEASE</spring-security-version>
-	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>nu.localhost.tapestry</groupId>
 			<artifactId>tapestry-spring-security</artifactId>
-			<version>${tapestry-spring-security-version}</version>
+			<version>${tapestry.spring.security.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.security</groupId>
@@ -42,7 +37,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${spring-security-version}</version>
+			<version>${spring.security.version}</version>
 		</dependency>
 		
 		<dependency>
@@ -54,7 +49,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring-security-version}</version>
+			<version>${spring.security.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -11,13 +11,16 @@
 	<artifactId>resthub-tapestry5</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Resthub Tapestry5 Multimodule</name>
-	<description>Resthub Tapestry5 contributions to integrate to the stack </description>
+	<name>Tapestry5 support</name>
+	<description>Tapestry5 contributions to integrate to the stack </description>
 
 	<properties>
-		<tapestry-version>5.2.2-SNAPSHOT</tapestry-version>
+		<tapestry.version>5.2.2-SNAPSHOT</tapestry.version>
+		<tapestry.spring.version>5.2.1</tapestry.spring.version>
+		<tapestry.spring.security.version>3.0.0</tapestry.spring.security.version>
+		<tapestry.jpa.version>2.0.2</tapestry.jpa.version>
 	</properties>
-
+	
 	<modules>
 		<module>resthub-tapestry5-jpa</module>
 		<module>resthub-tapestry5-integration</module>
@@ -31,22 +34,22 @@
 			<dependency>
 				<groupId>org.apache.tapestry</groupId>
 				<artifactId>tapestry-core</artifactId>
-				<version>${tapestry-version}</version>
+				<version>${tapestry.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tapestry</groupId>
 				<artifactId>tapestry-ioc</artifactId>
-				<version>${tapestry-version}</version>
+				<version>${tapestry.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tapestry</groupId>
 				<artifactId>tapestry-beanvalidator</artifactId>
-				<version>${tapestry-version}</version>
+				<version>${tapestry.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tapestry</groupId>
 				<artifactId>tapestry-test</artifactId>
-				<version>${tapestry-version}</version>
+				<version>${tapestry.version}</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
