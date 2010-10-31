@@ -22,7 +22,7 @@
 	</bean>
 	
 	<bean id="scanningPersistenceUnitManager"
-		class="org.resthub.core.dao.ScanningPersistenceUnitManager">
+		class="org.resthub.core.context.ScanningPersistenceUnitManager">
 		<property name="defaultDataSource" ref="dataSource" />
 		<property name="classpathPatterns"
 			value="classpath*:org/resthub/**/model/*.class, 
