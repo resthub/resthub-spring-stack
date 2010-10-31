@@ -1,0 +1,20 @@
+<html t:type="layout" title="Tapestry5-hotel-booking Settings" t:sidebarTitle="Current Time" t:pageTitle="Change your password" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+    <h2>User's setting : Change your password</h2>
+    <form class="full-form" t:id="settingsForm">
+        <t:errors/>
+        <p>
+            <strong class="medium">Password:*</strong>
+            <input t:type="passwordField" t:id="password" t:validate="password"/>
+        </p>
+        <p>
+            <strong class="medium">Verify password:*</strong>
+            <input t:type="passwordField" t:id="verifyPassword" t:validate="password"/>
+        </p>
+        <div class="buttons">
+            <input type="submit" value="Change" /> or 
+            <t:pageLink page="search">
+                Cancel
+            </t:pageLink>
+        </div>
+    </form>
+</html>
