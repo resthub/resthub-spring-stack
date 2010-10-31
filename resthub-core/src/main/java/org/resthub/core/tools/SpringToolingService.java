@@ -16,6 +16,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
+/**
+ * @author Baptiste Meurant
+ */
 @Named("toolingService")
 public class SpringToolingService implements ToolingService,
 		ApplicationContextAware {
@@ -24,6 +27,9 @@ public class SpringToolingService implements ToolingService,
 	private ConfigurableListableBeanFactory configurablebeanFactory;
 	private List<BeanDetail> allBeans = null;
 
+	/**
+	 * {@InheritDoc}
+	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
@@ -39,11 +45,17 @@ public class SpringToolingService implements ToolingService,
 		}
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	@Override
 	public List<String> getBeanNames() {
 		return Arrays.asList(this.ctx.getBeanDefinitionNames());
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	@Override
 	public List<BeanDetail> getBeanDetails() {
 
