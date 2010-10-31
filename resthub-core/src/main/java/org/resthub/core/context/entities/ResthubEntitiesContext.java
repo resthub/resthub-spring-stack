@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ResthubEntitiesContext {
+class ResthubEntitiesContext {
 
 	private static ResthubEntitiesContext instance;
 
 	private Map<String, List<String>> entitiesMap = new HashMap<String, List<String>>();
 
-	public static synchronized ResthubEntitiesContext getInstance() {
+	static synchronized ResthubEntitiesContext getInstance() {
 		if (instance == null) {
 			instance = new ResthubEntitiesContext();
 		}
@@ -40,10 +40,6 @@ public class ResthubEntitiesContext {
 
 	public List<String> get(String persistenceUnitName) {
 		return entitiesMap.get(persistenceUnitName);
-	}
-
-	public Set<String> keySet() {
-		return entitiesMap.keySet();
 	}
 
 	public List<String> put(String persistenceUnitName, List<String> entities) {
