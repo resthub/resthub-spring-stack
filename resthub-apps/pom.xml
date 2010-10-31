@@ -19,7 +19,7 @@
 	<modules>
 		<module>roundtable</module>
 		<module>booking-js</module>
-		<module>booking-tapestry5</module>
+		<module>booking</module>
 	</modules>
 
 </project>
