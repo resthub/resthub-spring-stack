@@ -2,8 +2,6 @@ package org.resthub.core.context.entities;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.beans.factory.xml.XmlReaderContext;
@@ -13,7 +11,7 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 /**
- * Parser for the &lt;resthub:model-scan/&gt; element.
+ * 
  * 
  * @author Baptiste Meurant
  */
@@ -25,34 +23,32 @@ public class ResthubEntitiesDefinitionParser extends ComponentScanBeanDefinition
 
 	private static final String USE_DEFAULT_FILTERS_ATTRIBUTE = "use-default-filters";
 
-
-	private final Logger logger = LoggerFactory
-			.getLogger(ResthubEntitiesDefinitionParser.class);
-
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
 		String[] basePackages = StringUtils.tokenizeToStringArray(element
 				.getAttribute(BASE_PACKAGE_ATTRIBUTE),
 				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 
-		// Actually scan for bean definitions and register them.
+		// Actually scan for entities definitions and register them.
 		ClassPathEntityDefinitionScanner scanner = configureScanner(
 				parserContext, element);
 		List<String> entities = scanner.performScan(basePackages);
-		registerComponents(entities, element);
+		registerEntities(entities, element, getPersistenceUnitName(element));
 
 		return null;
 	}
 
-	protected void registerComponents(List<String> entities,
-			Element element) {
+	protected void registerEntities(List<String> entities,
+			Element element, String persistenceUnitName) {
 
+		ResthubEntitiesContext.getInstance().addAll(persistenceUnitName, entities);
+	}
+
+	private String getPersistenceUnitName(Element element) {
 		String persistenceUnitName = "resthub";
 		if (element.hasAttribute("persistence-unit")) {
 			persistenceUnitName = element.getAttribute("persistence-unit");
 		}
-
-		ResthubEntitiesContext.getInstance().addAll(persistenceUnitName, entities);
-
+		return persistenceUnitName;
 	}
 
 	protected ClassPathEntityDefinitionScanner configureScanner(

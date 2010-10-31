@@ -21,6 +21,7 @@ public class ClassPathEntityDefinitionScanner extends
 		super(registry, useDefaultFilters);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void registerDefaultFilters() {
 		ClassLoader cl = ClassPathScanningCandidateComponentProvider.class
