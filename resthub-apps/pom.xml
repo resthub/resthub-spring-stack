@@ -18,7 +18,7 @@
 
 	<modules>
 		<module>roundtable</module>
-		<module>booking</module>
+		<module>booking-js</module>
 		<module>booking-tapestry5</module>
 	</modules>
 

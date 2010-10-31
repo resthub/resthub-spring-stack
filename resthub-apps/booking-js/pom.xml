@@ -6,11 +6,11 @@
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
 		<version>1.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
-	<artifactId>booking</artifactId>
+	<artifactId>booking-js</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>Booking demo</name>
