@@ -5,7 +5,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
  * {@link org.springframework.beans.factory.xml.NamespaceHandler}
- * for the '<code>resthub</code>' namespace.
+ * for the '<code>persistence</code>' namespace.
  *
  * @author Baptiste Meurant
  */

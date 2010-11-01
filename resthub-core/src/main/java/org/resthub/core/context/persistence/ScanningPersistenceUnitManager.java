@@ -45,6 +45,9 @@ import org.springframework.util.StringUtils;
  * }
  * </pre>
  * 
+ * in case where no classpathPatterns is provided, this scanner search for
+ * entities in PersistenceContext filled during Spring loading of context files
+ * 
  * @author Baptiste Meurant
  * 
  */
@@ -56,6 +59,10 @@ public class ScanningPersistenceUnitManager extends
 
 	protected String classpathPatterns = null;
 
+	/**
+	 * Filters that the class should match to be added to persistence unit
+	 * manager
+	 */
 	private List<TypeFilter> typeFilters = new ArrayList<TypeFilter>();
 
 	public String getClasspathPatterns() {
@@ -77,6 +84,8 @@ public class ScanningPersistenceUnitManager extends
 	 * 
 	 * Be attentive that using this property, entities-scan based configuration
 	 * is ignored
+	 * 
+	 * @param classpathPatterns
 	 */
 	public void setClasspathPatterns(String classpathPatterns) {
 		log
@@ -86,6 +95,15 @@ public class ScanningPersistenceUnitManager extends
 
 	/**
 	 * {@InheritDoc}
+	 * 
+	 * This implementation scan the provided classpath to add resources matching
+	 * with defined filters (or defaults). If no classpath pattern is defined,
+	 * this scanner search for entities in PersistenceContext filled during
+	 * Spring loading of context files.
+	 * 
+	 * Entities found are then dynamically added to persistence context to be
+	 * loaded as persistent resources
+	 * 
 	 */
 	@Override
 	protected void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
@@ -99,11 +117,12 @@ public class ScanningPersistenceUnitManager extends
 
 		} else {
 
-			entities = getMatchingEntitiesFromContext(pui, pui.getPersistenceUnitName());
+			entities = getMatchingEntitiesFromContext(pui, pui
+					.getPersistenceUnitName());
 			PersistenceContext.getInstance().clearPersistenceUnit(
 					pui.getPersistenceUnitName());
 		}
-		
+
 		addEntitiesToPersistenceUnit(pui, entities);
 
 		super.postProcessPersistenceUnitInfo(pui);
@@ -130,7 +149,7 @@ public class ScanningPersistenceUnitManager extends
 
 	private Set<String> getMatchingEntitiesFromContext(
 			MutablePersistenceUnitInfo pui, String persistenceUnitName) {
-		
+
 		Set<String> entities = PersistenceContext.getInstance().get(
 				persistenceUnitName);
 
