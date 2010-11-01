@@ -6,8 +6,8 @@ import java.util.Set;
 
 /**
  * This singleton allow to store and share scanned persistence entities names
- * from context. After context scanning, it will contain all found persistence
- * entities that match specified criteria.
+ * from context that should be included and excluded. After context scanning, it
+ * will contain all found persistence entities that match specified criteria.
  * 
  * This singleton can be used by post processor to manipulate found entities.
  * 
@@ -19,7 +19,7 @@ class PersistenceContext {
 
 	private static PersistenceContext instance;
 
-	private Map<String, Set<String>> entitiesMap = new HashMap<String, Set<String>>();
+	private Map<String, Set<String>> includedEntitiesMap = new HashMap<String, Set<String>>();
 
 	static synchronized PersistenceContext getInstance() {
 		if (instance == null) {
@@ -32,55 +32,58 @@ class PersistenceContext {
 	private PersistenceContext() {
 	}
 
-	protected Map<String, Set<String>> getEntitiesMap() {
+	protected Map<String, Set<String>> getIncludedEntitiesMap() {
 
-		return entitiesMap;
+		return includedEntitiesMap;
 	}
 
 	/**
-	 * @see Map#containsKey(Object)
+	 * Retrieve the list of all included entities name for the provided persistence unit name
+	 * 
+	 * @param persistenceUnitName
+	 * @return null if the persistenceUnitName is unknown
 	 */
-	public boolean containsKey(String persistenceUnitName) {
-		return entitiesMap.containsKey(persistenceUnitName);
+	public Set<String> getIncludedEntities(String persistenceUnitName) {
+		return includedEntitiesMap.get(persistenceUnitName);
 	}
 
 	/**
-	 * @see Map#get(Object)
-	 */
-	public Set<String> get(String persistenceUnitName) {
-		return entitiesMap.get(persistenceUnitName);
-	}
-
-	/**
-	 * @see Map#put(Object, Object)
-	 */
-	public Set<String> put(String persistenceUnitName, Set<String> entities) {
-		return entitiesMap.put(persistenceUnitName, entities);
-	}
-	
-	/**
-	 * Add all entities to the current entities list for the specified persistence unit name
+	 * Include a list of entities name to the persistence context for the
+	 * persistence unit name provided
 	 * 
 	 * @param persistenceUnitName
 	 * @param entities
 	 */
-	public void addAll(String persistenceUnitName, Set<String> entities) {
-		Set<String> beanDefinitions = this.entitiesMap.get(persistenceUnitName);
+	public void addIncludedEntities(String persistenceUnitName,
+			Set<String> entities) {
+		includedEntitiesMap.put(persistenceUnitName, entities);
+	}
+
+	/**
+	 * Include all entities to the current entities name to the persistence context for the
+	 * persistence unit name provided
+	 * 
+	 * @param persistenceUnitName
+	 * @param entities
+	 */
+	public void includeAll(String persistenceUnitName, Set<String> entities) {
+		Set<String> beanDefinitions = this.includedEntitiesMap
+				.get(persistenceUnitName);
 		if (beanDefinitions == null) {
-			this.put(persistenceUnitName, entities);
+			this.addIncludedEntities(persistenceUnitName, entities);
 		} else {
 			beanDefinitions.addAll(entities);
-			this.entitiesMap.put(persistenceUnitName, beanDefinitions);
+			this.includedEntitiesMap.put(persistenceUnitName, beanDefinitions);
 		}
 	}
 
 	/**
-	 * Flush context : Clear all entities list for a given persistence unit name
+	 * Flush context : Clear all entities lists for a given persistence unit name
 	 * 
 	 * @param persistenceUnitName
 	 */
 	public void clearPersistenceUnit(String persistenceUnitName) {
-		this.entitiesMap.remove(persistenceUnitName);
+		this.includedEntitiesMap.remove(persistenceUnitName);
 	}
 
 }
