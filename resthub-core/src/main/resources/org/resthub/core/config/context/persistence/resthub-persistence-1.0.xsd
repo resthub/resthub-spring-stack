@@ -64,13 +64,6 @@
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
-			<xsd:attribute name="resource-pattern" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation><![CDATA[
-	Controls the class files eligible for component detection. Defaults to "**/*.class", the recommended value.
-					]]></xsd:documentation>
-				</xsd:annotation>
-			</xsd:attribute>
 			<xsd:attribute name="use-default-filters" type="xsd:boolean"
 				default="true">
 				<xsd:annotation>
@@ -136,13 +129,6 @@
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
 	The comma-separated list of packages to scan for annotated components.
-					]]></xsd:documentation>
-				</xsd:annotation>
-			</xsd:attribute>
-			<xsd:attribute name="resource-pattern" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation><![CDATA[
-	Controls the class files eligible for component detection. Defaults to "**/*.class", the recommended value.
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>

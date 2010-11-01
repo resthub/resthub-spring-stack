@@ -66,11 +66,6 @@ public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionPars
 				useDefaultFilters);
 		scanner.setResourceLoader(readerContext.getResourceLoader());
 
-		if (element.hasAttribute(RESOURCE_PATTERN_ATTRIBUTE)) {
-			scanner.setResourcePattern(element
-					.getAttribute(RESOURCE_PATTERN_ATTRIBUTE));
-		}
-
 		parseTypeFilters(element, scanner, readerContext, parserContext);
 
 		return scanner;
