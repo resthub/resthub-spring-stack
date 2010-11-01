@@ -1,4 +1,4 @@
-package org.resthub.core.context.entities.model;
+package org.resthub.core.context.persistence.model;
 
 import javax.persistence.MappedSuperclass;
 

@@ -1,4 +1,4 @@
-package org.resthub.core.context.entities;
+package org.resthub.core.context.persistence;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
  * 
  * @author Baptiste Meurant
  */
-public class ResthubEntitiesDefinitionParser extends ComponentScanBeanDefinitionParser {
+public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionParser {
 
 	private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
@@ -29,7 +29,7 @@ public class ResthubEntitiesDefinitionParser extends ComponentScanBeanDefinition
 				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 
 		// Actually scan for entities definitions and register them.
-		ClassPathEntityDefinitionScanner scanner = configureScanner(
+		ClassPathPersistenceDefinitionScanner scanner = configureScanner(
 				parserContext, element);
 		List<String> entities = scanner.performScan(basePackages);
 		registerEntities(entities, element, getPersistenceUnitName(element));
@@ -40,7 +40,7 @@ public class ResthubEntitiesDefinitionParser extends ComponentScanBeanDefinition
 	protected void registerEntities(List<String> entities,
 			Element element, String persistenceUnitName) {
 
-		ResthubEntitiesContext.getInstance().addAll(persistenceUnitName, entities);
+		PersistenceContext.getInstance().addAll(persistenceUnitName, entities);
 	}
 
 	private String getPersistenceUnitName(Element element) {
@@ -51,7 +51,7 @@ public class ResthubEntitiesDefinitionParser extends ComponentScanBeanDefinition
 		return persistenceUnitName;
 	}
 
-	protected ClassPathEntityDefinitionScanner configureScanner(
+	protected ClassPathPersistenceDefinitionScanner configureScanner(
 			ParserContext parserContext, Element element) {
 		XmlReaderContext readerContext = parserContext.getReaderContext();
 
@@ -62,7 +62,7 @@ public class ResthubEntitiesDefinitionParser extends ComponentScanBeanDefinition
 		}
 
 		// Delegate bean definition registration to scanner class.
-		ClassPathEntityDefinitionScanner scanner = createScanner(readerContext,
+		ClassPathPersistenceDefinitionScanner scanner = createScanner(readerContext,
 				useDefaultFilters);
 		scanner.setResourceLoader(readerContext.getResourceLoader());
 
@@ -76,9 +76,9 @@ public class ResthubEntitiesDefinitionParser extends ComponentScanBeanDefinition
 		return scanner;
 	}
 
-	protected ClassPathEntityDefinitionScanner createScanner(
+	protected ClassPathPersistenceDefinitionScanner createScanner(
 			XmlReaderContext readerContext, boolean useDefaultFilters) {
-		return new ClassPathEntityDefinitionScanner(readerContext.getRegistry(), useDefaultFilters);
+		return new ClassPathPersistenceDefinitionScanner(readerContext.getRegistry(), useDefaultFilters);
 	}
 	
 }

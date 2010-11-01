@@ -1,1 +1,1 @@
-http\://www.resthub.org/schema/context=org.resthub.core.context.config.ResthubContextNamespaceHandler
+http\://www.resthub.org/schema/persistence=org.resthub.core.context.persistence.config.PersistenceContextNamespaceHandler

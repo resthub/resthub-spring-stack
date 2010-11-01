@@ -1,24 +1,24 @@
-package org.resthub.core.context.entities;
+package org.resthub.core.context.persistence;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class ResthubEntitiesContext {
+class PersistenceContext {
 
-	private static ResthubEntitiesContext instance;
+	private static PersistenceContext instance;
 
 	private Map<String, List<String>> entitiesMap = new HashMap<String, List<String>>();
 
-	static synchronized ResthubEntitiesContext getInstance() {
+	static synchronized PersistenceContext getInstance() {
 		if (instance == null) {
-			instance = new ResthubEntitiesContext();
+			instance = new PersistenceContext();
 		}
 		return instance;
 	}
 
 	/** A private Constructor prevents any other class from instantiating. */
-	private ResthubEntitiesContext() {
+	private PersistenceContext() {
 	}
 
 	protected Map<String, List<String>> getEntitiesMap() {

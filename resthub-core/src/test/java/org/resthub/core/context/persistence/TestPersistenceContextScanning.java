@@ -1,4 +1,4 @@
-package org.resthub.core.context.entities;
+package org.resthub.core.context.persistence;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -8,20 +8,20 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.context.entities.ResthubEntitiesContext;
-import org.resthub.core.context.entities.model.ConfigAbstractResource;
-import org.resthub.core.context.entities.model.ConfigResourceOne;
-import org.resthub.core.context.entities.model.ConfigResourceTwo;
+import org.resthub.core.context.persistence.PersistenceContext;
+import org.resthub.core.context.persistence.model.ConfigAbstractResource;
+import org.resthub.core.context.persistence.model.ConfigResourceOne;
+import org.resthub.core.context.persistence.model.ConfigResourceTwo;
 import org.resthub.core.model.Resource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class TestEntitiesContextScanning {
+public class TestPersistenceContextScanning {
 
-	private static final String LOCATION_PREFIX = "org/resthub/core/context/entities/";
+	private static final String LOCATION_PREFIX = "org/resthub/core/context/persistence/";
 
 	@Before
 	public void cleanContext() {
-		ResthubEntitiesContext.getInstance().clearPersistenceUnit("resthub");
+		PersistenceContext.getInstance().clearPersistenceUnit("resthub");
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class TestEntitiesContextScanning {
 		String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		List<String> entities = ResthubEntitiesContext.getInstance().get(
+		List<String> entities = PersistenceContext.getInstance().get(
 				"resthub");
 
 		assertNotNull("entities list should not be null", entities);
@@ -65,7 +65,7 @@ public class TestEntitiesContextScanning {
 				LOCATION_PREFIX + "modelContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		List<String> entities = ResthubEntitiesContext.getInstance().get(
+		List<String> entities = PersistenceContext.getInstance().get(
 				"resthub");
 
 		assertNotNull("entities list should not be null", entities);
@@ -94,7 +94,7 @@ public class TestEntitiesContextScanning {
 				+ "includeFilterAnnotationContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		List<String> entities = ResthubEntitiesContext.getInstance().get(
+		List<String> entities = PersistenceContext.getInstance().get(
 				"resthub");
 
 		assertNotNull("entities list should not be null", entities);
@@ -115,7 +115,7 @@ public class TestEntitiesContextScanning {
 				+ "excludeFilterAnnotationContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		List<String> entities = ResthubEntitiesContext.getInstance().get(
+		List<String> entities = PersistenceContext.getInstance().get(
 				"resthub");
 
 		assertNotNull("entities list should not be null", entities);

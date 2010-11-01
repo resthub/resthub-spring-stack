@@ -1,4 +1,4 @@
-package org.resthub.core.context.entities;
+package org.resthub.core.context.persistence;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class ScanningPersistenceUnitManager extends
 		} else {
 
 			entities = getMatchingEntitiesFromContext(pui, pui.getPersistenceUnitName());
-			ResthubEntitiesContext.getInstance().clearPersistenceUnit(
+			PersistenceContext.getInstance().clearPersistenceUnit(
 					pui.getPersistenceUnitName());
 		}
 		
@@ -129,7 +129,7 @@ public class ScanningPersistenceUnitManager extends
 	private List<String> getMatchingEntitiesFromContext(
 			MutablePersistenceUnitInfo pui, String persistenceUnitName) {
 		
-		List<String> entities = ResthubEntitiesContext.getInstance().get(
+		List<String> entities = PersistenceContext.getInstance().get(
 				persistenceUnitName);
 
 		return entities;

@@ -1,4 +1,4 @@
-package org.resthub.core.context.entities;
+package org.resthub.core.context.persistence;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -13,10 +13,10 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
-public class ClassPathEntityDefinitionScanner extends
+public class ClassPathPersistenceDefinitionScanner extends
 		ClassPathBeanDefinitionScanner {
 
-	public ClassPathEntityDefinitionScanner(BeanDefinitionRegistry registry,
+	public ClassPathPersistenceDefinitionScanner(BeanDefinitionRegistry registry,
 			boolean useDefaultFilters) {
 		super(registry, useDefaultFilters);
 	}

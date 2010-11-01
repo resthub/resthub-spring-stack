@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema xmlns="http://www.resthub.org/schema/context" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsd:schema xmlns="http://www.resthub.org/schema/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:tool="http://www.springframework.org/schema/tool"
     xmlns:context="http://www.springframework.org/schema/context"
-	targetNamespace="http://www.resthub.org/schema/context" elementFormDefault="qualified"
+	targetNamespace="http://www.resthub.org/schema/persistence" elementFormDefault="qualified"
 	attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.springframework.org/schema/tool" />
@@ -16,7 +16,7 @@
 	for the containing Spring ApplicationContext.
 		]]></xsd:documentation>
 	</xsd:annotation>
-	<xsd:element name="entities-scan">
+	<xsd:element name="include-entities">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
 	Scans the classpath for annotated components that will be auto-registered as
