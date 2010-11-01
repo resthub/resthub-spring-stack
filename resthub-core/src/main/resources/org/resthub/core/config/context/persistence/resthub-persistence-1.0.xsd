@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema xmlns="http://www.resthub.org/schema/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:tool="http://www.springframework.org/schema/tool"
-    xmlns:context="http://www.springframework.org/schema/context"
-	targetNamespace="http://www.resthub.org/schema/persistence" elementFormDefault="qualified"
-	attributeFormDefault="unqualified">
+<xsd:schema xmlns="http://www.resthub.org/schema/persistence"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tool="http://www.springframework.org/schema/tool"
+	xmlns:context="http://www.springframework.org/schema/context"
+	targetNamespace="http://www.resthub.org/schema/persistence"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.springframework.org/schema/tool" />
-    <xsd:import namespace="http://www.springframework.org/schema/context" 
-        schemaLocation="http://www.springframework.org/schema/context/spring-context.xsd" />
+	<xsd:import namespace="http://www.springframework.org/schema/context"
+		schemaLocation="http://www.springframework.org/schema/context/spring-context.xsd" />
 
 	<xsd:annotation>
 		<xsd:documentation><![CDATA[
-	Defines the configuration elements for the Spring Framework's application
-	context support. Effects the activation of various configuration styles
-	for the containing Spring ApplicationContext.
+	Defines the configuration elements for the Resthub Framework's persistence unit
+	context support.
 		]]></xsd:documentation>
 	</xsd:annotation>
+	
 	<xsd:element name="include-entities">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-	Scans the classpath for annotated components that will be auto-registered as
-	Spring beans. By default, the Spring-provided @Component, @Repository,
-	@Service, and @Controller stereotypes will be detected.
+	Scans the classpath for annotated persistence entities that will be auto-registered and included in a shared context. 
+	By default, the JPA-provided @MappedSuperclass and @Entity stereotypes will be detected.
 
-	Note: This tag implies the effects of the 'annotation-config' tag, activating @Required,
-	@Autowired, @PostConstruct, @PreDestroy, @Resource, @PersistenceContext and @PersistenceUnit
-	annotations in the component classes, which is usually desired for autodetected components
-	(without external configuration). Turn off the 'annotation-config' attribute to deactivate
-	this default behavior, for example in order to use custom BeanPostProcessor definitions
-	for handling those annotations.
-
-	Note: You may use placeholders in package paths, but only resolved against system
-	properties (analogous to resource paths). A component scan results in new bean definition
-	being registered; Spring's PropertyPlaceholderConfigurer will apply to those bean
-	definitions just like to regular bean definitions, but it won't apply to the component
-	scan settings themselves.
+	This component is widely base on Spring component-scan element. All options available here (but persistenceUnitName)
+	are those defined by Spring. Please report Spring context xsd documentation for information about these options.
+	Some original options are not repeated here because of their useless in a persistence context implementation.
 			]]></xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
@@ -43,7 +33,7 @@
 					minOccurs="0" maxOccurs="unbounded">
 					<xsd:annotation>
 						<xsd:documentation><![CDATA[
-	Controls which eligible types to include for component scanning.
+	Controls which eligible types to include for persistence entities scanning.
 							]]></xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
@@ -51,7 +41,7 @@
 					minOccurs="0" maxOccurs="unbounded">
 					<xsd:annotation>
 						<xsd:documentation><![CDATA[
-	Controls which eligible types to exclude for component scanning.
+	Controls which eligible types to exclude for persistence entities scanning.
 						]]></xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
@@ -60,7 +50,7 @@
 				use="required">
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
-	The comma-separated list of packages to scan for annotated components.
+	The comma-separated list of packages to scan for annotated persistence entities.
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
@@ -68,41 +58,23 @@
 				default="true">
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
-	Indicates whether automatic detection of classes annotated with @Component, @Repository, @Service,
-	or @Controller should be enabled. Default is "true".
+	Indicates whether automatic detection of classes annotated with @MappedSuperclass 
+	or @Entity should be enabled. Default is "true".
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
-	
-	<xsd:annotation>
-		<xsd:documentation><![CDATA[
-	Defines the configuration elements for the Spring Framework's application
-	context support. Effects the activation of various configuration styles
-	for the containing Spring ApplicationContext.
-		]]></xsd:documentation>
-	</xsd:annotation>
-	
+
 	<xsd:element name="exclude-entities">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-	Scans the classpath for annotated components that will be auto-registered as
-	Spring beans. By default, the Spring-provided @Component, @Repository,
-	@Service, and @Controller stereotypes will be detected.
+	Scans the classpath for annotated persistence entities that will be excluded from the shared context. 
+	By default, the JPA-provided @MappedSuperclass and @Entity stereotypes will be detected.
 
-	Note: This tag implies the effects of the 'annotation-config' tag, activating @Required,
-	@Autowired, @PostConstruct, @PreDestroy, @Resource, @PersistenceContext and @PersistenceUnit
-	annotations in the component classes, which is usually desired for autodetected components
-	(without external configuration). Turn off the 'annotation-config' attribute to deactivate
-	this default behavior, for example in order to use custom BeanPostProcessor definitions
-	for handling those annotations.
-
-	Note: You may use placeholders in package paths, but only resolved against system
-	properties (analogous to resource paths). A component scan results in new bean definition
-	being registered; Spring's PropertyPlaceholderConfigurer will apply to those bean
-	definitions just like to regular bean definitions, but it won't apply to the component
-	scan settings themselves.
+	This component is widely base on Spring component-scan element. All options available here (but persistenceUnitName)
+	are those defined by Spring. Please report Spring context xsd documentation for information about these options.
+	Some original options are not repeated here because of their useless in a persistence context implementation.
 			]]></xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
@@ -111,7 +83,7 @@
 					minOccurs="0" maxOccurs="unbounded">
 					<xsd:annotation>
 						<xsd:documentation><![CDATA[
-	Controls which eligible types to include for component scanning.
+	Controls which eligible types to include for persistence entities scanning.
 							]]></xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
@@ -119,7 +91,7 @@
 					minOccurs="0" maxOccurs="unbounded">
 					<xsd:annotation>
 						<xsd:documentation><![CDATA[
-	Controls which eligible types to exclude for component scanning.
+	Controls which eligible types to exclude for persistence entities scanning.
 						]]></xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
@@ -128,7 +100,7 @@
 				use="required">
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
-	The comma-separated list of packages to scan for annotated components.
+	The comma-separated list of packages to scan for annotated persistence entities.
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
@@ -136,8 +108,8 @@
 				default="true">
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
-	Indicates whether automatic detection of classes annotated with @Component, @Repository, @Service,
-	or @Controller should be enabled. Default is "true".
+	Indicates whether automatic detection of classes annotated with @MappedSuperclass 
+	or @Entity should be enabled. Default is "true".
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
