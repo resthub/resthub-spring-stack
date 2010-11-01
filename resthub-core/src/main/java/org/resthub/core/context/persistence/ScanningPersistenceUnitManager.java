@@ -128,7 +128,7 @@ public class ScanningPersistenceUnitManager extends
 		super.postProcessPersistenceUnitInfo(pui);
 	}
 
-	private void addEntitiesToPersistenceUnit(MutablePersistenceUnitInfo pui,
+	protected void addEntitiesToPersistenceUnit(MutablePersistenceUnitInfo pui,
 			Set<String> entities) {
 		for (String entityName : entities) {
 
@@ -147,7 +147,7 @@ public class ScanningPersistenceUnitManager extends
 		}
 	}
 
-	private Set<String> getMatchingEntitiesFromContext(
+	protected Set<String> getMatchingEntitiesFromContext(
 			MutablePersistenceUnitInfo pui, String persistenceUnitName) {
 
 		Set<String> entities = PersistenceContext.getInstance().get(
@@ -176,7 +176,7 @@ public class ScanningPersistenceUnitManager extends
 		return basePackages;
 	}
 
-	private Set<String> findMatchingEntitiesFromPackage(String basePackage) {
+	protected Set<String> findMatchingEntitiesFromPackage(String basePackage) {
 		ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(
 				Thread.currentThread().getContextClassLoader());
 		
@@ -221,7 +221,7 @@ public class ScanningPersistenceUnitManager extends
 		return null;
 	}
 
-	private void setFilters() {
+	protected void setFilters() {
 		this.typeFilters.add(new AnnotationTypeFilter(Entity.class));
 		this.typeFilters.add(new AnnotationTypeFilter(MappedSuperclass.class));
 	}
