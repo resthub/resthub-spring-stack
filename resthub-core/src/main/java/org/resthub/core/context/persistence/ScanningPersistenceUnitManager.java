@@ -2,7 +2,9 @@ package org.resthub.core.context.persistence;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
@@ -88,7 +90,7 @@ public class ScanningPersistenceUnitManager extends
 	@Override
 	protected void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
 
-		List<String> entities;
+		Set<String> entities;
 
 		if (this.classpathPatterns != null) {
 
@@ -108,7 +110,7 @@ public class ScanningPersistenceUnitManager extends
 	}
 
 	private void addEntitiesToPersistenceUnit(MutablePersistenceUnitInfo pui,
-			List<String> entities) {
+			Set<String> entities) {
 		for (String entityName : entities) {
 
 			if (!pui.getManagedClassNames().contains(entityName)) {
@@ -126,16 +128,16 @@ public class ScanningPersistenceUnitManager extends
 		}
 	}
 
-	private List<String> getMatchingEntitiesFromContext(
+	private Set<String> getMatchingEntitiesFromContext(
 			MutablePersistenceUnitInfo pui, String persistenceUnitName) {
 		
-		List<String> entities = PersistenceContext.getInstance().get(
+		Set<String> entities = PersistenceContext.getInstance().get(
 				persistenceUnitName);
 
 		return entities;
 	}
 
-	protected List<String> findMatchingEntities(MutablePersistenceUnitInfo pui) {
+	protected Set<String> findMatchingEntities(MutablePersistenceUnitInfo pui) {
 		String[] basePackages = StringUtils.tokenizeToStringArray(
 				this.classpathPatterns,
 				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
@@ -144,7 +146,7 @@ public class ScanningPersistenceUnitManager extends
 				Thread.currentThread().getContextClassLoader());
 
 		Resource[] resources = new Resource[0];
-		List<String> entities = new ArrayList<String>();
+		Set<String> entities = new HashSet<String>();
 		String entityName;
 
 		for (String basePackage : basePackages) {

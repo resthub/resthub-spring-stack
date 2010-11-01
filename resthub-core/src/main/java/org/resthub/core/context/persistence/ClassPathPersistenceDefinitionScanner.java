@@ -2,6 +2,7 @@ package org.resthub.core.context.persistence;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class ClassPathPersistenceDefinitionScanner extends
 		}
 	}
 
-	protected List<String> performScan(String... basePackages) {
+	protected Set<String> performScan(String... basePackages) {
 		List<BeanDefinition> entitiesAsBean = new ArrayList<BeanDefinition>();
 		for (String basePackage : basePackages) {
 			List<BeanDefinition> candidates = new ArrayList<BeanDefinition>(
@@ -56,7 +57,7 @@ public class ClassPathPersistenceDefinitionScanner extends
 			entitiesAsBean.addAll(candidates);
 		}
 		
-		List<String> entities = new ArrayList<String>();
+		Set<String> entities = new HashSet<String>();
 		for (BeanDefinition beanDefinition : entitiesAsBean) {
 			entities.add(beanDefinition.getBeanClassName());
 		}

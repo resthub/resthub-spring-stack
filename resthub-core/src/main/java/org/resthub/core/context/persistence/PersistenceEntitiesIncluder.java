@@ -1,6 +1,6 @@
 package org.resthub.core.context.persistence;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -31,13 +31,13 @@ public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionPars
 		// Actually scan for entities definitions and register them.
 		ClassPathPersistenceDefinitionScanner scanner = configureScanner(
 				parserContext, element);
-		List<String> entities = scanner.performScan(basePackages);
+		Set<String> entities = scanner.performScan(basePackages);
 		registerEntities(entities, element, getPersistenceUnitName(element));
 
 		return null;
 	}
 
-	protected void registerEntities(List<String> entities,
+	protected void registerEntities(Set<String> entities,
 			Element element, String persistenceUnitName) {
 
 		PersistenceContext.getInstance().addAll(persistenceUnitName, entities);

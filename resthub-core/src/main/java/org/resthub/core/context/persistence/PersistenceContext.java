@@ -1,14 +1,14 @@
 package org.resthub.core.context.persistence;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class PersistenceContext {
 
 	private static PersistenceContext instance;
 
-	private Map<String, List<String>> entitiesMap = new HashMap<String, List<String>>();
+	private Map<String, Set<String>> entitiesMap = new HashMap<String, Set<String>>();
 
 	static synchronized PersistenceContext getInstance() {
 		if (instance == null) {
@@ -21,12 +21,9 @@ class PersistenceContext {
 	private PersistenceContext() {
 	}
 
-	protected Map<String, List<String>> getEntitiesMap() {
+	protected Map<String, Set<String>> getEntitiesMap() {
+		
 		return entitiesMap;
-	}
-
-	protected void setEntitiesMap(Map<String, List<String>> entitiesMap) {
-		this.entitiesMap = entitiesMap;
 	}
 
 	public Object clone() throws CloneNotSupportedException {
@@ -37,16 +34,16 @@ class PersistenceContext {
 		return entitiesMap.containsKey(persistenceUnitName);
 	}
 
-	public List<String> get(String persistenceUnitName) {
+	public Set<String> get(String persistenceUnitName) {
 		return entitiesMap.get(persistenceUnitName);
 	}
 
-	public List<String> put(String persistenceUnitName, List<String> entities) {
+	public Set<String> put(String persistenceUnitName, Set<String> entities) {
 		return entitiesMap.put(persistenceUnitName, entities);
 	}
 	
-	public void addAll(String persistenceUnitName, List<String> entities) {
-		List<String> beanDefinitions = this.entitiesMap.get(persistenceUnitName);
+	public void addAll(String persistenceUnitName, Set<String> entities) {
+		Set<String> beanDefinitions = this.entitiesMap.get(persistenceUnitName);
 		if (beanDefinitions == null) {
 			this.put(persistenceUnitName, entities);
 		}
