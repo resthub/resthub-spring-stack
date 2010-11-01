@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @XmlRootElement
 public class BeanDetail {

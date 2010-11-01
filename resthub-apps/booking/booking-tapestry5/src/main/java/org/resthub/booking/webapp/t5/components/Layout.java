@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Inspirated by Tapestry5 booking sample
  * (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  * @author ccordenier
  */
 @Import(stylesheet = { "context:static/css/booking.css",

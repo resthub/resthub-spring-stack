@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @Named("toolingService")
 public class SpringToolingService implements ToolingService,

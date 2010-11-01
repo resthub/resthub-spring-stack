@@ -4,7 +4,7 @@ import java.util.List;
 
 
 /**
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public interface ToolingService {
 	

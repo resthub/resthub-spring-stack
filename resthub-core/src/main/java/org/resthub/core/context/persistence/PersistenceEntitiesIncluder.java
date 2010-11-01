@@ -13,13 +13,11 @@ import org.w3c.dom.Element;
 /**
  * 
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionParser {
 
 	private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
-
-	private static final String RESOURCE_PATTERN_ATTRIBUTE = "resource-pattern";
 
 	private static final String USE_DEFAULT_FILTERS_ATTRIBUTE = "use-default-filters";
 

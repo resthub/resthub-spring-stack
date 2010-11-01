@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Object used to store informations about logged user. Internally used by
  * spring-security
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public class MyUserDetailsImpl implements UserDetails {
 

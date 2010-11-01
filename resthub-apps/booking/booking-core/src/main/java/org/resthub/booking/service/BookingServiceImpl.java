@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 
 /**
  * @author Guillaume Zurbach
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @Named("bookingService")
 public class BookingServiceImpl extends

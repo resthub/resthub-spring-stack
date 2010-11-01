@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
  * Perform audit around a method invocation
  * 
  * @author Nicolas Carlier
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @SuppressWarnings("serial")
 public class AuditInterceptor extends AdvisorInterceptor {

@@ -7,7 +7,7 @@ import org.resthub.core.service.GenericResourceService;
 
 /**
  * @author Guillaume Zurbach
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public interface BookingService extends GenericResourceService<Booking> {
 

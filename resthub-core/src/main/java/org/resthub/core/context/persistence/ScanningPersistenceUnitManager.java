@@ -48,7 +48,7 @@ import org.springframework.util.StringUtils;
  * in case where no classpathPatterns is provided, this scanner search for
  * entities in PersistenceContext filled during Spring loading of context files
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  * 
  */
 public class ScanningPersistenceUnitManager extends

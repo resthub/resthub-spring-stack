@@ -7,7 +7,7 @@ import org.resthub.booking.model.User;
 import org.resthub.core.dao.GenericResourceDao;
 
 /**
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public interface BookingDao extends GenericResourceDao<Booking> {
 

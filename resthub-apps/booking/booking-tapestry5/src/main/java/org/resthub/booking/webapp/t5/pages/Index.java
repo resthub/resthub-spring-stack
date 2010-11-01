@@ -3,7 +3,7 @@ package org.resthub.booking.webapp.t5.pages;
 /**
  * Start page of application.
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  * @author ccordenier
  */
 public class Index {

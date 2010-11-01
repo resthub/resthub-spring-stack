@@ -22,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * Configuration for integration with tapestry-spring-securitya library in order
  * to provide complete and integrated login components
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @SubModule( { ResthubSecurityModule.class })
 public class BookingSecurityModule {

@@ -5,7 +5,7 @@ import org.resthub.core.service.GenericService;
 
 /**
  * @author Guillaume Zurbach
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public interface UserService extends GenericService<User, Long> {
 

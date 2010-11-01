@@ -17,7 +17,7 @@ import org.apache.tapestry5.util.AbstractSelectModel;
  * This component manage i18n messages.
  * 
  * @author ccordenier
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  * 
  */
 public class BedType extends AbstractSelectModel {

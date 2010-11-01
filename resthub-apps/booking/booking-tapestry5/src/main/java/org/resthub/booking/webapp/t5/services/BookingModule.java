@@ -10,7 +10,7 @@ import org.tynamo.jpa.JPASymbols;
 /**
  * Configuration for application. Include all necessary submodules
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @SubModule( { BookingSecurityModule.class, ResthubModule.class,
 		BookingJPAModule.class })
