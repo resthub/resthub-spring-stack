@@ -157,39 +157,51 @@ public class ScanningPersistenceUnitManager extends
 	}
 
 	protected Set<String> findMatchingEntities(MutablePersistenceUnitInfo pui) {
-		String[] basePackages = StringUtils.tokenizeToStringArray(
-				this.classpathPatterns,
-				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+		String[] basePackages = extractBasePackages();
 
-		ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(
-				Thread.currentThread().getContextClassLoader());
-
-		Resource[] resources = new Resource[0];
 		Set<String> entities = new HashSet<String>();
-		String entityName;
 
 		for (String basePackage : basePackages) {
 
-			try {
-				resources = rpr.getResources(basePackage);
+			entities.addAll(findMatchingEntitiesFromPackage(basePackage));
 
-				for (Resource resource : resources) {
+		}
+		return entities;
+	}
 
-					entityName = this.isResourceMatching(resource);
-					if (entityName != null) {
-						entities.add(entityName);
-					}
+	private String[] extractBasePackages() {
+		String[] basePackages = StringUtils.tokenizeToStringArray(
+				this.classpathPatterns,
+				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+		return basePackages;
+	}
+
+	private Set<String> findMatchingEntitiesFromPackage(String basePackage) {
+		ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(
+				Thread.currentThread().getContextClassLoader());
+		
+		String entityName;
+		Resource[] resources = new Resource[0];
+		Set<String> entities = new HashSet<String>();
+		
+		try {
+			resources = rpr.getResources(basePackage);
+
+			for (Resource resource : resources) {
+
+				entityName = this.isResourceMatching(resource);
+				if (entityName != null) {
+					entities.add(entityName);
 				}
-
-			} catch (IOException e) {
-				log.warn("Error during scanning entities : cannot scan "
-						+ basePackage + ".", e);
-			}
-			if (log.isInfoEnabled()) {
-				log.info(basePackage + " successfully scanned : "
-						+ resources.length + " entities found.");
 			}
 
+		} catch (IOException e) {
+			log.warn("Error during scanning entities : cannot scan "
+					+ basePackage + ".", e);
+		}
+		if (log.isInfoEnabled()) {
+			log.info(basePackage + " successfully scanned : "
+					+ resources.length + " entities found.");
 		}
 		return entities;
 	}
