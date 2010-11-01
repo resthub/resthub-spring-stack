@@ -1,5 +1,6 @@
 package org.resthub.core.context.persistence.config;
 
+import org.resthub.core.context.persistence.PersistenceEntitiesExcluder;
 import org.resthub.core.context.persistence.PersistenceEntitiesIncluder;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
@@ -14,6 +15,8 @@ public class PersistenceContextNamespaceHandler extends NamespaceHandlerSupport 
 	public void init() {
 		registerBeanDefinitionParser("include-entities",
 				new PersistenceEntitiesIncluder());
+		registerBeanDefinitionParser("exclude-entities",
+				new PersistenceEntitiesExcluder());
 	}
 	
 	

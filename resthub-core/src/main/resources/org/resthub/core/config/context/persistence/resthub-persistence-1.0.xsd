@@ -19,7 +19,7 @@
 	<xsd:element name="include-entities">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-	Scans the classpath for annotated persistence entities that will be auto-registered and included in a shared context. 
+	Scans the classpath for annotated persistence entities that will be included in a shared context. 
 	By default, the JPA-provided @MappedSuperclass and @Entity stereotypes will be detected.
 
 	This component is widely base on Spring component-scan element. All options available here (but persistenceUnitName)
