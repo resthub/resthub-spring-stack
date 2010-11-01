@@ -8,7 +8,8 @@
 
 	<!--
 		Scan all entities from org.resthub.core.context.persistence.model
-		package that are holding @Entity annotation excluding entities holding @MappedSuperclass
+		package that are holding @Entity annotation excluding entities holding
+		@MappedSuperclass
 	-->
 	<persistence:include-entities
 		base-package="org.resthub.core.context.persistence.model"
