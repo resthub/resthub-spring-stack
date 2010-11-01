@@ -278,6 +278,8 @@ public class TestPersistenceContextScanning {
 		assertTrue("configEntities list should contain "
 				+ ConfigResourceThree.class.getSimpleName(), configEntities
 				.contains(ConfigResourceThree.class.getName()));
+		
+		PersistenceContext.getInstance().clearPersistenceUnit("config");
 
 	}
 

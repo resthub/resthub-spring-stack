@@ -14,8 +14,8 @@
 	<persistence:include-entities
 		base-package="org.resthub.core.context.persistence.model"
 		use-default-filters="false">
-		<persistence:include-filter type="assignable"
-			expression="java.persistence.Entity" />
+		<persistence:include-filter type="annotation"
+			expression="javax.persistence.Entity" />
 		<persistence:exclude-filter type="annotation"
 			expression="javax.persistence.MappedSuperclass" />
 	</persistence:include-entities>
