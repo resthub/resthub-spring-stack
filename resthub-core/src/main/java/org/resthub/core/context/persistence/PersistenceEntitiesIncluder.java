@@ -11,16 +11,23 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 /**
- * 
+ * This class scan entities defined by a scanning configuration in application
+ * context and add all found entities, matching with specified configuration
+ * options, to the persistence context in order to be managed later (on
+ * initialization phasis)
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionParser {
+public class PersistenceEntitiesIncluder extends
+		ComponentScanBeanDefinitionParser {
 
 	private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
 	private static final String USE_DEFAULT_FILTERS_ATTRIBUTE = "use-default-filters";
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
 		String[] basePackages = StringUtils.tokenizeToStringArray(element
 				.getAttribute(BASE_PACKAGE_ATTRIBUTE),
@@ -30,13 +37,13 @@ public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionPars
 		ClassPathPersistenceDefinitionScanner scanner = configureScanner(
 				parserContext, element);
 		Set<String> entities = scanner.performScan(basePackages);
-		registerEntities(entities, element, getPersistenceUnitName(element));
+		registerEntitiesInPersistenceContext(entities, element, getPersistenceUnitName(element));
 
 		return null;
 	}
 
-	protected void registerEntities(Set<String> entities,
-			Element element, String persistenceUnitName) {
+	protected void registerEntitiesInPersistenceContext(Set<String> entities, Element element,
+			String persistenceUnitName) {
 
 		PersistenceContext.getInstance().addAll(persistenceUnitName, entities);
 	}
@@ -49,6 +56,9 @@ public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionPars
 		return persistenceUnitName;
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	protected ClassPathPersistenceDefinitionScanner configureScanner(
 			ParserContext parserContext, Element element) {
 		XmlReaderContext readerContext = parserContext.getReaderContext();
@@ -60,8 +70,8 @@ public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionPars
 		}
 
 		// Delegate bean definition registration to scanner class.
-		ClassPathPersistenceDefinitionScanner scanner = createScanner(readerContext,
-				useDefaultFilters);
+		ClassPathPersistenceDefinitionScanner scanner = createScanner(
+				readerContext, useDefaultFilters);
 		scanner.setResourceLoader(readerContext.getResourceLoader());
 
 		parseTypeFilters(element, scanner, readerContext, parserContext);
@@ -69,9 +79,13 @@ public class PersistenceEntitiesIncluder extends ComponentScanBeanDefinitionPars
 		return scanner;
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	protected ClassPathPersistenceDefinitionScanner createScanner(
 			XmlReaderContext readerContext, boolean useDefaultFilters) {
-		return new ClassPathPersistenceDefinitionScanner(readerContext.getRegistry(), useDefaultFilters);
+		return new ClassPathPersistenceDefinitionScanner(readerContext
+				.getRegistry(), useDefaultFilters);
 	}
-	
+
 }
