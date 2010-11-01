@@ -21,9 +21,13 @@ import org.w3c.dom.Element;
 public class PersistenceEntitiesIncluder extends
 		ComponentScanBeanDefinitionParser {
 
+	private static final String DEFAULT_PERSISTENCE_UNIT_NAME = "resthub";
+
 	private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
 	private static final String USE_DEFAULT_FILTERS_ATTRIBUTE = "use-default-filters";
+
+	private static final String PERSISTENCE_UNIT_NAME = "persistence-unit-name";
 
 	/**
 	 * {@InheritDoc}
@@ -37,19 +41,34 @@ public class PersistenceEntitiesIncluder extends
 		ClassPathPersistenceDefinitionScanner scanner = configureScanner(
 				parserContext, element);
 		Set<String> entities = scanner.performScan(basePackages);
-		registerEntitiesInPersistenceContext(entities, element, getPersistenceUnitName(element));
+		registerEntitiesInPersistenceContext(entities, element,
+				getPersistenceUnitName(element));
 
 		return null;
 	}
 
-	protected void registerEntitiesInPersistenceContext(Set<String> entities, Element element,
-			String persistenceUnitName) {
+	protected void registerEntitiesInPersistenceContext(Set<String> entities,
+			Element element, String persistenceUnitName) {
 
 		PersistenceContext.getInstance().addAll(persistenceUnitName, entities);
 	}
 
+	/**
+	 * Determines in which persistence unit name entities should be added. This
+	 * can be specified as a configuration option. If not, default persistence
+	 * unit name is used
+	 * 
+	 * @param element
+	 *            configuration element
+	 * @return the persistence unit name
+	 */
 	private String getPersistenceUnitName(Element element) {
-		String persistenceUnitName = "resthub";
+		String persistenceUnitName = DEFAULT_PERSISTENCE_UNIT_NAME;
+
+		if (element.hasAttribute(PERSISTENCE_UNIT_NAME)) {
+			persistenceUnitName = element.getAttribute(PERSISTENCE_UNIT_NAME);
+		}
+
 		if (element.hasAttribute("persistence-unit")) {
 			persistenceUnitName = element.getAttribute("persistence-unit");
 		}
@@ -63,11 +82,7 @@ public class PersistenceEntitiesIncluder extends
 			ParserContext parserContext, Element element) {
 		XmlReaderContext readerContext = parserContext.getReaderContext();
 
-		boolean useDefaultFilters = true;
-		if (element.hasAttribute(USE_DEFAULT_FILTERS_ATTRIBUTE)) {
-			useDefaultFilters = Boolean.valueOf(element
-					.getAttribute(USE_DEFAULT_FILTERS_ATTRIBUTE));
-		}
+		boolean useDefaultFilters = isDefaultFiltersEnabled(element);
 
 		// Delegate bean definition registration to scanner class.
 		ClassPathPersistenceDefinitionScanner scanner = createScanner(
@@ -77,6 +92,22 @@ public class PersistenceEntitiesIncluder extends
 		parseTypeFilters(element, scanner, readerContext, parserContext);
 
 		return scanner;
+	}
+
+	/**
+	 * Read configuration to decide default filters are activated or not
+	 * 
+	 * @param element
+	 *            configuration element
+	 * @return true if defaultFilters are activated, false otherwise
+	 */
+	private boolean isDefaultFiltersEnabled(Element element) {
+		boolean useDefaultFilters = true;
+		if (element.hasAttribute(USE_DEFAULT_FILTERS_ATTRIBUTE)) {
+			useDefaultFilters = Boolean.valueOf(element
+					.getAttribute(USE_DEFAULT_FILTERS_ATTRIBUTE));
+		}
+		return useDefaultFilters;
 	}
 
 	/**

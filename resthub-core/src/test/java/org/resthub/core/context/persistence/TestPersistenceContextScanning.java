@@ -215,5 +215,70 @@ public class TestPersistenceContextScanning {
 				.contains(ConfigResourceThree.class.getName()));
 
 	}
+	
+	/**
+	 * Test managing configuration with multiple persistence unit names
+	 */
+	@Test
+	public void testMultiplePersistenceUnits() {
+
+		String[] contextFiles = { LOCATION_PREFIX
+				+ "multiplePersistenceUnitsContext.xml" };
+		new ClassPathXmlApplicationContext(contextFiles);
+
+		Set<String> resthubEntities = PersistenceContext.getInstance().get("resthub");
+		Set<String> configEntities = PersistenceContext.getInstance().get("config");
+
+		assertNotNull("resthubEntities list should not be null", resthubEntities);
+		assertFalse("resthubEntities should not be empty", resthubEntities.isEmpty());
+		assertTrue("more than 2 resthubEntities should have been found", resthubEntities
+				.size() >= 2);
+
+		assertTrue("resthubEntities list should contain "
+				+ Resource.class.getSimpleName(), resthubEntities
+				.contains(Resource.class.getName()));
+		
+		assertTrue("resthubEntities list should contain "
+				+ ConfigResourceOne.class.getSimpleName(), resthubEntities
+				.contains(ConfigResourceOne.class.getName()));
+		
+		assertFalse("resthubEntities list should not contain "
+				+ ConfigAbstractResource.class.getSimpleName(), resthubEntities
+				.contains(ConfigAbstractResource.class.getName()));
+
+		assertFalse("resthubEntities list should not contain "
+				+ ConfigResourceTwo.class.getSimpleName(), resthubEntities
+				.contains(ConfigResourceTwo.class.getName()));
+		
+		assertFalse("resthubEntities list should not contain "
+				+ ConfigResourceThree.class.getSimpleName(), resthubEntities
+				.contains(ConfigResourceThree.class.getName()));
+		
+		assertNotNull("configEntities list should not be null", configEntities);
+		assertFalse("configEntities should not be empty", configEntities.isEmpty());
+		assertTrue("more than 3 configEntities should have been found", configEntities
+				.size() >= 3);
+
+		assertFalse("configEntities list should not contain "
+				+ Resource.class.getSimpleName(), configEntities
+				.contains(Resource.class.getName()));
+		
+		assertFalse("configEntities list should not contain "
+				+ ConfigResourceOne.class.getSimpleName(), configEntities
+				.contains(ConfigResourceOne.class.getName()));
+		
+		assertTrue("configEntities list should contain "
+				+ ConfigAbstractResource.class.getSimpleName(), configEntities
+				.contains(ConfigAbstractResource.class.getName()));
+
+		assertTrue("configEntities list should contain "
+				+ ConfigResourceTwo.class.getSimpleName(), configEntities
+				.contains(ConfigResourceTwo.class.getName()));
+		
+		assertTrue("configEntities list should contain "
+				+ ConfigResourceThree.class.getSimpleName(), configEntities
+				.contains(ConfigResourceThree.class.getName()));
+
+	}
 
 }
