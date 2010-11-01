@@ -116,51 +116,6 @@ public class TestPersistenceContextScanning {
 	}
 
 	/**
-	 * Test cutom filter config by specifying inclusion based on anntotation value
-	 */
-	@Test
-	public void testIncludeFilterAnnotation() {
-
-		String[] contextFiles = { LOCATION_PREFIX
-				+ "includeFilterAnnotationContext.xml" };
-		new ClassPathXmlApplicationContext(contextFiles);
-
-		Set<String> entities = PersistenceContext.getInstance().get("resthub");
-
-		assertNotNull("entities list should not be null", entities);
-		assertFalse("entities should not be empty", entities.isEmpty());
-		assertTrue("only one entity should have been found",
-				entities.size() == 1);
-
-		assertTrue("entities list should contain "
-				+ ConfigAbstractResource.class.getSimpleName(), entities
-				.contains(ConfigAbstractResource.class.getName()));
-
-	}
-
-	/**
-	 * Test cutom filter config by specifying exclusion based on anntotation value
-	 */
-	@Test
-	public void testExcludeFilterAnnotation() {
-
-		String[] contextFiles = { LOCATION_PREFIX
-				+ "excludeFilterAnnotationContext.xml" };
-		new ClassPathXmlApplicationContext(contextFiles);
-
-		Set<String> entities = PersistenceContext.getInstance().get("resthub");
-
-		assertNotNull("entities list should not be null", entities);
-		assertFalse("entities should not be empty", entities.isEmpty());
-		assertTrue("At least 2 should have been found", entities.size() >= 2);
-
-		assertFalse("entities list should not contain "
-				+ ConfigAbstractResource.class.getSimpleName(), entities
-				.contains(ConfigAbstractResource.class.getName()));
-
-	}
-
-	/**
 	 * Test to load the same entity multiple times (at least twice) and check
 	 * the unicity of its loading
 	 */
@@ -197,54 +152,39 @@ public class TestPersistenceContextScanning {
 				.contains(ConfigResourceTwo.class.getName()));
 
 	}
-	
+
 	/**
-	 * Test cutom filter config by specifying inclusion based on assignation criterion
+	 * Test cutom filter config by specifying inclusion/exclusion based on anntotation
+	 * value
 	 */
 	@Test
-	public void testIncludeFilterAssignable() {
+	public void testFilterAnnotation() {
 
 		String[] contextFiles = { LOCATION_PREFIX
-				+ "includeFilterAssignableContext.xml" };
+				+ "filterAnnotationContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
 		Set<String> entities = PersistenceContext.getInstance().get("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
-		assertTrue("more than 3 entities should have been found", entities
-				.size() >= 3);
+		assertTrue("At least 2 should have been found", entities.size() >= 2);
 
-		assertTrue("entities list should contain "
+		assertFalse("entities list should not contain "
 				+ ConfigAbstractResource.class.getSimpleName(), entities
 				.contains(ConfigAbstractResource.class.getName()));
-		
-		assertFalse("entities list should not contain "
-				+ Resource.class.getSimpleName(), entities
-				.contains(Resource.class.getName()));
-		
-		assertTrue("entities list should contain "
-				+ ConfigResourceOne.class.getSimpleName(), entities
-				.contains(ConfigResourceOne.class.getName()));
-		
-		assertFalse("entities list should not contain "
-				+ ConfigResourceTwo.class.getSimpleName(), entities
-				.contains(ConfigResourceTwo.class.getName()));
-		
-		assertTrue("entities list should contain "
-				+ ConfigResourceThree.class.getSimpleName(), entities
-				.contains(ConfigResourceThree.class.getName()));
 
 	}
-
+	
 	/**
-	 * Test cutom filter config by specifying exclusion based on assignation criterion
+	 * Test cutom filter config by specifying inclusion/exclusion based on
+	 * assignation criterion
 	 */
 	@Test
-	public void testExcludeFilterAssignable() {
+	public void testFilterAssignable() {
 
 		String[] contextFiles = { LOCATION_PREFIX
-				+ "excludeFilterAssignableContext.xml" };
+				+ "filterAssignableContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
 		Set<String> entities = PersistenceContext.getInstance().get("resthub");
@@ -257,19 +197,19 @@ public class TestPersistenceContextScanning {
 		assertFalse("entities list should not contain "
 				+ ConfigAbstractResource.class.getSimpleName(), entities
 				.contains(ConfigAbstractResource.class.getName()));
-		
+
 		assertFalse("entities list should not contain "
 				+ Resource.class.getSimpleName(), entities
 				.contains(Resource.class.getName()));
-		
+
 		assertTrue("entities list should contain "
 				+ ConfigResourceOne.class.getSimpleName(), entities
 				.contains(ConfigResourceOne.class.getName()));
-		
+
 		assertTrue("entities list should contain "
 				+ ConfigResourceTwo.class.getSimpleName(), entities
 				.contains(ConfigResourceTwo.class.getName()));
-		
+
 		assertFalse("entities list should not contain "
 				+ ConfigResourceThree.class.getSimpleName(), entities
 				.contains(ConfigResourceThree.class.getName()));
