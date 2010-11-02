@@ -15,7 +15,7 @@ import org.synyx.hades.domain.Pageable;
 
 /**
  * @author Guillaume Zurbach
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @Named("hotelService")
 public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao> implements HotelService {

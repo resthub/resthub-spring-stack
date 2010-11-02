@@ -18,7 +18,7 @@ import org.resthub.booking.webapp.t5.pages.Search;
  * List all the bookings of the current user. Inspirated by Tapestry5 booking
  * sample (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  * @author ccordenier
  */
 public class BookingList {

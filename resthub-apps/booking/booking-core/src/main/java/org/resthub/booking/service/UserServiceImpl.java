@@ -11,7 +11,7 @@ import org.resthub.core.service.GenericServiceImpl;
 
 /**
  * @author Guillaume Zurbach
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @Named("userService")
 public class UserServiceImpl extends GenericServiceImpl<User, UserDao, Long>

@@ -9,7 +9,7 @@ import org.synyx.hades.domain.Pageable;
 
 /**
  * @author Guillaume Zurbach
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public interface HotelService extends GenericResourceService<Hotel> {
 

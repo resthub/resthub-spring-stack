@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * Audit annotation.
  * 
  * @author Nicolas Carlier
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @Target({ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)

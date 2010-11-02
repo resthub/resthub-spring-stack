@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * 
  * Initializing authorities
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public class MyUserDetailsService implements UserDetailsService {
 

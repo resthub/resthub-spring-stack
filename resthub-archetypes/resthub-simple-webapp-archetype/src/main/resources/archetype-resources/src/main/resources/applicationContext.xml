@@ -17,8 +17,8 @@
     <context:component-scan base-package="${package}" />
 
     <bean id="scanningPersistenceUnitManager"
-          class="org.resthub.core.dao.ScanningPersistenceUnitManager">
-        <property name="defaultDataSource" ref="dataSource" />
+          class="org.resthub.core.context.entities.ScanningPersistenceUnitManager">
+          <property name="defaultDataSource" ref="dataSource" />
         <property name="classpathPatterns" value="classpath*:org/resthub/core/model/Resource.class;classpath:${packageInPathFormat}/model/**/*.class" />
     </bean>
 

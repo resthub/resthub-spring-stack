@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Allows the user to modify password Inspirated from Tapestry5 booking
  * sample (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  * @author ccordenier
  */
 public class Settings {

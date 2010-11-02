@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:persistence="http://www.resthub.org/schema/persistence"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.resthub.org/schema/persistence
+    http://www.resthub.org/schema/persistence/resthub-persistence-1.0.xsd">
+
+	<!--
+		Scan all entities from org.resthub.core.model package
+	-->
+	<persistence:include-entities
+		base-package="org.resthub.core.model" />
+</beans>

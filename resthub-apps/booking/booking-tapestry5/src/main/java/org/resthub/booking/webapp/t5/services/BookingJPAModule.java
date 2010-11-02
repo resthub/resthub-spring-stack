@@ -8,7 +8,7 @@ import org.resthub.tapestry5.jpa.services.ResthubJPAModule;
  * Configuration for integration with tapestry-jpa library in order to map JPA
  * managed entitymanager to tapestry coercions
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @SubModule( { ResthubJPAModule.class })
 public class BookingJPAModule {
