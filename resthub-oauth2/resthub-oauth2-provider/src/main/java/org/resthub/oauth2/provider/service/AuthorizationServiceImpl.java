@@ -111,7 +111,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 				// Stores permissions, and leave on the first matching result
 				if(token.userId != null) {
 					logger.info("[generateToken] Found an account for userName '{}' : {}", userName, token.userId);
-					token.permissions = provider.getUserPermissions(token.userId);
+					token.permissions = new ArrayList<String>(provider.getUserPermissions(token.userId));
 					if (token.permissions == null) {
 						logger.warn("[generateToken] No permissions for account {} (userName '{}')", token.userId, 
 								userName);

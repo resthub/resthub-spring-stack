@@ -7,15 +7,19 @@ import javax.inject.Named;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.UserServiceImpl;
 
+/*
+ * This implementation is based on the UserService implementation from resthub-identity<br/>
+ * The user Identifier is the Login
+ * 
+ * */
 @Named("authenticationService")
 public class AuthenticationServiceImpl extends UserServiceImpl implements
 		AuthenticationService {
 
-@Override
+	@Override
 	public String getUser(String userName, String password) {
-	System.out.println("We look for "+userName+" "+password);
-	User u = this.authenticateUser(userName, password);
-	return (u!=null)? u.getLogin() : null;
+		User u = this.authenticateUser(userName, password);
+		return (u!=null)? u.getLogin() : null;
 		}
 
 	@Override

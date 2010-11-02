@@ -44,6 +44,9 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 
 	private UserService userService;
 	
+	/* Since AuthenticationServiceImpl is based on UserService 
+	 * from resthub-identity, we need a link to the bean to deal 
+	 * with users for the testing */
 	@Inject
 	@Named("userService")
 	public void setUserService(UserService userService){
@@ -154,7 +157,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	} // generateAccessTokenErrors().
 
 	/**
-	 * Test the token generation.
+	 * Test the token generation with references to a user
 	 */
 	@Test
 	public void generateAccessToken() {
@@ -177,9 +180,13 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		assertNotNull("No access token generated", token.accessToken);
 		assertNotNull("No refresh token generated", token.refreshToken);
 		assertFalse("Refresh and access token must be different", token.refreshToken.compareTo(token.accessToken) == 0);
+		assertNotNull("No User found", token.userId);
 		
 		// Gets the token from database to check its existence.
 		assertEquals("Token not serialized", token, service.findById(token.id));		
+	
+		//we delete the user
+		userService.delete(u);
 	} // generateAccessToken().
 
 	
@@ -203,9 +210,19 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	public void getTokenInformation() {
 		assertNull("No token may have been retrieved !", service.getTokenInformation("unknown"));
 
-		String userName = "test";
+		String userName = "testTokenInformation";
 		String password = "t3st";
 
+		//Creates the user
+		User u = new User();
+		u.setLogin(userName);
+		u.setPassword(password);
+		List<String> permissions = new ArrayList<String>();
+		permissions.add(MockAuthenticationService.ADMIN_RIGHT);
+		permissions.add(MockAuthenticationService.USER_RIGHT);
+		u.setPermissions(permissions);
+		userService.create(u);
+		
 		// Generates token.
 		Token token = service.generateToken(new ArrayList<String>(), null, null, userName, password);
 		assertNotNull("No token generated", token);
@@ -225,6 +242,16 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		assertTrue("token's user right was lost", retrievedToken.permissions.contains(
 				MockAuthenticationService.USER_RIGHT));
 
+		userService.delete(u);
+
+		//Creates the user without permission
+		u = new User();
+		u.setLogin(MockAuthenticationService.NO_PERMISSIONS_USERNAME);
+		u.setPassword(password);
+		permissions = new ArrayList<String>();
+		u.setPermissions(permissions);
+		userService.create(u);
+		
 		// Generates another token for user with no permissions.
 		token = service.generateToken(new ArrayList<String>(), null, null, 
 				MockAuthenticationService.NO_PERMISSIONS_USERNAME, password);
@@ -242,6 +269,8 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		assertEquals("Lifetimes not equal", token.lifeTime, retrievedToken.lifeTime);		
 		assertEquals("token has got permissions", 0, retrievedToken.permissions.size());
 
+		//Deletes the user
+		userService.delete(u);
 	} // getTokenInformation().
 
 } // Classe AuthorizationServiceImplTest
