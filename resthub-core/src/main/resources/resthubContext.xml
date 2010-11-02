@@ -14,7 +14,7 @@
 	<context:annotation-config />
 	<context:component-scan base-package="org.resthub.core" />
 
-	<persistence:include-entities base-package="org.resthub.core.model" />
+	<persistence:include-entities base-package="org.resthub.**.model" />
 
 	<!--
 		<tx:annotation-driven transaction-manager="transactionManager"

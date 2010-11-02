@@ -150,7 +150,7 @@ public class ScanningPersistenceUnitManager extends
 	protected Set<String> getMatchingEntitiesFromContext(
 			MutablePersistenceUnitInfo pui, String persistenceUnitName) {
 
-		Set<String> entities = PersistenceContext.getInstance().getIncludedEntities(
+		Set<String> entities = PersistenceContext.getInstance().getEntities(
 				persistenceUnitName);
 
 		return entities;

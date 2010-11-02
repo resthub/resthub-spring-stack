@@ -2,12 +2,6 @@ package org.resthub.core.context.persistence;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.beans.factory.xml.XmlReaderContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScanBeanDefinitionParser;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 /**
