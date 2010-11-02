@@ -1,5 +1,6 @@
 package org.resthub.booking.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,13 +45,13 @@ public class BookingController extends GenericResourceController<Booking, Bookin
 	public Response getBookingsByUser(@PathParam("id") String userId) {
 		List<Booking> bookings = null;
 		
-		Long id = Long.getLong(userId);
+		Long id = Long.valueOf(userId);
 		
 		if (id !=null) {
-			this.service.findByUserId(id);
+			bookings = this.service.findByUserId(id);
 		}
 		if (bookings == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			bookings = new ArrayList<Booking>();
 		}
 		
 		//return Response.ok(bookings.toArray(entityClassArray)).build();

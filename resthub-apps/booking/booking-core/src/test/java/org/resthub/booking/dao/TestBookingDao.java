@@ -22,6 +22,14 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 	private static final String TEST_CARD_NAME = "testCardName";
 	private static final String CHANGED_TEST_CARD_NAME = "changedTestCardName";
 	private User user;
+	
+	@Inject
+	@Named("userDao")
+	private UserDao userDao;
+	
+	@Inject
+	@Named("hotelDao")
+	private HotelDao hotelDao;
 
 	@Override
 	@Inject
@@ -38,6 +46,7 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 		hotel.setCity("testBookingCity");
 		hotel.setZip("ZIP");
 		hotel.setCountry("testBookingCountry");
+		hotel = hotelDao.save(hotel);
 		
 		user = new User ();
 		String username = "user"+new Random().nextInt(100);
@@ -45,6 +54,7 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 		user.setEmail(Calendar.getInstance().getTimeInMillis()+"test@booking.user");
 		user.setFullname("testBookingUserFullname");
 		user.setPassword("password");
+		user = userDao.save(user);
 		
 		Booking booking = new Booking();
 		booking.setHotel(hotel);

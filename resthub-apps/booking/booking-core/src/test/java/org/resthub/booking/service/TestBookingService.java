@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
+import org.resthub.booking.dao.HotelDao;
+import org.resthub.booking.dao.UserDao;
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.model.CreditCardType;
 import org.resthub.booking.model.Hotel;
@@ -24,6 +26,14 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	private static final String CHANGED_TEST_CARD_NAME = "changedTestCardName";
 	private User user;
 	private Booking booking;
+	
+	@Inject
+	@Named("userDao")
+	private UserDao userDao;
+	
+	@Inject
+	@Named("hotelDao")
+	private HotelDao hotelDao;
 
 	@Override
 	@Inject
@@ -40,6 +50,7 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 		hotel.setCity("testBookingCity");
 		hotel.setZip("ZIP");
 		hotel.setCountry("testBookingCountry");
+		hotel = hotelDao.save(hotel);
 		
 		user = new User ();
 		String username = "user"+new Random().nextInt(100);
@@ -47,6 +58,7 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 		user.setEmail(Calendar.getInstance().getTimeInMillis()+"test@booking.user");
 		user.setFullname("testBookingUserFullname");
 		user.setPassword("password");
+		user = userDao.save(user);
 		
 		booking = new Booking();
 		booking.setHotel(hotel);

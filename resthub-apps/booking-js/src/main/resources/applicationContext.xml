@@ -20,5 +20,19 @@
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 	</bean>
+	
+	<bean id="scanningPersistenceUnitManager"
+    class="org.resthub.core.dao.ScanningPersistenceUnitManager">
+    <property name="defaultDataSource" ref="dataSource" />
+    <property name="classpathPatterns"
+      value="classpath*:org/resthub/**/model/*.class" />
+  </bean>
+	
+  <bean id="specificJAXBResolver" scope="singleton" class="org.resthub.web.jaxb.JAXBContextResolver">
+    <!-- Adds here your custom patterns to your own specific @XmlRootElement classes. -->
+    <property name="classpathPatterns" 
+      value=" classpath*:org/resthub/**/model/*.class,
+          classpath*:org/resthub/web/response/*.class" />
+  </bean>
 
 </beans>

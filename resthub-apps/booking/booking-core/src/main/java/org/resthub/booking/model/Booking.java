@@ -96,7 +96,8 @@ public class Booking extends Resource implements Serializable
     }
 
     @NotNull
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    //@ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne
     public Hotel getHotel()
     {
         return hotel;
@@ -108,7 +109,8 @@ public class Booking extends Resource implements Serializable
     }
 
     @NotNull
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne
+    //@ManyToOne(cascade=CascadeType.PERSIST)
     public User getUser()
     {
         return user;

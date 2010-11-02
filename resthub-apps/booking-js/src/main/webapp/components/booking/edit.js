@@ -49,7 +49,8 @@ var editBooking =
 		booking.checkoutDate = $('input[name=checkoutDate]').val();
 		booking.beds = $('select[name=beds] option:selected').val();
 		booking.smoking = ($('input[name=smoking]:checked').val() == 'true') ? true : false;
-		booking.creditCard = $('input[name=creditCard]').val();
+		booking.creditCardType = $('select[name=creditCardType] option:selected').val();
+		booking.creditCardNumber = $('input[name=creditCardNumber]').val();
 		booking.creditCardName = $('input[name=creditCardName]').val();
 		booking.creditCardExpiryMonth = $('select[name=creditCardExpiryMonth] option:selected').val();
 		booking.creditCardExpiryYear = $('select[name=creditCardExpiryYear] option:selected').val();
@@ -63,7 +64,8 @@ var editBooking =
 		$('input[name=checkoutDate]').val(booking.checkoutDate);
 		$('select[name=beds] option[value='+ booking.beds +']').attr('selected', 'selected');
 		$('input[name=smoking][value='+ booking.smoking +']').attr('checked', 'checked');
-		$('input[name=creditCard]').val(booking.creditCard);
+		$('select[name=creditCardType] option[value='+ booking.creditCardType +']').attr('selected', 'selected');
+		$('input[name=creditCardNumber]').val(booking.creditCardNumber);
 		$('input[name=creditCardName]').val(booking.creditCardName);
 		$('select[name=creditCardExpiryMonth] option[value='+ booking.creditCardExpiryMonth +']').attr('selected', 'selected');
 		$('select[name=creditCardExpiryYear] option[value='+ booking.creditCardExpiryYear +']').attr('selected', 'selected');
