@@ -38,8 +38,14 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	/**
 	 * Inject the service layer.
 	 */
-	@Inject
+	
 	protected AuthorizationService service;
+	
+	@Inject
+	@Named("authorizationService")
+	public void setService(AuthorizationService service) {
+		this.service = service;
+	}
 	
 	/**
 	 * Inject the auhorization password to obtain token information.

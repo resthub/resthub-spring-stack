@@ -15,6 +15,8 @@ import javax.inject.Named;
 
 import org.junit.Test;
 import org.resthub.core.test.service.AbstractServiceTest;
+import org.resthub.identity.model.User;
+import org.resthub.identity.service.UserService;
 import org.resthub.oauth2.common.exception.ProtocolException;
 import org.resthub.oauth2.common.exception.ProtocolException.Error;
 import org.resthub.oauth2.common.model.Token;
@@ -37,8 +39,17 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	@Override
 	public void setService(AuthorizationService Service) {
 		super.setService(Service);
+	//	AuthorizationServiceImpl asi = (AuthorizationServiceImpl) Service;
 	} // setservice
 
+	private UserService userService;
+	
+	@Inject
+	@Named("userService")
+	public void setUserService(UserService userService){
+		this.userService=userService;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -65,14 +76,14 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		token.permissions.add(MockAuthenticationService.ADMIN_RIGHT);
 		token.permissions.add(MockAuthenticationService.USER_RIGHT);
 		
-		// saves a news user in DB
+		// saves a news token in DB
 		token = service.create(token);
 
 		assertNotNull("token has not been created", token);
 
 		assertNotNull("database id has not been generated", token.id);
 
-		// retrieves a user by his id
+		// retrieves a token by his id
 		Token retrieved = service.findById(token.id);
 
 		assertEquals("token created has changed : finder not valid", token, retrieved);
@@ -90,7 +101,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		retrieved.permissions.remove(MockAuthenticationService.ADMIN_RIGHT);
 		retrieved.userId = newUserId;
 
-		// updates the user and checks new values
+		// updates the token and checks new values
 		Token updated = service.update(retrieved);
 
 		assertEquals("token's id has changed", token.id, updated.id);
@@ -100,7 +111,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 				MockAuthenticationService.ADMIN_RIGHT));
 		assertTrue("token's user right was lost", retrieved.permissions.contains(MockAuthenticationService.USER_RIGHT));
 
-		// deletes the user
+		// deletes the token
 		service.delete(updated);
 
 		assertNull("token not deleted", service.findById(updated.id));
@@ -147,10 +158,19 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	 */
 	@Test
 	public void generateAccessToken() {
-		String userName = "test";
-		String password = "t3st";
+		// We create a new User
+		String userName = "testgenerateAccessTokenUser";
+		String password = "t3stof";
+		assertNotNull(this.service);
+
+		User u=new User();;
+		u.setLogin(userName);
+		u.setPassword(password);
+		System.out.println("We create U");
+		userService.create(u);
+				
 		
-		// Generates token.
+		// And Generates token based on the user Information
 		Token token = service.generateToken(new ArrayList<String>(), null, null, userName, password);
 		assertNotNull("No token generated", token);
 		assertNotNull("Token does not have database id", token.id);

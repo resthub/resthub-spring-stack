@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 /**
  * Test mock used to gets users and permissions during tests.
  */
-@Named("mockAuthenticationService")
-@Singleton
+//@Named("mockAuthenticationService")
+//@Singleton
 public class MockAuthenticationService implements AuthenticationService {
 
 	// -----------------------------------------------------------------------------------------------------------------
