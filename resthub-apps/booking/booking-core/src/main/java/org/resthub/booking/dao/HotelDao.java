@@ -7,7 +7,7 @@ import org.synyx.hades.domain.Pageable;
 
 /**
  * @author Guillaume Zurbach
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public interface HotelDao extends GenericResourceDao<Hotel> {
 

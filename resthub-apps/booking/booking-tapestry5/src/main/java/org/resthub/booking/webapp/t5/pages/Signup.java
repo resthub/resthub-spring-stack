@@ -20,7 +20,7 @@ import org.resthub.tapestry5.security.services.Authenticator;
  * booking sample
  * (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  * @author karesti
  * @author ccordenier
  */

@@ -6,7 +6,7 @@ import org.resthub.booking.model.Hotel;
 
 
 /**
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 public class HotelDisplay {
 

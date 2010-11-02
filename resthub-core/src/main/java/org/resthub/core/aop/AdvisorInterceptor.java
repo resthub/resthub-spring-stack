@@ -15,7 +15,7 @@ import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
  * the method (or its class) is holding
  * 
  * @author Nicolas Carlier
- * @author Baptiste Meurant
+ * @author bmeurant <Baptiste Meurant>
  */
 @SuppressWarnings("serial")
 public abstract class AdvisorInterceptor extends
