@@ -18,7 +18,6 @@
 
 	<modules>
 		<module>roundtable</module>
-		<module>booking-js</module>
 		<module>booking</module>
 	</modules>
 

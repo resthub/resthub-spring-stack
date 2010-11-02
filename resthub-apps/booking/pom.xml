@@ -20,6 +20,7 @@
 	<modules>
 		<module>booking-tapestry5</module>
 		<module>booking-core</module>
+		<module>booking-js</module>
 	</modules>
 
 	<repositories>

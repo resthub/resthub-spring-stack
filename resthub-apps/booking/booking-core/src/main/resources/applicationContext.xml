@@ -16,5 +16,19 @@
     <context:component-scan base-package="org.resthub.booking" />
     
     <persistence:include-entities base-package="org.resthub.booking.model" />
+    
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="org.h2.Driver" />
+      <property name="url" value="jdbc:h2:file:~/booking;AUTO_SERVER=TRUE" />
+      <property name="username" value="sa" />
+      <property name="password" value="" />
+    </bean>
+    
+    <bean id="specificJAXBResolver" scope="singleton" class="org.resthub.web.jaxb.JAXBContextResolver">
+      <!-- Adds here your custom patterns to your own specific @XmlRootElement classes. -->
+      <property name="classpathPatterns" 
+        value=" classpath*:org/resthub/**/model/*.class,
+            classpath*:org/resthub/web/response/*.class" />
+    </bean>
 
 </beans>

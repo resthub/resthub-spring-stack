@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>resthub-apps</artifactId>
+		<artifactId>booking</artifactId>
 		<groupId>org.resthub</groupId>
 		<version>1.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
