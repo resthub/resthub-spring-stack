@@ -23,10 +23,11 @@ public class PersistenceEntitiesExcluder extends
 	 * current persistence unit manager of this persistence unit name, even if
 	 * it has already been included
 	 */
-	protected void registerEntitiesInPersistenceContext(Set<String> entities,
-			Element element, String persistenceUnitName) {
+	@Override
+	protected void registerResources(Set<String> entities,
+			Element element) {
 
-		PersistenceContext.getInstance().excludeAll(persistenceUnitName,
+		PersistenceContext.getInstance().excludeAll(this.getPersistenceUnitName(element),
 				entities);
 	}
 

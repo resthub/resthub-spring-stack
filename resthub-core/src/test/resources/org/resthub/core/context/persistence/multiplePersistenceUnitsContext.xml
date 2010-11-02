@@ -1,33 +1,33 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:persistence="http://www.resthub.org/schema/persistence"
+	xmlns:resthub="http://www.resthub.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.resthub.org/schema/persistence
-    http://www.resthub.org/schema/persistence/resthub-persistence-1.0.xsd">
+    http://www.resthub.org/schema/context
+    http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
 
 	<!--
 		Scan entities from org.resthub.core.**.model package that are
 		extending Resource
 	-->
-	<persistence:include-entities
+	<resthub:include-entities
 		base-package="org.resthub.core.**.model" use-default-filters="false">
-		<persistence:include-filter type="assignable"
+		<resthub:include-filter type="assignable"
 			expression="org.resthub.core.model.Resource" />
-	</persistence:include-entities>
+	</resthub:include-entities>
 
 	<!--
-		Scan entities from org.resthub.core.context.persistence.model package
+		Scan entities from org.resthub.core.context.resthub.model package
 		that are not extending Resource
 	-->
-	<persistence:include-entities
+	<resthub:include-entities
 		base-package="org.resthub.core.context.persistence.model"
 		persistence-unit-name="config" use-default-filters="false">
-		<persistence:include-filter type="annotation"
+		<resthub:include-filter type="annotation"
 			expression="javax.persistence.Entity" />
-		<persistence:include-filter type="annotation"
+		<resthub:include-filter type="annotation"
 			expression="javax.persistence.MappedSuperclass" />
-		<persistence:exclude-filter type="assignable"
+		<resthub:exclude-filter type="assignable"
 			expression="org.resthub.core.model.Resource" />
-	</persistence:include-entities>
+	</resthub:include-entities>
 </beans>
