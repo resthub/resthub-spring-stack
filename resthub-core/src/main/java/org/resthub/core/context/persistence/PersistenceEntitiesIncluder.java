@@ -22,10 +22,11 @@ public class PersistenceEntitiesIncluder extends
 	 * of persistence context : ie. entities that should be managed par the
 	 * current persistence unit manager of this persistence unit name
 	 */
-	protected void registerEntitiesInPersistenceContext(Set<String> entities,
-			Element element, String persistenceUnitName) {
+	@Override
+	protected void registerResources(Set<String> entities,
+			Element element) {
 
-		PersistenceContext.getInstance().includeAll(persistenceUnitName, entities);
+		PersistenceContext.getInstance().includeAll(this.getPersistenceUnitName(element), entities);
 	}
 
 }

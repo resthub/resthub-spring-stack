@@ -1,22 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:persistence="http://www.resthub.org/schema/persistence"
+	xmlns:resthub="http://www.resthub.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.resthub.org/schema/persistence
-    http://www.resthub.org/schema/persistence/resthub-persistence-1.0.xsd">
+    http://www.resthub.org/schema/context
+    http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
 
 	<!--
 		Scan all entities from org.resthub.core.context.persistence.model
 		package that are holding @Entity annotation excluding entities extending
 		ConfigAbstractResource
 	-->
-	<persistence:include-entities
+	<resthub:exclude-entities
 		base-package="org.resthub.core.context.persistence.model"
 		use-default-filters="false">
-		<persistence:include-filter type="annotation"
-			expression="javax.persistence.Entity" />
-		<persistence:exclude-filter type="assignable"
+		<resthub:include-filter type="assignable"
 			expression="org.resthub.core.context.persistence.model.ConfigAbstractResource" />
-	</persistence:include-entities>
+	</resthub:exclude-entities>
 </beans>
