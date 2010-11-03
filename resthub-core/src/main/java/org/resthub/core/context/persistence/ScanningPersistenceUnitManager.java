@@ -54,7 +54,7 @@ import org.springframework.util.StringUtils;
 public class ScanningPersistenceUnitManager extends
 		DefaultPersistenceUnitManager {
 
-	private final Logger log = LoggerFactory
+	private final Logger logger = LoggerFactory
 			.getLogger(ScanningPersistenceUnitManager.class);
 
 	protected String classpathPatterns = null;
@@ -85,10 +85,10 @@ public class ScanningPersistenceUnitManager extends
 	 * Be attentive that using this property, entities-scan based configuration
 	 * is ignored
 	 * 
-	 * @param classpathPatterns
+	 * @param classpathPatterns The specified classpath patterns.
 	 */
 	public void setClasspathPatterns(String classpathPatterns) {
-		log
+		logger
 				.warn("ClasspathPattern definition found : entities-scan base configuration is ignored !!");
 		this.classpathPatterns = classpathPatterns;
 	}
@@ -135,16 +135,17 @@ public class ScanningPersistenceUnitManager extends
 			if (!pui.getManagedClassNames().contains(entityName)) {
 				pui.addManagedClassName(entityName);
 			}
-			if (log.isDebugEnabled()) {
-				log.debug("Entity " + entityName + " found.");
+			if (logger.isDebugEnabled()) {
+				logger.debug("Entity " + entityName + " found.");
 			}
 		}
 
-		if (log.isInfoEnabled()) {
-			log.info("persistenceUnit " + pui.getPersistenceUnitName()
+		if (logger.isInfoEnabled()) {
+			logger.info("persistenceUnit " + pui.getPersistenceUnitName()
 					+ " successfully scanned : " + entities.size()
 					+ " entities found.");
 		}
+		
 	}
 
 	protected Set<String> getMatchingEntitiesFromContext(
@@ -196,11 +197,11 @@ public class ScanningPersistenceUnitManager extends
 			}
 
 		} catch (IOException e) {
-			log.warn("Error during scanning entities : cannot scan "
+			logger.warn("Error during scanning entities : cannot scan "
 					+ basePackage + ".", e);
 		}
-		if (log.isInfoEnabled()) {
-			log.info(basePackage + " successfully scanned : "
+		if (logger.isInfoEnabled()) {
+			logger.info(basePackage + " successfully scanned : "
 					+ resources.length + " entities found.");
 		}
 		return entities;
@@ -220,7 +221,7 @@ public class ScanningPersistenceUnitManager extends
 
 		return null;
 	}
-
+	
 	protected void setFilters() {
 		this.typeFilters.add(new AnnotationTypeFilter(Entity.class));
 		this.typeFilters.add(new AnnotationTypeFilter(MappedSuperclass.class));
