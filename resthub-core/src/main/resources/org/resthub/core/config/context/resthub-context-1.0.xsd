@@ -15,7 +15,7 @@
 	context support.
 		]]></xsd:documentation>
 	</xsd:annotation>
-	
+
 	<xsd:element name="include-entities">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
@@ -55,12 +55,12 @@
 				</xsd:annotation>
 			</xsd:attribute>
 			<xsd:attribute name="persistence-unit-name" type="xsd:string">
-			<xsd:annotation>
-				<xsd:documentation><![CDATA[
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
 Specifies the persistence unit name in which entities should be included.
 				]]></xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
+				</xsd:annotation>
+			</xsd:attribute>
 			<xsd:attribute name="use-default-filters" type="xsd:boolean"
 				default="true">
 				<xsd:annotation>
@@ -109,6 +109,13 @@ Specifies the persistence unit name in which entities should be included.
 					<xsd:documentation><![CDATA[
 	The comma-separated list of packages to scan for annotated persistence entities.
 					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="persistence-unit-name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+Specifies the persistence unit name in which entities should be included.
+				]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
 			<xsd:attribute name="use-default-filters" type="xsd:boolean"
