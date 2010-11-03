@@ -1,5 +1,7 @@
 package org.resthub.core.context.config;
 
+import org.resthub.core.context.jaxb.JAXBElementsExcluder;
+import org.resthub.core.context.jaxb.JAXBElementsIncluder;
 import org.resthub.core.context.persistence.PersistenceEntitiesExcluder;
 import org.resthub.core.context.persistence.PersistenceEntitiesIncluder;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
@@ -17,6 +19,10 @@ public class ContextNamespaceHandler extends NamespaceHandlerSupport {
 				new PersistenceEntitiesIncluder());
 		registerBeanDefinitionParser("exclude-entities",
 				new PersistenceEntitiesExcluder());
+		registerBeanDefinitionParser("include-jaxb-elements",
+				new JAXBElementsIncluder());
+		registerBeanDefinitionParser("exclude-jaxb-elements",
+				new JAXBElementsExcluder());
 	}
 	
 	
