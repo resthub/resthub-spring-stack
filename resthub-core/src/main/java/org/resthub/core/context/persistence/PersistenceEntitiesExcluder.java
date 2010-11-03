@@ -19,7 +19,7 @@ public class PersistenceEntitiesExcluder extends
 	 * {@InheritDoc}
 	 * 
 	 * Provide specific implementation to add found entities to the exclude list
-	 * of persistence context : ie. entities that should not be managed par the
+	 * of persistence context : ie. entities that should not be managed by the
 	 * current persistence unit manager of this persistence unit name, even if
 	 * it has already been included
 	 */
@@ -27,7 +27,7 @@ public class PersistenceEntitiesExcluder extends
 	protected void registerResources(Set<String> entities,
 			Element element) {
 
-		PersistenceContext.getInstance().excludeAll(this.getPersistenceUnitName(element),
+		PersistenceEntitiesContext.getInstance().excludeAll(this.getPersistenceUnitName(element),
 				entities);
 	}
 

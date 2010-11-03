@@ -17,10 +17,10 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
  * @author bmeurant <Baptiste Meurant>
  * 
  */
-public class ClassPathPersistenceScanner extends
+public class ClassPathPersistenceEntitiesScanner extends
 		AbstractClassPathScanner {
 
-	public ClassPathPersistenceScanner(
+	public ClassPathPersistenceEntitiesScanner(
 			BeanDefinitionRegistry registry, boolean useDefaultFilters) {
 		super(registry, useDefaultFilters);
 	}

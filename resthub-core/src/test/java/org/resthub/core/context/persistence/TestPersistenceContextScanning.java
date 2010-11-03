@@ -21,7 +21,7 @@ public class TestPersistenceContextScanning {
 
 	@Before
 	public void cleanContext() {
-		PersistenceContext.getInstance().clearPersistenceUnit("resthub");
+		PersistenceEntitiesContext.getInstance().clearPersistenceUnit("resthub");
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class TestPersistenceContextScanning {
 		String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> entities = PersistenceContext.getInstance().getEntities("resthub");
+		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
@@ -64,7 +64,7 @@ public class TestPersistenceContextScanning {
 				LOCATION_PREFIX + "modelContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> entities = PersistenceContext.getInstance().getEntities("resthub");
+		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
@@ -94,7 +94,7 @@ public class TestPersistenceContextScanning {
 		String[] contextFiles = { LOCATION_PREFIX + "wildcardContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> entities = PersistenceContext.getInstance().getEntities("resthub");
+		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
@@ -126,7 +126,7 @@ public class TestPersistenceContextScanning {
 				LOCATION_PREFIX + "modelContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> entities = PersistenceContext.getInstance().getEntities("resthub");
+		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
@@ -164,7 +164,7 @@ public class TestPersistenceContextScanning {
 				+ "filterAnnotationContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> entities = PersistenceContext.getInstance().getEntities("resthub");
+		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
@@ -187,7 +187,7 @@ public class TestPersistenceContextScanning {
 				+ "filterAssignableContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> entities = PersistenceContext.getInstance().getEntities("resthub");
+		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());
@@ -226,8 +226,8 @@ public class TestPersistenceContextScanning {
 				+ "multiplePersistenceUnitsContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> resthubEntities = PersistenceContext.getInstance().getEntities("resthub");
-		Set<String> configEntities = PersistenceContext.getInstance().getEntities("config");
+		Set<String> resthubEntities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
+		Set<String> configEntities = PersistenceEntitiesContext.getInstance().getEntities("config");
 
 		assertNotNull("resthubEntities list should not be null", resthubEntities);
 		assertFalse("resthubEntities should not be empty", resthubEntities.isEmpty());
@@ -279,7 +279,7 @@ public class TestPersistenceContextScanning {
 				+ ConfigResourceThree.class.getSimpleName(), configEntities
 				.contains(ConfigResourceThree.class.getName()));
 		
-		PersistenceContext.getInstance().clearPersistenceUnit("config");
+		PersistenceEntitiesContext.getInstance().clearPersistenceUnit("config");
 
 	}
 	
@@ -294,7 +294,7 @@ public class TestPersistenceContextScanning {
 				+ "excludeEntitiesContext.xml" };
 		new ClassPathXmlApplicationContext(contextFiles);
 
-		Set<String> entities = PersistenceContext.getInstance().getEntities("resthub");
+		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities("resthub");
 
 		assertNotNull("entities list should not be null", entities);
 		assertFalse("entities should not be empty", entities.isEmpty());

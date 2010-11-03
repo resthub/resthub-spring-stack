@@ -41,18 +41,15 @@ public abstract class AbstractPersistenceEntitiesParser extends
 			persistenceUnitName = element.getAttribute(PERSISTENCE_UNIT_NAME);
 		}
 
-		if (element.hasAttribute("persistence-unit")) {
-			persistenceUnitName = element.getAttribute("persistence-unit");
-		}
 		return persistenceUnitName;
 	}
 
 	/**
 	 * {@InheritDoc}
 	 */
-	protected ClassPathPersistenceScanner createScanner(
+	protected ClassPathPersistenceEntitiesScanner createScanner(
 			XmlReaderContext readerContext, boolean useDefaultFilters) {
-		return new ClassPathPersistenceScanner(readerContext
+		return new ClassPathPersistenceEntitiesScanner(readerContext
 				.getRegistry(), useDefaultFilters);
 	}
 

@@ -17,22 +17,22 @@ import java.util.Set;
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-class PersistenceContext {
+class PersistenceEntitiesContext {
 
-	private static PersistenceContext instance;
+	private static PersistenceEntitiesContext instance;
 
 	private Map<String, Set<String>> includedEntitiesMap = new HashMap<String, Set<String>>();
 	private Map<String, Set<String>> excludedEntitiesMap = new HashMap<String, Set<String>>();
 
-	static synchronized PersistenceContext getInstance() {
+	static synchronized PersistenceEntitiesContext getInstance() {
 		if (instance == null) {
-			instance = new PersistenceContext();
+			instance = new PersistenceEntitiesContext();
 		}
 		return instance;
 	}
 
 	/** A private Constructor prevents any other class from instantiating. */
-	private PersistenceContext() {
+	private PersistenceEntitiesContext() {
 	}
 
 	/**
@@ -109,7 +109,7 @@ class PersistenceContext {
 	}
 
 	/**
-	 * Include all entities to the current entities name to the persistence
+	 * Include all entities name to the persistence
 	 * context for the persistence unit name provided
 	 * 
 	 * @param persistenceUnitName
@@ -127,7 +127,7 @@ class PersistenceContext {
 	}
 
 	/**
-	 * Exclude all entities to the current entities name to the persistence
+	 * Exclude all entities name to the persistence
 	 * context for the persistence unit name provided
 	 * 
 	 * @param persistenceUnitName

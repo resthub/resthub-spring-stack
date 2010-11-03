@@ -19,14 +19,14 @@ public class PersistenceEntitiesIncluder extends
 	 * {@InheritDoc}
 	 * 
 	 * Provide specific implementation to add found entities to the include list
-	 * of persistence context : ie. entities that should be managed par the
+	 * of persistence context : ie. entities that should be managed by the
 	 * current persistence unit manager of this persistence unit name
 	 */
 	@Override
 	protected void registerResources(Set<String> entities,
 			Element element) {
 
-		PersistenceContext.getInstance().includeAll(this.getPersistenceUnitName(element), entities);
+		PersistenceEntitiesContext.getInstance().includeAll(this.getPersistenceUnitName(element), entities);
 	}
 
 }
