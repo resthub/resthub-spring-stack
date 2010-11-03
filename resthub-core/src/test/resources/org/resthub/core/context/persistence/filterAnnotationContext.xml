@@ -7,12 +7,12 @@
     http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
 
 	<!--
-		Scan all entities from org.resthub.core.context.persistence.model
+		Scan all entities from org.resthub.core.context.model
 		package that are holding @Entity annotation excluding entities holding
 		@MappedSuperclass
 	-->
 	<resthub:include-entities
-		base-package="org.resthub.core.context.persistence.model"
+		base-package="org.resthub.core.context.model"
 		use-default-filters="false">
 		<resthub:include-filter type="annotation"
 			expression="javax.persistence.Entity" />

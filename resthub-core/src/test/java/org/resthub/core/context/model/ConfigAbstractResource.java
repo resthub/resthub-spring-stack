@@ -1,4 +1,4 @@
-package org.resthub.core.context.persistence.model;
+package org.resthub.core.context.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

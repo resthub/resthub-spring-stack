@@ -12,11 +12,11 @@
 		ConfigAbstractResource
 	-->
 	<resthub:include-entities
-		base-package="org.resthub.core.context.persistence.model"
+		base-package="org.resthub.core.context.model"
 		use-default-filters="false">
 		<resthub:include-filter type="annotation"
 			expression="javax.persistence.Entity" />
 		<resthub:exclude-filter type="assignable"
-			expression="org.resthub.core.context.persistence.model.ConfigAbstractResource" />
+			expression="org.resthub.core.context.model.ConfigAbstractResource" />
 	</resthub:include-entities>
 </beans>

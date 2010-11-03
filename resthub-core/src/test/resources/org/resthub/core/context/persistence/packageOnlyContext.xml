@@ -11,5 +11,5 @@
 		package
 	-->
 	<resthub:include-entities
-		base-package="org.resthub.core.context.persistence.model" />
+		base-package="org.resthub.core.context.model" />
 </beans>

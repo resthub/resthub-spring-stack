@@ -21,7 +21,7 @@
 		that are not extending Resource
 	-->
 	<resthub:include-entities
-		base-package="org.resthub.core.context.persistence.model"
+		base-package="org.resthub.core.context.model"
 		persistence-unit-name="config" use-default-filters="false">
 		<resthub:include-filter type="annotation"
 			expression="javax.persistence.Entity" />

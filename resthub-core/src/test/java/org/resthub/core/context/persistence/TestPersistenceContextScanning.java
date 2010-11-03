@@ -8,10 +8,10 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.context.persistence.model.ConfigAbstractResource;
-import org.resthub.core.context.persistence.model.ConfigResourceOne;
-import org.resthub.core.context.persistence.model.ConfigResourceThree;
-import org.resthub.core.context.persistence.model.ConfigResourceTwo;
+import org.resthub.core.context.model.ConfigAbstractResource;
+import org.resthub.core.context.model.ConfigResourceOne;
+import org.resthub.core.context.model.ConfigResourceThree;
+import org.resthub.core.context.model.ConfigResourceTwo;
 import org.resthub.core.model.Resource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

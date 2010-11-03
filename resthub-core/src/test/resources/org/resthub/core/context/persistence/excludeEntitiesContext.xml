@@ -7,14 +7,14 @@
     http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
 
 	<!--
-		Scan all entities from org.resthub.core.context.persistence.model
+		Scan all entities from org.resthub.core.context.model
 		package that are holding @Entity annotation excluding entities extending
 		ConfigAbstractResource
 	-->
 	<resthub:exclude-entities
-		base-package="org.resthub.core.context.persistence.model"
+		base-package="org.resthub.core.context.model"
 		use-default-filters="false">
 		<resthub:include-filter type="assignable"
-			expression="org.resthub.core.context.persistence.model.ConfigAbstractResource" />
+			expression="org.resthub.core.context.model.ConfigAbstractResource" />
 	</resthub:exclude-entities>
 </beans>
