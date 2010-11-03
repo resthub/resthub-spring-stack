@@ -72,7 +72,7 @@ public class UserController extends
 	 *         not acceptable
 	 */
 	@POST
-	@Path("/login")
+	@Path("/loginAndRedirect")
 	public Response authenticateUser(@FormParam("Login") String login,
 			@FormParam("Password") String password,
 			@FormParam("Redirect") String redirect) {
@@ -98,7 +98,7 @@ public class UserController extends
 	}
 
 	@POST
-	@Path("/login2")
+	@Path("/login")
 	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response authenticateUser(User pU) {

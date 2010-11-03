@@ -42,6 +42,10 @@
             this._get('api/user?page=' + this.options.page, this._displayUsers);
         },
         
+		/* 
+		 * this methode allow to delete 1 user, the one on which there was a click 
+		 * It asks a confirmation before the deletion
+		 */
         _deleteThisUser: function(index){
             var users = this.options.result.elements;
             
@@ -57,7 +61,10 @@
                 });
             }
         },
-        
+		
+        /* this method allow to delete some users, the ones which have been checked 
+         * It asks a confirmation before the deletion
+         */
         _deleteUser: function(){
             var users = this.options.result.elements;
             var userToDelete = [];
@@ -77,6 +84,7 @@
             
             
             if (answer) {
+				/* there is actually one request for each user to delete*/
                 for (element in userToDelete) {
                 
                     /* We delete the user */

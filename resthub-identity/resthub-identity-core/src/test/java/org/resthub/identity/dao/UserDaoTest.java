@@ -34,6 +34,7 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 	
 	 @Test
 	    public void testGetUserByAuthenticationInformation(){
+		 //given a new user
 		 User u1= new User();
 		 String login="alexDao";
 		 String password="alexDao-pass";
@@ -41,8 +42,12 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 		 u1.setPassword(password);
 		 resourceDao.save(u1);
 		 
+		 //when we search  him by his login and password
 	    u1 =resourceDao.getUserByAuthenticationInformation(login, password);
-	    	assertNotNull(u1);
-	    }
+	    
+	    //we get the user as response
+	    assertNotNull(u1);
+	    assertEquals(login, u1.getLogin());   
+	 }
 	   
 }

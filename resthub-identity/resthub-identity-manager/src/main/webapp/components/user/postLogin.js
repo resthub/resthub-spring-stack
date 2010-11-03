@@ -17,7 +17,7 @@
 			var info={};
 			info.login= self.options.userLogin;
 			info.password= self.options.userPassword;
-			this._post('api/user/login2/', this._displayHome, $.toJSON(info) );
+			this._post('api/user/login/', this._displayHome, $.toJSON(info) );
 				}
 		,
 		_displayHome: function(user) {

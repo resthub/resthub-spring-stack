@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.User;
 
 public class GroupServiceTest extends AbstractResourceServiceTest<Group, GenericResourceService<Group>> {
 
@@ -21,17 +20,9 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
 	}
 
 	@Override
-    @Test(/*expected = UnsupportedOperationException.class*/)
+    @Test()
     public void testUpdate() throws Exception {
-		
-		
-		User u=new User();
-		String firstName="Maxence";
-		u.setFirstName(firstName);
-
-		String lastName="Dalmais";
-		u.setLastName(lastName);
-		
+		/* Given a  new group*/
 		Group g=new Group();
 		g=resourceService.create(g);
 		
@@ -42,9 +33,13 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
 		String oldName= g.getName();
 		String newName="NewName";
 		g.setName(newName);
+		/* When we update the group after changing the name*/
 		g=resourceService.update(g);
+		
+		/* the name modification is taken into account*/
 		String toString2="Group[Id: "+g.getId()+", Name: "+newName+"]";
 		assertEquals(toString2, g.toString());
 						
+		resourceService.delete(g);
     }
 }

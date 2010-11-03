@@ -1,37 +1,25 @@
-package org.resthub.identity.service;
-
-import javax.inject.Inject;
-import javax.inject.Named;
+package org.resthub.identity.web;
 
 import com.thoughtworks.selenium.SeleneseTestCase;
 
 public class SeleniumTest extends SeleneseTestCase {
 
-	UserService us;
-	
-	@Inject
-	@Named("userService")
-	public void setService(UserService us){
-		this.us=us;
-	}
-	
 	public void setUp() throws Exception {
 		setUp("http://127.0.0.1:8080/identity/", "*chrome");
 	}
-	
-	
+
 	public void testLoginandDisplayHome() throws Exception {
-		// given the webservices identityManager
-		// given an user with login "alex" and password "alex-pass"
+		// given the webservice identityManager
+		// given an user with login "testLogin" and password "testLoginPassword"
 		selenium.open("/identity/#/");
 		Thread.sleep(500);
 		deleteAllUsers();
-		
-		String login="testLogin";
-		String password="testLoginPassword";
-	
-		CreateNewUser(login, password );
-				
+
+		String login = "testLogin";
+		String password = "testLoginPassword";
+
+		CreateNewUser(login, password);
+
 		selenium.click("link=User Login");
 		Thread.sleep(1000);
 
@@ -42,21 +30,26 @@ public class SeleniumTest extends SeleneseTestCase {
 		Thread.sleep(3000);
 
 		// then is display 'Bonjour X', with X being X est le login
-		assertEquals("Bonjour "+login, selenium
+		assertEquals("Bonjour " + login, selenium
 				.getText("//div[@id='content']/h1"));
 	}
 
-	public void CreateNewUser(String login, String password, String firstName, String lastName) throws Exception {
+	/*
+	 * This is not a TEST This Method is a Helper function to a create New user
+	 * trough the web Interface
+	 */
+	public void CreateNewUser(String login, String password, String firstName,
+			String lastName) throws Exception {
 		selenium.click("link=user");
 		Thread.sleep(6000);
 		selenium.type("firstName", firstName);
 		selenium.type("lastName", lastName);
-		selenium.type("login",login);
+		selenium.type("login", login);
 		selenium.type("password", password);
 		selenium.type("passwordCheck", password);
 		selenium.type("email", "toto@atosworldline.com");
 
-		// when we proceed to the creation
+		// Then we proceed to the creation
 		selenium.click("user-proceed");
 		int miliSec = 0;
 		while (!selenium.isElementPresent("//div[@id='content']/table/tbody")) {
@@ -66,24 +59,38 @@ public class SeleniumTest extends SeleneseTestCase {
 				break;
 			}
 		}
-	
+
 	}
-	
+
+	/*
+	 * This is not a TEST This Method is a Helper function to a create New user
+	 * trough the web Interface, based on a Login and a password
+	 */
 	public void CreateNewUser(String Login, String Password) throws Exception {
 		CreateNewUser(Login, Password, "NewUserFirstName", "NewUserLastName");
 	}
-	
-	public void CreateNewUserWithName(String firstName, String lastName) throws Exception {
+
+	/*
+	 * This is not a TEST This Method is a Helper function to a create New user
+	 * trough the web Interface, based on a firstName and a lastName Login is
+	 * randomly generated
+	 */
+	public void CreateNewUserWithName(String firstName, String lastName)
+			throws Exception {
 		CreateNewUser("Aii0ii" + Math.random(), "toto", firstName, lastName);
 	}
 
+	/*
+	 * Test the creation of a New user based on first and last name
+	 */
 	public void testCreateNewUser() throws Exception {
+		// given the webservices identityManager
 		selenium.open("/identity/#/");
 		Thread.sleep(500);
 		deleteAllUsers();
-		
+		// after the creation of the new User
 
-		CreateNewUser("John", "Rambo");
+		CreateNewUserWithName("John", "Rambo");
 		// then information about the new user are display in a table
 		verifyEquals("John Rambo", selenium
 				.getText("//div[@id='content']/table/tbody/tr/td[2]"));
@@ -119,38 +126,52 @@ public class SeleniumTest extends SeleneseTestCase {
 				.isElementPresent("//div[@id='content']/table/tbody"));
 	}
 
+	/*
+	 * This is not a TEST This method is an helper method.
+	 *  It deletes the first user listed on the web interface
+	 */
 	public boolean deleteFirstUser() throws Exception {
 		selenium.click("link=users");
 		Thread.sleep(500);
-		if(selenium.isElementPresent("checkbox-0")){
-			selenium.click("checkbox-0");	
+		if (selenium.isElementPresent("checkbox-0")) {
+			selenium.click("checkbox-0");
 			selenium.click("delete");
 			Thread.sleep(1000);
 			selenium.getConfirmation();
 			return true;
-		}else{return false;}
-		
+		} else {
+			return false;
+		}
+
 	}
 	
-	public void deleteAllUsers() throws Exception{
-		while(deleteFirstUser()){}
+	/*
+	 * This is not a TEST This method is an helper method.
+	 *  It deletes all the users
+	 */
+	public void deleteAllUsers() throws Exception {
+		while (deleteFirstUser()) {
+		}
 	}
-	
+	/*
+	 * This is TEST
+	 * It tests the deletion of a user
+	 */
 	public void testDeletionUser() throws Exception {
-		//given ONE user in the database 
+		// given ONE user in the database
 		selenium.open("/identity/#/");
 		Thread.sleep(500);
 		deleteAllUsers();
 		CreateNewUser("User", "Todelete");
-		
-		//When we delete it
+
+		// When we delete it
 		selenium.click("link=users");
 		Thread.sleep(1000);
 		selenium.click("checkbox-0");
 		selenium.click("delete");
 		Thread.sleep(1000);
 		selenium.getConfirmation();
-		//We can't find his name in the list
+		// We can't find his name in the list
 		verifyFalse(selenium.isTextPresent("User Todelete"));
 
 	}

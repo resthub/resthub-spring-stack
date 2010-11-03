@@ -35,15 +35,18 @@ var editUser =
 		$('input#user-proceed').unbind();
 		$('input#user-proceed').bind('click', $.proxy(this._sendUserData, this));
 		
+		/* We want the password to be strong enough to we check is strenght*/
 		$('input#password').unbind();
 		$('input#password').bind('keyup', this._EvalPwd );
 		
+		/* We want the user to be sure about his password (which is hidden), so we ask it a second time*/
 		$('input#passwordCheck').unbind();
 		$('input#passwordCheck').bind('keyup', this._EvalPwdAreEgals );
 	},
 	
 	_EvalPwd : function(){
 		editUser._EvalPwdStrength();
+		/* The audit of the similarity of the passwords is done when we a password fields*/
 		editUser._EvalPwdAreEgals();
 	},
 	
@@ -77,7 +80,8 @@ var editUser =
 	/* Evaluate strength of the text in the password input field as a password*/
 	/* change text {Secured,Not Well Secured,NotSecured} and  class of the passwordStrength span*/
 	_EvalPwdStrength : function(){
-
+	const  NOT_SECURED_LEVEL = 12; 
+	const SECURED_LEVEL = 12;
 		var text=$('input[name=password]').val();
 		var strength=0;
 		var capitalLetter=0;
@@ -125,10 +129,10 @@ var editUser =
 		}
 		
 		$('span#passwordStrength').removeClass('good bad medium');
-		if(strength<12){
+		if(strength<NOT_SECURED_LEVEL){
 			$('span#passwordStrength').addClass('bad');
 			fieldText="NotSecured"
-		}else if (strength<20){
+		}else if (strength<SECURED_LEVEL){
 			fieldText="NotWellSecured ";
 			$('span#passwordStrength').addClass('medium');
 	}else{
@@ -139,11 +143,10 @@ var editUser =
 		},
 		
 		
-		
 	/* Tests if the form is filled correctly and sends the data */
 	_sendUserData: function() {
 		var validForm = $('form#user-form').validate({errorElement: 'span'}).form();
-		validForm=validForm&&editUser._arePwdEgals();
+		validForm=validForm&&editUser._arePwdEgals(); /* If password are not egals then form is not valid*/
 		if (validForm) {
 			this._formToSession();
 			var user = this.options.context.session('tempUser');
