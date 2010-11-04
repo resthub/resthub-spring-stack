@@ -2,6 +2,9 @@ package org.resthub.identity.web;
 
 import com.thoughtworks.selenium.SeleneseTestCase;
 
+/* This class is not used yet */
+/* The fact is taht we need in the setUp to lauch the webApp that we need */
+/* The easier way seems to lauch through jetty */
 public class SeleniumTest extends SeleneseTestCase {
 
 	public void setUp() throws Exception {

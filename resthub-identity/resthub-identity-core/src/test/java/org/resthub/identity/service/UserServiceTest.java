@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.User;
 
+
 public class UserServiceTest extends
 		AbstractResourceServiceTest<User, UserService> {
 

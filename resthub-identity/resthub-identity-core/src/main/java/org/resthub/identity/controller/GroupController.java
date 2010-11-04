@@ -27,9 +27,11 @@ import org.slf4j.LoggerFactory;
 
 @Path("/group")
 @Named("groupController")
-public class GroupController extends GenericResourceController<Group, GroupService> {
+public class GroupController extends
+		GenericResourceController<Group, GroupService> {
 
-	private final Logger logger = LoggerFactory.getLogger(GroupController.class);
+	private final Logger logger = LoggerFactory
+			.getLogger(GroupController.class);
 
 	UserService userService;
 
@@ -48,101 +50,104 @@ public class GroupController extends GenericResourceController<Group, GroupServi
 
 	/**
 	 * Find the group identified by the specified name.
+	 * 
 	 * @param name
 	 * @return group
 	 */
 	@GET
 	@Path("/name/{name}")
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getGroupByName( @PathParam("name") String name ) {
-		Group group = this.service.findByName( name );
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getGroupByName(@PathParam("name") String name) {
+		Group group = this.service.findByName(name);
 		if (group == null) {
-			return Response.status(Status.NOT_FOUND).
-					entity("Unable to find the requested group.").build();
+			return Response.status(Status.NOT_FOUND).entity(
+					"Unable to find the requested group.").build();
 		}
 		return Response.ok(group).build();
 	}
 
 	/**
 	 * Find all groups.
+	 * 
 	 * @return a list of group.
 	 */
 	@GET
 	@Path("/all")
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getAllGroups() {
 		List<Group> result = this.service.findAllGroups();
 		return Response.ok(result).build();
 	}
 
-
 	/**
 	 * Find all groups without showing users.
+	 * 
 	 * @return a list of group.
 	 */
 	@GET
 	@Path("/list")
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getAllGroupsName() {
 		List<Group> result = this.service.findAllGroups();
-		for(Group g : result){
+		for (Group g : result) {
 			g.setUsers(null);
 		}
 		return Response.ok(result).build();
 	}
-	
+
 	/**
 	 * Remove a user from the specified group.
-	 * @param name the group name
-	 * @param login the user login
+	 * 
+	 * @param name
+	 *            the group name
+	 * @param login
+	 *            the user login
 	 * @return the group updated after user removing
 	 */
 	@DELETE
 	@Path("/{name}/user/{login}")
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response removeUser( @PathParam("name") String name,
-								@PathParam("login") String login ) {
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response removeUser(@PathParam("name") String name,
+			@PathParam("login") String login) {
 
 		logger.info("Remove user '" + login + "' from group '" + name + "'.");
 
-		Group group = this.service.findByName( name );
-		User user = this.userService.findByLogin( login );
+		Group group = this.service.findByName(name);
+		User user = this.userService.findByLogin(login);
 
 		if (group == null) {
-			return Response.status(Status.NOT_FOUND).
-					entity("Unable to find the requested group.").build();
+			return Response.status(Status.NOT_FOUND).entity(
+					"Unable to find the requested group.").build();
 		}
 		if (user == null) {
-			return Response.status(Status.NOT_FOUND).
-					entity("Unable to find the requested user.").build();
-		}
-		else
-		{
-			this.service.removeUser( group, user );
+			return Response.status(Status.NOT_FOUND).entity(
+					"Unable to find the requested user.").build();
+		} else {
+			this.service.removeUser(group, user);
 			return Response.ok(group).build();
-			
+
 		}
 	}
-	
-	/*Goal :  support creation of group with  user*/
+
+	/* Goal : support creation of group with user */
 	@POST
-	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Override
 	public Response create(Group entity) {
 		Group e = this.service.create(entity);
 		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString()).build();
-
-		for(User u:entity.getUsers()){
-			User tmpUser = userService.findById(u.getId());
-			tmpUser.addGroup(entity);
-			userService.update(tmpUser);
+		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString())
+				.build();
+		if (userService != null && entity.getUsers()!=null) {
+			for (User u : entity.getUsers()) {
+				User tmpUser = userService.findById(u.getId());
+				if(tmpUser!=null){
+				tmpUser.addGroup(entity);
+				userService.update(tmpUser);}
+			}
 		}
-		
-		System.out.println("Entity Groupd"+entity.getUsers().size());
-		System.out.println("e Groupd"+e.getUsers().size());
-		
+
 		return Response.created(uri).entity(e).build();
 	}
 }

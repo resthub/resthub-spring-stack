@@ -1,16 +1,20 @@
 package org.resthub.identity.controller;
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.ClientResponse.Status;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
+
 import junit.framework.Assert;
+
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.Group;
+import org.resthub.web.controller.GenericController;
 import org.resthub.web.controller.GenericResourceController;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
+
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.ClientResponse.Status;
 
 
 /**
@@ -18,7 +22,12 @@ import org.resthub.web.test.controller.AbstractResourceControllerTest;
  * @author Guillaume Zurbach
  */
 public class GroupControllerTest extends AbstractResourceControllerTest<Group, GenericResourceController<Group, GenericResourceService<Group>>> {
-
+/*
+	@Override
+	public void setUp() throws Exception {
+	 super.setUp();
+	 Thread.sleep(100000);
+	}*/
 	@Inject
 	@Named("groupController")
 	public void setController(GenericResourceController groupController) {
@@ -46,4 +55,13 @@ public class GroupControllerTest extends AbstractResourceControllerTest<Group, G
 		Assert.assertFalse("Group not updated", response.contains("u1"));
 		Assert.assertTrue("Group not updated", response.contains("u2"));
 	}
+	
+	 @Inject
+	    @Named("groupController")
+	    @Override
+	    @SuppressWarnings("unchecked")
+	    public void setController(GenericController controller) {
+	        super.setController(controller);
+	    }
+	    
 }
