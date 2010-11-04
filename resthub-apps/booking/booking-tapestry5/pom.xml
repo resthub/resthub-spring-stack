@@ -16,7 +16,7 @@
 	<name>Tapestry5 Booking sample</name>
 
 	<properties>
-		<tapx.release.version>1.1-20100818.111508-124</tapx.release.version>
+		<tapx.release.version>1.1-20100818</tapx.release.version>
 	</properties>
 
 	<dependencies>
