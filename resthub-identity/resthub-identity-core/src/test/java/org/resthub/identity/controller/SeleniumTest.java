@@ -1,20 +1,74 @@
-package org.resthub.identity.web;
+package org.resthub.identity.controller;
 
-import com.thoughtworks.selenium.SeleneseTestCase;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import junit.framework.Assert;
+
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.xml.XmlConfiguration;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverBackedSelenium;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.resthub.core.service.GenericResourceService;
+import org.resthub.identity.model.User;
+import org.resthub.web.controller.GenericController;
+import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.test.controller.AbstractResourceControllerTest;
+
+import com.thoughtworks.selenium.Selenium;
+
+
 
 /* This class is not used yet */
 /* The fact is taht we need in the setUp to lauch the webApp that we need */
 /* The easier way seems to lauch through jetty */
-public class SeleniumTest extends SeleneseTestCase {
+/* to use it, we need to change the pom.xml to remove the excludes of this file for testing*/
+public class SeleniumTest extends AbstractResourceControllerTest<User, GenericResourceController<User, GenericResourceService<User>>> {
 
-	public void setUp() throws Exception {
-		setUp("http://127.0.0.1:8080/identity/", "*chrome");
+	
+	@Inject
+	@Named("userController")
+	public void setController(GenericResourceController userController) {
+		super.setController(userController);
 	}
+	
 
+	 @Inject
+	    @Named("userController")
+	    @Override
+	    @SuppressWarnings("unchecked")
+	    public void setController(GenericController controller) {
+	        super.setController(controller);
+	    }
+	 WebDriver driver ;
+		Selenium selenium;
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		
+		Resource fileserver_xml = Resource.newSystemResource("fileserver.xml");
+        XmlConfiguration configuration = new XmlConfiguration(fileserver_xml.getInputStream());
+        Server server = (Server)configuration.configure();
+        server.start();
+        server.join();
+        
+        
+
+		
+		driver= new FirefoxDriver();
+		selenium= new WebDriverBackedSelenium(driver, "http://127.0.0.1:9797/");		
+	}
+	
+	@Test
 	public void testLoginandDisplayHome() throws Exception {
+	
 		// given the webservice identityManager
 		// given an user with login "testLogin" and password "testLoginPassword"
-		selenium.open("/identity/#/");
+		
+		selenium.open("/#/");
 		Thread.sleep(500);
 		deleteAllUsers();
 
@@ -33,7 +87,7 @@ public class SeleniumTest extends SeleneseTestCase {
 		Thread.sleep(3000);
 
 		// then is display 'Bonjour X', with X being X est le login
-		assertEquals("Bonjour " + login, selenium
+		Assert.assertEquals("Bonjour " + login, selenium
 				.getText("//div[@id='content']/h1"));
 	}
 
@@ -86,6 +140,7 @@ public class SeleniumTest extends SeleneseTestCase {
 	/*
 	 * Test the creation of a New user based on first and last name
 	 */
+	@Test
 	public void testCreateNewUser() throws Exception {
 		// given the webservices identityManager
 		selenium.open("/identity/#/");
@@ -95,10 +150,11 @@ public class SeleniumTest extends SeleneseTestCase {
 
 		CreateNewUserWithName("John", "Rambo");
 		// then information about the new user are display in a table
-		verifyEquals("John Rambo", selenium
+		Assert.assertEquals("John Rambo", selenium
 				.getText("//div[@id='content']/table/tbody/tr/td[2]"));
 	}
 
+	@Test
 	public void testCreateNewUserFailedWhenPAsswordAreNotEgals()
 			throws Exception {
 		// given the webservices identityManager
@@ -125,7 +181,7 @@ public class SeleniumTest extends SeleneseTestCase {
 			}
 		}
 		// the table listing the user isn't display
-		assertFalse(selenium
+		Assert.assertFalse(selenium
 				.isElementPresent("//div[@id='content']/table/tbody"));
 	}
 
@@ -160,6 +216,7 @@ public class SeleniumTest extends SeleneseTestCase {
 	 * This is TEST
 	 * It tests the deletion of a user
 	 */
+	@Test
 	public void testDeletionUser() throws Exception {
 		// given ONE user in the database
 		selenium.open("/identity/#/");
@@ -175,7 +232,13 @@ public class SeleniumTest extends SeleneseTestCase {
 		Thread.sleep(1000);
 		selenium.getConfirmation();
 		// We can't find his name in the list
-		verifyFalse(selenium.isTextPresent("User Todelete"));
+		Assert.assertFalse(selenium.isTextPresent("User Todelete"));
 
+	}
+
+	@Override
+	public void testUpdate() throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 }

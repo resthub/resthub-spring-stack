@@ -19,7 +19,6 @@ import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.provider.service.AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 /**
  * Authorization controller implementation.
  */
@@ -50,8 +49,8 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	/**
 	 * Inject the auhorization password to obtain token information.
 	 */
-	@Value("#{securityConfig.authorizationPassword}")
-	protected String authorizationPassword;
+	//@Value("#{securityConfig.authorizationPassword}")
+	protected String authorizationPassword = "pAss?w0rd";
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public attributes
@@ -110,6 +109,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		try {
 			token = service.generateToken(scopesList, clientId, clientSecret, userName, password);
 		} catch (IllegalArgumentException exc) {
+			System.out.println("Hello le mondeeeee - Exception ");
 			logger.debug("[obtainAccessTokenBasicCredentials] invalid parameter: {}", exc.getMessage());
 			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
 				"password parameters are mandatory");

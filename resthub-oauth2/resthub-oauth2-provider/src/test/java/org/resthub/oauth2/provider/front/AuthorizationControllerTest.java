@@ -51,6 +51,7 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		form.add("client_secret", null);
 		form.add("username", "test");
 		form.add("password", "t3st");
+		form.add("scope", "nowhere");
 
 		// gets a token
 		TokenResponse response = server.path("authorize/token").

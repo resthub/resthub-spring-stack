@@ -12,16 +12,6 @@
 		RESThub is an Open Source (LGPL) framework designed to allow you to build web applications following KISS (Keep It Simple and Stupid), DRY (Don’t Repeat Yourself) and REST principles.
     </description>
 
-    <modules>
-        <module>resthub-core</module>
-        <module>resthub-web</module>
-        <module>resthub-js</module>
-        <module>resthub-apps</module>
-        <module>resthub-archetypes</module>
-        <module>resthub-oauth2</module>
-        <module>resthub-identity</module>
-        <module>resthub-tapestry5</module>
-    </modules>
 
     <properties>
         <jersey.version>1.4</jersey.version>
@@ -577,5 +567,6 @@
             <url>http://${deploy.host}/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+    <modules></modules>
 
 </project>
