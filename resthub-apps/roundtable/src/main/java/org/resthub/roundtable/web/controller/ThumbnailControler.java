@@ -11,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.resthub.roundtable.toolkit.ImageTools;
@@ -31,8 +30,7 @@ public class ThumbnailControler {
 
     @Value("#{systemEnvironment['rt.data.dir']}")
     private String dataDirPath;
-
-
+    
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -64,6 +62,8 @@ public class ThumbnailControler {
 		ImageTools.createThumbnail(illustrationLocation, thumbnailLocation, 100);
 		file = new File(thumbnailLocation);
 	    } catch (IOException ex) {
+		return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
+	    } catch (InterruptedException ex) {
 		return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
 	    }
 	}

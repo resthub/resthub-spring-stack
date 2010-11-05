@@ -7,8 +7,10 @@ package org.resthub.roundtable.toolkit;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.MediaTracker;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
@@ -24,9 +26,12 @@ import javax.swing.ImageIcon;
  */
 public class ImageTools {
 
-    public static void createThumbnail(String srcImageFileName, String thumbFileName, int largestDimension) throws IOException {
+    public static void createThumbnail(String srcImageFileName, String thumbFileName, int largestDimension) throws IOException, InterruptedException {
 
 	Image inImage = Toolkit.getDefaultToolkit().getImage(srcImageFileName);
+        MediaTracker mediaTracker = new MediaTracker(new Container());
+        mediaTracker.addImage(inImage, 0);
+        mediaTracker.waitForID(0);
 
 	if (inImage.getWidth(null) == -1 || inImage.getHeight(null) == -1) {
 	    throw new IOException("Thumbnail: bad image source: "
@@ -120,6 +125,7 @@ public class ImageTools {
 	OutputStream os = new FileOutputStream(thumbFileName);
 	JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(os);
 	encoder.encode(outImage);
+        os.flush();
 	os.close();
     }
 }

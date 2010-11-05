@@ -33,7 +33,7 @@ import org.synyx.hades.domain.Pageable;
 public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> implements PollService {
     private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
 
-    @Value("#{systemEnvironment['rt.data.dir']}")
+    @Value("#{rtProperties['rt.data.dir']}")
     private String dataDirPath;
 
     @Inject
@@ -65,7 +65,7 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
         }
 
 	// Illustration
-	if (resource.getIllustration() != null) {
+	if (resource.getIllustration() != null && !"".equals(resource.getIllustration())) {
 	    poll.setIllustration(resource.getIllustration());
 	    String tmpdir = System.getProperty("java.io.tmpdir");
 
