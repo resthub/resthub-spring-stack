@@ -43,11 +43,43 @@
 	</dependencies>
 
 	<properties>
-	 <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+            <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
 	</properties>
 
 	<build>
-		<plugins>
+            <filters>
+                <filter>src/main/filters/${env}.properties</filter>
+            </filters>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>false</filtering>
+                </resource>
+                <resource>
+                    <directory>src/main/config/filtered</directory>
+                    <filtering>true</filtering>
+                </resource>
+                <resource>
+                    <directory>src/main/config/${env}</directory>
+                    <filtering>true</filtering>
+                </resource>
+            </resources>
+            <testResources>
+                <testResource>
+                    <directory>src/test/resources</directory>
+                    <filtering>false</filtering>
+                </testResource>
+                <testResource>
+                    <directory>src/test/config/filtered</directory>
+                    <filtering>true</filtering>
+                </testResource>
+                <testResource>
+                    <directory>src/test/config/${env}</directory>
+                    <filtering>true</filtering>
+                </testResource>
+            </testResources>
+
+                <plugins>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
