@@ -16,7 +16,7 @@
   </description>
 
 	<modules>
-		<module>resthub-simple-webapp-archetype</module>
+		<module>resthub-js-webapp-archetype</module>
 	</modules>
 
 </project>
