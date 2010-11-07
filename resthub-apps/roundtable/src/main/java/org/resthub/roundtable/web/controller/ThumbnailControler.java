@@ -3,6 +3,7 @@ package org.resthub.roundtable.web.controller;
 import java.io.File;
 import java.io.IOException;
 import javax.activation.MimetypesFileTypeMap;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.DefaultValue;
@@ -26,10 +27,19 @@ import org.springframework.beans.factory.annotation.Value;
 @Named("thumbnailController")
 @Singleton
 public class ThumbnailControler {
-    private static final Logger LOG = LoggerFactory.getLogger(ThumbnailControler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ThumbnailControler.class);
 
-    @Value("#{systemEnvironment['rt.data.dir']}")
+    @Value("#{config['rt.data.dir']}")
     private String dataDirPath;
+    
+    @PostConstruct
+	protected void init() {
+		String thumbnailLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("thumbnail").toString();
+		logger.debug("Thumbnail location : " + thumbnailLocation);
+		File dataDir = new File(thumbnailLocation);
+		if(!dataDir.exists())
+			dataDir.mkdirs();
+	}
     
     @GET
     @Path("/{id}")

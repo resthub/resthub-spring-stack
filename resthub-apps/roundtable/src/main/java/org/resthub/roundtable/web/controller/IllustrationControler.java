@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.activation.MimetypesFileTypeMap;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +37,9 @@ import org.springframework.beans.factory.annotation.Value;
 @Named("illustrationController")
 @Singleton
 public class IllustrationControler {
-    private static final Logger LOG = LoggerFactory.getLogger(IllustrationControler.class);
-
-    @Value("#{systemEnvironment['rt.data.dir']}")
+    private static final Logger logger = LoggerFactory.getLogger(IllustrationControler.class);
+    
+    @Value("#{config['rt.data.dir']}")
     private String dataDirPath;
 
     class UploadResponse {
@@ -57,6 +58,15 @@ public class IllustrationControler {
 	    return response.toString();
 	}
     }
+    
+    @PostConstruct
+	protected void init() {
+		String illustrationLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("illustration").toString();
+		logger.debug("Illustration location : " + illustrationLocation);
+		File dataDir = new File(illustrationLocation);
+		if(!dataDir.exists())
+			dataDir.mkdirs();
+	}
 
     @POST
     @Path("/upload")
@@ -78,7 +88,7 @@ public class IllustrationControler {
 		    FileItem item = iter.next();
 		    if (!item.isFormField() && item.getSize() > 0) {
 			String fileName = processFileName(item.getName());
-			LOG.debug("Uploading file : {} ...", fileName);
+			logger.debug("Uploading file : {} ...", fileName);
 			File targetFile = null;
 			try {
 			    targetFile = File.createTempFile("rt_", ".attachement");
@@ -88,7 +98,7 @@ public class IllustrationControler {
 			    return Response.serverError().header("FileUploadException", ex.getMessage()).build();
 			}
 			response.addUploadRef(getFileRef(targetFile.getAbsolutePath()));
-			LOG.debug("File {} uploaded ({}).", fileName, targetFile.getAbsolutePath());
+			logger.debug("File {} uploaded ({}).", fileName, targetFile.getAbsolutePath());
 		    }
 		}
 	    }
