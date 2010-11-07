@@ -15,8 +15,18 @@
   <packaging>maven-archetype</packaging>
 
   <name>Simple webapp archetype</name>
+  
+  
+    
 
   <build>
+  	<resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  
     <extensions>
       <extension>
         <groupId>org.apache.maven.archetype</groupId>
