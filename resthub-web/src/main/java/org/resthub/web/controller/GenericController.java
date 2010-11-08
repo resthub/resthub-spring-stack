@@ -3,6 +3,8 @@ package org.resthub.web.controller;
 import java.lang.reflect.Array;
 import java.net.URI;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -30,8 +32,33 @@ import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
 
 /**
- * Generic REST controller
- * @author bouiaw
+ * <p>Generic REST controller</p>
+ * 
+ * <p>It provides 5 generic web services, all usable with XML or JSON serialization :
+ * <ul>
+ * 	<li>GET on / : returns all entities managed by this controller (pageable, see related documentation)</li>
+ *  <li>GET on /{id} : returns the entity identified by 'id'</li>
+ *  <li>POST on / : create a new entity (given in parameter)</li>
+ *  <li>PUT on /{id} : update an entity (given in parameter)</li>
+ *  <li>DELETE on /{id} : delete the entity identified by 'id'</li>
+ * </ul>
+ * </p>
+ * 
+ * You should extend it and annotate your class like bellow :
+ * <pre>
+ * {@code
+ * @Path("/sample") @Named("sampleController")
+ * public class SampleController extends GenericResourceController<SampleResource, SampleService> &#123;
+ *
+ *   @Inject @Named("sampleService") @Override
+ *   public void setService(SampleService service) &#123;
+ *       this.service = service;
+ *   &#125;
+ * &#125;
+ * }
+ * </pre>
+ * 
+ * @author sdeleuze
  * @param <T> Entity to manage
  * @param <ID> Entity key
  */
