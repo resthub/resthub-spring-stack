@@ -1,23 +1,19 @@
-package org.resthub.identity.controller;
-
-import javax.inject.Inject;
-import javax.inject.Named;
+package org.resthub.identityManager.test;
 
 import junit.framework.Assert;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.xml.XmlConfiguration;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.resthub.core.service.GenericResourceService;
-import org.resthub.identity.model.User;
-import org.resthub.web.controller.GenericController;
-import org.resthub.web.controller.GenericResourceController;
-import org.resthub.web.test.controller.AbstractResourceControllerTest;
+import org.springframework.web.context.ContextLoaderListener;
 
+import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import com.thoughtworks.selenium.Selenium;
 
 
@@ -26,36 +22,87 @@ import com.thoughtworks.selenium.Selenium;
 /* The fact is taht we need in the setUp to lauch the webApp that we need */
 /* The easier way seems to lauch through jetty */
 /* to use it, we need to change the pom.xml to remove the excludes of this file for testing*/
-public class SeleniumTest extends AbstractResourceControllerTest<User, GenericResourceController<User, GenericResourceService<User>>> {
+public class SeleniumTest {
 
 	
-	@Inject
-	@Named("userController")
-	public void setController(GenericResourceController userController) {
-		super.setController(userController);
-	}
-	
-
-	 @Inject
-	    @Named("userController")
-	    @Override
-	    @SuppressWarnings("unchecked")
-	    public void setController(GenericController controller) {
-	        super.setController(controller);
-	    }
 	 WebDriver driver ;
 		Selenium selenium;
-	@Override
+	
+		@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		
-		Resource fileserver_xml = Resource.newSystemResource("fileserver.xml");
-        XmlConfiguration configuration = new XmlConfiguration(fileserver_xml.getInputStream());
-        Server server = (Server)configuration.configure();
-        server.start();
+		
+		/*Resource fileserver_xml = Resource.newResource("file:/D:/Documents%20and%20Settings/A501570/workspace/Z-resthub/resthub-identity/resthub-identity-manager/src/main/webapp/WEB-INF/web.xml");
+        if(fileserver_xml == null ){
+        	throw new Exception("fileserever null");
+        }
+		XmlConfiguration configuration = new XmlConfiguration(fileserver_xml.getInputStream());
+        
+		Server server = (Server)configuration.configure();
+		
+		server.start();
         server.join();
-        
-        
+		*/
+			
+			
+			
+			Server server = new Server(9797);
+		
+		 /*
+		 ServletContextHandler authorization = new ServletContextHandler(
+				ServletContextHandler.SESSIONS);
+		authorization.setContextPath("/identity");			
+
+		authorization.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:AuthorizationContext.xml");
+		authorization.addServlet(SpringServlet.class, "/*");
+		authorization.addEventListener(new ContextLoaderListener());
+ 
+		// Add a context for resource service
+		ServletContextHandler resource = new ServletContextHandler(
+				ServletContextHandler.SESSIONS);
+		resource.setContextPath("/resourceServer");		
+		
+		resource.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:ResourceContext.xml");
+		FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
+		filterDef.setName("oauth2filter");
+		resource.addFilter(filterDef, "/*", 1);
+		
+		ServletHolder servletDef = new ServletHolder(SpringServlet.class);
+		servletDef.setInitParameter("com.sun.jersey.spi.container.ResourceFilters", 
+				"com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory");
+		resource.addServlet(servletDef, "/*");
+		resource.addEventListener(new ContextLoaderListener());
+
+		// Starts the server.
+		ContextHandlerCollection handlers = new ContextHandlerCollection();
+        handlers.setHandlers(new Handler[] {authorization, resource});
+        server.setHandler(handlers);
+		server.start();
+		
+			 * 
+			 * */
+			ServletContextHandler identity = new ServletContextHandler(
+					ServletContextHandler.SESSIONS);
+			identity.setContextPath("/identity");			
+
+			identity.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:AuthorizationContext.xml");
+			identity.addServlet(SpringServlet.class, "/*");
+			identity.addEventListener(new ContextLoaderListener());
+
+			
+			
+			ContextHandlerCollection handlers = new ContextHandlerCollection();
+	        handlers.setHandlers(new Handler[] {identity});
+			/*
+			WebAppContext wac = new WebAppContext();
+			wac.setWar("target/identity-manager.war");
+			
+				server.setHandler(wac);
+			*/
+	        server.setHandler(handlers);
+			System.out.println("We are starting");
+			server.start();
+			System.out.println("We did start");
 
 		
 		driver= new FirefoxDriver();
@@ -67,6 +114,8 @@ public class SeleniumTest extends AbstractResourceControllerTest<User, GenericRe
 	
 		// given the webservice identityManager
 		// given an user with login "testLogin" and password "testLoginPassword"
+		
+	
 		
 		selenium.open("/#/");
 		Thread.sleep(500);
@@ -236,7 +285,7 @@ public class SeleniumTest extends AbstractResourceControllerTest<User, GenericRe
 
 	}
 
-	@Override
+	
 	public void testUpdate() throws Exception {
 		// TODO Auto-generated method stub
 		

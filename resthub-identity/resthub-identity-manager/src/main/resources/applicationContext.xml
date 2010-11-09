@@ -10,10 +10,23 @@
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			class="${hibernate-class}">
+		<property name="driverClassName" value="${hibernate-driver}" />
+		<property name="url" value="${hibernate-url}" />
+		<property name="username" value="${hibernate-username}"/>
+		<property name="password" value="${hibernate-password}" />
+	</bean>
+	<!--
+	<bean id="dataSource"
+			class="${hibernate-class}">
+			   "org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/odp_qlf" />
-		<property name="username" value="massilia" />
-		<property name="password" value="massilia" />
+		<property name="username" value="${hibernate-username}" />
+		<property name="password" value="${hibernate-password}" />
 	</bean>
+	-->
+	<context:annotation-config/>
+	<context:component-scan base-package="org.resthub.identity" />
+ 	
 </beans>

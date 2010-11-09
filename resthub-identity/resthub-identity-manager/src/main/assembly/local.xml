@@ -8,19 +8,10 @@
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
-		<!--<fileSet>
-			<directory>target</directory>
-			<filtered>true</filtered>
-		</fileSet>-->
-		<fileSet> 
-			<directory>${build.outputDirectory}</directory>
-			<outputDirectory></outputDirectory> 
-		</fileSet>		
 		<fileSet> 
 			<directory>src/main/resources</directory>
-			<outputDirectory></outputDirectory> 
+			<outputDirectory>/WEB-INF/classes</outputDirectory>
 			<filtered>true</filtered>
 		</fileSet>
-		
 	</fileSets>
 </assembly>
