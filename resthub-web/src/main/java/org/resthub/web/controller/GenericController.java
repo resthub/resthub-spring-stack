@@ -1,35 +1,33 @@
 package org.resthub.web.controller;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.net.URI;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.Status;
 
-import org.resthub.core.util.ClassUtils;
-
-import com.sun.jersey.api.view.ImplicitProduces;
-import java.io.Serializable;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.QueryParam;
 import org.resthub.core.service.GenericService;
+import org.resthub.core.util.ClassUtils;
 import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
+
+import com.sun.jersey.api.view.ImplicitProduces;
 
 /**
  * <p>Generic REST controller</p>
@@ -44,18 +42,6 @@ import org.synyx.hades.domain.PageRequest;
  * </ul>
  * </p>
  * 
- * You should extend it and annotate your class like bellow :
- * <pre>
- * {@code
- * @Path("/sample") @Named("sampleController")
- * public class SampleController extends GenericResourceController<SampleResource, SampleService> &#123;
- *
- *   @Inject @Named("sampleService") @Override
- *   public void setService(SampleService service) &#123;
- *       this.service = service;
- *   &#125;
- * &#125;
- * }
  * </pre>
  * 
  * @author sdeleuze
