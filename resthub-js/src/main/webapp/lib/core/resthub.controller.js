@@ -111,7 +111,7 @@
 				type: type,
 				data: data,
 				success: $.proxy( callback , this )
-			});
+			}, accessToken);
 		},
 
 		
