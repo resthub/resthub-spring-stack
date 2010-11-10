@@ -53,6 +53,7 @@ public class UserController extends GenericController<User, UserService, Long> {
 	 */
 	@Override
 	public Long generateIdentifierFromEntity(User entity) {
-		throw new NoSuchMethodError("Not implemented");
+		return entity.getId();
 	}
+	
 }

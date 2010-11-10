@@ -22,13 +22,13 @@
 
 		this.bind('end-of-booking', function() {
 			var booking = this.session('booking');
-			$.pnotify('Thank you, ' + booking.user.name + ', your confimation number for ' + booking.hotel.name + ' is ' + booking.id + '.');
+			$.pnotify('Thank you, ' + booking.user.fullname + ', your confimation number for ' + booking.hotel.name + ' is ' + booking.id + '.');
 			this.store('session').clear('booking');
 		});
 
 		this.bind('user-logged-in', function() {
 			var user = this.session('user');
-			$.pnotify('Welcome ' + user.name + ' !');
+			$.pnotify('Welcome ' + user.fullname + ' !');
 		});
 
 		this.bind('user-logged-out', function() {
@@ -42,7 +42,7 @@
 		});
 
 		this.bind('user-registered', function(e, user) {
-			$.pnotify('Your are now registered ' + user.name + ' !');
+			$.pnotify('Your are now registered ' + user.fullname + ' !');
 			this.redirect('#/');
 		});
 

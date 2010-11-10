@@ -10,9 +10,10 @@
 			var self = this;
 			$('#register-button').bind('click', function() {
 				var user = {
+					email: $('input[name=email]').val(),
 					username: $('input[name=username]').val(),
 					password: $('input[name=password]').val(),
-					name: $('input[name=name]').val()
+					fullname: $('input[name=name]').val()
 				}
 				self._post('api/user', self._userRegistered, $.toJSON(user));
 			});
