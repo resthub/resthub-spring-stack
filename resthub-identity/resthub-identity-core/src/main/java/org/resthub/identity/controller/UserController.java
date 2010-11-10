@@ -9,6 +9,7 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -108,5 +109,18 @@ public class UserController extends
 				Response.status(Status.FORBIDDEN).build() : 
 				Response.ok(u).build();
 		return r;
+	}
+	
+	@GET
+	@Path("/me")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response currentUser(@HeaderParam("user_id") String login){
+		System.out.println("cyurrent User : "+login);
+		User u = this.service.findByLogin(login);
+		if (u == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		
+		return Response.ok(u).build();
 	}
 }

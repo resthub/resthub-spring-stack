@@ -11,5 +11,6 @@
 
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
- 	
+ 	<context:component-scan base-package="org.resthub.oauth2.filter" />
+ 		
 </beans>

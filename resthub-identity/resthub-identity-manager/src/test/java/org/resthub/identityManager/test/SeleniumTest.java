@@ -5,12 +5,16 @@ import junit.framework.Assert;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
@@ -24,107 +28,69 @@ import com.thoughtworks.selenium.Selenium;
 /* to use it, we need to change the pom.xml to remove the excludes of this file for testing*/
 public class SeleniumTest {
 
-	
 	 WebDriver driver ;
-		Selenium selenium;
+     Selenium selenium;
 	
-		@Before
+	Server server;
+		
+	@Before
 	public void setUp() throws Exception {
 		
 		
-		/*Resource fileserver_xml = Resource.newResource("file:/D:/Documents%20and%20Settings/A501570/workspace/Z-resthub/resthub-identity/resthub-identity-manager/src/main/webapp/WEB-INF/web.xml");
-        if(fileserver_xml == null ){
-        	throw new Exception("fileserever null");
-        }
-		XmlConfiguration configuration = new XmlConfiguration(fileserver_xml.getInputStream());
-        
-		Server server = (Server)configuration.configure();
-		
-		server.start();
-        server.join();
-		*/
-			
-			
-			
-			Server server = new Server(9797);
-		
-		 /*
-		 ServletContextHandler authorization = new ServletContextHandler(
-				ServletContextHandler.SESSIONS);
-		authorization.setContextPath("/identity");			
+			server = new Server(8080);
 
-		authorization.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:AuthorizationContext.xml");
-		authorization.addServlet(SpringServlet.class, "/*");
-		authorization.addEventListener(new ContextLoaderListener());
- 
-		// Add a context for resource service
-		ServletContextHandler resource = new ServletContextHandler(
-				ServletContextHandler.SESSIONS);
-		resource.setContextPath("/resourceServer");		
-		
-		resource.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:ResourceContext.xml");
-		FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
-		filterDef.setName("oauth2filter");
-		resource.addFilter(filterDef, "/*", 1);
-		
-		ServletHolder servletDef = new ServletHolder(SpringServlet.class);
-		servletDef.setInitParameter("com.sun.jersey.spi.container.ResourceFilters", 
-				"com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory");
-		resource.addServlet(servletDef, "/*");
-		resource.addEventListener(new ContextLoaderListener());
-
-		// Starts the server.
-		ContextHandlerCollection handlers = new ContextHandlerCollection();
-        handlers.setHandlers(new Handler[] {authorization, resource});
-        server.setHandler(handlers);
-		server.start();
-		
-			 * 
-			 * */
-			ServletContextHandler identity = new ServletContextHandler(
+			ServletContextHandler ser = new ServletContextHandler(
 					ServletContextHandler.SESSIONS);
-			identity.setContextPath("/identity");			
-
-			identity.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:AuthorizationContext.xml");
-			identity.addServlet(SpringServlet.class, "/*");
-			identity.addEventListener(new ContextLoaderListener());
-
 			
+			ser.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
+					
+			ser.setContextPath("/identity");			
+			ser.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath*:applicationContext.xml classpath:AuthorizationContext.xml");
+						
+			ser.addServlet(SpringServlet.class, "/api/*");
+			ser.addServlet(DefaultServlet.class, "/*");
+			
+			ser.addEventListener(new ContextLoaderListener());
+			
+			ser.setResourceBase("./target/identity-manager");
+			
+			System.out.println(ser.getResourceBase());
 			
 			ContextHandlerCollection handlers = new ContextHandlerCollection();
-	        handlers.setHandlers(new Handler[] {identity});
-			/*
-			WebAppContext wac = new WebAppContext();
-			wac.setWar("target/identity-manager.war");
-			
-				server.setHandler(wac);
-			*/
+	        handlers.setHandlers(new Handler[] {ser});
 	        server.setHandler(handlers);
-			System.out.println("We are starting");
 			server.start();
-			System.out.println("We did start");
-
+			
+		driver= new HtmlUnitDriver();
+		((HtmlUnitDriver) driver).setJavascriptEnabled(true);
 		
-		driver= new FirefoxDriver();
-		selenium= new WebDriverBackedSelenium(driver, "http://127.0.0.1:9797/");		
+		selenium= new WebDriverBackedSelenium(driver, "http://127.0.0.1:8080/");		
 	}
 	
+	@After
+	public void tearDown() throws Exception {
+		server.stop();
+	}
+		
 	@Test
 	public void testLoginandDisplayHome() throws Exception {
+
 	
 		// given the webservice identityManager
 		// given an user with login "testLogin" and password "testLoginPassword"
-		
-	
-		
-		selenium.open("/#/");
+			
+		selenium.open("/identity/#");
 		Thread.sleep(500);
+		selenium.click("link=users");
+		Thread.sleep(5000);
 		deleteAllUsers();
 
+		System.out.println("We delete everything !!");
+		
 		String login = "testLogin";
 		String password = "testLoginPassword";
 
-		CreateNewUser(login, password);
+		createNewUser(login, password);
 
 		selenium.click("link=User Login");
 		Thread.sleep(1000);
@@ -144,8 +110,10 @@ public class SeleniumTest {
 	 * This is not a TEST This Method is a Helper function to a create New user
 	 * trough the web Interface
 	 */
-	public void CreateNewUser(String login, String password, String firstName,
+	public void createNewUser(String login, String password, String firstName,
 			String lastName) throws Exception {
+		
+		selenium.open("/identity/#");
 		selenium.click("link=user");
 		Thread.sleep(6000);
 		selenium.type("firstName", firstName);
@@ -172,8 +140,8 @@ public class SeleniumTest {
 	 * This is not a TEST This Method is a Helper function to a create New user
 	 * trough the web Interface, based on a Login and a password
 	 */
-	public void CreateNewUser(String Login, String Password) throws Exception {
-		CreateNewUser(Login, Password, "NewUserFirstName", "NewUserLastName");
+	public void createNewUser(String Login, String Password) throws Exception {
+		createNewUser(Login, Password, "NewUserFirstName", "NewUserLastName");
 	}
 
 	/*
@@ -181,15 +149,16 @@ public class SeleniumTest {
 	 * trough the web Interface, based on a firstName and a lastName Login is
 	 * randomly generated
 	 */
-	public void CreateNewUserWithName(String firstName, String lastName)
+	public void createNewUserWithName(String firstName, String lastName)
 			throws Exception {
-		CreateNewUser("Aii0ii" + Math.random(), "toto", firstName, lastName);
+		createNewUser("Aii0ii" + Math.random(), "toto", firstName, lastName);
 	}
 
 	/*
 	 * Test the creation of a New user based on first and last name
 	 */
 	@Test
+	@Ignore
 	public void testCreateNewUser() throws Exception {
 		// given the webservices identityManager
 		selenium.open("/identity/#/");
@@ -197,13 +166,14 @@ public class SeleniumTest {
 		deleteAllUsers();
 		// after the creation of the new User
 
-		CreateNewUserWithName("John", "Rambo");
+		createNewUserWithName("John", "Rambo");
 		// then information about the new user are display in a table
 		Assert.assertEquals("John Rambo", selenium
 				.getText("//div[@id='content']/table/tbody/tr/td[2]"));
 	}
 
 	@Test
+	@Ignore
 	public void testCreateNewUserFailedWhenPAsswordAreNotEgals()
 			throws Exception {
 		// given the webservices identityManager
@@ -266,12 +236,13 @@ public class SeleniumTest {
 	 * It tests the deletion of a user
 	 */
 	@Test
+	@Ignore
 	public void testDeletionUser() throws Exception {
 		// given ONE user in the database
 		selenium.open("/identity/#/");
 		Thread.sleep(500);
 		deleteAllUsers();
-		CreateNewUser("User", "Todelete");
+		createNewUser("User", "Todelete");
 
 		// When we delete it
 		selenium.click("link=users");

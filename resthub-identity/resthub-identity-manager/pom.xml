@@ -2,17 +2,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<artifactId>resthub-identity</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0.0</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-identity-manager</artifactId>
-	<version>1.0.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Identity manager webapp</name>
 	<packaging>war</packaging>
 	<description>Web GUI for Identity manager project.</description>
@@ -25,17 +24,49 @@
 			<type>war</type>
 		</dependency>
 		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium</artifactId>
+			<version>2.0a6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-web</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-identity-core</artifactId>
-			<version>1.0.0</version>
+			<version>1.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
 
 	<properties>
 		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
 	</properties>
 
 	<build>
+		<filters>
+			<filter>${basedir}/src/main/filters/filter-local.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 		<finalName>identity-manager</finalName>
 		<plugins>
 			<plugin>
@@ -106,6 +137,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

@@ -8,6 +8,10 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="org.resthub.identity" />
+	<context:component-scan base-package="org.resthub.oauth2.provider.front" />
 
 	<bean id="dataSource"
 			class="${hibernate-class}">
@@ -26,7 +30,6 @@
 		<property name="password" value="${hibernate-password}" />
 	</bean>
 	-->
-	<context:annotation-config/>
-	<context:component-scan base-package="org.resthub.identity" />
+
  	
 </beans>

@@ -81,7 +81,7 @@ var editUser =
 	/* change text {Secured,Not Well Secured,NotSecured} and  class of the passwordStrength span*/
 	_EvalPwdStrength : function(){
 	const  NOT_SECURED_LEVEL = 12; 
-	const SECURED_LEVEL = 12;
+	const SECURED_LEVEL = 20;
 		var text=$('input[name=password]').val();
 		var strength=0;
 		var capitalLetter=0;

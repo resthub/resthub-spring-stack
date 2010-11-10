@@ -51,15 +51,14 @@
             
             var answer = confirm(l("confirmUserDeletionBegin") + users[index].login + l("confirmUserDeletionEnd"));
             if (answer) {
-                /* We delete the user */
-                $.ajax({
-                    url: 'api/user/' + users[index].id,
-                    type: 'DELETE',
-                    success: function(){
+				$._securedAjax({
+					url: 'api/user/' + users[index].id,
+					type: 'DELETE',
+					callback: function(){
                         self._get('api/user?page=0', self._displayUsers);
-                    }
-                });
-            }
+                    } 
+				});
+			}
         },
 		
         /* this method allow to delete some users, the ones which have been checked 
@@ -88,13 +87,13 @@
                 for (element in userToDelete) {
                 
                     /* We delete the user */
-                    $.ajax({
-                        url: 'api/user/' + users[element].id,
-                        type: 'DELETE',
-                        success: function(){
-                            self._get('api/user?page=0', self._displayUsers);
-                        }
-                    });
+                    $._securedAjax({
+					url: 'api/user/' + users[index].id,
+					type: 'DELETE',
+					callback: function(){
+                        self._get('api/user?page=0', self._displayUsers);
+                    } 
+				});
                 }
             }
         }

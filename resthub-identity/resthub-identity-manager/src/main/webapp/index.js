@@ -57,7 +57,10 @@
 		
 		/* Authenticate user*/			
 		this.post('#/user/login', function(ev){
-			$('#content').postLoginUsers({context:ev, userLogin :ev.params['Login'],userPassword:ev.params['Password']});
+			$('#content').postLoginUsers({
+					context:ev, userLogin :ev.params['Login'],
+					userPassword:ev.params['Password'] ,
+					OAuth2EndPoint:ev.params['OAuth2EndPoint'] });
 			},'components/user/postLogin.js');		
 		
 		/* Cancel all unknow get*/
