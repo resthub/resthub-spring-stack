@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,6 +32,7 @@ import org.resthub.web.controller.GenericResourceController;
 public class UserController extends
 		GenericResourceController<User, UserService> {
 
+	
 	@Inject
 	@Named("userService")
 	@Override
@@ -117,7 +119,7 @@ public class UserController extends
 	
 	@GET
 	@Path("/me")
-	@RolesAllowed({"ADMIN","USER"}) 
+	@PermitAll
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response currentUser(@HeaderParam("user_id") String login){
 		System.out.println("cyurrent User : "+login);

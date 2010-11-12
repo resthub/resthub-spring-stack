@@ -114,7 +114,9 @@
 			}, accessToken);
 		},
 
-		
+		_logout: function(){
+			this.options.context.store('session').clear('accessToken');
+		},
 		_set: function(key, value) {
 			this.options[key] = value;
 		},

@@ -120,6 +120,8 @@
 					// Extract the WWW-Authenticate response header.
 					var error = XMLHttpRequest.getResponseHeader("WWW-Authenticate");
 					var errorObj = {};
+					errorObj.status="FORBIDDEN";
+					errorObj.message="HEJHEHHE";
 					// Parse the error status and optionnal message.
 					var i = error.indexOf('error="');
 					if (i != -1) {

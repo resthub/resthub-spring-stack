@@ -3,6 +3,7 @@ package org.resthub.identity.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -26,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/group")
+@RolesAllowed({"ADMIN"}) 
 @Named("groupController")
 public class GroupController extends
 		GenericResourceController<Group, GroupService> {

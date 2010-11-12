@@ -11,7 +11,12 @@ var editUser =
 		this._prepareData();
 	},
 	_prepareData: function() {
-		this._securedGet( 'api/group/list' , this._setGroups );
+		if (this.options.context.session('accessToken') != null) {
+			this._securedGet('api/group/list', this._setGroups);
+		}
+		else {
+			this._displayUserForm();
+		}
 	},
 	_setGroups: function(groups) {
 		this.options.groups = groups;

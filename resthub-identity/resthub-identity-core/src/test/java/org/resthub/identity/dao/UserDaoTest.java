@@ -74,6 +74,7 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 	    assertNotNull(u1);
 	    assertEquals(login, u1.getLogin());
 	    assertEquals(u1.getPermissions().get(0),"ADMIN");
+	    System.out.println(u1.getPermissions().get(1));
 	 }
 	 
 }

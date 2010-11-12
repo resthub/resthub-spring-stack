@@ -51,8 +51,8 @@
 		
 		/* Get Login page*/
 		this.get('#/user/login', 
-		function(){
-			$('#content').loginUsers();},
+		function(context){
+			$('#content').loginUsers({context:context});},
 			'components/user/login.js');			
 		
 		/* Authenticate user*/			
@@ -63,6 +63,12 @@
 					OAuth2EndPoint:ev.params['OAuth2EndPoint'] });
 			},'components/user/postLogin.js');		
 		
+		this.get('#/user/logout', function(context){
+			$('#content').logoutUser({context:context});
+		},
+			'components/user/logout.js');			
+		
+			
 		/* Cancel all unknow get*/
 		this.get("#(.*)",function(){
 			$('#content').html("");
