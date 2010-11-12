@@ -25,7 +25,7 @@ var listGroups =
 	},
 	_switchPage: function(page) {
 		this.options.page = page;
-		this._get( 'api/group?page=' + this.options.page, this._displayGroups );
+		this._securedGet( 'api/group?page=' + this.options.page, this._displayGroups );
 	}
 };
 

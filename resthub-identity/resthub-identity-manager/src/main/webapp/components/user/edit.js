@@ -11,7 +11,7 @@ var editUser =
 		this._prepareData();
 	},
 	_prepareData: function() {
-		this._get( 'api/group/list' , this._setGroups );
+		this._securedGet( 'api/group/list' , this._setGroups );
 	},
 	_setGroups: function(groups) {
 		this.options.groups = groups;
@@ -150,7 +150,7 @@ var editUser =
 		if (validForm) {
 			this._formToSession();
 			var user = this.options.context.session('tempUser');
-			this._post( 'api/user', this._endOfProcess, $.toJSON(user));
+			this._securedPost( 'api/user', this._endOfProcess, $.toJSON(user));
 		}
 	},
 	/* Puts form data in session */

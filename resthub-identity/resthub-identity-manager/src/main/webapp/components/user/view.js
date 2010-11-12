@@ -8,7 +8,7 @@ var viewUser =
 		context: null
 	},
 	_init: function() {
-		this._get('api/user/login/' + this.options.userLogin, this._displayUser);
+		this._securedGet('api/user/login/' + this.options.userLogin, this._displayUser);
 	},
 	_displayUser: function(user) {
 		this.element.render(this.options.template, {user: user});

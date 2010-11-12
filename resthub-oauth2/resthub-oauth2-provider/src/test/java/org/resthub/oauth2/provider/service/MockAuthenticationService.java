@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Test mock used to gets users and permissions during tests.
  */
-//@Named("mockAuthenticationService")
+//@Named("authenticationService")
 //@Singleton
 public class MockAuthenticationService implements AuthenticationService {
 

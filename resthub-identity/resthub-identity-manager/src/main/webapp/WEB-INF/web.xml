@@ -57,6 +57,7 @@
 		<filter-name>OAuth2Filter</filter-name>
 		<!-- Here the path of your protected resource -->
 		<url-pattern>/api/user/*</url-pattern>
+		<url-pattern>/api/group/*</url-pattern>
 	</filter-mapping>
 
 </web-app>

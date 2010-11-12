@@ -109,7 +109,6 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		try {
 			token = service.generateToken(scopesList, clientId, clientSecret, userName, password);
 		} catch (IllegalArgumentException exc) {
-			System.out.println("Hello le mondeeeee - Exception ");
 			logger.debug("[obtainAccessTokenBasicCredentials] invalid parameter: {}", exc.getMessage());
 			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
 				"password parameters are mandatory");
@@ -132,7 +131,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 */
 	@Override
 	public Token obtainTokenInformation(String accessToken, String password) {
-		// Checks password.
+		// Checks password
 		if (password == null || password.compareTo(authorizationPassword) != 0) {
 			throw new WebApplicationException(Status.FORBIDDEN);
 		}

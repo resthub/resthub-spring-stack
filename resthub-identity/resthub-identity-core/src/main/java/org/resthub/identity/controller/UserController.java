@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -23,6 +24,9 @@ import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericResourceController;
 
 @Path("/user")
+@RolesAllowed({"ADMIN"}) 
+/* For security reason, the default permissions if or ADMIN only
+ * For specific method, we can overrides on the method*/
 @Named("userController")
 public class UserController extends
 		GenericResourceController<User, UserService> {
@@ -113,6 +117,7 @@ public class UserController extends
 	
 	@GET
 	@Path("/me")
+	@RolesAllowed({"ADMIN","USER"}) 
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response currentUser(@HeaderParam("user_id") String login){
 		System.out.println("cyurrent User : "+login);

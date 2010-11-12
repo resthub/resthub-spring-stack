@@ -34,7 +34,7 @@
 	<bean name="authorizationService"
 		class="org.resthub.oauth2.provider.service.AuthorizationServiceImpl">
 		<property name="dao" ref="tokenDao" />
-		<property name="tokenLifeTime" value="500" />
+		<property name="tokenLifeTime" value="5000" />
 		<property name="tokenLength" value="15" />
 		<property name="authenticationProviders">
 			<list>

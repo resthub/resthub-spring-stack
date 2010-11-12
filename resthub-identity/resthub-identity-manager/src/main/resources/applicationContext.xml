@@ -12,6 +12,7 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
 	<context:component-scan base-package="org.resthub.oauth2.provider.front" />
+	<context:component-scan base-package="org.resthub.oauth2.provider.dao" />
 
 	<bean id="dataSource"
 			class="${hibernate-class}">

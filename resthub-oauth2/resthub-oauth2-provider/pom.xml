@@ -16,11 +16,13 @@
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-common</artifactId>
 			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web</artifactId>
 			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	
@@ -28,7 +30,7 @@
 		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
 	</properties>
 	
-	<build>
+	<!-- build>
 		<finalName>oauth2-provider</finalName>
 		<plugins>
 			<plugin>
@@ -49,5 +51,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>
+	</build -->
 </project>

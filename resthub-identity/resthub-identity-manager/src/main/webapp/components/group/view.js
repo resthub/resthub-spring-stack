@@ -8,7 +8,7 @@ var viewGroup =
 		context: null
 	},
 	_init: function() {
-		this._get('api/group/name/' + this.options.groupName, this._displayGroup);
+		this._securedGet('api/group/name/' + this.options.groupName, this._displayGroup);
 	},
 	_displayGroup: function(group) {
 		this.element.render(this.options.template, {group: group}); 
@@ -22,7 +22,7 @@ var viewGroup =
 		});
 	},
 	_removeUser: function(userLogin) {
-		this._delete('api/group/' + this.options.groupName + '/user/' + userLogin, this._userRemoved);
+		this._securedGelete('api/group/' + this.options.groupName + '/user/' + userLogin, this._userRemoved);
 	},
 	_userRemoved: function(updatedGroup) {
 		$.pnotify ({

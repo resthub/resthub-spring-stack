@@ -3,6 +3,8 @@ package org.resthub.identity.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -50,4 +52,28 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 	    assertEquals(login, u1.getLogin());   
 	 }
 	   
+	 @Test
+	    public void testGetANDPermissions(){
+		 //given a new user
+		 User u1= new User();
+		 String login="alexDao";
+		 String password="alexDao-pass";
+		 u1.setLogin(login);
+		 u1.setPassword(password);
+		 ArrayList<String> permissions = new ArrayList<String>();
+		 permissions.add("ADMIN");
+		 permissions.add("USER");
+		 u1.setPermissions(permissions);
+		 
+		 resourceDao.save(u1);
+		 
+		 //when we search  him by his login and password
+	    u1 =resourceDao.getUserByAuthenticationInformation(login, password);
+	    
+	    //we get the user as response
+	    assertNotNull(u1);
+	    assertEquals(login, u1.getLogin());
+	    assertEquals(u1.getPermissions().get(0),"ADMIN");
+	 }
+	 
 }

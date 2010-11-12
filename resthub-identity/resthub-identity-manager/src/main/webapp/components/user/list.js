@@ -39,7 +39,7 @@
         },
         _switchPage: function(page){
             this.options.page = page;
-            this._get('api/user?page=' + this.options.page, this._displayUsers);
+            this._securedGet('api/user?page=' + this.options.page, this._displayUsers);
         },
         
 		/* 
@@ -51,13 +51,14 @@
             
             var answer = confirm(l("confirmUserDeletionBegin") + users[index].login + l("confirmUserDeletionEnd"));
             if (answer) {
-				$._securedAjax({
+				var accessToken = this.options.context.session('accessToken');
+				$.oauth2Ajax({
 					url: 'api/user/' + users[index].id,
 					type: 'DELETE',
-					callback: function(){
-                        self._get('api/user?page=0', self._displayUsers);
-                    } 
-				});
+					complete :  function(){
+                        self._securedGet('api/user?page=0', self._displayUsers);
+                    },
+				},accessToken);
 			}
         },
 		
@@ -76,7 +77,7 @@
             message = (userToDelete.length > 1) ? l("confirmUsersDeletionBegin") : l("confirmUserDeletionBegin");
             
             for (element in userToDelete) {
-                message = message.concat(users[element].login + ",");
+                message = message.concat(users[userToDelete[element]].login + ",");
             }
             message = message.concat(l("confirmUserDeletionEnd"));
             var answer = confirm(message);
@@ -85,15 +86,16 @@
             if (answer) {
 				/* there is actually one request for each user to delete*/
                 for (element in userToDelete) {
-                
+                var accessToken = this.options.context.session('accessToken');
+				
                     /* We delete the user */
-                    $._securedAjax({
-					url: 'api/user/' + users[index].id,
+                    $.oauth2Ajax({
+					url: 'api/user/' + users[userToDelete[element]].id,
 					type: 'DELETE',
-					callback: function(){
-                        self._get('api/user?page=0', self._displayUsers);
-                    } 
-				});
+					complete :  function(){
+                        self._securedGet('api/user?page=0', self._displayUsers);
+                    }, 
+				},accessToken);
                 }
             }
         }
