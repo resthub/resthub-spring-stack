@@ -11,6 +11,7 @@
 	<artifactId>resthub-web-client</artifactId>
 	<name>Webservices client library</name>
 	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<description>
 		RESThub webservice client for requesting REST webservices with JSON support bundled
 	</description>
