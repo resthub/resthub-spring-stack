@@ -27,7 +27,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web</artifactId>
+			<artifactId>resthub-web-server</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
