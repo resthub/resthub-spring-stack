@@ -91,7 +91,7 @@
     </mailingLists>
     <developers>
         <developer>
-            <id>bouiaw</id>
+            <id>sdeleuze</id>
             <name>Sebastien Deleuze</name>
             <timezone>+1</timezone>
         </developer>
@@ -164,7 +164,7 @@
                         <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
-		<plugin>
+				<plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>2.1</version>
@@ -530,17 +530,6 @@
                 <version>${jackson.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.jamonapi</groupId>
-                <artifactId>jamon</artifactId>
-                <version>${jamon.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>test-jetty-servlet</artifactId>
