@@ -135,14 +135,13 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>${jetty.version}</version>
                     <configuration>
-                  <scanIntervalSeconds>10</scanIntervalSeconds>
-                  <!-- We use non NIO connector in order to avoid read only static files under windows -->
-                  <connectors>
-                      <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
-                          <port>8080</port>
-                          <maxIdleTime>60000</maxIdleTime>
-                      </connector>
-                  </connectors>
+                  	<!-- We use non NIO connector in order to avoid read only static files under windows -->
+                  	<connectors>
+                    	<connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
+                        	<port>8080</port>
+                        	<maxIdleTime>60000</maxIdleTime>
+						</connector>
+                  	</connectors>
                   <webAppConfig>
                     <contextPath>/</contextPath>
                   </webAppConfig>

@@ -41,7 +41,6 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webAppConfig>
 						<contextPath>/identity</contextPath>
 					</webAppConfig>

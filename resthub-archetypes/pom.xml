@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>resthub-js-webapp-archetype</module>
+		<module>resthub-middle-archetype</module>
 		<module>resthub-tapestry5-webapp-archetype</module>
 	</modules>
 
