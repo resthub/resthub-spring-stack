@@ -5,14 +5,14 @@
 	<parent>
 		<artifactId>booking</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0-RC2</version>
+		<version>1.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>booking-js</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-RC2</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>Booking javascript stack based demo</name>
 	<description>
 		RESThub javascript stack version of the booking sample webapplication
@@ -26,18 +26,18 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-js</artifactId>
-			<version>1.0-RC2</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.0-RC2</version>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
       <groupId>org.resthub</groupId>
       <artifactId>booking-core</artifactId>
-      <version>1.0-RC2</version>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
