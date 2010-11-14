@@ -9,7 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.synyx.hades.domain.Page;
 
 /**
- * Wrapper page response.
+ * Wrapper for paged responses.
+ * 
  * @author Nicolas Carlier
  */
 @XmlRootElement

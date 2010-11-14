@@ -14,6 +14,7 @@ import org.synyx.hades.domain.Pageable;
  * 
  * @param <T> Domain model class managed, must be an Entity
  * @param <D> Generic DAO class
+ * 
  */
 @Transactional(readOnly = true)
 public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID extends Serializable>

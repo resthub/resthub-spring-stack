@@ -10,7 +10,16 @@ import org.codehaus.jackson.jaxrs.Annotations;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.ObjectMapper;
 
-
+/**
+ * JAX-RS extension intended to handle JSON serialization and deserialization.
+ * We use this one provided by Jackson instead of the one provided by Jersey
+ * because it realy more flexible and match our need.
+ * 
+ * One key point is that, unlike Jersey default feature, it does not try to use a
+ * JAXB XML oriented model o serialize objects. This one is real object to JSON implementation. 
+ * 
+ * @author sdeleuze
+ */
 @Provider
 @Named("jacksonProvider")
 @Consumes({MediaType.APPLICATION_JSON, "text/json"})

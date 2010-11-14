@@ -20,5 +20,4 @@ public class SampleServiceImpl extends GenericResourceServiceImpl<SampleResource
         this.dao = dao;
     }
 
-
 }

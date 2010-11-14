@@ -16,6 +16,12 @@ import org.resthub.core.tools.ToolingService;
 
 import com.sun.jersey.api.view.ImplicitProduces;
 
+/**
+ * BeanDetailsController publishes a REST webservices used to list all Spring beans discovered 
+ * by Spring based on the current classpath and application context files.
+ * 
+ * Remember to disable this one in production !
+ */
 @Path("/beans")
 @Named("beanDetailsController")
 @Singleton
@@ -25,9 +31,6 @@ public class BeanDetailsController {
 	@Inject
     @Named("toolingService")
 	private ToolingService toolingService;
-	
-//	@Context
-//	private UriInfo uriInfo;
 
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -36,33 +39,4 @@ public class BeanDetailsController {
 		return Response.ok(beanDetails.toArray(new BeanDetail[beanDetails.size()])).build();
 	}
 	
-//	@GET
-//	@Path("/{name}")
-//	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-//	public Response getResource(@PathParam("name")String name) {
-//		T resource =  this.resourceService.findByName(name);
-//		
-//		if(resource == null) {
-//			return Response.status(Status.NOT_FOUND).build();
-//		}
-//				
-//		return Response.ok(resource).build();
-//
-//	}
-//	
-//	@GET
-//	@Path("/{name}")
-//    @Produces(MediaType.TEXT_HTML)
-//    public Viewable getResourceView(@PathParam("name")String name) {
-//		T resource =  this.resourceService.findByName(name);
-//		return new Viewable("default", resource);
-//    }
-//	
-//	@GET
-//    @Produces(MediaType.TEXT_HTML)
-//    public Viewable getResourcesView() {
-//		List<T> resources = this.resourceService.findAll();
-//		return new Viewable("default", resources.toArray(resourceClassArray));
-//    }
-
 }
