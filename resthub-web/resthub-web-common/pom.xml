@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>resthub-web</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-RC2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-web-common</artifactId>
 	<name>Webservices common classes</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-RC2</version>
 	<packaging>jar</packaging>
 	<description>
 		Extends Jersey with default JSON support provided by Jackson
