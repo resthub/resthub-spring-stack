@@ -55,7 +55,7 @@ public class BookingList {
 	/**
 	 * Simply cancel the booking and redirect to search page
 	 */
-	@OnEvent(value = "cancelBooking")
+	@OnEvent(component = "cancelBooking")
 	Object cancelBooking(Long bookingId) {
 		bookingService.delete(bookingId);
 		return Search.class;

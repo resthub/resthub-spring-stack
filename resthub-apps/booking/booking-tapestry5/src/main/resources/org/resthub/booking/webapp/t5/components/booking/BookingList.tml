@@ -21,7 +21,7 @@
 					<td><t:output t:format="message:displayDateFormat" t:value="current?.checkinDate"/></td>
 					<td><t:output t:format="message:displayDateFormat" t:value="current?.checkoutDate"/></td>
 					<td>${current?.id}</td>
-					<td><a href="#" t:type="actionLink" t:context="current?.id" t:event="cancelBooking">${message:cancelBooking}</a></td>
+					<td><a href="#" t:type="actionLink" t:context="current?.id" t:id="cancelBooking">${message:cancelBooking}</a></td>
 				</tr>
 			</t:loop>
 		</tbody>
