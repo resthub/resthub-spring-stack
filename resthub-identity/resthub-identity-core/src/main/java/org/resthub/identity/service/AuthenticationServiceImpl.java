@@ -1,9 +1,11 @@
 package   org.resthub.identity.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
+import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 import org.resthub.oauth2.provider.service.AuthenticationService;
 
@@ -25,8 +27,12 @@ public class AuthenticationServiceImpl extends UserServiceImpl implements
 
 	@Override
 	public List<String> getUserPermissions(String userId) {
-		return this.findByLogin(userId).getPermissions();
-
+		List<String> userPermissisons = new ArrayList<String>();
+		userPermissisons.addAll(this.findByLogin(userId).getPermissions());
+		for( Group g : this.findByLogin(userId).getGroups()){
+			userPermissisons.addAll(g.getPermissions());
+		}
+		return userPermissisons;
 	}
 
 }

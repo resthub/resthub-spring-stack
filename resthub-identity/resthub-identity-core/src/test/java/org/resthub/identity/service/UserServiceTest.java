@@ -11,6 +11,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.User;
@@ -26,6 +28,28 @@ public class UserServiceTest extends
 		super.setResourceService(resourceService);
 	}
 
+	@Test
+	public void testMultiDeletion() throws Exception{
+		
+		User u1 = new User();
+		u1.setLogin("u1");
+		
+		User u2 = new User();
+		u2.setLogin("u2");
+		
+		u1=resourceService.create(u1);
+		u2=resourceService.create(u2);
+		
+		
+		resourceService.delete(u1);
+		resourceService.delete(u2);
+		
+		
+		Assert.assertNull(resourceService.findById(u1.getId()));
+		Assert.assertNull(resourceService.findById(u2.getId()));
+		
+	}
+		
 	@Override
 	@Test
 	public void testUpdate() throws Exception {

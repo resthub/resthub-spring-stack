@@ -41,6 +41,7 @@ public class User extends Identity {
 	}
 
 	@Column(/* nullable = false */)
+	@XmlTransient
 	public String getPassword() {
 		return password;
 	}
@@ -118,5 +119,55 @@ public class User extends Identity {
 		sb.append("]");
 		return sb.toString();
 	}
+	
+	/*
+	 * @ElementCollection(fetch=FetchType.EAGER)
+	 * @XmlElementWrapper(name = "permissions")
+	 * @XmlElement(name = "permission")
+	 * 
+	 */
+	/*@Override
+	public List<String> getPermissions() {
+		//List<String> overralPermissions = permissions.subList(0, permissions.size());
+		List<String> overralPermissions;
+		if(permissions==null){
+			overralPermissions=new ArrayList<String>();
+		}else{
+			overralPermissions = permissions.subList(0, 1);}
+		
+		for(Group g :  groups){
+			overralPermissions.addAll(g.permissions);
+		}
+		return overralPermissions;
+	}*/
+	
+	/*@ElementCollection(fetch=FetchType.EAGER)
+	@XmlElementWrapper(name = "permissions")
+	@XmlElement(name = "permission")*/
+	/*@Override
+	public List<String> getPermissions() {
+		return permissions;
+	}*/
+
+	@Override
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
+	}
+
+	@Override
+	public void addPermission(String permission) {
+		if (permissions == null) {
+			this.permissions = new ArrayList<String>();
+		}
+		this.permissions.add(permission);
+	}
+
+	@Override
+	public void removePermission(String permission) {
+		if (permissions != null) {
+			permissions.remove(permission);
+		}
+	}
+	
 
 }
