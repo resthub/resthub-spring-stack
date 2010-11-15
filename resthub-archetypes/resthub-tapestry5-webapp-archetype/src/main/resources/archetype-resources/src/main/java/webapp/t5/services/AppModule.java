@@ -13,7 +13,7 @@ import org.tynamo.jpa.JPASymbols;
 /**
  * Configuration for application. Include all necessary submodules
  */
-@SubModule( { ResthubModule.class, ${artifactId}JPAModule.class })
+@SubModule( { ResthubModule.class, AppJPAModule.class })
 public class AppModule {
 
 	public static void contributeApplicationDefaults(
