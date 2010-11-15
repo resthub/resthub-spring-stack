@@ -11,7 +11,6 @@
 		/**
 		 * Load app managed events
 		 */
-		// $.get('events.js');
 
 		/* BEGIN EVENTS */
 
@@ -39,6 +38,7 @@
 
 		this.bind('hotel-search', function() {
 			$('#content').home({context: this});
+			$('#search-value').focus();
 		});
 
 		this.bind('user-registered', function(e, user) {
