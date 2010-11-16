@@ -1,4 +1,4 @@
-package org.resthub.oauth2.provider.front;
+package org.resthub.oauth2.provider.web;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.resthub.oauth2.provider.front;
+package org.resthub.oauth2.provider.web;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;

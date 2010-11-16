@@ -1,4 +1,4 @@
-package org.resthub.oauth2.provider.front;
+package org.resthub.oauth2.provider.web;
 
 import javax.inject.Named;
 import javax.ws.rs.core.CacheControl;

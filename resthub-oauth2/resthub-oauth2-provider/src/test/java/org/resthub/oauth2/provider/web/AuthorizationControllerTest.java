@@ -1,4 +1,4 @@
-package org.resthub.oauth2.provider.front;
+package org.resthub.oauth2.provider.web;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

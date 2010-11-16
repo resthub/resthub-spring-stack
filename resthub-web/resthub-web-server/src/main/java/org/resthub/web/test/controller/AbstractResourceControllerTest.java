@@ -7,8 +7,7 @@ import org.resthub.core.util.ClassUtils;
 import org.resthub.web.controller.GenericResourceController;
 
 /**
- *
- * @author Guillaume Zurbach
+ * Base class for your generic resource controller tests
  */
 public abstract class AbstractResourceControllerTest <T extends Resource, C extends GenericResourceController<T, GenericResourceService<T>>>
 						extends AbstractControllerTest {

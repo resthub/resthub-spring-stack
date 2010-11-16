@@ -1,7 +1,5 @@
 package org.resthub.web.test;
 
-
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
@@ -22,6 +20,12 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import org.springframework.test.context.ContextConfiguration;
 
+/**
+ * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration.
+ * Currently, a Jetty instance is launched for each tests in order to reset test conditions.
+ * If you want to restart Jetty only once, you can extend it, override setUp() methods and use @BeforeClass instead of @Before annotations (don't forget to call super.setUp())
+ * Ususally you will have to redefine @ContextConfiguration to specify your application context file in addition to resthub ones  
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml" })
 public abstract class AbstractWebResthubTest {
