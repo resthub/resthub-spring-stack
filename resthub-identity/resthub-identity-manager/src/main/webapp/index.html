@@ -6,9 +6,9 @@
         <link rel="stylesheet" href="lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="style.css" type="text/css" media="screen, projection">
-        <link rel="localizations" href="libs/l10n/localizations.json" type="application/x-l10n+json"/>
-        <script src="lib/resthub.stack.js">
-        </script>
+        <link rel="localizations" href="resources/labels/localizations.json" type="application/x-l10n+json"/>
+        <script src="resources/labels/urls.js" /></script>
+        <script src="lib/resthub.stack.js"></script>
         <script>
             dominoes("lib/jquery.pnotify.js lib/jquery.validate.js  libs/ejs/view.js libs/l10n/l10n.js index.js")
         </script>
@@ -19,14 +19,6 @@
                 <span id="big_header">ODP &raquo;</span>
                 An Atos Wordline Demonstration
             </div>
-            <!--
-            <ul>
-            <li><a href="">Home</a></li>
-            <li>List : <a href="#/user/list">users</a> <a href="#/group/list">groups</a></li>
-            <li>Create : <a href="#/user/create">user</a> <a href="#/group/create">group</a></li>
-            <li><a href="#/user/login">User Login</a></li>
-            </ul>
-            -->
         </div>
         <div id="main">
             <nav id="main-menu">
@@ -44,9 +36,9 @@
                 <div id="Login" class="menu_box">
                     <a href="#/user/login">User Login</a>
                 </div>
-				<div id="Logout" class="menu_box">
-					<a href="#/user/logout">Sign Out</a> 
-				</div>
+                <div id="Logout" class="menu_box">
+                    <a href="#/user/logout">Sign Out</a>
+                </div>
             </nav>
             <div id="principal">
                 <div id="header">

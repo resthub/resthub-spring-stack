@@ -2,7 +2,7 @@
 
     var postLoginUsers = {
         options: {
-            template: 'components/user/Home.html',
+            template: URLS["templateUserHome"],
             context: null,
             sampleId: null,
             
@@ -16,15 +16,10 @@
             
             $.oauth2Conf.tokenEndPoint = self.options.OAuth2EndPoint;
             this._authenticate(self.options.userLogin, self.options.userPassword, function(){
-               //this.options.context.session(
-			    //var info = {};
-                //info.login = self.options.userLogin;
-                //info.password = self.options.userPassword;
-                //self._securedPost('api/user/login/', this._displayHome, $.toJSON(info));
-             	self._securedGet('api/user/me', this._displayHome);
+              	self._securedGet(URLS["apiUserCurrentUser"], this._displayHome);
 			}, function(){
                 alert("We got an Error durring authentication, sorry");
-                
+				//TODO, change for jquery alert  
             })
         },
         _displayHome: function(user){

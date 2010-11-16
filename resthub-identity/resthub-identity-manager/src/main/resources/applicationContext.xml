@@ -20,17 +20,5 @@
 		<property name="url" value="${hibernate-url}" />
 		<property name="username" value="${hibernate-username}"/>
 		<property name="password" value="${hibernate-password}" />
-	</bean>
-	<!--
-	<bean id="dataSource"
-			class="${hibernate-class}">
-			   "org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/odp_qlf" />
-		<property name="username" value="${hibernate-username}" />
-		<property name="password" value="${hibernate-password}" />
-	</bean>
-	-->
-
- 	
+	</bean> 	
 </beans>

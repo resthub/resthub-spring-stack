@@ -2,7 +2,7 @@
 
     var listUsers = {
         options: {
-            template: 'components/user/list.html',
+            template: URLS["templateUserList"],
             context: null,
             page: 0,
             result: null
@@ -39,7 +39,7 @@
         },
         _switchPage: function(page){
             this.options.page = page;
-            this._securedGet('api/user?page=' + this.options.page, this._displayUsers);
+            this._securedGet(URLS["apiUser"]+'?page=' + this.options.page, this._displayUsers);
         },
         
 		/* 
@@ -53,10 +53,10 @@
             if (answer) {
 				var accessToken = this.options.context.session('accessToken');
 				$.oauth2Ajax({
-					url: 'api/user/' + users[index].id,
+					url: URLS["apiUser"] + users[index].id,
 					type: 'DELETE',
 					complete :  function(){
-                        self._securedGet('api/user?page=0', self._displayUsers);
+                        self._securedGet(URLS["apiUser"]+'?page=0', self._displayUsers);
                     },
 				},accessToken);
 			}
@@ -90,10 +90,10 @@
 				
                     /* We delete the user */
                     $.oauth2Ajax({
-					url: 'api/user/' + users[userToDelete[element]].id,
+					url: URLS["apiUser"] + users[userToDelete[element]].id,
 					type: 'DELETE',
 					complete :  function(){
-                        self._securedGet('api/user?page=0', self._displayUsers);
+                        self._securedGet(URLS["apiUser"]+'?page=0', self._displayUsers);
                     }, 
 				},accessToken);
                 }

@@ -3,7 +3,7 @@
 var listGroups =
 {
 	options: {
-		template: 'components/group/list.html',
+		template: URLS["templateGroupList"],
 		context: null,
 		page: 0
 	},
@@ -25,7 +25,7 @@ var listGroups =
 	},
 	_switchPage: function(page) {
 		this.options.page = page;
-		this._securedGet( 'api/group?page=' + this.options.page, this._displayGroups );
+		this._securedGet( URLS["apiGroup"]+'?page=' + this.options.page, this._displayGroups );
 	}
 };
 

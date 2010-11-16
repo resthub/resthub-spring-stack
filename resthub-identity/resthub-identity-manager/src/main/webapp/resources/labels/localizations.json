@@ -1,0 +1,42 @@
+{
+  "en-US": {
+  		"confirmUserDeletionBegin" : "You are going to delete the user ",
+		"confirmUserDeletionBegin" : "You are going to delete the users ",
+		"confirmUserDeletionEnd" : "are you sure ?",
+		"Hello" : "Hello",
+		"Secured" : "Secured",
+		"NotWellSecured" : "Not Well Secured",
+		"NotSecured" : "Not Secured",
+		"PasswordsEgals" : "Egals",
+		"PasswordsNotEgals" : "Passwords don't match",
+		"jsTitleRoot" : "Welcome to Identity Manager",
+		"jsTitleUserList" :"Identity Manager - User List",
+		"jsTitleUserCreate" :"Identity Manager - Create User",
+		"jsTitleUserDetails" : "Identity Manager - User Details",
+		"jsTitleUserLogin" : "Identity Manager - Login Page",
+		"jsTitleUserAuthenticate" : "Identity Manager - User Authentication",
+		"jsTitleGroupList":"Identity Manager - Groups List",
+		"jsTitleGroupDetails":"Identity Manager - Group Details",
+		"jsTitleGroupCreate":"Identity Manager - Group Create"		
+  },
+  "fr": {
+  		"confirmUserDeletionBegin" : "Vous allez supprimer l'utilisateur ",
+		"confirmUsersDeletionBegin" : "Vous allez supprimer les utilisateurs ",
+		"confirmUserDeletionEnd" : "êtes-vous sûr ?",
+		"Hello" : "Bonjour",
+		"Secured" : "Sécurisé",
+		"NotWellSecured" : "Moyennement sécurisé",
+		"NotSecured" : "Faiblement sécurisé",
+		"PasswordsEgals" : "Identique",
+		"PasswordsNotEgals" : "Les mots de passe ne correspondent pas",
+		"jsTitleRoot" : "Bienvenue sur le gestionnaire d'identité",
+		"jsTitleUserList" :"Identity Manager - Liste d'utilitateurs",
+		"jsTitleUserCreate" :"Identity Manager - Creation d'un utilisateur",
+		"jsTitleUserDetails" : "Identity Manager - Information sur l'utilisateur",
+		"jsTitleUserLogin" : "Identity Manager - Page d'identification",
+		"jsTitleUserAuthenticate" : "Identity Manager - Authentification de l'utilisateur",
+		"jsTitleGroupList": "Identity Manager - Liste des groupes",
+		"jsTitleGroupDetails":"Identity Manager - Information sur le groupe",
+		"jsTitleGroupCreate":"Identity Manager - Création d'un groupe"
+  }
+}

@@ -4,7 +4,7 @@ var viewUser =
 {
 	options: {
 		userLogin: null,
-		template: 'components/user/view.html',
+		template: URLS["templateUserView"],
 		context: null
 	},
 	_init: function() {

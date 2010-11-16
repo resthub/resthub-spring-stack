@@ -62,9 +62,16 @@
 		</filters>
 		<resources>
 			<resource>
+				<directory>src/main/resources/js</directory>
+				<filtering>true</filtering>
+				<targetPath>${basedir}/src/main/webapp/resources/labels</targetPath>
+			</resource>
+			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
+
+
 		</resources>
 
 		<finalName>identity-manager</finalName>
@@ -77,6 +84,27 @@
 					<webAppConfig>
 						<contextPath>/identity</contextPath>
 					</webAppConfig>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>8080</port>
+							<maxIdleTime>60000</maxIdleTime>
+							<!--   <confidentialPort>8443</confidentialPort>-->
+
+						</connector>
+						<connector
+							implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
+							<port>8443</port>
+							<maxIdleTime>60000</maxIdleTime>
+							<keystore>U:/keystore</keystore>
+							<password>pass?w0rd</password>
+							<!--
+								<keystore>${ssl-keystore}</keystore>
+								<password>${ssl-keystore-password}</password>
+							-->
+						</connector>
+					</connectors>
+
+
 				</configuration>
 			</plugin>
 			<plugin>
@@ -99,28 +127,13 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<!-- On prendra les valeurs de dans le fichier de configuration -->
+							<!-- On prendra les valeurs dans le fichier de configuration -->
 							<filters>
-								<filter>${basedir}/src/main/filters/filter-qlf.properties</filter>
+								<filter>${basedir}/src/main/filters/filter-qlf.properties
+								</filter>
 							</filters>
 							<descriptors>
 								<descriptor>${basedir}/src/main/assembly/qlf.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-					<execution>
-						<id>local-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<!-- On prendra les valeurs de dans le fichier de configuration -->
-							<filters>
-								<filter>${basedir}/src/main/filters/filter-local.properties</filter>
-							</filters>
-							<descriptors>
-								<descriptor>${basedir}/src/main/assembly/local.xml</descriptor>
 							</descriptors>
 						</configuration>
 					</execution>

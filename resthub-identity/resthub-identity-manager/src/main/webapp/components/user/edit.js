@@ -3,7 +3,7 @@
 var editUser =
 {
 	options: {
-		template: 'components/user/edit.html',
+		template: URLS["templateUserEdit"],
 		context: null,
 		groups: null
 	},
@@ -12,7 +12,7 @@ var editUser =
 	},
 	_prepareData: function() {
 		if (this.options.context.session('accessToken') != null) {
-			this._securedGet('api/group/list', this._setGroups);
+			this._securedGet(URLS[apiGroupList], this._setGroups);
 		}
 		else {
 			this._displayUserForm();

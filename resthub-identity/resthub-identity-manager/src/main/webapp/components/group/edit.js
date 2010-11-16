@@ -3,7 +3,7 @@
 var editGroup =
 {
 	options: {
-		template: 'components/group/edit.html',
+		template: URLS["templateGroupEdit"],
 		context: null,
 		users: null
 	},
@@ -11,7 +11,7 @@ var editGroup =
 		this._prepareData();
 	},
 	_prepareData: function() {
-		this._securedGet( 'api/user/all' , this._setGroups );
+		this._securedGet(URLS["apiUserList"] , this._setGroups );
 	},
 	_setGroups: function(users) {
 		this.options.users = users;
@@ -44,7 +44,7 @@ var editGroup =
 		if (validForm) {
 			this._formToSession();
 			var group = this.options.context.session('tempGroup');
-			this._securedPost( 'api/group', this._endOfProcess, $.toJSON(group));
+			this._securedPost(URLS["apiGroup"] , this._endOfProcess, $.toJSON(group));
 		}
 	},
 	/* Puts form data in session */

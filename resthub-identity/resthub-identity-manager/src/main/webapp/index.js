@@ -10,66 +10,68 @@
 
 		/* Home page */
 		this.get('#/', function() {
-			this.title('Welcome to Identity Manager');
+			this.title(this.l("jsTitleRoot"));
 		});
 
 		/* List users */
 		this.get('#/user/list', function(context) {
-			this.title('Identity Manager - User list');
+			this.title(l("jsTitleUserList"));
 			$('#content').listUsers({context: context});
-		}, 'components/user/list.js');
+		}, URLS["jsUserList"]);
 
 		/* Create user */
 		this.get('#/user/create', function(context) {
-			this.title('Identity Manager - Create user');
+			this.title(l("jsTitleUserCreate"));
 			$('#content').editUser({ context: context, mode: 'create' });
-		}, 'components/user/edit.js');
+		}, URLS["jsUserEdit"]);
 
 		/* View user details */
 		this.get('#/user/details/:login', function(context) {
-			this.title('Identity Manager - User details');
+			this.title(l("jsTitleUserDetails"));
 			$('#content').viewUser({ context: context, userLogin: this.params.login });
-		}, 'components/user/view.js');
+		}, URLS["jsUserView"]);
 
 		/* List groups */
 		this.get('#/group/list', function(context) {
-			this.title('Identity Manager - Group list');
+			this.title(l("jsTitleGroupList"));
 			$('#content').listGroups({context: context});
-		}, 'components/group/list.js');
+		}, URLS["jsGroupList"]);
 
 		/* View group details */
 		this.get('#/group/details/:name', function(context) {
-			this.title('Identity Manager - Group details');
+			this.title(l("jsTitleGroupDetails"));
 			$('#content').viewGroup({ context: context, groupName: this.params.name });
-		}, 'components/group/view.js');
+		}, URLS["jsGroupView"] );
 		
 		/* Create group*/
 		this.get('#/group/create', function(context) {
-			this.title('Identity Manager - Create group');
+			this.title(l("jsTitleGroupCreate"));
 			$('#content').editGroup({ context: context, mode: 'create' });
-		}, 'components/group/edit.js');
+		}, URLS["jsGroupEdit"]);
 		
 		/* Get Login page*/
-		this.get('#/user/login', 
-		function(context){
+		this.get('#/user/login', function(context){
+			this.title(l("jsTitleUserLogin"));
 			$('#content').loginUsers({context:context});},
-			'components/user/login.js');			
+			URLS["jsUserLoginForm"]);			
 		
 		/* Authenticate user*/			
 		this.post('#/user/login', function(ev){
+			this.title(l("jsTitleUserAuthenticate"));
 			$('#content').postLoginUsers({
 					context:ev, userLogin :ev.params['Login'],
 					userPassword:ev.params['Password'] ,
 					OAuth2EndPoint:ev.params['OAuth2EndPoint'] });
-			},'components/user/postLogin.js');		
+			},URLS["jsUserLoginProcess"]);		
 		
 		this.get('#/user/logout', function(context){
 			$('#content').logoutUser({context:context});
-		},
-			'components/user/logout.js');			
+		},URLS["jsUserLogout"]);			
 		
 			
-		/* Cancel all unknow get*/
+		/* Cancel all unknown get
+		 * this has to be keep as last input
+		 */
 		this.get("#(.*)",function(){
 			$('#content').html("");
 				})
@@ -80,6 +82,8 @@
 	});
 })(jQuery);
 
-var l = function (string) {
+l = function (string) {
   				  return string.toLocaleString();
 			};
+
+

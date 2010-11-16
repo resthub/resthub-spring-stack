@@ -3,11 +3,11 @@
 	var loginUsers =
 	{
 		options: {
-			template: 'components/user/login.html',
+			template: URLS["templateUserLogin"],
 			context: null,
 			sampleId: null
 		},
-		_init: function() {	
+		_init: function(){	
 			var self=this;	
 			self.element.render(self.options.template);
 				}

@@ -11,7 +11,6 @@
 				<th>Id</th>
 				<th>Name</th>
 				<th>Login</th>
-				<!--<th>Password</th>-->
 				<th>Email</th>
 				<th>Actions</th>
 			</tr>
@@ -21,11 +20,9 @@
 			<% for (var index in users) { %>
 				<tr class="user-item" id="user-<%= users[index].id %>">
 					<td><input type='checkbox' class="user-checkbox" id='checkbox-<%= index %>' user='<%= users[index].id %>' /></td>
-					<!-- <td><input type='checkbox' class="user-checkbox" id='checkbox-<%= users[index].id %>' user='<%= users[index].id %>' /></td> -->
 					<td><%= users[index].id %></td>
 					<td><%= users[index].firstName + ' ' + users[index].lastName %></td>
 					<td><%= users[index].login %></td>
-					<!--<td><%= users[index].password %></td>-->
 					<td><%= users[index].email %></td>
 					<td>
 						<%= link_to( 'details', '#/user/details/' + users[index].login ) %>

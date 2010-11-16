@@ -4,11 +4,11 @@ var viewGroup =
 {
 	options: {
 		groupName: null,
-		template: 'components/group/view.html',
+		template: URLS["templateGroupView"],
 		context: null
 	},
 	_init: function() {
-		this._securedGet('api/group/name/' + this.options.groupName, this._displayGroup);
+		this._securedGet(URLS["apiGroupByName"]+ this.options.groupName, this._displayGroup);
 	},
 	_displayGroup: function(group) {
 		this.element.render(this.options.template, {group: group}); 
@@ -22,7 +22,7 @@ var viewGroup =
 		});
 	},
 	_removeUser: function(userLogin) {
-		this._securedGelete('api/group/' + this.options.groupName + '/user/' + userLogin, this._userRemoved);
+		this._securedGelete(URLS["apiGroup"] + this.options.groupName + '/user/' + userLogin, this._userRemoved);
 	},
 	_userRemoved: function(updatedGroup) {
 		$.pnotify ({
