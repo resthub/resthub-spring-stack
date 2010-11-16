@@ -1,16 +1,14 @@
 package org.resthub.tapestry5.security;
 
 /**
- * Exception to managed errors on the authentication proccess
+ * Exception to managed basic errors on the authentication proccess
  * 
  * @author karesti
+ * 
  */
 public class AuthenticationException extends Exception
 {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7740628210842909239L;
 
     public AuthenticationException()
