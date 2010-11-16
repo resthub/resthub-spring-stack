@@ -3,12 +3,12 @@
 	<parent>
 		<artifactId>resthub-tapestry5</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-integration</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Tapestry5 stack integration</name>
 	<description>Provide integration for simple and extensible integration of Resthub stack in Tapestry</description>
 
@@ -21,13 +21,13 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-components</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-jpa</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
