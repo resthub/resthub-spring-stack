@@ -39,7 +39,7 @@
 		<property name="authenticationProviders">
 			<list>
 				<!-- <ref bean="mockAuthenticationService" /> -->
-				<ref bean="authenticationService" />
+				<ref bean="userService" />
 			</list>
 		</property>
 	</bean>
