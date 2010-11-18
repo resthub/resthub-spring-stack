@@ -3,11 +3,11 @@
 	<parent>
 		<artifactId>resthub-oauth2</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0</version>
+		<version>1.01-SNAPSHOT</version>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-oauth2-common</artifactId>
-	<version>1.0</version>
+	<version>1.01-SNAPSHOT</version>
 	<name>OAuth v2 common</name>
 	<description>Common classes used in filter and provider sub-modules</description>
 
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-common</artifactId>
-			<version>1.0</version>
+			<version>1.01-SNAPSHOT</version>
 		</dependency>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>

@@ -5,13 +5,13 @@
   	<parent>
 		<artifactId>resthub-archetypes</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0</version>
+		<version>1.01-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
   <groupId>org.resthub</groupId>
   <artifactId>resthub-tapestry5-webapp-archetype</artifactId>
-  <version>1.0</version>
+  <version>1.01-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
   <name>Webapp archetype based on RESThub Tapestry5 integration</name>
