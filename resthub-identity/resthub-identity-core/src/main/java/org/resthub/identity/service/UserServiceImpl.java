@@ -4,6 +4,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.resthub.core.audit.annotation.Auditable;
+
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
@@ -22,6 +24,7 @@ public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao> i
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Auditable
 	public User findByLogin(String login) {
 		Assert.notNull(login, "User login can't be null");
 		List<User> result = this.dao.findEquals("login", login);

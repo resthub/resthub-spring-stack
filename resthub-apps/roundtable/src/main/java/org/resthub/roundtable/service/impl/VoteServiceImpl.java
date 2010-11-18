@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.roundtable.dao.VoteDao;
 import org.resthub.roundtable.dao.VoterDao;
 import org.resthub.roundtable.model.Answer;
@@ -49,6 +50,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public void vote(String voterName, Long pid, List<String> values) {
         Poll poll = this.pollService.findById(pid);
