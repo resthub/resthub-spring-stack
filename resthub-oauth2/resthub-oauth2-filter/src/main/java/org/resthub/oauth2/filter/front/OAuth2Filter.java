@@ -137,6 +137,7 @@ public class OAuth2Filter implements Filter {
 	@Override
 	public void destroy() {
 		// Emtpy
+		//TODO remove this trace which correspond to a standard behavior 
 		logger.trace("[destroy] OAuth 2 filter finalization");
 	} // destroy().
 
@@ -153,7 +154,7 @@ public class OAuth2Filter implements Filter {
 			HttpServletResponse response = (HttpServletResponse) rawResponse;
 
 			Token token = null;
-			
+			//TODO remove this trace which correspond to a standard behavior 
 			logger.trace("[doFilter] Filters request {}", request.getRequestURL());
 			// Extract Authorization Header Request.
 			String headerValue = request.getHeader(HttpHeaders.AUTHORIZATION);

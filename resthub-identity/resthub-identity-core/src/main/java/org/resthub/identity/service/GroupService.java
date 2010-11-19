@@ -1,6 +1,7 @@
 package org.resthub.identity.service;
 
 import java.util.List;
+
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
@@ -12,9 +13,10 @@ import org.resthub.identity.model.User;
 public interface GroupService extends GenericResourceService<Group> {
 
 	/**
-	 * Find user by login.
-	 * @param login User login
-	 * @return the user or null if no user is found or if multiple users are found
+	 * Finds group by name.
+	 * @param name
+	 * 		the group's Name
+	 * @return the group or null if no group with this name is found
 	 */
 	public Group findByName( String name );
 

@@ -51,11 +51,8 @@ public class SeleniumTest {
 			ser.addServlet(DefaultServlet.class, "/*");
 			
 			ser.addEventListener(new ContextLoaderListener());
-			
 			ser.setResourceBase("./target/identity-manager");
-			
-			System.out.println(ser.getResourceBase());
-			
+				
 			ContextHandlerCollection handlers = new ContextHandlerCollection();
 	        handlers.setHandlers(new Handler[] {ser});
 	        server.setHandler(handlers);
@@ -84,9 +81,7 @@ public class SeleniumTest {
 		selenium.click("link=users");
 		Thread.sleep(5000);
 		deleteAllUsers();
-
-		System.out.println("We delete everything !!");
-		
+	
 		String login = "testLogin";
 		String password = "testLoginPassword";
 

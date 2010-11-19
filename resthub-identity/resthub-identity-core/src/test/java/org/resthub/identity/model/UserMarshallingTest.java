@@ -25,8 +25,8 @@ public class UserMarshallingTest extends AbstractResourceJaxbTest<User> {
 		group1.setName("Group1Name");
 		group2.setName("Group2Name");
 
-		user.addGroup(group1);
-		user.addGroup(group2);
+		user.addToGroup(group1);
+		user.addToGroup(group2);
 
 		return user;
 	}

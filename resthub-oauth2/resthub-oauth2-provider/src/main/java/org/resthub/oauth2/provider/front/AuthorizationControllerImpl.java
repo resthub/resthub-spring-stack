@@ -113,6 +113,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
 				"password parameters are mandatory");
 		}
+		//TODO remove this trace which correspond to a standard behavior 
 		logger.trace("[obtainAccessTokenBasicCredentials] Generated token: {}", token);
 		// Builds a 200 response.
 		ResponseBuilder builder = Response.status(Status.OK);
@@ -142,6 +143,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			throw new IllegalArgumentException("accessToken parameter is mandatory");
 		}
 		Token token = service.getTokenInformation(accessToken);
+		//TODO remove this trace which correspond to a standard behavior 
 		logger.trace("[obtainTokenInformation] Retrieved token: {}", token);
 		return token;
 	} // obtainTokenInformation().

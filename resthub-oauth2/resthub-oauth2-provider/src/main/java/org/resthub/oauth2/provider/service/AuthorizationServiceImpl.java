@@ -60,10 +60,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	 */
 	public void setAuthenticationProviders(
 			List<AuthenticationService> authenticationProviders) {
-		this.authenticationProviders = authenticationProviders;
-		System.out.println("The authentication Service List is being settted");
-if(authenticationProviders==null){ System.out.println("List nULL");}else{System.out.println("List not nULL");}
-		
+		this.authenticationProviders = authenticationProviders;	
 	} // setAuthenticationProviders().
 	
 	/**
@@ -108,9 +105,7 @@ if(authenticationProviders==null){ System.out.println("List nULL");}else{System.
 		// Generate a token.
 		Token token = new Token();
 		// First, search for credentials in authentication providers.
-		System.out.println("TEST list authentication provider");
 		if (null != authenticationProviders) {
-			System.out.println("TEST list authentication provider not null");
 			for (AuthenticationService provider : authenticationProviders) {
 				token.userId = provider.getUser(userName, password);
 				// Stores permissions, and leave on the first matching result
@@ -122,7 +117,6 @@ if(authenticationProviders==null){ System.out.println("List nULL");}else{System.
 								userName);
 						token.permissions = new ArrayList<String>();
 					}
-					System.out.println("user founded, we break");
 					break;
 				}
 			}

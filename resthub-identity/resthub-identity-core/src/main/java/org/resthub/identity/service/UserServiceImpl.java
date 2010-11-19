@@ -14,8 +14,17 @@ import org.resthub.identity.model.User;
 import org.resthub.oauth2.provider.service.AuthenticationService;
 import org.springframework.util.Assert;
 
+/**
+ * An implementation of a UserService dealing with OAuth2 authentication <br/>
+ * It is based on both GenericResourceServiceImpl, userService and
+ * AuthenticationService
+ * 
+ * It is a bean whose name is userService
+ * 
+ * */
 @Named("userService")
-public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao> implements UserService, AuthenticationService{
+public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao>
+		implements UserService, AuthenticationService {
 
 	@Inject
 	@Named("userDao")
@@ -24,40 +33,69 @@ public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao> i
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+	 * Retrieves a user by his login
+	 * 
+	 * @param login
+	 *            the login to look for
+	 * @return the corresponding User object if founded, null otherwise
+	 * */
 	@Auditable
 	public User findByLogin(String login) {
 		Assert.notNull(login, "User login can't be null");
 		List<User> result = this.dao.findEquals("login", login);
-
-		if( result.size() == 1 ) {
-			return result.get(0);
-		} else {
-			return null;
-		}
+		int size = result.size();
+		return (size > 0) ? result.get(0) : null;
 	}
-	
-	@Override
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public User authenticateUser(String login, String password) {
-		return dao.getUserByAuthenticationInformation(login,password);		
+		return dao.getUserByAuthenticationInformation(login, password);
 	}
 
-	@Override
-	public String getUser(String userName, String password) {
-		User u = this.authenticateUser(userName, password);
-		return (u!=null)? u.getLogin() : null;
-		}
+	/**
+	 * Authenticate a user based on login and Password and returns the login if
+	 * successful
+	 * 
+	 * @param login
+	 * @param password
+	 * @return login , the login of the user if the authentication succeed,
+	 *         null otherwise
+	 */
+	public String getUser(String login, String password) {
+		User u = this.authenticateUser(login, password);
+		return (u != null) ? u.getLogin() : null;
+	}
 
-	@Override
-	public List<String> getUserPermissions(String userId) {
+	/**
+	 * gets the User's Permissions
+	 * 
+	 * @param login
+	 *            the login of the user
+	 * @return permissions of the user. In this implementation inherited
+	 *         permissions from group to which the user belong are taken into
+	 *         accounts
+	 */
+	public List<String> getUserPermissions(String login) {
 		List<String> userPermissisons = new ArrayList<String>();
-		userPermissisons.addAll(this.findByLogin(userId).getPermissions());
-		for( Group g : this.findByLogin(userId).getGroups()){
-			userPermissisons.addAll(g.getPermissions());
+		User u = this.findByLogin(login);
+		List<String> tmpPermissions;
+		if (u != null) {
+			tmpPermissions = this.findByLogin(login).getPermissions();
+			if (tmpPermissions != null) {
+				userPermissisons.addAll(tmpPermissions);
+			}
+		}
+		List<Group> lG = this.findByLogin(login).getGroups();
+		if (lG != null) {
+			for (Group g : lG) {
+				tmpPermissions = g.getPermissions();
+				if (tmpPermissions != null) {
+					userPermissisons.addAll(tmpPermissions);
+				}
+			}
 		}
 		return userPermissisons;
 	}
-
 }

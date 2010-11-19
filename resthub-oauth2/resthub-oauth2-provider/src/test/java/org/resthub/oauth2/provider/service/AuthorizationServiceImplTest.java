@@ -33,7 +33,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	 * @param service: the tested service.
 	 */
 	@Inject
-	@Named("authorizationService")
+	@Named("userService")
 	@Override
 	public void setService(AuthorizationService Service) {
 		super.setService(Service);

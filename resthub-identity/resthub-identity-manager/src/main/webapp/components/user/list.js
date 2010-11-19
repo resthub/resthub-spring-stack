@@ -39,29 +39,29 @@
         },
         _switchPage: function(page){
             this.options.page = page;
-            this._securedGet(URLS["apiUser"]+'?page=' + this.options.page, this._displayUsers);
+            this._securedGet(URLS["apiUser"] + '?page=' + this.options.page, this._displayUsers);
         },
         
-		/* 
-		 * this methode allow to delete 1 user, the one on which there was a click 
-		 * It asks a confirmation before the deletion
-		 */
+        /* 
+         * this methode allow to delete 1 user, the one on which there was a click
+         * It asks a confirmation before the deletion
+         */
         _deleteThisUser: function(index){
             var users = this.options.result.elements;
             
             var answer = confirm(l("confirmUserDeletionBegin") + users[index].login + l("confirmUserDeletionEnd"));
             if (answer) {
-				var accessToken = this.options.context.session('accessToken');
-				$.oauth2Ajax({
-					url: URLS["apiUser"] + users[index].id,
-					type: 'DELETE',
-					complete :  function(){
-                        self._securedGet(URLS["apiUser"]+'?page=0', self._displayUsers);
+                var accessToken = this.options.context.session('accessToken');
+                $.oauth2Ajax({
+                    url: URLS["apiUser"] + users[index].id,
+                    type: 'DELETE',
+                    complete: function(){
+                        self._securedGet(URLS["apiUser"] + '?page=0', self._displayUsers);
                     },
-				},accessToken);
-			}
+                }, accessToken);
+            }
         },
-		
+        
         /* this method allow to delete some users, the ones which have been checked 
          * It asks a confirmation before the deletion
          */
@@ -84,18 +84,18 @@
             
             
             if (answer) {
-				/* there is actually one request for each user to delete*/
+                /* there is actually one request for each user to delete*/
                 for (element in userToDelete) {
-                var accessToken = this.options.context.session('accessToken');
-				
+                    var accessToken = this.options.context.session('accessToken');
+                    
                     /* We delete the user */
                     $.oauth2Ajax({
-					url: URLS["apiUser"] + users[userToDelete[element]].id,
-					type: 'DELETE',
-					complete :  function(){
-                        self._securedGet(URLS["apiUser"]+'?page=0', self._displayUsers);
-                    }, 
-				},accessToken);
+                        url: URLS["apiUser"] + users[userToDelete[element]].id,
+                        type: 'DELETE',
+                        complete: function(){
+                            self._securedGet(URLS["apiUser"] + '?page=0', self._displayUsers);
+                        },
+                    }, accessToken);
                 }
             }
         }

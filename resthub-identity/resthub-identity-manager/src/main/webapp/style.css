@@ -31,7 +31,8 @@ html {
 body {
     font-family: Tahoma;
     widht = 100%;
-	margin:0;
+    margin:
+    0;
 }
 
 div#navigation {
@@ -51,15 +52,15 @@ div#footer {
 div#header {
     color: white;
     width: 100%;
-	padding:5px
+    padding: 5px
 }
 
 div#form_left {
-	 display: inline-block;
+    display: inline-block;
 }
 
 div#form_right {
- display: inline-block;
+    display: inline-block;
 }
 
 div#main {
@@ -74,7 +75,7 @@ div#main {
 }
 
 #main-menu {
-    background-image: -moz-linear-gradient( top, #174DFF, /*#6185FA*/ #FFFFFF  ); 
+    background-image: -moz-linear-gradient( top, #174DFF, #FFFFFF  ); 
 }
 span#big_header{
 	font-size: 36px;
@@ -109,15 +110,7 @@ border-radius:8px;
 border-radius:8px;
 }
 
-box-list{
-	float:left;
-	backgroud-color=gray;
-}
-
 .menu_box{
-/*	float:left;*/
-/* display: inline-block;*/
-
 	font-size:larger;
 	color:gray;
 	margin-left : 20px;

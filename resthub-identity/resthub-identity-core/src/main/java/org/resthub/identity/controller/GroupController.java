@@ -27,23 +27,44 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/group")
-@RolesAllowed({"ADMIN"}) 
+@RolesAllowed( { "ADMIN" })
 @Named("groupController")
+/**
+ Front controller for Group Management<br/>
+ Only ADMINS can access to this API
+ */
 public class GroupController extends
 		GenericResourceController<Group, GroupService> {
 
 	private final Logger logger = LoggerFactory
 			.getLogger(GroupController.class);
 
+	/**
+	 * The userService <br/>
+	 * This should be a bean <br/>
+	 * This class need it to deal properly with user, eg to add a {@Link
+	 * User} to a {@Link Group}
+	 * 
+	 * */
 	UserService userService;
 
 	@Inject
 	@Named("groupService")
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setService(GroupService service) {
 		this.service = service;
 	}
 
+	/**
+	 * Automatically called to inject the userService beans<br/>
+	 * This class need it to deal properly with user <br/>
+	 * 
+	 * @param userService
+	 *            the userService bean
+	 * */
 	@Inject
 	@Named("userService")
 	public void setUserService(UserService userService) {
@@ -51,102 +72,130 @@ public class GroupController extends
 	}
 
 	/**
-	 * Find the group identified by the specified name.
+	 * Find the group identified by the specified name.<br/>
 	 * 
 	 * @param name
-	 * @return group
+	 *            the name of the group
+	 * @return the group, in XML or JSON if the group can be found otherwise
+	 *         HTTP Error 404
 	 */
 	@GET
 	@Path("/name/{name}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getGroupByName(@PathParam("name") String name) {
 		Group group = this.service.findByName(name);
-		if (group == null) {
-			return Response.status(Status.NOT_FOUND).entity(
-					"Unable to find the requested group.").build();
-		}
-		return Response.ok(group).build();
+		Response r;
+		r = (group == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to find the requested group.").build() : Response.ok(
+				group).build();
+		return r;
 	}
 
 	/**
-	 * Find all groups.
+	 * Return the list of all groups.<br/>
 	 * 
-	 * @return a list of group.
+	 * @return the list of group, in XML or JSON * @return the group if their is
+	 *         some groups defined otherwise HTTP Error 404
 	 */
 	@GET
 	@Path("/all")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getAllGroups() {
 		List<Group> result = this.service.findAllGroups();
-		return Response.ok(result).build();
+		Response r;
+		int size = (result == null) ? 0 : result.size();
+		r = (size == 0) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to find any group.").build() : Response.ok(result)
+				.build();
+		return r;
 	}
 
 	/**
-	 * Find all groups without showing users.
+	 * Return the list of all groups without including users.<br/>
 	 * 
-	 * @return a list of group.
+	 * @return a list of group, in XML or JSON if the group can be found
+	 *         otherwise HTTP Error 404
 	 */
 	@GET
 	@Path("/list")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getAllGroupsName() {
 		List<Group> result = this.service.findAllGroups();
-		for (Group g : result) {
-			g.setUsers(null);
+		int size = (result == null) ? 0 : result.size();
+		Response r;
+		if (size == 0) {
+			r = Response.status(Status.NOT_FOUND).entity(
+					"Unable to find any group.").build();
+		} else {
+			for (Group g : result) {
+				g.setUsers(null);
+			}
+			r = Response.ok(result).build();
 		}
-		return Response.ok(result).build();
+		return r;
 	}
 
 	/**
-	 * Remove a user from the specified group.
+	 * Remove a {@link User} from the specified {@link Group}.<br/>
 	 * 
 	 * @param name
-	 *            the group name
+	 *            the name of the group
 	 * @param login
 	 *            the user login
-	 * @return the group updated after user removing
+	 * @return the group updated after user removing if everything OK,in XML or
+	 *         JSON, otherwise return an HTTP error 404
 	 */
 	@DELETE
 	@Path("/{name}/user/{login}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response removeUser(@PathParam("name") String name,
 			@PathParam("login") String login) {
-
+		// TODO remove this trace which is in a standard behavior
 		logger.info("Remove user '" + login + "' from group '" + name + "'.");
 
 		Group group = this.service.findByName(name);
 		User user = this.userService.findByLogin(login);
-
+		Response r;
 		if (group == null) {
-			return Response.status(Status.NOT_FOUND).entity(
+			r = Response.status(Status.NOT_FOUND).entity(
 					"Unable to find the requested group.").build();
-		}
-		if (user == null) {
-			return Response.status(Status.NOT_FOUND).entity(
+		} else if (user == null) {
+			r = Response.status(Status.NOT_FOUND).entity(
 					"Unable to find the requested user.").build();
 		} else {
 			this.service.removeUser(group, user);
-			return Response.ok(group).build();
-
+			r = Response.ok(group).build();
 		}
+		return r;
 	}
 
-	/* Goal : support creation of group with user */
+	/**
+	 * <p>Create a {@link Group} from the {@link Group} given in input.</br> If the given {@link Group} contains
+	 * some {@link User}s, the {@link Group} will be added to the group list in which are the users
+	 * belong</p>
+	 * 
+	 * @param group
+	 *            the group to create, in XMl or JSON
+	 * @return the created group, in XMl or JSON Goal : support creation of
+	 *         group with user
+	 */
 	@POST
 	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Override
-	public Response create(Group entity) {
-		Group e = this.service.create(entity);
+	public Response create(Group group) {
+		Group e = this.service.create(group);
 		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
 		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString())
 				.build();
-		if (userService != null && entity.getUsers()!=null) {
-			for (User u : entity.getUsers()) {
+		List<User> l = group.getUsers();
+		if (userService != null && l != null) {
+			for (User u : l) {
 				User tmpUser = userService.findById(u.getId());
-				if(tmpUser!=null){
-				tmpUser.addGroup(entity);
-				userService.update(tmpUser);}
+				if (tmpUser != null) {
+					tmpUser.addToGroup(group);
+					userService.update(tmpUser);
+				}
 			}
 		}
 

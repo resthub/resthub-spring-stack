@@ -17,7 +17,6 @@
 	</description>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
@@ -95,10 +94,6 @@
 			<scope>compile</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.jamonapi</groupId>
-			<artifactId>jamon</artifactId>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.synyx.hades</groupId>
