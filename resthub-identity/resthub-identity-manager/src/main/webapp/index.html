@@ -1,54 +1,16 @@
 <!doctype html>
 <html>
     <head>
-        <title><%= l("jsTitle") %></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" href="lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="style.css" type="text/css" media="screen, projection">
-        <link rel="localizations" href="resources/labels/localizations.json" type="application/x-l10n+json"/>
-        <script src="resources/labels/urls.js" /></script>
-        <script src="lib/resthub.stack.js"></script>
-        <script>
+    	<script src="lib/resthub.stack.js"></script>
+		<script src="resources/labels/urls.js" /></script>
+		<script>
             dominoes("lib/jquery.pnotify.js lib/jquery.validate.js  libs/ejs/view.js libs/l10n/l10n.js index.js")
         </script>
+		<script>$('#content').index({
+			context: this
+		}); </script>
     </head>
     <body>
-        <div id="navigation">
-            <div id="header">
-                <span id="big_header">ODP &raquo;</span>
-                An Atos Wordline Demonstration
-            </div>
-        </div>
-        <div id="main">
-            <nav id="main-menu">
-                <div id="Home" class="menu_box">
-                    <a href="."><%= l("MenuHome") %></a>
-                </div>
-                <div id="List" class="menu_box">
-                    <%= l("MenuList") %> <a href="#/user/list"><%= l("MenuListUsers") %></a>
-                    <a href="#/group/list"><%= l("MenuListGroups") %></a>
-                </div>
-                <div id="Create" class="menu_box">
-                    <%= l("MenuCreate") %> <a href="#/user/create"><%= l("MenuCreateUser") %></a>
-                    <a href="#/group/create"><%= l("MenuCreateGroup") %></a>
-                </div>
-                <div id="Login" class="menu_box">
-                    <a href="#/user/login"><%= l("MenuLogin") %></a>
-                </div>
-                <div id="Logout" class="menu_box">
-                    <a href="#/user/logout"><%= l("MenuSignOut") %></a>
-                </div>
-            </nav>
-            <div id="principal">
-                <div id="header">
-                </div>
-                <div id="content">
-                </div>
-            </div>
-        </div>
-        <div id="footer">
-            © ODP - an Atos Worldline Solution, 2010 
-        </div>
+    	<div id="content"></div>
     </body>
 </html>

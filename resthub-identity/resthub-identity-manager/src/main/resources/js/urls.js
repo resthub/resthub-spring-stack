@@ -8,7 +8,7 @@ var URLS = {
     templateGroupEdit: "components/group/edit.html",
     templateGroupList: "components/group/list.html",
     templateGroupView: "components/group/view.html",
-    
+    templateMain: "main.html",
     jsUserList: "components/user/list.js",
     jsUserEdit: "components/user/edit.js",
     jsUserView: "components/user/view.js",
