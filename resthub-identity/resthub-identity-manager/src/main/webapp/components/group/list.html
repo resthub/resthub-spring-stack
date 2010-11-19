@@ -1,14 +1,14 @@
-<h1>Group list</h1>
+<h1><%= l("GroupList") %></h1>
 
 <% if ($.isEmptyObject(result.elements)) { %>
-	<p>No groups found...</p>
+	<p><%= l("NoGroupsFound")%></p>
 <% } else { %>
 	<table>
 		<thead>
 			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Actions</th>
+				<th><%= l("GroupIdHeader")%></th>
+				<th><%= l("GroupNameHeader")%></th>
+				<th><%= l("GroupActionsHeader")%></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,10 +25,9 @@
 		</tbody>
 	</table>
 
-	<br/>
-	Page navigator...<br/>
+	<br/><%= l("PageNavigator")%><br/>
 	<% if (result.number > 0) { %>
-		<span class="page-switcher" id="page-<%= result.number - 1 %>"> Previous </span>
+		<span class="page-switcher" id="page-<%= result.number - 1 %>"><%= l("Previous") %></span>
 	<% } %>
 
 	<% for (var page=1; page <= result.totalPages; page++) { %>
@@ -40,6 +39,6 @@
 	<% } %>
 
 	<% if (result.number < result.totalPages - 1) { %>
-		<span class="page-switcher" id="page-<%= result.number + 1 %>"> Next </span>
+		<span class="page-switcher" id="page-<%= result.number + 1 %>"><%= l("Next") %></span>
 	<% } %>
 <% } %>

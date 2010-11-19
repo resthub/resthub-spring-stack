@@ -1,18 +1,18 @@
-<h1>User list</h1>
+<h1><%= l("UserList")%></h1>
 
 <% if ($.isEmptyObject(result.elements)) { %>
-	<p>No users found...</p>
+	<p><%= l("UserNoUsersFound")%></p>
 <% } else { %>
-<div id="commons-actions"><div id="delete">remove</div></div>
+<div id="commons-actions"><div id="delete"><%= l("UserDeleteThisUser") %></div></div>
 	<table>
 		<thead>
 			<tr>
 				<th></th>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Login</th>
-				<th>Email</th>
-				<th>Actions</th>
+				<th><%= l("UserIdHeader")%></th>
+				<th><%= l("UserNameHeader")%></th>
+				<th><%= l("UserLoginHeader")%></th>
+				<th><%= l("UserEmailHeader")%></th>
+				<th><%= l("UserActionsHeader")%></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,17 +26,15 @@
 					<td><%= users[index].email %></td>
 					<td>
 						<%= link_to( 'details', '#/user/details/' + users[index].login ) %>
-						<span class="remove-user" id="<%= index %>">remove</span>
+						<span class="remove-user" id="<%= index %>"><%= l("UserDeleteThoseUsers")%></span>
 					</td>
 				</tr>
 			<% } %>
 		</tbody>
 	</table>
-	<br/>
-
-	Page navigator...<br/>
+	<br/><%= l("PageNavigator")%><br/>
 	<% if (result.number > 0) { %>
-		<span class="page-switcher" id="page-<%= result.number - 1 %>"> Previous </span>
+		<span class="page-switcher" id="page-<%= result.number - 1 %>"><%= l("Previous") %></span>
 	<% } %>
 
 	<% for (var page=1; page <= result.totalPages; page++) { %>
@@ -48,6 +46,6 @@
 	<% } %>
 
 	<% if (result.number < result.totalPages - 1) { %>
-		<span class="page-switcher" id="page-<%= result.number + 1 %>"> Next </span>
+		<span class="page-switcher" id="page-<%= result.number + 1 %>"><%= l("Next") %></span>
 	<% } %>
 <% } %>

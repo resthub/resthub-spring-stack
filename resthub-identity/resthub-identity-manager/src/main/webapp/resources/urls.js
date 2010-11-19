@@ -26,5 +26,5 @@ var URLS = {
     
     apiGroup: "api/group/",
     apiGroupList: "api/group/list/",
-    apiGroupByname: "api/group/name/"
+    apiGroupByName: "api/group/name/"
 };

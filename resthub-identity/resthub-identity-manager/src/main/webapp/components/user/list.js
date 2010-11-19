@@ -1,5 +1,5 @@
 (function($){
-
+    /**Used to display list of Users*/
     var listUsers = {
         options: {
             template: URLS["templateUserList"],
@@ -7,10 +7,12 @@
             page: 0,
             result: null
         },
+        /**Init's the swichPage mode*/
         _init: function(){
             self = this;
             this._switchPage(this.options.page);
         },
+        /**Displays and renders the List*/
         _displayUsers: function(result){
             this.element.render(this.options.template, {
                 result: result
@@ -37,14 +39,21 @@
             });
             
         },
+        /**Swiths to the page
+         * @param {Integer} page
+         * the page to display
+         */
         _switchPage: function(page){
             this.options.page = page;
             this._securedGet(URLS["apiUser"] + '?page=' + this.options.page, this._displayUsers);
         },
         
-        /* 
-         * this methode allow to delete 1 user, the one on which there was a click
+        /** 
+         * Deletes 1 user, the one on which there was a click
          * It asks a confirmation before the deletion
+         *
+         * @param {Integer} index
+         * the index of the user to delete
          */
         _deleteThisUser: function(index){
             var users = this.options.result.elements;
@@ -62,7 +71,7 @@
             }
         },
         
-        /* this method allow to delete some users, the ones which have been checked 
+        /** Deletes some users, the ones which have been checked in the form 
          * It asks a confirmation before the deletion
          */
         _deleteUser: function(){
@@ -101,5 +110,6 @@
         }
     };
     var self;
+	var l = function(string){ return string.toLocaleString()};
     $.widget("identity.listUsers", $.resthub.resthubController, listUsers);
 })(jQuery);

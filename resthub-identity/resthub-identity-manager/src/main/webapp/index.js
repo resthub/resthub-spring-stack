@@ -2,60 +2,60 @@
  * Routes
  */
 (function($) {
-	
+	/**Intercepts web local request*/
 	var app = $.sammy(function() {
 
 		this.use(Sammy.Title);
 		this.use(Sammy.Session);
 
-		/* Home page */
+		/** Home page */
 		this.get('#/', function() {
-			this.title(this.l("jsTitleRoot"));
+			this.title(l("jsTitleRoot"));
 		});
 
-		/* List users */
+		/** List users */
 		this.get('#/user/list', function(context) {
 			this.title(l("jsTitleUserList"));
 			$('#content').listUsers({context: context});
 		}, URLS["jsUserList"]);
 
-		/* Create user */
+		/** Create user */
 		this.get('#/user/create', function(context) {
 			this.title(l("jsTitleUserCreate"));
 			$('#content').editUser({ context: context, mode: 'create' });
 		}, URLS["jsUserEdit"]);
 
-		/* View user details */
+		/** View user details */
 		this.get('#/user/details/:login', function(context) {
 			this.title(l("jsTitleUserDetails"));
 			$('#content').viewUser({ context: context, userLogin: this.params.login });
 		}, URLS["jsUserView"]);
 
-		/* List groups */
+		/** List groups */
 		this.get('#/group/list', function(context) {
 			this.title(l("jsTitleGroupList"));
 			$('#content').listGroups({context: context});
 		}, URLS["jsGroupList"]);
 
-		/* View group details */
+		/** View group details */
 		this.get('#/group/details/:name', function(context) {
 			this.title(l("jsTitleGroupDetails"));
 			$('#content').viewGroup({ context: context, groupName: this.params.name });
 		}, URLS["jsGroupView"] );
 		
-		/* Create group*/
+		/** Create group*/
 		this.get('#/group/create', function(context) {
 			this.title(l("jsTitleGroupCreate"));
 			$('#content').editGroup({ context: context, mode: 'create' });
 		}, URLS["jsGroupEdit"]);
 		
-		/* Get Login page*/
+		/** Get Login page*/
 		this.get('#/user/login', function(context){
 			this.title(l("jsTitleUserLogin"));
 			$('#content').loginUsers({context:context});},
 			URLS["jsUserLoginForm"]);			
 		
-		/* Authenticate user*/			
+		/** Authenticate user*/			
 		this.post('#/user/login', function(ev){
 			this.title(l("jsTitleUserAuthenticate"));
 			$('#content').postLoginUsers({
@@ -69,21 +69,22 @@
 		},URLS["jsUserLogout"]);			
 		
 			
-		/* Cancel all unknown get
+		/** Cancel all unknown get
 		 * this has to be keep as last input
 		 */
 		this.get("#(.*)",function(){
 			$('#content').html("");
 				})
+				
+				var l = function (string) {
+  				  return string.toLocaleString();
+			};
 	});
 
 	$(function() {
 		app.run('#/');
 	});
+
+
 })(jQuery);
-
-l = function (string) {
-  				  return string.toLocaleString();
-			};
-
 

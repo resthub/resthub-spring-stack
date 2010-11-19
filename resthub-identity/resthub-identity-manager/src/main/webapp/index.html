@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Identity Manager</title>
+        <title><%= l("jsTitle") %></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" href="lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
@@ -23,21 +23,21 @@
         <div id="main">
             <nav id="main-menu">
                 <div id="Home" class="menu_box">
-                    <a href=".">Home</a>
+                    <a href="."><%= l("MenuHome") %></a>
                 </div>
                 <div id="List" class="menu_box">
-                    List : <a href="#/user/list">users</a>
-                    <a href="#/group/list">groups</a>
+                    <%= l("MenuList") %> <a href="#/user/list"><%= l("MenuListUsers") %></a>
+                    <a href="#/group/list"><%= l("MenuListGroups") %></a>
                 </div>
                 <div id="Create" class="menu_box">
-                    Create : <a href="#/user/create">user</a>
-                    <a href="#/group/create">group</a>
+                    <%= l("MenuCreate") %> <a href="#/user/create"><%= l("MenuCreateUser") %></a>
+                    <a href="#/group/create"><%= l("MenuCreateGroup") %></a>
                 </div>
                 <div id="Login" class="menu_box">
-                    <a href="#/user/login">User Login</a>
+                    <a href="#/user/login"><%= l("MenuLogin") %></a>
                 </div>
                 <div id="Logout" class="menu_box">
-                    <a href="#/user/logout">Sign Out</a>
+                    <a href="#/user/logout"><%= l("MenuSignOut") %></a>
                 </div>
             </nav>
             <div id="principal">

@@ -1,13 +1,14 @@
-<h1>Edit Group</h1>
+
+<h1><%= l("GroupEdit") %></h1>
 
 <form id="group-form" action="" method="" enctype="UTF-8">
 
 	<p>
-		<strong> Group name:</strong>
+		<strong><%= l("GroupName") %></strong>
 		<input size="10" name="name" type="text" class="required"> *
 	</p>
 
-		<strong>This groups is composed by the following users</strong>
+		<strong><%= l("GroupUsersList") %></strong>
 		<p>
 			<% if ($.isEmptyObject(users)) { %>
 				<span>[No users available]</span>
@@ -22,6 +23,6 @@
 </form>
 
 <p class="buttons">
-	<input id="group-proceed" value="Create" type="button">
-	<a id="cancel-request" href="#/group/list">Back to list</a>
+	<input id="group-proceed" value="<%= l("GroupSubmitButton")%>" type="button">
+	<a id="cancel-request" href="#/group/list"><%= l("BackToList")%></a>
 </p>

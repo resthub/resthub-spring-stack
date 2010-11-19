@@ -1,5 +1,5 @@
 (function($){
-
+    /**Used to log the user after the login form has been submited*/
     var postLoginUsers = {
         options: {
             template: URLS["templateUserHome"],
@@ -11,6 +11,7 @@
             redirectURL: null,
             OAuth2EndPoint: null
         },
+        /**tries to authenticate the user on the OAuth2EndPoint*/
         _init: function(){
             var self = this;
             
@@ -18,10 +19,11 @@
             this._authenticate(self.options.userLogin, self.options.userPassword, function(){
                 self._securedGet(URLS["apiUserCurrentUser"], this._displayHome);
             }, function(){
-                alert("We got an Error durring authentication, sorry");
+                alert(l("UserLoginFailed"));
                 //TODO, change for jquery alert  
             })
         },
+        /**Displays and renders the Home of user once the authentication success*/
         _displayHome: function(user){
             this.element.render(this.options.template, {
                 user: user
@@ -29,5 +31,5 @@
         }
     }
     $.widget("user.postLoginUsers", $.resthub.resthubController, postLoginUsers);
-    
+    var l = function(string){ return string.toLocaleString()};
 })(jQuery);

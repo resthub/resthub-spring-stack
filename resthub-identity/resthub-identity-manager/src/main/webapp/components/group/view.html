@@ -1,9 +1,9 @@
-<h1>Group details (<%= group.name %>)</h1>
+<h1><%= l("GroupDetails") %></h1>
 <table>
 	<thead>
 		<tr>
-			<th>Users belonging to this group</th>
-			<th>Actions</th>
+			<th><%= l("GroupDetails") %></th>
+			<th><%= l("GroupActionsHeader") %></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -15,7 +15,7 @@
 				</td>
 				<td>
 					<%= link_to( 'details', '#/user/details/' + users[index].login ) %>
-					<span class="remove-user" id="<%= users[index].login %>">remove</span>
+					<span class="remove-user" id="<%= users[index].login %>"><%= l("GroupRemoveUser")%></span>
 				</td>
 			</tr>
 		<% } %>

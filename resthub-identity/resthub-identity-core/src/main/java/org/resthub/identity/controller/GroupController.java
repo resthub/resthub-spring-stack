@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/group")
-@RolesAllowed( { "ADMIN" })
+@RolesAllowed( { "IM-ADMIN" })
 @Named("groupController")
 /**
  Front controller for Group Management<br/>

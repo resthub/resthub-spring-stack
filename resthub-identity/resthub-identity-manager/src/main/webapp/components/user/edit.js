@@ -1,5 +1,8 @@
 (function($){
-
+    /**
+     * Used to edit a user
+     *
+     */
     var editUser = {
         options: {
             template: URLS["templateUserEdit"],
@@ -9,18 +12,21 @@
         _init: function(){
             this._prepareData();
         },
+        /**loads the data needed to display the user*/
         _prepareData: function(){
             if (this.options.context.session('accessToken') != null) {
-                this._securedGet(URLS[apiGroupList], this._setGroups);
+                this._securedGet(URLS["apiGroupList"], this._setGroups);
             }
             else {
                 this._displayUserForm();
             }
         },
+        /**sets the group in which the user presently belongs*/
         _setGroups: function(groups){
             this.options.groups = groups;
             this._displayUserForm();
         },
+        /**Displays and renders the User Form*/
         _displayUserForm: function(){
         
             var user = this.options.context.session('tempUser');
@@ -30,7 +36,7 @@
                 groups: this.options.groups
             });
             
-            $('#content h1:first').html("Create user");
+            $('#content h1:first').html(l("UserCreate"));
             
             this._sessionToForm();
             
@@ -41,7 +47,7 @@
             $('input#user-proceed').unbind();
             $('input#user-proceed').bind('click', $.proxy(this._sendUserData, this));
             
-            /* We want the password to be strong enough to we check is strenght*/
+            /* We want the password to be strong enough to we check is strength*/
             $('input#password').unbind();
             $('input#password').bind('keyup', this._evalPwd);
             
@@ -49,15 +55,15 @@
             $('input#passwordCheck').unbind();
             $('input#passwordCheck').bind('keyup', this._evalPwdAreEgals);
         },
-        
+        /**Evaluates the requirements on passwords*/
         _evalPwd: function(){
             editUser._evalPwdStrength();
             /* The audit of the similarity of the passwords is done when we a password fields*/
             editUser._evalPwdAreEgals();
         },
         
-        /* check if text inside the passwords input field are egals or not*/
-        /* @return boolean */
+        /** checks if text inside the passwords input fields are egals or not
+         @return boolean */
         _arePwdEgals: function(){
             var pwd1 = $('input[name=password]').val();
             var pwd2 = $('input[name=passwordCheck]').val();
@@ -67,7 +73,8 @@
         
         
         
-        /* change text and class {good,bad} of the passwordsAreEgals span*/
+        /** change text and class {good,bad} of the passwordsAreEgals span 
+         * depending if the text inside the password input fields are egals or not*/
         _evalPwdAreEgals: function(){
         
             var fieldText;
@@ -84,8 +91,8 @@
             $('span#passwordsAreEgals').text(l(fieldText));
         },
         
-        /* Evaluate strength of the text in the password input field as a password*/
-        /* change text {Secured,Not Well Secured,NotSecured} and  class of the passwordStrength span*/
+        /** Evaluate strength of the text in the password input field as a password
+         * change text {Secured,Not Well Secured,NotSecured} and  class of the passwordStrength span*/
         _evalPwdStrength: function(){
             const NOT_SECURED_LEVEL = 12;
             const SECURED_LEVEL = 20;
@@ -101,6 +108,7 @@
             if (text.length > 5) {
                 strength += Math.min(10, text.length);
             }
+            /**Categorized each characters and count apparition of each category*/
             for (characterIndex = 0; characterIndex < text.length; characterIndex = characterIndex + 1) {
                 charactere = text.charAt(characterIndex);
                 if ((charactere >= 'A') && (charactere <= 'Z')) {
@@ -129,8 +137,8 @@
             characteresType[2] = digixCharactere;
             characteresType[3] = poncuationCharactere;
             
-            for (i in characteresType) {
-                if (characteresType[i] > 1) {
+            for (var type in characteresType) {
+                if (characteresType[type] > 1) {
                     strength += 4;
                 }
             }
@@ -153,7 +161,7 @@
         },
         
         
-        /* Tests if the form is filled correctly and sends the data */
+        /** Tests if the form is filled correctly and sends the data */
         _sendUserData: function(){
             var validForm = $('form#user-form').validate({
                 errorElement: 'span'
@@ -165,7 +173,7 @@
                 this._securedPost('api/user', this._endOfProcess, $.toJSON(user));
             }
         },
-        /* Puts form data in session */
+        /** Puts form data in session */
         _formToSession: function(){
             var user = {
                 groups: [],
@@ -185,7 +193,8 @@
             
             this.options.context.session('tempUser', user);
         },
-        /* Displays session data in user form */
+        
+        /** Displays session data in user form */
         _sessionToForm: function(){
             var user = this.options.context.session('tempUser');
             if (user != null) {
@@ -199,6 +208,11 @@
                 }
             }
         },
+        
+        /**Cleans the temporary object and redirect to the view of the edited User
+         * @param {User} user
+         * the edited user
+         */
         _endOfProcess: function(user){
             //console.log(user);
             // Cleans the tempUser in session
@@ -206,6 +220,6 @@
             this.options.context.redirect('#/user/details/' + user.login);
         }
     };
-    
+    var l = function(string){ return string.toLocaleString()};
     $.widget("booking.editUser", $.resthub.resthubController, editUser);
 })(jQuery);

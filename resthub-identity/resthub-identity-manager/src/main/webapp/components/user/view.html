@@ -1,11 +1,12 @@
-<h1>User details (<%= user.login %>)</h1>
+<h1><%= l("UserDetails")%>:<%= user.login %></h1>
 <table>
    <thead>
 	   <tr>
-		   <th>Id</th>
-		   <th>Name</th>
-		   <th>Login</th>
-		   <th>Email</th>
+		   <th><%= l("UserIdHeader")%></th>
+		   <th><%= l("UserNameHeader")%></th>
+		   <th><%= l("UserLoginHeader")%></th>
+		   <th><%= l("UserEmailHeader")%></th>
+		   
 	   </tr>
    </thead>
    <tbody>

@@ -1,5 +1,5 @@
 (function($){
-
+    /** Used for edition of Group in the webapps */
     var editGroup = {
         options: {
             template: URLS["templateGroupEdit"],
@@ -9,15 +9,20 @@
         _init: function(){
             this._prepareData();
         },
+        /**Gets some data needed for the edition*/
         _prepareData: function(){
-            this._securedGet(URLS["apiUserList"], this._setGroups);
+            this._securedGet(URLS["apiUserList"], this._setUsers);
         },
-        _setGroups: function(users){
+        /**Sets the list of all user
+         *
+         * @param {User} users
+         */
+        _setUsers: function(users){
             this.options.users = users;
             this._displayGroupForm();
         },
+        /**Displays and render the Group form*/
         _displayGroupForm: function(){
-        
             var group = this.options.context.session('tempGroup');
             
             this.element.render(this.options.template, {
@@ -25,7 +30,7 @@
                 group: group
             });
             
-            $('#content h1:first').html("Create group");
+            $('#content h1:first').html(l("GroupCreate"));
             
             this._sessionToForm();
             
@@ -36,10 +41,9 @@
             $('input#group-proceed').unbind();
             $('input#group-proceed').bind('click', $.proxy(this._sendGroupData, this));
             
-            
         },
         
-        /* Tests if the form is filled correctly and sends the data */
+        /** Tests if the form is filled correctly and sends the data */
         _sendGroupData: function(){
             var validForm = $('form#group-form').validate({
                 errorElement: 'span'
@@ -50,7 +54,7 @@
                 this._securedPost(URLS["apiGroup"], this._endOfProcess, $.toJSON(group));
             }
         },
-        /* Puts form data in session */
+        /** Puts form data in session */
         _formToSession: function(){
             var group = {
                 users: [],
@@ -66,7 +70,7 @@
             
             this.options.context.session('tempGroup', group);
         },
-        /* Displays session data in user form */
+        /** Displays session data in user form */
         _sessionToForm: function(){
             var group = this.options.context.session('tempGroup');
             if (group != null) {
@@ -76,6 +80,11 @@
                 }
             }
         },
+        /**
+         * cleans the temporary objects when everything done and redirect to the group details
+         * @param {Group} group
+         * the edited Group
+         */
         _endOfProcess: function(group){
             //console.log(user);
             // Cleans the tempUser in session
@@ -83,6 +92,7 @@
             this.options.context.redirect('#/group/details/' + group.name);
         }
     };
-    
+    var l = function(string){ return string.toLocaleString()};
+	
     $.widget("booking.editGroup", $.resthub.resthubController, editGroup);
 })(jQuery);
