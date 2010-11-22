@@ -185,20 +185,22 @@ public class GroupController extends
 	@Override
 	public Response create(Group group) {
 		Group e = this.service.create(group);
-		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString())
-				.build();
+		
 		List<User> l = group.getUsers();
 		if (userService != null && l != null) {
 			for (User u : l) {
 				User tmpUser = userService.findById(u.getId());
 				if (tmpUser != null) {
-					tmpUser.addToGroup(group);
+					tmpUser.addToGroup(e);
 					userService.update(tmpUser);
 				}
 			}
 		}
-
+		e = this.service.update(e);
+		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString())
+				.build();
+	
 		return Response.created(uri).entity(e).build();
 	}
 }

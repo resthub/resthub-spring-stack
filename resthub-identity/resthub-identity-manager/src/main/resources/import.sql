@@ -4,8 +4,8 @@ INSERT INTO IDENTITY (ID) VALUES (3);
 INSERT INTO IDENTITY (ID) VALUES (4);
 
 
-INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (1, 'alex', 'synclar', 'user1@atosorigin.com', 'admin', '4dm|n');
-INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (2, 'test', 'ing', 'test@atosorigin.com', 'test', 't3st');
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (1, 'alex', 'synclar', 'user1@atosorigin.com', 'admin', 'nwCxqV005XMHxW4oPNWmZE5MNXqH31sJ');
+INSERT INTO USER (ID, FIRSTNAME, LASTNAME, EMAIL, LOGIN, PASSWORD) VALUES (2, 'test', 'ing', 'test@atosorigin.com', 'test', 'lvxWgeRR8QOakoGHnYAdxmW1ujQaauua');
 
 INSERT INTO USERSGROUP (ID, NAME) VALUES (3, 'IM-ADMINS');
 INSERT INTO USERSGROUP (ID, NAME) VALUES (4, 'IM-USERS');

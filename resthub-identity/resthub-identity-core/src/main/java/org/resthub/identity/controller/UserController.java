@@ -1,20 +1,26 @@
 package org.resthub.identity.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericResourceController;
 
@@ -39,11 +45,19 @@ public class UserController extends
 		this.service = service;
 	}
 
+	GroupService groupeService;
+
+	@Inject
+	@Named("groupService")
+	public void setGroupService(GroupService g) {
+		groupeService = g;
+	}
+
 	/**
 	 * Return a list of all users
 	 * 
-	 * @return a list of users, in XML or JSON if users can be found
-	 *         otherwise HTTP Error 404
+	 * @return a list of users, in XML or JSON if users can be found otherwise
+	 *         HTTP Error 404
 	 */
 
 	@GET
@@ -85,11 +99,13 @@ public class UserController extends
 	/**
 	 * Return the currently authentified Used<br/>
 	 * 
-	 * <p>This is the first method to call once authenticated with Oauth2
+	 * <p>
+	 * This is the first method to call once authenticated with Oauth2
 	 * Currently, the Oauth2 authentication method is the one remaining We can't
 	 * be log without using OAuth2 The user_id will be override by the filter
 	 * layer, so we can't get the User object corresponding to another user than
-	 * the one logged</p>
+	 * the one logged
+	 * </p>
 	 * 
 	 * @param login
 	 *            , given by the filter layer, once the token has been checked
@@ -106,5 +122,32 @@ public class UserController extends
 		r = (u == null) ? Response.status(Status.NOT_FOUND).build() : Response
 				.ok(u).build();
 		return r;
+	}
+
+	@Override
+	@POST
+	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response create(User user) {
+		User u = this.service.create(user);
+
+		List<Group> lg = user.getGroups();
+		if (lg != null) {
+			for (Group g : lg) {
+				if (g != null) {
+					if (g.getId() != null) {
+						g = groupeService.findById(g.getId());
+						g.addUser(u);
+						groupeService.update(g);
+					
+					}
+				}
+			}
+		}
+		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+		URI uri = uriBuilder.path(generateIdentifierFromEntity(u).toString())
+				.build();
+
+		return Response.created(uri).entity(u).build();
 	}
 }
