@@ -7,24 +7,21 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.core.annotation.Auditable;
-import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
-import org.resthub.oauth2.provider.service.AuthenticationService;
 import org.springframework.util.Assert;
 
 /**
  * An implementation of a UserService dealing with OAuth2 authentication <br/>
- * It is based on both GenericResourceServiceImpl, userService and
- * AuthenticationService
+ * It is based on AbstractEncryptedPasswordUserService
  * 
  * It is a bean whose name is userService
  * 
  * */
 @Named("userService")
-public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao>
-		implements UserService, AuthenticationService {
+public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
+
 
 	@Inject
 	@Named("userDao")
@@ -48,20 +45,13 @@ public class UserServiceImpl extends GenericResourceServiceImpl<User, UserDao>
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public User authenticateUser(String login, String password) {
-		return dao.getUserByAuthenticationInformation(login, password);
-	}
-
-	/**
 	 * Authenticate a user based on login and Password and returns the login if
 	 * successful
 	 * 
 	 * @param login
 	 * @param password
-	 * @return login , the login of the user if the authentication succeed,
-	 *         null otherwise
+	 * @return login , the login of the user if the authentication succeed, null
+	 *         otherwise
 	 */
 	public String getUser(String login, String password) {
 		User u = this.authenticateUser(login, password);

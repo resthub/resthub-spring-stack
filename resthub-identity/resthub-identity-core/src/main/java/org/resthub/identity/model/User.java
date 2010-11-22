@@ -13,7 +13,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Describe a user account.<br/>
- * A User has some attributes such as login, password, email, ...
+ * A User has some attributes such as login, password, email, ... 
+ * TODO there is  * some fields which have in comments "Nullable=false" , 
+ * this cannot be remove from comments without refactoring the abstractTestDao 
+ * class
  */
 @Entity
 @Table
@@ -46,7 +49,7 @@ public class User extends Identity {
 	 * 
 	 * @return the user login
 	 * */
-	@Column(unique = true, nullable = false)
+	@Column(unique = true/* , nullable = false */)
 	public String getLogin() {
 		return login;
 	}
@@ -63,12 +66,11 @@ public class User extends Identity {
 
 	/**
 	 * gets the Password<br/>
-	 * The password can not be given in the XML/JSON representation of the
-	 * user
+	 * The password can not be given in the XML/JSON representation of the user
 	 * 
 	 * @return user's password
 	 * */
-	@Column(nullable = false)
+	@Column(/* nullable = false */)
 	@XmlTransient
 	public String getPassword() {
 		return password;
@@ -195,8 +197,8 @@ public class User extends Identity {
 	}
 
 	/**
-	 * returns a {@link String} representation of the user. Display the ID, Login
-	 * and email of the user
+	 * returns a {@link String} representation of the user. Display the ID,
+	 * Login and email of the user
 	 * */
 	@Override
 	public String toString() {

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,24 +36,6 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 	}
 	
 	 @Test
-	    public void testGetUserByAuthenticationInformation(){
-		 //given a new user
-		 User u1= new User();
-		 String login="alexDao";
-		 String password="alexDao-pass";
-		 u1.setLogin(login);
-		 u1.setPassword(password);
-		 resourceDao.save(u1);
-		 
-		 //when we search  him by his login and password
-	    u1 =resourceDao.getUserByAuthenticationInformation(login, password);
-	    
-	    //we get the user as response
-	    assertNotNull(u1);
-	    assertEquals(login, u1.getLogin());   
-	 }
-	   
-	 @Test
 	    public void testGetANDPermissions(){
 		 //given a new user
 		 User u1= new User();
@@ -68,8 +51,10 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 		 resourceDao.save(u1);
 		 
 		 //when we search  him by his login and password
-	    u1 =resourceDao.getUserByAuthenticationInformation(login, password);
+	    List<User> l  =resourceDao.findEquals("Login", login);
+	    assertNotNull(l);
 	    
+	    u1 = l.get(0);
 	    //we get the user as response
 	    assertNotNull(u1);
 	    assertEquals(login, u1.getLogin());

@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.User;
 
-
 public class UserServiceTest extends
 		AbstractResourceServiceTest<User, UserService> {
 
@@ -28,28 +27,38 @@ public class UserServiceTest extends
 		super.setResourceService(resourceService);
 	}
 
+	/*
+	 * The UserService is needed because we have specific method for password
+	 * management
+	 */
+	UserService userService;
+
+	@Inject
+	@Named("userService")
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
 	@Test
-	public void testMultiDeletion() throws Exception{
-		
+	public void testMultiDeletion() throws Exception {
+
 		User u1 = new User();
 		u1.setLogin("u1");
-		
+
 		User u2 = new User();
 		u2.setLogin("u2");
-		
-		u1=resourceService.create(u1);
-		u2=resourceService.create(u2);
-		
-		
+
+		u1 = resourceService.create(u1);
+		u2 = resourceService.create(u2);
+
 		resourceService.delete(u1);
 		resourceService.delete(u2);
-		
-		
+
 		Assert.assertNull(resourceService.findById(u1.getId()));
 		Assert.assertNull(resourceService.findById(u2.getId()));
-		
+
 	}
-		
+
 	@Override
 	@Test
 	public void testUpdate() throws Exception {
@@ -85,16 +94,48 @@ public class UserServiceTest extends
 		u.setLogin(login);
 		u.setPassword(password);
 		resourceService.create(u);
+		// userService.create(u);
 
 		/* When we search him with good login and password */
+		// u = userService.authenticateUser(login, password);
+
 		u = resourceService.authenticateUser(login, password);
 
 		/* Then we retrieve the good user */
 		assertNotNull(u);
 		assertEquals(u.getLogin(), login);
-		assertEquals(u.getPassword(), password);
-	
 		resourceService.delete(u);
+		// userService.delete(u);
+	}
+
+	@Test
+	public void shouldGetUserByAuthenticationInformationWhenOKAfterUpdate() {
+		/* Given a new user */
+
+		String login = "alexOK";
+		String password1 = "alex-pass";
+		String password2 = "NewAlex-pass";
+
+		User u = new User();
+		u.setLogin(login);
+		u.setPassword(password1);
+resourceService.create(u);
+		//userService.create(u);
+
+		/* After that the password is updates */
+		u.setPassword(password2);
+u=resourceService.update(u);
+//		u = userService.update(u);
+		/* When we search him with good login and password */
+		u = resourceService.authenticateUser(login, password2);
+		//u = userService.authenticateUser(login, password2);
+
+		/* Then we retrieve the good user */
+		assertNotNull(u);
+		assertEquals(u.getLogin(), login);
+
+		resourceService.delete(u);
+		//userService.delete(u);
 	}
 
 	@Test
@@ -108,12 +149,14 @@ public class UserServiceTest extends
 		u.setLogin(login);
 		u.setPassword(password);
 		resourceService.create(u);
-		/* When we search him providing a bad password*/
-		User retrievedUser = resourceService.authenticateUser(login, badPassword);
-		
-		/* Then the user is not retrieved*/
-		assertNull( retrievedUser);
-		
+		//userService.create(u);
+		/* When we search him providing a bad password */
+		User retrievedUser = resourceService.authenticateUser(login,
+				badPassword);
+
+		/* Then the user is not retrieved */
+		assertNull(retrievedUser);
+
 		resourceService.delete(u);
 	}
 
@@ -129,12 +172,13 @@ public class UserServiceTest extends
 		u.setPassword(password);
 		resourceService.create(u);
 
-		/* When we search him providing a bad login*/
-		User retrievedUser = resourceService.authenticateUser(badLogin, password);
-		/* Then the user is not retrieved*/
+		/* When we search him providing a bad login */
+		User retrievedUser = resourceService.authenticateUser(badLogin,
+				password);
+		/* Then the user is not retrieved */
 
 		assertNull(retrievedUser);
-		
+
 		this.resourceService.delete(u);
 	}
 
@@ -153,9 +197,9 @@ public class UserServiceTest extends
 		u.setPermissions(permissions);
 		resourceService.create(u);
 
-		/* When we retrieved him after a search*/
+		/* When we retrieved him after a search */
 		u = resourceService.findByLogin(login);
-		
+
 		/* We can get the permission */
 		assertTrue("Permissions not founded", u.getPermissions().contains(
 				"ADMIN"));
