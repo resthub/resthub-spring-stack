@@ -14,7 +14,7 @@
     };
     
     $.widget("user.loginUsers", $.resthub.resthubController, loginUsers);
-    var l = function(string){ return string.toLocaleString()};
-	
-	
+    var l = function(string){
+        return string.toLocaleString()
+    };
 })(jQuery);

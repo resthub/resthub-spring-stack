@@ -12,7 +12,11 @@
             self = this;
             this._switchPage(this.options.page);
         },
-        /**Displays and renders the List*/
+        /**Displays and renders the List
+         * 
+         * @param {Object} result
+         * Result with the list of users in result.element
+         */
         _displayUsers: function(result){
             this.element.render(this.options.template, {
                 result: result

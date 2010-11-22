@@ -81,7 +81,7 @@
             }
         },
         /**
-         * cleans the temporary objects when everything done and redirect to the group details
+         * Cleans the temporary objects when everything done and redirect to the group details view
          * @param {Group} group
          * the edited Group
          */
@@ -92,7 +92,9 @@
             this.options.context.redirect('#/group/details/' + group.name);
         }
     };
-    var l = function(string){ return string.toLocaleString()};
-	
+    var l = function(string){
+        return string.toLocaleString()
+    };
+    
     $.widget("booking.editGroup", $.resthub.resthubController, editGroup);
 })(jQuery);
