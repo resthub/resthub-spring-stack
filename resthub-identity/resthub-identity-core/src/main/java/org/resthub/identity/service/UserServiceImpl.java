@@ -10,6 +10,7 @@ import org.resthub.core.annotation.Auditable;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -20,13 +21,32 @@ import org.springframework.util.Assert;
  * 
  * */
 @Named("userService")
+@Transactional
 public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
-
 
 	@Inject
 	@Named("userDao")
 	public void setResourceDao(UserDao userDao) {
 		super.setDao(userDao);
+	}
+
+	GroupService groupeService;
+
+	@Inject
+	@Named("groupService")
+	public void setGroupService(GroupService g) {
+		groupeService = g;
+	}
+
+	/**
+	 * I just don't know why we need that, but we do if we want to add User and
+	 * link User with group automatically
+	 */
+	@Override
+	@Transactional
+	public User create(User u) {
+		u = super.create(u);
+		return u;
 	}
 
 	/**

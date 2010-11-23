@@ -1,26 +1,21 @@
 package org.resthub.identity.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
-import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericResourceController;
 
@@ -45,13 +40,7 @@ public class UserController extends
 		this.service = service;
 	}
 
-	GroupService groupeService;
-
-	@Inject
-	@Named("groupService")
-	public void setGroupService(GroupService g) {
-		groupeService = g;
-	}
+	
 
 	/**
 	 * Return a list of all users
@@ -124,30 +113,19 @@ public class UserController extends
 		return r;
 	}
 
-	@Override
-	@POST
-	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@GET
+	@Path("/name/{login}/groups")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response create(User user) {
-		User u = this.service.create(user);
-
-		List<Group> lg = user.getGroups();
-		if (lg != null) {
-			for (Group g : lg) {
-				if (g != null) {
-					if (g.getId() != null) {
-						g = groupeService.findById(g.getId());
-						g.addUser(u);
-						groupeService.update(g);
-					
-					}
-				}
-			}
-		}
-		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-		URI uri = uriBuilder.path(generateIdentifierFromEntity(u).toString())
-				.build();
-
-		return Response.created(uri).entity(u).build();
+	public Response getGroupsFromUser(@PathParam("login") String login) {
+		User user = this.service.findByLogin(login);
+		Response r= null;
+		List<Group> groups = null;
+		 if( user!=null) { groups = user.getGroups();}
+		
+		r = (groups == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to find groups").build() : Response.ok(groups).build();
+		return r;
 	}
+
+	
 }

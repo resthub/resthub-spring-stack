@@ -47,14 +47,14 @@
             });
         }, URLS["jsGroupList"]);
         
-        /** View group details */
-        this.get('#/group/details/:name', function(context){
-            this.title(l("jsTitleGroupDetails"));
-            $('#content').viewGroup({
+        /** View list group from user  */
+        this.get('#/user/groups/:name', function(context){
+            this.title(l("jsTitleUserGroupDetails"));
+            $('#content').userGroupsList({
                 context: context,
-                groupName: this.params.name
+                userName: this.params.name
             });
-        }, URLS["jsGroupView"]);
+        }, URLS["jsUserGroupsList"]);
         
         /** Create group*/
         this.get('#/group/create', function(context){

@@ -7,5 +7,5 @@ import org.resthub.identity.model.Group;
  * It is based on a {@link GenericResourceDao} of type {@link Group}
  * */
 public interface GroupDao extends GenericResourceDao<Group> {
-
+	
 }

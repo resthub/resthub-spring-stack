@@ -10,12 +10,12 @@ import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.GroupDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.User;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
 /**
  * An implementation of a Group Service<br/>
- * It's based on both {@link GenericResourceServiceImpl} and {@link GroupService}
+ * It's based on both {@link GenericResourceServiceImpl} and
+ * {@link GroupService}
  * 
  * It's a bean whose name is "groupService"
  * */
@@ -23,8 +23,10 @@ import org.springframework.util.Assert;
 public class GroupServiceImpl extends
 		GenericResourceServiceImpl<Group, GroupDao> implements GroupService {
 
-	/**The userDao<br/>
-	 * This class need it in order to be able to deal with users*/
+	/**
+	 * The userDao<br/>
+	 * This class need it in order to be able to deal with users
+	 */
 	UserDao userDao;
 
 	@Inject
@@ -37,6 +39,18 @@ public class GroupServiceImpl extends
 	@Named("userDao")
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	/**
+	 * A Reference to the userService This is needed for the creation of Groups
+	 * including users
+	 */
+	UserService userService;
+
+	@Inject
+	@Named("userService")
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 	/**
@@ -65,14 +79,4 @@ public class GroupServiceImpl extends
 		return this.dao.readAll();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@Auditable
-	@Transactional(readOnly = false)
-	public void removeUser(Group group, User user) {
-		user.removeFromGroup(group);
-		this.userDao.save(user);
-	}
 }

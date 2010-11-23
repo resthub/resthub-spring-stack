@@ -13,10 +13,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Describe a user account.<br/>
- * A User has some attributes such as login, password, email, ... 
- * TODO there is  * some fields which have in comments "Nullable=false" , 
- * this cannot be remove from comments without refactoring the abstractTestDao 
- * class
+ * A User has some attributes such as login, password, email, ... TODO there is
+ * * some fields which have in comments "Nullable=false" , this cannot be remove
+ * from comments without refactoring the abstractTestDao class
  */
 @Entity
 @Table
@@ -155,7 +154,6 @@ public class User extends Identity {
 	 */
 	@ManyToMany
 	@JoinTable(name = "user_group")
-	@XmlTransient
 	public List<Group> getGroups() {
 		return groups;
 	}
@@ -174,7 +172,9 @@ public class User extends Identity {
 	 * Adds a {@link User} in a group.
 	 * 
 	 * @param group
-	 *            the group to which the user should be added
+	 *            the group to which the user should be added the insertion has
+	 *            to be done in both way in order to prevent trouble linked to
+	 *            cache
 	 * 
 	 */
 	public void addToGroup(Group group) {

@@ -1,17 +1,13 @@
 package org.resthub.identity.controller;
 
-import static org.junit.Assert.assertNotNull;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
 
 import junit.framework.Assert;
 
-import org.junit.Test;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
 import org.resthub.web.controller.GenericController;
 import org.resthub.web.controller.GenericResourceController;
@@ -44,36 +40,6 @@ public class GroupControllerTest
 	@Named("groupService")
 	public void setGrouPService(GroupService gs) {
 		this.groupService = gs;
-	}
-
-	@Test
-	public void testCreateGroupWithUser() {
-		User u = new User();
-		u.setLogin("user1");
-
-		String groupName = "groupName55";
-
-		Group g = new Group();
-		g.setName(groupName);
-		g.addUser(u);
-		GroupController gc = (GroupController) this.controller;
-		gc.create(g);
-
-		Group g2 = this.groupService.findByName(groupName);
-		if (g2 != null) {
-			if (g2.getUsers() != null) {
-				for(User u2 : g2.getUsers()) {
-					System.out.println(u2.getId());
-
-				}
-
-			}
-		}
-
-		assertNotNull(g);
-		assertNotNull(g.getUsers());
-		assertNotNull(g.getUsers().get(0));
-
 	}
 
 	@Override

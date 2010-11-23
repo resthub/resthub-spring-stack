@@ -2,6 +2,7 @@ package org.resthub.core.service;
 
 import java.io.Serializable;
 import java.util.List;
+
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
 

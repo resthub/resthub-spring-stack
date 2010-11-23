@@ -1,25 +1,21 @@
 package org.resthub.identity.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericResourceController;
@@ -39,6 +35,10 @@ public class GroupController extends
 	private final Logger logger = LoggerFactory
 			.getLogger(GroupController.class);
 
+	
+	@PersistenceContext
+	protected EntityManager em;
+	
 	/**
 	 * The userService <br/>
 	 * This should be a bean <br/>
@@ -127,80 +127,8 @@ public class GroupController extends
 			r = Response.status(Status.NOT_FOUND).entity(
 					"Unable to find any group.").build();
 		} else {
-			for (Group g : result) {
-				g.setUsers(null);
-			}
 			r = Response.ok(result).build();
 		}
 		return r;
-	}
-
-	/**
-	 * Remove a {@link User} from the specified {@link Group}.<br/>
-	 * 
-	 * @param name
-	 *            the name of the group
-	 * @param login
-	 *            the user login
-	 * @return the group updated after user removing if everything OK,in XML or
-	 *         JSON, otherwise return an HTTP error 404
-	 */
-	@DELETE
-	@Path("/{name}/user/{login}")
-	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response removeUser(@PathParam("name") String name,
-			@PathParam("login") String login) {
-		// TODO remove this trace which is in a standard behavior
-		logger.info("Remove user '" + login + "' from group '" + name + "'.");
-
-		Group group = this.service.findByName(name);
-		User user = this.userService.findByLogin(login);
-		Response r;
-		if (group == null) {
-			r = Response.status(Status.NOT_FOUND).entity(
-					"Unable to find the requested group.").build();
-		} else if (user == null) {
-			r = Response.status(Status.NOT_FOUND).entity(
-					"Unable to find the requested user.").build();
-		} else {
-			this.service.removeUser(group, user);
-			r = Response.ok(group).build();
-		}
-		return r;
-	}
-
-	/**
-	 * <p>Create a {@link Group} from the {@link Group} given in input.</br> If the given {@link Group} contains
-	 * some {@link User}s, the {@link Group} will be added to the group list in which are the users
-	 * belong</p>
-	 * 
-	 * @param group
-	 *            the group to create, in XMl or JSON
-	 * @return the created group, in XMl or JSON Goal : support creation of
-	 *         group with user
-	 */
-	@POST
-	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Override
-	public Response create(Group group) {
-		Group e = this.service.create(group);
-		
-		List<User> l = group.getUsers();
-		if (userService != null && l != null) {
-			for (User u : l) {
-				User tmpUser = userService.findById(u.getId());
-				if (tmpUser != null) {
-					tmpUser.addToGroup(e);
-					userService.update(tmpUser);
-				}
-			}
-		}
-		e = this.service.update(e);
-		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString())
-				.build();
-	
-		return Response.created(uri).entity(e).build();
 	}
 }

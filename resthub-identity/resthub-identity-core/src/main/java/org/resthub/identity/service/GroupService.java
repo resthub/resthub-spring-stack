@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.User;
 
 /**
  * Group services interface.
@@ -26,10 +25,4 @@ public interface GroupService extends GenericResourceService<Group> {
 	 */
 	public List<Group> findAllGroups();
 
-	/**
-	 * Remove a user from a group.
-	 * @param group
-	 * @param user
-	 */
-	public void removeUser( Group group, User user );
 }

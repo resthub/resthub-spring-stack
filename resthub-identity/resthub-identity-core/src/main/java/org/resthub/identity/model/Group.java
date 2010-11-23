@@ -1,14 +1,8 @@
 package org.resthub.identity.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,10 +22,6 @@ public class Group extends Identity {
 	 * */
 	protected String name = null;
 
-	/**
-	 * List of users in the group
-	 * */
-	protected List<User> users = null;
 
 	/**
 	 * Default Constructor
@@ -61,56 +51,8 @@ public class Group extends Identity {
 	}
 
 	/**
-	 * getUsers
-	 * 
-	 * @return the list of users belonging to the group
-	 * 
-	 * */
-	@ManyToMany(mappedBy = "groups")
-	@XmlElementWrapper(name = "users")
-	@XmlElement(name = "user")
-	public List<User> getUsers() {
-		return users;
-	}
-
-	/**
-	 * set all {@link User} belonging to this Group
-	 * 
-	 * @param users
-	 *            , List<Users> , the list of users to be assign to the group
-	 * */
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
-	/**
-	 * Add a User in a Group
-	 * 
-	 * @param user
-	 *            , the user to be added
-	 * */
-	public void addUser(User user) {
-		if (users == null) {
-			this.users = new ArrayList<User>();
-		}
-		this.users.add(user);
-	}
-
-	/**
-	 * Remove an user from the group
-	 * 
-	 * @param user
-	 *            the user to be removed
-	 * */
-	public void removeUser(User user) {
-		if (users != null) {
-			users.remove(user);
-		}
-	}
-
-	/**
-	 * Display the representation of the group Display the ID and the
-	 * Name of the Group
+	 * Display the representation of the group Display the ID and the Name of
+	 * the Group
 	 * */
 	@Override
 	public String toString() {
