@@ -67,11 +67,14 @@
 				<targetPath>${basedir}/src/main/webapp/resources/labels</targetPath>
 			</resource>
 			<resource>
+				<directory>src/main/resources/html</directory>
+				<filtering>true</filtering>
+				<targetPath>${basedir}/src/main/webapp/</targetPath>
+			</resource>
+			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
-
-
 		</resources>
 
 		<finalName>identity-manager</finalName>

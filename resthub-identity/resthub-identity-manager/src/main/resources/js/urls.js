@@ -10,16 +10,17 @@ var URLS = {
     templateGroupList: "components/group/list.html",
     templateGroupView: "components/group/view.html",
     templateMain: "main.html",
-    jsUserList: "components/user/list.js",
-    jsUserEdit: "components/user/edit.js",
-    jsUserView: "components/user/view.js",
-    jsUserLoginForm: "components/user/login.js",
-    jsUserLoginProcess: "components/user/postLogin.js",
-    jsUserLogout: 'components/user/logout.js',
-	jsUserGroupsList : 'components/user/groupsList.js',
 	
-    jsGroupList: "components/group/list.js",
-    jsGroupEdit: "components/group/edit.js",
+    jsUserList: "${nonSecuredPath}components/user/list.js",
+    jsUserEdit: "${nonSecuredPath}components/user/edit.js",
+    jsUserView: "${nonSecuredPath}components/user/view.js",
+    jsUserLoginForm: "${nonSecuredPath}components/user/login.js",
+    jsUserLoginProcess: "${nonSecuredPath}components/user/postLogin.js",
+    jsUserLogout: "${nonSecuredPath}components/user/logout.js",
+	jsUserGroupsList : "${nonSecuredPath}components/user/groupsList.js",
+	
+    jsGroupList: "${nonSecuredPath}components/group/list.js",
+    jsGroupEdit: "${nonSecuredPath}components/group/edit.js",
     
     apiUser: "${securedApiPath}api/user/", 
 	apiUserName: "${securedApiPath}api/user/name/",
@@ -29,5 +30,6 @@ var URLS = {
     apiUserGroupsList: "/groups/",
 	
     apiGroup: "${securedApiPath}api/group/",
-    apiGroupList: "${securedApiPath}api/group/list/"
+    apiGroupList: "${securedApiPath}api/group/list/",
+	
 };

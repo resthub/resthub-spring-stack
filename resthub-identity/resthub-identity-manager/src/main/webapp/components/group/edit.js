@@ -4,29 +4,16 @@
         options: {
             template: URLS["templateGroupEdit"],
             context: null,
-            users: null
         },
         _init: function(){
-            this._prepareData();
+ 			this._displayGroupForm();
         },
-        /**Gets some data needed for the edition*/
-        _prepareData: function(){
-            this._securedGet(URLS["apiUserList"], this._setUsers);
-        },
-        /**Sets the list of all user
-         *
-         * @param {User} users
-         */
-        _setUsers: function(users){
-            this.options.users = users;
-            this._displayGroupForm();
-        },
-        /**Displays and render the Group form*/
+
+         /**Displays and render the Group form*/
         _displayGroupForm: function(){
             var group = this.options.context.session('tempGroup');
             
             this.element.render(this.options.template, {
-                users: this.options.users,
                 group: group
             });
             
@@ -57,17 +44,9 @@
         /** Puts form data in session */
         _formToSession: function(){
             var group = {
-                users: [],
                 permissions: []
             };
-            
-            group.name = $('input[name=name]').val();
-            $('input[name=usergroup]:checked').each(function(index, element){
-                group.users.push({
-                    id: $(element).attr('value')
-                });
-            });
-            
+            group.name = $('input[name=name]').val();          
             this.options.context.session('tempGroup', group);
         },
         /** Displays session data in user form */
@@ -75,9 +54,6 @@
             var group = this.options.context.session('tempGroup');
             if (group != null) {
                 $('input[name=name]').val(group.name);
-                for (var index in group.users) {
-                    $('input[value=' + group.users[index].id + ']').attr('checked', true);
-                }
             }
         },
         /**
@@ -89,7 +65,7 @@
             //console.log(user);
             // Cleans the tempUser in session
             this.options.context.session('tempGroup', null);
-            this.options.context.redirect('#/group/details/' + group.name);
+            this.options.context.redirect('#/group/list');
         }
     };
     var l = function(string){

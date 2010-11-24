@@ -30,12 +30,12 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 		super.setDao(userDao);
 	}
 
-	GroupService groupeService;
+	GroupService groupService;
 
 	@Inject
 	@Named("groupService")
 	public void setGroupService(GroupService g) {
-		groupeService = g;
+		groupService = g;
 	}
 
 	/**
@@ -107,5 +107,23 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 			}
 		}
 		return userPermissisons;
+	}
+
+	/**
+	 * Remove a group from one user's groups
+	 * 
+	 * @param userLogin
+	 *            the login of the user to whom to group should be remove
+	 * @param groupeName
+	 *            the name of the group to remove from the user's group list
+	 */
+	public void removeGroupForUser(String userLogin, String groupName) {
+		if (userLogin != null && groupName != null) {
+			User u = this.findByLogin(userLogin);
+			Group g = groupService.findByName(groupName);
+			if (u != null && g != null) {
+				u.removeFromGroup(g);
+			}
+		}
 	}
 }

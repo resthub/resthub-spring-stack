@@ -7,19 +7,6 @@
 		<strong><%= l("GroupName") %></strong>
 		<input size="10" name="name" type="text" class="required"> *
 	</p>
-
-		<strong><%= l("GroupUsersList") %></strong>
-		<p>
-			<% if ($.isEmptyObject(users)) { %>
-				<span>[No users available]</span>
-			<% } else { %>
-				<% for (var index in users) { %>
-					<input type="checkbox" name="usergroup" value="<%= users[index].id %>" /> <%= users[index].firstName %> <%= users[index].lastName %>
-				<% } %>
-			<% } %>
-		</p>
-	</p>
-	
 </form>
 
 <p class="buttons">

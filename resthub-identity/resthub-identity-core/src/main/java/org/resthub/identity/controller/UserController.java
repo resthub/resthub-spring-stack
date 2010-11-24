@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -39,8 +40,6 @@ public class UserController extends
 	public void setService(UserService service) {
 		this.service = service;
 	}
-
-	
 
 	/**
 	 * Return a list of all users
@@ -118,14 +117,22 @@ public class UserController extends
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getGroupsFromUser(@PathParam("login") String login) {
 		User user = this.service.findByLogin(login);
-		Response r= null;
+		Response r = null;
 		List<Group> groups = null;
-		 if( user!=null) { groups = user.getGroups();}
-		
+		if (user != null) {
+			groups = user.getGroups();
+		}
+
 		r = (groups == null) ? Response.status(Status.NOT_FOUND).entity(
 				"Unable to find groups").build() : Response.ok(groups).build();
 		return r;
 	}
 
-	
+	@DELETE
+	@Path("/name/{login}/groups/{groups}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void removeGroupsForUser(@PathParam("login") String userLogin,
+			@PathParam("groups") String groupName) {
+		this.service.removeGroupForUser(userLogin, groupName);
+	}
 }

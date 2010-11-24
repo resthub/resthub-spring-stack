@@ -29,4 +29,14 @@ public interface UserService extends GenericResourceService<User> {
 	 *         and password
 	 */
 	public User authenticateUser(String login, String password);
+	
+	/**
+	 * Remove a group from one user's groups
+	 * 
+	 * @param userLogin
+	 *            the login of the user to whom to group should be remove
+	 * @param groupeName
+	 *            the name of the group to remove from the user's group list
+	 */
+	public void removeGroupForUser(String userLogin, String groupName);
 }

@@ -9,7 +9,7 @@
             userLogin: null,
             userPassword: null,
             redirectURL: null,
-            OAuth2EndPoint: null
+            OAuth2EndPoint: null,
         },
         /**tries to authenticate the user on the OAuth2EndPoint*/
         _init: function(){

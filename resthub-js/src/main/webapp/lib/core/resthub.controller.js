@@ -50,35 +50,35 @@
 		},
 
 		_post: function _post(url, callback, data) {
-			this._ajax(url, callback, 'post', data);
+			this._ajax(url, callback, 'POST', data);
 		},
 
 		_get: function _get(url, callback) {
-			this._ajax(url, callback, 'get', null);
+			this._ajax(url, callback, 'GET', null);
 		},
 
 		_put: function _put(url, callback, data) {
-			this._ajax(url, callback, 'put', data);
+			this._ajax(url, callback, 'PUT', data);
 		},
 
 		_delete: function _delete(url, callback) {
-			this._ajax(url, callback, 'delete', null);
+			this._ajax(url, callback, 'DELETE', null);
 		},
 
 		_securedGet: function _get(url, callback) {
-			this._securedAjax(url, callback, 'get', null);
+			this._securedAjax(url, callback, 'GET', null);
 		},
 
 		_securedPut: function _put(url, callback, data) {
-			this._securedAjax(url, callback, 'put', data);
+			this._securedAjax(url, callback, 'PUT', data);
 		},
 
 		_securedDelete: function _delete(url, callback) {
-			this._securedAjax(url, callback, 'delete', null);
+			this._securedAjax(url, callback, 'DELETE', null);
 		},
 
 		_securedPost: function _post(url, callback, data) {
-			this._securedAjax(url, callback, 'post', data);
+			this._securedAjax(url, callback, 'POST', data);
 		},
 
 		/**

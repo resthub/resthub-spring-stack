@@ -51,13 +51,14 @@ public class OAuth2Filter implements Filter {
 	// Public properties
 
 	/**
-	 * Resource protected and served by this server.
-	 * Value read in servlet configuration: init-parameter "securedResourceName".
+	 * Resource protected and served by this server. Value read in servlet
+	 * configuration: init-parameter "securedResourceName".
 	 */
 	protected String resource = "";
 
 	/**
 	 * Used to inject the service implementation when working with spring.
+	 * 
 	 * @param service
 	 */
 	public void setResource(String resource) {
@@ -65,15 +66,16 @@ public class OAuth2Filter implements Filter {
 	} // setResource().
 
 	/**
-	 * The validation service.
-	 * The implementation class for this class is specified in servlet configuration: 
-	 * init-parameter "validationServiceClass".
-	 * This class must implements the ValidationService interface and have a default constructor.
+	 * The validation service. The implementation class for this class is
+	 * specified in servlet configuration: init-parameter
+	 * "validationServiceClass". This class must implements the
+	 * ValidationService interface and have a default constructor.
 	 */
 	protected ValidationService service;
 
 	/**
 	 * Used to inject the service implementation when working with spring.
+	 * 
 	 * @param service
 	 */
 	public void setService(ValidationService service) {
@@ -96,13 +98,15 @@ public class OAuth2Filter implements Filter {
 	 * @param errorStatus
 	 *            The HTTP response code.
 	 */
-	protected void setError(HttpServletResponse response, String error, String description, Status errorStatus) {
+	protected void setError(HttpServletResponse response, String error,
+			String description, Status errorStatus) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Token realm=\"").append(resource).append("\"");
 		if (error != null) {
 			sb.append(", error=\"").append(error).append("\"");
 			if (description != null) {
-				sb.append(", error_description=\"").append(description).append("\"");
+				sb.append(", error_description=\"").append(description).append(
+						"\"");
 			}
 		}
 		// Sets the autication header.
@@ -122,10 +126,12 @@ public class OAuth2Filter implements Filter {
 		logger.trace("[init] OAuth 2 filter initialization");
 		// Read the service used and the resource name.
 		setResource(config.getInitParameter("securedResourceName"));
-		String validationServiceClass = config.getInitParameter("validationServiceClass");
+		String validationServiceClass = config
+				.getInitParameter("validationServiceClass");
 		// Creates a validation service.
 		try {
-			setService((ValidationService)Class.forName(validationServiceClass).newInstance());
+			setService((ValidationService) Class
+					.forName(validationServiceClass).newInstance());
 		} catch (Exception exc) {
 			// TODO
 		}
@@ -137,7 +143,7 @@ public class OAuth2Filter implements Filter {
 	@Override
 	public void destroy() {
 		// Emtpy
-		//TODO remove this trace which correspond to a standard behavior 
+		// TODO remove this trace which correspond to a standard behavior
 		logger.trace("[destroy] OAuth 2 filter finalization");
 	} // destroy().
 
@@ -145,24 +151,45 @@ public class OAuth2Filter implements Filter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void doFilter(ServletRequest rawRequest, ServletResponse rawResponse, FilterChain chain) throws IOException,
+	public void doFilter(ServletRequest rawRequest,
+			ServletResponse rawResponse, FilterChain chain) throws IOException,
 			ServletException {
 
 		// Only for HTTP requests.
-		if (rawRequest instanceof HttpServletRequest && rawResponse instanceof HttpServletResponse) {
+		if (rawRequest instanceof HttpServletRequest
+				&& rawResponse instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) rawRequest;
 			HttpServletResponse response = (HttpServletResponse) rawResponse;
 
+			/* We have to check if it is a OPTION request */
+			/*
+			 * String headerMethodValue = request.getMethod(); if
+			 * (headerMethodValue == HttpMethod.OPTIONS) {
+			 * response.setStatus(200);
+			 * response.setHeader("Access-Control-Allow-Origin", "*");
+			 * response.setHeader("Access-Control-Allow-Methods",
+			 * "GET, POST, PUT, DELETE");
+			 * //response.setHeader("Access-Control-Max-Age", "86400");
+			 * response.setHeader("Access-Control-Allow-Headers",
+			 * HttpHeaders.WWW_AUTHENTICATE
+			 * +", Authorization, X-Requested-With");
+			 * 
+			 * } else {
+			 */
 			Token token = null;
-			//TODO remove this trace which correspond to a standard behavior 
-			logger.trace("[doFilter] Filters request {}", request.getRequestURL());
+			// TODO remove this trace which correspond to a standard
+			// behavior
+			logger.trace("[doFilter] Filters request {}", request
+					.getRequestURL());
 			// Extract Authorization Header Request.
 			String headerValue = request.getHeader(HttpHeaders.AUTHORIZATION);
 			if (headerValue != null && !headerValue.matches("^OAuth .*$")) {
 				// invalid token
-				StringBuilder sb = new StringBuilder("The token passed is misformated");
+				StringBuilder sb = new StringBuilder(
+						"The token passed is misformated");
 				logger.trace("[doFilter] {}", sb.toString());
-				setError(response, Error.INVALID_REQUEST.value(), sb.toString(), Error.INVALID_REQUEST.status());				
+				setError(response, Error.INVALID_REQUEST.value(),
+						sb.toString(), Error.INVALID_REQUEST.status());
 			} else {
 				// Try to extract the accessToken value.
 				if (headerValue != null) {
@@ -170,60 +197,74 @@ public class OAuth2Filter implements Filter {
 				}
 				String otherValue = null;
 				String method = request.getMethod();
-				// Specification says that boty parameter may not be extracted
+				// Specification says that boty parameter may not be
+				// extracted
 				// systematically.
 				if (request.getHeader(HttpHeaders.CONTENT_TYPE) == MediaType.APPLICATION_FORM_URLENCODED
-						&& (method == HttpMethod.POST || method == HttpMethod.DELETE || method == HttpMethod.PUT)) {
+						&& (method == HttpMethod.POST
+								|| method == HttpMethod.DELETE || method == HttpMethod.PUT)) {
 					otherValue = request.getParameter(ACCESSTOKEN_PARAMETER);
 				} else {
 					otherValue = request.getParameter(ACCESSTOKEN_PARAMETER);
 				}
-				if(headerValue == null && otherValue == null) {
+				if (headerValue == null && otherValue == null) {
 					// No token at all.
 					logger.trace("[doFilter] No token found");
-					setError(response, Error.UNAUTHORIZED_REQUEST.value(), null, Error.UNAUTHORIZED_REQUEST.status());
+					setError(response, Error.UNAUTHORIZED_REQUEST.value(),
+							null, Error.UNAUTHORIZED_REQUEST.status());
 				} else if (headerValue != null && otherValue != null) {
 					// Too lany tokens !
 					String error = "More than one method used to exchange token";
 					logger.trace("[doFilter] {}", error);
-					setError(response, Error.INVALID_REQUEST.value(), error, Error.INVALID_REQUEST.status());
+					setError(response, Error.INVALID_REQUEST.value(), error,
+							Error.INVALID_REQUEST.status());
 				} else {
 					// Just one
-					String accessToken = headerValue == null ? otherValue : headerValue;
-					logger.trace("[doFilter] Accessing with accessToken '{}'", accessToken);
+					String accessToken = headerValue == null ? otherValue
+							: headerValue;
+					logger.trace("[doFilter] Accessing with accessToken '{}'",
+							accessToken);
 					// Match the token.
 					try {
 						token = service.validateToken(accessToken);
 					} catch (Exception exc) {
-						logger.warn("[doFilter] Cannot process request for {}: {}", request.getRequestURL(), exc
-								.getMessage());
+						logger.warn(
+								"[doFilter] Cannot process request for {}: {}",
+								request.getRequestURL(), exc.getMessage());
 						logger.warn("[doFilter] Cause: ", exc);
-						setError(response, null, null, Status.INTERNAL_SERVER_ERROR);
+						setError(response, null, null,
+								Status.INTERNAL_SERVER_ERROR);
 					}
 					if (token == null) {
 						// Unknown token
-						logger.trace("[doFilter] Unknown token '{}'", accessToken);
-						setError(response, Error.INVALID_TOKEN.value(), "Unvalid token", Error.INVALID_TOKEN
-								.status());
+						logger.trace("[doFilter] Unknown token '{}'",
+								accessToken);
+						setError(response, Error.INVALID_TOKEN.value(),
+								"Unvalid token", Error.INVALID_TOKEN.status());
 					} else {
 						// Check token expiration
 						Date now = new Date();
-						Long expired = (now.getTime() - token.createdOn.getTime()) / 1000;
+						Long expired = (now.getTime() - token.createdOn
+								.getTime()) / 1000;
 						if (expired > token.lifeTime) {
-							logger.trace("[doFilter] Expired token '{}'", accessToken);
-							StringBuilder sb = new StringBuilder("Token has expired ").append(
+							logger.trace("[doFilter] Expired token '{}'",
+									accessToken);
+							StringBuilder sb = new StringBuilder(
+									"Token has expired ").append(
 									expired - token.lifeTime).append("s ago");
-							setError(response, Error.EXPIRED_TOKEN.value(), sb.toString(), Error.EXPIRED_TOKEN
-									.status());
+							setError(response, Error.EXPIRED_TOKEN.value(), sb
+									.toString(), Error.EXPIRED_TOKEN.status());
 							// Block processing.
 							token = null;
 						}
 					}
-				}				
+				}
 			}
 			if (token != null) {
 				// Process request.
-				chain.doFilter(new SecuredHttpRequest(token.userId, token.permissions, request), rawResponse);
+				chain.doFilter(new SecuredHttpRequest(token.userId,
+						token.permissions, request), rawResponse);
+				// }
 			}
 		}
 	} // doFilter().
