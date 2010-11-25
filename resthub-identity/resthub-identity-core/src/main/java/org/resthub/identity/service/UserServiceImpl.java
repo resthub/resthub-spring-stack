@@ -39,17 +39,6 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	}
 
 	/**
-	 * I just don't know why we need that, but we do if we want to add User and
-	 * link User with group automatically
-	 */
-	@Override
-	@Transactional
-	public User create(User u) {
-		u = super.create(u);
-		return u;
-	}
-
-	/**
 	 * Retrieves a user by his login
 	 * 
 	 * @param login
@@ -117,6 +106,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	 * @param groupeName
 	 *            the name of the group to remove from the user's group list
 	 */
+	@Transactional
 	public void removeGroupForUser(String userLogin, String groupName) {
 		if (userLogin != null && groupName != null) {
 			User u = this.findByLogin(userLogin);

@@ -4,7 +4,7 @@
 <% if ($.isEmptyObject(result.elements)) { %>
 	<p><%= l("UserNoUsersFound")%></p>
 <% } else { %>
-<div id="commons-actions"><div id="delete"><%= l("UserDeleteThisUser") %></div></div>
+<div id="commons-actions"><div id="delete"><%= l("UserDeleteThoseUsers") %></div></div>
 	<table>
 		<thead>
 			<tr>
@@ -26,8 +26,9 @@
 					<td><%= users[index].login %></td>
 					<td><%= users[index].email %></td>
 					<td>
+						<a href='#/user/create' class="edit-user" id="<%= index %>"><%= l("UserEditThisUser")%></a>
 						<%= link_to( 'details', '#/user/details/' + users[index].login ) %>
-						<span class="remove-user" id="<%= index %>"><%= l("UserDeleteThoseUsers")%></span>
+						<span class="remove-user" id="<%= index %>"><%= l("UserDeleteThisUser")%></span>
 					</td>
 				</tr>
 			<% } %>

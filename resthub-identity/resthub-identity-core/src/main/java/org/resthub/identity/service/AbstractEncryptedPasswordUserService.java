@@ -9,6 +9,7 @@ import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
 import org.resthub.oauth2.provider.service.AuthenticationService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * An Abstract Implementation of a UserService dealing with OAuth2
@@ -21,6 +22,7 @@ import org.resthub.oauth2.provider.service.AuthenticationService;
  * 
  * */
 @Named("userService")
+@Transactional
 public abstract class AbstractEncryptedPasswordUserService extends
 		GenericResourceServiceImpl<User, UserDao> implements UserService,
 		AuthenticationService {
@@ -36,7 +38,6 @@ public abstract class AbstractEncryptedPasswordUserService extends
 	 * */
 	public User create(User user) {
 		user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
-		System.out.println("create new user with pwd "+user.getPassword());
 		dao.save(user);
 		return user;
 	}

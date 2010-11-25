@@ -3,6 +3,11 @@
   		"confirmUserDeletionBegin" : "You are going to delete the user ",
 		"confirmUserDeletionBegin" : "You are going to delete the users ",
 		"confirmUserDeletionEnd" : "are you sure ?",
+		
+		"confirmUserGroupDeletionBegin" : "You are going to remove the user from the group ",
+		"confirmUserGroupsDeletionBegin" : "You are going to remove the user from groups",
+		"confirmUserGroupDeletionEnd" : "are you sure ?",
+		
 		"Hello" : "Hello",
 		"Secured" : "Secured",
 		"NotWellSecured" : "Not Well Secured",
@@ -63,6 +68,8 @@
 		"GroupEdit" : "Edit group",
 		"GroupDetails" :"Group Details",
 		"GroupCreate" :" Group Creation",
+		"GroupDeleteThisGroup" :"Remove",
+		"GroupDeleteThoseGroups" :"Remove",
 		"GroupName" : "Group Name: ",
 		"GroupUsersList": "This groups is composed by the following users",
 		"GroupSubmitButton" : "Create",
@@ -81,6 +88,11 @@
   		"confirmUserDeletionBegin" : "Vous allez supprimer l'utilisateur ",
 		"confirmUsersDeletionBegin" : "Vous allez supprimer les utilisateurs ",
 		"confirmUserDeletionEnd" : "êtes-vous sûr ?",
+		
+		"confirmUserGroupDeletionBegin" : "Vous allez enlever l'utilisateur du groupe ",
+		"confirmUserGroupsDeletionBegin" : "Vous allez enlever l'utilisateur des groupes ",
+		"confirmUserGroupDeletionEnd" : "êtes-vous sûr ?",
+		
 		"Hello" : "Bonjour",
 		"Secured" : "Sécurisé",
 		"NotWellSecured" : "Moyennement sécurisé",
@@ -144,6 +156,9 @@
 		"GroupDetails" :"Détails du groupe",
 		"GroupNoGroupsFound" :"Pas de groupes existant",
 		"GroupCreate" : "Création d'un groupe",
+		"GroupDeleteThisGroup" :"Supprimer",
+		"GroupDeleteThoseGroups" :"Supprimer",
+		
 		"GroupName" : "Nom du Groupe : ",
 		"GroupUsersList": "Le groupe est composé des utilisateurs suivant : ",
 		"GroupSubmitButton" : "Sauvegarder",

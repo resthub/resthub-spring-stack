@@ -23,6 +23,14 @@
                     self._switchPage(page);
                 });
             });
+             $('div#delete').click(function(){
+                self._deleteGroups();
+            });
+			  $('span.remove-group').each(function(index, element){
+                $(element).click(function(){
+                    self._deleteThisGroup($(element).attr('id'));
+                });
+            });
             
             $("table tr:nth-child(even)").addClass("striped");
         },
@@ -34,10 +42,84 @@
          */
         _switchPage: function(page){
             this.options.page = page;
-            this._securedGet(URLS["apiGroup"] + '?page=' + this.options.page, this._displayGroups);
-        }
-    };
+            this._securedGet(URLS["apiGroup"] + '?page=' + this.options.page, this._changedResult);
+        },
     
+	/**
+     * Callback function called when the result list has been changed
+     *
+     * @param result
+     * 		the result object 
+     */
+    _changedResult: function(result){
+		this.options.result =  result;
+		this._displayGroups(result);
+	},
+	/** 
+         * Deletes 1 user, the one on which there was a click
+         * It asks a confirmation before the deletion
+         *
+         * @param {Integer} index
+         * the index of the user to delete
+         */
+        _deleteThisGroup:function(index){
+			var groups = this.options.result.elements;
+			var self = this;
+            
+            var answer = confirm(l("confirmGroupDeletionBegin") + groups[index].name + l("confirmGroupsDeletionEnd"));
+            if (answer) {
+                var accessToken = this.options.context.session('accessToken');
+                $.oauth2Ajax({
+                    url: URLS["apiGroup"] + groups[index].id,
+                    type: 'DELETE',
+                    complete: function(){
+                 self._switchPage(self.options.page);
+				    },
+                }, accessToken);
+            }
+        },
+        
+        /** Deletes some users, the ones which have been checked in the form 
+         * It asks a confirmation before the deletion
+         */
+		_deleteGroups: function(){						
+		var self = this;
+		var groups = this.options.result.elements;
+            var groupsToDelete = [];
+            $('input.group-checkbox').each(function(index, element){
+                if (element.checked) {
+                    groupsToDelete.push(index);
+                }
+            });
+            var message;
+            message = (groupsToDelete.length > 1) ? l("confirmGroupsDeletionBegin") : l("confirmGroupDeletionBegin");
+            
+            for (element in groupsToDelete) {
+                message = message.concat(groups[groupsToDelete[element]].name + ",");
+            }
+            message = message.concat(l("confirmGroupDeletionEnd"));
+            var answer = confirm(message);
+            
+            
+            if (answer) {
+                /* there is actually one request for each user to delete*/
+                for (element in groupsToDelete) {
+                    var accessToken = this.options.context.session('accessToken');
+                    
+                    /* We delete the user */
+                    $.oauth2Ajax({
+                        url: URLS["apiGroup"] + groups[groupsToDelete[element]].id,
+                        type: 'DELETE',
+                        complete: function(){
+                      		 self._switchPage(self.options.page);
+					    },
+                    }, accessToken);
+                }
+            }
+        }
+		};
+    
+	
 	var l = function(string){ return string.toLocaleString()};
 	
     $.widget("identity.listGroups", $.resthub.resthubController, listGroups);

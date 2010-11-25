@@ -50,8 +50,8 @@
          */
         _switchPage: function(page){
             this.options.page = page;
-              this._securedGet(URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"], this._displayUsers);
-		},
+            this._securedGet(URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"], this._displayUsers);
+        },
         
         /** 
          * Deletes 1 user, the one on which there was a click
@@ -63,14 +63,14 @@
         _deleteThisUser: function(index){
             var groups = this.options.result;
             
-            var answer = confirm(l("confirmUserDeletionBegin") + groups[index].name + l("confirmUserDeletionEnd"));
+            var answer = confirm(l("confirmUserGroupDeletionBegin") + groups[index].name + l("confirmUserGroupDeletionEnd"));
             if (answer) {
                 var accessToken = this.options.context.session('accessToken');
                 $.oauth2Ajax({
-                    url:URLS["apiUserName"] + this.options.userName+URLS["apiUserGroupsList"]+ groups[index].name ,
+                    url: URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"] + groups[index].name,
                     type: 'DELETE',
                     complete: function(){
-                        self._securedGet(URLS["apiUser"] + '?page=0', self._displayUsers);
+                        self._switchPage(self.options.page);
                     },
                 }, accessToken);
             }
@@ -88,12 +88,12 @@
                 }
             });
             var message;
-            message = (groupToDelete.length > 1) ? l("confirmUsersDeletionBegin") : l("confirmUserDeletionBegin");
+            message = (groupToDelete.length > 1) ? l("confirmUserGroupsDeletionBegin") : l("confirmUserGroupDeletionBegin");
             
             for (element in groupToDelete) {
                 message = message.concat(groups[groupToDelete[element]].name + ",");
             }
-            message = message.concat(l("confirmUserDeletionEnd"));
+            message = message.concat(l("confirmUserGroupDeletionEnd"));
             var answer = confirm(message);
             
             
@@ -104,10 +104,10 @@
                     
                     /* We delete the user */
                     $.oauth2Ajax({
-                        url: URLS["apiUserName"] + this.options.userName+URLS["apiUserGroupsList"]+ groups[groupToDelete[element]].name,
+                        url: URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"] + groups[groupToDelete[element]].name,
                         type: 'DELETE',
                         complete: function(){
-                            self._securedGet(URLS["apiUser"] + '?page=0', self._displayUsers);
+                            self._switchPage(self.options.page);
                         },
                     }, accessToken);
                 }

@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="http://localhost:8080/identity/lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="http://localhost:8080/identity/lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="http://localhost:8080/identity/style.css" type="text/css" media="screen, projection">
+        <link rel="localizations" href="resources/labels/localizations.json" type="application/x-l10n+json">
+        <script src="http://localhost:8080/identity/resources/labels/urls.js" >
+        </script>
+        <script src="http://localhost:8080/identity/lib/resthub.stack.js">
+        </script>
+        <script>
+            dominoes("http://localhost:8080/identity/lib/jquery.pnotify.js http://localhost:8080/identity/lib/jquery.validate.js  http://localhost:8080/identity/libs/ejs/view.js http://localhost:8080/identity/libs/l10n/l10n.js http://localhost:8080/identity/index.js", function(){
+                var l = function(string){
+                    return string.toLocaleString();
+                }
+                $("#main-menu>div").each(function(index, it){
+                    var label = $(it).attr("data-label");
+                    if (label) {
+                        var text = l(label);
+                        it.innerHTML = text + it.innerHTML;
+                    }
+                });
+                $("#main-menu>div>a").each(function(index, it){
+                    var label = $(it).attr("data-label");
+                    if (label) {
+                        var text = l(label);
+                        it.innerHTML = text + it.innerHTML;
+                    }
+                });
+            })
+        </script>
+    </head>
+    <body>
+        <div id="navigation">
+            <div id="header">
+            	<img src="resources/images/projectavatar.png">
+                <span id="big_header">ODP &raquo;</span>
+                An Atos Wordline Demonstration
+            </div>
+        </div>
+        <div id="main">
+            <nav id="main-menu">
+                <div id="Home" class="menu_box">
+                    <a href="." data-label="MenuHome"></a>
+                </div>
+                <div id="List" class="menu_box" data-label="MenuList">
+                    <a href="#/user/list" data-label="MenuListUsers"></a>
+                    <a href="#/group/list" data-label="MenuListGroups"></a>
+                </div>
+                <div id="Create" class="menu_box" data-label="MenuCreate">
+                    <a href="#/user/create" data-label="MenuCreateUser"></a>
+                    <a href="#/group/create" data-label="MenuCreateGroup"></a>
+                </div>
+                <div id="Login" class="menu_box">
+                    <a href="#/user/login" data-label="MenuLogin"></a>
+                </div>
+                <div id="Logout" class="menu_box">
+                    <a href="#/user/logout" data-label="MenuSignOut"></a>
+                </div>
+            </nav>
+            <div id="principal">
+                <div id="header">
+                </div>
+                <div id="content">
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            © ODP - an Atos Worldline Solution, 2010 
+        </div>
+    </body>
+</html>

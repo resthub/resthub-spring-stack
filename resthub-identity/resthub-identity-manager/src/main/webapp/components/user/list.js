@@ -19,7 +19,8 @@
          */
         _displayUsers: function(result){
             this.element.render(this.options.template, {
-                result: result
+                result: result,
+				self: this
             });
             
             self.options.result = result;
@@ -42,7 +43,24 @@
                 });
             });
             
+			 $('a.edit-user').each(function(index, element){
+                $(element).click(function(){
+                    self._editThisUser($(element).attr('id'));
+                });
+            });
+			
         },
+		/**
+		*Launch the edition of user
+		*
+		*@param index
+		* the index of the user to delete
+		*/
+		_editThisUser : function(index){
+			var users = this.options.result.elements;
+			this.options.context.session('tempUser', users[index]);
+			return true;
+		},
         /**Swiths to the page
          * @param {Integer} page
          * the page to display
