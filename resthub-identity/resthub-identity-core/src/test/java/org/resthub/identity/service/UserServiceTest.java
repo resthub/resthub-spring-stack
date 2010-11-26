@@ -66,20 +66,24 @@ public class UserServiceTest extends
 		String firstName = "alexander";
 		String firstNameAbr = "alex";
 		String lastName = "testUpdate";
-
+		String password = "testPassword";
+		String login = "testLogin";
+		
 		User u = new User();
 		u.setFirstName(firstName);
 		u.setLastName(lastName);
-
+		u.setPassword(password);
+		u.setLogin(login);
 		u = this.resourceService.create(u);
 
-		// when we change is firstName
+		// when we try to change some info (firstName) about the user and that we give the good password
+		u=new User(u);
 		u.setFirstName(firstNameAbr);
+		u.setPassword(password);
 		u = resourceService.update(u);
 
-		// The modification is updated
+		// Then The modification is updated
 		assertEquals(u.getFirstName(), firstNameAbr);
-		// throw new UnsupportedOperationException("Not supported yet.");
 
 		this.resourceService.delete(u);
 	}
@@ -119,23 +123,21 @@ public class UserServiceTest extends
 		User u = new User();
 		u.setLogin(login);
 		u.setPassword(password1);
-resourceService.create(u);
-		//userService.create(u);
-
+		resourceService.create(u);
+		
 		/* After that the password is updates */
 		u.setPassword(password2);
-u=resourceService.update(u);
-//		u = userService.update(u);
+		u = resourceService.updatePassword(u);
+		
 		/* When we search him with good login and password */
 		u = resourceService.authenticateUser(login, password2);
-		//u = userService.authenticateUser(login, password2);
-
+		
 		/* Then we retrieve the good user */
 		assertNotNull(u);
 		assertEquals(u.getLogin(), login);
 
 		resourceService.delete(u);
-		//userService.delete(u);
+		// userService.delete(u);
 	}
 
 	@Test
@@ -149,7 +151,7 @@ u=resourceService.update(u);
 		u.setLogin(login);
 		u.setPassword(password);
 		resourceService.create(u);
-		//userService.create(u);
+		// userService.create(u);
 		/* When we search him providing a bad password */
 		User retrievedUser = resourceService.authenticateUser(login,
 				badPassword);
@@ -194,7 +196,7 @@ u=resourceService.update(u);
 		User u = new User();
 		u.setLogin(login);
 		u.setPassword(password);
-		u.setPermissions(permissions);
+		u.getPermissions().addAll(permissions);
 		resourceService.create(u);
 
 		/* When we retrieved him after a search */

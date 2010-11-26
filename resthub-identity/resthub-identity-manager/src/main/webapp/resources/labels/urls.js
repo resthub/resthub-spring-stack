@@ -6,6 +6,7 @@ var URLS = {
     templateUserHome: "components/user/Home.html",
 	templateUserGroupList : "components/user/groupsList.html",
     templateUserView: "components/user/view.html",
+	templateUserPassword : "components/user/editPassword.html",
     templateGroupEdit: "components/group/edit.html",
     templateGroupList: "components/group/list.html",
     templateGroupView: "components/group/view.html",
@@ -18,12 +19,14 @@ var URLS = {
     jsUserLoginProcess: "http://localhost:8080/identity/components/user/postLogin.js",
     jsUserLogout: "http://localhost:8080/identity/components/user/logout.js",
 	jsUserGroupsList : "http://localhost:8080/identity/components/user/groupsList.js",
+	jsUserPassword: "http://localhost:8080/identity/components/user/editPassword.js",
 	
     jsGroupList: "http://localhost:8080/identity/components/group/list.js",
     jsGroupEdit: "http://localhost:8080/identity/components/group/edit.js",
     
     apiUser: "https://localhost:8443/identity/api/user/", 
 	apiUserName: "https://localhost:8443/identity/api/user/name/",
+	apiUserPassword : "https://localhost:8443/identity/api/user/password/",
 	
     apiUserCurrentUser: "https://localhost:8443/identity/api/user/me/",
     apiUserList: "https://localhost:8443/identity/api/user/all/",

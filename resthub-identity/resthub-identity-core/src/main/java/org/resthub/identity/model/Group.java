@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "UsersGroup")
 /* "Group" conflicts with SQL keyword */
 @XmlRootElement
-public class Group extends Identity {
+public class Group extends AbstractPermissionsOwner {
 
 	private static final long serialVersionUID = 475935404179730841L;
 	/**

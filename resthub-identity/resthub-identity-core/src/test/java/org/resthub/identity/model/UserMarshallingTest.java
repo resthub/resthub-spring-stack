@@ -19,14 +19,14 @@ public class UserMarshallingTest extends AbstractResourceJaxbTest<User> {
 		user.setLogin("UserLogin");
 		user.setEmail("test@check.com");
 		user.setPassword("TestPassword");
-		user.addPermission("perm1");
-		user.addPermission("perm2");
+		user.getPermissions().add("perm1");
+		user.getPermissions().add("perm2");
 
 		group1.setName("Group1Name");
 		group2.setName("Group2Name");
 
-		user.addToGroup(group1);
-		user.addToGroup(group2);
+		user.getGroups().add(group1);
+		user.getGroups().add(group2);
 
 		return user;
 	}

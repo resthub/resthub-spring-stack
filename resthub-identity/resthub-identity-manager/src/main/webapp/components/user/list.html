@@ -1,4 +1,4 @@
-<% var l = function(string){ return string.toLocaleString()};%>
+<% /** Variable used for text localization with l10n */ var l = function(string){ return string.toLocaleString()};%>
 <h1><%= l("UserList")%></h1>
 
 <% if ($.isEmptyObject(result.elements)) { %>
@@ -27,6 +27,7 @@
 					<td><%= users[index].email %></td>
 					<td>
 						<a href='#/user/create' class="edit-user" id="<%= index %>"><%= l("UserEditThisUser")%></a>
+						<a href='#/user/password' class="edit-password" id="<%= index %>"><%= l("UserEditPassword")%></a>
 						<%= link_to( 'details', '#/user/details/' + users[index].login ) %>
 						<span class="remove-user" id="<%= index %>"><%= l("UserDeleteThisUser")%></span>
 					</td>

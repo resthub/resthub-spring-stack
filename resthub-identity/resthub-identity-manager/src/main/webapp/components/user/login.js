@@ -14,7 +14,8 @@
     };
     
     $.widget("user.loginUsers", $.resthub.resthubController, loginUsers);
-    var l = function(string){
+    /** Variable used for text localization with l10n */
+	var l = function(string){
         return string.toLocaleString()
     };
 })(jQuery);

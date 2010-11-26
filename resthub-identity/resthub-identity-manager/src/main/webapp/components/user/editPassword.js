@@ -3,48 +3,34 @@
      * Used to edit a user
      *
      */
-    var editUser = {
+    var editPassword = {
         options: {
-            template: URLS["templateUserEdit"],
+            template: URLS["templateUserPassword"],
             context: null,
-            groups: null
+            groups: null,
+			login: null
         },
         _init: function(){
             this._prepareData();
         },
         /**loads the data needed to display the user*/
         _prepareData: function(){
-            if (this.options.context.session('accessToken') != null) {
-                this._securedGet(URLS["apiGroupList"], this._setGroups);
-            }
-            else {
-                this._displayUserForm();
-            }
+           this._displayUserForm();
+         
         },
-        /**sets the group in which the user presently belongs
-         * this is a callback function once the groupList has been received
-         * @param {Array} groups
-         * 	Array of groups
-         */
-        _setGroups: function(groups){
-            this.options.groups = groups;
-            this._displayUserForm();
-        },
-        /**Displays and renders the User Form*/
+       /**Displays and renders the User Form*/
         _displayUserForm: function(){
             /**
              * We load the user from the session data.
              * It is set only if we have to EDIT a user a not for a creation
              */
             var user = this.options.context.session('tempUser');
-            
+            this.options.login = user.login;
             this.element.render(this.options.template, {
                 user: user,
                 groups: this.options.groups
             });
-            
-            $('#content h1:first').html(l("UserCreate"));
-            
+                    
             this._sessionToForm();
             
             $('form#user-form').validate({
@@ -54,27 +40,18 @@
             $('input#user-proceed').unbind();
             $('input#user-proceed').bind('click', $.proxy(this._sendUserData, this));
             
-            if (user == null) {/**Creation of a user*/
-                /** We want the password to be strong enough to we check is strength*/
                 $('input#password').unbind();
                 $('input#password').bind('keyup', this._evalPwd);
                 
                 /** We want the user to be sure about his password (which is hidden), so we ask it a second time*/
                 $('input#passwordCheck').unbind();
                 $('input#passwordCheck').bind('keyup', this._evalPwdAreEgals);
-            }
-            else {/**Edition of a User*/
-                $('p#password').hide();
-                $('p#passwordCheck').hide();
-                $('input#password').removeClass('required');
-                $('input#passwordCheck').removeClass('required');
-            }
         },
         /**Evaluates the requirements on passwords*/
         _evalPwd: function(){
-            editUser._evalPwdStrength();
+            editPassword._evalPwdStrength();
             /* The audit of the similarity of the passwords is done when we a password fields*/
-            editUser._evalPwdAreEgals();
+            editPassword._evalPwdAreEgals();
         },
         
         /** checks if text inside the passwords input fields are egals or not
@@ -94,7 +71,7 @@
         
             var fieldText;
             $('span#passwordsAreEgals').removeClass('good bad');
-            var arePwdEgalsVar = editUser._arePwdEgals();
+            var arePwdEgalsVar = editPassword._arePwdEgals();
             if (arePwdEgalsVar) {
                 $('span#passwordsAreEgals').addClass('good');
                 fieldText = "PasswordsEgals";
@@ -181,47 +158,26 @@
             var validForm = $('form#user-form').validate({
                 errorElement: 'span'
             }).form();
-            validForm = validForm && editUser._arePwdEgals(); /* If password are not egals then form is not valid*/
-            if (validForm) {
+            validForm = validForm && editPassword._arePwdEgals(); /* If password are not egals then form is not valid*/
+            var answer =  confirm(l("confirmUserPasswordModification"));
+			if (validForm&&answer) {
                 this._formToSession();
                 var user = this.options.context.session('tempUser');
-                this._securedPost('api/user', this._endOfProcess, $.toJSON(user));
+                this._securedPost(URLS["apiUserPassword"], this._endOfProcess, $.toJSON(user));
             }
         },
         /** Puts form data in session */
         _formToSession: function(){
-            var user = {
-                groups: [],
-                permissions: []
-            };
-            
-            user.firstName = $('input[name=firstName]').val();
-            user.lastName = $('input[name=lastName]').val();
-            user.login = $('input[name=login]').val();
-            user.password = $('input[name=password]').val();
-            user.email = $('input[name=email]').val();
-            $('input[name=usergroup]:checked').each(function(index, element){
-                user.groups.push({
-                    id: $(element).attr('value')
-                });
-            });
-            
+            var user = {};
+                   
+            user.login = this.options.login;
+            user.password = $('input[name=password]').val();         
             this.options.context.session('tempUser', user);
         },
         
         /** Displays session data in user form */
         _sessionToForm: function(){
-            var user = this.options.context.session('tempUser');
-            if (user != null) {
-                $('input[name=firstName]').val(user.firstName);
-                $('input[name=lastName]').val(user.lastName);
-                $('input[name=login]').val(user.login);
-                $('input[name=password]').val(user.password);
-                $('input[name=email]').val(user.email);
-                for (var index in user.groups) {
-                    $('input[value=' + user.groups[index].id + ']').attr('checked', true);
-                }
-            }
+            var user = this.options.context.session('tempUser');    
         },
         
         /**Cleans the temporary object and redirect to the view of the edited User
@@ -234,9 +190,10 @@
             this.options.context.redirect('#/user/details/' + user.login);
         }
     };
+	var self=this;
     /**Variable used for text localization with l10n*/
     var l = function(string){
         return string.toLocaleString()
     };
-    $.widget("booking.editUser", $.resthub.resthubController, editUser);
+    $.widget("identity.editPassword", $.resthub.resthubController, editPassword);
 })(jQuery);

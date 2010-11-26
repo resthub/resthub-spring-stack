@@ -21,7 +21,6 @@ import org.springframework.util.Assert;
  * 
  * */
 @Named("userService")
-@Transactional
 public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 
 	@Inject
@@ -112,7 +111,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 			User u = this.findByLogin(userLogin);
 			Group g = groupService.findByName(groupName);
 			if (u != null && g != null) {
-				u.removeFromGroup(g);
+				u.getGroups().remove(g);
 			}
 		}
 	}

@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -20,7 +18,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table
 @XmlRootElement
-public class User extends Identity {
+public class User extends AbstractPermissionsOwner {
 
 	private static final long serialVersionUID = -7139715798005612136L;
 	/**
@@ -32,10 +30,7 @@ public class User extends Identity {
 	protected String password = null;
 	protected String email = null;
 
-	/**
-	 * List of groups in which the user is
-	 * */
-	protected List<Group> groups = null;
+	
 
 	/**
 	 * default Constructor
@@ -43,6 +38,20 @@ public class User extends Identity {
 	public User() {
 	}
 
+	public User(User u){
+		super(u);
+		String s;
+		s=u.getFirstName();
+		firstName= (s==null) ? new String() : new String(s);
+		s=u.getLastName();
+		lastName = (s==null) ? new String() : new String(s);
+		s=u.getLogin();
+		login = (s==null) ? new String() : new String(s);
+		s=u.getEmail();
+		email = (s==null) ? new String() : new String(s);
+		List<Group> l = u.getGroups();
+		groups= (l==null) ? new ArrayList<Group>() : new ArrayList<Group>(u.getGroups());
+	}
 	/**
 	 * getLogin
 	 * 
@@ -143,57 +152,6 @@ public class User extends Identity {
 	 * */
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	/**
-	 * gets the user's Groups
-	 * 
-	 * @return the list of groups in which the user is. The List could be null
-	 *         is the user is in no group
-	 * 
-	 */
-	@ManyToMany
-	@JoinTable(name = "user_group")
-	public List<Group> getGroups() {
-		return groups;
-	}
-
-	/**
-	 * sets the Groups in which the user is
-	 * 
-	 * @param groups
-	 *            the list of groups in which the user belongs
-	 * */
-	public void setGroups(List<Group> groups) {
-		this.groups = groups;
-	}
-
-	/**
-	 * Adds a {@link User} in a group.
-	 * 
-	 * @param group
-	 *            the group to which the user should be added the insertion has
-	 *            to be done in both way in order to prevent trouble linked to
-	 *            cache
-	 * 
-	 */
-	public void addToGroup(Group group) {
-		if (groups == null) {
-			this.groups = new ArrayList<Group>();
-		}
-		this.groups.add(group);
-	}
-
-	/**
-	 * removes the user form a group
-	 * 
-	 * @param group
-	 *            the group from which the user should be remove
-	 * */
-	public void removeFromGroup(Group group) {
-		if (groups != null) {
-			groups.remove(group);
-		}
 	}
 
 	/**

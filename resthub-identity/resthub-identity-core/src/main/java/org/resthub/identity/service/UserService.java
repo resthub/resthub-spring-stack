@@ -19,6 +19,13 @@ public interface UserService extends GenericResourceService<User> {
 	 */
 	public User findByLogin(String login);
 
+	/**
+	 * Update the password for the given user
+	 * 
+	 * @param user
+	 *            the user to with the new password
+	 */
+	public User updatePassword(User user);
 
 	/**
 	 * Authenticate the user with Login and password
@@ -29,7 +36,7 @@ public interface UserService extends GenericResourceService<User> {
 	 *         and password
 	 */
 	public User authenticateUser(String login, String password);
-	
+
 	/**
 	 * Remove a group from one user's groups
 	 * 

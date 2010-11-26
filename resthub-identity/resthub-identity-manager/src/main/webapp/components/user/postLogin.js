@@ -13,6 +13,7 @@
         },
         /**tries to authenticate the user on the OAuth2EndPoint*/
         _init: function(){
+			/** Needed for context propagation*/
             var self = this;
             
             $.oauth2Conf.tokenEndPoint = self.options.OAuth2EndPoint;
@@ -31,5 +32,6 @@
         }
     }
     $.widget("user.postLoginUsers", $.resthub.resthubController, postLoginUsers);
-    var l = function(string){ return string.toLocaleString()};
+    /** Variable used for text localization with l10n */
+	var l = function(string){ return string.toLocaleString()};
 })(jQuery);

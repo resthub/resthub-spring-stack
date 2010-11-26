@@ -8,6 +8,8 @@
 		"confirmUserGroupsDeletionBegin" : "You are going to remove the user from groups",
 		"confirmUserGroupDeletionEnd" : "are you sure ?",
 		
+		"confirmUserPasswordModification" :"You are going to change the user's password. Are you sure ?",
+		
 		"Hello" : "Hello",
 		"Secured" : "Secured",
 		"NotWellSecured" : "Not Well Secured",
@@ -22,6 +24,7 @@
 		"jsTitleUserGroupsDetails" : "Identity Manager - User's groups Details",
 		"jsTitleUserLogin" : "Identity Manager - Login Page",
 		"jsTitleUserAuthenticate" : "Identity Manager - User Authentication",
+		"jsTitleUserPassword" : "Identity Manager - Password Modification",
 		"jsTitleGroupList":"Identity Manager - Groups List",
 		"jsTitleGroupDetails":"Identity Manager - Group Details",
 		"jsTitleGroupCreate":"Identity Manager - Group Create",
@@ -49,6 +52,8 @@
 		"UserLoginHeader":"Login",
 		"UserEmailHeader":"Email",
 		"UserActionsHeader" :"Actions",
+		"UserEditThisUser" : "Edit",
+		"UserEditPassword" : "Change password",
 		"UserGroupHeader" :"Groups",	
 		"UserLoginLogin" : "Login :",
 		"UserLoginPassword" : "Password :",
@@ -60,7 +65,9 @@
 		"UserEmail" : "Email",
 		"UserPassword" : "Password",
 		"UserRemoveThisGroupForUser" : "Remove",
+		"UserUpdatePassword" : "Password modification : ",
 		"UserGroupActionsHeader" : "Actions",
+		"UserUpdatePasswordSubmitButton" : "Submit",
 		
 		"UserGroupList" : "This user belongs to the following groups:",
 		"UserCreateSubmitButton" :"Create",
@@ -93,6 +100,8 @@
 		"confirmUserGroupsDeletionBegin" : "Vous allez enlever l'utilisateur des groupes ",
 		"confirmUserGroupDeletionEnd" : "êtes-vous sûr ?",
 		
+		"confirmUserPasswordModification" :"Vous allez changer le mot de passe pour l'utilisateur. Etes-vous sur ?",
+		
 		"Hello" : "Bonjour",
 		"Secured" : "Sécurisé",
 		"NotWellSecured" : "Moyennement sécurisé",
@@ -107,6 +116,8 @@
 		"jsTitleUserGroupsDetails" : "Identity Manager - Information sur les groupes de l'utilisateur",
 		"jsTitleUserLogin" : "Identity Manager - Page d'identification",
 		"jsTitleUserAuthenticate" : "Identity Manager - Authentification de l'utilisateur",
+		"jsTitleUserPassword" : "Identity Manager - Modification du mot de passe",
+		
 		"jsTitleGroupList": "Identity Manager - Liste des groupes",
 		"jsTitleGroupDetails":"Identity Manager - Information sur le groupe",
 		"jsTitleGroupCreate":"Identity Manager - Création d'un groupe",
@@ -134,6 +145,7 @@
 		"UserEmail" : "Mail",
 		"UserPassword" : "Mot de passe",
 		"UserRemoveThisGroupForUser" : "Supprimer",
+		"UserUpdatePassword" : "Modification du mot de passe : ",
 		
 		"UserGroupList" : "L'utilisateur appartient aux groupes suivant:",
 		"UserCreateSubmitButton" :"Sauvergarder",
@@ -144,12 +156,15 @@
 		"UserLoginHeader":"Login",
 		"UserEmailHeader":"Mail",
 		"UserActionsHeader" :"Actions",
+		"UserEditThisUser" : "Modifier",
+		"UserEditPassword" : "Modifier le mot de passe",
 		"UserGroupHeader" :"Groupes",
 		"UserLoginLogin" : "Nom d'utilisateur :",
 		"UserLoginPassword" : "Mot de passe :",
 		"UserLoginSubmit" : "S'identifier",
 		"UserLoginFailed" : "L'authentification à échouer",
 		"UserGroupActionsHeader" : "Actions",
+		"UserUpdatePasswordSubmitButton" : "Sauvegarder",
 		
 		"GroupList" : "Liste des groupes",
 		"GroupEdit" : "Edition du groupe",

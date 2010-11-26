@@ -21,6 +21,7 @@
             });
         }
     };
+	/** Variable used for text localization with l10n */
     var l = function(string){ return string.toLocaleString()};
     $.widget("identity.viewUser", $.resthub.resthubController, viewUser);
 })(jQuery);

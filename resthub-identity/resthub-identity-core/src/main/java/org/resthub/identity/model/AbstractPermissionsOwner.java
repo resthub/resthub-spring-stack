@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -19,29 +21,39 @@ import org.resthub.core.model.Resource;
  * the permissions list</p>
  */
 @Entity
-@Table
+@Table(name="PermissionsOwner")
 @XmlRootElement
-public class Identity extends Resource {
+public abstract class AbstractPermissionsOwner extends Resource {
 
 	private static final long serialVersionUID = 3248710006663061799L;
 
 	/**
 	 * the list of permissions
 	 * */
-	protected List<String> permissions = null;
+	protected List<String> permissions = new ArrayList<String>();
 
+	/**
+	 * List of Permissions Owner (Group) in which the Permissions Owner is
+	 * */
+	protected List<Group> groups = new ArrayList<Group>();
+	
 	/** Default constructor */
-	public Identity() {
+	public AbstractPermissionsOwner() {
 
 	}
 
+	public AbstractPermissionsOwner(AbstractPermissionsOwner i){
+		List<String> pPermissions=i.getPermissions();
+		permissions.addAll(pPermissions);
+	}
+	
 	/**
 	 * Constructor
 	 * 
 	 * @param permissions
 	 *            list of permission to be assigned to the new Identity
 	 * */
-	public Identity(List<String> permissions) {
+	public AbstractPermissionsOwner(List<String> permissions) {
 		this.permissions = permissions;
 	}
 
@@ -64,54 +76,32 @@ public class Identity extends Resource {
 	 * @param permissions
 	 *            , the list of permission to be assigned
 	 * */
-	public void setPermissions(List<String> permissions) {
+	private void setPermissions(List<String> permissions) {
 		this.permissions = permissions;
 	}
 
+	
 	/**
-	 * Add a permission to the list of permission If the permission is already
-	 * present, nothing is done
+	 * gets the user's Groups
 	 * 
-	 * @param permission
-	 *            , the permission to be added
-	 * */
-	public void addPermission(String permission) {
-		if (permissions == null) {
-			this.permissions = new ArrayList<String>();
-		}
-		if (!this.permissions.contains(permission)) {
-			this.permissions.add(permission);
-		}
+	 * @return the list of groups in which the user is. The List could be null
+	 *         is the user is in no group
+	 * 
+	 */
+	@ManyToMany
+	@JoinTable(name = "PermissionsOwner_group")
+	public List<Group> getGroups() {
+		return groups;
 	}
 
 	/**
-	 * Remove a permission from the permission list if the permission is present
-	 * many times, all elements corresponding to the permissions will be deleted
+	 * sets the Groups in which the user is
 	 * 
-	 * @param permission
-	 *            the permission to be remove
+	 * @param groups
+	 *            the list of groups in which the user belongs
 	 * */
-	public void removePermission(String permission) {
-		if (permissions != null) {
-			while (permissions.remove(permission))
-				;
-		}
+	private void setGroups(List<Group> groups) {
+		this.groups = groups;
 	}
 
-	/**
-	 * check if a permission if given to an identity
-	 * 
-	 * @param permission
-	 *            the string corresponding to the permission that we are looking
-	 *            for
-	 * @return boolean, true is the permission is in the permission list,false
-	 *         otherwise
-	 * */
-	public boolean permissionListContains(String permission) {
-		boolean b = false;
-		if (this.permissions != null) {
-			b = this.permissions.contains(permission);
-		}
-		return b;
-	}
 }

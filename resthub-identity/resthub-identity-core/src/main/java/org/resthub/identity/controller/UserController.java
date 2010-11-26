@@ -5,9 +5,11 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -122,7 +124,6 @@ public class UserController extends
 		if (user != null) {
 			groups = user.getGroups();
 		}
-
 		r = (groups == null) ? Response.status(Status.NOT_FOUND).entity(
 				"Unable to find groups").build() : Response.ok(groups).build();
 		return r;
@@ -134,5 +135,29 @@ public class UserController extends
 	public void removeGroupsForUser(@PathParam("login") String userLogin,
 			@PathParam("groups") String groupName) {
 		this.service.removeGroupForUser(userLogin, groupName);
+	}
+
+	@POST
+	@Path("/password")
+	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response changePassword(User u) {
+		u = this.service.updatePassword(u);
+		Response r;
+		r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to save the user").build() : Response.ok(u).build();
+		return r;
+	}
+
+	@Override
+	/**Used to create or update a user - The differences come from the service layer
+	 * @param user 
+	 * the user to create/update
+	 * */
+	public Response create(User user) {
+		User u = service.create(user);
+		Response r;
+		r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to save the user").build() : Response.ok(u).build();
+		return r;
 	}
 }

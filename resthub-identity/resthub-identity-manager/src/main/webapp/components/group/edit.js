@@ -68,6 +68,7 @@
             this.options.context.redirect('#/group/list');
         }
     };
+	/**Variable used for text localization with l10n */
     var l = function(string){
         return string.toLocaleString()
     };

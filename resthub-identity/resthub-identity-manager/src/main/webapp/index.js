@@ -29,6 +29,14 @@
                 mode: 'create'
             });
         }, URLS["jsUserEdit"]);
+		
+		 /** Change User password */
+        this.get('#/user/password', function(context){
+            this.title(l("jsTitleUserPassword"));
+            $('#content').editPassword({
+                context: context,
+            });
+        }, URLS["jsUserPassword"]);
         
         /** View user details */
         this.get('#/user/details/:login', function(context){

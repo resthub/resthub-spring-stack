@@ -10,22 +10,31 @@
         _init: function(){
             this._switchPage(this.options.page);
         },
-        /**Displays and renders group list*/
+        /**Displays and renders group list
+         * 
+         * 
+         * @param {Object} result
+         * Response with inside the list of groups
+         */
         _displayGroups: function(result){
             this.element.render(this.options.template, {
                 result: result
             });
             
+			/**needed to propagate the context in callbacks function*/
             var self = this;
-            $('span.page-switcher').each(function(index, element){
+            /**To deal with Pagination of results*/
+			$('span.page-switcher').each(function(index, element){
                 $(element).click(function(){
                     var page = $(this).attr('id').split("-")[1];
                     self._switchPage(page);
                 });
             });
+			/**to delete severals users*/
              $('div#delete').click(function(){
                 self._deleteGroups();
             });
+			/**to delete one user*/
 			  $('span.remove-group').each(function(index, element){
                 $(element).click(function(){
                     self._deleteThisGroup($(element).attr('id'));
@@ -102,11 +111,11 @@
             
             
             if (answer) {
-                /* there is actually one request for each user to delete*/
+                /** there is actually one request for each user to delete*/
                 for (element in groupsToDelete) {
                     var accessToken = this.options.context.session('accessToken');
                     
-                    /* We delete the user */
+                    /** We delete the user */
                     $.oauth2Ajax({
                         url: URLS["apiGroup"] + groups[groupsToDelete[element]].id,
                         type: 'DELETE',
@@ -119,7 +128,7 @@
         }
 		};
     
-	
+	/**Variable used for text localization with l10n*/
 	var l = function(string){ return string.toLocaleString()};
 	
     $.widget("identity.listGroups", $.resthub.resthubController, listGroups);

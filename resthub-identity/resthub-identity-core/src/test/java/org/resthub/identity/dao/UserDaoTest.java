@@ -46,7 +46,7 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 		 ArrayList<String> permissions = new ArrayList<String>();
 		 permissions.add("ADMIN");
 		 permissions.add("USER");
-		 u1.setPermissions(permissions);
+		 u1.getPermissions().addAll(permissions);
 		 
 		 resourceDao.save(u1);
 		 

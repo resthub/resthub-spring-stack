@@ -114,7 +114,9 @@
             }
         }
     };
+	/** Needed for context propagation*/
     var self;
+	/** Variable used for text localization with l10n */
     var l = function(string){
         return string.toLocaleString()
     };

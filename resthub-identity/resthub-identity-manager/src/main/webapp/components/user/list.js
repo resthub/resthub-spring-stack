@@ -49,6 +49,11 @@
                 });
             });
 			
+			 $('a.edit-password').each(function(index, element){
+                $(element).click(function(){
+                    self._editThisUser($(element).attr('id'));
+                });
+            });
         },
 		/**
 		*Launch the edition of user
@@ -131,7 +136,9 @@
             }
         }
     };
+		/** Needed for context propagation*/
     var self;
+	/** Variable used for text localization with l10n */
 	var l = function(string){ return string.toLocaleString()};
     $.widget("identity.listUsers", $.resthub.resthubController, listUsers);
 })(jQuery);
