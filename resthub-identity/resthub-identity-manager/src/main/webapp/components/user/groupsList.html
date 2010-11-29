@@ -10,6 +10,7 @@
 			<tr>
 				<th></th>
 				<th><%= l("UserGroupHeader")%></th>
+				<th><%= l("UserGroupSubGroupsHeader")%></th>
 				<th><%= l("UserGroupActionsHeader")%></th>
 			</tr>
 		</thead>
@@ -19,6 +20,7 @@
 				<tr class="group-item" id="user-<%= groups[index].id %>">
 					<td><input type='checkbox' class="group-checkbox" id='checkbox-<%= index %>' group='<%= groups[index].id %>' /></td>
 					<td><%= groups[index].name %></td>
+					<td><% (function(groups){for(var group in groups){ %><%= groups[group].name %><% arguments.callee(groups[group].groups);} })(groups[index].groups); %> </td>
 					<td><span class="remove-user" id="<%= index %>"><%= l("UserRemoveThisGroupForUser")%></span>
 					</td>
 				</tr>

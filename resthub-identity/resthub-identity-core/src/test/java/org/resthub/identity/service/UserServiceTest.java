@@ -27,6 +27,16 @@ public class UserServiceTest extends
 		super.setResourceService(resourceService);
 	}
 
+	@Override
+	public User createTestRessource(){
+		String userLogin="UserTestUserName"+Math.round(Math.random()*1000);
+		String userPassword="UserTestUserPassword";
+		User u =new User();
+		u.setLogin(userLogin);
+		u.setPassword(userPassword);
+		return u;
+	}
+	
 	/*
 	 * The UserService is needed because we have specific method for password
 	 * management

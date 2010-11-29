@@ -64,6 +64,7 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	 *         null
 	 * */
 	@ElementCollection(fetch = FetchType.EAGER)
+	@JoinTable(name = "PermissionsOwner_Permission")
 	@XmlElementWrapper(name = "permissions")
 	@XmlElement(name = "permission")
 	public List<String> getPermissions() {

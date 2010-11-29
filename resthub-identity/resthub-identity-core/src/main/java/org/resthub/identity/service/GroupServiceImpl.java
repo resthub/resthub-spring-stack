@@ -7,9 +7,9 @@ import javax.inject.Named;
 
 import org.resthub.core.annotation.Auditable;
 import org.resthub.core.service.GenericResourceServiceImpl;
-import org.resthub.identity.dao.GroupDao;
-import org.resthub.identity.dao.UserDao;
+import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
 import org.springframework.util.Assert;
 
 /**
@@ -21,27 +21,23 @@ import org.springframework.util.Assert;
  * */
 @Named("groupService")
 public class GroupServiceImpl extends
-		GenericResourceServiceImpl<Group, GroupDao> implements GroupService {
+		GenericResourceServiceImpl<Group, PermissionsOwnerDao<Group>> implements GroupService {
 
 	/**
 	 * The userDao<br/>
 	 * This class need it in order to be able to deal with users
 	 */
-	UserDao userDao;
+	@Inject
+	@Named("userDao")
+	PermissionsOwnerDao<User> userDao;
 
 	@Inject
 	@Named("groupDao")
-	public void setResourceDao(GroupDao groupDao) {
+	public void setResourceDao(PermissionsOwnerDao<Group> groupDao) {
 		super.setDao(groupDao);
 	}
 
-	@Inject
-	@Named("userDao")
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
-
-	/**
+		/**
 	 * A Reference to the userService This is needed for the creation of Groups
 	 * including users
 	 */

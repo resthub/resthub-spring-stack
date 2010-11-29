@@ -17,7 +17,7 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 
 	protected D resourceDao;
 
-	private Long resourceId;
+	protected Long resourceId;
 
 	public void setResourceDao(D resourceDao) {
 		this.resourceDao = resourceDao;

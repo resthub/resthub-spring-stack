@@ -1,15 +1,15 @@
 package org.resthub.identity.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.core.annotation.Auditable;
-import org.resthub.identity.dao.UserDao;
+import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
+import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -25,17 +25,13 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 
 	@Inject
 	@Named("userDao")
-	public void setResourceDao(UserDao userDao) {
+	public void setResourceDao(PermissionsOwnerDao<User> userDao) {
 		super.setDao(userDao);
 	}
-
-	GroupService groupService;
-
+	
 	@Inject
 	@Named("groupService")
-	public void setGroupService(GroupService g) {
-		groupService = g;
-	}
+	GroupService groupService;
 
 	/**
 	 * Retrieves a user by his login
@@ -76,25 +72,10 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	 *         accounts
 	 */
 	public List<String> getUserPermissions(String login) {
-		List<String> userPermissisons = new ArrayList<String>();
+		List<String> p=null;
 		User u = this.findByLogin(login);
-		List<String> tmpPermissions;
-		if (u != null) {
-			tmpPermissions = this.findByLogin(login).getPermissions();
-			if (tmpPermissions != null) {
-				userPermissisons.addAll(tmpPermissions);
-			}
-		}
-		List<Group> lG = this.findByLogin(login).getGroups();
-		if (lG != null) {
-			for (Group g : lG) {
-				tmpPermissions = g.getPermissions();
-				if (tmpPermissions != null) {
-					userPermissisons.addAll(tmpPermissions);
-				}
-			}
-		}
-		return userPermissisons;
+		if(u!=null) {p= PermissionsOwnerTools.getInheritedPermission(u);}
+		return p;
 	}
 
 	/**

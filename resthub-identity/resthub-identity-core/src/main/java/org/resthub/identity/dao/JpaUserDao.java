@@ -1,7 +1,6 @@
 package org.resthub.identity.dao;
 
 import javax.inject.Named;
-import javax.persistence.NoResultException;
 
 import org.resthub.core.dao.GenericJpaResourceDao;
 import org.resthub.identity.model.User;
@@ -13,11 +12,11 @@ import org.resthub.identity.model.User;
  * It is a bean whose name is userDao
  * */
 @Named("userDao")
-public class JpaUserDao extends GenericJpaResourceDao<User> implements UserDao {
+public class JpaUserDao extends GenericJpaResourceDao<User> implements PermissionsOwnerDao<User> {
 
 	/**
 	 * {@inheritDoc}
-	 */
+	 *//**
 	@Override
 	public User findByIdWithGroups(Long id) {
 		User u = null;
@@ -30,5 +29,5 @@ public class JpaUserDao extends GenericJpaResourceDao<User> implements UserDao {
 			// nothing to do.
 		}
 		return u;
-	} // findByIdWithGroups().
+	} // findByIdWithGroups(). */
 }

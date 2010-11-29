@@ -34,6 +34,15 @@ public class GroupControllerTest
 		super.setController(groupController);
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Group createTestResource() throws Exception {
+		String groupName="GroupTestGroupName"+Math.round(Math.random()*1000);
+		Group g =new Group();
+		g.setName(groupName);
+		return g;
+	}
+	
 	GroupService groupService;
 
 	@Inject

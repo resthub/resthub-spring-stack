@@ -57,7 +57,7 @@ public class User extends AbstractPermissionsOwner {
 	 * 
 	 * @return the user login
 	 * */
-	@Column(unique = true/* , nullable = false */)
+	@Column(unique = true , nullable = false )
 	public String getLogin() {
 		return login;
 	}
@@ -78,7 +78,7 @@ public class User extends AbstractPermissionsOwner {
 	 * 
 	 * @return user's password
 	 * */
-	@Column(/* nullable = false */)
+	@Column( nullable = false )
 	@XmlTransient
 	public String getPassword() {
 		return password;
@@ -167,5 +167,10 @@ public class User extends AbstractPermissionsOwner {
 		sb.append("Email: ").append(this.getEmail());
 		sb.append("]");
 		return sb.toString();
+	}
+	
+	public String generateDefaultPassword(){
+		String s="P455W0R[)";
+		return s;
 	}
 }

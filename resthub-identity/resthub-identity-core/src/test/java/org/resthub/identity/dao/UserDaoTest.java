@@ -9,6 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.test.dao.AbstractResourceDaoTest;
 import org.resthub.identity.model.User;
@@ -17,15 +18,32 @@ import org.resthub.identity.model.User;
  *
  * @author Guillaume Zurbach
  */
-public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
+public class UserDaoTest extends AbstractResourceDaoTest<User, PermissionsOwnerDao<User>> {
 
 	@Inject
 	@Named("userDao")
 	@Override
-	public void setResourceDao(UserDao resourceDao) {
+	public void setResourceDao(PermissionsOwnerDao<User> resourceDao) {
 		super.setResourceDao(resourceDao);
 	}
 
+	public User createTestUser(){
+		String userLogin="UserTestUserLogin"+Math.round(Math.random()*1000);
+		String userPassword="UserTestUserPassword";	
+		User u =new User();
+		u.setLogin(userLogin);
+		u.setPassword(userPassword);
+		return u;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Before
+	public void setUp() throws Exception {
+		User u =createTestUser(); 
+		u = resourceDao.save(u);
+		resourceId = u.getId();
+	}
+	
 	@Override
 	public void testUpdate() throws Exception {
 		User u1 = resourceDao.readByPrimaryKey(this.getRessourceId());
@@ -33,6 +51,15 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
 		resourceDao.save(u1);
 		User u2 = resourceDao.readByPrimaryKey(this.getRessourceId());
 		assertEquals("User not updated!", u2.getEmail(), "test@plop.fr");
+	}
+	
+	@Test
+	public void testSave() throws Exception {
+		User u = createTestUser();
+		u = resourceDao.save(u);
+
+		User foundResource = resourceDao.readByPrimaryKey(u.getId());
+		assertNotNull("Resource not found!", foundResource);
 	}
 	
 	 @Test

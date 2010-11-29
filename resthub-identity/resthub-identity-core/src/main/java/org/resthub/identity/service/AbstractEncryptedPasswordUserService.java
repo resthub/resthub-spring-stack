@@ -6,7 +6,7 @@ import javax.inject.Named;
 
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.resthub.core.service.GenericResourceServiceImpl;
-import org.resthub.identity.dao.UserDao;
+import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.model.User;
 import org.resthub.oauth2.provider.service.AuthenticationService;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * */
 @Named("userService")
 public abstract class AbstractEncryptedPasswordUserService extends
-		GenericResourceServiceImpl<User, UserDao> implements UserService,
+		GenericResourceServiceImpl<User, PermissionsOwnerDao<User>> implements UserService,
 		AuthenticationService {
 
 	/** A password encryptor, doing 1000 times MD5 has, with a 8 bytes salt */
@@ -69,17 +69,16 @@ public abstract class AbstractEncryptedPasswordUserService extends
 		int size = (l == null) ? 0 : l.size();
 		if (size > 0) {
 			/** Existing User */
-			logger
-					.debug("AbstractUserService : updateUser : creation of a new user");
-
-			User daoUser = l.get(0);
+					User daoUser = l.get(0);
 			user.setPassword(daoUser.getPassword());
 			user.setId(daoUser.getId());
 
 			userToReturn = dao.save(user);
 		} else {
 			/** New User */
-			logger.debug("AbstractUserService : updateUser : New user");
+			if(user.getPassword()==null){
+				user.setPassword(user.generateDefaultPassword());
+			}
 			user.setPassword(passwordEncryptor.encryptPassword(user
 					.getPassword()));
 			userToReturn = dao.save(user);

@@ -6,6 +6,7 @@ import javax.ws.rs.core.MediaType;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.User;
 import org.resthub.web.controller.GenericController;
@@ -24,6 +25,9 @@ public class UserControllerTest
 		extends
 		AbstractResourceControllerTest<User, GenericResourceController<User, GenericResourceService<User>>> {
 
+	Logger logger = Logger.getLogger(UserControllerTest.class);
+
+	
 	@Inject
 	@Named("userController")
 	public void setController(GenericResourceController userController) {
@@ -31,14 +35,30 @@ public class UserControllerTest
 	}
 
 	@Override
-	public void testUpdate() throws Exception {
-		User u1 = new User();
-		u1.setLogin("u1");
+	@SuppressWarnings("unchecked")
+	protected User createTestResource() throws Exception {
+		logger.debug("UserControllerTest : createTestResource");
+		String userLogin = "UserTestUserLogin"+ Math.round(Math.random() * 1000);
+		String userPassword = "UserTestUserPassword";
+		User u = new User();
+		u.setLogin(userLogin);
+		u.setPassword(userPassword);
+		return u;
+	}
 
+	@Override
+	public void testUpdate() throws Exception {
+		logger.debug("UserControllerTest : testUpdate : START");
+		User u1 = createTestResource();
+		String userPassword="UserTestUserPassword";
+		
 		WebResource r = resource().path("user");
+		logger.debug("UserControllerTest : testUpdate : GonnaPost");	
 		u1 = r.type(MediaType.APPLICATION_XML).post(User.class, u1);
+		logger.debug("UserControllerTest : testUpdate : DidPost");
 		r = resource().path("user/" + u1.getId());
 		User u2 = u1;
+		u2.setPassword(userPassword);
 		u2.setLogin("u2");
 		// Update login
 		ClientResponse cr = r.type(MediaType.APPLICATION_XML).accept(
