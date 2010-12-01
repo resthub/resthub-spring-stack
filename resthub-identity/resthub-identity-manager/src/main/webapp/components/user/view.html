@@ -19,6 +19,7 @@
 		   <td><%= user.email %></td>
 		   <td>
 		   	<%= link_to( l("UserListGroups"), '#/user/groups/' + user.login ) %>
+			<%= link_to( l("UserListPermissions"), '#/user/permissions/' + user.login ) %>
 			</td>
 	   </tr>
    </tbody>

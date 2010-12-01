@@ -2,16 +2,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" href="http://localhost:8080/identity/lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="http://localhost:8080/identity/lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="http://localhost:8080/identity/style.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="${nonSecuredPath}lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="${nonSecuredPath}lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="${nonSecuredPath}style.css" type="text/css" media="screen, projection">
         <link rel="localizations" href="resources/labels/localizations.json" type="application/x-l10n+json">
-        <script src="http://localhost:8080/identity/resources/labels/urls.js" >
+        <script src="${nonSecuredPath}resources/labels/urls.js" >
         </script>
-        <script src="http://localhost:8080/identity/lib/resthub.stack.js">
+        <script src="${nonSecuredPath}lib/resthub.stack.js">
         </script>
         <script>
-            dominoes("http://localhost:8080/identity/lib/jquery.pnotify.js http://localhost:8080/identity/lib/jquery.validate.js  http://localhost:8080/identity/libs/ejs/view.js http://localhost:8080/identity/libs/l10n/l10n.js http://localhost:8080/identity/index.js", function(){
+            dominoes("${nonSecuredPath}lib/jquery.pnotify.js ${nonSecuredPath}lib/jquery.validate.js  ${nonSecuredPath}libs/ejs/view.js ${nonSecuredPath}libs/l10n/l10n.js ${nonSecuredPath}index.js", function(){
                 var l = function(string){
                     return string.toLocaleString();
                 }
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div id="main">
-            <nav id="main-menu">
+            <div id="main-menu">
                 <div id="Home" class="menu_box">
                     <a href="." data-label="MenuHome"></a>
                 </div>
@@ -59,7 +59,7 @@
                 <div id="Logout" class="menu_box">
                     <a href="#/user/logout" data-label="MenuSignOut"></a>
                 </div>
-            </nav>
+            </div>
             <div id="principal">
                 <div id="header">
                 </div>

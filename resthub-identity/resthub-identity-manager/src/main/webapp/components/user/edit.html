@@ -33,11 +33,17 @@ var l = function(string){ return string.toLocaleString()}; %>
             <span>[No groups available]</span>
             <% } else { %>
             <% for (var index in groups) { %>
-            <input type="checkbox" name="usergroup" value="<%= groups[index].id %>"><%= groups[index].name %>
+            <input type="checkbox" name="usergroup" value="<%= groups[index].id %>"><%= groups[index].name %>:<% for(var indexPermission in groups[index].permissions ) { %>
+            <%= groups[index].permissions[indexPermission] %>
+            <% } %>
+            <br/>
             <% } %>
             <% } %>
         </p>
     </p>
+    <p>
+    	<div id="permissionCheckBoxDiv"></div>
+	</p>
 </form>
 <p class="buttons">
     <input id="user-proceed" value="<%= l("UserCreateSubmitButton") %>" type="button"><a id="cancel-request" href="#/user/list"><%= l("BackToList") %></a>

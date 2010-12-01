@@ -6,27 +6,57 @@
             context: null,
         },
         _init: function(){
- 			this._displayGroupForm();
+            this._securedGet(URLS["apiGroupList"], this._setGroups);
         },
-
-         /**Displays and render the Group form*/
+        _setGroups: function(groups){
+            this.options.groups = groups;
+            this._displayGroupForm();
+        },
+        /**Displays and render the Group form*/
         _displayGroupForm: function(){
             var group = this.options.context.session('tempGroup');
-            
+            var perm = {};
+            if (!$.isEmptyObject(group) && !$.isEmptyObject(group.permissions)) {
+                perm = group.permissions;
+            }
             this.element.render(this.options.template, {
-                group: group
+                group: group,
+                groups: this.options.groups
             });
             
             $('#content h1:first').html(l("GroupCreate"));
             
             this._sessionToForm();
             
-            $('form#group-form').validate({
+            $("div#permissionCheckBoxDiv").render(URLS["templateGenericPermissionsCheckBox"], {
+                    permissions: perm
+                });
+			
+			$('form#group-form').validate({
                 errorElement: 'span'
             });
             
+			
+			
             $('input#group-proceed').unbind();
             $('input#group-proceed').bind('click', $.proxy(this._sendGroupData, this));
+			
+			 $('input#entityAddPermissionButton').click(function(){
+				var val = $('input#entityAddPermission').val();
+				if(val!=null &&val!=""){
+				                var perms = [];
+                $('input[name=entityPermission]:checked').each(function(index, element){
+                    perms.push($(element).attr('value') );
+                });
+                
+                perms.push($('input#entityAddPermission').val());
+				
+                $("div#permissionCheckBoxDiv").render(URLS["templateGenericPermissionsCheckBox"], {
+                    permissions: perms
+                });
+				
+				$('input#entityAddPermissionButton').click(arguments.callee);}
+            });
             
         },
         
@@ -44,9 +74,18 @@
         /** Puts form data in session */
         _formToSession: function(){
             var group = {
+				groups:[],
                 permissions: []
             };
-            group.name = $('input[name=name]').val();          
+            group.name = $('input[name=name]').val();
+			$('input[name=groupgroup]:checked').each(function(index, element){
+                group.groups.push({
+                    id: $(element).attr('value')
+                });
+            });
+			$('input[name=entityPermission]:checked').each(function(index, element){
+                    group.permissions.push($(element).attr('value') );
+                });
             this.options.context.session('tempGroup', group);
         },
         /** Displays session data in user form */
@@ -68,7 +107,7 @@
             this.options.context.redirect('#/group/list');
         }
     };
-	/**Variable used for text localization with l10n */
+    /**Variable used for text localization with l10n */
     var l = function(string){
         return string.toLocaleString()
     };

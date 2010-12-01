@@ -29,8 +29,8 @@
                 mode: 'create'
             });
         }, URLS["jsUserEdit"]);
-		
-		 /** Change User password */
+        
+        /** Change User password */
         this.get('#/user/password', function(context){
             this.title(l("jsTitleUserPassword"));
             $('#content').editPassword({
@@ -57,12 +57,39 @@
         
         /** View list group from user  */
         this.get('#/user/groups/:name', function(context){
-            this.title(l("jsTitleUserGroupDetails"));
+            this.title(l("jsTitleUserGroupsDetails"));
             $('#content').userGroupsList({
                 context: context,
                 userName: this.params.name
             });
         }, URLS["jsUserGroupsList"]);
+        
+        /** View list group from group  */
+        this.get('#/group/groups/:name', function(context){
+            this.title(l("jsTitleGroupGroupsDetails"));
+            $('#content').groupGroupsList({
+                context: context,
+                groupName: this.params.name
+            });
+        }, URLS["jsGroupGroupsList"]);
+        
+        /** View list permissions from user  */
+        this.get('#/user/permissions/:name', function(context){
+            this.title(l("jsTitleUserPermissionsDetails"));
+            $('#content').userPermissionsList({
+                context: context,
+                userName: this.params.name
+            });
+        }, URLS["jsUserPermissionsList"]);
+        
+        /** View list permissions from group  */
+        this.get('#/group/permissions/:name', function(context){
+            this.title(l("jsTitleGroupPermissionsDetails"));
+            $('#content').groupPermissionsList({
+                context: context,
+                groupName: this.params.name
+            });
+        }, URLS["jsGroupPermissionsList"]);
         
         /** Create group*/
         this.get('#/group/create', function(context){

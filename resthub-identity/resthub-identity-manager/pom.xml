@@ -58,16 +58,16 @@
 
 	<build>
 		<filters>
-			<filter>${basedir}/src/main/filters/filter-local.properties</filter>
+			<filter>${basedir}/src/assemble/filters/filter-local.properties</filter>
 		</filters>
 		<resources>
 			<resource>
-				<directory>src/main/resources/js</directory>
+				<directory>src/main/webapp-tofilter/js</directory>
 				<filtering>true</filtering>
 				<targetPath>${basedir}/src/main/webapp/resources/labels</targetPath>
 			</resource>
 			<resource>
-				<directory>src/main/resources/html</directory>
+				<directory>src/main/webapp-tofilter/html</directory>
 				<filtering>true</filtering>
 				<targetPath>${basedir}/src/main/webapp/</targetPath>
 			</resource>
@@ -121,26 +121,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
-				<executions>
-					<!-- Pour la qualification Unix -->
-					<execution>
-						<id>qlf-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<!-- On prendra les valeurs dans le fichier de configuration -->
-							<filters>
-								<filter>${basedir}/src/main/filters/filter-qlf.properties
-								</filter>
-							</filters>
-							<descriptors>
-								<descriptor>${basedir}/src/main/assembly/qlf.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<filters>
+						<filter>src/assemble/filters/filter-qlf.properties</filter>
+					</filters>
+					<descriptors>
+						<descriptor>src/assemble/qlf.xml</descriptor>
+					</descriptors>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

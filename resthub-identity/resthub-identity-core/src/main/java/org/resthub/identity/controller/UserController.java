@@ -10,6 +10,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -114,6 +115,7 @@ public class UserController extends
 		return r;
 	}
 
+	/** <GROUPS> */
 	@GET
 	@Path("/name/{login}/groups")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -129,13 +131,54 @@ public class UserController extends
 		return r;
 	}
 
+	@PUT
+	@Path("/name/{login}/groups/{group}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void addGroupToUser(@PathParam("login") String login,
+			@PathParam("group") String group) {
+		this.service.addGroupToUser(login, group);
+	}
+	
 	@DELETE
 	@Path("/name/{login}/groups/{groups}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public void removeGroupsForUser(@PathParam("login") String userLogin,
 			@PathParam("groups") String groupName) {
-		this.service.removeGroupForUser(userLogin, groupName);
+		this.service.removeGroupFromUser(userLogin, groupName);
 	}
+
+	/** </GROUPS> */
+
+	/** <PERMISSIONS> */
+	@GET
+	@Path("/name/{login}/permissions")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getPermissionsFromUser(@PathParam("login") String login) {
+		Response r = null;
+		List<String> permissions = this.service.getUserDirectPermissions(login);
+		r = (permissions == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to find permissions").build() : Response
+				.ok(permissions).build();
+		return r;
+	}
+
+	@PUT
+	@Path("/name/{login}/permissions/{permission}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void addPermissionsToUser(@PathParam("login") String login,
+			@PathParam("permission") String permission) {
+		this.service.addPermissionToUser(login, permission);
+	}
+
+	@DELETE
+	@Path("/name/{login}/permissions/{permission}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void deletePermissionsFromUser(@PathParam("login") String login,
+			@PathParam("permission") String permission) {
+		this.service.removePermissionFromUser(login, permission);
+	}
+
+	/** </PERMISSIONS> */
 
 	@POST
 	@Path("/password")

@@ -28,7 +28,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	public void setResourceDao(PermissionsOwnerDao<User> userDao) {
 		super.setDao(userDao);
 	}
-	
+
 	@Inject
 	@Named("groupService")
 	GroupService groupService;
@@ -72,12 +72,92 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	 *         accounts
 	 */
 	public List<String> getUserPermissions(String login) {
-		List<String> p=null;
+		List<String> p = null;
 		User u = this.findByLogin(login);
-		if(u!=null) {p= PermissionsOwnerTools.getInheritedPermission(u);}
+		if (u != null) {
+			p = PermissionsOwnerTools.getInheritedPermission(u);
+		}
 		return p;
 	}
 
+	/**
+	 * gets the User's direct Permissions
+	 * 
+	 * @param login
+	 *            the login of the user
+	 * @return permissions of the user.
+	 */
+	public List<String> getUserDirectPermissions(String login) {
+		List<String> p = null;
+		User u = this.findByLogin(login);
+		if (u != null) {
+			p = u.getPermissions();
+		}
+		return p;
+	}
+
+	/**
+	 * Add a permission to an user
+	 * 
+	 * @param userLogin
+	 *            the login of the user
+	 * @param permission
+	 *            the permission to be added
+	 */
+	@Transactional
+	public void addPermissionToUser(String userLogin, String permission) {
+		if (userLogin != null && permission != null) {
+			User u = this.findByLogin(userLogin);
+			if (u != null) {
+				boolean alreadyAllowed = u.getPermissions()
+						.contains(permission);
+				if (!alreadyAllowed) {
+					u.getPermissions().add(permission);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Remove the permission for the given user
+	 * 
+	 * @param userLogin
+	 *            the login of the user
+	 * @param permission
+	 *            the permission to delete
+	 */
+	@Transactional
+	public void removePermissionFromUser(String userLogin, String permission) {
+		if (userLogin != null && permission != null) {
+			User u = this.findByLogin(userLogin);
+			if (u != null) {
+				while (u.getPermissions().contains(permission)) {
+					u.getPermissions().remove(permission);
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Add a group from one user's groups
+	 * 
+	 * @param userLogin
+	 *            the login of the user to whom to group should be added
+	 * @param groupeName
+	 *            the name of the group to add from the user's group list
+	 */
+	@Transactional
+	public void addGroupToUser(String userLogin, String groupName) {
+		if (userLogin != null && groupName != null) {
+			User u = this.findByLogin(userLogin);
+			Group g = groupService.findByName(groupName);
+			if (u != null && g != null) {
+				u.getGroups().add(g);
+			}
+		}
+	}
+	
 	/**
 	 * Remove a group from one user's groups
 	 * 
@@ -87,7 +167,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	 *            the name of the group to remove from the user's group list
 	 */
 	@Transactional
-	public void removeGroupForUser(String userLogin, String groupName) {
+	public void removeGroupFromUser(String userLogin, String groupName) {
 		if (userLogin != null && groupName != null) {
 			User u = this.findByLogin(userLogin);
 			Group g = groupService.findByName(groupName);

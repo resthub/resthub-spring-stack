@@ -20,5 +20,18 @@
 		<property name="url" value="${hibernate-url}" />
 		<property name="username" value="${hibernate-username}"/>
 		<property name="password" value="${hibernate-password}" />
-	</bean> 	
+	</bean>
+	
+		<!-- Spring bean used by the filter to validate incoming tokens -->
+	<bean name="validationService" init-method="postInit"
+		class="org.resthub.oauth2.filter.service.CachedExternalValidationService">
+		<property name="accessTokenParam" value="${validationService-Param}" />
+		<property name="tokenInformationEndpoint" value="${validationService-Endpoint}" />
+		<property name="authorizationPassword" value="${validationService-Password}" />
+
+		<!-- Just for CachedExternalValidationService -->
+		<property name="discardPeriod" value="${validationService-Discard}" />
+	</bean>
+	
+	 	
 </beans>

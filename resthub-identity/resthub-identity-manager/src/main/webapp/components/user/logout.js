@@ -8,6 +8,7 @@
         _init: function(){
             var self = this;
             self._logout();
+			this.options.context.session('tempUser', null);
         }
     };
     

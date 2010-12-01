@@ -37,10 +37,18 @@
              * It is set only if we have to EDIT a user a not for a creation
              */
             var user = this.options.context.session('tempUser');
-            
+            var perm = {};
+            if (!$.isEmptyObject(user) && !$.isEmptyObject(user.permissions)) {
+                perm = user.permissions;
+            }
             this.element.render(this.options.template, {
                 user: user,
-                groups: this.options.groups
+                groups: this.options.groups,
+                permissions: perm
+            });
+            
+            $("div#permissionCheckBoxDiv").render(URLS["templateGenericPermissionsCheckBox"], {
+                permissions: perm
             });
             
             $('#content h1:first').html(l("UserCreate"));
@@ -69,6 +77,24 @@
                 $('input#password').removeClass('required');
                 $('input#passwordCheck').removeClass('required');
             }
+            
+            $('input#entityAddPermissionButton').click(function(){
+				var val = $('input#entityAddPermission').val();
+				if(val!=null &&val!=""){
+				                var perms = [];
+                $('input[name=entityPermission]:checked').each(function(index, element){
+                    perms.push($(element).attr('value') );
+                });
+                
+                perms.push($('input#entityAddPermission').val());
+				
+                $("div#permissionCheckBoxDiv").render(URLS["templateGenericPermissionsCheckBox"], {
+                    permissions: perms
+                });
+				
+				$('input#entityAddPermissionButton').click(arguments.callee);}
+            });
+            
         },
         /**Evaluates the requirements on passwords*/
         _evalPwd: function(){
@@ -205,6 +231,9 @@
                     id: $(element).attr('value')
                 });
             });
+			$('input[name=entityPermission]:checked').each(function(index, element){
+                    user.permissions.push($(element).attr('value') );
+                });
             
             this.options.context.session('tempUser', user);
         },

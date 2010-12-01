@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -131,4 +133,71 @@ public class GroupController extends
 		}
 		return r;
 	}
+	
+
+	
+	/** <GROUPS> */
+	@GET
+	@Path("/name/{name}/groups")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getGroupsFromGroups(@PathParam("name") String name) {
+		Group g = this.service.findByName(name);
+		Response r = null;
+		List<Group> groups = null;
+		if (g != null) {
+			groups = g.getGroups();
+		}
+		r = (groups == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to find groups").build() : Response.ok(groups).build();
+		return r;
+	}
+		
+	@PUT
+	@Path("/name/{name}/groups/{group}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void addGroupToUser(@PathParam("name") String name,
+			@PathParam("group") String group) {
+		this.service.addGroupToGroup(name, group);
+	}
+	
+	@DELETE
+	@Path("/name/{name}/groups/{groups}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void removeGroupsForUser(@PathParam("name") String name,
+			@PathParam("groups") String groupName) {
+		this.service.removeGroupFromGroup(name, groupName);
+	}
+
+	/** </GROUPS> */
+
+	/** <PERMISSIONS> */
+	@GET
+	@Path("/name/{name}/permissions")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getPermisionsFromGroup(@PathParam("name") String name) {
+		Response r = null;
+		List<String> permissions = this.service.getGroupDirectPermissions(name);
+		r = (permissions == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to find groups").build() : Response.ok(permissions).build();
+		return r;
+	}
+
+	@PUT
+	@Path("/name/{name}/permissions/{permission}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void addPermissionsToUser(@PathParam("name") String login,
+			@PathParam("permission") String permission) {
+		this.service.addPermissionToGroup(login, permission);
+	}
+
+	@DELETE
+	@Path("/name/{name}/permissions/{permission}")
+	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public void deletePermissionsFromUser(@PathParam("name") String name,
+			@PathParam("permission") String permission) {
+		this.service.removePermissionFromGroup(name, permission);
+	}
+
+	/** </PERMISSIONS> */
+	
 }

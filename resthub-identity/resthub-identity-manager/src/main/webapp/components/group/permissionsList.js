@@ -1,11 +1,11 @@
 (function($){
     /**Used to display list of Users*/
-    var userGroupsList = {
+    var groupPermissionsList = {
         options: {
-            template: URLS["templateUserGroupsList"],
+            template: URLS["templateGroupPermissionsList"],
             context: null,
             page: 0,
-            userName: null,
+            groupName: null,
             result: null
         },
         /**Init's the swichPage mode*/
@@ -18,10 +18,10 @@
          * @param {Object} result
          * Result with the list of users in result.element
          */
-        _displayUsers: function(result){
+        _displayGroups: function(result){
             this.element.render(this.options.template, {
                 result: result,
-				name : this.options.userName
+				name : this.options.groupName
             });
             
             self.options.result = result;
@@ -35,14 +35,20 @@
             $("table tr:nth-child(even)").addClass("striped");
             
             $('div#delete').click(function(){
-                self._deleteUser();
+                self._removePermission();
             });
             
             $('span.remove-permission').each(function(index, element){
                 $(element).click(function(){
-                    self._deleteThisUser($(element).attr('id'));
+                    self._removeThisPermission($(element).attr('id'));
                 });
             });
+			
+			$('input#entityAddPermissionButton').click(
+			function(){
+				self._addThisPermission($('input#entityAddPermission').val())		
+			}
+			);
             
         },
         /**Swiths to the page
@@ -51,7 +57,28 @@
          */
         _switchPage: function(page){
             this.options.page = page;
-            this._securedGet(URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"], this._displayUsers);
+            this._securedGet(URLS["apiGroupName"] + this.options.groupName + URLS["apiGroupPermissionsList"], this._displayGroups);
+        },
+         /** 
+         * Add a permission to the group
+         *
+         * @param {String} permission
+         * the permission to be added
+         */
+        _addThisPermission: function(permission){
+            var groups = this.options.result;
+            
+            var answer = confirm(l("confirmGroupPermissionAddBegin") + permission + l("confirmGroupPermissionAddEnd"));
+            if (answer) {
+                var accessToken = this.options.context.session('accessToken');
+                $.oauth2Ajax({
+                    url: URLS["apiGroupName"] + this.options.groupName + URLS["apiGroupPermissionsList"] + permission,
+                    type: 'PUT',
+                    complete: function(){
+                        self._switchPage(self.options.page);
+                    },
+                }, accessToken);
+            }
         },
         
         /** 
@@ -61,14 +88,14 @@
          * @param {Integer} index
          * the index of the user to delete
          */
-        _deleteThisUser: function(index){
-            var groups = this.options.result;
+        _removeThisPermission: function(index){
+            var permissions = this.options.result;
             
-            var answer = confirm(l("confirmUserGroupDeletionBegin") + groups[index].name + l("confirmUserGroupDeletionEnd"));
+            var answer = confirm(l("confirmGroupPermissionDeletionBegin") + permissions[index] + l("confirmGroupPermissionDeletionEnd"));
             if (answer) {
                 var accessToken = this.options.context.session('accessToken');
                 $.oauth2Ajax({
-                    url: URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"] + groups[index].name,
+                    url: URLS["apiGroupName"] + this.options.groupName + URLS["apiGroupPermissionsList"] + permissions[index],
                     type: 'DELETE',
                     complete: function(){
                         self._switchPage(self.options.page);
@@ -80,32 +107,32 @@
         /** Deletes some users, the ones which have been checked in the form 
          * It asks a confirmation before the deletion
          */
-        _deleteUser: function(){
-            var groups = this.options.result;
-            var groupToDelete = [];
-            $('input.group-checkbox').each(function(index, element){
+        _removePermission: function(){
+            var permissions = this.options.result;
+            var permissionsToDelete = [];
+            $('input.permission-checkbox').each(function(index, element){
                 if (element.checked) {
-                    groupToDelete.push(index);
+                    permissionsToDelete.push(index);
                 }
             });
             var message;
-            message = (groupToDelete.length > 1) ? l("confirmUserGroupsDeletionBegin") : l("confirmUserGroupDeletionBegin");
+            message = (permissionsToDelete.length > 1) ? l("confirmGroupPermissionsDeletionBegin") : l("confirmGroupPermissionDeletionBegin");
             
-            for (element in groupToDelete) {
-                message = message.concat(groups[groupToDelete[element]].name + ",");
+            for (element in permissionsToDelete) {
+                message = message.concat(permissions[permissionsToDelete[element]] + ",");
             }
-            message = message.concat(l("confirmUserGroupDeletionEnd"));
+            message = message.concat(l("confirmGroupPermissionDeletionEnd"));
             var answer = confirm(message);
             
             
             if (answer) {
                 /* there is actually one request for each user to delete*/
-                for (element in groupToDelete) {
+                for (element in permissionsToDelete) {
                     var accessToken = this.options.context.session('accessToken');
                     
                     /* We delete the user */
                     $.oauth2Ajax({
-                        url: URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"] + groups[groupToDelete[element]].name,
+                        url: URLS["apiGroupName"] + this.options.groupName + URLS["apiGroupPermissionsList"] + permissions[permissionsToDelete[element]],
                         type: 'DELETE',
                         complete: function(){
                             self._switchPage(self.options.page);
@@ -121,5 +148,5 @@
     var l = function(string){
         return string.toLocaleString()
     };
-    $.widget("identity.userGroupsList", $.resthub.resthubController, userGroupsList);
+    $.widget("identity.groupPermissionsList", $.resthub.resthubController, groupPermissionsList);
 })(jQuery);

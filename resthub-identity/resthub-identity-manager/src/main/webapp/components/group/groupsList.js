@@ -1,11 +1,11 @@
 (function($){
     /**Used to display list of Users*/
-    var userGroupsList = {
+    var groupGroupsList = {
         options: {
-            template: URLS["templateUserGroupsList"],
+            template: URLS["templateGroupGroupsList"],
             context: null,
             page: 0,
-            userName: null,
+            groupName: null,
             result: null
         },
         /**Init's the swichPage mode*/
@@ -18,10 +18,10 @@
          * @param {Object} result
          * Result with the list of users in result.element
          */
-        _displayUsers: function(result){
+        _displayGroups: function(result){
             this.element.render(this.options.template, {
                 result: result,
-				name : this.options.userName
+				name : this.options.groupName
             });
             
             self.options.result = result;
@@ -35,12 +35,12 @@
             $("table tr:nth-child(even)").addClass("striped");
             
             $('div#delete').click(function(){
-                self._deleteUser();
+                self._removeGroup();
             });
             
-            $('span.remove-permission').each(function(index, element){
+            $('span.remove-user').each(function(index, element){
                 $(element).click(function(){
-                    self._deleteThisUser($(element).attr('id'));
+                    self._removeThisGroup($(element).attr('id'));
                 });
             });
             
@@ -51,7 +51,7 @@
          */
         _switchPage: function(page){
             this.options.page = page;
-            this._securedGet(URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"], this._displayUsers);
+            this._securedGet(URLS["apiGroupName"] + this.options.groupName + URLS["apiGroupGroupsList"], this._displayGroups);
         },
         
         /** 
@@ -61,14 +61,14 @@
          * @param {Integer} index
          * the index of the user to delete
          */
-        _deleteThisUser: function(index){
+        _removeThisGroup: function(index){
             var groups = this.options.result;
             
-            var answer = confirm(l("confirmUserGroupDeletionBegin") + groups[index].name + l("confirmUserGroupDeletionEnd"));
+            var answer = confirm(l("confirmGroupGroupDeletionBegin") + groups[index].name + l("confirmGroupGroupDeletionEnd"));
             if (answer) {
                 var accessToken = this.options.context.session('accessToken');
                 $.oauth2Ajax({
-                    url: URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"] + groups[index].name,
+                    url: URLS["apiGroupName"] + this.options.groupName + URLS["apiGroupGroupsList"] + groups[index].name,
                     type: 'DELETE',
                     complete: function(){
                         self._switchPage(self.options.page);
@@ -80,7 +80,7 @@
         /** Deletes some users, the ones which have been checked in the form 
          * It asks a confirmation before the deletion
          */
-        _deleteUser: function(){
+        _removeGroup: function(){
             var groups = this.options.result;
             var groupToDelete = [];
             $('input.group-checkbox').each(function(index, element){
@@ -105,7 +105,7 @@
                     
                     /* We delete the user */
                     $.oauth2Ajax({
-                        url: URLS["apiUserName"] + this.options.userName + URLS["apiUserGroupsList"] + groups[groupToDelete[element]].name,
+                        url: URLS["apiGroupName"] + this.options.groupName + URLS["apiGroupGroupsList"] + groups[groupToDelete[element]].name,
                         type: 'DELETE',
                         complete: function(){
                             self._switchPage(self.options.page);
@@ -121,5 +121,5 @@
     var l = function(string){
         return string.toLocaleString()
     };
-    $.widget("identity.userGroupsList", $.resthub.resthubController, userGroupsList);
+    $.widget("identity.groupGroupsList", $.resthub.resthubController, groupGroupsList);
 })(jQuery);

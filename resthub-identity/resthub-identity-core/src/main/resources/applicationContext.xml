@@ -20,17 +20,7 @@
 	<context:component-scan base-package="org.resthub.oauth2.filter" />
 	<!--   context:component-scan base-package="org.resthub.oauth2.provider" /-->
 
-	<!-- Spring bean used by the filter to validate incoming tokens -->
-	<bean name="validationService" init-method="postInit"
-		class="org.resthub.oauth2.filter.service.CachedExternalValidationService">
-		<property name="accessTokenParam" value="access_token" />
-		<property name="tokenInformationEndpoint" value="http://127.0.0.1:8080/identity/api/authorize/tokenDetails" />
-		<property name="authorizationPassword" value="pAss?w0rd" />
 
-		<!-- Just for CachedExternalValidationService -->
-		<property name="discardPeriod" value="5" />
-	</bean>
-	
 	<bean name="authorizationService"
 		class="org.resthub.oauth2.provider.service.AuthorizationServiceImpl">
 		<property name="dao" ref="tokenDao" />
