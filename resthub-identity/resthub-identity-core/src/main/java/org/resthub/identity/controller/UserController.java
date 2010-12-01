@@ -115,7 +115,14 @@ public class UserController extends
 		return r;
 	}
 
-	/** <GROUPS> */
+	/**
+	 * Gets the groups depending of the user
+	 * 
+	 *@Param login the login of the user to search insides groups
+	 * 
+	 * @return a list of group, in XML or JSON if the group can be found
+	 *         otherwise HTTP Error 404
+	 */
 	@GET
 	@Path("/name/{login}/groups")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -131,6 +138,12 @@ public class UserController extends
 		return r;
 	}
 
+	/**
+	 * Puts a group inside the groups lists of a user
+	 * 
+	 * @Param login the login of the user for which we should add a group
+	 * @Param group the name of the group the be added
+	 */
 	@PUT
 	@Path("/name/{login}/groups/{group}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -138,7 +151,13 @@ public class UserController extends
 			@PathParam("group") String group) {
 		this.service.addGroupToUser(login, group);
 	}
-	
+
+	/**
+	 * Deletes a group from the groups lists of a user
+	 * 
+	 * @Param login the login of the user for which we should remove a group
+	 * @Param group the name of the group the be removed
+	 */
 	@DELETE
 	@Path("/name/{login}/groups/{groups}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -147,9 +166,14 @@ public class UserController extends
 		this.service.removeGroupFromUser(userLogin, groupName);
 	}
 
-	/** </GROUPS> */
-
-	/** <PERMISSIONS> */
+	/**
+	 * Gets the permissions of a user
+	 * 
+	 *@Param login the login of the user to search insides groups
+	 * 
+	 * @return a list of permissions, in XML or JSON if the group can be found
+	 *         otherwise HTTP Error 404
+	 */
 	@GET
 	@Path("/name/{login}/permissions")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -162,6 +186,12 @@ public class UserController extends
 		return r;
 	}
 
+	/**
+	 * Add a permission to a user
+	 * 
+	 * @Param login the login of the user in which we should add a group
+	 * @Param permission the permission to be added
+	 */
 	@PUT
 	@Path("/name/{login}/permissions/{permission}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -170,6 +200,12 @@ public class UserController extends
 		this.service.addPermissionToUser(login, permission);
 	}
 
+	/**
+	 * Remove a permisssion for one User
+	 * 
+	 * @Param login the login of the user in which we should remove a permission
+	 * @Param permisssion the permisssion to be removed
+	 */
 	@DELETE
 	@Path("/name/{login}/permissions/{permission}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -178,8 +214,12 @@ public class UserController extends
 		this.service.removePermissionFromUser(login, permission);
 	}
 
-	/** </PERMISSIONS> */
-
+	/**
+	 * Change the password of the user
+	 * 
+	 * @param user
+	 *            the user with the new password inside
+	 * */
 	@POST
 	@Path("/password")
 	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -191,11 +231,14 @@ public class UserController extends
 		return r;
 	}
 
-	@Override
-	/**Used to create or update a user - The differences come from the service layer
-	 * @param user 
-	 * the user to create/update
+	/**
+	 * Used to create or update a user - The differences come from the service
+	 * layer
+	 * 
+	 * @param user
+	 *            the user to create/update
 	 * */
+	@Override
 	public Response create(User user) {
 		User u = service.create(user);
 		Response r;

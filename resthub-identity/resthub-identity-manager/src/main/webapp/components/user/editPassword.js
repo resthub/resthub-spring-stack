@@ -50,7 +50,7 @@
         /**Evaluates the requirements on passwords*/
         _evalPwd: function(){
             editPassword._evalPwdStrength();
-            /* The audit of the similarity of the passwords is done when we a password fields*/
+            /** The audit of the similarity of the passwords is done when we change a password fields*/
             editPassword._evalPwdAreEgals();
         },
         
@@ -158,7 +158,7 @@
             var validForm = $('form#user-form').validate({
                 errorElement: 'span'
             }).form();
-            validForm = validForm && editPassword._arePwdEgals(); /* If password are not egals then form is not valid*/
+            validForm = validForm && editPassword._arePwdEgals(); /** If password are not egals then form is not valid*/
             var answer =  confirm(l("confirmUserPasswordModification"));
 			if (validForm&&answer) {
                 this._formToSession();

@@ -37,10 +37,9 @@ public class GroupController extends
 	private final Logger logger = LoggerFactory
 			.getLogger(GroupController.class);
 
-	
 	@PersistenceContext
 	protected EntityManager em;
-	
+
 	/**
 	 * The userService <br/>
 	 * This should be a bean <br/>
@@ -133,10 +132,16 @@ public class GroupController extends
 		}
 		return r;
 	}
-	
 
-	
-	/** <GROUPS> */
+	/**
+	 * Gets the groups depending of the group
+	 * 
+	 *@param name
+	 *            the name of the group to search insides groups
+	 * 
+	 * @return a list of group, in XML or JSON if the group can be found
+	 *         otherwise HTTP Error 404
+	 */
 	@GET
 	@Path("/name/{name}/groups")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -151,7 +156,15 @@ public class GroupController extends
 				"Unable to find groups").build() : Response.ok(groups).build();
 		return r;
 	}
-		
+
+	/**
+	 * Puts a group inside the groups lists of one other group
+	 * 
+	 * @param name
+	 *            the name of the group in which we should add a group
+	 * @param group
+	 *            the name of the group the be added
+	 */
 	@PUT
 	@Path("/name/{name}/groups/{group}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -159,7 +172,15 @@ public class GroupController extends
 			@PathParam("group") String group) {
 		this.service.addGroupToGroup(name, group);
 	}
-	
+
+	/**
+	 * Deletes a group from the groups lists of one other group
+	 * 
+	 * @param name
+	 *            the name of the group in which we should remove a group
+	 * @param group
+	 *            the name of the gorup the be removed
+	 */
 	@DELETE
 	@Path("/name/{name}/groups/{groups}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -168,9 +189,15 @@ public class GroupController extends
 		this.service.removeGroupFromGroup(name, groupName);
 	}
 
-	/** </GROUPS> */
-
-	/** <PERMISSIONS> */
+	/**
+	 * Gets the permissions of one group
+	 * 
+	 *@param name
+	 *            the name of the group to search insides groups
+	 * 
+	 *@return a list of permissions, in XML or JSON if the group can be found
+	 *         otherwise HTTP Error 404
+	 */
 	@GET
 	@Path("/name/{name}/permissions")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -178,10 +205,19 @@ public class GroupController extends
 		Response r = null;
 		List<String> permissions = this.service.getGroupDirectPermissions(name);
 		r = (permissions == null) ? Response.status(Status.NOT_FOUND).entity(
-				"Unable to find groups").build() : Response.ok(permissions).build();
+				"Unable to find groups").build() : Response.ok(permissions)
+				.build();
 		return r;
 	}
 
+	/**
+	 * Add a permission to a group
+	 * 
+	 * @param name
+	 *            the name of the group in which we should add a group
+	 * @param permission
+	 *            the permission to be added
+	 */
 	@PUT
 	@Path("/name/{name}/permissions/{permission}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -190,6 +226,14 @@ public class GroupController extends
 		this.service.addPermissionToGroup(login, permission);
 	}
 
+	/**
+	 * Remove a permission form one Group
+	 * 
+	 * @param name
+	 *            the name of the group in which we should remove a permission
+	 * @param permisssion
+	 *            the permission to be removed
+	 */
 	@DELETE
 	@Path("/name/{name}/permissions/{permission}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -198,6 +242,4 @@ public class GroupController extends
 		this.service.removePermissionFromGroup(name, permission);
 	}
 
-	/** </PERMISSIONS> */
-	
 }

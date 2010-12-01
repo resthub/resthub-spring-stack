@@ -12,7 +12,7 @@ var l = function(string){ return string.toLocaleString() }%>
 	<strong><%= l("GroupGroupList") %></strong>
         <p>
             <% if ($.isEmptyObject(groups)) { %>
-            <span>[No groups available]</span>
+            <span><%= l("GroupNoGroupsFound") %></span>
             <% } else { %>
             <% for (var index in groups) { %>
             <input type="checkbox" name="groupgroup" value="<%= groups[index].id %>"><%= groups[index].name %>:<% for(var indexPermission in groups[index].permissions ) { %>

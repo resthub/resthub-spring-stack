@@ -28,6 +28,7 @@
             
             this._sessionToForm();
             
+			/**render the part linked to permissions */
             $("div#permissionCheckBoxDiv").render(URLS["templateGenericPermissionsCheckBox"], {
                     permissions: perm
                 });

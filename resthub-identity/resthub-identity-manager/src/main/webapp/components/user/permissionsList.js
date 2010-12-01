@@ -16,7 +16,7 @@
         /**Displays and renders the List
          *
          * @param {Object} result
-         * Result with the list of users in result.element
+         * Result with the list of permissions in result.element
          */
         _displayPermissions: function(result){
             this.element.render(this.options.template, {
@@ -83,7 +83,7 @@
             }
         },
         /** 
-         * Deletes 1 user, the one on which there was a click
+         * Remove 1 permission, the one on which there was a click
          * It asks a confirmation before the deletion
          *
          * @param {Integer} index
@@ -105,7 +105,7 @@
             }
         },
         
-        /** Deletes some users, the ones which have been checked in the form 
+        /** Remove some permissions, the ones which have been checked in the form 
          * It asks a confirmation before the deletion
          */
         _deletePermission: function(){

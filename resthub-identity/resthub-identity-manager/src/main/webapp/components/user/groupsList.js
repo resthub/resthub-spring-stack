@@ -1,5 +1,5 @@
 (function($){
-    /**Used to display list of Users*/
+    /**Used to display list of groups of the Users*/
     var userGroupsList = {
         options: {
             template: URLS["templateUserGroupsList"],
@@ -16,7 +16,7 @@
         /**Displays and renders the List
          *
          * @param {Object} result
-         * Result with the list of users in result.element
+         * Result with the list of groups in result.element
          */
         _displayUsers: function(result){
             this.element.render(this.options.template, {
@@ -35,12 +35,12 @@
             $("table tr:nth-child(even)").addClass("striped");
             
             $('div#delete').click(function(){
-                self._deleteUser();
+                self._deleteGroups();
             });
             
             $('span.remove-permission').each(function(index, element){
                 $(element).click(function(){
-                    self._deleteThisUser($(element).attr('id'));
+                    self._deleteThisGroup($(element).attr('id'));
                 });
             });
             
@@ -55,13 +55,13 @@
         },
         
         /** 
-         * Deletes 1 user, the one on which there was a click
+         * Remove 1 group of the user's groups, the one on which there was a click
          * It asks a confirmation before the deletion
          *
          * @param {Integer} index
-         * the index of the user to delete
+         * the index of the group to delete
          */
-        _deleteThisUser: function(index){
+        _deleteThisGroup: function(index){
             var groups = this.options.result;
             
             var answer = confirm(l("confirmUserGroupDeletionBegin") + groups[index].name + l("confirmUserGroupDeletionEnd"));
@@ -77,10 +77,10 @@
             }
         },
         
-        /** Deletes some users, the ones which have been checked in the form 
+        /** Deletes some groups, the ones which have been checked in the form 
          * It asks a confirmation before the deletion
          */
-        _deleteUser: function(){
+        _deleteGroups: function(){
             var groups = this.options.result;
             var groupToDelete = [];
             $('input.group-checkbox').each(function(index, element){
