@@ -14,8 +14,7 @@
 		to your project
 	-->
 	<context:annotation-config />
-	<context:component-scan base-package="org.resthub" />
-	<!--  <context:component-scan base-package="org.resthub.oauth2" /> -->
+	<context:component-scan base-package="org.resthub.oauth2" />
 
 	<!-- Declaration of the authorization service -->
 	<bean name="authorizationService"
@@ -25,8 +24,7 @@
 		<property name="tokenLength" value="15" />
 		<property name="authenticationProviders">
 			<list>
-				<!-- <ref bean="mockAuthenticationService" /> -->
-				<ref bean="authenticationService" />
+				<ref bean="mockAuthenticationService" />
 			</list>
 		</property>
 	</bean>

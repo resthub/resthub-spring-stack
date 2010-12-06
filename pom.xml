@@ -15,7 +15,6 @@
 		Stupid), DRY (Don’t Repeat Yourself) and REST principles.
     </description>
 
-
 	<properties>
 		<jersey.version>1.4</jersey.version>
 		<jackson.version>1.5.5</jackson.version>
@@ -560,6 +559,13 @@
 			<url>http://${deploy.host}/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
-	<modules></modules>
+	
+	<modules>
+	    <module>resthub-core</module>
+        <module>resthub-web</module>
+        <module>resthub-js</module>
+        <module>resthub-oauth2</module>
+        <module>resthub-identity</module>
+	</modules>
 
 </project>

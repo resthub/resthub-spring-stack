@@ -17,9 +17,7 @@
 	<context:component-scan base-package="org.resthub.identity" />
 	<!-- Scan Spring IOC annotations for oauth2 RESThub beans -->
 	
-	<context:component-scan base-package="org.resthub.oauth2.filter" />
-	<!--   context:component-scan base-package="org.resthub.oauth2.provider" /-->
-
+	<context:component-scan base-package="org.resthub.oauth2" />
 
 	<bean name="authorizationService"
 		class="org.resthub.oauth2.provider.service.AuthorizationServiceImpl">
@@ -33,11 +31,4 @@
 			</list>
 		</property>
 	</bean>
-	
-	
-	<bean name="OAuth2Filter" class="org.resthub.oauth2.filter.front.OAuth2Filter" >
-		<property name="service" ref="validationService"/>
-	</bean>
-	
-	
 </beans>

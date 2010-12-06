@@ -24,10 +24,7 @@ import com.sun.jersey.api.client.ClientResponse.Status;
 public class GroupControllerTest
 		extends
 		AbstractResourceControllerTest<Group, GenericResourceController<Group, GenericResourceService<Group>>> {
-	/*
-	 * @Override public void setUp() throws Exception { super.setUp();
-	 * Thread.sleep(100000); }
-	 */
+
 	@Inject
 	@Named("groupController")
 	public void setController(GenericResourceController groupController) {
