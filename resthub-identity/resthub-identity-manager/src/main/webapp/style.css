@@ -1,12 +1,10 @@
 table {
     background-color: black;
-    /*border: 1px black solid;*/
     border-collapse: collapse;
     width: 60%;
 }
 
 th {
-    /*border: 1px outset silver;*/
     background-color: #003366;
     color: white;
 }
@@ -75,7 +73,9 @@ div#main {
 }
 
 #main-menu {
-    background-image: -moz-linear-gradient( top, #174DFF, #FFFFFF  ); 
+    background : -moz-linear-gradient( top, #174DFF, #FFFFFF  ); 
+	background : -webkit-gradient( linear, left top, left bottom, from(#174DFF), to(#FFFFFF));
+
 }
 span#big_header{
 	font-size: 36px;
