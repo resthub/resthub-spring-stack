@@ -14,20 +14,4 @@ import org.resthub.identity.model.User;
 @Named("userDao")
 public class JpaUserDao extends GenericJpaResourceDao<User> implements PermissionsOwnerDao<User> {
 
-	/**
-	 * {@inheritDoc}
-	 *//**
-	@Override
-	public User findByIdWithGroups(Long id) {
-		User u = null;
-		try {
-			u = this.getEntityManager().createQuery("select u from User u " +
-					"left join fetch u.groups where u.id = :id", User.class)
-					.setParameter("id", id)
-					.getSingleResult();
-		} catch (NoResultException exc) {
-			// nothing to do.
-		}
-		return u;
-	} // findByIdWithGroups(). */
 }

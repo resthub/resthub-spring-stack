@@ -14,11 +14,5 @@ import org.resthub.identity.model.Group;
 @Named("groupDao")
 public class JpaGroupDao extends GenericJpaResourceDao<Group> implements
 		PermissionsOwnerDao<Group> {
-/**
-	@Override
-	public Group findByIdWithGroups(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-*/
+
 }

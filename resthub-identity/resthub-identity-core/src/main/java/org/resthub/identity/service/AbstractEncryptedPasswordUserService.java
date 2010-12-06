@@ -63,6 +63,7 @@ public abstract class AbstractEncryptedPasswordUserService extends
 	 *            the user to save
 	 *@return user, the saved user
 	 */
+	@Transactional
 	public User updateUser(User user) {
 		User userToReturn = null;
 		List<User> l = dao.findEquals("login", user.getLogin());
@@ -108,6 +109,7 @@ public abstract class AbstractEncryptedPasswordUserService extends
 	 * Interesting but useless right now Only amdinb can make som modification,
 	 * we never do password check
 	 */
+	@Transactional
 	public User updatePassword(User user, String password) {
 		List<User> l = dao.findEquals("login", user.getLogin());
 		int size = (l == null) ? 0 : l.size();

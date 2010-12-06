@@ -8,12 +8,5 @@ import org.resthub.identity.model.AbstractPermissionsOwner;
  * */
 public interface PermissionsOwnerDao<T extends AbstractPermissionsOwner> extends GenericResourceDao<T>{
 	
-	/**
-	 * Finds a PermissionsOwnerDao by its id, <b>but with its groups loaded</b>
-	 * 
-	 * @param id The searched PermissionsOwnerDao id.
-	 * @return The corresponding PermissionsOwnerDao (with its groups), or null if irrelevant.
-	 */
-	/** public T findByIdWithGroups(Long id);*/
-	
+
 }

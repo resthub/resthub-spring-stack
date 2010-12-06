@@ -16,7 +16,7 @@ public class PermissionsOwnerTools {
 	 * permissions or inherited permissions
 	 * 
 	 * @param p
-	 *            the permissionOwner (User, Groups, ...) for wich we are
+	 *            the permissionOwner (User, Groups, ...) for which we are
 	 *            requesting permissions
 	 * 
 	 * @return the List of permissions
