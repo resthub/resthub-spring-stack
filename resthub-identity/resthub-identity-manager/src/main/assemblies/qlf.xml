@@ -28,24 +28,24 @@
     </dependencySets>
 	<fileSets>
 		<fileSet>
-			<directory>src/main/webapp-tofilter/js</directory>
+			<directory>${basedir}/src/main/webapp-tofilter/js</directory>
 			<filtered>true</filtered>
 			<outputDirectory>/resources/labels</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/webapp-tofilter/html</directory>
+			<directory>${basedir}/src/main/webapp-tofilter/html</directory>
 			<filtered>true</filtered>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/config/qlf/</directory>
+			<directory>${basedir}/src/main/config/qlf/</directory>
 			<filtered>true</filtered>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
 	</fileSets>
 	<files>
 		<file>
-			<source>src/main/resources/applicationContext.xml</source>
+			<source>${basedir}/src/main/resources/applicationContext.xml</source>
 			<filtered>true</filtered>
 			<outputDirectory>WEB-INF/classes/</outputDirectory>
 		</file>

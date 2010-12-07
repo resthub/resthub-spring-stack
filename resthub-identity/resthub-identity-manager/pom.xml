@@ -130,10 +130,10 @@
 						</goals>
 						<configuration>
 							<filters>
-								<filter>src/main/filters/filter-qlf.properties</filter>
+								<filter>${basedir}/src/main/filters/filter-qlf.properties</filter>
 							</filters>
 							<descriptors>
-								<descriptor>src/main/assemblies/qlf.xml</descriptor>
+								<descriptor>${basedir}/src/main/assemblies/qlf.xml</descriptor>
 							</descriptors>
 						</configuration>
 					</execution>
