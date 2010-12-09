@@ -8,8 +8,9 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.lucene.queryParser.ParseException;
+
+import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.roundtable.dao.PollDao;
 import org.resthub.roundtable.model.Answer;
@@ -43,6 +44,7 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
     }
 
     @Override
+    @Auditable
     @Transactional(readOnly = false)
     public Poll create(final Poll resource) {
         Calendar date = Calendar.getInstance();
@@ -98,6 +100,7 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
     }
 
     @Override
+    @Auditable
     public Page<Poll> find(final String query, final Pageable pageable) throws ServiceException {
         if (query == null || "".equals(query.trim())) {
             return this.findAll(pageable);
@@ -110,6 +113,7 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
     }
 
     @Override
+    @Auditable
     public void rebuildIndex() {
         this.dao.rebuildIndex();
     }
