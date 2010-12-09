@@ -4,14 +4,14 @@
     <parent>
         <artifactId>resthub</artifactId>
         <groupId>org.resthub</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>org.resthub</groupId>
     <artifactId>resthub-js</artifactId>
     <name>Javascript stack</name>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <description>
 		RESThub Javascript Stack including frameworks and helpers
     </description>

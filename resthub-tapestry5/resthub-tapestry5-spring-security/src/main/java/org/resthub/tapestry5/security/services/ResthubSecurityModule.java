@@ -12,6 +12,15 @@ import org.resthub.tapestry5.security.services.LoginServiceImpl;
 import org.resthub.tapestry5.security.services.SpringSecurityAuthenticator;
 import org.springframework.security.authentication.AuthenticationManager;
 
+/**
+ * Provide configuration for Tapestry5 resthub spring security module : contributions of
+ * services, behaviours, configuration parameters, libraries, etc.
+ * 
+ * Basically, configure and build login service
+ * 
+ * @author bmeurant <Baptiste Meurant>
+ * 
+ */
 @SubModule( { SecurityModule.class })
 public class ResthubSecurityModule {
 

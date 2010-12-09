@@ -8,6 +8,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+/**
+ * Provide method to dynamically log a user
+ * 
+ * @author bmeurant <Baptiste Meurant>
+ */
 public class LoginServiceImpl implements LoginService {
 
 	private AuthenticationManager authenticationManager = null;

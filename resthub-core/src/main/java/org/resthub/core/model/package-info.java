@@ -1,5 +1,5 @@
 /**
- * This package provides Resource oriented model classes
+ * This package provides reusable model classes
  */
 package org.resthub.core.model;
 

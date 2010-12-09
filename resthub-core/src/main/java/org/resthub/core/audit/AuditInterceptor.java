@@ -200,8 +200,8 @@ public class AuditInterceptor extends AdvisorInterceptor {
 					s = s.substring(0, AuditInterceptor.MAX_STRING_LENGTH);
 					s = s.concat("...");
 				}
-				signature.append(AuditInterceptor.QUOTE).append(s).append(
-						AuditInterceptor.QUOTE);
+				signature.append("'").append(s).append(
+						"'");
 			} else {
 				signature.append(o);
 			}

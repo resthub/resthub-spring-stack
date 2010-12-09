@@ -18,7 +18,7 @@
         <!-- We use RESThub web classes and dependencies built around Jersey -->
         <dependency>
             <groupId>org.resthub</groupId>
-            <artifactId>resthub-web</artifactId>
+            <artifactId>resthub-web-server</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- We use RESThub Javascript stack built around jQuery -->
@@ -58,7 +58,6 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>7.2.0.v20101020</version>
                 <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
                     <!-- We use non NIO connector in order to avoid read only static files under windows -->
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">

@@ -6,7 +6,7 @@
     <artifactId>resthub</artifactId>
     <packaging>pom</packaging>
     <name>RESThub framework</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <url>http://resthub.org</url>
     <description>
 		RESThub is an Open Source (LGPL) framework designed to allow you to build web applications following KISS (Keep It Simple and Stupid), DRY (Don’t Repeat Yourself) and REST principles.
@@ -19,7 +19,6 @@
         <module>resthub-apps</module>
         <module>resthub-archetypes</module>
         <module>resthub-oauth2</module>
-        <module>resthub-identity</module>
         <module>resthub-tapestry5</module>
     </modules>
 
@@ -92,7 +91,7 @@
     </mailingLists>
     <developers>
         <developer>
-            <id>bouiaw</id>
+            <id>sdeleuze</id>
             <name>Sebastien Deleuze</name>
             <timezone>+1</timezone>
         </developer>
@@ -135,14 +134,13 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>${jetty.version}</version>
                     <configuration>
-                  <scanIntervalSeconds>10</scanIntervalSeconds>
-                  <!-- We use non NIO connector in order to avoid read only static files under windows -->
-                  <connectors>
-                      <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
-                          <port>8080</port>
-                          <maxIdleTime>60000</maxIdleTime>
-                      </connector>
-                  </connectors>
+                  	<!-- We use non NIO connector in order to avoid read only static files under windows -->
+                  	<connectors>
+                    	<connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
+                        	<port>8080</port>
+                        	<maxIdleTime>60000</maxIdleTime>
+						</connector>
+                  	</connectors>
                   <webAppConfig>
                     <contextPath>/</contextPath>
                   </webAppConfig>
@@ -166,7 +164,7 @@
                         <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
-		<plugin>
+				<plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>2.1</version>
@@ -464,7 +462,7 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-
+            
             <dependency>
                 <groupId>javax.annotation</groupId>
                 <artifactId>jsr250-api</artifactId>
@@ -485,6 +483,11 @@
             </dependency>
 
             <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-core</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+			<dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-server</artifactId>
                 <version>${jersey.version}</version>
@@ -532,17 +535,6 @@
                 <version>${jackson.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.jamonapi</groupId>
-                <artifactId>jamon</artifactId>
-                <version>${jamon.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>test-jetty-servlet</artifactId>
