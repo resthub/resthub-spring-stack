@@ -20,7 +20,7 @@ package org.resthub.core.exception;
 /**
  * Base class for all custom exception thrown in Resthub 
  * 
- * @author Bouiaw
+ * @author sdeleuze
  */
 public class ResthubException extends RuntimeException {
 

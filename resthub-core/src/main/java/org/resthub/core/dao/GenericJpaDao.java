@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.core.util.ClassUtils;
 
 /**
@@ -15,6 +16,7 @@ import org.resthub.core.util.ClassUtils;
  * 
  * @see <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/" target="_blank">Hades 2.0 Javadoc</a>
  */
+@Auditable
 public abstract class GenericJpaDao<T, PK extends Serializable> extends
 org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements GenericDao<T, PK> {
 	
@@ -49,6 +51,7 @@ org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements GenericDao<T, PK> {
 		return (List<T>) q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findEquals(String propertyName, String propertyValue) {
 		String queryString = "from " + this.getDomainClass().getName() + " where " + propertyName + " = :propertyValue";
@@ -56,4 +59,5 @@ org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements GenericDao<T, PK> {
 		q.setParameter("propertyValue", propertyValue);
 		return (List<T>) q.getResultList();
 	}
+
 }

@@ -3,7 +3,7 @@ package org.resthub.core.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.resthub.core.annotation.Auditable;
+import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.core.dao.GenericDao;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,6 +15,7 @@ import org.synyx.hades.domain.Pageable;
  * 
  * @param <T> Domain model class managed, must be an Entity
  * @param <D> Generic DAO class
+ * 
  */
 @Transactional(readOnly = true)
 public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID extends Serializable>

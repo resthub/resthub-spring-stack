@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.lucene.queryParser.ParseException;
 
-import org.resthub.core.annotation.Auditable;
+import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.roundtable.dao.PollDao;
 import org.resthub.roundtable.model.Answer;
@@ -33,7 +33,7 @@ import org.synyx.hades.domain.Pageable;
 public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> implements PollService {
     private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
 
-    @Value("#{systemEnvironment['rt.data.dir']}")
+    @Value("#{config['rt.data.dir']}")
     private String dataDirPath;
 
     @Inject
@@ -65,7 +65,7 @@ public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> i
         }
 
 	// Illustration
-	if (resource.getIllustration() != null) {
+	if (resource.getIllustration() != null && !"".equals(resource.getIllustration())) {
 	    poll.setIllustration(resource.getIllustration());
 	    String tmpdir = System.getProperty("java.io.tmpdir");
 

@@ -5,30 +5,30 @@
 	<parent>
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.01-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>roundtable</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.01-SNAPSHOT</version>
 	<name>Round Table</name>
 	<description>
 		Poll application based on RESThub
 	</description>
 
 	<dependencies>
-                <dependency>
+		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-js</artifactId>
-			<version>1.0-SNAPSHOT</version>
-                        <type>war</type>
+			<version>1.01-SNAPSHOT</version>
+			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<artifactId>resthub-web-server</artifactId>
+			<version>1.01-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -43,11 +43,32 @@
 	</dependencies>
 
 	<properties>
-	 <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+            <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
 	</properties>
 
 	<build>
-		<plugins>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>false</filtering>
+                </resource>
+                <resource>
+                    <directory>src/main/config/${env}</directory>
+                    <filtering>true</filtering>
+                </resource>
+            </resources>
+            <testResources>
+                <testResource>
+                    <directory>src/test/resources</directory>
+                    <filtering>false</filtering>
+                </testResource>
+                <testResource>
+                    <directory>src/test/config/${env}</directory>
+                    <filtering>true</filtering>
+                </testResource>
+            </testResources>
+
+                <plugins>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>

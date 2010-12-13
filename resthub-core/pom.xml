@@ -2,14 +2,14 @@
 	<parent>
 		<groupId>org.resthub</groupId>
 		<artifactId>resthub</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.01-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-core</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.01-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Core</name>
 	<description>
@@ -71,6 +71,10 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -93,7 +97,6 @@
 			<artifactId>junit</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
 		
 		<dependency>
 			<groupId>org.synyx.hades</groupId>

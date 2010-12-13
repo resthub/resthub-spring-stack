@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>resthub-web</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.01-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>org.resthub</groupId>
+	<artifactId>resthub-web-common</artifactId>
+	<name>Webservices common classes</name>
+	<version>1.01-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<description>
+		Extends Jersey with default JSON support provided by Jackson
+	</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-xc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+	</dependencies>
+</project>

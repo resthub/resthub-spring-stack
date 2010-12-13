@@ -1,5 +1,5 @@
 /**
- * Provides generic DAO interface for CRUD operations.
+ * Provides generic DAO's for CRUD operations
  */
 package org.resthub.core.dao;
 

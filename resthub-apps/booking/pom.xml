@@ -1,53 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.01-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-
 	<groupId>org.resthub</groupId>
 	<artifactId>booking</artifactId>
-	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>Booking demo</name>
+	<name>Sample Booking applications</name>
+	<version>1.01-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<description>
-		RESThub version of the Spring Webflow booking sample webapplication
-	</description>
+		Sample web booking applications provided to help you to build your own RESThub based
+		application
+  </description>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-js</artifactId>
-			<version>1.0-SNAPSHOT</version>
-      <type>war</type>
-		</dependency>
-    <dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search</artifactId>
-			<version>3.2.1.Final</version>
-		</dependency>
-	</dependencies>
+	<modules>
+		<module>booking-tapestry5</module>
+		<module>booking-core</module>
+		<module>booking-js</module>
+	</modules>
 
-	<properties>
-		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
-	</properties>
+	<repositories>
+		<!-- Contains all RESThub artifacts and transitive dependencies -->
+		<repository>
+			<id>resthub</id>
+			<url>http://resthub.org/nexus/content/groups/resthub</url>
+		</repository>
+	</repositories>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>
-

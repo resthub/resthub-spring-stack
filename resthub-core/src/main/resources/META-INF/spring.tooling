@@ -1,0 +1,3 @@
+# Tooling related information for the Resthub namespace
+http\://www.resthub.org/schema/context@name=resthub Namespace
+http\://www.resthub.org/schema/context@prefix=resthub

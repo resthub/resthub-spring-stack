@@ -61,6 +61,13 @@ public abstract class AbstractResourceServiceTest<T extends Resource, D extends 
 	}
 
 	@Test
+	public void testFindById() throws Exception {
+		Resource resource = resourceService.findById(this.resourceId);
+		Assert.assertNotNull("Resource should not be null!", resource);
+		Assert.assertEquals("Resource id and resourceId should be equals!", this.resourceId, resource.getId());
+	}
+	
+	@Test
 	public void testFindAll() throws Exception {
 		List<T> resourceList = resourceService.findAll(null).asList();
 		Assert.assertTrue("No resources found!", resourceList.size() >= 1);

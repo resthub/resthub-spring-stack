@@ -27,3 +27,5 @@ syntax: regexp
 ^resthub-apps/booking/src/main/webapp/META-INF/MANIFEST\.MF$
 syntax: regexp
 ^resthub-tapestry5/resthub-tapestry5-spring-security/src/main/java/META-INF$
+syntax: regexp
+^resthub-apps/booking/booking-core/src/main/java/META-INF$

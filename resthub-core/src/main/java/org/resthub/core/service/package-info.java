@@ -1,5 +1,5 @@
 /**
- * Provides generic service interface for CRUD operations.
+ * Provides generic service classes for CRUD operations.
  */
 package org.resthub.core.service;
 

@@ -3,6 +3,7 @@ package org.resthub.roundtable.web.controller;
 import java.io.File;
 import java.io.IOException;
 import javax.activation.MimetypesFileTypeMap;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.DefaultValue;
@@ -11,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.resthub.roundtable.toolkit.ImageTools;
@@ -27,12 +27,20 @@ import org.springframework.beans.factory.annotation.Value;
 @Named("thumbnailController")
 @Singleton
 public class ThumbnailControler {
-    private static final Logger LOG = LoggerFactory.getLogger(ThumbnailControler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ThumbnailControler.class);
 
-    @Value("#{systemEnvironment['rt.data.dir']}")
+    @Value("#{config['rt.data.dir']}")
     private String dataDirPath;
-
-
+    
+    @PostConstruct
+	protected void init() {
+		String thumbnailLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("thumbnail").toString();
+		logger.debug("Thumbnail location : " + thumbnailLocation);
+		File dataDir = new File(thumbnailLocation);
+		if(!dataDir.exists())
+			dataDir.mkdirs();
+	}
+    
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -64,6 +72,8 @@ public class ThumbnailControler {
 		ImageTools.createThumbnail(illustrationLocation, thumbnailLocation, 100);
 		file = new File(thumbnailLocation);
 	    } catch (IOException ex) {
+		return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
+	    } catch (InterruptedException ex) {
 		return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
 	    }
 	}

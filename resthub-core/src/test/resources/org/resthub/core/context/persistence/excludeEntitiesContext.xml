@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:resthub="http://www.resthub.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.resthub.org/schema/context
+    http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
+
+	<!--
+		Scan all entities from org.resthub.core.context.model
+		package that are holding @Entity annotation excluding entities extending
+		ConfigAbstractResource
+	-->
+	<resthub:exclude-entities
+		base-package="org.resthub.core.context.model"
+		use-default-filters="false">
+		<resthub:include-filter type="assignable"
+			expression="org.resthub.core.context.model.ConfigAbstractResource" />
+	</resthub:exclude-entities>
+</beans>

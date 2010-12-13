@@ -1,17 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:hades="http://schemas.synyx.org/hades"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:resthub="http://www.resthub.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.resthub.org/schema/context
+    http://www.resthub.org/schema/context/resthub-context-1.0.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-		
+
 	<context:annotation-config />
 	<context:component-scan base-package="org.resthub.core" />
+
+	<resthub:include-entities base-package="org.resthub.**.model" />
 
 	<!--
 		<tx:annotation-driven transaction-manager="transactionManager"
@@ -28,7 +31,6 @@
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
 		<property name="persistenceUnitName" value="resthub" />
 		<property name="persistenceUnitManager" ref="scanningPersistenceUnitManager" />
 
@@ -57,11 +59,8 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<bean id="scanningPersistenceUnitManager"
-		class="org.resthub.core.dao.ScanningPersistenceUnitManager">
+	<bean id="scanningPersistenceUnitManager" class="org.resthub.core.context.persistence.ScanningPersistenceUnitManager">
 		<property name="defaultDataSource" ref="dataSource" />
-		<property name="classpathPatterns"
-			value="classpath*:org/resthub/**/model/*.class" />
 	</bean>
 
 	<bean
@@ -82,10 +81,9 @@
 		<property name="order" value="200" />
 	</bean>
 
-	<!--  bean id="auditInterceptor" class="org.resthub.core.AuditInterceptor">
-		<property name="annotation" value="org.resthub.core.annotation.Auditable" />
+	<bean id="auditInterceptor" class="org.resthub.core.audit.AuditInterceptor">
+		<property name="annotation" value="org.resthub.core.audit.annotation.Auditable" />
 		<property name="order" value="1" />
 	</bean>
-	-->
 
 </beans>

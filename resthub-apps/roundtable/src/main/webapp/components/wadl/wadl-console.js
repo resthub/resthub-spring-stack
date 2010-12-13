@@ -134,7 +134,7 @@ $.widget("resthub.wadlConsole", {
             $("param", $(method).parent()).each(function(idx, param) {
                 var name = $(param).attr("name");
                 if(path.indexOf('{'+name+'}') != -1) {
-                    form.append('<fieldset><label for="$id-$name-param">$name</label><input type="text" id="$id-$name-param" /></fieldset>'.replace(/\$name/g, name).replace(/\$id/g, id.replace(/[/{}]/g, "")));
+                    form.append('<fieldset><label for="$id-$name-param">$name</label><input type="text" id="$id-$name-param" /></fieldset>'.replace(/\$name/g, name).replace(/\$id/g, id.replace(/[\/{}]/g, "")));
                 }
             });
 
@@ -157,7 +157,7 @@ $.widget("resthub.wadlConsole", {
                 $("param", $(method).parent()).each(function(idx, param) {
                     var name = $(param).attr("name");
                     if(expandedPath.indexOf('{'+name+'}') != -1) {
-                        expandedPath = expandedPath.replace('{'+name+'}', $('#' + id.replace(/[/{}]/g, "") + "-" + name + "-param").val());
+                        expandedPath = expandedPath.replace('{'+name+'}', $('#' + id.replace(/[\/{}]/g, "") + "-" + name + "-param").val());
                     }
                 });
 

@@ -5,13 +5,13 @@
 	<parent>
 		<artifactId>resthub-identity</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.01-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-identity-manager</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.01-SNAPSHOT</version>
 	<name>Identity manager webapp</name>
 	<packaging>war</packaging>
 	<description>Web GUI for Identity manager project.</description>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-js</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.01-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
@@ -38,14 +38,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<artifactId>resthub-web-server</artifactId>
+			<version>1.01-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-identity-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.01-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -61,16 +61,6 @@
 			<filter>src/main/filters/filter-local.properties</filter>
 		</filters>
 		<resources>
-			<resource>
-				<directory>src/main/webapp-tofilter/js</directory>
-				<filtering>true</filtering>
-				<targetPath>src/main/webapp/resources/labels</targetPath>
-			</resource>
-			<resource>
-				<directory>src/main/webapp-tofilter/html</directory>
-				<filtering>true</filtering>
-				<targetPath>src/main/webapp/</targetPath>
-			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
@@ -93,17 +83,6 @@
 							<maxIdleTime>60000</maxIdleTime>
 							<!--   <confidentialPort>8443</confidentialPort>-->
 
-						</connector>
-						<connector
-							implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
-							<port>8443</port>
-							<maxIdleTime>60000</maxIdleTime>
-							<keystore>U:/keystore</keystore>
-							<password>pass?w0rd</password>
-							<!--
-								<keystore>${ssl-keystore}</keystore>
-								<password>${ssl-keystore-password}</password>
-							-->
 						</connector>
 					</connectors>
 

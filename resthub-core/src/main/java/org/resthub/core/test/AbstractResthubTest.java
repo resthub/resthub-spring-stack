@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Base class for your unit tests, preconfigure Spring test framework
- * Ususally you will have to redefine @ContextConfiguration to specify your appllication context file in addition to resthub ones  
+ * Ususally you will have to redefine @ContextConfiguration to specify your application context file in addition to resthub ones  
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml" })

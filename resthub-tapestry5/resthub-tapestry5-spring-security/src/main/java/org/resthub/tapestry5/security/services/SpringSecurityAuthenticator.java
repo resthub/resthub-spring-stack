@@ -15,12 +15,12 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 /**
- * Basic Security Realm implementation
+ * Basic Security Realm implementation that allow to offer a real Tapestry5
+ * service based on spring security features
  * 
+ * @author bmeurant <Baptiste Meurant>
  * @author karesti
- * @version 1.0
  */
 public class SpringSecurityAuthenticator implements Authenticator {
 
@@ -29,18 +29,21 @@ public class SpringSecurityAuthenticator implements Authenticator {
 
 	@Inject
 	private LoginService loginService;
-	
+
 	@Inject
 	private LogoutService logoutService;
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public void login(String username, String password)
 			throws AuthenticationException {
 
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new GrantedAuthorityImpl("ROLE_AUTH"));
 
-		Boolean logged = this.loginService.executeLogin(username,
-				password, authorities);
+		Boolean logged = this.loginService.executeLogin(username, password,
+				authorities);
 
 		if (!logged) {
 			throw new AuthenticationException(
@@ -48,17 +51,26 @@ public class SpringSecurityAuthenticator implements Authenticator {
 		}
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public boolean isLoggedIn() {
 		Principal principal = requestGlobals.getHTTPServletRequest()
 				.getUserPrincipal();
 		return principal != null && principal.getName() != "";
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public void logout() {
-		requestGlobals.getRequest().getSession(false).invalidate(); 
-    	logoutService.logout();
+		requestGlobals.getRequest().getSession(false).invalidate();
+		logoutService.logout();
 	}
 
+	/**
+	 * {@InheritDoc}
+	 */
 	public UserDetails getLoggedUser() {
 		UserDetails userDetails = null;
 

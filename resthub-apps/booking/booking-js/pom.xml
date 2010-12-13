@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>booking</artifactId>
+		<groupId>org.resthub</groupId>
+		<version>1.01-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<groupId>org.resthub</groupId>
+	<artifactId>booking-js</artifactId>
+	<packaging>war</packaging>
+	<version>1.01-SNAPSHOT</version>
+	<name>Booking javascript stack based demo</name>
+	<description>
+		RESThub javascript stack version of the booking sample webapplication
+	</description>
+	
+	<properties>
+		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-js</artifactId>
+			<version>1.01-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-web-server</artifactId>
+			<version>1.01-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+      <groupId>org.resthub</groupId>
+      <artifactId>booking-core</artifactId>
+      <version>1.01-SNAPSHOT</version>
+    </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search</artifactId>
+			<version>3.2.1.Final</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+
