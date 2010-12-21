@@ -15,7 +15,7 @@
 
 	<properties>
 		<tapestry.version>5.2.2</tapestry.version>
-		<tapestry.spring.version>5.2.1</tapestry.spring.version>
+		<tapestry.spring.version>5.2.2</tapestry.spring.version>
 		<tapestry.spring.security.version>3.0.0</tapestry.spring.security.version>
 		<tapestry.jpa.version>2.0.2</tapestry.jpa.version>
 	</properties>
