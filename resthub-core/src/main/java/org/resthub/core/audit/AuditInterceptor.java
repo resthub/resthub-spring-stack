@@ -82,6 +82,7 @@ public class AuditInterceptor extends AdvisorInterceptor {
 					this.getClassName(invocation),
 					this.getMethodCompleteSignature(invocation));
 		}
+		
 	}
 
 	/**
@@ -115,7 +116,6 @@ public class AuditInterceptor extends AdvisorInterceptor {
 	 * Specific method that allow to precisely perform audit from a
 	 * {@link ConstraintViolationException}
 	 */
-	@SuppressWarnings("unchecked")
 	protected void logPreciseContraintViolation(ConstraintViolationException e,
 			MethodInvocation invocation) {
 		for (ConstraintViolation constraintViolation : e
