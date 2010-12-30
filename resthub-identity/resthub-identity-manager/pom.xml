@@ -5,13 +5,13 @@
 	<parent>
 		<artifactId>resthub-identity</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.01-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-identity-manager</artifactId>
-	<version>1.01-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Identity manager webapp</name>
 	<packaging>war</packaging>
 	<description>Web GUI for Identity manager project.</description>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-js</artifactId>
-			<version>1.01-SNAPSHOT</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
@@ -39,13 +39,13 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.01-SNAPSHOT</version>
+			<version>1.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-identity-core</artifactId>
-			<version>1.01-SNAPSHOT</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

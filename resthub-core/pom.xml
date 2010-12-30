@@ -2,14 +2,14 @@
 	<parent>
 		<groupId>org.resthub</groupId>
 		<artifactId>resthub</artifactId>
-		<version>1.01-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-core</artifactId>
-	<version>1.01-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Core</name>
 	<description>
