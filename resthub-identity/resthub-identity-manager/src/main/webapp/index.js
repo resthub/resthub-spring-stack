@@ -34,7 +34,7 @@
         this.get('#/user/password', function(context){
             this.title(l("jsTitleUserPassword"));
             $('#content').editPassword({
-                context: context,
+                context: context
             });
         }, URLS["jsUserPassword"]);
         
@@ -131,7 +131,7 @@
          */
         this.get("#(.*)", function(){
             $('#content').html("");
-        })
+        });
         
         var l = function(string){
             return string.toLocaleString();
@@ -139,7 +139,7 @@
     });
     var l = function(string){
         return string.toLocaleString();
-    }
+    };
     $(function(){
         app.run('#/');
     });

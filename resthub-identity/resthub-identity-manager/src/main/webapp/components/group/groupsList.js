@@ -72,7 +72,7 @@
                     type: 'DELETE',
                     complete: function(){
                         self._switchPage(self.options.page);
-                    },
+                    }
                 }, accessToken);
             }
         },
@@ -109,7 +109,7 @@
                         type: 'DELETE',
                         complete: function(){
                             self._switchPage(self.options.page);
-                        },
+                        }
                     }, accessToken);
                 }
             }
@@ -119,7 +119,7 @@
     var self;
 	/** Variable used for text localization with l10n */
     var l = function(string){
-        return string.toLocaleString()
+        return string.toLocaleString();
     };
     $.widget("identity.groupGroupsList", $.resthub.resthubController, groupGroupsList);
 })(jQuery);

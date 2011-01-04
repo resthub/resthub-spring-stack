@@ -44,6 +44,6 @@ var URLS = {
     apiGroup: "api/group/",
     apiGroupList: "api/group/list/",
 	apiGroupGroupsList: "/groups/",
-	apiGroupPermissionsList: "/permissions/",
+	apiGroupPermissionsList: "/permissions/"
 	
 };

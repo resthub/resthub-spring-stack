@@ -2,7 +2,7 @@
     /**Used to logout the user*/
     var logoutUser = {
         options: {
-            context: null,
+            context: null
         },
         /**Logouts the user*/
         _init: function(){

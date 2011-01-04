@@ -9,7 +9,7 @@
             userLogin: null,
             userPassword: null,
             redirectURL: null,
-            OAuth2EndPoint: null,
+            OAuth2EndPoint: null
         },
         /**tries to authenticate the user on the OAuth2EndPoint*/
         _init: function(){
@@ -22,7 +22,7 @@
             }, function(){
                 alert(l("UserLoginFailed"));
                 //TODO, change for jquery alert  
-            })
+            });
         },
         /**Displays and renders the Home of user once the authentication success*/
         _displayHome: function(user){
@@ -30,8 +30,8 @@
                 user: user
             });
         }
-    }
+    };
     $.widget("user.postLoginUsers", $.resthub.resthubController, postLoginUsers);
     /** Variable used for text localization with l10n */
-	var l = function(string){ return string.toLocaleString()};
+	var l = function(string){ return string.toLocaleString(); };
 })(jQuery);

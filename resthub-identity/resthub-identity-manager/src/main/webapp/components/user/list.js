@@ -93,7 +93,7 @@
                     type: 'DELETE',
                     complete: function(){
                         self._securedGet(URLS["apiUser"] + '?page=0', self._displayUsers);
-                    },
+                    }
                 }, accessToken);
             }
         },
@@ -130,7 +130,7 @@
                         type: 'DELETE',
                         complete: function(){
                             self._securedGet(URLS["apiUser"] + '?page=0', self._displayUsers);
-                        },
+                        }
                     }, accessToken);
                 }
             }
@@ -139,6 +139,6 @@
 		/** Needed for context propagation*/
     var self;
 	/** Variable used for text localization with l10n */
-	var l = function(string){ return string.toLocaleString()};
+	var l = function(string){ return string.toLocaleString();};
     $.widget("identity.listUsers", $.resthub.resthubController, listUsers);
 })(jQuery);

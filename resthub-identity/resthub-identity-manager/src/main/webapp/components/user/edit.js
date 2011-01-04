@@ -187,17 +187,17 @@
             $('span#passwordStrength').removeClass('good bad medium');
             if (strength < NOT_SECURED_LEVEL) {
                 $('span#passwordStrength').addClass('bad');
-                fieldText = "NotSecured"
-            }
-            else 
+                fieldText = "NotSecured";
+            } else {
                 if (strength < SECURED_LEVEL) {
                     fieldText = "NotWellSecured ";
                     $('span#passwordStrength').addClass('medium');
                 }
                 else {
-                    fieldText = "Secured"
+                    fieldText = "Secured";
                     $('span#passwordStrength').addClass('good');
                 }
+            }
             $('span#passwordStrength').text(l(fieldText));
         },
         
@@ -265,7 +265,7 @@
     };
     /**Variable used for text localization with l10n*/
     var l = function(string){
-        return string.toLocaleString()
+        return string.toLocaleString();
     };
     $.widget("booking.editUser", $.resthub.resthubController, editUser);
 })(jQuery);

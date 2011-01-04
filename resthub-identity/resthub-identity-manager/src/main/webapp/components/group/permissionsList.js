@@ -46,7 +46,7 @@
 			
 			$('input#entityAddPermissionButton').click(
 			function(){
-				self._addThisPermission($('input#entityAddPermission').val())		
+				self._addThisPermission($('input#entityAddPermission').val());		
 			}
 			);
             
@@ -76,7 +76,7 @@
                     type: 'PUT',
                     complete: function(){
                         self._switchPage(self.options.page);
-                    },
+                    }
                 }, accessToken);
             }
         },
@@ -99,7 +99,7 @@
                     type: 'DELETE',
                     complete: function(){
                         self._switchPage(self.options.page);
-                    },
+                    }
                 }, accessToken);
             }
         },
@@ -136,7 +136,7 @@
                         type: 'DELETE',
                         complete: function(){
                             self._switchPage(self.options.page);
-                        },
+                        }
                     }, accessToken);
                 }
             }
@@ -146,7 +146,7 @@
     var self;
 	/** Variable used for text localization with l10n */
     var l = function(string){
-        return string.toLocaleString()
+        return string.toLocaleString();
     };
     $.widget("identity.groupPermissionsList", $.resthub.resthubController, groupPermissionsList);
 })(jQuery);

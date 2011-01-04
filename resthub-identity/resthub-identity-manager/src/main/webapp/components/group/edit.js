@@ -3,7 +3,7 @@
     var editGroup = {
         options: {
             template: URLS["templateGroupEdit"],
-            context: null,
+            context: null
         },
         _init: function(){
             this._securedGet(URLS["apiGroupList"], this._setGroups);
@@ -110,7 +110,7 @@
     };
     /**Variable used for text localization with l10n */
     var l = function(string){
-        return string.toLocaleString()
+        return string.toLocaleString();
     };
     
     $.widget("booking.editGroup", $.resthub.resthubController, editGroup);
