@@ -28,12 +28,7 @@
     </dependencySets>
 	<fileSets>
 		<fileSet>
-			<directory>${basedir}/src/main/webapp-tofilter/js</directory>
-			<filtered>true</filtered>
-			<outputDirectory>/resources/labels</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/src/main/webapp-tofilter/html</directory>
+			<directory>${basedir}/src/main/filtered/</directory>
 			<filtered>true</filtered>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
