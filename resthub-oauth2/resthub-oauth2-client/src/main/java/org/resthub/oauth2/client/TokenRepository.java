@@ -9,7 +9,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.resthub.oauth2.common.front.model.TokenResponse;
-import org.resthub.oauth2.utils.JacksonProvider;
+import org.resthub.web.jackson.JacksonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
