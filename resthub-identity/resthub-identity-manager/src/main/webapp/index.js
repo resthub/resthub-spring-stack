@@ -3,7 +3,7 @@
  */
 (function($){
     /**Intercepts web local request*/
-    var app = $.sammy(function(){
+    gApp = $.sammy(function(){
     
         this.use(Sammy.Title);
         this.use(Sammy.Session);
@@ -141,7 +141,7 @@
         return string.toLocaleString();
     };
     $(function(){
-        app.run('#/');
+    	gApp.run('#/');
     });
     
     
