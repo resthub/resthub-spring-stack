@@ -28,6 +28,7 @@ import com.sun.jersey.spi.container.servlet.ServletContainer;
  */
 public class AbstractOAuth2FilterTest {
 
+
 	// -----------------------------------------------------------------------------------------------------------------
 	// Static private attributes
 
@@ -56,6 +57,26 @@ public class AbstractOAuth2FilterTest {
 	 */
 	protected static String contextLocations = "classpath*:resthubContext.xml classpath:applicationContext.xml";
 
+	/**
+	 * Url of the Redirection Filter
+	 */
+	public static final String redirectionFilterUrl = "/notAllowed";
+
+	/**
+	 * Root of the Authorization server.
+	 */
+	public static final String authorizationServerRoot = "/authorization";
+
+	/**
+	 * Name of the parameter containing the requested url when incoming request are rejected.
+	 */
+	public static final String targetUrlParameter = "requested";
+
+	/**
+	 * Client id used by the redirection filter to redirect incoming requests. 
+	 */
+	public static final String resourceClientId = "123456azerty";
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Test suite initialization and finalization
 
@@ -69,7 +90,7 @@ public class AbstractOAuth2FilterTest {
 
 		// Configures it
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		context.setContextPath("/authorization");
+		context.setContextPath(authorizationServerRoot);
 						
 		// Jersey Servlet
 		ServletHolder servlet = new ServletHolder(ServletContainer.class);
@@ -95,15 +116,22 @@ public class AbstractOAuth2FilterTest {
 				ServletContextHandler.SESSIONS);
 		context.setContextPath("/inmemory");
 		
-		// Tested filter.
+		// Tested filter: redirection
+        FilterHolder redirectionFilter = new FilterHolder(OAuth2RedirectionFilter.class);
+        redirectionFilter.setName("oauth2RedirectionFilter");
+        redirectionFilter.setInitParameter("authorizationServer", "http://localhost:"+authorizationServerPort+
+        		authorizationServerRoot+"/authorize");
+        redirectionFilter.setInitParameter("targetUrlParameter", targetUrlParameter);
+        redirectionFilter.setInitParameter("clientId", resourceClientId);
+		context.addFilter(redirectionFilter, redirectionFilterUrl, FilterMapping.REQUEST);
 		
-        FilterHolder filter = new FilterHolder(OAuth2Filter.class);
-        // Name must be the same as the filter bean name.
-        filter.setName("oauth2Filter");
-        filter.setInitParameter("securedResourceName", "myResource");
-        filter.setInitParameter("validationServiceClass", 
+		// Tested filter: protection
+        FilterHolder protectionFilter = new FilterHolder(OAuth2Filter.class);
+        protectionFilter.setName("oauth2Filter");
+        protectionFilter.setInitParameter("securedResourceName", "myResource");
+        protectionFilter.setInitParameter("validationServiceClass", 
         		"org.resthub.oauth2.filter.service.MockExternalValidationService");
-		context.addFilter(filter, "/*", FilterMapping.REQUEST);
+		context.addFilter(protectionFilter, "/*", FilterMapping.REQUEST);
 		
 		// Jersey Servlet
 		ServletHolder servlet = new ServletHolder(ServletContainer.class);

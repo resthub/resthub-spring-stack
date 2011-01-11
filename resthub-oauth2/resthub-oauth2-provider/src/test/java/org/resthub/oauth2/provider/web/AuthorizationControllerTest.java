@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 
 import org.junit.Test;
 import org.resthub.oauth2.common.exception.ProtocolException.Error;
@@ -20,6 +21,7 @@ import org.resthub.web.test.AbstractWebResthubTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.representation.Form;
@@ -56,18 +58,22 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		form.add("password", "t3st");
 
 		// gets a token
-		TokenResponse response = server.path("authorize/token").
-			type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+		ClientResponse response = server.path("authorize/token").
+			type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, form);
+		TokenResponse tokenResponse = response.getEntity(TokenResponse.class);
 		
-		logger.info("[obtainAndRetrieveToken] generated token: {}", response);
-		assertNotNull("Generated token is null", response);
-		assertNotNull("Generated access token is null", response.accessToken);
-		assertNotNull("Token doesn't have expire date", response.expiresIn);
-		assertNotNull("Generated refresh token is null", response.refreshToken);
-		assertNull("Token must not have scope", response.scope);
-		
+		logger.info("[obtainAndRetrieveToken] generated token: {}", tokenResponse);
+		assertNotNull("Generated token is null", tokenResponse);
+		assertNotNull("Generated access token is null", tokenResponse.accessToken);
+		assertNotNull("Token doesn't have expire date", tokenResponse.expiresIn);
+		assertNotNull("Generated refresh token is null", tokenResponse.refreshToken);
+		assertNull("Token must not have scope", tokenResponse.scope);
+		NewCookie awaited = new NewCookie("oauth_token", tokenResponse.accessToken, "/", "", "", 
+				tokenResponse.expiresIn, false);
+		assertTrue("Cookie was not set", response.getCookies().contains(awaited));
+
 		// Retrieves informations
-		Token token = server.path("authorize/tokenDetails").queryParam("access_token", response.accessToken).
+		Token token = server.path("authorize/tokenDetails").queryParam("access_token", tokenResponse.accessToken).
 				header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
 		
 		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
@@ -82,9 +88,9 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		assertNotNull("Token's user identifier is null", token.userId);
 		
 		// Compares to original response.
-		assertEquals("Retrieved token has not good access token", response.accessToken, token.accessToken);
-		assertEquals("Retrieved token has not good refresh token", response.refreshToken, token.refreshToken);
-		assertEquals("Retrieved token has not good lifetime", response.expiresIn, token.lifeTime);
+		assertEquals("Retrieved token has not good access token", tokenResponse.accessToken, token.accessToken);
+		assertEquals("Retrieved token has not good refresh token", tokenResponse.refreshToken, token.refreshToken);
+		assertEquals("Retrieved token has not good lifetime", tokenResponse.expiresIn, token.lifeTime);
 
 		// gets another token with no permissions
 		form = new Form();
@@ -93,18 +99,22 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		form.add("client_secret", null);
 		form.add("username", MockAuthenticationService.NO_PERMISSIONS_USERNAME);
 		form.add("password", "t3st");
-		response = server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, 
+		response = server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, 
 				form);
-		
-		logger.info("[obtainAndRetrieveToken] generated token: {}", response);
-		assertNotNull("Generated token is null", response);
-		assertNotNull("Generated access token is null", response.accessToken);
-		assertNotNull("Token doesn't have expire date", response.expiresIn);
-		assertNotNull("Generated refresh token is null", response.refreshToken);
-		assertNull("Token must not have scope", response.scope);
+		tokenResponse = response.getEntity(TokenResponse.class);
+	
+		logger.info("[obtainAndRetrieveToken] generated token: {}", tokenResponse);
+		assertNotNull("Generated token is null", tokenResponse);
+		assertNotNull("Generated access token is null", tokenResponse.accessToken);
+		assertNotNull("Token doesn't have expire date", tokenResponse.expiresIn);
+		assertNotNull("Generated refresh token is null", tokenResponse.refreshToken);
+		assertNull("Token must not have scope", tokenResponse.scope);
+		awaited = new NewCookie("oauth_token", tokenResponse.accessToken, "/", "", "", 
+				tokenResponse.expiresIn, false);
+		assertTrue("Cookie was not set", response.getCookies().contains(awaited));
 		
 		// Retrieves informations
-		token = server.path("authorize/tokenDetails").queryParam("access_token", response.accessToken).
+		token = server.path("authorize/tokenDetails").queryParam("access_token", tokenResponse.accessToken).
 				header(HttpHeaders.AUTHORIZATION, "p@ssw0rd").get(Token.class);
 		
 		logger.info("[obtainAndRetrieveToken] retrieved token: {}", token);
@@ -119,9 +129,9 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		assertNotNull("Token's user identifier is null", token.userId);
 		
 		// Compares to original response.
-		assertEquals("Retrieved token has not good access token", response.accessToken, token.accessToken);
-		assertEquals("Retrieved token has not good refresh token", response.refreshToken, token.refreshToken);
-		assertEquals("Retrieved token has not good lifetime", response.expiresIn, token.lifeTime);
+		assertEquals("Retrieved token has not good access token", tokenResponse.accessToken, token.accessToken);
+		assertEquals("Retrieved token has not good refresh token", tokenResponse.refreshToken, token.refreshToken);
+		assertEquals("Retrieved token has not good lifetime", tokenResponse.expiresIn, token.lifeTime);
 
 	} // obtainAndRetrieveToken().
 

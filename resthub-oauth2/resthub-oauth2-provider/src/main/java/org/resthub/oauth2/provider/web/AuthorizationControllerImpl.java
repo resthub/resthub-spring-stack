@@ -8,6 +8,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -48,6 +49,24 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	@Value("#{securityConfig.authorizationPassword}")
 	protected String authorizationPassword = "pAss?w0rd";
 	
+	/**
+	 * Inject the cookie name.
+	 */
+	@Value("#{securityConfig.cookieName}")
+	protected String cookieName = "oauth_token";
+
+	/**
+	 * Inject the cookie domain.
+	 */
+	@Value("#{securityConfig.cookieDomain}")
+	protected String cookieDomain = "";
+
+	/**
+	 * Inject the cookie path.
+	 */
+	@Value("#{securityConfig.cookiePath}")
+	protected String cookiePath = "/";
+
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public attributes
 
@@ -109,7 +128,6 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
 				"password parameters are mandatory");
 		}
-		//TODO remove this trace which correspond to a standard behavior 
 		logger.trace("[obtainAccessTokenBasicCredentials] Generated token: {}", token);
 		// Builds a 200 response.
 		ResponseBuilder builder = Response.status(Status.OK);
@@ -119,6 +137,10 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		CacheControl noCache = new CacheControl();
 		noCache.setNoStore(true);
 		builder.cacheControl(noCache);
+		
+		// Sets cookie.
+		builder.cookie(new NewCookie("oauth_token", token.accessToken, cookiePath, cookieDomain, "", token.lifeTime, 
+				false));
 		// Sends response.
 		return builder.build(); 
 	} // obtainAccessTokenBasicCredentials().
@@ -139,7 +161,6 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			throw new IllegalArgumentException("accessToken parameter is mandatory");
 		}
 		Token token = service.getTokenInformation(accessToken);
-		//TODO remove this trace which correspond to a standard behavior 
 		logger.trace("[obtainTokenInformation] Retrieved token: {}", token);
 		return token;
 	} // obtainTokenInformation().

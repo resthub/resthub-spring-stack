@@ -32,5 +32,8 @@
 	<!-- Security configuration -->
 	<util:properties id="securityConfig">
 		<prop key="authorizationPassword">p@ssw0rd</prop>
+		<prop key="cookieName">oauth_token</prop>
+		<prop key="cookiePath">/</prop>
+		<prop key="cookieDomain"></prop>
 	</util:properties>
 </beans>

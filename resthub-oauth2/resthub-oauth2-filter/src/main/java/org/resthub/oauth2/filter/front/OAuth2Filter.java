@@ -225,7 +225,6 @@ public class OAuth2Filter implements Filter {
 	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		// Emtpy
 		logger.trace("[init] OAuth 2 filter initialization");
 		// Read the service used and the resource name.
 		setResource(config.getInitParameter("securedResourceName"));

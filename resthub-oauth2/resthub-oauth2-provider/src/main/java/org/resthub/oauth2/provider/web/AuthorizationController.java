@@ -17,7 +17,7 @@ import org.resthub.oauth2.common.model.Token;
 /**
  * REST Controller for authorisation requests.
  */
-@Path("/authorize/")
+@Path("/authorize")
 public interface AuthorizationController {
 
 	/**
@@ -43,7 +43,7 @@ public interface AuthorizationController {
 	 * @throws ProtocolException INVALID_SCOPE: if the scope parameter is not well formated, or if it's not empty.
 	 */
 	@POST
-	@Path("token")
+	@Path("/token")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	Response obtainAccessTokenBasicCredentials(
@@ -64,7 +64,7 @@ public interface AuthorizationController {
 	 * @throws IllegalArgumentException If the accessToken parameter is missing.
 	 */
 	@GET
-	@Path("tokenDetails")
+	@Path("/tokenDetails")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	Token obtainTokenInformation(@QueryParam("access_token")String accessToken,
 			@HeaderParam(HttpHeaders.AUTHORIZATION)String password);
