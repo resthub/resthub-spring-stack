@@ -119,8 +119,8 @@ public class ScanningPersistenceUnitManager extends
 
 			entities = getMatchingEntitiesFromContext(pui, pui
 					.getPersistenceUnitName());
-			PersistenceEntitiesContext.getInstance().clearPersistenceUnit(
-					pui.getPersistenceUnitName());
+			/*PersistenceEntitiesContext.getInstance().clearPersistenceUnit(
+					pui.getPersistenceUnitName());*/
 		}
 
 		addEntitiesToPersistenceUnit(pui, entities);
