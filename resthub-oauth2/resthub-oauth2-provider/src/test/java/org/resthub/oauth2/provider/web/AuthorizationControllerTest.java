@@ -11,6 +11,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.oauth2.common.exception.ProtocolException.Error;
 import org.resthub.oauth2.common.front.model.ObtainTokenErrorResponse;
@@ -345,5 +346,113 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 		}
 
 	} // obtainToken().
+	
+	@Test
+	@Ignore
+	public void shouldResponseTypeBeRequiredToGetAccessCode() {
+		// When accessing the end-user authorization end-point without response_type
+		
+		// Then an invalid_request error is returned
+		
+	} // shouldResponseTypeBeRequiredToGetAccessCode().
+
+	@Test
+	@Ignore
+	public void shouldWrongResponseTypeFailOnError() {
+		// When accessing the end-user authorization end-point with wrong response_type
+		
+		// Then an invalid_request error is returned
+		
+	} // shouldWrongResponseTypeFailOnError().
+
+	@Test
+	@Ignore
+	public void shouldClientIdBeRequiredToGetAccessCode() {
+		// When accessing the end-user authorization end-point without client_id
+
+		// Then an invalid_request error is returned
+		
+	} // shouldClientIdBeRequiredToGetAccessCode().
+
+	@Test
+	@Ignore
+	public void shouldUnknownClientIdFailOnError() {
+		// When accessing the end-user authorization end-point with unknown client_id
+
+		// Then an invalid_client error is returned
+		
+	} // shouldUnknownClientIdFailOnError().
+
+	@Test
+	@Ignore
+	public void shouldRedirectUriBeRequiredToGetAccessCode() {
+		// When accessing the end-user authorization end-point without redirect_uri
+
+		// Then an invalid_request error is returned
+		
+	} // shouldRedirectUriBeRequiredToGetAccessCode().
+
+	@Test
+	@Ignore
+	public void shouldMisformatedRedirectUriFailOnError() {
+		// When accessing the end-user authorization end-point without redirect_uri
+
+		// Then an invalid_request error is returned
+		
+	} // shouldMisformatedRedirectUriFailOnError().
+
+	@Test
+	@Ignore
+	public void shouldEndUserAuthorizationEndPointBeDisplayed() {
+		// Given a known client_id
+		
+		// Given a registered redirect_uri
+		
+		// Given a good response_type
+		
+		// When accessing the end-user authorization end-point
+		
+		// Then the end-point is accessible
+		
+	} // shouldEndUserAuthorizationendPointBeDisplayed().
+
+	@Test
+	@Ignore
+	public void shouldUnknwonEndUserBeRedirectedWithError() {
+		// Given a known client_id
+		
+		// Given a registered redirect_uri
+		
+		// Given a good response_type
+		
+		// When accessing the end-user authorization end-point
+		
+		// When authenticating with an unknown user
+		
+		// Then the user-agent is redirected to the redirect_uri
+		
+		// Then an error code is added to the redirection uri
+		
+	} // shouldEndUserAuthenticateAndRedirectedWithCode().
+
+	@Test
+	@Ignore
+	public void shouldEndUserAuthenticateAndRedirectedWithCode() {
+		// Given a known client_id
+		
+		// Given a registered redirect_uri
+		
+		// Given a good response_type
+		
+		// When accessing the end-user authorization end-point
+		
+		// When authenticating with a known user
+		
+		// Then the user-agent is redirected to the redirect_uri
+		
+		// Then an access_code is added to the redirection uri
+		
+	} // shouldEndUserAuthenticateAndRedirectedWithCode().
+
 	
 } // class AuthorizationControllerTest

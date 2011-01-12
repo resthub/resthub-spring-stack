@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.sun.jersey.api.client.Client;
@@ -126,5 +127,37 @@ public class OAuth2RedirectionFilterTest extends AbstractOAuth2FilterTest {
 					exc.getResponse().getStatus());
 		}
 	} // shouldMissingTargetUrlFailOnError().
+
+	@Test
+	@Ignore
+	public void shouldRequestedUriBedisplayedToKnownUserAfterAuthentication() {
+		// Given an access to the redirection request with a requested uri
+		
+		// Given an authentication with a known user
+		
+		// Then the requested uri is displayed
+	} // shouldRequestedUriBedisplayedToKnownUserAfterAuthentication().
+
+	@Test
+	@Ignore
+	public void shouldErrorBeDisplayedToUnknwonUserAfterAuthentication() {
+		// Given an access to the redirection request with a requested uri
+		
+		// Given an authentication with a unknown user
+		
+		// Then an error is displayed
+		
+	} // shouldErrorBeDisplayedToUnknwonUserAfterAuthentication().
+
+	@Test
+	@Ignore
+	public void shouldErrorBeDisplayedToLimitedUserAfterAuthentication() {
+		// Given an access to the redirection request with a requested uri
+		
+		// Given an authentication with a limited user
+		
+		// Then an access error is displayed
+		
+	} // shouldErrorBeDisplayedToLimitedUserAfterAuthentication().
 
 } // class OAuth2RedirectionFilterTest
