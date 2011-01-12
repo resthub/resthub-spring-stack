@@ -1,0 +1,29 @@
+<% if ($.isEmptyObject(result.elements)) { %>
+	<p>No hotels found...</p>
+<% } else { %>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>City, State</th>
+				<th>Zip</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% var hotels = result.elements %>
+			<% for (index in hotels) { %>
+				<tr class="hotel-item" id="hotel-<%= hotels[index].id %>">
+					<td><%= hotels[index].name %></td>
+					<td><%= hotels[index].address %></td>
+					<td><%= hotels[index].city %>, <%= hotels[index].state %></td>
+					<td><%= hotels[index].zip %></td>
+					<td><a href="#/hotel/<%= hotels[index].id %>">View Hotel</a></td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+<br/>
+<input id="search-next" type="button" value="More results">
+<% } %>

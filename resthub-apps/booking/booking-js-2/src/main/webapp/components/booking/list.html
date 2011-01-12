@@ -1,0 +1,36 @@
+<h1>Current Hotel Bookings</h1>
+
+<% if ($.isEmptyObject(bookings)) { %>
+	<p>
+		No Bookings Found
+	</p>
+<% } else { %>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>City, State</th>
+				<th>Check in</th>
+				<th>Check out</th>
+				<th>Confirmation number</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for (index in bookings) { %>
+				<tr class="booking-item" id="booking-<%= bookings[index].id %>">
+					<td><%= bookings[index].hotel.name %></td>
+					<td><%= bookings[index].hotel.address %></td>
+					<td><%= bookings[index].hotel.city %>, <%= bookings[index].hotel.state %>, <%= bookings[index].hotel.country %></td>
+					<td><%= bookings[index].checkinDate %></td>
+					<td><%= bookings[index].checkoutDate %></td>
+					<td><%= bookings[index].id %></td>
+					<td>
+						<a href="#/booking/del/<%= bookings[index].id %>">Cancel</a>
+					</td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+<% } %>

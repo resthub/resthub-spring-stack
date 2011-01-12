@@ -1,6 +1,14 @@
 /**
  * RESThub Javascript Stack
- *
+ * 
+ * In progress : 
+ * jQuery 1.4.4 + require.js 0.22.0 (http://requirejs.org/docs/download.html#jqueryrequirejs)
+ * jQuery-UI 1.8.7 + require.js AMD (http://requirejs.org/jqueryui-amd/jqueryui-amd-1.8.7.zip)
+ * Sammy 0.6.2
+ * jQuery-ejs (patched to add $.render())
+ * Custom Controller (OAuth2 features).
+ * 
+ * Old : 
  * Sammy 0.5.4 patched for js files loading
  * jQuery 1.4.3
  * jQuery UI 1.8.5

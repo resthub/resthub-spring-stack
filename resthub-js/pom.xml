@@ -47,23 +47,7 @@
                             <output>${project.build.directory}/${project.build.finalName}/lib/resthub.stack.js</output>
                             <includes>
                                 <include>${basedir}/src/main/webapp/lib/readme.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/dominoes.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/ejs.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.class.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.ejs.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.json.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.core.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.widget.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.mouse.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/jquery.ui.position.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/resthub.controller.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/sammy.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/sammy.title.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/sammy.json.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/sammy.storage.js</include>
-								<include>${basedir}/src/main/webapp/lib/core/resthub.wrappers.js</include>
-                                <include>${basedir}/src/main/webapp/lib/core/resthub.oauth2.js</include>
+                                <include>${basedir}/src/main/webapp/lib/jquery.js</include>
                             </includes>
 
                         </aggregation>
