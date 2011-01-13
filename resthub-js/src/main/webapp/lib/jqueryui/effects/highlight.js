@@ -1,4 +1,4 @@
-define('jqueryui/effects/highlight', ['jquery','jqueryui','jqueryui/effects/core'], function (jQuery) {
+define('jqueryui/effects/highlight', ['jquery','jqueryui/effects/core'], function (jQuery) {
 /*
  * jQuery UI Effects Highlight 1.8.7
  *

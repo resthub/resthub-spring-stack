@@ -1,4 +1,4 @@
-define(['/lib/jquery.js', '/lib/sammy.js'], function(jQuery) {
+define(['sammy'], function(jQuery) {
 
   // json2.js - only included if native json does not exist
   // http://www.json.org/js.html

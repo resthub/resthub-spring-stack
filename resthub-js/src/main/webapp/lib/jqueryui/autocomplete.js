@@ -1,4 +1,4 @@
-define('jqueryui/autocomplete', ['jquery','jqueryui','jqueryui/core','jqueryui/widget','jqueryui/position'], function (jQuery) {
+define('jqueryui/autocomplete', ['jquery','jqueryui/core','jqueryui/widget','jqueryui/position'], function (jQuery) {
 /*
  * jQuery UI Autocomplete 1.8.7
  *

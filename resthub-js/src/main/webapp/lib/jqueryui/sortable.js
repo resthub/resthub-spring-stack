@@ -1,4 +1,4 @@
-define('jqueryui/sortable', ['jquery','jqueryui','jqueryui/core','jqueryui/mouse','jqueryui/widget'], function (jQuery) {
+define('jqueryui/sortable', ['jquery','jqueryui/core','jqueryui/mouse','jqueryui/widget'], function (jQuery) {
 /*
  * jQuery UI Sortable 1.8.7
  *

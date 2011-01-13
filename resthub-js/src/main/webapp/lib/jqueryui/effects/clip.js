@@ -1,4 +1,4 @@
-define('jqueryui/effects/clip', ['jquery','jqueryui','jqueryui/effects/core'], function (jQuery) {
+define('jqueryui/effects/clip', ['jquery','jqueryui/effects/core'], function (jQuery) {
 /*
  * jQuery UI Effects Clip 1.8.7
  *

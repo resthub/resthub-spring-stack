@@ -1,4 +1,4 @@
-define('jqueryui/effects/scale', ['jquery','jqueryui','jqueryui/effects/core'], function (jQuery) {
+define('jqueryui/effects/scale', ['jquery','jqueryui/effects/core'], function (jQuery) {
 /*
  * jQuery UI Effects Scale 1.8.7
  *

@@ -1,4 +1,4 @@
-define('jqueryui/tabs', ['jquery','jqueryui','jqueryui/core','jqueryui/widget'], function (jQuery) {
+define('jqueryui/tabs', ['jquery','jqueryui/core','jqueryui/widget'], function (jQuery) {
 /*
  * jQuery UI Tabs 1.8.7
  *

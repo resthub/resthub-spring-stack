@@ -1,4 +1,4 @@
-define(['/lib/jquery.js', '/lib/sammy.js'], function(jQuery) {
+define(['sammy'], function(jQuery) {
 
   Sammy = Sammy || {};
 

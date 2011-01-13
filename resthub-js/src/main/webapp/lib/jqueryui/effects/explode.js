@@ -1,4 +1,4 @@
-define('jqueryui/effects/explode', ['jquery','jqueryui','jqueryui/effects/core'], function (jQuery) {
+define('jqueryui/effects/explode', ['jquery','jqueryui/effects/core'], function (jQuery) {
 /*
  * jQuery UI Effects Explode 1.8.7
  *

@@ -8,9 +8,11 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="lib/themes/base/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="lib/themes/jquery.pnotify.css">
 		<link rel="shortcut icon" type="image/png" href="images/favicon.png">
-		<script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-			require(["index.js"]);
+		<script data-main="../index" src="lib/jquery.js" type="text/javascript" charset="utf-8">
+		var require = {
+          paths: {
+              "components": "../components"
+          }}
 		</script>
 	</head>
 	<body>

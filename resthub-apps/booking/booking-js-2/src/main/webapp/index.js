@@ -1,12 +1,12 @@
 /**
  * Routes
  */
-define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.title.js", "/lib/jquery-ejs.js", "/lib/jqueryui.js", "/lib/jquery.pnotify.js"], function(jQuery) {
+define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify", "resthub.controller"], function() {
 	
 	var app = $.sammy(function() {
 
-		this.use(Sammy.Title);
-		this.use(Sammy.Session);
+		this.use('Title');
+		this.use('Session');
 
 		/**
 		 * Load app managed events
@@ -16,7 +16,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 
 		this.bind('run-route', function() {
 			var user = this.session('user');
-			$('#header').render('components/header.html', {user: user});
+			$('#header').render('/components/header.html', {user: user});
 		});
 
 		this.bind('end-of-booking', function() {
@@ -66,7 +66,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 				context.redirect('#/home');
 			} else {
 				this.title('Login');
-				$('#content').render('components/user/login.html', {});
+				$('#content').render('/components/user/login.html', {});
 			}
 		});
 
@@ -74,7 +74,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * User authentication
 		 */
 		this.post('#/user/check', function(context) {
-			require(['components/user/login.js'], function() {
+			require(['/components/user/login.js'], function() {
 				$('#header').userLogin({context: context});
 			});
 		});
@@ -90,7 +90,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * User register
 		 */
 		this.get('#/register', function(context) {
-			require(['components/user/register.js'], function() {
+			require(['/components/user/register.js'], function() {
 				$('#content').userRegister({context: context});
 			});
 		});
@@ -99,7 +99,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * Home page after authentication
 		 */
 		this.get('#/home', function(context) {
-			require(['components/home.js'], function() {
+			require(['/components/home.js'], function() {
 				$('#content').home({context: context});
 			});
 		});
@@ -108,7 +108,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * View hotel
 		 */
 		this.get('#/hotel/:id', function(context) {
-			require(['components/hotel/view.js'], function() {
+			require(['/components/hotel/view.js'], function() {
 				$('#content').viewHotel({id: this.params['id'], context: context});
 			});
         });
@@ -117,7 +117,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * Book hotel identified by 'id'
 		 */
 		this.get('#/booking/hotel/:id', function(context) {
-			require(['components/booking/book.js'], function() {
+			require(['/components/booking/book.js'], function() {
 				var booking = {hotel: {id: this.params['id']}};
 				$('#content').bookBooking({booking: booking, context: context, mode: 'edit'});
 			});
@@ -127,7 +127,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * Booking confirmation
 		 */
 		this.get('#/booking/confirm', function(context) {
-			require(['components/booking/book.js'], function() {
+			require(['/components/booking/book.js'], function() {
 				$('#content').bookBooking({context: context, mode: 'view'});
 			});
         });
@@ -136,7 +136,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * Delete booking
 		 */
 		this.get('#/booking/del/:id', function(context) {
-			require(['components/booking/delete.js'], function() {
+			require(['/components/booking/delete.js'], function() {
 				$('#content').deleteBooking({id: this.params['id'], context: context});
 			});
 		});
@@ -145,7 +145,7 @@ define(["/lib/jquery.js", "/lib/sammy.js", "/lib/sammy.storage.js", "/lib/sammy.
 		 * Update user
 		 */
 		this.get('#/settings', function(context) {
-			require(['components/user/edit.js'], function() {
+			require(['/components/user/edit.js'], function() {
 				$('#content').editUser({context: context});
 			});
 		});

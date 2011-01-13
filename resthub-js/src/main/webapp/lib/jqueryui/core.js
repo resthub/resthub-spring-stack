@@ -1,4 +1,4 @@
-define('jqueryui/core', ['jquery','jqueryui'], function (jQuery) {
+define('jqueryui/core', ['jquery'], function (jQuery) {
 /*!
  * jQuery UI 1.8.7
  *

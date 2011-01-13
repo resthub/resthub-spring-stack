@@ -1,4 +1,4 @@
-define('jqueryui/position', ['jquery','jqueryui'], function (jQuery) {
+define('jqueryui/position', ['jquery'], function (jQuery) {
 /*
  * jQuery UI Position 1.8.7
  *

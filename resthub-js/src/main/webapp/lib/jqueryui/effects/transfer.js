@@ -1,4 +1,4 @@
-define('jqueryui/effects/transfer', ['jquery','jqueryui','jqueryui/effects/core'], function (jQuery) {
+define('jqueryui/effects/transfer', ['jquery','jqueryui/effects/core'], function (jQuery) {
 /*
  * jQuery UI Effects Transfer 1.8.7
  *

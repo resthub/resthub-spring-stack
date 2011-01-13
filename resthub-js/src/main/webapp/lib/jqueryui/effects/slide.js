@@ -1,4 +1,4 @@
-define('jqueryui/effects/slide', ['jquery','jqueryui','jqueryui/effects/core'], function (jQuery) {
+define('jqueryui/effects/slide', ['jquery','jqueryui/effects/core'], function (jQuery) {
 /*
  * jQuery UI Effects Slide 1.8.7
  *

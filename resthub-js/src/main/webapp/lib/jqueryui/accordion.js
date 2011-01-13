@@ -1,4 +1,4 @@
-define('jqueryui/accordion', ['jquery','jqueryui','jqueryui/core','jqueryui/widget'], function (jQuery) {
+define('jqueryui/accordion', ['jquery','jqueryui/core','jqueryui/widget'], function (jQuery) {
 /*
  * jQuery UI Accordion 1.8.7
  *

@@ -1,5 +1,4 @@
-// name: sammy
-// version: 0.6.2
+define(['jquery'], function(jQuery) {
 
 (function($, window) {
 
@@ -1818,3 +1817,5 @@
   $.sammy = window.Sammy = Sammy;
 
 })(jQuery, window);
+
+});

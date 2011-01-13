@@ -1,4 +1,4 @@
-define('jqueryui/button', ['jquery','jqueryui','jqueryui/core','jqueryui/widget'], function (jQuery) {
+define('jqueryui/button', ['jquery','jqueryui/core','jqueryui/widget'], function (jQuery) {
 /*
  * jQuery UI Button 1.8.7
  *

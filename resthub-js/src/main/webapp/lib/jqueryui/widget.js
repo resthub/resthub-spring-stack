@@ -1,4 +1,4 @@
-define('jqueryui/widget', ['jquery','jqueryui'], function (jQuery) {
+define('jqueryui/widget', ['jquery'], function (jQuery) {
 /*!
  * jQuery UI Widget 1.8.7
  *
