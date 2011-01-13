@@ -1,3 +1,4 @@
+define(['resthub.controller'], function() {
 (function($) {
 
 var viewBooking =
@@ -45,7 +46,7 @@ var viewBooking =
 		this.options.context.redirect('#/booking/hotel', this.options.booking.hotel.id);
 	},
 	_sendBooking: function() {
-		this._post('api/booking', this._endOfBooking, $.toJSON(this.options.booking));
+		this._post('api/booking', this._endOfBooking, JSON.stringify(this.options.booking));
 	},
 	/* Go back home page and trigger end-of-booking event */
 	_endOfBooking: function(booking) {
@@ -57,3 +58,4 @@ var viewBooking =
 
 $.widget("booking.viewBooking", $.resthub.resthubController, viewBooking);
 })(jQuery);
+});

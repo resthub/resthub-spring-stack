@@ -1,3 +1,4 @@
+define(["components/booking/view", "components/booking/edit"], function() {
 (function($) {
 
 var bookBooking =
@@ -36,12 +37,12 @@ var bookBooking =
 	_displayBookingView: function() {
 
 		var self = this;
-		dominoes('components/hotel/view.js', function() {
-			$('#hotel-data').viewHotel({
-				id: self.options.booking.hotel.id,
-				only_data: true
-			});
+		
+		$('#hotel-data').viewHotel({
+			id: self.options.booking.hotel.id,
+			only_data: true
 		});
+	
 		
 		if(this.options.mode == 'edit') {
 			this._switchToEdit();
@@ -51,30 +52,25 @@ var bookBooking =
 	},
 	_switchToEdit: function() {
 
-		var self = this;
-
 		Sammy.log('Booking workflow : edit mode.');
-		dominoes('components/booking/edit.js', function() {
-			$('#booking-data').editBooking({
-				booking: self.options.booking,
-				context: self.options.context
-			});
+		
+		$('#booking-data').editBooking({
+			booking: this.options.booking,
+			context: this.options.context
 		});
+		
 	},
 	_switchToView: function() {
-
 		var self = this;
-
 		Sammy.log('Booking workflow : confirmation mode.');
-		dominoes('components/booking/view.js', function() {
-			$('#booking-data').viewBooking({
-				booking: self.options.booking,
-				context: self.options.context,
-				mode: 'confirm'
-			});
+		$('#booking-data').viewBooking({
+			booking: self.options.booking,
+			context: self.options.context,
+			mode: 'confirm'
 		});
 	}
 };
 
 $.widget("booking.bookBooking", $.resthub.resthubController, bookBooking);
 })(jQuery);
+});

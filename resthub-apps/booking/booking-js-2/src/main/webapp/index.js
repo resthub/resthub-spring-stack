@@ -1,7 +1,7 @@
 /**
  * Routes
  */
-define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify", "resthub.controller"], function() {
+define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery-ejs", "jquery.pnotify", "resthub.controller"], function() {
 	
 	var app = $.sammy(function() {
 
@@ -21,7 +21,7 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 
 		this.bind('end-of-booking', function() {
 			var booking = this.session('booking');
-			$.pnotify('Thank you, ' + booking.user.fullname + ', your confimation number for ' + booking.hotel.name + ' is ' + booking.id + '.');
+			$.pnotify('Thank you, ' + booking.user.fullname + ', your confirmation number for ' + booking.hotel.name + ' is ' + booking.id + '.');
 			this.store('session').clear('booking');
 		});
 
@@ -74,7 +74,7 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * User authentication
 		 */
 		this.post('#/user/check', function(context) {
-			require(['/components/user/login.js'], function() {
+			require(['components/user/login'], function() {
 				$('#header').userLogin({context: context});
 			});
 		});
@@ -90,7 +90,7 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * User register
 		 */
 		this.get('#/register', function(context) {
-			require(['/components/user/register.js'], function() {
+			require(['components/user/register'], function() {
 				$('#content').userRegister({context: context});
 			});
 		});
@@ -99,7 +99,7 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * Home page after authentication
 		 */
 		this.get('#/home', function(context) {
-			require(['/components/home.js'], function() {
+			require(['components/home'], function() {
 				$('#content').home({context: context});
 			});
 		});
@@ -108,8 +108,9 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * View hotel
 		 */
 		this.get('#/hotel/:id', function(context) {
-			require(['/components/hotel/view.js'], function() {
-				$('#content').viewHotel({id: this.params['id'], context: context});
+			var self = this;
+			require(['components/hotel/view'], function() {
+				$('#content').viewHotel({id: self.params['id'], context: context});
 			});
         });
 
@@ -117,8 +118,9 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * Book hotel identified by 'id'
 		 */
 		this.get('#/booking/hotel/:id', function(context) {
-			require(['/components/booking/book.js'], function() {
-				var booking = {hotel: {id: this.params['id']}};
+			var self = this;
+			require(['components/booking/book'], function() {
+				var booking = {hotel: {id: self.params['id']}};
 				$('#content').bookBooking({booking: booking, context: context, mode: 'edit'});
 			});
         });
@@ -127,7 +129,7 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * Booking confirmation
 		 */
 		this.get('#/booking/confirm', function(context) {
-			require(['/components/booking/book.js'], function() {
+			require(['components/booking/book'], function() {
 				$('#content').bookBooking({context: context, mode: 'view'});
 			});
         });
@@ -136,8 +138,9 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * Delete booking
 		 */
 		this.get('#/booking/del/:id', function(context) {
-			require(['/components/booking/delete.js'], function() {
-				$('#content').deleteBooking({id: this.params['id'], context: context});
+			var self = this;
+			require(['components/booking/delete'], function() {
+				$('#content').deleteBooking({id: self.params['id'], context: context});
 			});
 		});
 
@@ -145,7 +148,7 @@ define(["sammy", "sammy.storage", "sammy.title", "jquery-ejs", "jquery.pnotify",
 		 * Update user
 		 */
 		this.get('#/settings', function(context) {
-			require(['/components/user/edit.js'], function() {
+			require(['components/user/edit'], function() {
 				$('#content').editUser({context: context});
 			});
 		});

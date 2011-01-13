@@ -1,4 +1,4 @@
-define(['/lib/jquery.js', '/lib/resthub.controller.js'], function(jQuery) {
+define(['resthub.controller'], function() {
 
 	var userLogin =
 	{
@@ -8,7 +8,7 @@ define(['/lib/jquery.js', '/lib/resthub.controller.js'], function(jQuery) {
 				username: this.options.context.params['username'],
 				password: this.options.context.params['password']
 			}
-			this._post('api/user/check/', this._userLoggedIn, $.toJSON(user));
+			this._post('api/user/check/', this._userLoggedIn, JSON.stringify(user));
 		},
 		_userLoggedIn: function(user) {
 			this.options.context.session('user', user);

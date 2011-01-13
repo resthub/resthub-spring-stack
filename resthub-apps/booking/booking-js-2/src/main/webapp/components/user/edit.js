@@ -12,7 +12,7 @@
 			{
 				this.options.user = this.options.context.session('user');
 				this.options.user.password = $('input[name=password]').val();
-				this._put('api/user/' + this.options.user.id, this._passwordUpdated, $.toJSON(this.options.user));
+				this._put('api/user/' + this.options.user.id, this._passwordUpdated, JSON.stringify(this.options.user));
 			}
 		},
 		_passwordUpdated: function() {

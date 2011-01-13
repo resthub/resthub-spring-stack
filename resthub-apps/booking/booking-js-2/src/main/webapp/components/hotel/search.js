@@ -1,3 +1,4 @@
+define(["components/hotel/list"], function() {
 (function($) {
 
 var searchHotels =
@@ -37,12 +38,10 @@ var searchHotels =
 		$('#search-value').attr('value', this.options.searchVal);
 
 		if(this.options.searchVal != '#home') {
-			dominoes('components/hotel/list.js', function() {
-				$('#result').listHotels({
-					searchVal: self.options.searchVal,
-					size: self.options.size,
-					context: self.options.context
-				});
+			$('#result').listHotels({
+				searchVal: self.options.searchVal,
+				size: self.options.size,
+				context: self.options.context
 			});
 		}
 	}
@@ -50,3 +49,4 @@ var searchHotels =
 
 $.widget("booking.searchHotels", $.resthub.resthubController, searchHotels);
 })(jQuery);
+});

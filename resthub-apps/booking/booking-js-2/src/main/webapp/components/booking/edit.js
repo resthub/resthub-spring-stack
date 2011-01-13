@@ -1,3 +1,4 @@
+define(['resthub.controller','jqueryui/datepicker','jquery.validate'], function() {
 (function($) {
 
 var editBooking =
@@ -93,3 +94,4 @@ var editBooking =
 
 $.widget("booking.editBooking", $.resthub.resthubController, editBooking);
 })(jQuery);
+});

@@ -15,7 +15,7 @@
 					password: $('input[name=password]').val(),
 					fullname: $('input[name=name]').val()
 				}
-				self._post('api/user', self._userRegistered, $.toJSON(user));
+				self._post('api/user', self._userRegistered, JSON.stringify(user));
 			});
 		},
 		_userRegistered: function(user) {
