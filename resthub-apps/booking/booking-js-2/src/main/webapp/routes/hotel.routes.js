@@ -1,6 +1,6 @@
 define(['components/hotel/view'], function() {
 
-HotelController = function(app) { with(app) {
+HotelRoutes = function(app) { with(app) {
 
 		/* BEGIN EVENTS */
 		

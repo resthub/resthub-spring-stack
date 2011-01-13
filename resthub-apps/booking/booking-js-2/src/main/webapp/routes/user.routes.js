@@ -1,6 +1,6 @@
 define(['components/user/login','components/user/register', 'components/user/edit'], function() {
 
-UserController = function(app) { with(app) {
+UserRoutes = function(app) { with(app) {
 
 		/* BEGIN EVENTS */
 		

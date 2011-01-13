@@ -2,15 +2,16 @@
  * Routes
  */
 define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery-ejs", "jquery.pnotify", "resthub.controller",
-		"controllers/user.controller","controllers/booking.controller",,"controllers/hotel.controller"], function() {
+		"routes/user.routes","routes/booking.routes","routes/hotel.routes"], function() {
 	
 	var app = $.sammy(function() {
 
 		this.use('Title');
 		this.use('Session');
 		
-		UserController(this);
-		BookingController(this);
+		UserRoutes(this);
+		BookingRoutes(this);
+		HotelRoutes(this);
 
 		/**
 		 * Login page

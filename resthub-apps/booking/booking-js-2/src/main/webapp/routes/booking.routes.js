@@ -1,6 +1,6 @@
 define(['components/booking/book','components/booking/delete'], function() {
 
-BookingController = function(app) { with(app) {
+BookingRoutes = function(app) { with(app) {
 
 		/* BEGIN EVENTS */
 		
