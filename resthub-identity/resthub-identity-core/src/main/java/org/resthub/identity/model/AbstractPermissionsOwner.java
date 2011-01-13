@@ -37,6 +37,11 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	 * */
 	protected List<Group> groups = new ArrayList<Group>();
 	
+	/**
+	 * List of roles the permission owner has.
+	 */
+	protected List<Role> roles = new ArrayList<Role>();
+	
 	/** Default constructor */
 	public AbstractPermissionsOwner() {
 
@@ -79,6 +84,26 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	 * */
 	private void setPermissions(List<String> permissions) {
 		this.permissions = permissions;
+	}
+	
+	/**
+	 * Retrieve the roles assigned to the identity.
+	 * 
+	 * @return the list of roles assigned to the identity.
+	 */
+	@ManyToMany
+	@JoinTable(name = "PermissionsOwner_role")
+	public List<Role> getRoles() {
+		return this.roles;
+	}
+	
+	/**
+	 * Define the list of roles of the identity.
+	 * 
+	 * @param roles List of roles to assign to the identity.
+	 */
+	protected void setRoles(List<Role> roles) {
+		this.roles = roles;		
 	}
 
 	
