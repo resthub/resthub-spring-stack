@@ -1,3 +1,4 @@
+define(['resthub.controller'], function() {
 (function($)
 {
 	var userRegister =
@@ -29,3 +30,4 @@
 
 	$.widget("booking.userRegister", $.resthub.resthubController, userRegister);
 })(jQuery);
+});

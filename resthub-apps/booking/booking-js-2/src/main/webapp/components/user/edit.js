@@ -1,3 +1,4 @@
+define(['resthub.controller'], function() {
 (function($)
 {
 	var editUser =
@@ -28,3 +29,4 @@
 
 	$.widget("booking.editUser", $.resthub.resthubController, editUser);
 })(jQuery);
+});

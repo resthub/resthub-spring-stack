@@ -1,3 +1,4 @@
+define(['resthub.controller'], function() {
 (function($) {
 
 var deleteBooking =
@@ -16,3 +17,4 @@ var deleteBooking =
 
 $.widget("booking.deleteBooking", $.resthub.resthubController, deleteBooking);
 })(jQuery);
+});
