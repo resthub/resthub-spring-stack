@@ -62,7 +62,7 @@ public class Role extends Resource {
 	 * @return the permissions assigned to the role.
 	 * */
 	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "PermissionsOwner_Permission")
+	@JoinTable(name = "Role_Permission")
 	@XmlElementWrapper(name = "permissions")
 	@XmlElement(name = "permission")
 	public List<String> getPermissions() {
