@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>org.resthub</groupId>
-	<artifactId>booking-js-2</artifactId>
+	<artifactId>booking-js</artifactId>
 	<packaging>war</packaging>
 	<version>1.1-SNAPSHOT</version>
 	<name>Booking javascript stack based demo</name>
