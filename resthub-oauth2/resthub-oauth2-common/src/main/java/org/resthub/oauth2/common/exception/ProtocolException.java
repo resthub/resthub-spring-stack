@@ -61,7 +61,17 @@ public class ProtocolException extends RuntimeException {
 		/**
 		 *  The request requires higher privileges than provided by the access token.  
 		 */
-		INSUFFICIENT_SCOPE("insufficient_scope", Status.FORBIDDEN);
+		INSUFFICIENT_SCOPE("insufficient_scope", Status.FORBIDDEN),
+
+		/**
+		 * The end-user or authorization server denied the request. 
+		 */
+		ACCESS_DENIED("access_denied", Status.FORBIDDEN),
+		
+		/**
+		 * The requested response type is not supported by the authorization server.
+		 */
+		UNSUPPORTED_RESPONSE_TYPE("unsupported_response_type", Status.BAD_REQUEST);
 
 		/**
 		 * String value for this error case.

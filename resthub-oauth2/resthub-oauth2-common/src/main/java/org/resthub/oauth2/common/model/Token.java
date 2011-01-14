@@ -70,6 +70,11 @@ public class Token implements Serializable {
 	public String refreshToken = null;
 	
 	/**
+	 * Corresponding access code.
+	 */
+	public String accessCode = null;
+	
+	/**
 	 * The user's permissions.
 	 */
 	@ElementCollection(fetch=FetchType.EAGER)

@@ -89,8 +89,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	 */
 	@Transactional(readOnly = false)
 	@Override
-	public Token generateToken(List<String> scopes, String clientId,
-			String clientSecred, String userName, String password) {
+	public Token generateToken(List<String> scopes, String userName, String password) {
 		if(logger.isTraceEnabled()) {
 			logger.trace("[generateToken] generate new token for scope '{}', userName '{}'", new Object[]{
 					StringUtils.collectionToCommaDelimitedString(scopes), userName});
@@ -129,6 +128,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 		// All's fine : generate tokens.
 		token.accessToken = Utils.generateString(tokenLength);
 		token.refreshToken = Utils.generateString(tokenLength);
+		token.accessCode = Utils.generateString(tokenLength);
 		token.lifeTime = tokenLifeTime;
 		logger.info("[generateToken] Save token {} for {} during {}", new Object[]{token.accessToken, token.userId, 
 				token.lifeTime});

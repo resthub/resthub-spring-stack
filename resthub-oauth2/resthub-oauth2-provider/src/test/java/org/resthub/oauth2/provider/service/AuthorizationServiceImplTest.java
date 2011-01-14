@@ -112,20 +112,19 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	@Test
 	public void generateAccessTokenErrors() {
 		try {
-			service.generateToken(null, "", "", "", "");
+			service.generateToken(null, "", "");
 			fail("An IllegalArgumentException must be raised for null scopes parameter");
 		} catch (IllegalArgumentException exc) {
 			// All things right
 		}		
 		try {
-			service.generateToken(new ArrayList<String>(), null, null, null, "");
+			service.generateToken(new ArrayList<String>(), null, "");
 			fail("An IllegalArgumentException must be raised for null userName parameter");
 		} catch (IllegalArgumentException exc) {
 			// All things right
 		}		
 		try {
-			service.generateToken(new ArrayList<String>(), null, null, 
-					MockAuthenticationService.UNKNOWN_USERNAME, null);
+			service.generateToken(new ArrayList<String>(), MockAuthenticationService.UNKNOWN_USERNAME, null);
 			fail("A ProtocolException must be raised for unknown userName");
 		} catch (ProtocolException exc) {
 			// All things right
@@ -134,7 +133,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		try {
 			List<String> scopes = new ArrayList<String>();
 			scopes.add("unknown");
-			service.generateToken(scopes, null, null, "someone", null);
+			service.generateToken(scopes, "someone", null);
 			fail("A ProtocolException must be raised for unknown scope");
 		} catch (ProtocolException exc) {
 			// All things right
@@ -151,7 +150,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		String password = "t3st";
 		
 		// Generates token.
-		Token token = service.generateToken(new ArrayList<String>(), null, null, userName, password);
+		Token token = service.generateToken(new ArrayList<String>(), userName, password);
 		assertNotNull("No token generated", token);
 		assertNotNull("Token does not have database id", token.id);
 		assertNotNull("No access token generated", token.accessToken);
@@ -187,7 +186,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		String password = "t3st";
 
 		// Generates token.
-		Token token = service.generateToken(new ArrayList<String>(), null, null, userName, password);
+		Token token = service.generateToken(new ArrayList<String>(), userName, password);
 		assertNotNull("No token generated", token);
 		assertNotNull("No access token generated", token.accessToken);
 		
@@ -206,8 +205,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 				MockAuthenticationService.USER_RIGHT));
 
 		// Generates another token for user with no permissions.
-		token = service.generateToken(new ArrayList<String>(), null, null, 
-				MockAuthenticationService.NO_PERMISSIONS_USERNAME, password);
+		token = service.generateToken(new ArrayList<String>(), MockAuthenticationService.NO_PERMISSIONS_USERNAME, password);
 		assertNotNull("No token generated", token);
 		assertNotNull("No access token generated", token.accessToken);
 		

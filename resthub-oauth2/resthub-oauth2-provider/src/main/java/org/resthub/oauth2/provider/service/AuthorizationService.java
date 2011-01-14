@@ -13,14 +13,12 @@ public interface AuthorizationService extends GenericService<Token, Long>{
 	/**
 	 * Generates a new access token for a given user and for given scopes.<br/><br/>
 	 * 
-	 * This method is used to generate access tokens in the gant type "Resource Owner Basic Credentials".<br/><br/>
+	 * This method is used to generate access tokens in the grant type "Resource Owner Basic Credentials".<br/><br/>
 	 * 
 	 * If no user account is found for these credentials, an error is raised.
 	 * 
 	 * @param scopes List of objet names the client will access with the token. Could be
 	 * empty, but not null.<b>TODO Not used no. Must be empty</b>
-	 * @param clientId The client unic identifier. <b>TODO Not used now, must be null</b>.
-	 * @param clientSecred The client shared secret. <b>TODO Not used now, must be null</b>.
 	 * @param userName The user account's user name.
 	 * @param password The user account's password.
 	 * @return The generated token.
@@ -29,8 +27,7 @@ public interface AuthorizationService extends GenericService<Token, Long>{
 	 * @throws ProtocolException INVALID_SCOPE: If scopes are specified. Currently, no scopes are supported.
 	 * @throws IllegalArgumentException when scopes or userName parameter is null.
 	 */
-	Token generateToken(List<String> scopes, String clientId, String clientSecred, String userName, 
-			String password);
+	Token generateToken(List<String> scopes, String userName, String password);
 	
 	/**
 	 * Retrieves all infromation (rights, lifetime, etc...) related to an access token

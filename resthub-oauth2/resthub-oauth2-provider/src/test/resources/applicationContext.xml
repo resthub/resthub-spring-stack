@@ -35,5 +35,6 @@
 		<prop key="cookieName">oauth_token</prop>
 		<prop key="cookiePath">/</prop>
 		<prop key="cookieDomain"></prop>
+		<prop key="authenticationPage">http://localhost:9797/jsp/authent.jsp</prop>
 	</util:properties>
 </beans>

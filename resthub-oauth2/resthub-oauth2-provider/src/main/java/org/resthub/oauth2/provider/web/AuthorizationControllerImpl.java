@@ -1,5 +1,7 @@
 package org.resthub.oauth2.provider.web;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,10 +68,137 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 */
 	@Value("#{securityConfig.cookiePath}")
 	protected String cookiePath = "/";
+	
+	/**
+	 * Inject the cookie path.
+	 */
+	@Value("#{securityConfig.authenticationPage}")
+	protected String authenticationPage = "/authent.jsp";
 
 	// -----------------------------------------------------------------------------------------------------------------
-	// Public attributes
+	// Protected methods
+	
+	/**
+	 * Extract scopes from request.
+	 * 
+	 * @param scopes The String value of scopes.
+	 * @return List of scopes.
+	 * @throws ProtocolException INVALID_SCOPE: if the scope parameter is not well formated, or if it's not empty.
+	 */
+	protected List<String> extractScopes(String scopes) {
+		List<String> scopesList = new ArrayList<String>();
+		// Scopes are optional
+		if (scopes != null) {
+			// Test scope syntax.
+			if(scopes.length() != 0 && !scopes.matches("^(\\w*\\s)*\\w*$")) {
+				logger.debug("[obtainAccessTokenBasicCredentials] malformed scope {}",scopes);
+				throw new ProtocolException(Error.INVALID_SCOPE, "Scope must be a whitespace delimited string");
+			}
+			// Split with spaces, and skip whitespaces 
+			String[] scopesArray = scopes.split(" ");
+			for(String scope : scopesArray) {
+				if(scope != null && scope.length() > 0) {
+					scopesList.add(scope);
+				}
+			}
+		}
+		return scopesList;
+	} // extractScopes().
+	
+	/**
+	 * Creates a response that redirect the user with an error.
+	 *  
+	 * @param redirectUri Redirection URI.
+	 * @param state State reuse while redirecting.
+	 * @param exc Error case
+	 * 
+	 * @return The redirected response.
+	 */
+	protected Response redirectOnError(String redirectUri, String state, ProtocolException exc) {
+		ResponseBuilder builder = Response.status(302);
+		URI redirection = null;
+		try {
+			boolean containsQuestionMark = redirectUri.contains("?");
+			redirection = new URI(redirectUri+(containsQuestionMark ? "&": "?")+"error="+exc.errorCase.value()+
+					"&state="+state);
+		} catch (URISyntaxException exc2) {
+			logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
+			throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
+		}
+		builder.location(redirection);
+		return builder.build();
+	} // redirectOnError().
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	// AuthorizationController inherited methods
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Response obtainAccessCode(String responseType, String clientId, String redirectUri, String scopes, 
+				String state) {
+		logger.trace("[obtainAccessCode] End-user authentication for clientId '{}', response type '{}', redirect URI " +
+				"{} and scopes {}", new Object[]{clientId, responseType, redirectUri, scopes});
+		// Only redirection uri problems will lead to an exception.
+		if(redirectUri == null) {
+			logger.debug("[obtainAccessCode] missing mandatory parameters");
+			throw new ProtocolException(Error.INVALID_REQUEST, "response_type, client_id and redirect_uri parameters" +
+					" are mandatory");
+		}
+		// Checks URI format.
+		URI redirection;
+		try {
+			redirection = new URI(redirectUri);
+		} catch (URISyntaxException exc) {
+			logger.debug("[obtainAccessCode] redirection uri misformated {}", redirectUri);
+			throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri");			
+		}
+		// TODO check redirection registration, or REDIRECT_URI_MISMATCH
+		// Other error case will lead to a redirection.
+		Response response = null;
+		try {
+			// Checks mandatory parameters.
+			if(responseType == null || clientId == null) {
+				logger.debug("[obtainAccessCode] missing mandatory parameters");
+				throw new ProtocolException(Error.INVALID_REQUEST, "response_type, client_id and redirect_uri parameters" +
+						" are mandatory");
+			} 
+			// Checks responseType
+			if(responseType.compareTo("code") != 0) {	
+				logger.debug("[obtainAccessCode] unsupported response_Type {}", responseType);
+				throw new ProtocolException(Error.UNSUPPORTED_RESPONSE_TYPE, "Only response_type 'code' is supported");
+			}	
+			if(clientId.compareTo("") != 0) {	
+				logger.debug("[obtainAccessCode] non-empty client id {}", clientId);
+				throw new ProtocolException(Error.INVALID_CLIENT, "For now, client id must be empty");
+				// TODO check client_id validity (INVALID_CLIENT), and authorization (UNAUTHORIZED_CLIENT)
+			}	
+			// Checks scope
+			extractScopes(scopes);
+		} catch (ProtocolException exc) {
+			// Redirect user with error.
+			response = redirectOnError(redirectUri, state, exc);
+		}
+		
+		if (response == null) {
+			logger.debug("[obtainAccessCode] unable to redirect to {}", authenticationPage);
+			// No errors, lets send a page to authenticate user.
+			ResponseBuilder builder = Response.status(302);
+			try {
+				boolean containsQuestionMark = authenticationPage.contains("?");
+				redirection = new URI(authenticationPage+(containsQuestionMark ? "&": "?")+"redirect_uri="+redirectUri+
+						"&state="+state);
+			} catch (URISyntaxException exc2) {
+				logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
+				throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
+			}
+			builder.location(redirection);
+			response = builder.build();
+		}
+		return response;	
+	} // obtainAccessCode().
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -97,32 +226,17 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		}		
 		// Checks clientId and clientSecret
 		if(clientId.compareTo("") != 0 || clientSecret.compareTo("") != 0) {	
-			logger.debug("[obtainAccessTokenBasicCredentials] non-empty client credentials {}|{}", clientId,
-						clientSecret);
+			logger.debug("[obtainAccessTokenBasicCredentials] non-empty client credentials {}", clientId);
 			throw new ProtocolException(Error.INVALID_CLIENT, "For now, client id and secret must be empty");
 		}		
 		// Checks scope
-		List<String> scopesList = new ArrayList<String>();
-		// Scopes are optional
-		if (scopes != null) {
-			// Test scope syntax.
-			if(scopes.length() != 0 && !scopes.matches("^(\\w*\\s)*\\w*$")) {
-				logger.debug("[obtainAccessTokenBasicCredentials] malformed scope {}",scopes);
-				throw new ProtocolException(Error.INVALID_SCOPE, "Scope must be a whitespace delimited string");
-			}
-			// Split with spaces, and skip whitespaces 
-			String[] scopesArray = scopes.split(" ");
-			for(String scope : scopesArray) {
-				if(scope != null && scope.length() > 0) {
-					scopesList.add(scope);
-				}
-			}
-		}
+		List<String> scopesList = extractScopes(scopes);
+		
 
 		// Calls the service layer.
 		Token token = null;
 		try {
-			token = service.generateToken(scopesList, clientId, clientSecret, userName, password);
+			token = service.generateToken(scopesList, userName, password);
 		} catch (IllegalArgumentException exc) {
 			logger.debug("[obtainAccessTokenBasicCredentials] invalid parameter: {}", exc.getMessage());
 			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
@@ -165,4 +279,49 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		return token;
 	} // obtainTokenInformation().
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Response authenticateEndUser(String username, String password, String redirectUri, String state) {
+		logger.trace("[authenticateEndUser] End-user authentication for username '{}'", username);
+		// Only redirection uri problems will lead to an exception.
+		if(redirectUri == null || username == null || password == null) {
+			logger.debug("[authenticateEndUser] missing mandatory parameters");
+			throw new ProtocolException(Error.INVALID_REQUEST, "username, password, and redirect_uri parameters" +
+					" are mandatory");
+		}
+		// Checks URI format.
+		URI redirection;
+		try {
+			redirection = new URI(redirectUri);
+		} catch (URISyntaxException exc) {
+			logger.debug("[authenticateEndUser] redirection uri misformated {}", redirectUri);
+			throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri");			
+		}
+		Response response = null;
+		try {
+			// Generate Access code
+			String accessCode = service.generateToken(new ArrayList<String>(), username, password).accessCode;	
+			// No errors, lets send a page to authenticate user.
+			ResponseBuilder builder = Response.status(302);
+			try {
+				boolean containsQuestionMark = redirectUri.contains("?");
+				redirection = new URI(redirectUri+(containsQuestionMark ? "&": "?")+"code="+accessCode+"&state="+state);
+			} catch (URISyntaxException exc2) {
+				logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
+				throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
+			}
+			builder.location(redirection);
+			response = builder.build();
+		} catch (ProtocolException exc) {
+			if (exc.errorCase == Error.INVALID_CLIENT) {
+				// No user fond, access denied.
+				exc.errorCase = Error.ACCESS_DENIED;
+				response = redirectOnError(redirectUri, state, exc);
+			}
+		}
+		return response;	
+	} // authenticateEndUser().
+	
 } // class AuthorizationControllerImpl

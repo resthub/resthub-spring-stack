@@ -10,28 +10,40 @@ import static org.junit.Assert.fail;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
+import javax.ws.rs.core.Response.Status;
 
-import org.junit.Ignore;
+import org.apache.jasper.servlet.JspServlet;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.util.resource.Resource;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.resthub.oauth2.common.exception.ProtocolException.Error;
 import org.resthub.oauth2.common.front.model.ObtainTokenErrorResponse;
 import org.resthub.oauth2.common.front.model.TokenResponse;
 import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.provider.service.MockAuthenticationService;
-import org.resthub.web.test.AbstractWebResthubTest;
+import org.resthub.web.jackson.JacksonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.web.context.ContextLoaderListener;
 
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.representation.Form;
+import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
  * Test of the front layer, from an Http client point of view.
  */
-public class AuthorizationControllerTest extends AbstractWebResthubTest {
-
+public class AuthorizationControllerTest {
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Private attributes
 	
@@ -40,6 +52,106 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 	 */
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
+	/**
+	 * In-memory Jetty port
+	 */
+	protected static int port = 9797;
+
+	/**
+	 * In-memory server
+	 */
+    protected static Server server;
+
+    /**
+     * Spring context configuration.
+     */
+    protected static String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml";
+
+	// -----------------------------------------------------------------------------------------------------------------
+	// Constants
+
+	/**
+	 * Known client Id used by mocks
+	 */
+	public static final String CLIENT_ID = "";
+	
+	/**
+	 * Unknown client Id used by mocks
+	 */
+	public static final String UNKNOWN_CLIENT_ID = "unknownClientId";
+
+	/**
+	 * Good redirection uri used by mocks
+	 */
+	public static final String REDIRECT_URI = "http://localhost:" + port + "/redirect";
+
+	// -----------------------------------------------------------------------------------------------------------------
+	// Tests initialization/finalization.
+
+    @BeforeClass
+    public static void suiteSetUp() throws Exception {
+        server = new Server(port);
+
+        // On lance le serveur Jetty
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+
+        context.setDisplayName("resthub test webapp");
+        context.setContextPath("/");
+
+        context.getInitParams().put("contextConfigLocation", contextLocations);
+        context.setBaseResource(Resource.newResource("src/main/webapp"));
+        context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
+        context.addServlet(JspServlet.class, "/jsp/*");
+        context.addServlet(SpringServlet.class, "/api/*");
+        context.addEventListener(new ContextLoaderListener());
+        server.setHandler(context);
+        server.start();
+    } // suiteSetUp().
+
+    @AfterClass
+    public static void suiteTearDown() throws Exception {
+        if (server != null) {
+            server.stop();
+        }
+    } // suiteTearDown().
+
+	// -----------------------------------------------------------------------------------------------------------------
+	// Private methods
+
+    /**
+	 * Creates a client that does not follow redirections 
+	 */
+	 protected WebResource resource() {
+        ClientConfig config = new DefaultClientConfig();
+        config.getSingletons().add(new JacksonProvider());
+        Client client = Client.create(config);
+        return client.resource("http://localhost:" + port+"/api");
+    }
+
+	/**
+	 * Creates a client that does not follow redirections 
+	 */
+	protected WebResource notFollowingResource() {
+        ClientConfig config = new DefaultClientConfig();
+        config.getSingletons().add(new JacksonProvider());
+        Client client = Client.create(config);
+		client.setFollowRedirects(false);
+        return client.resource("http://localhost:" + port+"/api");
+	} // notFollowingResource().
+	
+	/**
+	 * Asserts that the response is a redirection, and contains error code
+	 * 
+	 * @param response The tested response.
+	 * @param error the awaited error code.
+	 */
+	protected void assertRedirectFailed(ClientResponse response, String error) {
+		assertEquals("Response not redirected", 302, response.getStatus());
+		assertTrue("No redirection url in response", response.getHeaders().containsKey(HttpHeaders.LOCATION));		
+		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		assertTrue("No error parameter or wrong value: "+redirect, redirect.contains("error=" +error));
+	} // assertRedirectFailed().
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Tests
 
@@ -348,110 +460,137 @@ public class AuthorizationControllerTest extends AbstractWebResthubTest {
 	} // obtainToken().
 	
 	@Test
-	@Ignore
 	public void shouldResponseTypeBeRequiredToGetAccessCode() {
 		// When accessing the end-user authorization end-point without response_type
+		ClientResponse response = notFollowingResource().path("authorize")
+					.queryParam("client_id", CLIENT_ID)
+					.queryParam("redirect_uri", REDIRECT_URI)
+					.get(ClientResponse.class);
 		
 		// Then an invalid_request error is returned
-		
+		assertRedirectFailed(response, "invalid_request");
 	} // shouldResponseTypeBeRequiredToGetAccessCode().
 
 	@Test
-	@Ignore
 	public void shouldWrongResponseTypeFailOnError() {
 		// When accessing the end-user authorization end-point with wrong response_type
+		ClientResponse response = notFollowingResource().path("authorize")
+				.queryParam("client_id", CLIENT_ID)
+				.queryParam("response_type", "unknown")
+				.queryParam("redirect_uri", REDIRECT_URI)
+				.get(ClientResponse.class);
 		
-		// Then an invalid_request error is returned
-		
+		// Then an unsupported_response_type error is returned
+		assertRedirectFailed(response, "unsupported_response_type");	
 	} // shouldWrongResponseTypeFailOnError().
 
 	@Test
-	@Ignore
 	public void shouldClientIdBeRequiredToGetAccessCode() {
 		// When accessing the end-user authorization end-point without client_id
+		ClientResponse response = notFollowingResource().path("authorize")
+				.queryParam("response_type", "code")
+				.queryParam("redirect_uri", REDIRECT_URI)
+				.get(ClientResponse.class);
 
 		// Then an invalid_request error is returned
-		
+		assertRedirectFailed(response, "invalid_request");			
 	} // shouldClientIdBeRequiredToGetAccessCode().
 
 	@Test
-	@Ignore
 	public void shouldUnknownClientIdFailOnError() {
 		// When accessing the end-user authorization end-point with unknown client_id
+		ClientResponse response = notFollowingResource().path("authorize")
+				.queryParam("client_id", UNKNOWN_CLIENT_ID)
+				.queryParam("response_type", "code")
+				.queryParam("redirect_uri", REDIRECT_URI)
+				.get(ClientResponse.class);
 
 		// Then an invalid_client error is returned
-		
+		assertRedirectFailed(response, "invalid_client");			
 	} // shouldUnknownClientIdFailOnError().
 
 	@Test
-	@Ignore
 	public void shouldRedirectUriBeRequiredToGetAccessCode() {
-		// When accessing the end-user authorization end-point without redirect_uri
-
-		// Then an invalid_request error is returned
-		
+		try {
+			// When accessing the end-user authorization end-point without redirect_uri
+			notFollowingResource().path("authorize")
+					.queryParam("client_id", CLIENT_ID)
+					.queryParam("response_type", "code")
+					.get(ClientResponse.class);
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Then an invalid_request error is returned
+			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST, response.error);
+			logger.info("[shouldMisformatedRedirectUriFailOnError] response returned: {}", response);
+		}		
 	} // shouldRedirectUriBeRequiredToGetAccessCode().
 
 	@Test
-	@Ignore
 	public void shouldMisformatedRedirectUriFailOnError() {
-		// When accessing the end-user authorization end-point without redirect_uri
-
-		// Then an invalid_request error is returned
-		
+		try {
+			// When accessing the end-user authorization end-point with invalid redirect_uri
+			notFollowingResource().path("authorize")
+					.queryParam("client_id", CLIENT_ID)
+					.queryParam("response_type", "code")
+					.queryParam("redirect_uri", "://redirected")
+					.get(ClientResponse.class);
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Then an invalid_request error is returned
+			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST, response.error);
+			logger.info("[shouldMisformatedRedirectUriFailOnError] response returned: {}", response);
+		}
 	} // shouldMisformatedRedirectUriFailOnError().
 
 	@Test
-	@Ignore
 	public void shouldEndUserAuthorizationEndPointBeDisplayed() {
-		// Given a known client_id
-		
-		// Given a registered redirect_uri
-		
-		// Given a good response_type
-		
 		// When accessing the end-user authorization end-point
+		ClientResponse response = resource().path("authorize")
+			.queryParam("client_id", CLIENT_ID)
+			.queryParam("response_type", "code")
+			.queryParam("redirect_uri", REDIRECT_URI)
+			.get(ClientResponse.class);
 		
 		// Then the end-point is accessible
-		
+		assertEquals("Page not displayed", Status.OK.getStatusCode(), response.getStatus());
 	} // shouldEndUserAuthorizationendPointBeDisplayed().
 
 	@Test
-	@Ignore
 	public void shouldUnknwonEndUserBeRedirectedWithError() {
-		// Given a known client_id
-		
-		// Given a registered redirect_uri
-		
-		// Given a good response_type
+		// Given a known user and a good redirection URI
+		Form form = new Form();
+		form.add("redirect_uri", REDIRECT_URI);
+		form.add("username", MockAuthenticationService.UNKNOWN_USERNAME);
+		form.add("password", "t3st");
 		
 		// When accessing the end-user authorization end-point
-		
-		// When authenticating with an unknown user
-		
-		// Then the user-agent is redirected to the redirect_uri
-		
+		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
+				
 		// Then an error code is added to the redirection uri
-		
+		assertRedirectFailed(response, "access_denied");			
 	} // shouldEndUserAuthenticateAndRedirectedWithCode().
 
 	@Test
-	@Ignore
 	public void shouldEndUserAuthenticateAndRedirectedWithCode() {
-		// Given a known client_id
-		
-		// Given a registered redirect_uri
-		
-		// Given a good response_type
-		
+		// Given a known user and a good redirection URI
+		Form form = new Form();
+		form.add("redirect_uri", REDIRECT_URI);
+		form.add("username", "test");
+		form.add("password", "t3st");
+
 		// When accessing the end-user authorization end-point
-		
-		// When authenticating with a known user
+		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
 		
 		// Then the user-agent is redirected to the redirect_uri
+		assertEquals("Response not redirected", 302, response.getStatus());
+		assertTrue("No redirection url in response", response.getHeaders().containsKey(HttpHeaders.LOCATION));		
+		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		assertTrue("Wrong redirection: "+redirect, redirect.startsWith(REDIRECT_URI));
 		
 		// Then an access_code is added to the redirection uri
-		
+		assertTrue("No access_code parameter or wrong value: "+redirect, redirect.contains("code="));
 	} // shouldEndUserAuthenticateAndRedirectedWithCode().
 
 	
