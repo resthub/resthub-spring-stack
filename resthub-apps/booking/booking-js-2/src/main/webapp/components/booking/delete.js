@@ -1,8 +1,7 @@
-define(['resthub.controller'], function() {
+define(['jquery.controller'], function() {
 (function($) {
 
-var deleteBooking =
-{
+$.widget("booking.deleteBooking", $.ui.controller, {
     options: {
         id : null,
         context : null
@@ -13,8 +12,6 @@ var deleteBooking =
 	_bookingDeleted: function() {
 		this.options.context.trigger('booking-deleted');
 	}
-};
-
-$.widget("booking.deleteBooking", $.resthub.resthubController, deleteBooking);
+});
 })(jQuery);
 });

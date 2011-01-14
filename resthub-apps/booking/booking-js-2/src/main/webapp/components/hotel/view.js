@@ -1,7 +1,7 @@
+define(['jquery.controller'], function() {
 (function($) {
 
-var viewHotel =
-{
+$.widget("booking.viewHotel", $.ui.controller, {
 	options: {
 		id: null,
 		template: 'components/hotel/view.html',
@@ -24,7 +24,6 @@ var viewHotel =
 			context.redirect('#/booking/hotel', id);
 		});
 	}
-};
-
-$.widget("booking.viewHotel", $.resthub.resthubController, viewHotel);
+});
 })(jQuery);
+});

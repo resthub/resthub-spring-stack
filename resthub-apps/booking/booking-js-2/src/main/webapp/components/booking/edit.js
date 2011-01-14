@@ -1,8 +1,7 @@
-define(['resthub.controller','jqueryui/datepicker','jquery.validate'], function() {
+define(['jquery.controller','jqueryui/datepicker','jquery.validate'], function() {
 (function($) {
 
-var editBooking =
-{
+$.widget("booking.editBooking", $.ui.controller, {
 	options: {
 		booking: {},
 		template: 'components/booking/edit.html',
@@ -90,8 +89,6 @@ var editBooking =
 		var secondsBetween = (checkoutDateTimestamp - checkinDateTimestamp) / 1000;
 		return secondsBetween / 86400;
 	}
-};
-
-$.widget("booking.editBooking", $.resthub.resthubController, editBooking);
+});
 })(jQuery);
 });

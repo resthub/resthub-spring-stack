@@ -1,8 +1,6 @@
 define(["components/booking/view", "components/booking/edit"], function() {
 (function($) {
-
-var bookBooking =
-{
+	$.widget("booking.bookBooking", $.ui.controller, {
 	options: {
 		hotelId: null,
 		booking: {},
@@ -69,8 +67,6 @@ var bookBooking =
 			mode: 'confirm'
 		});
 	}
-};
-
-$.widget("booking.bookBooking", $.resthub.resthubController, bookBooking);
+});
 })(jQuery);
 });

@@ -1,7 +1,6 @@
 (function($) {
 
-var listHotels =
-{
+$.widget("booking.listHotels", $.ui.controller, {
 	options: {
 		searchVal: null,
 		page: 0,
@@ -27,7 +26,5 @@ var listHotels =
 			self._init();
 		});
 	}
-};
-
-$.widget("booking.listHotels", $.resthub.resthubController, listHotels);
+});
 })(jQuery);

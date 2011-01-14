@@ -1,7 +1,6 @@
-define(['resthub.controller'], function() {
+define(['jquery.controller'], function() {
 
-	var userLogin =
-	{
+	$.widget("booking.userLogin", $.ui.controller, {
 		_init: function() {
 			this.options.context.store('session').clearAll();
 			var user = {
@@ -18,8 +17,6 @@ define(['resthub.controller'], function() {
 		options: {
 			context: null
 		}
-	};
-
-	$.widget("booking.userLogin", $.resthub.resthubController, userLogin);
+	});
 	
 });

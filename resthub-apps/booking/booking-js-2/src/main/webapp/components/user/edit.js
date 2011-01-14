@@ -1,8 +1,8 @@
-define(['resthub.controller'], function() {
+define(['jquery.controller'], function() {
 (function($)
 {
-	var editUser =
-	{
+	
+	$.widget("booking.editUser", $.ui.controller, {
 		_init: function() {
 			this.options.context.title('Settings');
 			this.element.render(this.options.template);
@@ -25,8 +25,6 @@ define(['resthub.controller'], function() {
 			template: 'components/user/edit.html',
 			user: null
 		}
-	};
-
-	$.widget("booking.editUser", $.resthub.resthubController, editUser);
+	});
 })(jQuery);
 });

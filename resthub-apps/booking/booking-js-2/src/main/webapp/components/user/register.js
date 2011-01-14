@@ -1,8 +1,7 @@
-define(['resthub.controller'], function() {
+define(['jquery.controller'], function() {
 (function($)
 {
-	var userRegister =
-	{
+	$.widget("booking.userRegister", $.ui.controller, {
 		_init: function() {
 
 			this.options.context.title('Register');
@@ -26,8 +25,6 @@ define(['resthub.controller'], function() {
 			context: null,
 			template: 'components/user/register.html'
 		}
-	};
-
-	$.widget("booking.userRegister", $.resthub.resthubController, userRegister);
+	});
 })(jQuery);
 });

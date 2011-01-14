@@ -1,8 +1,7 @@
-define(['resthub.controller'], function() {
+define(['jquery.controller'], function() {
 (function($) {
 
-var viewBooking =
-{
+$.widget("booking.viewBooking", $.ui.controller, {
 	options: {
 		booking: {},
 		template: 'components/booking/view.html',
@@ -54,8 +53,6 @@ var viewBooking =
 		this.options.context.redirect('#/home');
 		this.options.context.trigger('end-of-booking');
 	}
-};
-
-$.widget("booking.viewBooking", $.resthub.resthubController, viewBooking);
+});
 })(jQuery);
 });

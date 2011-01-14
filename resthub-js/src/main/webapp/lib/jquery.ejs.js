@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA  02110-1301  USA
  */
-define(['jquery', '/lib/ejs/ejs.js'], function (jQuery) {
+define(['jquery', 'ejs/ejs'], function (jQuery) {
 	
     // Make sure EJS is loaded
     if(!EJS) {

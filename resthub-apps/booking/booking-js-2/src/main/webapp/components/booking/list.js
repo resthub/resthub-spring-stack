@@ -1,7 +1,6 @@
 (function($) {
 
-var listBookings =
-{
+$.widget("booking.listBookings", $.ui.controller, {
 	options: {
 		template : 'components/booking/list.html',
 		context : null
@@ -17,7 +16,5 @@ var listBookings =
 	_displayBookings: function(bookings) {
 		this.element.render(this.options.template, {bookings: bookings});
 	}
-};
-
-$.widget("booking.listBookings", $.resthub.resthubController, listBookings);
+});
 })(jQuery);

@@ -1,7 +1,7 @@
 /**
  * Routes
  */
-define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery-ejs", "jquery.pnotify", "resthub.controller",
+define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery.ejs", "jquery.pnotify", "jquery.controller",
 		"routes/user.routes","routes/booking.routes","routes/hotel.routes"], function() {
 	
 	var app = $.sammy(function() {

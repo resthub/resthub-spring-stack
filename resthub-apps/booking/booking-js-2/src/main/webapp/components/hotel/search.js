@@ -1,8 +1,7 @@
 define(["components/hotel/list"], function() {
 (function($) {
 
-var searchHotels =
-{
+$.widget("booking.searchHotels", $.ui.controller, {
 	options: {
 		searchVal: null,
 		size: 5,
@@ -45,8 +44,6 @@ var searchHotels =
 			});
 		}
 	}
-};
-
-$.widget("booking.searchHotels", $.resthub.resthubController, searchHotels);
+});
 })(jQuery);
 });
