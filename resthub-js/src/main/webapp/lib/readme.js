@@ -6,7 +6,8 @@
  * jQuery-UI 1.8.7 + require.js AMD (http://requirejs.org/jqueryui-amd/jqueryui-amd-1.8.7.zip)
  * Sammy 0.6.2
  * jQuery-ejs (patched to add $.render())
- * Custom Controller (OAuth2 features).
+ * Custom Controller
+ * OAuth2 support
  * 
  * Old : 
  * Sammy 0.5.4 patched for js files loading
