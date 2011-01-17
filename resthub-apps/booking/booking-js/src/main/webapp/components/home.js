@@ -5,7 +5,7 @@ define(['jquery.controller', 'components/booking/list', 'components/hotel/search
 			searchVal: null,
 			size: 5,
 			template: 'components/home.html'
-			},
+		},
 	
 		_init: function() {
 			this.options.context.title('Home');	
