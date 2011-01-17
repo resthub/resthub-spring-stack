@@ -22,7 +22,7 @@ define(['jquery.controller'], function() {
 		},
 		options: {
 			user: null,
-			template : 'components/user/edit.html'
+			template : 'user/edit.html'
 		}
 	});
 })(jQuery);

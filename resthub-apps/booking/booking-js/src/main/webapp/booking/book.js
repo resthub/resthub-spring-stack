@@ -1,10 +1,10 @@
-define(["components/booking/view", "components/booking/edit"], function() {
+define(["booking/view", "booking/edit"], function() {
 (function($) {
 	$.widget("booking.bookBooking", $.ui.controller, {
 	options: {
 		hotelId: null,
 		booking: {},
-		template: 'components/booking/book.html',
+		template: 'booking/book.html',
 		context: null,
 		mode: 'edit'
 	},

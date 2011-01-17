@@ -5,7 +5,7 @@ $.widget("booking.listHotels", $.ui.controller, {
 		searchVal: null,
 		page: 0,
 		size: 5,
-		template: 'components/hotel/list.html'
+		template: 'hotel/list.html'
 	},
 	_init: function() {
 		var url;

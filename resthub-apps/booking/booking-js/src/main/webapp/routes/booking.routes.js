@@ -1,4 +1,4 @@
-define(['components/booking/book','components/booking/delete'], function() {
+define(['booking/book','booking/delete'], function() {
 
 BookingRoutes = function(app) { with(app) {
 

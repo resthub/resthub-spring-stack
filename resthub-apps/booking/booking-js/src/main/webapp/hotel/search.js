@@ -1,11 +1,11 @@
-define(["components/hotel/list"], function() {
+define(["hotel/list"], function() {
 (function($) {
 
 $.widget("booking.searchHotels", $.ui.controller, {
 	options: {
 		searchVal: null,
 		size: 5,
-		template : 'components/hotel/search.html',
+		template : 'hotel/search.html',
 		context : null,
 		delay : 1000,
 		searching: null

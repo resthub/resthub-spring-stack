@@ -1,10 +1,10 @@
-define(['jquery.controller', 'components/booking/list', 'components/hotel/search'], function() {
+define(['jquery.controller', 'booking/list', 'hotel/search'], function() {
 (function($) {
 	$.widget("booking.home", $.ui.controller, {
 		options: {
 			searchVal: null,
 			size: 5,
-			template: 'components/home.html'
+			template: 'home.html'
 		},
 	
 		_init: function() {

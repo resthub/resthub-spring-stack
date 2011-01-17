@@ -21,7 +21,7 @@ define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery.ejs", "jq
 				context.redirect('#/home');
 			} else {
 				this.title('Login');
-				$('#content').render('/components/user/login.html', {});
+				$('#content').render('user/login.html', {});
 			}
 		});
 
@@ -29,7 +29,7 @@ define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery.ejs", "jq
 		 * Home page after authentication
 		 */
 		this.get('#/home', function(context) {
-			require(['components/home'], function() {
+			require(['home'], function() {
 				$('#content').home({context: context});
 			});
 		});

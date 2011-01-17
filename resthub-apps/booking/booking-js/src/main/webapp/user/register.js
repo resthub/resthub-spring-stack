@@ -23,7 +23,7 @@ define(['jquery.controller'], function() {
 		},
 		options: {
 			context: null,
-			template: 'components/user/register.html'
+			template: 'user/register.html'
 		}
 	});
 })(jQuery);

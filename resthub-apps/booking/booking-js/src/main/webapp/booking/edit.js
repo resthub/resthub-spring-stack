@@ -4,7 +4,7 @@ define(['jquery.controller','jqueryui/datepicker','jquery.validate'], function()
 $.widget("booking.editBooking", $.ui.controller, {
 	options: {
 		booking: {},
-		template: 'components/booking/edit.html',
+		template: 'booking/edit.html',
 		context: null
 	},
 	_init: function() {

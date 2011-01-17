@@ -4,7 +4,7 @@ define(['jquery.controller'], function() {
 $.widget("booking.viewBooking", $.ui.controller, {
 	options: {
 		booking: {},
-		template: 'components/booking/view.html',
+		template: 'booking/view.html',
 		context: null,
 		mode: 'view'
 	},

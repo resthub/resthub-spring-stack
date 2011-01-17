@@ -2,7 +2,7 @@
 
 $.widget("booking.listBookings", $.ui.controller, {
 	options: {
-		template : 'components/booking/list.html',
+		template : 'booking/list.html',
 		context : null
 	},
 	_init: function() {

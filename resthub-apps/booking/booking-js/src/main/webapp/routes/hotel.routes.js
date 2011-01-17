@@ -1,4 +1,4 @@
-define(['components/hotel/view'], function() {
+define(['hotel/view'], function() {
 
 HotelRoutes = function(app) { with(app) {
 

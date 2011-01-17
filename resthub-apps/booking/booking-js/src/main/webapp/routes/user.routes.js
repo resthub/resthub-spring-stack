@@ -1,4 +1,4 @@
-define(['components/user/login','components/user/register', 'components/user/edit'], function() {
+define(['user/login','user/register', 'user/edit'], function() {
 
 UserRoutes = function(app) { with(app) {
 
@@ -6,7 +6,7 @@ UserRoutes = function(app) { with(app) {
 		
 		bind('run-route', function() {
 			var user = this.session('user');
-			$('#header').render('/components/header.html', {user: user});
+			$('#header').render('header.html', {user: user});
 		});
 		
 		bind('user-registered', function(e, user) {
