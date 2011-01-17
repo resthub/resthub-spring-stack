@@ -4,7 +4,7 @@ define(['jquery.controller','jquery.json'], function() {
 	$.widget("booking.userRegister", $.ui.controller, {
 		_init: function() {
 
-			this.options.context.title('Register');
+			this.options.cx.title('Register');
 			this._render();
 
 			var self = this;
@@ -19,10 +19,10 @@ define(['jquery.controller','jquery.json'], function() {
 			});
 		},
 		_userRegistered: function(user) {
-			this.options.context.trigger('user-registered', user);
+			this.options.cx.trigger('user-registered', user);
 		},
 		options: {
-			context: null,
+			cx: null,
 			template: 'user/register.html'
 		}
 	});

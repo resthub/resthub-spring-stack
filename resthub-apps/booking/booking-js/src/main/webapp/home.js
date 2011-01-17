@@ -8,7 +8,7 @@ define(['jquery.controller', 'booking/list', 'hotel/search'], function() {
 		},
 	
 		_init: function() {
-			this.options.context.title('Home');	
+			this.options.cx.title('Home');	
 			this.options.searchVal = $('#search-value').val();
 			this.options.size = $('#search-size').val();
 			this._render();
@@ -17,10 +17,10 @@ define(['jquery.controller', 'booking/list', 'hotel/search'], function() {
 				searchVal: this.options.searchVal,
 				off: this.options.off,
 				size: this.options.size,
-				context: this.options.context
+				cx: this.options.cx
 			});
-			$('#booking-list').listBookings({context: this.options.context});
-			this.options.context.session('search-offset', 0);
+			$('#booking-list').listBookings({cx: this.options.cx});
+			this.options.cx.session('search-offset', 0);
 		}
 	});
 	

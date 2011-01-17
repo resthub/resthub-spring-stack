@@ -53,7 +53,8 @@ define(['jquery','jqueryui/widget'], function(jQuery) {
 		options: {
 			dataType: 'json',
 			contentType: 'application/json; charset=utf-8',
-			context : null,
+			/** Context **/
+			cx : null,
 			template: ''
 		}
 	});

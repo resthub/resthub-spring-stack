@@ -6,7 +6,7 @@ $.widget("booking.searchHotels", $.ui.controller, {
 		searchVal: null,
 		size: 5,
 		template : 'hotel/search.html',
-		context : null,
+		cx : null,
 		delay : 1000,
 		searching: null
 	},
@@ -16,21 +16,21 @@ $.widget("booking.searchHotels", $.ui.controller, {
 		
 		var self = this;
 		$('#search-submit').bind('click', function() {
-			self.options.context.session('search-offset', 0);
-			self.options.context.trigger('hotel-search');
+			self.options.cx.session('search-offset', 0);
+			self.options.cx.trigger('hotel-search');
 		});
 
 		$('#search-value').bind('keyup', function() {
 			clearTimeout( self.options.searching );
 			self.options.searching = setTimeout(function() {
-				self.options.context.session('search-offset', 0);
-				self.options.context.trigger('hotel-search');
+				self.options.cx.session('search-offset', 0);
+				self.options.cx.trigger('hotel-search');
 			}, self.options.delay );
 		});
 
 		$('#search-size').bind('change', function() {
-			self.options.context.session('search-offset', 0);
-			self.options.context.trigger('hotel-search');
+			self.options.cx.session('search-offset', 0);
+			self.options.cx.trigger('hotel-search');
 		});
 
 		$('#search-size option[value='+ this.options.size +']').attr('selected', 'selected');
@@ -40,7 +40,7 @@ $.widget("booking.searchHotels", $.ui.controller, {
 			$('#result').listHotels({
 				searchVal: self.options.searchVal,
 				size: self.options.size,
-				context: self.options.context
+				cx: self.options.cx
 			});
 		}
 	}

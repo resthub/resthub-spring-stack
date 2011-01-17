@@ -16,9 +16,9 @@ define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery.ejs", "jq
 		/**
 		 * Login page
 		 */
-		this.get('#/', function(context) {
+		this.get('#/', function(cx) {
 			if(this.session('user') != null) {
-				context.redirect('#/home');
+				cx.redirect('#/home');
 			} else {
 				this.title('Login');
 				$('#content').render('user/login.html', {});
@@ -28,9 +28,9 @@ define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery.ejs", "jq
 		/**
 		 * Home page after authentication
 		 */
-		this.get('#/home', function(context) {
+		this.get('#/home', function(cx) {
 			require(['home'], function() {
-				$('#content').home({context: context});
+				$('#content').home({cx: cx});
 			});
 		});
 

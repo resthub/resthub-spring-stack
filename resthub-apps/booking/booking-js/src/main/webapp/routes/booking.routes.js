@@ -20,23 +20,23 @@ BookingRoutes = function(app) { with(app) {
 		/**
 		 * Book hotel identified by 'id'
 		 */
-		get('#/booking/hotel/:id', function(context) {
+		get('#/booking/hotel/:id', function(cx) {
 			var booking = {hotel: {id: this.params['id']}};
-			$('#content').bookBooking({booking: booking, context: context, mode: 'edit'});
+			$('#content').bookBooking({booking: booking, cx: cx, mode: 'edit'});
         });
 
 		/**
 		 * Booking confirmation
 		 */
-		get('#/booking/confirm', function(context) {
-			$('#content').bookBooking({context: context, mode: 'view'});
+		get('#/booking/confirm', function(cx) {
+			$('#content').bookBooking({cx: cx, mode: 'view'});
         });
 
 		/**
 		 * Delete booking
 		 */
-		get('#/booking/del/:id', function(context) {
-			$('#content').deleteBooking({id: self.params['id'], context: context});
+		get('#/booking/del/:id', function(cx) {
+			$('#content').deleteBooking({id: this.params['id'], cx: cx});
 		});
 		
 }};

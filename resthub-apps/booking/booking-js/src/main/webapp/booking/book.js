@@ -5,14 +5,14 @@ define(["booking/view", "booking/edit"], function() {
 		hotelId: null,
 		booking: {},
 		template: 'booking/book.html',
-		context: null,
+		cx: null,
 		mode: 'edit'
 	},
 	_init: function() {
 
 		this.element.render(this.options.template, {hotelId: this.options.hotelId});
 		
-		this.options.booking = this.options.context.session('booking');
+		this.options.booking = this.options.cx.session('booking');
 		
 		if(this.options.booking == undefined) {
 			this._get('api/hotel/' + this.options.hotelId, this._initBookingData);
@@ -26,10 +26,10 @@ define(["booking/view", "booking/edit"], function() {
 	 */
 	_initBookingData: function(hotel) {
 		this.options.booking = {
-			user: this.options.context.session('user'),
+			user: this.options.cx.session('user'),
 			hotel: hotel
 		};
-		this.options.context.session('booking', this.options.booking);
+		this.options.cx.session('booking', this.options.booking);
 		this._displayBookingView(this.options.booking);
 	},
 	_displayBookingView: function() {
@@ -54,7 +54,7 @@ define(["booking/view", "booking/edit"], function() {
 		
 		$('#booking-data').editBooking({
 			booking: this.options.booking,
-			context: this.options.context
+			cx: this.options.cx
 		});
 		
 	},
@@ -63,7 +63,7 @@ define(["booking/view", "booking/edit"], function() {
 		Sammy.log('Booking workflow : confirmation mode.');
 		$('#booking-data').viewBooking({
 			booking: self.options.booking,
-			context: self.options.context,
+			cx: self.options.cx,
 			mode: 'confirm'
 		});
 	}

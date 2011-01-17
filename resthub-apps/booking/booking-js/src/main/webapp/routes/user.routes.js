@@ -35,29 +35,29 @@ UserRoutes = function(app) { with(app) {
 		/**
 		 * User register
 		 */
-		get('#/register', function(context) {
-			$('#content').userRegister({context: context});
+		get('#/register', function(cx) {
+			$('#content').userRegister({cx: cx});
 		});
 		
 		/**
 		 * User authentication
 		 */
-		post('#/user/check', function(context) {
-			$('#header').userLogin({context: context});	
+		post('#/user/check', function(cx) {
+			$('#header').userLogin({cx: cx});	
 		});
 		
 		/**
 		 * Update user
 		 */
-		get('#/settings', function(context) {
-			$('#content').editUser({context: context});
+		get('#/settings', function(cx) {
+			$('#content').editUser({cx: cx});
 		});
 
 		/**
 		 * User logout
 		 */
-		get('#/logout', function(context) {
-			context.trigger('user-logged-out');
+		get('#/logout', function(cx) {
+			cx.trigger('user-logged-out');
 		});
 		
 }};

@@ -5,7 +5,7 @@ $.widget("booking.editBooking", $.ui.controller, {
 	options: {
 		booking: {},
 		template: 'booking/edit.html',
-		context: null
+		cx: null
 	},
 	_init: function() {
 		this._displayBookingForm();
@@ -37,14 +37,14 @@ $.widget("booking.editBooking", $.ui.controller, {
 			
 			// Valid dates and checkinDate > checkoutDate
 			if (daysBetween) {
-				this.options.context.session('daysBetween', daysBetween);
-				this.options.context.redirect('#/booking/confirm');
+				this.options.cx.session('daysBetween', daysBetween);
+				this.options.cx.redirect('#/booking/confirm');
 			}
 		}
 	},
 	/* Put form data in session */
 	_formToSession: function() {
-		var booking = this.options.context.session('booking');
+		var booking = this.options.cx.session('booking');
 		booking.checkinDate = $('input[name=checkinDate]').val();
 		booking.checkoutDate = $('input[name=checkoutDate]').val();
 		booking.beds = $('select[name=beds] option:selected').val();
@@ -54,12 +54,12 @@ $.widget("booking.editBooking", $.ui.controller, {
 		booking.creditCardName = $('input[name=creditCardName]').val();
 		booking.creditCardExpiryMonth = $('select[name=creditCardExpiryMonth] option:selected').val();
 		booking.creditCardExpiryYear = $('select[name=creditCardExpiryYear] option:selected').val();
-		this.options.context.session('booking', booking);
+		this.options.cx.session('booking', booking);
 		this.options.booking = booking;
 	},
 	/* Display session data in booking form (after reload or revise button click) */
 	_sessionToForm: function() {
-		var booking = this.options.context.session('booking');
+		var booking = this.options.cx.session('booking');
 		$('input[name=checkinDate]').val(booking.checkinDate);
 		$('input[name=checkoutDate]').val(booking.checkoutDate);
 		$('select[name=beds] option[value='+ booking.beds +']').attr('selected', 'selected');

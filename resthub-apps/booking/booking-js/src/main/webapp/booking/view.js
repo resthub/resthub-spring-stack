@@ -5,7 +5,7 @@ $.widget("booking.viewBooking", $.ui.controller, {
 	options: {
 		booking: {},
 		template: 'booking/view.html',
-		context: null,
+		cx: null,
 		mode: 'view'
 	},
 	_init: function() {
@@ -23,8 +23,8 @@ $.widget("booking.viewBooking", $.ui.controller, {
 		});
 	},
 	_displayConfirmMode: function() {
-		this.options.booking = this.options.context.session('booking');
-		var daysBetween = this.options.context.session('daysBetween');
+		this.options.booking = this.options.cx.session('booking');
+		var daysBetween = this.options.cx.session('daysBetween');
 		var total = daysBetween * this.options.booking.hotel.price;
 
 		this.element.render(this.options.template, {
@@ -42,16 +42,16 @@ $.widget("booking.viewBooking", $.ui.controller, {
 		$('input#book-confirm').bind('click', $.proxy(this._sendBooking, this));
 	},
 	_reviseBooking: function() {
-		this.options.context.redirect('#/booking/hotel', this.options.booking.hotel.id);
+		this.options.cx.redirect('#/booking/hotel', this.options.booking.hotel.id);
 	},
 	_sendBooking: function() {
 		this._post('api/booking', this._endOfBooking, $.toJSON(this.options.booking));
 	},
 	/* Go back home page and trigger end-of-booking event */
 	_endOfBooking: function(booking) {
-		this.options.context.session('booking', booking);
-		this.options.context.redirect('#/home');
-		this.options.context.trigger('end-of-booking');
+		this.options.cx.session('booking', booking);
+		this.options.cx.redirect('#/home');
+		this.options.cx.trigger('end-of-booking');
 	}
 });
 })(jQuery);

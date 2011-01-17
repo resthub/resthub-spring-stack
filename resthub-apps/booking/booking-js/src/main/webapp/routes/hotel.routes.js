@@ -4,8 +4,8 @@ HotelRoutes = function(app) { with(app) {
 
 		/* BEGIN EVENTS */
 		
-		bind('hotel-search', function() {
-			$('#content').home({context: this});
+		bind('hotel-search', function(cx) {
+			$('#content').home({cx: cx});
 			$('#search-value').focus();
 		});
 		
@@ -14,8 +14,8 @@ HotelRoutes = function(app) { with(app) {
 		/**
 		 * View hotel
 		 */
-		get('#/hotel/:id', function(context) {
-			$('#content').viewHotel({id: this.params['id'], context: context});
+		get('#/hotel/:id', function(cx) {
+			$('#content').viewHotel({id: this.params['id'], cx: cx});
         });
 		
 		

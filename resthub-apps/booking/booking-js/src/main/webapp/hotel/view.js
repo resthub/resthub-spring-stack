@@ -5,7 +5,7 @@ $.widget("booking.viewHotel", $.ui.controller, {
 	options: {
 		id: null,
 		template: 'hotel/view.html',
-		context: null,
+		cx: null,
 		only_data: false
 	},
 	_init: function() {
@@ -17,11 +17,11 @@ $.widget("booking.viewHotel", $.ui.controller, {
 		this._render({hotel: hotel, only_data: this.options.only_data});
 		
 		var id = hotel.id;
-		var context = this.options.context;
+		var cx = this.options.cx;
 		$('input#book-request').bind('click', function() {
-			var booking = {hotel: hotel, user: context.session('user')};
-			context.session('booking', booking);
-			context.redirect('#/booking/hotel', id);
+			var booking = {hotel: hotel, user: cx.session('user')};
+			cx.session('booking', booking);
+			cx.redirect('#/booking/hotel', id);
 		});
 	}
 });
