@@ -13,7 +13,7 @@ public interface AuthorizationService extends GenericService<Token, Long>{
 	/**
 	 * Generates a new access token for a given user and for given scopes.<br/><br/>
 	 * 
-	 * This method is used to generate access tokens in the grant type "Resource Owner Basic Credentials".<br/><br/>
+	 * This method is used to generate access tokens with refresh token and possibly access code.<br/><br/>
 	 * 
 	 * If no user account is found for these credentials, an error is raised.
 	 * 
@@ -21,14 +21,28 @@ public interface AuthorizationService extends GenericService<Token, Long>{
 	 * empty, but not null.<b>TODO Not used no. Must be empty</b>
 	 * @param userName The user account's user name.
 	 * @param password The user account's password.
+	 * @param redirectUri The redirection Uri used to generate an access code.
 	 * @return The generated token.
 	 * 
-	 * @throws ProtocolException INVALID_CLIENT_CREDENTIALS: If no user is found for this credentials.
+	 * @throws ProtocolException INVALID_GRANT: If no user is found for this credentials.
 	 * @throws ProtocolException INVALID_SCOPE: If scopes are specified. Currently, no scopes are supported.
 	 * @throws IllegalArgumentException when scopes or userName parameter is null.
 	 */
-	Token generateToken(List<String> scopes, String userName, String password);
+	Token generateToken(List<String> scopes, String userName, String password, String redirectUri);
 	
+	/**
+	 * Retrieves all infromation (rights, lifetime, etc...) related to a code.
+	 * 
+	 * @param code The code related to the searched token.
+	 * @param redirectUri The redirection URI related to the code.
+	 * 
+	 * @return The corresponding token.
+	 * 
+	 * @throws ProtocolException INVALID_GRANT: If the access code is uknown or expired, or if the redirectionURI 
+	 * mismatch.
+	 */
+	Token getTokenFromCode(String code, String redirectUri);
+
 	/**
 	 * Retrieves all infromation (rights, lifetime, etc...) related to an access token
 	 * 

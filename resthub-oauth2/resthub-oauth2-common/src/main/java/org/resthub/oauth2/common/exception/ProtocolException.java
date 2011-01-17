@@ -69,6 +69,12 @@ public class ProtocolException extends RuntimeException {
 		ACCESS_DENIED("access_denied", Status.FORBIDDEN),
 		
 		/**
+		 * The provided access grant is invalid, expired, or revoked (e.g. invalid assertion, expired authorization 
+		 * token, bad end-user password credentials, or mismatching authorization code and redirection URI). 
+		 */
+		INVALID_GRANT("invalid_grant", Status.BAD_REQUEST),
+
+		/**
 		 * The requested response type is not supported by the authorization server.
 		 */
 		UNSUPPORTED_RESPONSE_TYPE("unsupported_response_type", Status.BAD_REQUEST);

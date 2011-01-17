@@ -18,6 +18,7 @@ import org.resthub.core.test.service.AbstractServiceTest;
 import org.resthub.oauth2.common.exception.ProtocolException;
 import org.resthub.oauth2.common.exception.ProtocolException.Error;
 import org.resthub.oauth2.common.model.Token;
+import org.resthub.oauth2.utils.Utils;
 
 /**
  * Test class for authorization service.
@@ -112,28 +113,28 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	@Test
 	public void generateAccessTokenErrors() {
 		try {
-			service.generateToken(null, "", "");
+			service.generateToken(null, "", "", null);
 			fail("An IllegalArgumentException must be raised for null scopes parameter");
 		} catch (IllegalArgumentException exc) {
 			// All things right
 		}		
 		try {
-			service.generateToken(new ArrayList<String>(), null, "");
+			service.generateToken(new ArrayList<String>(), null, "", null);
 			fail("An IllegalArgumentException must be raised for null userName parameter");
 		} catch (IllegalArgumentException exc) {
 			// All things right
 		}		
 		try {
-			service.generateToken(new ArrayList<String>(), MockAuthenticationService.UNKNOWN_USERNAME, null);
+			service.generateToken(new ArrayList<String>(), MockAuthenticationService.UNKNOWN_USERNAME, null, null);
 			fail("A ProtocolException must be raised for unknown userName");
 		} catch (ProtocolException exc) {
 			// All things right
-			assertEquals("The error case is not good", Error.INVALID_CLIENT, exc.errorCase);
+			assertEquals("The error case is not good", Error.INVALID_GRANT, exc.errorCase);
 		}		
 		try {
 			List<String> scopes = new ArrayList<String>();
 			scopes.add("unknown");
-			service.generateToken(scopes, "someone", null);
+			service.generateToken(scopes, "someone", null, null);
 			fail("A ProtocolException must be raised for unknown scope");
 		} catch (ProtocolException exc) {
 			// All things right
@@ -150,7 +151,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		String password = "t3st";
 		
 		// Generates token.
-		Token token = service.generateToken(new ArrayList<String>(), userName, password);
+		Token token = service.generateToken(new ArrayList<String>(), userName, password, null);
 		assertNotNull("No token generated", token);
 		assertNotNull("Token does not have database id", token.id);
 		assertNotNull("No access token generated", token.accessToken);
@@ -186,7 +187,7 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		String password = "t3st";
 
 		// Generates token.
-		Token token = service.generateToken(new ArrayList<String>(), userName, password);
+		Token token = service.generateToken(new ArrayList<String>(), userName, password, null);
 		assertNotNull("No token generated", token);
 		assertNotNull("No access token generated", token.accessToken);
 		
@@ -205,7 +206,8 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 				MockAuthenticationService.USER_RIGHT));
 
 		// Generates another token for user with no permissions.
-		token = service.generateToken(new ArrayList<String>(), MockAuthenticationService.NO_PERMISSIONS_USERNAME, password);
+		token = service.generateToken(new ArrayList<String>(), MockAuthenticationService.NO_PERMISSIONS_USERNAME, 
+				password, null);
 		assertNotNull("No token generated", token);
 		assertNotNull("No access token generated", token.accessToken);
 		
@@ -221,5 +223,85 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		assertEquals("token has got permissions", 0, retrievedToken.permissions.size());
 
 	} // getTokenInformation().
+	
+	@Test
+	public void shouldTokenBeRetrievedByCode() {
+		// Given an existing token with its code.
+		String redirectUri = "http://localhost:9797/redirect";
+		Token token = service.generateToken(new ArrayList<String>(), "test", "t3st", redirectUri);
+		// When getting corresponding token.
+		Token retrieved = service.getTokenFromCode(token.code, redirectUri);
+		// Then the token is returned.
+		assertNotNull("No token returned", retrieved);
+		assertEquals(token, retrieved);
+		assertEquals(token.accessToken, retrieved.accessToken);
+		assertEquals(token.code, retrieved.code);
+		assertEquals(token.codeExpiry, retrieved.codeExpiry);
+		assertEquals(token.redirectUri, retrieved.redirectUri);
+	} // shouldTokenBeRetrievedByCode().
+	
+	@Test
+	public void shouldUnknownCodeFail() {
+		try {
+			// When getting a token with an unknown code.
+			service.getTokenFromCode("123456AZERTY", "http://localhost:9797/redirect");
+			fail("A ProtocolException must be unknown code");
+		} catch (ProtocolException exc) {
+			// Then an exception is thrown
+			assertEquals("The error case is not good", Error.INVALID_GRANT, exc.errorCase);
+			
+		}
+	} // shouldUnknownCodeFail().
+
+	@Test(expected=IllegalArgumentException.class)
+	public void shouldGetTokenFromCodeFailOnNullCode() {
+		// When getting a token with a null code parameter.
+		service.getTokenFromCode(null, "http://localhost:9797/redirect");		
+		// Then an IllegalArgumentException is thrown.
+	} // shouldGetTokenFromCodeFailOnNullCode().
+
+	@Test(expected=IllegalArgumentException.class)
+	public void shouldGetTokenFromCodeFailOnNullRedirectUri() {
+		// When getting a token with a null code parameter.
+		service.getTokenFromCode("123456AZERTY", null);		
+		// Then an IllegalArgumentException is thrown.
+	} // shouldGetTokenFromCodeFailOnNullRedirectUri().
+
+	@Test
+	public void shouldMismatchUriFail() {
+		// Given an existing token with its code.
+		String redirectUri = "http://localhost:9797/redirect";
+		Token token = service.generateToken(new ArrayList<String>(), "test", "t3st", redirectUri);
+		// When getting token with wrong URI
+		try {
+			service.getTokenFromCode(token.code, redirectUri+"1");
+			fail("A ProtocolException must be raised for mismatch URI");
+		} catch (ProtocolException exc) {
+			// Then an exception is thrown
+			assertEquals("The error case is not good", Error.INVALID_GRANT, exc.errorCase);
+			
+		}
+	} // shouldMismatchUriFail().
+
+	@Test
+	public void shouldExpiredTokenFail() {
+		// Given an existing token with its code that has expired.
+		String redirectUri = "http://localhost:9797/redirect";
+		Token token = new Token();
+		token.accessToken = Utils.generateString(5);
+		token.code = Utils.generateString(5);
+		token.codeExpiry -= 180001;
+		token.redirectUri = redirectUri;
+		service.create(token);
+
+		// When getting token with wrong URI
+		try {
+			service.getTokenFromCode(token.code, redirectUri);
+			fail("A ProtocolException must be raised for mismatch URI");
+		} catch (ProtocolException exc) {
+			// Then an exception is thrown
+			assertEquals("The error case is not good", Error.INVALID_GRANT, exc.errorCase);
+		}
+	} // shouldExpiredTokenFail().
 
 } // Classe AuthorizationServiceImplTest

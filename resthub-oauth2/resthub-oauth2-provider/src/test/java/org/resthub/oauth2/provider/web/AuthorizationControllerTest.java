@@ -602,8 +602,10 @@ public class AuthorizationControllerTest {
 		form.add("password", "t3st");
 		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
 		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
-		String accessCode = redirect.replace(REDIRECT_URI, "").replaceAll("&", "").replace("state=", "").
-		replace("code=", "");
+		int idx = redirect.indexOf("code=")+5;
+		int idx2 = redirect.indexOf("&", idx);
+		idx2 = idx2 == -1 ? redirect.length() : idx2;
+		String accessCode = redirect.substring(idx, idx2);
 
 		// When accessing the token endpoint with access code
 		WebResource server = resource();		
@@ -639,7 +641,7 @@ public class AuthorizationControllerTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Then an error is returned
 			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
+			assertEquals("Response code is incorrect", Error.INVALID_GRANT.value(), response.error);
 		}
 	} // shouldInvalidAccessCodeFailonError().
 
@@ -673,8 +675,6 @@ public class AuthorizationControllerTest {
 		form.add("password", "t3st");
 		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
 		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
-		String accessCode = redirect.replace(REDIRECT_URI, "").replaceAll("&", "").replace("state=", "").
-				replace("code=", "");
 
 		WebResource server = resource();		
 		form = new Form();
@@ -691,7 +691,7 @@ public class AuthorizationControllerTest {
 			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
 			// Then an error is returned
 			ObtainTokenErrorResponse error = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
-			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), error.error);
+			assertEquals("Response code is incorrect", Error.INVALID_GRANT.value(), error.error);
 		}
 	} // shouldInvalidRedirectURIFailonError().
 
@@ -704,8 +704,6 @@ public class AuthorizationControllerTest {
 		form.add("password", "t3st");
 		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
 		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
-		String accessCode = redirect.replace(REDIRECT_URI, "").replaceAll("&", "").replace("state=", "").
-				replace("code=", "");
 
 		WebResource server = resource();		
 		form = new Form();
@@ -724,6 +722,45 @@ public class AuthorizationControllerTest {
 			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), error.error);
 		}
 	} // shouldRedirectURIBeRequired().
+
+	@Test
+	public void shouldExpiredCodeFailonError() {
+		// Given an expired code and redirect URI
+		Form form = new Form();
+		form.add("redirect_uri", REDIRECT_URI);
+		form.add("username", "test");
+		form.add("password", "t3st");
+		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
+		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		int idx = redirect.indexOf("code=")+5;
+		int idx2 = redirect.indexOf("&", idx);
+		idx2 = idx2 == -1 ? redirect.length() : idx2;
+		String accessCode = redirect.substring(idx, idx2);
+		synchronized(this) {
+			try {
+				wait(1500);
+			} catch (InterruptedException exc) {
+				
+			}
+		}
+		// When accessing the token endpoint with the expired code code
+		WebResource server = resource();		
+		form = new Form();
+		form.add("grant_type", "authorization_code");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("code", accessCode);
+		form.add("redirect_uri", REDIRECT_URI);
+		try {
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			fail("An UniformInterfaceException must be raised for expired code");
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Then an error is returned
+			ObtainTokenErrorResponse error = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
+			assertEquals("Response code is incorrect", Error.INVALID_GRANT.value(), error.error);
+		}
+	} // shouldExpiredCodeFailonError().
 
 	// TODO refresh token.
 } // class AuthorizationControllerTest

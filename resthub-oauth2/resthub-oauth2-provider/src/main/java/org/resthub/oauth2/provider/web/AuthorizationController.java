@@ -81,18 +81,23 @@ public interface AuthorizationController {
 	 * @throw ProtocolException UNSUPPORTED_GRANT_TYPE: if the grant_type parameter is not 'password'.
 	 * @throw ProtocolException INVALID_CLIENT_CREDENTIALS: if the client Identifier and password are not empty.
 	 * @throw ProtocolException INVALID_SCOPE: if the scope parameter is not well formated, or if it's not empty.
+	 * @throw ProtocolException INVALID_GRANT: The provided access grant is invalid, expired, or revoked (e.g. invalid 
+	 * assertion, expired authorization token, bad end-user password credentials, or mismatching authorization code and 
+	 * redirection URI). 
 	 */
 	@POST
 	@Path("/token")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	Response obtainAccessTokenBasicCredentials(
+	Response obtainAccessToken(
 			@FormParam("client_id") String clientId, 
 			@FormParam("client_secret") String clientSecret,
 			@FormParam("grant_type") String grant,
 			@FormParam("scope") String scopes,
 			@FormParam("username") String userName,
-			@FormParam("password") String password);
+			@FormParam("password") String password,
+			@FormParam("code") String code, 
+			@FormParam("redirect_uri") String redirectUri);
 	
 	/**
 	 * Retrieves all information relative to an access token.

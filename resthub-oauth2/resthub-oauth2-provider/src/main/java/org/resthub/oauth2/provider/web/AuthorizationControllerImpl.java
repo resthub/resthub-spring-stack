@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 /**
  * Authorization controller implementation.
+ * 
+ * Needs a 
  */
 @Named("authorizationController")
 @Singleton
@@ -42,7 +44,6 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 * Inject the service layer.
 	 */	
 	@Inject
-	@Named("authorizationService")
 	protected AuthorizationService service;
 	
 	/**
@@ -91,7 +92,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		if (scopes != null) {
 			// Test scope syntax.
 			if(scopes.length() != 0 && !scopes.matches("^(\\w*\\s)*\\w*$")) {
-				logger.debug("[obtainAccessTokenBasicCredentials] malformed scope {}",scopes);
+				logger.debug("[obtainAccessToken] malformed scope {}",scopes);
 				throw new ProtocolException(Error.INVALID_SCOPE, "Scope must be a whitespace delimited string");
 			}
 			// Split with spaces, and skip whitespaces 
@@ -119,8 +120,12 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		URI redirection = null;
 		try {
 			boolean containsQuestionMark = redirectUri.contains("?");
-			redirection = new URI(redirectUri+(containsQuestionMark ? "&": "?")+"error="+exc.errorCase.value()+
-					"&state="+state);
+			StringBuilder address = new StringBuilder(containsQuestionMark ? "&": "?").append("error=").
+					append(exc.errorCase.value());
+			if (state != null && state != "") {
+				address.append("&state=").append(state);
+			}
+			redirection = new URI(address.toString());
 		} catch (URISyntaxException exc2) {
 			logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
 			throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
@@ -187,8 +192,13 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			ResponseBuilder builder = Response.status(302);
 			try {
 				boolean containsQuestionMark = authenticationPage.contains("?");
-				redirection = new URI(authenticationPage+(containsQuestionMark ? "&": "?")+"redirect_uri="+redirectUri+
-						"&state="+state);
+				StringBuilder address = new StringBuilder(authenticationPage).append(containsQuestionMark ? "&": "?")
+						.append("redirect_uri=")
+						.append(redirectUri);
+				if (state != null && state != "") {
+					address.append("&state=").append(state);
+				}
+				redirection = new URI(address.toString());
 			} catch (URISyntaxException exc2) {
 				logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
 				throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
@@ -203,46 +213,53 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Response obtainAccessTokenBasicCredentials(String clientId,
+	public Response obtainAccessToken(String clientId,
 			String clientSecret, String grant, String scopes, String userName,
-			String password) {
-		logger.trace("[obtainAccessTokenBasicCredentials] Token generation for clientId '{}', user name '{}', grant " +
+			String password, String code, String redirectUri) {
+		logger.trace("[obtainAccessToken] Token generation for clientId '{}', user name '{}', grant " +
 				"{} and scopes {}", new Object[]{clientId, userName, grant, scopes});
 		// Checks mandatory parameters.
-		if(grant == null || userName == null || password == null) {
-			logger.debug("[obtainAccessTokenBasicCredentials] missing mandatory parameters");
-			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, username and password parameters are " +
-					"mandatory");
-		} 
 		if (clientId == null || clientSecret == null) {
-			logger.debug("[obtainAccessTokenBasicCredentials] missing client credentials");
+			logger.debug("[obtainAccessToken] missing client credentials");
 			throw new ProtocolException(Error.INVALID_CLIENT, "client_id and client_secret parameters are mandatory");
 
 		}
+		if(grant == null) {
+			logger.debug("[obtainAccessToken] missing mandatory parameters");
+			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, username and password parameters are " +
+					"mandatory");
+		} 
 		// Checks grant_type
-		if(grant.compareTo("password") != 0) {	
-			logger.debug("[obtainAccessTokenBasicCredentials] unsupported grant-type {}", grant);
-			throw new ProtocolException(Error.UNSUPPORTED_GRANT_TYPE, "Only grant_type 'password' is supported");
+		if(grant.compareTo("password") != 0 && grant.compareTo("authorization_code") != 0) {	
+			logger.debug("[obtainAccessToken] unsupported grant-type {}", grant);
+			throw new ProtocolException(Error.UNSUPPORTED_GRANT_TYPE, "Only grant_type 'password' and " +
+					"'authorization_code' are supported");
 		}		
 		// Checks clientId and clientSecret
 		if(clientId.compareTo("") != 0 || clientSecret.compareTo("") != 0) {	
-			logger.debug("[obtainAccessTokenBasicCredentials] non-empty client credentials {}", clientId);
+			logger.debug("[obtainAccessToken] non-empty client credentials {}", clientId);
 			throw new ProtocolException(Error.INVALID_CLIENT, "For now, client id and secret must be empty");
 		}		
 		// Checks scope
 		List<String> scopesList = extractScopes(scopes);
 		
-
-		// Calls the service layer.
 		Token token = null;
-		try {
-			token = service.generateToken(scopesList, userName, password);
-		} catch (IllegalArgumentException exc) {
-			logger.debug("[obtainAccessTokenBasicCredentials] invalid parameter: {}", exc.getMessage());
-			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
-				"password parameters are mandatory");
+		if ("password".equals(grant)) {
+			if (userName == null || password == null) {
+				logger.debug("[obtainAccessToken] missing mandatory parameters");
+				throw new ProtocolException(Error.INVALID_REQUEST, "username and password parameters are mandatory");
+			}
+			// Calls the service layer.
+			token = service.generateToken(scopesList, userName, password, redirectUri);
+		} else if ("authorization_code".equals(grant)) {
+			if (code == null || redirectUri == null) {
+				logger.debug("[obtainAccessToken] missing mandatory parameters");
+				throw new ProtocolException(Error.INVALID_REQUEST, "code and redirect_uri parameters are mandatory");
+			}
+			// Calls the service layer.
+			token = service.getTokenFromCode(code, redirectUri);
 		}
-		logger.trace("[obtainAccessTokenBasicCredentials] Generated token: {}", token);
+		logger.trace("[obtainAccessToken] Generated token: {}", token);
 		// Builds a 200 response.
 		ResponseBuilder builder = Response.status(Status.OK);
 		// Response body.
@@ -257,7 +274,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 				false));
 		// Sends response.
 		return builder.build(); 
-	} // obtainAccessTokenBasicCredentials().
+	} // obtainAccessToken().
 	
 	/**
 	 * {@inheritDoc}
@@ -271,7 +288,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		logger.trace("[obtainTokenInformation] Token retrieval for accessToken '{}'", accessToken);
 		// Checks mandatory parameters.
 		if(accessToken == null) {
-			logger.debug("[obtainAccessTokenBasicCredentials] missing mandatory parameters");
+			logger.debug("[obtainTokenInformation] missing mandatory parameters");
 			throw new IllegalArgumentException("accessToken parameter is mandatory");
 		}
 		Token token = service.getTokenInformation(accessToken);
@@ -302,12 +319,18 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		Response response = null;
 		try {
 			// Generate Access code
-			String accessCode = service.generateToken(new ArrayList<String>(), username, password).accessCode;	
+			String accessCode = service.generateToken(new ArrayList<String>(), username, password, redirectUri).code;	
 			// No errors, lets send a page to authenticate user.
 			ResponseBuilder builder = Response.status(302);
 			try {
 				boolean containsQuestionMark = redirectUri.contains("?");
-				redirection = new URI(redirectUri+(containsQuestionMark ? "&": "?")+"code="+accessCode+"&state="+state);
+				StringBuilder address = new StringBuilder(redirectUri).append(containsQuestionMark ? "&": "?")
+						.append("code=")
+						.append(accessCode);
+				if (state != null && state != "") {
+					address.append("&state=").append(state);
+				}
+				redirection = new URI(address.toString());
 			} catch (URISyntaxException exc2) {
 				logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
 				throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
@@ -315,7 +338,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			builder.location(redirection);
 			response = builder.build();
 		} catch (ProtocolException exc) {
-			if (exc.errorCase == Error.INVALID_CLIENT) {
+			if (exc.errorCase == Error.INVALID_GRANT) {
 				// No user fond, access denied.
 				exc.errorCase = Error.ACCESS_DENIED;
 				response = redirectOnError(redirectUri, state, exc);

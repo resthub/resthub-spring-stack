@@ -72,7 +72,18 @@ public class Token implements Serializable {
 	/**
 	 * Corresponding access code.
 	 */
-	public String accessCode = null;
+	public String code = null;
+	
+	/**
+	 * Access code expiry date, in milliseconds since 01/01/1970.
+	 * 0 by default;
+	 */
+	public Long codeExpiry = 0L;
+	
+	/**
+	 * Redirection URI related to the access code.
+	 */
+	public String redirectUri = null;
 	
 	/**
 	 * The user's permissions.

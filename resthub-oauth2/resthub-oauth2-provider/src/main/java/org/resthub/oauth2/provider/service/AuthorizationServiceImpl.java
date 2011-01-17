@@ -1,9 +1,8 @@
 package org.resthub.oauth2.provider.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.inject.Named;
 
 import org.resthub.core.service.GenericServiceImpl;
 import org.resthub.oauth2.common.exception.ProtocolException;
@@ -22,7 +21,6 @@ import org.springframework.util.StringUtils;
  * Relies on an list of <code>AuthenticationProvider</code> services.
  * This Spring beans is declared within XML configuration files.
  */
-@Named("authorizationService")
 public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao, Long> implements
 		AuthorizationService {
 
@@ -30,10 +28,15 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	// Private attributes
 
 	/**
-	 * Life time of tokens.
+	 * Life time of tokens (in seconds).
 	 */
 	protected Integer tokenLifeTime = 900;
-	
+
+	/**
+	 * Life time of code (in seconds).
+	 */
+	protected Integer codeLifeTime = 180;
+
 	/**
 	 * Length (characters) of tokens.
 	 */
@@ -68,9 +71,18 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	 * 
 	 * @param tokenLifeTime Token lifetime.
 	 */
-	public void setTokenLifeTime(Integer tokenLifeTime) {
-		this.tokenLifeTime = tokenLifeTime;
-	} // settokenLifeTime().
+	public void setTokenLifeTime(Integer codeLifeTime) {
+		this.codeLifeTime = codeLifeTime;
+	} // setTokenLifeTime().
+
+	/**
+	 * Used by Spring to inject the code lifetime (in seconds).
+	 * 
+	 * @param codeLifeTime Code lifetime.
+	 */
+	public void setCodeLifeTime(Integer codeLifeTime) {
+		this.codeLifeTime = codeLifeTime;
+	} // setCodeLifeTime().
 
 	/**
 	 * Used by Spring to inject the token tokenLength (number of character).
@@ -89,7 +101,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	 */
 	@Transactional(readOnly = false)
 	@Override
-	public Token generateToken(List<String> scopes, String userName, String password) {
+	public Token generateToken(List<String> scopes, String userName, String password, String redirectUri) {
 		if(logger.isTraceEnabled()) {
 			logger.trace("[generateToken] generate new token for scope '{}', userName '{}'", new Object[]{
 					StringUtils.collectionToCommaDelimitedString(scopes), userName});
@@ -122,14 +134,19 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 		}
 		// No user found
 		if(token.userId == null) {
-			throw new ProtocolException(Error.INVALID_CLIENT, "no user found for " + userName + 
+			throw new ProtocolException(Error.INVALID_GRANT, "no user found for " + userName + 
 					" or wrong password");
 		}
 		// All's fine : generate tokens.
 		token.accessToken = Utils.generateString(tokenLength);
 		token.refreshToken = Utils.generateString(tokenLength);
-		token.accessCode = Utils.generateString(tokenLength);
 		token.lifeTime = tokenLifeTime;
+		// Possible code generation.
+		if (redirectUri != null) {
+			token.code = Utils.generateString(tokenLength);
+			token.redirectUri = redirectUri;
+			token.codeExpiry = new Date().getTime()+codeLifeTime*1000;
+		}
 		logger.info("[generateToken] Save token {} for {} during {}", new Object[]{token.accessToken, token.userId, 
 				token.lifeTime});
 		// Save the token.
@@ -155,5 +172,36 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 		}
 		return result;
 	} // getTokenInformation().
+	
+	/**
+	 * #{@inheritDoc}
+	 */
+	@Override
+	public Token getTokenFromCode(String code, String redirectUri) {
+		// Check non-nullity.
+		if(code == null || redirectUri == null) {
+			throw new IllegalArgumentException("redirectUri and code parameters mustn't be null");
+		}
+		logger.trace("[getTokenFromCode] retrieves information with code {}", code);
+		// Retrieves in database: returns an array, but as accessCode is unic, only one object will be returned.
+		List<Token> tokens = dao.findEquals("code", code);
+		Token result = null;
+		if(tokens.size() > 0) {
+			result = tokens.get(0);
+		} else {
+			logger.debug("[obtainAccessToken] invalid access code {}", code);
+			throw new ProtocolException(Error.INVALID_GRANT, "access code is unknown");			
+		}
+		// Checks token lifetime and redirection URI
+		if (new Date().getTime() > result.codeExpiry) {
+			logger.debug("[obtainAccessToken] expired access code {}", code);
+			throw new ProtocolException(Error.INVALID_GRANT, "access code is expired");				
+		}
+		if (!redirectUri.equals(result.redirectUri)) {
+			logger.debug("[obtainAccessToken] redirection URI mismatch {}", code);
+			throw new ProtocolException(Error.INVALID_GRANT, "redirection URI mismatch");				
+		}
+		return result;
+	} // getTokenFromCode().
 	
 } // class AuthorizationServiceImpl.

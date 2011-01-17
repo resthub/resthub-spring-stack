@@ -22,6 +22,7 @@
 		<property name="dao" ref="tokenDao" />
 		<property name="tokenLifeTime" value="500" />
 		<property name="tokenLength" value="15" />
+		<property name="codeLifeTime" value="1" />
 		<property name="authenticationProviders">
 			<list>
 				<ref bean="mockAuthenticationService" />
