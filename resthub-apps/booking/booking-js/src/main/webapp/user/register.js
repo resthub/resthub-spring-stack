@@ -1,4 +1,4 @@
-define(['jquery.controller'], function() {
+define(['jquery.controller','jquery.json'], function() {
 (function($)
 {
 	$.widget("booking.userRegister", $.ui.controller, {
@@ -15,7 +15,7 @@ define(['jquery.controller'], function() {
 					password: $('input[name=password]').val(),
 					fullname: $('input[name=name]').val()
 				}
-				self._post('api/user', self._userRegistered, JSON.stringify(user));
+				self._post('api/user', self._userRegistered, $.toJSON(user));
 			});
 		},
 		_userRegistered: function(user) {

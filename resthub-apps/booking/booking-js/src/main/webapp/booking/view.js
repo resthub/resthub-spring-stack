@@ -1,4 +1,4 @@
-define(['jquery.controller'], function() {
+define(['jquery.controller', 'jquery.json'], function() {
 (function($) {
 
 $.widget("booking.viewBooking", $.ui.controller, {
@@ -45,7 +45,7 @@ $.widget("booking.viewBooking", $.ui.controller, {
 		this.options.context.redirect('#/booking/hotel', this.options.booking.hotel.id);
 	},
 	_sendBooking: function() {
-		this._post('api/booking', this._endOfBooking, JSON.stringify(this.options.booking));
+		this._post('api/booking', this._endOfBooking, $.toJSON(this.options.booking));
 	},
 	/* Go back home page and trigger end-of-booking event */
 	_endOfBooking: function(booking) {
