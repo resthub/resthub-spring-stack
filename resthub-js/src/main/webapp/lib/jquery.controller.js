@@ -7,13 +7,6 @@ define(['jquery','jqueryui/widget'], function(jQuery) {
 (function( $, undefined ) {
 
 	$.widget("ui.controller", {
-		_create: function() {
-		// TODO
-		},
-
-		_init: function() {
-		// TODO
-		},
 		
 		_post: function _post(url, callback, data) {
 			this._ajax(url, callback, 'POST', data);
@@ -45,9 +38,22 @@ define(['jquery','jqueryui/widget'], function(jQuery) {
 			});
 		},
 		
+		/**
+		 * Render current widget with the template specified in this.options.template.
+		 * If none is defined, it used a view with the same name than the controller
+		 */
+		_render: function() {
+			if(typeof(this.options.template)=='undefined') {
+				this.element.render('./' + this.widgetName + '.html');
+			} else {
+				this.element.render(this.options.template);
+			}	
+		},
+		
 		options: {
 			dataType: 'json',
-			contentType: 'application/json; charset=utf-8'
+			contentType: 'application/json; charset=utf-8',
+			context : null
 		}
 	});
 	

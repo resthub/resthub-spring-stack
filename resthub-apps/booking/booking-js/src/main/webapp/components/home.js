@@ -1,13 +1,13 @@
-define(["components/booking/list", "components/hotel/search"], function() {
+define(['jquery.controller', 'components/booking/list', 'components/hotel/search'], function() {
 (function($) {
 	$.widget("booking.home", $.ui.controller, {
-		options: {searchVal: null, size: 5, template : 'components/home.html', context : null},
+		options: {searchVal: null, size: 5},
 	
 		_init: function() {
 			this.options.context.title('Home');	
 			this.options.searchVal = $('#search-value').val();
 			this.options.size = $('#search-size').val();
-			this.element.render(this.options.template, null);
+			this._render();
 			
 			$('#search').searchHotels({
 				searchVal: this.options.searchVal,
@@ -19,5 +19,6 @@ define(["components/booking/list", "components/hotel/search"], function() {
 			this.options.context.session('search-offset', 0);
 		}
 	});
+	
 })(jQuery);
 });

@@ -5,8 +5,8 @@ define(['jquery.controller'], function() {
 	$.widget("booking.editUser", $.ui.controller, {
 		_init: function() {
 			this.options.context.title('Settings');
-			this.element.render(this.options.template);
 			$('#save-password').bind('click', $.proxy(this._changePassword, this));
+			this._render();
 		},
 		_changePassword: function() {
 			if( $('input[name=password]').val() == $('input[name=verifyPassword]').val() )
@@ -21,8 +21,6 @@ define(['jquery.controller'], function() {
 			this.options.context.trigger('password-updated');
 		},
 		options: {
-			context: null,
-			template: 'components/user/edit.html',
 			user: null
 		}
 	});
