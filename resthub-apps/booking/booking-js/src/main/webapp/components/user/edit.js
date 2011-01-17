@@ -21,7 +21,8 @@ define(['jquery.controller'], function() {
 			this.options.context.trigger('password-updated');
 		},
 		options: {
-			user: null
+			user: null,
+			template : 'components/user/edit.html'
 		}
 	});
 })(jQuery);

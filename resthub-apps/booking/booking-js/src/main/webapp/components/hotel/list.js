@@ -5,8 +5,7 @@ $.widget("booking.listHotels", $.ui.controller, {
 		searchVal: null,
 		page: 0,
 		size: 5,
-		template: 'components/hotel/list.html',
-		context: null
+		template: 'components/hotel/list.html'
 	},
 	_init: function() {
 		var url;
@@ -18,7 +17,7 @@ $.widget("booking.listHotels", $.ui.controller, {
 		this._get(url, this._displayHotels);
 	},
 	_displayHotels: function(result) {
-		this.element.render(this.options.template, {result: result});
+		this._render({result: result});
 
 		var self = this;
 		$('#search-next').bind('click', function() {

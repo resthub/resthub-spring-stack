@@ -1,7 +1,11 @@
 define(['jquery.controller', 'components/booking/list', 'components/hotel/search'], function() {
 (function($) {
 	$.widget("booking.home", $.ui.controller, {
-		options: {searchVal: null, size: 5},
+		options: {
+			searchVal: null,
+			size: 5,
+			template: 'components/home.html'
+			},
 	
 		_init: function() {
 			this.options.context.title('Home');	

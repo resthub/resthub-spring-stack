@@ -42,18 +42,19 @@ define(['jquery','jqueryui/widget'], function(jQuery) {
 		 * Render current widget with the template specified in this.options.template.
 		 * If none is defined, it used a view with the same name than the controller
 		 */
-		_render: function() {
+		_render: function(data) {
 			if(typeof(this.options.template)=='undefined') {
-				this.element.render('./' + this.widgetName + '.html');
+				this.element.render('./' + this.widgetName + '.html', data);
 			} else {
-				this.element.render(this.options.template);
+				this.element.render(this.options.template, data);
 			}	
 		},
 		
 		options: {
 			dataType: 'json',
 			contentType: 'application/json; charset=utf-8',
-			context : null
+			context : null,
+			template: ''
 		}
 	});
 	

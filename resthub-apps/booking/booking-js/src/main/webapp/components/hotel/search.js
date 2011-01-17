@@ -12,7 +12,7 @@ $.widget("booking.searchHotels", $.ui.controller, {
 	},
 	_init: function() {
 
-		this.element.render(this.options.template);
+		this._render();
 		
 		var self = this;
 		$('#search-submit').bind('click', function() {

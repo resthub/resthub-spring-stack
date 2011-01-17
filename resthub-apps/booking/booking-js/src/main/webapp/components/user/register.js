@@ -5,7 +5,7 @@ define(['jquery.controller'], function() {
 		_init: function() {
 
 			this.options.context.title('Register');
-			this.element.render(this.options.template);
+			this._render();
 
 			var self = this;
 			$('#register-button').bind('click', function() {

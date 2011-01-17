@@ -14,7 +14,7 @@ $.widget("booking.viewHotel", $.ui.controller, {
 		}
 	},
 	_displayHotel: function(hotel) {
-		this.element.render(this.options.template, {hotel: hotel, only_data: this.options.only_data});
+		this._render({hotel: hotel, only_data: this.options.only_data});
 		
 		var id = hotel.id;
 		var context = this.options.context;
