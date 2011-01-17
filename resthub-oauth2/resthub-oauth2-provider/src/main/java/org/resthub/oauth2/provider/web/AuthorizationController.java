@@ -64,12 +64,12 @@ public interface AuthorizationController {
 	 * Token edpoint to obtain access token with "Resource Owner Password Credentials" as described
 	 * in the OAuth 2 specification (Section 5.1.2).<br/><br/>
 	 * 
-	 * The only gant_type supported is "password".<br/>
+	 * The grant_type "client_credentials" is not supported.<br/>
 	 * The only way to send client credentials is the use of query parameters.<br/><br/>
 	 * 
 	 * @param clientId Client identifier. <b>Not used now, must be null</b>.
 	 * @param clientSecret Client secret. <b>Not used now, must be null</b>.
-	 * @param grant Access grant type. <b>For now, only "password" supported</b>.
+	 * @param grant Access grant type. <b>For now, only "client_credentials" is not supported</b>.
 	 * @param scopes Space separated list of object that will be accessed. <b>For now, must be empty.</b>.
 	 * @param userName End-user name. 
 	 * @param password End-user password.

@@ -593,5 +593,137 @@ public class AuthorizationControllerTest {
 		assertTrue("No access_code parameter or wrong value: "+redirect, redirect.contains("code="));
 	} // shouldEndUserAuthenticateAndRedirectedWithCode().
 
-	
+	@Test
+	public void shouldGetTokenWithAccessCode() {
+		// Given an access code and redirect URI.
+		Form form = new Form();
+		form.add("redirect_uri", REDIRECT_URI);
+		form.add("username", "test");
+		form.add("password", "t3st");
+		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
+		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		String accessCode = redirect.replace(REDIRECT_URI, "").replaceAll("&", "").replace("state=", "").
+		replace("code=", "");
+
+		// When accessing the token endpoint with access code
+		WebResource server = resource();		
+		form = new Form();
+		form.add("grant_type", "authorization_code");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("code", accessCode);
+		form.add("redirect_uri", REDIRECT_URI);
+		TokenResponse tokenResponse = server.path("authorize/token").
+			type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+		
+		// Then a token is returned.
+		assertNotNull("Generated token is null", tokenResponse);
+		assertNotNull("Generated access token is null", tokenResponse.accessToken);		
+	} // shouldGetTokenWithAccessCode().
+
+	@Test
+	public void shouldInvalidAccessCodeFailonError() {
+		// Given an unknown access code and redirect URI.		
+		WebResource server = resource();		
+		Form form = new Form();
+		form.add("grant_type", "authorization_code");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("code", "123456");
+		form.add("redirect_uri", REDIRECT_URI);
+		try {
+			// When accessing the token endpoint with access code
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			fail("An UniformInterfaceException must be raised for invalid code");
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Then an error is returned
+			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
+		}
+	} // shouldInvalidAccessCodeFailonError().
+
+	@Test
+	public void shouldAccessCodeBeRequired() {
+		// Given a redirect URI and without access_code.		
+		WebResource server = resource();		
+		Form form = new Form();
+		form.add("grant_type", "authorization_code");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("redirect_uri", REDIRECT_URI);
+		try {
+			// When accessing the token endpoint without access code on grant_type authorization_code
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			fail("An UniformInterfaceException must be raised for invalid code");
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Then an error is returned
+			ObtainTokenErrorResponse response = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), response.error);
+		}
+	} // shouldAccessCodeBeRequired().
+
+	@Test
+	public void shouldInvalidRedirectURIFailonError() {
+		// Given an access_code and whitout redirect URI.		
+		Form form = new Form();
+		form.add("redirect_uri", REDIRECT_URI);
+		form.add("username", "test");
+		form.add("password", "t3st");
+		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
+		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		String accessCode = redirect.replace(REDIRECT_URI, "").replaceAll("&", "").replace("state=", "").
+				replace("code=", "");
+
+		WebResource server = resource();		
+		form = new Form();
+		form.add("grant_type", "authorization_code");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("redirect_uri", "://redirected");
+		form.add("code", "123456");
+		try {
+			// When accessing the token endpoint without redirect URIe on grant_type authorization_code
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			fail("An UniformInterfaceException must be raised for invalid code");
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Then an error is returned
+			ObtainTokenErrorResponse error = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), error.error);
+		}
+	} // shouldInvalidRedirectURIFailonError().
+
+	@Test
+	public void shouldRedirectURIBeRequired() {
+		// Given an access_code and whitout redirect URI.		
+		Form form = new Form();
+		form.add("redirect_uri", REDIRECT_URI);
+		form.add("username", "test");
+		form.add("password", "t3st");
+		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
+		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		String accessCode = redirect.replace(REDIRECT_URI, "").replaceAll("&", "").replace("state=", "").
+				replace("code=", "");
+
+		WebResource server = resource();		
+		form = new Form();
+		form.add("grant_type", "authorization_code");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("code", "123456");
+		try {
+			// When accessing the token endpoint without redirect URIe on grant_type authorization_code
+			server.path("authorize/token").type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			fail("An UniformInterfaceException must be raised for invalid code");
+		} catch (UniformInterfaceException exc) {
+			assertEquals("HTTP response code is incorrect", 400, exc.getResponse().getStatus());
+			// Then an error is returned
+			ObtainTokenErrorResponse error = exc.getResponse().getEntity(ObtainTokenErrorResponse.class);
+			assertEquals("Response code is incorrect", Error.INVALID_REQUEST.value(), error.error);
+		}
+	} // shouldRedirectURIBeRequired().
+
+	// TODO refresh token.
 } // class AuthorizationControllerTest
