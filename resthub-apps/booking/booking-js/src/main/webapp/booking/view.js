@@ -1,4 +1,4 @@
-define([ 'jquery', 'models/booking.dao', 'jquery.controller', 'jquery.json',  ], function($, ) {
+define([ 'jquery', 'models/booking.dao', 'jquery.controller', 'jquery.json',  ], function($, Booking ) {
 	$.widget("booking.viewBooking", $.ui.controller, {
 		options : {
 			booking : {},
