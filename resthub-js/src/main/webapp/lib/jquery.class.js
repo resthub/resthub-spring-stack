@@ -290,7 +290,7 @@ define(['jquery'], function (jQuery) {
 		};
 
 		/* @Static*/
-		$.extend($.Class, {
+		jQuery.extend(jQuery.Class, {
 			/**
 			 * @function callback
 			 * Returns a callback function for a function on this Class.
@@ -615,7 +615,7 @@ define(['jquery'], function (jQuery) {
 				 */
 			}
 
-		})
+		});
 
 
 
@@ -624,7 +624,8 @@ define(['jquery'], function (jQuery) {
 		jQuery.Class.prototype.
 		/**
 		 * @function callback
-		 * Returns a callback function.  This does the same thing as and is described better in [jQuery.Class.static.callback].
+		 * Returns a callback function. 
+		 * @see [jQuery.Class.static.callback].
 		 * The only difference is this callback works
 		 * on a instance instead of a class.
 		 * @param {String|Array} fname If a string, it represents the function to be called.  
@@ -634,6 +635,7 @@ define(['jquery'], function (jQuery) {
 		 */
 		callback = jQuery.Class.callback;
 
-	
+		//module's exports
+		return jQuery.Class;
 });
 

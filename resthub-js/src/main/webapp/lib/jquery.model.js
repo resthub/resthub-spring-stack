@@ -1,5 +1,13 @@
-define([ 'jquery', 'jquery.class' ], function(jQuery) {
-	$.Class.extend("Model", {
+define([ 'jquery', 'jquery.class' ], function($, Class) {
+
+	Class.extend("Model", 
+		/* @static */ {
+			defaults : {
+				dataType : 'json',
+				contentType : 'application/json; charset=utf-8'
+			}
+		},
+		/* @prototype */ {
 		init : function() {
 			this.root = '';
 		},
@@ -45,9 +53,6 @@ define([ 'jquery', 'jquery.class' ], function(jQuery) {
 				success : callback
 			});
 		},
-		defaults : {
-			dataType : 'json',
-			contentType : 'application/json; charset=utf-8'
-		}
-	}, {});
+
+	});
 });
