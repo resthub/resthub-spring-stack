@@ -1,6 +1,6 @@
 define(['booking/book','booking/delete'], function() {
 
-BookingRoutes = function(app) { with(app) {
+return function(app) { with(app) {
 
 		/* BEGIN EVENTS */
 		

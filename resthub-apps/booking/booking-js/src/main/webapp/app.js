@@ -1,13 +1,11 @@
 /**
  * Routes
  */
-define(["jquery", "resthub.controller", // both can be loaded as modules
-	"sammy", "sammy.storage", "sammy.title",
-	"sammy.json", "jquery.ejs", "jquery.pnotify",
-	"routes/user.routes","routes/booking.routes","routes/hotel.routes"], function($, Controller) {
+define(["jquery", "routes/user.routes", "routes/booking.routes", "routes/hotel.routes",// both can be loaded as modules
+	"resthub.controller", "sammy", "sammy.storage", "sammy.title",
+	/*"sammy.json",*/ "jquery.ejs", "jquery.pnotify"], function($, UserRoutes, BookingRoutes, HotelRoutes, Controller) {
 	
 	var app = $.sammy(function() {
-
 		this.use('Title');
 		this.use('Session');
 		
@@ -37,16 +35,15 @@ define(["jquery", "resthub.controller", // both can be loaded as modules
 		});
 
 	});
-
-	$(function() {
-
-		// Rebuild Lucene index
-		$.ajax({
-			url: 'api/lucene/rebuild',
-			dataType: 'json',
-			type: 'POST'
-		});
+	
+	// Rebuild Lucene index
+	$.ajax({
+		url: 'api/lucene/rebuild',
+		dataType: 'json',
+		type: 'POST'
+	});
 		
+	$(function() {	
         app.run('#/');
 	});
 	

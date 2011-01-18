@@ -1,4 +1,4 @@
-define([ 'resthub.controller', 'dao/hotel.dao' ], function() {
+define([ 'jquery', 'resthub.controller', 'dao/hotel.dao' ], function($, Controller) {
 	(function($) {
 
 		$.widget("booking.listHotels", $.ui.controller, {

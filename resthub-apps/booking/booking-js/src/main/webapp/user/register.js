@@ -1,5 +1,4 @@
-define([ 'resthub.controller', 'jquery.json', 'dao/user.dao' ], function() {
-	(function($) {
+define([ 'resthub.controller', 'dao/user.dao', 'jquery.json' ], function(Controller, UserDao) {
 		$.widget("booking.userRegister", $.ui.controller, {
 			options : {
 				template : 'user/register.html'

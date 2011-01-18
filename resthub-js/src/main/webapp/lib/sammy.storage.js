@@ -1,4 +1,4 @@
-define(['sammy','sammy.json'], function(jQuery) {
+define(['json','sammy'], function(JSON) {
 
   Sammy = Sammy || {};
 

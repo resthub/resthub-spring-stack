@@ -1,6 +1,5 @@
 define(['user/login','user/register', 'user/edit'], function() {
-
-UserRoutes = function(app) { with(app) {
+return function(app) { with(app) {
 
 		/* BEGIN EVENTS */
 		

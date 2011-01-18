@@ -1,6 +1,4 @@
-define([ "hotel/list" ], function() {
-	(function($) {
-
+define([ "jquery", "hotel/list" ], function($) {
 		$.widget("booking.searchHotels", $.ui.controller, {
 			options : {
 				searchVal : null,
@@ -44,5 +42,4 @@ define([ "hotel/list" ], function() {
 				}
 			}
 		});
-	})(jQuery);
 });

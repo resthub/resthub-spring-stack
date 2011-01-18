@@ -1,6 +1,6 @@
 define(['hotel/view'], function() {
 
-HotelRoutes = function(app) { with(app) {
+return function(app) { with(app) {
 
 		/* BEGIN EVENTS */
 		

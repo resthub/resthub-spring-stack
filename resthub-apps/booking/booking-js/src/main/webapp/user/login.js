@@ -1,4 +1,4 @@
-define([ 'dao/user.dao', 'resthub.controller', 'jquery.json' ], function(UserDao, Controller) {
+define([ 'require', 'dao/user.dao', 'resthub.controller', 'jquery.json' ], function(require) {
 
 	$.widget("booking.userLogin", $.ui.controller, {
 		_init : function() {
@@ -7,7 +7,7 @@ define([ 'dao/user.dao', 'resthub.controller', 'jquery.json' ], function(UserDao
 				username : this.cx().params.username,
 				password : this.cx().params.password
 			};
-			UserDao.check($.proxy(this, '_userLoggedIn'), $.toJSON(user));
+			require('dao/user.dao').check($.proxy(this, '_userLoggedIn'), $.toJSON(user));
 		},
 		_userLoggedIn : function(user) {
 			this.cx().session('user', user);
