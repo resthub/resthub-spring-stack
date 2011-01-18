@@ -1,6 +1,6 @@
 /**
- * Resthub-controller is a generic javascript controller for resthub applications.
- * It provides utility functions for basic op�rations.
+ * Resthub-controller is a generic javascript controller for resthub
+ * applications. It provides utility functions for basic op�rations.
  */
 define(['jquery','jqueryui/widget'], function(jQuery) {
 
@@ -39,8 +39,9 @@ define(['jquery','jqueryui/widget'], function(jQuery) {
 		},
 		
 		/**
-		 * Render current widget with the template specified in this.options.template.
-		 * If none is defined, it used a view with the same name than the controller
+		 * Render current widget with the template specified in
+		 * this.options.template. If none is defined, it used a view with the
+		 * same name than the controller
 		 */
 		_render: function(data) {
 			if(typeof(this.options.template)=='undefined') {
@@ -49,6 +50,21 @@ define(['jquery','jqueryui/widget'], function(jQuery) {
 				this.element.render(this.options.template, data);
 			}	
 		},
+		
+		/**
+		 * Shortcut for context
+		 */
+		cx: function() {
+			return this.options.cx;
+		},
+		
+		/**
+		 * Shortcut for template
+		 */
+		template: function() {
+			return this.options.template;
+		},
+
 		
 		options: {
 			dataType: 'json',

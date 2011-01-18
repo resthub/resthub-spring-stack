@@ -1,22 +1,19 @@
-define(['jquery.controller', 'jquery.json'], function() {
+define([ 'jquery.controller', 'jquery.json', 'models/user.model' ], function() {
 
 	$.widget("booking.userLogin", $.ui.controller, {
-		_init: function() {
-			this.options.cx.store('session').clearAll();
+		_init : function() {
+			this.cx().store('session').clearAll();
 			var user = {
-				username: this.options.cx.params['username'],
-				password: this.options.cx.params['password']
-			}
-			this._post('api/user/check/', this._userLoggedIn, $.toJSON(user));
+				username : this.cx().params['username'],
+				password : this.cx().params['password']
+			};
+			User.check($.proxy(this, '_userLoggedIn'), $.toJSON(user));
 		},
-		_userLoggedIn: function(user) {
-			this.options.cx.session('user', user);
-			this.options.cx.redirect('#/home');
-			this.options.cx.trigger('user-logged-in');
-		},
-		options: {
-			cx: null
+		_userLoggedIn : function(user) {
+			this.cx().session('user', user);
+			this.cx().redirect('#/home');
+			this.cx().trigger('user-logged-in');
 		}
 	});
-	
+
 });

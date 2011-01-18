@@ -1,29 +1,27 @@
-define(['jquery.controller','jquery.json'], function() {
-(function($)
-{
-	
-	$.widget("booking.editUser", $.ui.controller, {
-		_init: function() {
-			this.options.cx.title('Settings');
-			$('#save-password').bind('click', $.proxy(this._changePassword, this));
-			this._render();
-		},
-		_changePassword: function() {
-			if( $('input[name=password]').val() == $('input[name=verifyPassword]').val() )
-			{
-				this.options.user = this.options.cx.session('user');
-				this.options.user.password = $('input[name=password]').val();
-				this._put('api/user/' + this.options.user.id, this._passwordUpdated, $.toJSON(this.options.user));
+define([ 'jquery.controller', 'jquery.json', 'models/user.model' ], function() {
+	(function($) {
+
+		$.widget("booking.editUser", $.ui.controller, {
+			options : {
+				user : null,
+				template : 'user/edit.html'
+			},
+			_init : function() {
+				this.cx().title('Settings');
+				this._render();
+				$('#save-password').bind('click', $.proxy(this, '_changePassword'));
+			},
+			_changePassword : function() {
+				if ($('input[name=password]').val() == $('input[name=verifyPassword]').val()) {
+					this.options.user = this.cx().session('user');
+					this.options.user.password = $('input[name=password]').val();
+					User.update($.proxy(this, '_passwordUpdated'), this.options.user.id, $.toJSON(this.options.user));
+				}
+			},
+			_passwordUpdated : function() {
+				this.cx().session('user', this.options.user);
+				this.cx().trigger('password-updated');
 			}
-		},
-		_passwordUpdated: function() {
-			this.options.cx.session('user', this.options.user);
-			this.options.cx.trigger('password-updated');
-		},
-		options: {
-			user: null,
-			template : 'user/edit.html'
-		}
-	});
-})(jQuery);
+		});
+	})(jQuery);
 });

@@ -1,20 +1,21 @@
-(function($) {
+define([ 'jquery.controller', 'models/booking.model' ], function() {
+	(function($) {
 
-$.widget("booking.listBookings", $.ui.controller, {
-	options: {
-		template : 'booking/list.html',
-		cx : null
-	},
-	_init: function() {
-		var user = this.options.cx.session('user');
-		var url;
-		if(user.id) {
-			url = 'api/booking/user/' + user.id;
-			this._get(url, this._displayBookings);
-		}
-	},
-	_displayBookings: function(bookings) {
-		this.element.render(this.options.template, {bookings: bookings});
-	}
+		$.widget("booking.listBookings", $.ui.controller, {
+			options : {
+				template : 'booking/list.html'
+			},
+			_init : function() {
+				var user = this.options.cx.session('user');
+				if (user.id) {
+					Booking.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
+				}
+			},
+			_displayBookings : function(bookings) {
+				this._render({
+					bookings : bookings
+				});
+			}
+		});
+	})(jQuery);
 });
-})(jQuery);

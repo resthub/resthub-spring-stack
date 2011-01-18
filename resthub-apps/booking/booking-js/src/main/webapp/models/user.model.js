@@ -1,9 +1,12 @@
-define(['jsmodel'], function() {
-	var User = Model("user", {
-		persistence: Model.RestPersistence("api/user")
-		
-		// Class methods
-		}, {
-		// Instance methods
-	});
+define([ 'jquery.model' ], function() {
+
+	Model.extend("User", {
+		init : function() {
+			this.root = 'api/user/';
+		},
+		check: function(callback, data) {
+			this._post(this.root + 'check/', callback, data);
+		}
+
+	}, {});
 });
