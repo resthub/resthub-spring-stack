@@ -16,7 +16,8 @@ define([ 'jquery', 'jquery.class' ], function($, Class) {
 			return {
 				supplement: function(statics) {
 					return Dao.extend(className, statics, {});
-			}
+				}
+			};
 		},
 		// default root
 		root: '',
