@@ -1,6 +1,7 @@
-define([ 'jquery.dao' ], function(CrudDao) {
-	return CrudDao.define("HotelDao")
-		.supplement({
+define([ 'resthub.dao' ], function(Dao) {
+
+	Dao.extend("HotelDao", {
+
 		root : 'api/hotel/',
 
 		find : function(callback, val, page, size) {
@@ -10,5 +11,5 @@ define([ 'jquery.dao' ], function(CrudDao) {
 			}
 			this._get(url, callback);
 		}
-	});
+	}, {});
 });

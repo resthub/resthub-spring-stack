@@ -1,4 +1,4 @@
-define([ 'jquery', 'jquery.controller', 'models/booking.dao' ], function($, Controller, BookingDao) {
+define([ 'jquery', 'resthub.controller', 'dao/booking.dao' ], function($, Controller, BookingDao) {
 	return $.widget("booking.deleteBooking", $.ui.controller, {
 		options : {
 			id : null

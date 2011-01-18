@@ -1,29 +1,18 @@
 define([ 'jquery', 'jquery.class' ], function($, Class) {
 
-	return Class.extend("CrudDao", 
-	/* @static */ {
+	return Class.extend("Dao", {
+	/* @static */
+
 		defaults : {
 			dataType : 'json',
 			contentType : 'application/json; charset=utf-8'
 		},
 
-		/**
-		 * Just a helper that improves extension creation readability
-		 * @return a dummy object (containing only the supplement function) 
-		 * to complete the chain to make a proper "extend" with all needed data.
-		 */
-		define: function (className) {
-			return {
-				supplement: function(statics) {
-					return Dao.extend(className, statics, {});
-				}
-			};
-		},
 		// default root
-		root: '',
+		root : '',
 		//singleton methods
 		init : function() {
-			this.root = this.root||'';
+			this.root = this.root || '';
 		},
 		read : function(callback, id) {
 			return this._get(this.root + id, callback);
@@ -33,7 +22,7 @@ define([ 'jquery', 'jquery.class' ], function($, Class) {
 		},
 		save : function(callback, data) {
 			return this._post(this.root, callback, data);
-			
+
 		},
 		update : function(callback, id, data) {
 			return this._put(this.root + id, callback, data);
@@ -73,5 +62,5 @@ define([ 'jquery', 'jquery.class' ], function($, Class) {
 				success : callback
 			});
 		}
-	});
+	}, {});
 });

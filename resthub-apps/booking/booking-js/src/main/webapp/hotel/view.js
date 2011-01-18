@@ -1,4 +1,4 @@
-define([ 'jquery.controller', 'models/hotel.model' ], function() {
+define([ 'resthub.controller', 'dao/hotel.dao' ], function() {
 	(function($) {
 
 		$.widget("booking.viewHotel", $.ui.controller,
@@ -10,7 +10,7 @@ define([ 'jquery.controller', 'models/hotel.model' ], function() {
 					},
 					_init : function() {
 						if (!isNaN(this.options.id)) {
-							Hotel.read($.proxy(this, '_displayHotel'),
+							HotelDao.read($.proxy(this, '_displayHotel'),
 									this.options.id);
 						}
 					},

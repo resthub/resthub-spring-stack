@@ -1,7 +1,7 @@
 /**
  * Routes
  */
-define(["jquery", "jquery.controller", // both can be loaded as modules
+define(["jquery", "resthub.controller", // both can be loaded as modules
 	"sammy", "sammy.storage", "sammy.title",
 	"sammy.json", "jquery.ejs", "jquery.pnotify",
 	"routes/user.routes","routes/booking.routes","routes/hotel.routes"], function($, Controller) {
@@ -38,8 +38,7 @@ define(["jquery", "jquery.controller", // both can be loaded as modules
 
 	});
 
-	//application start on DomLoaded
-	$.ready(function() {
+	$(function() {
 
 		// Rebuild Lucene index
 		$.ajax({

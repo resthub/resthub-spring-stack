@@ -1,4 +1,4 @@
-define([ 'jquery', 'models/booking.dao', 'jquery.controller', 'jquery.json',  ], function($, Booking ) {
+define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], function($, Booking ) {
 	$.widget("booking.viewBooking", $.ui.controller, {
 		options : {
 			booking : {},
@@ -8,7 +8,7 @@ define([ 'jquery', 'models/booking.dao', 'jquery.controller', 'jquery.json',  ],
 		_init : function() {
 
 			if (this.options.mode == 'view') {
-				Booking.read($.proxy(this, '_displayViewMode'), this.options.booking.id);
+				BookingDao.read($.proxy(this, '_displayViewMode'), this.options.booking.id);
 			} else {
 				this._displayConfirmMode();
 			}
@@ -42,7 +42,7 @@ define([ 'jquery', 'models/booking.dao', 'jquery.controller', 'jquery.json',  ],
 			this.cx().redirect('#/booking/hotel', this.options.booking.hotel.id);
 		},
 		_sendBooking : function() {
-			Booking.save($.proxy(this, '_endOfBooking'), $.toJSON(this.options.booking));
+			BookingDao.save($.proxy(this, '_endOfBooking'), $.toJSON(this.options.booking));
 		},
 		/* Go back home page and trigger end-of-booking event */
 		_endOfBooking : function(booking) {

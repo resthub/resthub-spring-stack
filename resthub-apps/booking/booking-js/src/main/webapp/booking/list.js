@@ -1,4 +1,4 @@
-define([ 'jquery', 'jquery.controller', 'models/booking.dao' ], function($, Controller, BookingDao) {
+define([ 'jquery', 'resthub.controller', 'dao/booking.dao' ], function($, Controller, BookingDao) {
 	$.widget("booking.listBookings", $.ui.controller, {
 		options : {
 			template : 'booking/list.html'
@@ -6,7 +6,7 @@ define([ 'jquery', 'jquery.controller', 'models/booking.dao' ], function($, Cont
 		_init : function() {
 			var user = this.options.cx.session('user');
 			if (user.id) {
-				Booking.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
+				BookingDao.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
 			}
 		},
 		_displayBookings : function(bookings) {

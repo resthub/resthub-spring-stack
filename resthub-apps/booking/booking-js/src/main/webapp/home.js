@@ -1,4 +1,4 @@
-define(['jquery','jquery.controller', 'booking/list', 'hotel/search'], function($, Controller) {
+define(['jquery','resthub.controller', 'booking/list', 'hotel/search'], function($, Controller) {
 	return $.widget("booking.home", $.ui.controller, {
 		options: {
 			searchVal: null,

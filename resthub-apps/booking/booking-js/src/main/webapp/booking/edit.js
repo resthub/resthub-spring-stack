@@ -1,4 +1,4 @@
-define(['jquery', 'jquery.controller','jqueryui/datepicker','jquery.validate'], function($, Controller) {
+define(['jquery', 'resthub.controller','jqueryui/datepicker','jquery.validate'], function($, Controller) {
 
 
 $.widget("booking.editBooking", $.ui.controller, {

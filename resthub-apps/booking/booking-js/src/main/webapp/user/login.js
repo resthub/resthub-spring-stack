@@ -1,4 +1,4 @@
-define([ 'models/user.dao', 'jquery.controller', 'jquery.json' ], function(UserDao, Controller) {
+define([ 'dao/user.dao', 'resthub.controller', 'jquery.json' ], function(UserDao, Controller) {
 
 	$.widget("booking.userLogin", $.ui.controller, {
 		_init : function() {
