@@ -1,4 +1,4 @@
-define(["sammy"], function() {
+define(["jquery","sammy"], function($) {
 
 	var app = $.sammy(function() {
 		this.get('#/', function(context) {

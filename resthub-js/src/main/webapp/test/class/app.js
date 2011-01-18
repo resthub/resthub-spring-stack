@@ -1,25 +1,25 @@
-define(['jquery.class'], function() {
+define(['jquery.class'], function(Class) {
 
-	var Resource = $.Class.extend({
-	  init: function(name){
+	var Resource = Class.extend({
+	  init: function(name) {
 	    this.name = name;
 	  },
-	  dance: function(){
+	  dance: function() {
 	    return this.dancing;
 	  }
 	});
 
 	var Project = Resource.extend({
-	  init: function(name){
+	  init: function(name) {
 	    this._super( 'Ping ' + name );
 	  }
 	});
 	
 	var ProjectContainer = Project.extend({
-		  init: function(name){
-		    this._super( 'Pong ' + name );
-		  }
-		});
+	  init: function(name){
+	    this._super( 'Pong ' + name );
+	  }
+	});
 	
 	$('.create').click(function() {
 		var r1 = new Resource('r1');

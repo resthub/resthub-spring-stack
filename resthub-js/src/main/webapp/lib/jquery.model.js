@@ -1,6 +1,6 @@
 define([ 'jquery', 'jquery.class' ], function($, Class) {
 
-	Class.extend("Model", 
+	return Class.extend("Model", 
 		/* @static */ {
 			defaults : {
 				dataType : 'json',
@@ -46,8 +46,8 @@ define([ 'jquery', 'jquery.class' ], function($, Class) {
 		_ajax : function(url, callback, type, data) {
 			$.ajax({
 				url : url,
-				dataType : this.defaults.dataType,
-				contentType : this.defaults.contentType,
+				dataType : this.Class.defaults.dataType,
+				contentType : this.Class.defaults.contentType,
 				type : type,
 				data : data,
 				success : callback

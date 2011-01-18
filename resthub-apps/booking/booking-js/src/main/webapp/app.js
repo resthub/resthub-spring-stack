@@ -1,8 +1,10 @@
 /**
  * Routes
  */
-define(["sammy", "sammy.storage", "sammy.title", "sammy.json", "jquery.ejs", "jquery.pnotify", "jquery.controller",
-		"routes/user.routes","routes/booking.routes","routes/hotel.routes"], function() {
+define(["jquery", "jquery.controller", // both can be loaded as modules
+	"sammy", "sammy.storage", "sammy.title",
+	"sammy.json", "jquery.ejs", "jquery.pnotify",
+	"routes/user.routes","routes/booking.routes","routes/hotel.routes"], function($, Controller) {
 	
 	var app = $.sammy(function() {
 
