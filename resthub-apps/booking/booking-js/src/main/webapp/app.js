@@ -38,7 +38,8 @@ define(["jquery", "jquery.controller", // both can be loaded as modules
 
 	});
 
-	$(function() {
+	//application start on DomLoaded
+	$.ready(function() {
 
 		// Rebuild Lucene index
 		$.ajax({

@@ -1,13 +1,13 @@
-define([ 'jquery.controller', 'jquery.json', 'models/user.model' ], function() {
+define([ 'models/user.dao', 'jquery.controller', 'jquery.json' ], function(UserDao, Controller) {
 
 	$.widget("booking.userLogin", $.ui.controller, {
 		_init : function() {
 			this.cx().store('session').clearAll();
 			var user = {
-				username : this.cx().params['username'],
-				password : this.cx().params['password']
+				username : this.cx().params.username,
+				password : this.cx().params.password
 			};
-			User.check($.proxy(this, '_userLoggedIn'), $.toJSON(user));
+			UserDao.check($.proxy(this, '_userLoggedIn'), $.toJSON(user));
 		},
 		_userLoggedIn : function(user) {
 			this.cx().session('user', user);

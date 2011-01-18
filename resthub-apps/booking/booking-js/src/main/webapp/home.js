@@ -1,6 +1,5 @@
-define(['jquery.controller', 'booking/list', 'hotel/search'], function() {
-(function($) {
-	$.widget("booking.home", $.ui.controller, {
+define(['jquery','jquery.controller', 'booking/list', 'hotel/search'], function($, Controller) {
+	return $.widget("booking.home", $.ui.controller, {
 		options: {
 			searchVal: null,
 			size: 5,
@@ -23,6 +22,4 @@ define(['jquery.controller', 'booking/list', 'hotel/search'], function() {
 			this.options.cx.session('search-offset', 0);
 		}
 	});
-	
-})(jQuery);
 });

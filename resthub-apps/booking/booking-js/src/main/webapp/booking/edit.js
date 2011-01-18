@@ -1,5 +1,5 @@
-define(['jquery.controller','jqueryui/datepicker','jquery.validate'], function() {
-(function($) {
+define(['jquery', 'jquery.controller','jqueryui/datepicker','jquery.validate'], function($, Controller) {
+
 
 $.widget("booking.editBooking", $.ui.controller, {
 	options: {
@@ -88,5 +88,4 @@ $.widget("booking.editBooking", $.ui.controller, {
 		return secondsBetween / 86400;
 	}
 });
-})(jQuery);
 });

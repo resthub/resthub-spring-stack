@@ -1,9 +1,8 @@
-define([ 'jquery.model' ], function() {
+define([ 'jquery.dao' ], function(CrudDao) {
+	return CrudDao.define("HotelDao")
+		.supplement({
+		root : 'api/hotel/',
 
-	Model.extend("Hotel", {
-		init : function() {
-			this.root = 'api/hotel/';
-		},
 		find : function(callback, val, page, size) {
 			var url = this.root + 'search?page=' + page + '&size=' + size;
 			if (val) {
@@ -11,5 +10,5 @@ define([ 'jquery.model' ], function() {
 			}
 			this._get(url, callback);
 		}
-	}, {});
+	});
 });
