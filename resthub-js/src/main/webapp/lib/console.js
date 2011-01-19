@@ -8,7 +8,7 @@ define(function() {
 	var logger,
 		notSupported = function() {};
 	
-	logger = (typeof console == "object" && typeof console.log == "function") ? console : {log: notSupported };
+	logger = ((typeof console === "object") && (typeof console.log === "function")) ? console : {log: notSupported };
 	
 	logger.debug = console.debug || logger.log;
 	logger.info = console.info || logger.log;
@@ -27,8 +27,9 @@ define(function() {
 	logger.profile = console.profile|| notSupported;
 	logger.profileEnd = console.profileEnd|| notSupported;
 	logger.count = console.count || notSupported;
+	
 	//for non-modules
-	if(window && !( typeof console == "object" && typeof console.log == "function" ))
+	if(typeof window === "object" && !((typeof console === "object") && (typeof console.log === "function" )))
 		window.console = logger;
 	return logger;
 });
