@@ -5,8 +5,7 @@
  * @author Florian Traverse
  */
 define(function() {
-	var logger,
-		notSupported = function() {};
+	var logger, notSupported = function() {};
 	
 	logger = ((typeof console === "object") && (typeof console.log === "function")) ? console : {log: notSupported };
 	
