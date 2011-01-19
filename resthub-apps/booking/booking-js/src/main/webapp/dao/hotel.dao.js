@@ -1,6 +1,6 @@
 define([ 'resthub.dao' ], function(Dao) {
 
-	Dao.extend("HotelDao", {
+	return Dao.extend("HotelDao", {
 
 		root : 'api/hotel/',
 
