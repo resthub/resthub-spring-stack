@@ -198,7 +198,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 			throw new ProtocolException(Error.INVALID_GRANT, "access code is expired");				
 		}
 		if (!redirectUri.equals(result.redirectUri)) {
-			logger.debug("[obtainAccessToken] redirection URI mismatch {}", code);
+			logger.debug("[obtainAccessToken] redirection URI mismatch: found {}, expected {}", redirectUri, result.redirectUri);
 			throw new ProtocolException(Error.INVALID_GRANT, "redirection URI mismatch");				
 		}
 		return result;

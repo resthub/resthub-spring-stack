@@ -46,6 +46,10 @@
 	<util:properties id="securityConfig">
 		<prop key="resourceName">Identity Manager</prop>
 		<prop key="authorizationPassword">${validationService-Password}</prop>
+		<prop key="cookieName">oauth_token</prop>
+		<prop key="cookieDomain"></prop>
+		<prop key="cookiePath">/</prop>
+		<prop key="authenticationPage">/authent.jsp</prop>
 	</util:properties>
 	 	
 </beans>

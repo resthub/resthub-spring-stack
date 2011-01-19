@@ -5,13 +5,18 @@ import static org.junit.Assert.assertTrue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.http.HttpHeaders;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.FilterMapping;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.resource.Resource;
 import org.junit.AfterClass;
+import org.resthub.oauth2.filter.service.MockTokenProcessingService;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.web.context.ContextLoaderListener;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -19,6 +24,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
+import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
  * Abstract class for OAuth2 filter tests :
@@ -75,7 +81,12 @@ public class AbstractOAuth2FilterTest {
 	/**
 	 * Client id used by the redirection filter to redirect incoming requests. 
 	 */
-	public static final String resourceClientId = "123456azerty";
+	public static final String resourceClientId = "";
+
+	/**
+	 * Client secret used by the redirection filter to obtain tokens from codes. 
+	 */
+	public static final String resourceClientSecret = "";
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Test suite initialization and finalization
@@ -88,16 +99,17 @@ public class AbstractOAuth2FilterTest {
 		// Creates a Jetty for the authorization server.
 		authorizationServer = new Server(authorizationServerPort);
 
-		// Configures it
-		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		context.setContextPath(authorizationServerRoot);
-						
-		// Jersey Servlet
-		ServletHolder servlet = new ServletHolder(ServletContainer.class);
-		servlet.setInitParameter("com.sun.jersey.config.property.packages", 
-				"org.resthub.oauth2.filter.mock.authorization");
-		context.addServlet(servlet, "/*");
-		
+		// On lance le serveur Jetty
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath(authorizationServerRoot);
+
+        context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:authorizationServerContext.xml");
+        context.setBaseResource(Resource.newResource("src/main/webapp"));
+        context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
+        context.addServlet(JspServlet.class, "/jsp/*");
+        context.addServlet(SpringServlet.class, "/api/*");
+        context.addEventListener(new ContextLoaderListener());
+
 		// Jetty start.
 		authorizationServer.setHandler(context);
 		authorizationServer.start();		
@@ -120,9 +132,11 @@ public class AbstractOAuth2FilterTest {
         FilterHolder redirectionFilter = new FilterHolder(OAuth2RedirectionFilter.class);
         redirectionFilter.setName("oauth2RedirectionFilter");
         redirectionFilter.setInitParameter("authorizationServer", "http://localhost:"+authorizationServerPort+
-        		authorizationServerRoot+"/authorize");
+        		authorizationServerRoot+"/api/authorize");
         redirectionFilter.setInitParameter("targetUrlParameter", targetUrlParameter);
         redirectionFilter.setInitParameter("clientId", resourceClientId);
+        redirectionFilter.setInitParameter("clientSecret", resourceClientSecret);
+        redirectionFilter.setInitParameter("tokenProcessingServiceClass", MockTokenProcessingService.class.getName());
 		context.addFilter(redirectionFilter, redirectionFilterUrl, FilterMapping.REQUEST);
 		
 		// Tested filter: protection

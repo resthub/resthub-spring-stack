@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.jetty.http.HttpHeaders;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.resthub.oauth2.filter.mock.authorization.AuthorizationService;
+import org.resthub.oauth2.filter.service.MockExternalValidationService;
 
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
@@ -128,7 +128,7 @@ public class OAuth2FilterTest extends AbstractOAuth2FilterTest {
 		// Simple hit with unknown accessToken.
 		try {
 			server.path("/").header(HttpHeaders.AUTHORIZATION, "OAuth "+
-					AuthorizationService.UNKNOWN_TOKEN).get(String.class);
+					MockExternalValidationService.UNKNOWN_TOKEN).get(String.class);
 			fail("An UniformInterfaceException must be raised for request with unknown token");
 		} catch( UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 401, exc.getResponse().getStatus());
@@ -140,7 +140,7 @@ public class OAuth2FilterTest extends AbstractOAuth2FilterTest {
 		// Simple hit with expired accessToken.
 		try {
 			server.path("/").header(HttpHeaders.AUTHORIZATION, "OAuth "+
-					AuthorizationService.EXPIRED_TOKEN).get(String.class);
+					MockExternalValidationService.EXPIRED_TOKEN).get(String.class);
 			fail("An UniformInterfaceException must be raised for request with expired token");
 		} catch( UniformInterfaceException exc) {
 			assertEquals("HTTP response code is incorrect", 401, exc.getResponse().getStatus());

@@ -8,8 +8,11 @@ import java.net.URLEncoder;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.resthub.oauth2.provider.service.MockAuthenticationService;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -68,14 +71,14 @@ public class OAuth2RedirectionFilterTest extends AbstractOAuth2FilterTest {
 		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
 		
 		// Then redirection is to authorization server.
-		assertTrue("Unexpected redirection url", redirect.startsWith("http://localhost:"+authorizationServerPort+
-				authorizationServerRoot+"/authorize"));
+		assertTrue("Unexpected redirection url:" + redirect, redirect.startsWith("http://localhost:"+authorizationServerPort+
+				authorizationServerRoot+"/api/authorize"));
 		// Then the response_type parameter is code.
 		assertTrue("No response_type parameter or wrong value: "+redirect, redirect.contains("response_type=code"));
 		// Then the client_id is embedded.
 		assertTrue("No client_id parameter or wrong value: "+redirect, redirect.contains("client_id="+resourceClientId));
-		// Then the redirect_uri is equal to the request uri.
-		assertTrue("No redirect_uri parameter or wrong value: "+redirect, redirect.contains("redirect_uri="+
+		// Then the state is equal to the request uri.
+		assertTrue("No state parameter or wrong value: "+redirect, redirect.contains("state="+
 				URLEncoder.encode(requestedUri, "UTF-8")));
 		
 	} // shouldRequestBeRedirectedToAuthorizationServer().
@@ -129,35 +132,35 @@ public class OAuth2RedirectionFilterTest extends AbstractOAuth2FilterTest {
 	} // shouldMissingTargetUrlFailOnError().
 
 	@Test
-	@Ignore
-	public void shouldRequestedUriBedisplayedToKnownUserAfterAuthentication() {
+	public void shouldRequestedUriBedisplayedToKnownUserAfterAuthentication() throws Exception {
 		// Given an access to the redirection request with a requested uri
-		
+		String requestedUri = "http://localhost:" + resourceServerPort +"/inmemory/admin";
+		WebDriver driver = new HtmlUnitDriver();
+        driver.get("http://localhost:" + resourceServerPort +"/inmemory"+redirectionFilterUrl+"?requested="+
+        		URLEncoder.encode(requestedUri, "UTF-8"));
 		// Given an authentication with a known user
-		
+        driver.findElement(By.name("username")).sendKeys("test");
+        driver.findElement(By.name("password")).sendKeys("t3st");
+        driver.findElement(By.id("authentSubmit")).submit();
 		// Then the requested uri is displayed
+        assertEquals("Client was not correctly redirected", requestedUri, driver.getCurrentUrl());
 	} // shouldRequestedUriBedisplayedToKnownUserAfterAuthentication().
 
 	@Test
-	@Ignore
-	public void shouldErrorBeDisplayedToUnknwonUserAfterAuthentication() {
+	public void shouldErrorBeDisplayedToUnknwonUserAfterAuthentication() throws Exception {
 		// Given an access to the redirection request with a requested uri
-		
+		String requestedUri = "http://localhost:" + resourceServerPort +"/inmemory/admin";
+		WebDriver driver = new HtmlUnitDriver();
+        driver.get("http://localhost:" + resourceServerPort +"/inmemory"+redirectionFilterUrl+"?requested="+
+        		URLEncoder.encode(requestedUri, "UTF-8"));		
 		// Given an authentication with a unknown user
+        driver.findElement(By.name("username")).sendKeys(MockAuthenticationService.UNKNOWN_USERNAME);
+        driver.findElement(By.name("password")).sendKeys("t3st");
+        driver.findElement(By.id("authentSubmit")).submit();
 		
 		// Then an error is displayed
-		
+        String url = driver.getCurrentUrl();
+		assertTrue("No error parameter or wrong value: "+url, url.contains("error=access_denied"));
 	} // shouldErrorBeDisplayedToUnknwonUserAfterAuthentication().
-
-	@Test
-	@Ignore
-	public void shouldErrorBeDisplayedToLimitedUserAfterAuthentication() {
-		// Given an access to the redirection request with a requested uri
-		
-		// Given an authentication with a limited user
-		
-		// Then an access error is displayed
-		
-	} // shouldErrorBeDisplayedToLimitedUserAfterAuthentication().
-
+	
 } // class OAuth2RedirectionFilterTest

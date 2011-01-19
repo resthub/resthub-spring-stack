@@ -187,7 +187,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		}
 		
 		if (response == null) {
-			logger.debug("[obtainAccessCode] unable to redirect to {}", authenticationPage);
+			logger.debug("[obtainAccessCode] redirect to {}", authenticationPage);
 			// No errors, lets send a page to authenticate user.
 			ResponseBuilder builder = Response.status(302);
 			try {

@@ -12,14 +12,13 @@
 	<description>Common classes used in filter and provider sub-modules</description>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web-common</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
         </dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+		</dependency>		
 	</dependencies>
 </project>
