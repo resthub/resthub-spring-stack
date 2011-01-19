@@ -28,7 +28,7 @@ define(function() {
 	logger.profileEnd = console.profileEnd|| notSupported;
 	logger.count = console.count || notSupported;
 	//for non-modules
-	if(window && !( console && console.log))
+	if(window && !( typeof console == "object" && typeof console.log == "function" ))
 		window.console = logger;
 	return logger;
 });
