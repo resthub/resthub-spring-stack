@@ -55,6 +55,13 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 	protected static Logger logger = LoggerFactory
 			.getLogger(JAXBContextResolver.class);
 
+	private JAXBElementListContextBean jaxbElementListContextBean;
+
+	public void setJaxbElementListContextBean(
+			JAXBElementListContextBean jaxbElementListContextBean) {
+		this.jaxbElementListContextBean = jaxbElementListContextBean;
+	}
+
 	/**
 	 * Class names knowned by this resolver.
 	 */
@@ -82,19 +89,18 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 		return classpathPatterns;
 	}
 
-	public JAXBContextResolver() {
-		 Set<String> elements;
-		
-		 elements = getMatchingElementsFromContext();
-		 addElementsToJAXBContext(elements);
-				
-		 JAXBElementsContext.getInstance().clear();
+	public void init() {
+		Set<String> elements;
+
+		elements = getMatchingElementsFromContext();
+		addElementsToJAXBContext(elements);
+
+		jaxbElementListContextBean.clear();
 	}
 
 	protected Set<String> getMatchingElementsFromContext() {
 
-		Set<String> elements = JAXBElementsContext.getInstance()
-				.getXmlElements();
+		Set<String> elements = jaxbElementListContextBean.getXmlElements();
 
 		return elements;
 	}
@@ -132,7 +138,7 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 			Set<String> elements;
 
 			elements = findMatchingElements();
-			JAXBElementsContext.getInstance().clear();
+			jaxbElementListContextBean.clear();
 
 			addElementsToJAXBContext(elements);
 		}
@@ -221,7 +227,7 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 		// Only process classes annotated with XmlRootElement.
 		this.typeFilters.add(new AnnotationTypeFilter(XmlRootElement.class));
 	}
-	
+
 	private void addElementsToJAXBContext(Set<String> elements) {
 		try {
 			// Gets classes from class names.
