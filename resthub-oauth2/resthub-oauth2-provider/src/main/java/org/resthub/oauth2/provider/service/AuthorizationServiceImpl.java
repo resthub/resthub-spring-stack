@@ -3,6 +3,8 @@ package org.resthub.oauth2.provider.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
+
 import org.resthub.core.service.GenericServiceImpl;
 import org.resthub.oauth2.common.exception.ProtocolException;
 import org.resthub.oauth2.common.exception.ProtocolException.Error;
@@ -20,6 +22,7 @@ import org.springframework.util.StringUtils;
  * Relies on an list of <code>AuthenticationProvider</code> services.
  * This Spring beans is declared within XML configuration files.
  */
+@Named("authorizationService")
 public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao, Long> implements
 		AuthorizationService {
 
@@ -44,7 +47,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	/**
 	 * List of authentication providers.
 	 */
-	protected List<AuthenticationService> authenticationProviders;
+	 protected List<AuthenticationService> authenticationProviders; 
 	
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -57,7 +60,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	 */
 	public void setAuthenticationProviders(
 			List<AuthenticationService> authenticationProviders) {
-		this.authenticationProviders = authenticationProviders;
+		this.authenticationProviders = authenticationProviders;	
 	} // setAuthenticationProviders().
 	
 	/**
@@ -108,7 +111,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 				// Stores permissions, and leave on the first matching result
 				if(token.userId != null) {
 					logger.info("[generateToken] Found an account for userName '{}' : {}", userName, token.userId);
-					token.permissions = provider.getUserPermissions(token.userId);
+					token.permissions = new ArrayList<String>(provider.getUserPermissions(token.userId));
 					if (token.permissions == null) {
 						logger.warn("[generateToken] No permissions for account {} (userName '{}')", token.userId, 
 								userName);

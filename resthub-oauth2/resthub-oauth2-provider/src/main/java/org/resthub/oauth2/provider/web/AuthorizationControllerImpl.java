@@ -37,15 +37,16 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 
 	/**
 	 * Inject the service layer.
-	 */
+	 */	
 	@Inject
+	@Named("authorizationService")
 	protected AuthorizationService service;
 	
 	/**
 	 * Inject the auhorization password to obtain token information.
 	 */
 	@Value("#{securityConfig.authorizationPassword}")
-	protected String authorizationPassword;
+	protected String authorizationPassword = "pAss?w0rd";
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public attributes
@@ -108,6 +109,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			throw new ProtocolException(Error.INVALID_REQUEST, "grant_type, client_id, client_secret, username and " +
 				"password parameters are mandatory");
 		}
+		//TODO remove this trace which correspond to a standard behavior 
 		logger.trace("[obtainAccessTokenBasicCredentials] Generated token: {}", token);
 		// Builds a 200 response.
 		ResponseBuilder builder = Response.status(Status.OK);
@@ -126,7 +128,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 */
 	@Override
 	public Token obtainTokenInformation(String accessToken, String password) {
-		// Checks password.
+		// Checks password
 		if (password == null || password.compareTo(authorizationPassword) != 0) {
 			throw new WebApplicationException(Status.FORBIDDEN);
 		}
@@ -137,6 +139,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 			throw new IllegalArgumentException("accessToken parameter is mandatory");
 		}
 		Token token = service.getTokenInformation(accessToken);
+		//TODO remove this trace which correspond to a standard behavior 
 		logger.trace("[obtainTokenInformation] Retrieved token: {}", token);
 		return token;
 	} // obtainTokenInformation().

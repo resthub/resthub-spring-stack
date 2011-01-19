@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.context.model.ConfigAbstractResource;
 import org.resthub.core.context.model.ConfigResourceFour;
@@ -21,11 +20,6 @@ public class TestJAXBElementsContextScanning {
 
 		private static final String LOCATION_PREFIX = "org/resthub/core/context/jaxb/";
 
-		@Before
-		public void cleanContext() {
-			JAXBElementsContext.getInstance().clear();
-		}
-
 		/**
 		 * Test the loading of xmlElements from a single and simple package pattern
 		 */
@@ -33,9 +27,12 @@ public class TestJAXBElementsContextScanning {
 		public void testBasePackage() {
 
 			String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml" };
-			new ClassPathXmlApplicationContext(contextFiles);
-
-			Set<String> xmlElements = JAXBElementsContext.getInstance().getXmlElements();
+			
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
+			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
+			
+			elementListContextBean.clear();
+			Set<String> xmlElements = elementListContextBean.getXmlElements();
 
 			assertNotNull("xmlElements list should not be null", xmlElements);
 			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
@@ -76,9 +73,12 @@ public class TestJAXBElementsContextScanning {
 
 			String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml",
 					LOCATION_PREFIX + "modelContext.xml" };
-			new ClassPathXmlApplicationContext(contextFiles);
 
-			Set<String> xmlElements = JAXBElementsContext.getInstance().getXmlElements();
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
+			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
+			
+			elementListContextBean.clear();
+			Set<String> xmlElements = elementListContextBean.getXmlElements();
 
 			assertNotNull("xmlElements list should not be null", xmlElements);
 			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
@@ -118,9 +118,12 @@ public class TestJAXBElementsContextScanning {
 		public void testPackageWithWildcards() {
 
 			String[] contextFiles = { LOCATION_PREFIX + "wildcardContext.xml" };
-			new ClassPathXmlApplicationContext(contextFiles);
 
-			Set<String> xmlElements = JAXBElementsContext.getInstance().getXmlElements();
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
+			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
+			
+			elementListContextBean.clear();
+			Set<String> xmlElements = elementListContextBean.getXmlElements();
 
 			assertNotNull("xmlElements list should not be null", xmlElements);
 			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
@@ -162,9 +165,12 @@ public class TestJAXBElementsContextScanning {
 
 			String[] contextFiles = { LOCATION_PREFIX + "wildcardContext.xml",
 					LOCATION_PREFIX + "modelContext.xml" };
-			new ClassPathXmlApplicationContext(contextFiles);
 
-			Set<String> xmlElements = JAXBElementsContext.getInstance().getXmlElements();
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
+			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
+			
+			elementListContextBean.clear();
+			Set<String> xmlElements = elementListContextBean.getXmlElements();
 
 			assertNotNull("xmlElements list should not be null", xmlElements);
 			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
@@ -207,9 +213,12 @@ public class TestJAXBElementsContextScanning {
 
 			String[] contextFiles = { LOCATION_PREFIX
 					+ "filterAssignableContext.xml" };
-			new ClassPathXmlApplicationContext(contextFiles);
 
-			Set<String> xmlElements = JAXBElementsContext.getInstance().getXmlElements();
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
+			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
+			
+			elementListContextBean.clear();
+			Set<String> xmlElements = elementListContextBean.getXmlElements();
 
 			assertNotNull("xmlElements list should not be null", xmlElements);
 			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
@@ -251,9 +260,12 @@ public class TestJAXBElementsContextScanning {
 			String[] contextFiles = { LOCATION_PREFIX
 					+ "packageOnlyContext.xml", LOCATION_PREFIX
 					+ "excludeElementsContext.xml" };
-			new ClassPathXmlApplicationContext(contextFiles);
 
-			Set<String> xmlElements = JAXBElementsContext.getInstance().getXmlElements();
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
+			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
+			
+			elementListContextBean.clear();
+			Set<String> xmlElements = elementListContextBean.getXmlElements();
 
 			assertNotNull("xmlElements list should not be null", xmlElements);
 			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());

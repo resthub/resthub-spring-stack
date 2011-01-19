@@ -115,11 +115,16 @@
 			params.error = function( XMLHttpRequest, textStatus, errorThrown ) {
 				// Only for 400, 401 and 403 scopes.
 				if(XMLHttpRequest.status == 400 ||
-						XMLHttpRequest.status == 401 || 
-						XMLHttpRequest.status == 403) {
+						XMLHttpRequest.status == 401
+						// || 
+						//XMLHttpRequest.status == 403
+						//TODO fix http://bitbucket.org/ilabs/resthub/issue/42/oauth2-resthuboauth2js-oauth2ajax
+						) {
 					// Extract the WWW-Authenticate response header.
 					var error = XMLHttpRequest.getResponseHeader("WWW-Authenticate");
 					var errorObj = {};
+					errorObj.status="FORBIDDEN";
+					errorObj.message="HEJHEHHE";
 					// Parse the error status and optionnal message.
 					var i = error.indexOf('error="');
 					if (i != -1) {

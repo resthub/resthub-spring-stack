@@ -6,7 +6,7 @@
     <artifactId>resthub</artifactId>
     <packaging>pom</packaging>
     <name>RESThub framework</name>
-    <version>1.01-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <url>http://resthub.org</url>
     <description>
 		RESThub is an Open Source (LGPL) framework designed to allow you to build web applications following KISS (Keep It Simple and Stupid), DRY (Don’t Repeat Yourself) and REST principles.
@@ -19,6 +19,7 @@
         <module>resthub-apps</module>
         <module>resthub-archetypes</module>
         <module>resthub-oauth2</module>
+        <module>resthub-identity</module>
         <module>resthub-tapestry5</module>
     </modules>
 
@@ -172,7 +173,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.7.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -299,12 +300,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.3.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.6</version>
+                <version>2.7.1</version>
             </plugin>
         </plugins>
     </reporting>

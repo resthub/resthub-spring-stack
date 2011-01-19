@@ -1,0 +1,13 @@
+<%  var l = function(string){ return string.toLocaleString()}; %>
+<form method="POST" action="#/user/login">
+    <div id="form_left">
+        <strong><%= l("UserLoginLogin") %></strong>
+        <br/>
+        <strong><%= l("UserLoginPassword") %></strong>
+    </div>
+    <div id="form_right">
+        <input type="text" size=20 name="Login" class="required"/>
+        <br/>
+        <input type="password" size=20 name="Password" class="required"/><input type="hidden" name="OAuth2EndPoint" value="<%= URLS["endPointURL"] %>"/>
+    </div><input type="submit" name="LoginButton" value="<%= l("UserLoginSubmit")%>"/>
+</form>

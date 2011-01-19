@@ -1,0 +1,14 @@
+<% /**needed for localization of results*/
+var l = function(string){ return string.toLocaleString()}; %>
+<% if ($.isEmptyObject(permissions)) { %>
+<span><%= l("EntityNoPermissionsFound") %></span>
+<% } else { %>
+<% for (var index in permissions) { %>
+<input type='checkbox' name="entityPermission" value="<%= permissions[index] %>" checked/><%= permissions[index] %>
+<% } %>
+<% } %>
+<br/>
+<%= l("EntityAddPermission") %>
+<br/>
+<input type="text" id="entityAddPermission">
+</input><input type="button" id="entityAddPermissionButton" value="<%=l('EntityAddPermissionButton') %>">

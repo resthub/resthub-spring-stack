@@ -1,0 +1,34 @@
+<% /**Variable used for text localization with l10n */  
+var l = function(string){ return string.toLocaleString() }%>
+<h1><%= l("GroupEdit") %></h1>
+
+<form id="group-form" action="" method="" enctype="UTF-8">
+
+	<p>
+		<strong><%= l("GroupName") %></strong>
+		<input size="10" name="name" type="text" class="required"> *
+	</p>
+	
+	<strong><%= l("GroupGroupList") %></strong>
+        <p>
+            <% if ($.isEmptyObject(groups)) { %>
+            <span><%= l("GroupNoGroupsFound") %></span>
+            <% } else { %>
+            <% for (var index in groups) { %>
+            <input type="checkbox" name="groupgroup" value="<%= groups[index].id %>"><%= groups[index].name %>:<% for(var indexPermission in groups[index].permissions ) { %>
+            <%= groups[index].permissions[indexPermission] %>
+            <% } %>
+            <br/>
+            <% } %>
+            <% } %>
+        </p>
+    </p>
+    <p>
+    	<div id="permissionCheckBoxDiv"></div>
+	</p>
+</form>
+
+<p class="buttons">
+	<input id="group-proceed" value="<%= l("GroupSubmitButton")%>" type="button">
+	<a id="cancel-request" href="#/group/list"><%= l("BackToList")%></a>
+</p>

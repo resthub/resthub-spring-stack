@@ -20,7 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.resthub.oauth2.common.front.model.TokenResponse;
 import org.resthub.oauth2.test.authorizationService.MockAuthenticationService;
-import org.resthub.oauth2.utils.JacksonProvider;
+import org.resthub.web.jackson.JacksonProvider;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
@@ -76,7 +76,8 @@ public class TestTokenRepository {
 		authorization.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:AuthorizationContext.xml");
 		authorization.addServlet(SpringServlet.class, "/*");
 		authorization.addEventListener(new ContextLoaderListener());
- 
+
+
 		// Add a context for resource service
 		ServletContextHandler resource = new ServletContextHandler(
 				ServletContextHandler.SESSIONS);
@@ -123,32 +124,29 @@ public class TestTokenRepository {
 	public void testObtain() {
 		
 		// Initialize the TokenRepository
-		tested.setClientId("any");
-		tested.setClientSecret("any");
+		String username = "any";
+		String password = "any";
 		List<String> endPoints = new ArrayList<String>();
 		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
-		tested.setAuthorizationendPoints(endPoints);
+		tested.setAuthorizationEndPoints(endPoints);
 		
 		String resource = "/myResource";
 		String scope = "";
-		TokenResponse token = tested.obtain(resource, scope);
+		TokenResponse token = tested.obtain(resource, scope, username, password);
 		assertNotNull("No response returned by obtain()", token);
 		assertNotNull("An access token was not generated", token.accessToken);
 		
-		// Wrong client id obtention.
+		// Wrong username
 		try {
-			tested.setClientId(MockAuthenticationService.UNKNOWN_CLIENT_ID);
-			tested.obtain(resource, scope);
+			tested.obtain(resource, scope, MockAuthenticationService.UNKNOWN_CLIENT_ID, password);
 			fail("An NoTokenFoundException must be raised for token obtention with wrong clientId");
 		} catch (NoTokenFoundException exc) {
 			// Everything right.
 		}
 		
-		// Wrong client id obtention.
+		// Wrong password.
 		try {
-			tested.setClientId("any");
-			tested.setClientSecret(MockAuthenticationService.UNKNOWN_CLIENT_SECRET);
-			tested.obtain(resource, scope);
+			tested.obtain(resource, scope, username, MockAuthenticationService.UNKNOWN_CLIENT_SECRET);
 			fail("An NoTokenFoundException must be raised for token obtention with wrong clientPassword");
 		} catch (NoTokenFoundException exc) {
 			// Everything right.
@@ -156,8 +154,8 @@ public class TestTokenRepository {
 		
 		// No providers.
 		try {
-			tested.setAuthorizationendPoints(new ArrayList<String>());
-			tested.obtain(resource, scope);
+			tested.setAuthorizationEndPoints(new ArrayList<String>());
+			tested.obtain(resource, scope, username, password);
 			fail("An NoTokenFoundException must be raised for token obtention with no providers");
 		} catch (NoTokenFoundException exc) {
 			// Everything right.
@@ -168,7 +166,7 @@ public class TestTokenRepository {
 	 * Tests the addition of tokens in the repository.
 	 */
 	@Test
-	public void testAddConsult() {
+	public void testAddTokenConsult() {
 		String resource = "/myResource";
 
 		// For now, no tokens known
@@ -181,7 +179,7 @@ public class TestTokenRepository {
 		t1.scope = "read";
 		
 		// Just adds a token.
-		tested.add(resource, t1);
+		tested.addToken(resource, t1);
 		known = tested.consult(resource);
 		assertNotNull("Null token list are not allowed", known);
 		assertEquals("At least one token may be known", 1, known.size());
@@ -192,7 +190,7 @@ public class TestTokenRepository {
 		t2.scope = "write";
 		
 		// Just adds another token.
-		tested.add(resource, t2);
+		tested.addToken(resource, t2);
 		known = tested.consult(resource);
 		assertNotNull("Null token list are not allowed", known);
 		assertEquals("At least one token may be known", 2, known.size());
@@ -204,7 +202,7 @@ public class TestTokenRepository {
 		t3.scope = "read";
 		
 		// Adds another token with same scope.
-		tested.add(resource, t3);
+		tested.addToken(resource, t3);
 		known = tested.consult(resource);
 		assertNotNull("Null token list are not allowed", known);
 		assertEquals("At least one token may be known", 2, known.size());
@@ -214,7 +212,7 @@ public class TestTokenRepository {
 		
 		// Adds a token on another resource.
 		String resource2 = "/myOtherResource";
-		tested.add(resource2, t3);
+		tested.addToken(resource2, t3);
 		known = tested.consult(resource);
 		assertNotNull("Null token list are not allowed", known);
 		assertEquals("At least one token may be known", 2, known.size());
@@ -225,7 +223,7 @@ public class TestTokenRepository {
 		assertNotNull("Null token list are not allowed", known);
 		assertEquals("At least one token may be known", 1, known.size());
 		assertTrue("The token 3 is not in known list", known.contains(t3));
-	} // testAddConsult().
+	} // testAddTokenConsult().
 
 	/**
 	 * Test the request auto enrichment.
@@ -246,11 +244,10 @@ public class TestTokenRepository {
 		}
 		
 		// Initialize the TokenRepository
-		tested.setClientId("any");
-		tested.setClientSecret("any");
+		tested.addCredentials(resource, "any", "any");
 		List<String> endPoints = new ArrayList<String>();
 		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
-		tested.setAuthorizationendPoints(endPoints);
+		tested.setAuthorizationEndPoints(endPoints);
 		
 		// Enrich and trigger a request.
 		String result = tested.enrich(httpClient.path(resource)).get(String.class);
@@ -276,24 +273,32 @@ public class TestTokenRepository {
 		}
 		
 		// Initialize the TokenRepository
-		tested.setClientId("any");
-		tested.setClientSecret("any");
+		tested.addCredentials(resource, "any", "any");
 		List<String> endPoints = new ArrayList<String>();
 		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
-		tested.setAuthorizationendPoints(endPoints);
+		tested.setAuthorizationEndPoints(endPoints);
 		
 		// Enrich a request to an unknown resource
 		try {
-			tested.enrich(httpClient.path(resource)).get(String.class);
+			tested.enrich(httpClient.path("2"+resource)).get(String.class);
+			fail("An resource for whom no credentials are specified must not be accessible");
+		} catch (NoTokenFoundException exc) {
+			// No token, right.
+		}
+		
+		// Enrich a request to an unknown resource but with credentials
+		try {
+			tested.enrich(httpClient.path(resource+"/2")).get(String.class);
+			fail("An unknown resource must not be accessible");
 		} catch (UniformInterfaceException exc) {
-			assertEquals("The HTTP error code received is not correct", 401, exc.getResponse().getStatus());
+			assertEquals("The HTTP error code received is not correct", 404, exc.getResponse().getStatus());
 		}
 
 		String scope = "";
-		TokenResponse token = tested.obtain(resource, scope);
+		TokenResponse token = tested.obtain(resource, scope, "any", "any");
 		
 		// Adds the return token in the token repository
-		tested.add(resource, token);
+		tested.addToken(resource, token);
 		// Enrich and trigger a request.
 		String result = tested.enrich(httpClient.path(resource)).get(String.class);
 		assertEquals("Result returned is unexpected", "Hello World", result);

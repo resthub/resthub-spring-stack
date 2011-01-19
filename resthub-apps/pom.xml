@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>resthub</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.01-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-apps</artifactId>
 	<name>Sample applications</name>
-	<version>1.01-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>
 		Sample web applications provided to help you to build your own RESThub based

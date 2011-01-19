@@ -3,12 +3,12 @@
 	<parent>
 		<artifactId>resthub-tapestry5</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.01-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-spring-security</artifactId>
-	<version>1.01-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Tapestry5 Spring Security integration</name>
 	<description>Provide Integration of SpringSecurity in Tapestry</description>
 
@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.01-SNAPSHOT</version>
+			<version>1.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

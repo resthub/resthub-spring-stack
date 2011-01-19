@@ -18,9 +18,9 @@ public interface AuthorizationService extends GenericService<Token, Long>{
 	 * If no user account is found for these credentials, an error is raised.
 	 * 
 	 * @param scopes List of objet names the client will access with the token. Could be
-	 * empty, but not null.
-	 * @param clientId The client unic identifier. <b>Not used now, must be null</b>.
-	 * @param clientSecred The client shared secret. <b>Not used now, must be null</b>.
+	 * empty, but not null.<b>TODO Not used no. Must be empty</b>
+	 * @param clientId The client unic identifier. <b>TODO Not used now, must be null</b>.
+	 * @param clientSecred The client shared secret. <b>TODO Not used now, must be null</b>.
 	 * @param userName The user account's user name.
 	 * @param password The user account's password.
 	 * @return The generated token.

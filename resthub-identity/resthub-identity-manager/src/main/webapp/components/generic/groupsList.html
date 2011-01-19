@@ -1,0 +1,31 @@
+<%/**Variable used for text localization with l10n*/ var l = function(string){ return string.toLocaleString()};%>
+<h1><%= l("EntityGroupList")%> : <%= name%></h1>
+
+<% if ($.isEmptyObject(result)) { %>
+	<p><%= name%><%= l("EntityNoGroupsFound")%></p>
+<% } else { %>
+<div id="commons-actions"><div id="delete"><%= l("EntityDeleteThisGroup") %></div></div>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th><%= l("EntityGroupHeader")%></th>
+				<th><%= l("EntityGroupSubGroupsHeader")%></th>
+				<th><%= l("EntityGroupActionsHeader")%></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% var groups = result %>
+			<% for (var index in groups) { %>
+				<tr class="group-item" id="user-<%= groups[index].id %>">
+					<td><input type='checkbox' class="group-checkbox" id='checkbox-<%= index %>' group='<%= groups[index].id %>' /></td>
+					<td><a href="#/group/groups/<%= groups[index].name %>"><%= groups[index].name %></a></td>
+					<td><% (function(groups){for(var group in groups){ %><a href="#/group/groups/<%= groups[group].name %>"><%= groups[group].name %></a><% arguments.callee(groups[group].groups);} })(groups[index].groups); %> </td>
+					<td><span class="remove-user" id="<%= index %>"><%= l("EntityRemoveThisGroupForEntity")%></span>
+					</td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+	<br/>
+<% } %>

@@ -61,6 +61,7 @@
 
 	<bean id="scanningPersistenceUnitManager" class="org.resthub.core.context.persistence.ScanningPersistenceUnitManager">
 		<property name="defaultDataSource" ref="dataSource" />
+		<property name="entityListContextBean" ref="entityListContextBean"/>
 	</bean>
 
 	<bean

@@ -1,0 +1,30 @@
+<%  /** Variable used for text localization with l10n */ var l = function(string){ return string.toLocaleString(); }%>
+<h1><%= l("UserDetails")%> : <%= user.login %></h1>
+<table>
+   <thead>
+	   <tr>
+		   <th><%= l("UserIdHeader")%></th>
+		   <th><%= l("UserNameHeader")%></th>
+		   <th><%= l("UserLoginHeader")%></th>
+		   <th><%= l("UserEmailHeader")%></th>
+		   <th><%= l("UserActionsHeader")%></th>
+		   
+	   </tr>
+   </thead>
+   <tbody>
+	   <tr>
+		   <td><%= user.id %></td>
+		   <td><%= user.firstName + ' ' + user.lastName %></td>
+		   <td><%= user.login %></td>
+		   <td><%= user.email %></td>
+		   <td>
+		   	<%= link_to( l("UserListGroups"), '#/user/groups/' + user.login ) %>
+			<%= link_to( l("UserListPermissions"), '#/user/permissions/' + user.login ) %>
+			</td>
+	   </tr>
+   </tbody>
+</table>
+
+<div id="user-groups-list">
+	
+</div>

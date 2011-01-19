@@ -6,7 +6,8 @@ import java.util.List;
 import org.resthub.oauth2.provider.service.AuthenticationService;
 
 /**
- * TODO doc
+ * This mock authentication service is used to answer predefined response to 
+ * token obtention requests.
  */
 public class MockAuthenticationService implements AuthenticationService {
 

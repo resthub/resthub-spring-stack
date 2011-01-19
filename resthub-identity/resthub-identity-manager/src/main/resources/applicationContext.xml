@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/util 
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="org.resthub.identity" />
+	<context:component-scan base-package="org.resthub.oauth2.provider.front" />
+	<context:component-scan base-package="org.resthub.oauth2.provider.dao" />
+
+	<bean id="dataSource"
+			class="${hibernate-class}">
+		<property name="driverClassName" value="${hibernate-driver}" />
+		<property name="url" value="${hibernate-url}" />
+		<property name="username" value="${hibernate-username}"/>
+		<property name="password" value="${hibernate-password}" />
+	</bean>
+	
+		<!-- Spring bean used by the filter to validate incoming tokens -->
+	<bean name="validationService" init-method="postInit"
+		class="org.resthub.oauth2.filter.service.CachedExternalValidationService">
+		<property name="accessTokenParam" value="${validationService-Param}" />
+		<property name="tokenInformationEndpoint" value="${validationService-Endpoint}" />
+		<property name="authorizationPassword" value="${validationService-Password}" />
+
+		<!-- Just for CachedExternalValidationService -->
+		<property name="discardPeriod" value="${validationService-Discard}" />
+	</bean>
+
+	<!-- Declaration of the filter -->
+	<bean name="OAuth2Filter" class="org.resthub.oauth2.filter.front.OAuth2Filter">
+		<property name="service" ref="validationService" />
+		<property name="resource" value="#{securityConfig.resourceName}" />
+	</bean>
+        
+	<!-- Security configuration -->
+	<util:properties id="securityConfig">
+		<prop key="resourceName">Identity Manager</prop>
+		<prop key="authorizationPassword">${validationService-Password}</prop>
+	</util:properties>
+	 	
+</beans>

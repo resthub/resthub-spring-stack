@@ -10,7 +10,7 @@ import java.util.List;
  * <li>Retrieved a user's permissions</li>
  * </ul>
  */
-public interface AuthenticationService {
+public interface AuthenticationService  {
 
 	/**
 	 * Returns the user's unic identifier from its user name and password.

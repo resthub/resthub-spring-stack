@@ -2,13 +2,14 @@ package org.resthub.oauth2.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.resthub.oauth2.common.front.model.TokenResponse;
-import org.resthub.oauth2.utils.JacksonProvider;
+import org.resthub.web.jackson.JacksonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,15 +27,18 @@ import com.sun.jersey.api.representation.Form;
  * <li>enrich an Http query with the right token.</li></ul>
  * 
  * You can use in many ways this utility class:
- * <ol><li>Just with enrich(). When enrich() will be invoked, existing token will be used, or if no token are available, 
- * a token will be asked.</li>
- * <li>With obtain(), add() and enrich(). Gets your token with obtain(), keeps it with add(), and it will be used when 
- * enrich() will be invoked.</li>
- * <li>With add(), and consult(). Sets your token manually with addToken(), and retrieves them furtherly with consult().
- * Token repository is just an in-memory storage space.</li></ol>
+ * <ol><li>Just with and enrich(). When enrich() will be invoked, existing token will be used, or if no token are 
+ * available, a token will be asked. Remanent username and password must be set.</li>
+ * <li>With obtain(), addToken() and enrich(). Gets your token with obtain(), keeps it with add(), and it will be used 
+ * when enrich() will be invoked.</li>
+ * <li>With addToken(), and consult(). Sets your token manually with addToken(), and retrieves them furtherly with 
+ * consult(). Token repository is just an in-memory storage space.</li></ol>
  * 
- * But in all ways, you'll need to indicate your client credential (NOT end-user credentials!), and locations of 
- * authentication services.
+ * But in all ways, you'll need to indicate your client credential, the end-user credentials, and locations of 
+ * authentication services.<br/><br/>
+ * 
+ * For end-user credentials, you always need to set them with addCredentials().<br/>
+ * These information are relative to a specific resource, and not stored elswhere than in memory. 
  */
 public class TokenRepository {
 
@@ -50,7 +54,12 @@ public class TokenRepository {
 	 * Stores in a thread-safe way tokens associated to protected resources.
 	 */
 	protected ConcurrentHashMap<String, List<TokenResponse>> tokens = new ConcurrentHashMap<String, List<TokenResponse>>();
-	
+
+	/**
+	 * Stores in a thread-safe way credentials associated to protected resources.
+	 */
+	protected ConcurrentHashMap<String, String[]> credentials = new ConcurrentHashMap<String, String[]>();
+
 	/**
 	 * Web client used to request authentication end points.
 	 */
@@ -69,12 +78,13 @@ public class TokenRepository {
 	 * 
 	 * @param value List of known authentication services.
 	 */
-	public void setAuthorizationendPoints(List<String> value) {
+	public void setAuthorizationEndPoints(List<String> value) {
 		if (value != null) {
+			authorizationEndPoints.clear();
 			authorizationEndPoints.addAll(value);
 		}
 	} // setAuthenticationServices().
-	
+
 	/**
 	 * Client id for this repository.
 	 */
@@ -122,20 +132,22 @@ public class TokenRepository {
 	 * Ask each authentication services for an access token corresponding to the given resource.
 	 * @param resource The resource from whom a token will be obtained.
 	 * @param scope The desired scope.
+	 * @param username The resource owner login. If null, the remanent username is used.
+	 * @param password The resource owner password. If null, the remanent password is used.
 	 * @return The obtained token.
 	 * 
 	 * @throws NoTokenFoundException If no token can be retrieved for this resource and scope.
 	 */
-	public TokenResponse obtain(String resource, String scope) throws NoTokenFoundException {
+	public TokenResponse obtain(String resource, String scope, String username, 
+			String password) throws NoTokenFoundException {
 		logger.trace("[obtain] Try to get token for resource '" + resource + "' and scope '" + scope + "'");
 		// Form sended to authentication servers.
 		Form form = new Form();
 		form.add("grant_type", "password");
-		form.add("client_id", null);
-		form.add("client_secret", null);
-		// TODO utiliser client_id et client_secret.
-		form.add("username", clientId);
-		form.add("password", clientSecret);
+		form.add("client_id", clientId);
+		form.add("client_secret", clientSecret);
+		form.add("username", username);
+		form.add("password", password);
 		
 		TokenResponse result = null;
 		// Try each authentication servers.
@@ -169,7 +181,7 @@ public class TokenRepository {
 	 * @param resource The resource for whom an access token is added.
 	 * @param token Values (access, refresh, scope) for this token.
 	 */
-	public void add(String resource, TokenResponse token) {
+	public void addToken(String resource, TokenResponse token) {
 		List<TokenResponse> known = new ArrayList<TokenResponse>();
 		if (tokens.containsKey(resource)) {
 			known = tokens.get(resource);
@@ -193,8 +205,25 @@ public class TokenRepository {
 		}
 		// Update the map.
 		tokens.put(resource, known);
-	} // add().
-	
+	} // addToken().
+
+	/**
+	 * Retrieves an access token for a given protected resource, and stores this token.<br/>
+	 * An existing token for this resource with the same scope will be erased.
+	 * 
+	 * @param resource The resource for whom credentials are set.
+	 * @param username The end-user username.
+	 * @param password The end-user password.
+	 */
+	public void addCredentials(String resource, String username, String password) {
+		if (username == null || password == null || resource == null) {
+			throw new IllegalArgumentException("Arguments musn't be null");
+		}
+		logger.trace("[add] Add credentials " + username + " " + password.replaceAll(".", "*") + " for " + resource);
+		// Stores the credentials
+		credentials.put(resource, new String[]{username, password});
+	} // addCredentials().
+
 	/**
 	 * Returns existing tokens for a given resource.
 	 * 
@@ -220,6 +249,8 @@ public class TokenRepository {
 	 * <li>Token whose scope is the longest is applied</li></ol>
 	 * 
 	 * This way, the right token is applied, even for empty scopes.
+	 * 
+	 * The remanent username and password are used.
 	 * @param request The WebResource to enrich with access token.
 	 * @return The enriched WebResource.
 	 * 
@@ -250,12 +281,27 @@ public class TokenRepository {
 		if(token == null) {
 			logger.debug("[enrich] Try to automatically find a token for '" + resourceName + "' with scope '" + 
 					computedScope + "'");
-			// No token found, try to find one.
-			token = obtain(resourceName, computedScope);
-			if (token != null) {
-				add(resourceName, token);
+			
+			// No token found, try to find one. But we'll need credential first.
+			String[] creds = null;
+			Set<String> credentialKey = credentials.keySet();
+			for (String candidate : credentialKey) {
+				// If we found a relevant scope.
+				if (resourceName.startsWith(candidate)) {
+					creds = credentials.get(resourceName);;
+					// Just leave.
+					break;
+				}
+			}
+			if (creds != null) {
+				token = obtain(resourceName, computedScope, creds[0], creds[1]);
+				if (token != null) {
+					addToken(resourceName, token);
+				} else {
+					throw new NoTokenFoundException("No token found for resource " + resourceName);
+				}	
 			} else {
-				logger.debug("[enrich] No relevant token found for '" + url + "'");
+				throw new NoTokenFoundException("No credentials found for resource " + resourceName);
 			}
 		}
 		// Enrich the request.
