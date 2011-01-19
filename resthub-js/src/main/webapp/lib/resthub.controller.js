@@ -3,7 +3,7 @@
  * applications. It provides utility functions for basic op�rations.
  */
 define(['jquery', 'jquery.class', 'console', 'jqueryui/widget'], function($, Class, console) {
-	$.widget(Class.create('ui.controller', {
+	$.widget( Class.create('ui.controller', {
 		
 		/**
 		 * Renders current widget with the template specified in

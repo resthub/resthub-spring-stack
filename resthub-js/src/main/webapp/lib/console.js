@@ -8,7 +8,7 @@ define(function() {
 	var logger,
 		notSupported = function() {};
 	
-	logger = (console && console.log) ? console : {log: notSupported };
+	logger = (typeof console == "object" && typeof console.log == "function") ? console : {log: notSupported };
 	
 	logger.debug = console.debug || logger.log;
 	logger.info = console.info || logger.log;
