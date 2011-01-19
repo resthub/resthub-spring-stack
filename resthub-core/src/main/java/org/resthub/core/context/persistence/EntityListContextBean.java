@@ -2,8 +2,13 @@ package org.resthub.core.context.persistence;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.inject.Named;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This singleton allow to store and share scanned persistence entities names
@@ -17,23 +22,17 @@ import java.util.Set;
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-class PersistenceEntitiesContext {
+@Named("entityListContextBean")
+class EntityListContextBean {
 
-	private static PersistenceEntitiesContext instance;
+	private Map<String, Set<String>> includedEntitiesMap;
+	private Map<String, Set<String>> excludedEntitiesMap;
 
-	private Map<String, Set<String>> includedEntitiesMap = new HashMap<String, Set<String>>();
-	private Map<String, Set<String>> excludedEntitiesMap = new HashMap<String, Set<String>>();
+	@Autowired(required = false)
+	private List<EntityListIncluderBean> includerBeans;
 
-	static synchronized PersistenceEntitiesContext getInstance() {
-		if (instance == null) {
-			instance = new PersistenceEntitiesContext();
-		}
-		return instance;
-	}
-
-	/** A private Constructor prevents any other class from instantiating. */
-	private PersistenceEntitiesContext() {
-	}
+	@Autowired(required = false)
+	private List<EntityListExcluderBean> excluderBeans;
 
 	/**
 	 * Retrieve the list of all entities name for the provided persistence unit
@@ -44,21 +43,72 @@ class PersistenceEntitiesContext {
 	 * @return null if the persistenceUnitName is unknown
 	 */
 	public Set<String> getEntities(String persistenceUnitName) {
-		Set<String> currentIncludedEntities = includedEntitiesMap.get(persistenceUnitName);
-		Set<String> currentExcludedEntities = excludedEntitiesMap.get(persistenceUnitName);
-		
-		if ((currentExcludedEntities == null)||(currentExcludedEntities.isEmpty())) {
-			return currentIncludedEntities;
+
+		if ((null == includedEntitiesMap) && (null == excludedEntitiesMap)) {
+			includedEntitiesMap = new HashMap<String, Set<String>>();
+			excludedEntitiesMap = new HashMap<String, Set<String>>();
+			initEntitiesMaps();
 		}
-		
-		Set<String> entities = new HashSet<String>();
-		
-		for (String entity : currentIncludedEntities) {
-			if(!currentExcludedEntities.contains(entity)) {
-				entities.add(entity);
+
+		return getEffectiveEntities(persistenceUnitName);
+	}
+
+	private void initEntitiesMaps() {
+
+		if (includerBeans != null) {
+			for (EntityListIncluderBean includerBean : includerBeans) {
+				Set<String> entitiesList = this.includedEntitiesMap
+						.get(includerBean.getPersistenceUnitName());
+				if (null == entitiesList) {
+					this.includedEntitiesMap.put(includerBean
+							.getPersistenceUnitName(), includerBean
+							.getEntities());
+				} else {
+					entitiesList.addAll(includerBean.getEntities());
+					this.includedEntitiesMap.put(includerBean
+							.getPersistenceUnitName(), entitiesList);
+				}
 			}
 		}
-		
+
+		if (excluderBeans != null) {
+			for (EntityListExcluderBean excluderBean : excluderBeans) {
+				Set<String> entitiesList = this.excludedEntitiesMap
+						.get(excluderBean.getPersistenceUnitName());
+				if (null == entitiesList) {
+					this.excludedEntitiesMap.put(excluderBean
+							.getPersistenceUnitName(), excluderBean
+							.getEntities());
+				} else {
+					entitiesList.addAll(excluderBean.getEntities());
+					this.excludedEntitiesMap.put(excluderBean
+							.getPersistenceUnitName(), entitiesList);
+				}
+			}
+		}
+
+	}
+
+	private Set<String> getEffectiveEntities(String persistenceUnitName) {
+		Set<String> currentIncludedEntities = includedEntitiesMap
+				.get(persistenceUnitName);
+		Set<String> currentExcludedEntities = excludedEntitiesMap
+				.get(persistenceUnitName);
+
+		Set<String> entities = new HashSet<String>();
+
+		if ((currentExcludedEntities == null)
+				|| (currentExcludedEntities.isEmpty())) {
+			entities = currentIncludedEntities;
+		} else {
+
+			for (String entity : currentIncludedEntities) {
+				if (!currentExcludedEntities.contains(entity)) {
+					entities.add(entity);
+				}
+			}
+		}
+
 		return entities;
 	}
 
@@ -109,8 +159,8 @@ class PersistenceEntitiesContext {
 	}
 
 	/**
-	 * Include all entities name to the persistence
-	 * context for the persistence unit name provided
+	 * Include all entities name to the persistence context for the persistence
+	 * unit name provided
 	 * 
 	 * @param persistenceUnitName
 	 * @param entities
@@ -127,8 +177,8 @@ class PersistenceEntitiesContext {
 	}
 
 	/**
-	 * Exclude all entities name to the persistence
-	 * context for the persistence unit name provided
+	 * Exclude all entities name to the persistence context for the persistence
+	 * unit name provided
 	 * 
 	 * @param persistenceUnitName
 	 * @param entities
@@ -151,8 +201,14 @@ class PersistenceEntitiesContext {
 	 * @param persistenceUnitName
 	 */
 	public void clearPersistenceUnit(String persistenceUnitName) {
-		this.includedEntitiesMap.remove(persistenceUnitName);
-		this.excludedEntitiesMap.remove(persistenceUnitName);
+
+		if (null != includedEntitiesMap) {
+			this.includedEntitiesMap.remove(persistenceUnitName);
+		}
+
+		if (null != excludedEntitiesMap) {
+			this.excludedEntitiesMap.remove(persistenceUnitName);
+		}
 	}
 
 }

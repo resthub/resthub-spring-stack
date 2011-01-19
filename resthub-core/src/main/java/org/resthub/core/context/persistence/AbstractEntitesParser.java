@@ -1,7 +1,5 @@
 package org.resthub.core.context.persistence;
 
-import java.util.Set;
-
 import org.resthub.core.context.AbstractParser;
 import org.springframework.beans.factory.xml.XmlReaderContext;
 import org.w3c.dom.Element;
@@ -14,17 +12,14 @@ import org.w3c.dom.Element;
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-public abstract class AbstractPersistenceEntitiesParser extends
+public abstract class AbstractEntitesParser extends
 		AbstractParser {
 
 	private static final String DEFAULT_PERSISTENCE_UNIT_NAME = "resthub";
-
 	private static final String PERSISTENCE_UNIT_NAME = "persistence-unit-name";
 
-	@Override
-	protected abstract void registerResources(Set<String> resources,
-			Element element);
-
+	protected abstract Class<? extends EntityListBean> getBeanClass();
+	
 	/**
 	 * Determines in which persistence unit name entities should be added. This
 	 * can be specified as a configuration option. If not, default persistence
@@ -47,10 +42,10 @@ public abstract class AbstractPersistenceEntitiesParser extends
 	/**
 	 * {@InheritDoc}
 	 */
-	protected ClassPathPersistenceEntitiesScanner createScanner(
-			XmlReaderContext readerContext, boolean useDefaultFilters) {
-		return new ClassPathPersistenceEntitiesScanner(readerContext
-				.getRegistry(), useDefaultFilters);
+	protected ClassPathEntityScanner createScanner(
+			XmlReaderContext readerContext, boolean useDefaultFilters, Element element) {
+		return new ClassPathEntityScanner(readerContext
+				.getRegistry(), useDefaultFilters, this.getPersistenceUnitName(element), this.getBeanClass());
 	}
 
 }

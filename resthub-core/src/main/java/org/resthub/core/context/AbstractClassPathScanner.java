@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
+import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 
@@ -25,8 +26,8 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 public abstract class AbstractClassPathScanner extends
 		ClassPathBeanDefinitionScanner {
 
-	public AbstractClassPathScanner(
-			BeanDefinitionRegistry registry, boolean useDefaultFilters) {
+	public AbstractClassPathScanner(BeanDefinitionRegistry registry,
+			boolean useDefaultFilters) {
 		super(registry, useDefaultFilters);
 	}
 
@@ -37,14 +38,10 @@ public abstract class AbstractClassPathScanner extends
 	protected abstract void registerDefaultFilters();
 
 	/**
-	 * Do the scan : retrieve resources from classpath matching with definition
-	 * and options
+	 * {@InheritDoc}
 	 * 
-	 * @param basePackages
-	 *            : package name definition to search on
-	 * @return the list of resources names
 	 */
-	protected Set<String> performScan(String... basePackages) {
+	protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
 		List<BeanDefinition> resourcesAsBean = new ArrayList<BeanDefinition>();
 		for (String basePackage : basePackages) {
 			List<BeanDefinition> candidates = new ArrayList<BeanDefinition>(
@@ -58,19 +55,19 @@ public abstract class AbstractClassPathScanner extends
 			resources.add(beanDefinition.getBeanClassName());
 		}
 
-		return resources;
+		BeanDefinition beanDefinition = createBeanDefinition(resources);
+		String beanName = BeanDefinitionReaderUtils.generateBeanName(beanDefinition, this.getRegistry());
+		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(
+				beanDefinition, beanName);
+		registerBeanDefinition(definitionHolder, this.getRegistry());
+
+		Set<BeanDefinitionHolder> beanList = new HashSet<BeanDefinitionHolder>();
+		beanList.add(definitionHolder);
+
+		return beanList;
 	}
 
-	/**
-	 * {@InheritDoc}
-	 * 
-	 * Not implemented method, replaced by {@link #performScan(String...)}
-	 * because this inerited method handle only beans and BeanDefinition that
-	 * are actually useless here
-	 */
-	protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
-		throw new UnsupportedOperationException();
-	}
+	abstract protected BeanDefinition createBeanDefinition(Set<String> entities);
 
 	/**
 	 * {@InheritDoc}

@@ -1,7 +1,5 @@
 package org.resthub.core.context;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.beans.factory.xml.XmlReaderContext;
@@ -35,14 +33,11 @@ public abstract class AbstractParser extends ComponentScanBeanDefinitionParser {
 		// Actually scan for entities definitions and register them.
 		AbstractClassPathScanner scanner = configureScanner(parserContext,
 				element);
-		Set<String> resources = scanner.performScan(basePackages);
-		registerResources(resources, element);
+		scanner.doScan(basePackages);
+		//registerResources(resources, element);
 
 		return null;
 	}
-
-	protected abstract void registerResources(Set<String> resources,
-			Element element);
 
 	/**
 	 * {@InheritDoc}
@@ -55,7 +50,7 @@ public abstract class AbstractParser extends ComponentScanBeanDefinitionParser {
 
 		// Delegate bean definition registration to scanner class.
 		AbstractClassPathScanner scanner = createScanner(readerContext,
-				useDefaultFilters);
+				useDefaultFilters, element);
 		scanner.setResourceLoader(readerContext.getResourceLoader());
 
 		parseTypeFilters(element, scanner, readerContext, parserContext);
@@ -83,6 +78,6 @@ public abstract class AbstractParser extends ComponentScanBeanDefinitionParser {
 	 * {@InheritDoc}
 	 */
 	protected abstract AbstractClassPathScanner createScanner(
-			XmlReaderContext readerContext, boolean useDefaultFilters);
+			XmlReaderContext readerContext, boolean useDefaultFilters, Element element);
 
 }

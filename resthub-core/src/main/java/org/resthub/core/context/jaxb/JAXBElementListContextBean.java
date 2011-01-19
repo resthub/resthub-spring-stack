@@ -1,7 +1,12 @@
 package org.resthub.core.context.jaxb;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import javax.inject.Named;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This singleton allow to store and share scanned xml elements names from
@@ -16,23 +21,17 @@ import java.util.Set;
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-class JAXBElementsContext {
+@Named("JAXBElementListContext")
+class JAXBElementListContextBean {
 
-	private static JAXBElementsContext instance;
+	@Autowired(required = false)
+	private List<JAXBElementListIncluderBean> includerBeans;
 
-	private Set<String> includedElements = new HashSet<String>();
-	private Set<String> excludedElements = new HashSet<String>();
+	@Autowired(required = false)
+	private List<JAXBElementListExcluderBean> excluderBeans;
 
-	static synchronized JAXBElementsContext getInstance() {
-		if (instance == null) {
-			instance = new JAXBElementsContext();
-		}
-		return instance;
-	}
-
-	/** A private Constructor prevents any other class from instantiating. */
-	private JAXBElementsContext() {
-	}
+	private Set<String> includedElements;
+	private Set<String> excludedElements;
 
 	/**
 	 * Retrieve the list of all entities name for the provided persistence unit
@@ -42,8 +41,17 @@ class JAXBElementsContext {
 	 */
 	public Set<String> getXmlElements() {
 
-		if ((excludedElements == null)
-				|| (excludedElements.isEmpty())) {
+		if ((null == includedElements) && (null == excludedElements)) {
+			includedElements = new HashSet<String>();
+			excludedElements = new HashSet<String>();
+			initElementsLists();
+		}
+
+		return getEffectiveXmlElements();
+	}
+
+	private Set<String> getEffectiveXmlElements() {
+		if ((excludedElements == null) || (excludedElements.isEmpty())) {
 			return includedElements;
 		}
 
@@ -58,8 +66,24 @@ class JAXBElementsContext {
 		return elements;
 	}
 
+	private void initElementsLists() {
+
+		if (includerBeans != null) {
+			for (JAXBElementListIncluderBean includerBean : includerBeans) {
+				includedElements.addAll(includerBean.getElements());
+			}
+		}
+
+		if (excluderBeans != null) {
+			for (JAXBElementListExcluderBean excluderBean : excluderBeans) {
+				excludedElements.addAll(excluderBean.getElements());
+			}
+		}
+
+	}
+
 	/**
-	 * Retrieve the list of all included xml elemnts name 
+	 * Retrieve the list of all included xml elemnts name
 	 * 
 	 */
 	public Set<String> getIncludedElements() {
@@ -75,7 +99,7 @@ class JAXBElementsContext {
 	}
 
 	/**
-	 * Include a list of xml elements name to the XML binding context 
+	 * Include a list of xml elements name to the XML binding context
 	 * 
 	 * @param entities
 	 */
@@ -84,7 +108,7 @@ class JAXBElementsContext {
 	}
 
 	/**
-	 * Exclude a list of xml elements name to the XML binding context 
+	 * Exclude a list of xml elements name to the XML binding context
 	 * 
 	 * @param entities
 	 */
@@ -93,12 +117,18 @@ class JAXBElementsContext {
 	}
 
 	/**
-	 * Flush context : Clear all xml elemnts lists 
+	 * Flush context : Clear all xml elemnts lists
 	 * 
 	 */
 	public void clear() {
-		this.includedElements.clear();
-		this.excludedElements.clear();
+
+		if (null != includedElements) {
+			this.includedElements.clear();
+		}
+		
+		if (null != excludedElements) {
+			this.excludedElements.clear();
+		}
 	}
 
 }

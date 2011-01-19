@@ -1,8 +1,11 @@
 package org.resthub.core.context.persistence;
 
 import java.lang.annotation.Annotation;
+import java.util.Set;
 
 import org.resthub.core.context.AbstractClassPathScanner;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
@@ -17,12 +20,27 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
  * @author bmeurant <Baptiste Meurant>
  * 
  */
-public class ClassPathPersistenceEntitiesScanner extends
+public class ClassPathEntityScanner extends
 		AbstractClassPathScanner {
 
-	public ClassPathPersistenceEntitiesScanner(
-			BeanDefinitionRegistry registry, boolean useDefaultFilters) {
+	private final String persistenceUnitName;
+	private final Class<? extends EntityListBean> beanClass;
+
+	public ClassPathEntityScanner(
+			BeanDefinitionRegistry registry, boolean useDefaultFilters, String persistenceUnitName, Class<? extends EntityListBean> beanClass) {
 		super(registry, useDefaultFilters);
+		this.persistenceUnitName = persistenceUnitName;
+		this.beanClass = beanClass;
+	}
+
+	protected BeanDefinition createBeanDefinition(Set<String> entities) {
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder
+				.genericBeanDefinition();
+		builder.getRawBeanDefinition().setBeanClass(beanClass);
+		builder.addPropertyValue("entities", entities);
+		builder.addPropertyValue("persistenceUnitName",
+				this.persistenceUnitName);
+		return builder.getRawBeanDefinition();
 	}
 
 	/**

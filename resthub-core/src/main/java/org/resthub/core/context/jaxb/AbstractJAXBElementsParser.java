@@ -1,7 +1,5 @@
 package org.resthub.core.context.jaxb;
 
-import java.util.Set;
-
 import org.resthub.core.context.AbstractClassPathScanner;
 import org.resthub.core.context.AbstractParser;
 import org.springframework.beans.factory.xml.XmlReaderContext;
@@ -18,20 +16,15 @@ import org.w3c.dom.Element;
 public abstract class AbstractJAXBElementsParser extends
 		AbstractParser {
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	protected abstract void registerResources(Set<String> resources,
-			Element element);
-
+	protected abstract Class<? extends JAXBElementListBean> getBeanClass();
+	
 	/**
 	 * {@InheritDoc}
 	 */
 	protected AbstractClassPathScanner createScanner(
-			XmlReaderContext readerContext, boolean useDefaultFilters) {
+			XmlReaderContext readerContext, boolean useDefaultFilters, Element element) {
 		return new ClassPathJAXBElementsScanner(readerContext
-				.getRegistry(), useDefaultFilters);
+				.getRegistry(), useDefaultFilters, this.getBeanClass());
 	}
 
 }
