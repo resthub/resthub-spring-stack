@@ -35,8 +35,8 @@ $.widget("booking.editBooking", $.ui.controller, {
 			
 			// Valid dates and checkinDate > checkoutDate
 			if (daysBetween) {
-				this.cx().session('daysBetween', daysBetween);
-				this.cx().redirect('#/booking/confirm');
+				$.storage.setItem('daysBetween', daysBetween);
+				location.hash = '#/booking/confirm';
 			}
 		}
 	},
@@ -52,12 +52,12 @@ $.widget("booking.editBooking", $.ui.controller, {
 		booking.creditCardName = $('input[name=creditCardName]').val();
 		booking.creditCardExpiryMonth = $('select[name=creditCardExpiryMonth] option:selected').val();
 		booking.creditCardExpiryYear = $('select[name=creditCardExpiryYear] option:selected').val();
-		this.cx().session('booking', booking);
+		$.storage.setJSONItem('booking', booking);
 		this.options.booking = booking;
 	},
 	/* Display session data in booking form (after reload or revise button click) */
 	_sessionToForm: function() {
-		var booking = this.cx().session('booking');
+		var booking = $.storage.getJSONItem('booking');
 		$('input[name=checkinDate]').val(booking.checkinDate);
 		$('input[name=checkoutDate]').val(booking.checkoutDate);
 		$('select[name=beds] option[value='+ booking.beds +']').attr('selected', 'selected');

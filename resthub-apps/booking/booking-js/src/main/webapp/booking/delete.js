@@ -7,7 +7,7 @@ define([ 'jquery', 'resthub.controller', 'dao/booking.dao' ], function($, Contro
 			BookingDao.remove($.proxy(this, '_bookingDeleted'), this.options.id);
 		},
 		_bookingDeleted : function() {
-			this.cx().trigger('booking-deleted');
+			$.publish('booking-deleted');
 		}
 	});
 });

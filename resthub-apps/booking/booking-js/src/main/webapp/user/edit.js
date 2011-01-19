@@ -5,20 +5,20 @@ define([ 'jquery', 'dao/user.dao', 'resthub.controller', 'jquery.json' ], functi
 			template : 'user/edit.html'
 		},
 		_init : function() {
-			this.cx().title('Settings');
+			document.title('Settings');
 			this._render();
 			$('#save-password').bind('click', $.proxy(this, '_changePassword'));
 		},
 		_changePassword : function() {
 			if ($('input[name=password]').val() == $('input[name=verifyPassword]').val()) {
-				this.options.user = this.cx().session('user');
+				this.options.user = $.storage.getJSONItem('user');
 				this.options.user.password = $('input[name=password]').val();
 				UserDao.update($.proxy(this, '_passwordUpdated'), this.options.user.id, $.toJSON(this.options.user));
 			}
 		},
 		_passwordUpdated : function() {
-			this.cx().session('user', this.options.user);
-			this.cx().trigger('password-updated');
+			$.storage.setJSONItem('user', this.options.user);
+			$.publish('password-updated');
 		}
 	});
 });

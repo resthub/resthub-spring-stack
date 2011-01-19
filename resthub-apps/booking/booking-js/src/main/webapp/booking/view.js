@@ -20,7 +20,7 @@ define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], f
 			});
 		},
 		_displayConfirmMode : function() {
-			this.options.booking = this.cx().session('booking');
+			this.options.booking = $.storage.getJSONItem('booking');
 			var daysBetween = this.cx().session('daysBetween');
 			var total = daysBetween * this.options.booking.hotel.price;
 
@@ -39,16 +39,16 @@ define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], f
 			$('input#book-confirm').bind('click', $.proxy(this, '_sendBooking'));
 		},
 		_reviseBooking : function() {
-			this.cx().redirect('#/booking/hotel', this.options.booking.hotel.id);
+			location.hash = '#/booking/hotel' + this.options.booking.hotel.id;
 		},
 		_sendBooking : function() {
 			BookingDao.save($.proxy(this, '_endOfBooking'), $.toJSON(this.options.booking));
 		},
 		/* Go back home page and trigger end-of-booking event */
 		_endOfBooking : function(booking) {
-			this.cx().session('booking', booking);
-			this.cx().redirect('#/home');
-			this.cx().trigger('end-of-booking');
+			$.storage.setJSONItem('booking', booking);
+			location.hash = '#/home';
+			$.publish('end-of-booking');
 		}
 	});
 

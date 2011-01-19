@@ -10,7 +10,7 @@ define([ 'jquery', 'dao/hotel.dao', 'booking/view', 'booking/edit' ], function($
 			this._render({
 				hotelId : this.options.hotelId
 			});
-			this.options.booking = this.cx().session('booking');
+			this.options.booking = $.storage.getJSONItem('booking');
 
 			if (this.options.booking == undefined) {
 				HotelDao.read($.proxy(this, '_initBookingData'), this.options.hotelId);
@@ -24,10 +24,10 @@ define([ 'jquery', 'dao/hotel.dao', 'booking/view', 'booking/edit' ], function($
 		 */
 		_initBookingData : function(hotel) {
 			this.options.booking = {
-				user : this.cx().session('user'),
+				user : $.storage.getJSONItem('user'),
 				hotel : hotel
 			};
-			this.cx().session('booking', this.options.booking);
+			$.storage.setJSONItem('booking', this.options.booking);
 			this._displayBookingView(this.options.booking);
 		},
 		_displayBookingView : function() {
@@ -47,20 +47,18 @@ define([ 'jquery', 'dao/hotel.dao', 'booking/view', 'booking/edit' ], function($
 		},
 		_switchToEdit : function() {
 			var self = this;
-			Sammy.log('Booking workflow : edit mode.');
+			console.log('Booking workflow : edit mode.');
 
 			$('#booking-data').editBooking({
-				booking : self.options.booking,
-				cx : self.cx()
+				booking : self.options.booking
 			});
 
 		},
 		_switchToView : function() {
 			var self = this;
-			Sammy.log('Booking workflow : confirmation mode.');
+			console.log('Booking workflow : confirmation mode.');
 			$('#booking-data').viewBooking({
 				booking : self.options.booking,
-				cx : self.cx(),
 				mode : 'confirm'
 			});
 		}

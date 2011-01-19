@@ -10,24 +10,24 @@ define([ "jquery", "hotel/list" ], function($) {
 			_init : function() {
 
 				this._render();
-
 				var self = this;
-				$('#search-submit').bind('click', function() {
-					self.cx().session('search-offset', 0);
-					self.cx().trigger('hotel-search');
-				});
 
+				$('#search-submit').bind('click', function() {
+					$.storage.setItem('search-offset', 0);
+					$.publish('hotel-search');
+				});
+					
 				$('#search-value').bind('keyup', function() {
 					clearTimeout(self.options.searching);
 					self.options.searching = setTimeout(function() {
-						self.cx().session('search-offset', 0);
-						self.cx().trigger('hotel-search');
+						$.storage.setItem('search-offset', 0);
+						$.storage.publish('hotel-search');
 					}, self.options.delay);
 				});
 
 				$('#search-size').bind('change', function() {
-					self.cx().session('search-offset', 0);
-					self.cx().trigger('hotel-search');
+					$.storage.setItem('search-offset', 0);
+					$.storage.publish('hotel-search');
 				});
 
 				$('#search-size option[value=' + this.options.size + ']').attr('selected', 'selected');
@@ -36,8 +36,7 @@ define([ "jquery", "hotel/list" ], function($) {
 				if (this.options.searchVal != '#home') {
 					$('#result').listHotels({
 						searchVal : self.options.searchVal,
-						size : self.options.size,
-						cx : self.cx()
+						size : self.options.size
 					});
 				}
 			}

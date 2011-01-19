@@ -1,26 +1,21 @@
 /**
  * Routes
  */
-define(["jquery", "routes/user.routes", "routes/booking.routes", "routes/hotel.routes",// both can be loaded as modules
-	"resthub.controller", "sammy", "sammy.storage", "sammy.title",
-	/*"sammy.json",*/ "jquery.ejs", "jquery.pnotify"], function($, UserRoutes, BookingRoutes, HotelRoutes, Controller) {
-	
-	var app = $.sammy(function() {
-		this.use('Title');
-		this.use('Session');
-		
-		UserRoutes(this);
-		BookingRoutes(this);
-		HotelRoutes(this);
+define([ "jquery", "routes/user.routes", "routes/booking.routes",
+		"routes/hotel.routes", "resthub.controller", "console",
+		"jquery.tinypubsub", "route", "resthub.storage", "jquery.json",
+		"jquery.ejs", "jquery.pnotify", "home" ], function($, UserRoutes,
+		BookingRoutes, HotelRoutes, Controller) {
 
+	$(document).ready(function() {
 		/**
 		 * Login page
 		 */
-		this.get('#/', function(cx) {
-			if(this.session('user') != null) {
-				cx.redirect('#/home');
+		route('#/').bind(function() {
+			if ($.storage.getJSONItem('user') != null) {
+				route('#/home').run();
 			} else {
-				this.title('Login');
+				document.title = 'Login';
 				$('#content').render('user/login.html', {});
 			}
 		});
@@ -28,23 +23,19 @@ define(["jquery", "routes/user.routes", "routes/booking.routes", "routes/hotel.r
 		/**
 		 * Home page after authentication
 		 */
-		this.get('#/home', function(cx) {
-			require(['home'], function() {
-				$('#content').home({cx: cx});
-			});
+		route('#/home').bind(function() {
+			$('#content').home();
 		});
 
+		// Rebuild Lucene index
+		$.ajax({
+			url : 'api/lucene/rebuild',
+			dataType : 'json',
+			type : 'POST'
+		});
+
+		route('#/home').run();
+		console.log('location.hash changed');
 	});
-	
-	// Rebuild Lucene index
-	$.ajax({
-		url: 'api/lucene/rebuild',
-		dataType: 'json',
-		type: 'POST'
-	});
-		
-	$(function() {	
-        app.run('#/');
-	});
-	
+
 });

@@ -1,6 +1,6 @@
-define([ 'resthub.controller', 'dao/hotel.dao' ], function(Controller, HotelDao) {
-	$.widget("booking.viewHotel", $.ui.controller,
-			{
+define([ 'resthub.controller', 'dao/hotel.dao' ],
+		function(Controller, HotelDao) {
+			$.widget("booking.viewHotel", $.ui.controller, {
 				options : {
 					id : null,
 					template : 'hotel/view.html',
@@ -23,11 +23,11 @@ define([ 'resthub.controller', 'dao/hotel.dao' ], function(Controller, HotelDao)
 					$('input#book-request').bind('click', function() {
 						var booking = {
 							hotel : hotel,
-							user : cx.session('user')
+							user : $.storage.getJSONItem('user')
 						};
-						cx.session('booking', booking);
-						cx.redirect('#/booking/hotel', id);
+						$.storage.setJSONItem('booking', booking);
+						location.hash = '#/booking/hotel/'+ id;
 					});
 				}
 			});
-});
+		});

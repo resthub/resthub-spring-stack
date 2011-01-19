@@ -5,7 +5,7 @@ define([ 'resthub.controller', 'dao/user.dao', 'jquery.json' ], function(Control
 			},
 			_init : function() {
 
-				this.cx().title('Register');
+				document.title('Register');
 				this._render();
 
 				var self = this;
@@ -20,8 +20,7 @@ define([ 'resthub.controller', 'dao/user.dao', 'jquery.json' ], function(Control
 				});
 			},
 			_userRegistered : function(user) {
-				this.cx().trigger('user-registered', user);
+				$.publish('user-registered', user);
 			}
 		});
-	})(jQuery);
 });

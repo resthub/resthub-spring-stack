@@ -74,10 +74,6 @@ OTHER DEALINGS IN THE SOFTWARE.
   route('#/Learn/:topic').after(myAfter);
   route('#/Learn/:topic').exit(myExit);
 
-  Now, instead of calling route('#/websites').run() directly
-  you could simply modify the location.hash to #/websites and 
-  the route would trigger its events!
-
 *************************************************************************/
 
 var route=function(path){

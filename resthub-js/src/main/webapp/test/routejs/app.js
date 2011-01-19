@@ -13,5 +13,9 @@ define(['jquery', 'route', 'console'], function() {
 			$('#main').html('<p>Route 2</p>');
 			console.log('route 2');
 		});
+		route('#/route3/:id').bind(function(params){
+			$('#main').html('<p>Route 3, id = </p>' + params.id);
+			console.log('route 3, id = ' + params.id);
+		});
 	});
 });

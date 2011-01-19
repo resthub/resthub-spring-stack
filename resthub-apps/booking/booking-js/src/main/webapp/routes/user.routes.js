@@ -1,63 +1,56 @@
-define(['user/login','user/register', 'user/edit'], function() {
-return function(app) { with(app) {
+define([ 'user/login', 'user/register', 'user/edit' ], function() {
 
-		/* BEGIN EVENTS */
-		
-		bind('run-route', function() {
-			var user = this.session('user');
-			$('#header').render('header.html', {user: user});
-		});
-		
-		bind('user-registered', function(e, user) {
-			$.pnotify('Your are now registered ' + user.fullname + ' !');
-			this.redirect('#/');
-		});
+	/* BEGIN EVENTS */
 
-		bind('password-updated', function() {
-			$.pnotify('Your password has been updated.');
-			this.redirect('#/home');
+	route('run-route').bind(function() {
+		var user = this.session('user');
+		$('#header').render('header.html', {
+			user : user
 		});
-		
-		bind('user-logged-in', function() {
-			var user = this.session('user');
-			$.pnotify('Welcome ' + user.fullname + ' !');
-		});
+	});
 
-		bind('user-logged-out', function() {
-			$.pnotify('See ya !');
-			this.store('session').clearAll();
-			this.redirect('#/');
-		});
-		
-		/* END EVENTS */
-		
-		/**
-		 * User register
-		 */
-		get('#/register', function(cx) {
-			$('#content').userRegister({cx: cx});
-		});
-		
-		/**
-		 * User authentication
-		 */
-		post('#/user/check', function(cx) {
-			$('#header').userLogin({cx: cx});	
-		});
-		
-		/**
-		 * Update user
-		 */
-		get('#/settings', function(cx) {
-			$('#content').editUser({cx: cx});
-		});
+	route('user-registered').bind(function() {
+		$.pnotify('Your are now registered ' + user.fullname + ' !');
+		location.hash = '#/';
+	});
 
-		/**
-		 * User logout
-		 */
-		get('#/logout', function(cx) {
-			cx.trigger('user-logged-out');
-		});
-		
-}};
+	route('password-updated').bind(function() {
+		$.pnotify('Your password has been updated.');
+		location.hash = '#/home';
+	});
+
+	route('user-logged-in').bind(function() {
+		var user = this.session('user');
+		$.pnotify('Welcome ' + user.fullname + ' !');
+	});
+
+	route('user-logged-out').bind(function() {
+		$.pnotify('See ya !');
+		this.store('session').clearAll();
+		location.hash = '#/';
+	});
+
+	/* END EVENTS */
+
+	/**
+	 * User register
+	 */
+	route('#/register').bind(function() {
+		$('#content').userRegister();
+	});
+
+	/**
+	 * Update user
+	 */
+	route('#/settings', function() {
+		$('#content').editUser();
+	});
+
+	/**
+	 * User logout
+	 */
+	route('#/logout', function() {
+		$.publish('user-logged-out');
+	});
+
 });
