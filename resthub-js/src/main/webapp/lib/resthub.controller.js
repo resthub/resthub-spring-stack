@@ -2,11 +2,11 @@
  * Resthub-controller is a generic javascript controller for resthub
  * applications. It provides utility functions for basic op�rations.
  */
-define(['jquery', 'jquery.class', 'jqueryui/widget'], function($, Class) {
-	$.widget("ui.controller", {
+define(['jquery', 'jquery.class', 'console', 'jqueryui/widget'], function($, Class, console) {
+	$.widget(Class.create('ui.controller', {
 		
 		/**
-		 * Render current widget with the template specified in
+		 * Renders current widget with the template specified in
 		 * this.options.template. If none is defined, it used a view with the
 		 * same name of the controller
 		 */
@@ -39,6 +39,6 @@ define(['jquery', 'jquery.class', 'jqueryui/widget'], function($, Class) {
 			cx : null,
 			template: ''
 		}
-	});
+	}));
 	
 });
