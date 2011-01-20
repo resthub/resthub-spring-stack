@@ -21,7 +21,7 @@ define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], f
 		},
 		_displayConfirmMode : function() {
 			this.options.booking = $.storage.getJSONItem('booking');
-			var daysBetween = this.cx().session('daysBetween');
+			var daysBetween = $.storage.getItem('daysBetween');
 			var total = daysBetween * this.options.booking.hotel.price;
 
 			this._render({

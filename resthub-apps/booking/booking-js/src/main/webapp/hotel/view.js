@@ -19,7 +19,6 @@ define([ 'resthub.controller', 'dao/hotel.dao' ],
 					});
 
 					var id = hotel.id;
-					var cx = this.cx();
 					$('input#book-request').bind('click', function() {
 						var booking = {
 							hotel : hotel,

@@ -2,13 +2,6 @@ define([ 'user/login', 'user/register', 'user/edit' ], function() {
 
 	/* BEGIN EVENTS */
 
-	route('run-route').bind(function() {
-		var user = this.session('user');
-		$('#header').render('header.html', {
-			user : user
-		});
-	});
-
 	route('user-registered').bind(function() {
 		$.pnotify('Your are now registered ' + user.fullname + ' !');
 		location.hash = '#/';

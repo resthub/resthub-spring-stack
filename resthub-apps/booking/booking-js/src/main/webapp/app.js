@@ -8,18 +8,9 @@ define([ "jquery", "routes/user.routes", "routes/booking.routes",
 		BookingRoutes, HotelRoutes, Controller) {
 
 	$(document).ready(function() {
-		/**
-		 * Login page
-		 */
-		route('#/').bind(function() {
-			if ($.storage.getJSONItem('user') != null) {
-				route('#/home').run();
-			} else {
-				document.title = 'Login';
-				$('#content').render('user/login.html', {});
-			}
-		});
-
+					
+		$.storage.clear();
+		
 		/**
 		 * Home page after authentication
 		 */
@@ -33,9 +24,18 @@ define([ "jquery", "routes/user.routes", "routes/booking.routes",
 			dataType : 'json',
 			type : 'POST'
 		});
+		
+		if ($.storage.getJSONItem('user') != null) {
+			var user = $.storage.getJSONItem('user');
+			$('#header').render('header.html', {
+				user : user
+			});
+			location.hash = '#/home';
+		} else {
+			document.title = 'Login';
+			$('#content').render('user/login.html', {});
+		}
 
-		location.hash = '#/home';
-		console.log('location.hash changed');
 	});
 
 });
