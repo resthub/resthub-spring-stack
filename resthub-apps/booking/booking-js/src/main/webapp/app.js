@@ -34,7 +34,7 @@ define([ "jquery", "routes/user.routes", "routes/booking.routes",
 			type : 'POST'
 		});
 
-		route('#/home').run();
+		location.hash = '#/home';
 		console.log('location.hash changed');
 	});
 

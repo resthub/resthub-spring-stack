@@ -42,7 +42,7 @@ $.widget("booking.editBooking", $.ui.controller, {
 	},
 	/* Put form data in session */
 	_formToSession: function() {
-		var booking = this.cx().session('booking');
+		var booking = $.storage.getJSONItem('booking');
 		booking.checkinDate = $('input[name=checkinDate]').val();
 		booking.checkoutDate = $('input[name=checkoutDate]').val();
 		booking.beds = $('select[name=beds] option:selected').val();
@@ -80,7 +80,7 @@ $.widget("booking.editBooking", $.ui.controller, {
 			var checkinDateTimestamp = $.datepicker.parseDate('yy-mm-dd', checkinDate).getTime();
 			var checkoutDateTimestamp = $.datepicker.parseDate('yy-mm-dd', checkoutDate).getTime();
 		} catch(err) {
-			Sammy.log('function _daysBetween : error (' + err + ')');
+			console.log('function _daysBetween : error (' + err + ')');
 			return false;
 		}
 

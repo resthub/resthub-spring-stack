@@ -1,3 +1,4 @@
+define([ 'jquery' ], function() {
 (function($) {
 
     if(!localStorage) {
@@ -7,7 +8,7 @@
     $.storage = {
 
 		setItem : function(key, item){
-            localStorage.setItem(item);
+            localStorage.setItem(key, item);
         },
         
         getItem : function(key){
@@ -60,3 +61,4 @@
     };
 
  })(jQuery);
+});

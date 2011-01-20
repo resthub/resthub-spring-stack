@@ -1,20 +1,21 @@
-define([ 'jquery', 'resthub.controller', 'dao/booking.dao' ], function($, Controller) {
+define([ 'jquery.controller', 'dao/booking.dao' ], function() {
 	(function($) {
-	$.widget("booking.listBookings", $.ui.controller, {
-		options : {
-			template : 'booking/list.html'
-		},
-		_init : function() {
-			var user $.storage.getJSONItem('user');
-			if (user.id) {
-				BookingDao.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
+
+		$.widget("booking.listBookings", $.ui.controller, {
+			options : {
+				template : 'booking/list.html'
+			},
+			_init : function() {
+				var user = $.storage.getJSONItem('user');
+				if (user.id) {
+					Booking.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
+				}
+			},
+			_displayBookings : function(bookings) {
+				this._render({
+					bookings : bookings
+				});
 			}
-		},
-		_displayBookings : function(bookings) {
-			this._render({
-				bookings : bookings
-			});
-		}
-	});
+		});
 	})(jQuery);
 });
