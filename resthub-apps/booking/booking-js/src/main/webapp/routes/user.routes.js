@@ -1,49 +1,68 @@
-define([ 'user/login', 'user/register', 'user/edit' ], function() {
+define(['user/login','user/register', 'user/edit'], function() {
 
-	/* BEGIN EVENTS */
+UserRoutes = function(app) { with(app) {
 
-	route('user-registered').bind(function() {
-		$.pnotify('Your are now registered ' + user.fullname + ' !');
-		location.hash = '#/';
-	});
+		/* BEGIN EVENTS */
+		
+		bind('run-route', function() {
+			var user = $.storage.getJSONItem('user');
+			$('#header').render('header.html', {user: user});
+		});
+		
+		$.subscribe('user-registered', function(e, user) {
+			$.pnotify('Your are now registered ' + user.fullname + ' !');
+			location.hash = '#/';
+		});
 
-	route('password-updated').bind(function() {
-		$.pnotify('Your password has been updated.');
-		location.hash = '#/home';
-	});
+		$.subscribe('password-updated', function() {
+			$.pnotify('Your password has been updated.');
+			location.hash = '#/home';
+		});
+		
+		$.subscribe('user-logged-in', function() {
+			var user = $.storage.getJSONItem('user');
+			$.pnotify('Welcome ' + user.fullname + ' !');
+		});
 
-	route('user-logged-in').bind(function() {
-		var user = this.session('user');
-		$.pnotify('Welcome ' + user.fullname + ' !');
-	});
+		$.subscribe('user-logged-out', function() {
+			$.pnotify('See ya !');
+			$.storage.clear();
+			location.hash = '#/';
+		});
+		
+		/* END EVENTS */
+		
+		/**
+		 * User register
+		 */
+		get('#/register', function() {
+			$('#content').userRegister();
+		});
+		
+		/**
+		 * User authentication
+		 */
+		post('#/user/check', function() {
+			var user = {
+					username: this.params['username'],
+					password: this.params['password']
+			};
+			$('#header').userLogin({user: user});	
+		});
+		
+		/**
+		 * Update user
+		 */
+		get('#/settings', function() {
+			$('#content').editUser();
+		});
 
-	route('user-logged-out').bind(function() {
-		$.pnotify('See ya !');
-		this.store('session').clearAll();
-		location.hash = '#/';
-	});
-
-	/* END EVENTS */
-
-	/**
-	 * User register
-	 */
-	route('#/register').bind(function() {
-		$('#content').userRegister();
-	});
-
-	/**
-	 * Update user
-	 */
-	route('#/settings', function() {
-		$('#content').editUser();
-	});
-
-	/**
-	 * User logout
-	 */
-	route('#/logout', function() {
-		$.publish('user-logged-out');
-	});
-
+		/**
+		 * User logout
+		 */
+		get('#/logout', function() {
+			$.publish('user-logged-out');
+		});
+		
+}};
 });

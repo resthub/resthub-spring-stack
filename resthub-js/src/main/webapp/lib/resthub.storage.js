@@ -38,7 +38,7 @@ define([ 'jquery' ], function() {
             if(item) {
                 return $.parseJSON(item);
             } else {
-                return {};
+                return null;
             }
           },
           

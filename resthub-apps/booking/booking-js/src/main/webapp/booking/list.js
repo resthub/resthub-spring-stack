@@ -8,7 +8,7 @@ define([ 'jquery.controller', 'dao/booking.dao' ], function() {
 			_init : function() {
 				var user = $.storage.getJSONItem('user');
 				if (user.id) {
-					Booking.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
+					BookingDao.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
 				}
 			},
 			_displayBookings : function(bookings) {

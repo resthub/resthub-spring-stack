@@ -21,13 +21,13 @@ define([ "jquery", "hotel/list" ], function($) {
 					clearTimeout(self.options.searching);
 					self.options.searching = setTimeout(function() {
 						$.storage.setItem('search-offset', 0);
-						$.storage.publish('hotel-search');
+						$.publish('hotel-search');
 					}, self.options.delay);
 				});
 
 				$('#search-size').bind('change', function() {
 					$.storage.setItem('search-offset', 0);
-					$.storage.publish('hotel-search');
+					$.publish('hotel-search');
 				});
 
 				$('#search-size option[value=' + this.options.size + ']').attr('selected', 'selected');
