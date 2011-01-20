@@ -12,7 +12,7 @@ BookingRoutes = function(app) { with(app) {
 		
 		$.subscribe('booking-deleted', function() {
 			$.pnotify('Your booking has been deleted.');
-			location.host = '#/home';
+			$('#content').home();
 		});
 		
 		/* END EVENTS */
@@ -35,7 +35,7 @@ BookingRoutes = function(app) { with(app) {
 		/**
 		 * Delete booking
 		 */
-		get('#/booking/del/:id', function(cx) {
+		get('#/booking/del/:id', function() {
 			$('#content').deleteBooking({id: this.params['id']});
 		});
 		

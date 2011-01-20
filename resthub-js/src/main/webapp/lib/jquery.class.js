@@ -19,7 +19,7 @@ define(['jquery'], function (jQuery) {
 
 			// overwrites an object with methods, sets up _super
 			inheritProps = function( newProps, oldProps, addTo ) {
-				addTo = addTo || newProps
+				addTo = addTo || newProps;
 				for ( var name in newProps ) {
 					// Check if we're overwriting an existing function
 					addTo[name] = typeof newProps[name] == "function" && typeof oldProps[name] == "function" && fnTest.test(newProps[name]) ? (function( name, fn ) {
@@ -382,11 +382,11 @@ define(['jquery'], function (jQuery) {
 						}
 						cur = (isString ? self[func] : func).apply(self, cur || []);
 						if ( f < length - 1 ) {
-							cur = !jQuery.isArray(cur) || cur._use_call ? [cur] : cur
+							cur = !jQuery.isArray(cur) || cur._use_call ? [cur] : cur;
 						}
 					}
 					return cur;
-				}
+				};
 			},
 			/**
 			 *   @function getObject 
@@ -406,7 +406,7 @@ define(['jquery'], function (jQuery) {
 					parts = objectName ? objectName.split(/\./) : [],
 					i = 0;
 				for (; i < parts.length; i++ ) {
-					current = current[parts[i]] || (current[parts[i]] = {})
+					current = current[parts[i]] || (current[parts[i]] = {});
 				}
 				return current;
 			},
@@ -497,9 +497,9 @@ define(['jquery'], function (jQuery) {
 					if ( initializing ) return;
 
 					if ( this.constructor !== Class && arguments.length ) { //we are being called w/o new
-						return arguments.callee.extend.apply(arguments.callee, arguments)
+						return arguments.callee.extend.apply(arguments.callee, arguments);
 					} else { //we are being called w/ new
-						return this.Class.newInstance.apply(this.Class, arguments)
+						return this.Class.newInstance.apply(this.Class, arguments);
 					}
 				}
 				// Copy old stuff onto class

@@ -5,7 +5,7 @@ define([ 'jquery', 'dao/user.dao', 'resthub.controller', 'jquery.json' ], functi
 			template : 'user/edit.html'
 		},
 		_init : function() {
-			document.title('Settings');
+			document.title = 'Settings';
 			this._render();
 			$('#save-password').bind('click', $.proxy(this, '_changePassword'));
 		},

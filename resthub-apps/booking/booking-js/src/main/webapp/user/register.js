@@ -5,7 +5,7 @@ define([ 'resthub.controller', 'dao/user.dao', 'jquery.json' ], function(Control
 			},
 			_init : function() {
 
-				document.title('Register');
+				document.title = 'Register';
 				this._render();
 
 				var self = this;

@@ -71,7 +71,7 @@ define(['jquery'], function(jQuery) {
     makeArray: _makeArray,
     isFunction: _isFunction,
     isArray: _isArray
-  })
+  });
 
   // Sammy.Object is the base for all other Sammy classes. It provides some useful
   // functionality, including cloning, iterating, etc.
@@ -562,6 +562,7 @@ define(['jquery'], function(jQuery) {
     //
     trigger: function(name, data) {
       this.$element().trigger([name, this.eventNamespace()].join('.'), [data]);
+      $.publish(name, data);
       return this;
     },
 
