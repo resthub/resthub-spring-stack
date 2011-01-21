@@ -39,7 +39,7 @@ define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], f
 			$('input#book-confirm').bind('click', $.proxy(this, '_sendBooking'));
 		},
 		_reviseBooking : function() {
-			location.hash = '#/booking/hotel' + this.options.booking.hotel.id;
+			route('#/booking/hotel/' + this.options.booking.hotel.id).run();
 		},
 		_sendBooking : function() {
 			BookingDao.save($.proxy(this, '_endOfBooking'), $.toJSON(this.options.booking));
@@ -47,7 +47,7 @@ define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], f
 		/* Go back home page and trigger end-of-booking event */
 		_endOfBooking : function(booking) {
 			$.storage.setJSONItem('booking', booking);
-			location.hash = '#/home';
+			route('#/home').run();
 			$.publish('end-of-booking');
 		}
 	});

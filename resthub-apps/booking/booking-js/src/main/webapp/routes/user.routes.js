@@ -1,74 +1,56 @@
-define([ 'user/login', 'user/register', 'user/edit' ], function() {
+define([ 'jquery.tinypubsub', 'user/login', 'user/register', 'user/edit' ], function() {
 
-	UserRoutes = function(app) {
-		with (app) {
+	/* BEGIN EVENTS */
+	
+	$.subscribe('run-route', function() {
+		var user = $.storage.getJSONItem('user');
+		$('#header').render('header.html', {
+			user : user
+		});
+	});
 
-			/* BEGIN EVENTS */
+	$.subscribe('user-registered', function() {
+		$.pnotify('Your are now registered ' + user.fullname + ' !');
+		route('#').run();
+	});
 
-			$.subscribe('run-route', function() {
-				var user = $.storage.getJSONItem('user');
-				$('#header').render('header.html', {
-					user : user
-				});
-			});
+	$.subscribe('password-updated',  function() {
+		$.pnotify('Your password has been updated.');
+		route('#/home').run();
+	});
 
-			$.subscribe('user-registered', function(e, user) {
-				$.pnotify('Your are now registered ' + user.fullname + ' !');
-				location.hash = '#/';
-			});
+	$.subscribe('user-logged-in', function() {
+		var user = $.storage.getJSONItem('user');
+		$.pnotify('Welcome ' + user.fullname + ' !');
+	});
 
-			$.subscribe('password-updated', function() {
-				$.pnotify('Your password has been updated.');
-				location.hash = '#/home';
-			});
+	$.subscribe('user-logged-out', function() {
+		$.pnotify('See ya !');
+		this.storage.clear();
+		route('#').run();
+	});
 
-			$.subscribe('user-logged-in', function() {
-				var user = $.storage.getJSONItem('user');
-				$.pnotify('Welcome ' + user.fullname + ' !');
-			});
+	/* END EVENTS */
 
-			$.subscribe('user-logged-out', function() {
-				$.pnotify('See ya !');
-				$.storage.clear();
-				location.hash = '#/';
-			});
+	/**
+	 * User register
+	 */
+	route('#/register').bind(function() {
+		$('#content').userRegister();
+	});
 
-			/* END EVENTS */
+	/**
+	 * Update user
+	 */
+	route('#/settings', function() {
+		$('#content').editUser();
+	});
 
-			/**
-			 * User register
-			 */
-			get('#/register', function() {
-				$('#content').userRegister();
-			});
+	/**
+	 * User logout
+	 */
+	route('#/logout', function() {
+		$.publish('user-logged-out');
+	});
 
-			/**
-			 * User authentication
-			 */
-			post('#/user/check', function() {
-				var user = {
-					username : this.params['username'],
-					password : this.params['password']
-				};
-				$('#header').userLogin({
-					user : user
-				});
-			});
-
-			/**
-			 * Update user
-			 */
-			get('#/settings', function() {
-				$('#content').editUser();
-			});
-
-			/**
-			 * User logout
-			 */
-			get('#/logout', function() {
-				$.publish('user-logged-out');
-			});
-
-		}
-	};
 });

@@ -25,7 +25,7 @@ define([ 'resthub.controller', 'dao/hotel.dao' ],
 							user : $.storage.getJSONItem('user')
 						};
 						$.storage.setJSONItem('booking', booking);
-						location.hash = '#/booking/hotel/'+ id;
+						route('#/booking/hotel/'+ id).run();
 					});
 				}
 			});

@@ -1,48 +1,35 @@
 /**
  * Routes
  */
-define(["sammy", "jquery.json", "jquery.ejs", "jquery.pnotify", "resthub.controller",
-		"routes/user.routes","routes/booking.routes","routes/hotel.routes", "jquery.tinypubsub","resthub.storage"], function() {
-	
-	var app = $.sammy(function() {
-		
-		UserRoutes(this);
-		BookingRoutes(this);
-		HotelRoutes(this);
+define([ "jquery", "routes/user.routes", "routes/booking.routes",
+		"routes/hotel.routes", "resthub.controller", "console",
+		"route", "resthub.storage", "jquery.json",
+		"jquery.ejs", "jquery.pnotify", "home" ], function($, UserRoutes,
+		BookingRoutes, HotelRoutes, Controller) {
 
-		/**
-		 * Login page
-		 */
-		this.get('#/', function() {
-			if($.storage.getJSONItem('user') != null) {
-				location.hash = '#/home';
+	$(document).ready(function() {
+					
+		route('#').bind(function() {
+			if ($.storage.getJSONItem('user') != null) {
+				route('#/home').run();
 			} else {
-				document.title = 'Login';
-				$('#content').render('user/login.html', {});
+				$('#content').userLogin();
 			}
 		});
-
-		/**
-		 * Home page after authentication
-		 */
-		this.get('#/home', function() {
-			require(['home'], function() {
-				$('#content').home();
-			});
+		
+		route('#/home').bind(function() {
+			$('#content').home();
 		});
-
-	});
-
-	$(function() {
 
 		// Rebuild Lucene index
 		$.ajax({
-			url: 'api/lucene/rebuild',
-			dataType: 'json',
-			type: 'POST'
+			url : 'api/lucene/rebuild',
+			dataType : 'json',
+			type : 'POST'
 		});
 		
-        app.run('#/');
+		route('#').run();
+
 	});
-	
+
 });

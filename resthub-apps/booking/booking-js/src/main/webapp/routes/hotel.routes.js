@@ -1,23 +1,21 @@
-define(['hotel/view'], function() {
+define([ 'jquery.tinypubsub', 'hotel/view' ], function() {
 
-HotelRoutes = function(app) { with(app) {
+	/* BEGIN EVENTS */
 
-		/* BEGIN EVENTS */
-		
-		$.subscribe('hotel-search', function() {
-			$('#content').home();
-			$('#search-value').focus();
+	$.subscribe('hotel-search', function() {
+		$('#content').home();
+		$('#search-value').focus();
+	});
+
+	/* END EVENTS */
+
+	/**
+	 * View hotel
+	 */
+	route('#/hotel/:id').bind(function(params) {
+		$('#content').viewHotel({
+			id : params.id
 		});
-		
-		/* END EVENTS */
-		
-		/**
-		 * View hotel
-		 */
-		get('#/hotel/:id', function() {
-			$('#content').viewHotel({id: this.params['id']});
-        });
-		
-		
-}};
+	});
+
 });

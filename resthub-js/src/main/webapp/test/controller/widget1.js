@@ -1,4 +1,4 @@
-define(['jquery', 'jquery.controller', 'jquery.ejs'], function($) {
+define(['jquery', 'resthub.controller', 'jquery.ejs'], function($) {
 	$.widget("test.widget1", $.ui.controller, {
 	
 		options: {

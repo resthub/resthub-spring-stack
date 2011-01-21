@@ -1,4 +1,4 @@
-define(['jquery', 'route', 'console'], function() {
+define(['jquery', 'jquery.tinypubsub', 'route', 'console'], function() {
 
 	$(document).ready(function(){
 		route('#').bind(function(){
@@ -16,6 +16,10 @@ define(['jquery', 'route', 'console'], function() {
 		route('#/route3/:id').bind(function(params){
 			$('#main').html('<p>Route 3, id = </p>' + params.id);
 			console.log('route 3, id = ' + params.id);
+		});
+		route('#/route4/test/:id').bind(function(params){
+			$('#main').html('<p>Route 4, id = </p>' + params.id);
+			console.log('route 4, id = ' + params.id);
 		});
 	});
 });

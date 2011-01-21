@@ -1,20 +1,16 @@
-define(["jquery","sammy"], function($) {
+define(["jquery","jquery.tinypubsub", "route"], function($) {
 
-	var app = $.sammy(function() {
-		this.get('#/', function(context) {
+	$(document).ready(function(){
+		route('#').bind( function() {
 			$('#main').html("Home");
 		});
 		
-		this.get('#/controller1', function(context) {
+		route('#/controller1').bind( function() {
 			require(["test/controller/widget1"], function() {
-				$('#main').widget1(context);
+				$('#main').widget1();
 			});
 		});
 
+		route('#').run();
 	});
-
-	$(function() {
-		app.run('#/');
-	});
-
 });
