@@ -1,64 +1,56 @@
-define(['user/login','user/register', 'user/edit'], function() {
+define([ 'jquery.tinypubsub', 'route', 'user/login', 'user/register', 'user/edit' ], function() {
 
-UserRoutes = function(app) { with(app) {
+	/* BEGIN EVENTS */
+	
+	$.subscribe('run-route', function() {
+		var user = $.storage.getJSONItem('user');
+		$('#header').render('header.html', {
+			user : user
+		});
+	});
 
-		/* BEGIN EVENTS */
-		
-		bind('run-route', function() {
-			var user = this.session('user');
-			$('#header').render('header.html', {user: user});
-		});
-		
-		bind('user-registered', function(e, user) {
-			$.pnotify('Your are now registered ' + user.fullname + ' !');
-			this.redirect('#/');
-		});
+	$.subscribe('user-registered', function() {
+		$.pnotify('Your are now registered ' + user.fullname + ' !');
+		route('#').run();
+	});
 
-		bind('password-updated', function() {
-			$.pnotify('Your password has been updated.');
-			this.redirect('#/home');
-		});
-		
-		bind('user-logged-in', function() {
-			var user = this.session('user');
-			$.pnotify('Welcome ' + user.fullname + ' !');
-		});
+	$.subscribe('password-updated',  function() {
+		$.pnotify('Your password has been updated.');
+		route('#/home').run();
+	});
 
-		bind('user-logged-out', function() {
-			$.pnotify('See ya !');
-			this.store('session').clearAll();
-			this.redirect('#/');
-		});
-		
-		/* END EVENTS */
-		
-		/**
-		 * User register
-		 */
-		get('#/register', function(cx) {
-			$('#content').userRegister({cx: cx});
-		});
-		
-		/**
-		 * User authentication
-		 */
-		post('#/user/check', function(cx) {
-			$('#header').userLogin({cx: cx});	
-		});
-		
-		/**
-		 * Update user
-		 */
-		get('#/settings', function(cx) {
-			$('#content').editUser({cx: cx});
-		});
+	$.subscribe('user-logged-in', function() {
+		var user = $.storage.getJSONItem('user');
+		$.pnotify('Welcome ' + user.fullname + ' !');
+	});
 
-		/**
-		 * User logout
-		 */
-		get('#/logout', function(cx) {
-			cx.trigger('user-logged-out');
-		});
-		
-}};
+	$.subscribe('user-logged-out', function() {
+		$.pnotify('See ya !');
+		this.storage.clear();
+		route('#').run();
+	});
+
+	/* END EVENTS */
+
+	/**
+	 * User register
+	 */
+	route('#/register').bind(function() {
+		$('#content').userRegister();
+	});
+
+	/**
+	 * Update user
+	 */
+	route('#/settings', function() {
+		$('#content').editUser();
+	});
+
+	/**
+	 * User logout
+	 */
+	route('#/logout', function() {
+		$.publish('user-logged-out');
+	});
+
 });

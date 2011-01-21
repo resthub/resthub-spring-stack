@@ -1,4 +1,4 @@
-define([ 'jquery.controller', 'models/booking.model' ], function() {
+define([ 'jquery.controller', 'dao/booking.dao' ], function() {
 	(function($) {
 
 		$.widget("booking.listBookings", $.ui.controller, {
@@ -6,9 +6,9 @@ define([ 'jquery.controller', 'models/booking.model' ], function() {
 				template : 'booking/list.html'
 			},
 			_init : function() {
-				var user = this.options.cx.session('user');
+				var user = $.storage.getJSONItem('user');
 				if (user.id) {
-					Booking.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
+					BookingDao.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
 				}
 			},
 			_displayBookings : function(bookings) {

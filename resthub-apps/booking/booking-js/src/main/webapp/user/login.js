@@ -1,18 +1,30 @@
-define([ 'jquery.controller', 'jquery.json', 'models/user.model' ], function() {
+define([ 'require', 'resthub.controller', 'jquery.json' ], function(require) {
 
 	$.widget("booking.userLogin", $.ui.controller, {
+		options : {
+			template: 'user/login.html'
+		},
 		_init : function() {
-			this.cx().store('session').clearAll();
-			var user = {
-				username : this.cx().params['username'],
-				password : this.cx().params['password']
-			};
-			User.check($.proxy(this, '_userLoggedIn'), $.toJSON(user));
+			this._render();
+			var self = this;
+			$('#formLogin').submit(function() {
+				$.storage.clear();
+				document.title = 'Login';
+				var user = {
+					username : $('input[name="username"]').val(),
+					password : $('input[name="password"]').val()
+				};
+				require(['dao/user.dao'], function() {
+					UserDao.check($.proxy(self, '_userLoggedIn'), $.toJSON(user));
+				});
+				return false; 
+			});
+			
 		},
 		_userLoggedIn : function(user) {
-			this.cx().session('user', user);
-			this.cx().redirect('#/home');
-			this.cx().trigger('user-logged-in');
+			$.storage.setJSONItem('user', user);
+			route('#/home').run();
+			$.publish('user-logged-in');
 		}
 	});
 

@@ -39,22 +39,21 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <aggregations>
-                        <aggregation>
-                            <insertNewLine>true</insertNewLine>
-
-                            <output>${project.build.directory}/${project.build.finalName}/lib/resthub.stack.js</output>
-                            <includes>
-                                <include>${basedir}/src/main/webapp/lib/readme.js</include>
-                                <include>${basedir}/src/main/webapp/lib/jquery.js</include>
-                            </includes>
-
-                        </aggregation>
-
-                    </aggregations>
-                    <jswarn>false</jswarn>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <aggregations>-->
+<!--                        <aggregation>-->
+<!--                            <insertNewLine>true</insertNewLine>-->
+<!---->
+<!--                            <output>${project.build.directory}/${project.build.finalName}/lib/resthub.stack.js</output>-->
+<!--                            <includes>-->
+<!--                                <include>${basedir}/src/main/webapp/lib/jquery.js</include>-->
+<!--                            </includes>-->
+<!---->
+<!--                        </aggregation>-->
+<!---->
+<!--                    </aggregations>-->
+<!--                    <jswarn>false</jswarn>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

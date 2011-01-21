@@ -1,5 +1,5 @@
-define(['jquery.controller','jqueryui/datepicker','jquery.validate'], function() {
-(function($) {
+define(['jquery', 'resthub.controller','jqueryui/datepicker','jquery.validate'], function($, Controller) {
+
 
 $.widget("booking.editBooking", $.ui.controller, {
 	options: {
@@ -35,14 +35,14 @@ $.widget("booking.editBooking", $.ui.controller, {
 			
 			// Valid dates and checkinDate > checkoutDate
 			if (daysBetween) {
-				this.cx().session('daysBetween', daysBetween);
-				this.cx().redirect('#/booking/confirm');
+				$.storage.setItem('daysBetween', daysBetween);
+				route('#/booking/confirm').run();
 			}
 		}
 	},
 	/* Put form data in session */
 	_formToSession: function() {
-		var booking = this.cx().session('booking');
+		var booking = $.storage.getJSONItem('booking');
 		booking.checkinDate = $('input[name=checkinDate]').val();
 		booking.checkoutDate = $('input[name=checkoutDate]').val();
 		booking.beds = $('select[name=beds] option:selected').val();
@@ -52,12 +52,12 @@ $.widget("booking.editBooking", $.ui.controller, {
 		booking.creditCardName = $('input[name=creditCardName]').val();
 		booking.creditCardExpiryMonth = $('select[name=creditCardExpiryMonth] option:selected').val();
 		booking.creditCardExpiryYear = $('select[name=creditCardExpiryYear] option:selected').val();
-		this.cx().session('booking', booking);
+		$.storage.setJSONItem('booking', booking);
 		this.options.booking = booking;
 	},
 	/* Display session data in booking form (after reload or revise button click) */
 	_sessionToForm: function() {
-		var booking = this.cx().session('booking');
+		var booking = $.storage.getJSONItem('booking');
 		$('input[name=checkinDate]').val(booking.checkinDate);
 		$('input[name=checkoutDate]').val(booking.checkoutDate);
 		$('select[name=beds] option[value='+ booking.beds +']').attr('selected', 'selected');
@@ -80,7 +80,7 @@ $.widget("booking.editBooking", $.ui.controller, {
 			var checkinDateTimestamp = $.datepicker.parseDate('yy-mm-dd', checkinDate).getTime();
 			var checkoutDateTimestamp = $.datepicker.parseDate('yy-mm-dd', checkoutDate).getTime();
 		} catch(err) {
-			Sammy.log('function _daysBetween : error (' + err + ')');
+			console.log('function _daysBetween : error (' + err + ')');
 			return false;
 		}
 
@@ -88,5 +88,4 @@ $.widget("booking.editBooking", $.ui.controller, {
 		return secondsBetween / 86400;
 	}
 });
-})(jQuery);
 });

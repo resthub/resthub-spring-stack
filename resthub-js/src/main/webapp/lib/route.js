@@ -74,28 +74,8 @@ OTHER DEALINGS IN THE SOFTWARE.
   route('#/Learn/:topic').after(myAfter);
   route('#/Learn/:topic').exit(myExit);
 
-  PROTIP: Use a Dispatcher!
-
-  var Biggie={};
-  Biggie._hashchange_last = '';
-  Biggie._onhashchange=function(){
-    if(Biggie._hashchange_last!=location.hash){
-      Biggie._hashchange_last=location.hash;
-	  route(location.hash).run();
-    }
-  }
-
-  setInterval(function () {Biggie._onhashchange();}, 50);
-  
-
-  Now, instead of calling route('#/websites').run() directly
-  you could simply modify the location.hash to #/websites and 
-  the route would trigger its events!
-
 *************************************************************************/
 
-/* make null reference for debug.log if http://github.com/Marak/debug.js isn't available */
-if(typeof debug == 'undefined'){var debug = {"log":function(){return false;}};}
 
 var route=function(path){
   return new route.fn.init(path);
@@ -146,14 +126,10 @@ route.fn = route.prototype = {
  	if(typeof window['routes'][this.bindPath].exit=='undefined'){
 	  window['routes'][this.bindPath].exit=new Array();
 	}
- 	
-
 
 	if(typeof window['routes'][this.bindPath].args=='undefined'){
 	  window['routes'][this.bindPath].args={};
 	}
-
-	debug.log('route(\''+this.path+'\')');
 
 	/* remove trailing slash from path if it exists */
 	if(this.path[this.path.length-1]=='/'){this.path = this.path.substring(0,this.path.length-1);}
@@ -161,7 +137,6 @@ route.fn = route.prototype = {
 	/* a literal route match was found */
 	if(typeof window['routes'][this.path]=='object'){ 
 	  /* a direct match was found, interate through events for direct match assigning them to route instance */
-	  debug.log('route(s) found for \'' + this.path + '\'');
 	  
 	  /* window['routes'][this.path].args = args; */
 	  for(var i=0; i<window['routes'][this.path].events.length; i++){
@@ -173,20 +148,16 @@ route.fn = route.prototype = {
 	  /* check if route matches any known route patterns (using the : operator) */
 		for(r in window['routes']){
 		  if((r.split('/').length==this.path.split('/').length) && (r.search(/:/) > 0)){
-			debug.log('found possible match: [' + r + ' - ' +this.path+']');
-			debug.log(r);			
 			
 			/* since we found a possible match, bubble route with arguments as params */
 			for(param in r.split('/')){
 	
 				var paramName = r.split('/')[param];
 				paramName = paramName.replace(/:/,'');
-				debug.log('paramName: ' + paramName);				
 	
 				var paramValue = this.path.split('/');
 				paramValue = paramValue[param];
-				debug.log('paramValue: ' + paramValue);	
-	
+
 				args[paramName] = paramValue;
 			}
 			/* rebind instance variables */
@@ -196,30 +167,24 @@ route.fn = route.prototype = {
 
 			/* before */
 			for(var i=0; i<window['routes'][r].before.length; i++){
-			  debug.log('pushing events before ' + r);
 			  this.events.push(window['routes'][r].before[i]);
 			}
 
 			/* events */
 			for(var i=0; i<window['routes'][r].events.length; i++){
-			  debug.log('pushing event to ' + r);
 			  this.events.push(window['routes'][r].events[i]);
 			}
 
 			/* after */
 			for(var i=0; i<window['routes'][r].after.length; i++){
-			  debug.log('pushing events after ' + r);
 			  this.events.push(window['routes'][r].after[i]);
 			}
 
 			/* exit */
 			for(var i=0; i<window['routes'][r].exit.length; i++){
-			  debug.log('pushing events exit ' + r);
 			  window['routes'].exit.push(window['routes'][r].exit[i]);
 			}
 
-			
-	
 		  }
 	   }
 	return this;
@@ -237,14 +202,12 @@ route.fn = route.prototype = {
 	}
 
 	window['routes'][this.bindPath].events.push(fn);
-    debug.log('the following method has been bound to \'' + this.bindPath + '\' : ' + fn.toString());
-	
+    	
 	return 'fn bound to route';	
 	  
   },
   
   before: function(fn){
-	console.log('before: ' + fn.toString());
 
 	if(this.bindPath==''){
 	  return 'nothing to bind';
@@ -255,14 +218,12 @@ route.fn = route.prototype = {
 	}
 
 	window['routes'][this.bindPath].before.push(fn);
-    debug.log('the following method has been bound before \'' + this.bindPath + '\' : ' + fn.toString());
 	
 	return 'fn bound to route';	
 
   },
 
   after: function(fn){
-	console.log('after: ' + fn.toString());
 
 	if(this.bindPath==''){
 	  return 'nothing to bind';
@@ -274,7 +235,6 @@ route.fn = route.prototype = {
 
 	  
 	window['routes'][this.bindPath].after.push(fn);
-    debug.log('the following method has been bound after \'' + this.bindPath + '\' : ' + fn.toString());
 	
 	return 'fn bound to route';	
 
@@ -282,8 +242,6 @@ route.fn = route.prototype = {
   },
 
   exit: function(fn){
-
-	console.log('exit: ' + fn.toString());
 
 	if(this.bindPath==''){
 	  return 'nothing to bind';
@@ -294,7 +252,6 @@ route.fn = route.prototype = {
 	}
 
 	window['routes'][this.bindPath].exit.push(fn);
-    debug.log('the following method has been bound exit \'' + this.bindPath + '\' : ' + fn.toString());
 	
 	return 'fn bound to route';	
 
@@ -304,21 +261,22 @@ route.fn = route.prototype = {
   run: function() {
 
 	if(this.events.length==0){
-	  return 'nothing to run';
+		console.debug('nothing to run');
+		return 'nothing to run';
 	}
 
-    debug.log('route.run(\''+this.path+'\');');
+    console.debug('route.run(\''+this.path+'\');');
+    
+    $.publish('run-route', this.args);
 
 	/* before we run the next route, we need to check if there are any events in window['routes'].exit */
 	for(var i=0; i<window['routes'].exit.length; i++){
 	  window['routes'].exit[i](this.args);  
-	  debug.log('executing:' + window['routes'].exit[i] + '\nwith arguments: ');	
 	}
 	window['routes'].exit = new Array();
 
 	for(var i=0; i<this.events.length; i++){
 	  this.events[i](this.args);  
-	  debug.log('executing:' + this.events[i] + '\nwith arguments: ' + this.args.toString());	
 	}
 	return 'route executed';
   }
@@ -327,12 +285,21 @@ route.fn = route.prototype = {
 route.fn.init.prototype = route.fn;
 
 /* Dispatcher to handle URL change */
-var Biggie={};
-Biggie._hashchange_last = '';
-Biggie._onhashchange=function(){
-    if(Biggie._hashchange_last!=location.hash){
-        Biggie._hashchange_last=location.hash;
+var RouteDispacher={};
+RouteDispacher._hashchange_last = '';
+RouteDispacher._onhashchange=function(){
+    if(RouteDispacher._hashchange_last!=location.hash){
+    	RouteDispacher._hashchange_last=location.hash;
         route(location.hash).run();
     }
 };
-setInterval(function () {Biggie._onhashchange();}, 50);
+
+// Detect if we use native onhashchange event or a timer for older browser
+// 
+if ("onhashchange" in window) {
+	$(window).bind( 'hashchange', RouteDispacher._onhashchange);
+	console.debug('Routing is using native window.hashchange event');
+} else {
+	console.debug('No support for window.hashchange, so routing is emulated with a timer');
+	setInterval(RouteDispacher._onhashchange, 100);
+}
