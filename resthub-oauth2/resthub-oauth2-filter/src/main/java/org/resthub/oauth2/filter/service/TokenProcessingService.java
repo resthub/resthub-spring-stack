@@ -3,7 +3,7 @@ package org.resthub.oauth2.filter.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.resthub.oauth2.common.front.model.TokenResponse;
+import org.resthub.oauth2.common.model.Token;
 
 /**
  * Service used to process tokens obtained with the Web-server profile.<br/>
@@ -21,7 +21,7 @@ public interface TokenProcessingService {
 	 * @param request Incomming Http request.
 	 * @param response outgoing Http response.
 	 */
-	void process(TokenResponse token, String targetedURI, HttpServletRequest request, HttpServletResponse response)
+	void process(Token token, String targetedURI, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
 } // interface TokenProcessingService

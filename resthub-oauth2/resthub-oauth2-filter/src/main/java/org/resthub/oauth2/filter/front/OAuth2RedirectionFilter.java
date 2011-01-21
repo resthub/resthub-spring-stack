@@ -1,7 +1,6 @@
 package org.resthub.oauth2.filter.front;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,20 +11,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import org.resthub.oauth2.common.front.model.TokenResponse;
+import org.resthub.oauth2.common.model.Token;
 import org.resthub.oauth2.filter.service.TokenProcessingService;
-import org.resthub.web.jackson.JacksonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.representation.Form;
 
 /**
  * <b>--Part of the Web-Server Profile--</b><br/><br/>
@@ -39,7 +31,79 @@ import com.sun.jersey.api.representation.Form;
  * to redirect rejected request to this url.<br/><br/>
  * 
  * Only GET incoming requests are processed, because authorization server won't be able to redirect back with another 
- * method.
+ * method.<br/><br/>
+ * 
+ * Once the token and the corresponding User details were retrieved, a TokenProcessingService is invoked to make 
+ * specific treatments.<br/><br/>
+ * 
+ * This filter could be declared as clasical Servlet filter, and needs the following initial parameters:<br/>
+ * Web.xml
+ * <pre>
+ * &lt;filter&gt;
+ *     &lt;!-- The name is important (thanks to Spring mecanisms). It's the filter bean name --&gt;
+ *     &lt;filter-name&gt;OAuth2Filter&lt;/filter-name&gt;
+ *     &lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;
+ *     &lt;init-param&gt;
+ *         &lt;param-name&gt;authorizationServer&lt;/param-name&gt;
+ *         &lt;param-value&gt;http://localhost:8080/identity/api/authorize&lt;/param-value&gt;
+ *     &lt;/init-param&gt;
+ *     &lt;init-param&gt;
+ *         &lt;param-name&gt;targetUrlParameter&lt;/param-name&gt;
+ *         &lt;param-value&gt;requested&lt;/param-value&gt;
+ *     &lt;/init-param&gt;
+ *     &lt;init-param&gt;
+ *         &lt;param-name&gt;clientId&lt;/param-name&gt;
+ *         &lt;param-value&gt;&lt;/param-value&gt;
+ *     &lt;/init-param&gt;
+ *     &lt;init-param&gt;
+ *         &lt;param-name&gt;clientSecret&lt;/param-name&gt;
+ *         &lt;param-value&gt;&lt;/param-value&gt;
+ *     &lt;/init-param&gt;
+ *     &lt;init-param&gt;
+ *         &lt;param-name&gt;accessTokenParam&lt;/param-name&gt;
+ *         &lt;param-value&gt;access_token&lt;/param-value&gt;
+ *     &lt;/init-param&gt;
+ *     &lt;init-param&gt;
+ *         &lt;param-name&gt;authorizationPassword&lt;/param-name&gt;
+ *         &lt;param-value&gt;p@ssw0rd&lt;/param-value&gt;
+ *     &lt;/init-param&gt;
+ *     &lt;init-param&gt;
+ *         &lt;param-name&gt;tokenProcessingServiceClass&lt;/param-name&gt;
+ *         &lt;param-value&gt;org.mycompany.security.MyTokenProcessingService&lt;/param-value&gt;
+ *     &lt;/init-param&gt;
+ * &lt;/filter&gt;
+ * &lt;filter-mapping&gt;
+ *     &lt;filter-name&gt;OAuth2Filter&lt;/filter-name&gt;
+ *     &lt;!-- Here the path of your protected resource --&gt;
+ *     &lt;url-pattern&gt;/yourProtectedPath&lt;/url-pattern&gt;
+ * &lt;/filter-mapping&gt;
+ * </pre>
+ * <b>OR</b> it could be declared as Bean filter with the spring's Delegatingfilter. Parameters are injected:<br/>
+ * Web.xml
+ * <pre>
+ * &lt;filter&gt;
+ *     &lt;!-- The name is important (thanks to Spring mecanisms). It's the filter bean name --&gt;
+ *     &lt;filter-name&gt;OAuth2Filter&lt;/filter-name&gt;
+ *     &lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;
+ * &lt;/filter&gt;
+ * &lt;filter-mapping&gt;
+ *     &lt;filter-name&gt;OAuth2Filter&lt;/filter-name&gt;
+ *     &lt;!-- Here the path of your protected resource --&gt;
+ *     &lt;url-pattern&gt;/yourProtectedPath&lt;/url-pattern&gt;
+ * &lt;/filter-mapping&gt;
+ * </pre>
+ * ApplicationContext.xml
+ * <pre>
+ * &lt;bean name="OAuth2Filter" class="org.resthub.oauth2.filter.front.OAuth2Filter"&gt;
+ *     &lt;property name="authorizationServer" value="#{securityConfig.authorizationServer}" /&gt;
+ *     &lt;property name="targetUrlParameter" value="#{securityConfig.targetUrlParameter}" /&gt;
+ *     &lt;property name="clientId" value="#{securityConfig.clientId}" /&gt;
+ *     &lt;property name="clientSecret" value="#{securityConfig.clientSecret}" /&gt;
+ *     &lt;property name="accessTokenParam" value="#{securityConfig.accessTokenParam}" /&gt;
+ *     &lt;property name="authorizationPassword" value="#{authorizationPassword}" /&gt;
+ *     &lt;property name="tokenProcessingService" ref="myProcessingService" /&gt;
+ * &lt;/bean&gt;
+ * </pre>
  */
 public class OAuth2RedirectionFilter implements Filter {
 
@@ -52,9 +116,9 @@ public class OAuth2RedirectionFilter implements Filter {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
-	 * Jersey REST WebService client.
+	 * Protocol utilities for Web-Server profile implementation.
 	 */
-	protected Client wsClient;
+	protected WebServerUtilities utilities;
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public properties
@@ -72,6 +136,7 @@ public class OAuth2RedirectionFilter implements Filter {
 	 */
 	public void setAuthorizationServer(String authorizationServer) {
 		this.authorizationServer = authorizationServer;
+		utilities.setAuthorizationServer(authorizationServer);
 	} // setAuthorizationServer().
 
 	/**
@@ -102,6 +167,7 @@ public class OAuth2RedirectionFilter implements Filter {
 	 */
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
+		utilities.setClientId(clientId);
 	} // setClientId().
 
 	/**
@@ -117,54 +183,58 @@ public class OAuth2RedirectionFilter implements Filter {
 	 */
 	public void setClientSecret(String clientSecret) {
 		this.clientSecret = clientSecret;
+		utilities.setClientSecret(clientSecret);
 	} // setClientSecret().
+
+	/**
+	 * Name of the query parameter that contains the access tokent when retrieving the token details.
+	 * Value read in servlet configuration: init-parameter "accessTokenParam".
+	 */
+	protected String accessTokenParam = "";
+
+	/**
+	 * Used to inject the name of the query parameter that contains the access tokent when retrieving the token details
+	 * when working with spring.
+	 * 
+	 * @param accessTokenParam The injected query parameter name.
+	 */
+	public void setAccessTokenParam(String accessTokenParam) {
+		this.accessTokenParam = accessTokenParam;
+		utilities.setAccessTokenParam(accessTokenParam);
+	} // setAccessTokenParam().
+	
+	/**
+	 * Password used to get token information on the central authorization service.
+	 * Value read in servlet configuration: init-parameter "authorizationPassword".
+	 */
+	protected String authorizationPassword = "";
+
+	/**
+	 * Used to inject Password used to get token information on the central authorization service when working with 
+	 * spring.
+	 * 
+	 * @param authorizationPassword The injected authorization password.
+	 */
+	public void setAuthorizationPassword(String authorizationPassword) {
+		this.authorizationPassword = authorizationPassword;
+		utilities.setAuthorizationPassword(authorizationPassword);
+	} // setAuthorizationPassword().
 
 	/**
 	 * The service use to process incoming tokens. The implementation class for this class is specified in servlet 
 	 * configuration: init-parameter "tokenProcessingServiceClass". This class must implements the
 	 * TokenProcessingService interface and have a default constructor.
 	 */
-	protected TokenProcessingService service;
+	protected TokenProcessingService tokenProcessingService;
 
 	/**
 	 * Used to inject the service implementation when working with spring.
 	 * 
-	 * @param service The injected service.
+	 * @param tokenProcessingService The injected service.
 	 */
-	public void setService(TokenProcessingService service) {
-		this.service = service;
-	} // setService().
-
-	// -----------------------------------------------------------------------------------------------------------------
-	// Protected methods
-
-	/**
-	 * Performs an HTTP request to the authorization server with code, 
-	 */
-	protected void obtainToken(String code, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[obtainToken] Get token from code {}", code);
-		// Performs a request to get token.
-		WebResource connector = wsClient.resource(authorizationServer);
-		Form form = new Form();
-		form.add("grant_type", "authorization_code");
-		form.add("client_id", clientId);
-		form.add("client_secret", clientSecret);
-		form.add("code", code);
-		form.add("redirect_uri", request.getRequestURL().toString());
-		TokenResponse tokenResponse = null;
-		try {
-			logger.trace("[obtainToken] Send request to {}...", authorizationServer);
-			tokenResponse = connector.path("token").type(MediaType.APPLICATION_FORM_URLENCODED).
-					post(TokenResponse.class, form);
-			logger.trace("[obtainToken] Process response...");
-			service.process(tokenResponse, request.getParameter("state"), request, response);
-			logger.debug("[obtainToken] User authentified !");
-		} catch (Exception exc) {
-			logger.warn("[obtainToken] Cannot retrieve token from code: " + exc.getMessage(), exc);
-			// Token no accessible
-			response.setStatus(Status.INTERNAL_SERVER_ERROR.getStatusCode());
-		}
-	} // obtainToken().
+	public void setTokenProcessingService(TokenProcessingService tokenProcessingService) {
+		this.tokenProcessingService = tokenProcessingService;
+	} // setTokenProcessingService().
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Constructor;
@@ -174,9 +244,7 @@ public class OAuth2RedirectionFilter implements Filter {
 	 */
 	public OAuth2RedirectionFilter() {
 		logger.trace("[Constructor] REST WS client initialization");
-		ClientConfig config = new DefaultClientConfig();
-	    config.getSingletons().add(new JacksonProvider());
-	    wsClient = Client.create(config);
+		utilities = new WebServerUtilities();
 	} // Constructor.
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -191,11 +259,13 @@ public class OAuth2RedirectionFilter implements Filter {
 		setAuthorizationServer(config.getInitParameter("authorizationServer"));
 		setTargetUrlParameter(config.getInitParameter("targetUrlParameter"));
 		setClientId(config.getInitParameter("clientId"));
-		setClientId(config.getInitParameter("clientSecret"));
+		setClientSecret(config.getInitParameter("clientSecret"));
+		setAuthorizationPassword(config.getInitParameter("authorizationPassword"));
+		setAccessTokenParam(config.getInitParameter("accessTokenParam"));
 		// Creates a processing service.
 		String tokenProcessingServiceClass = config.getInitParameter("tokenProcessingServiceClass");
 		try {
-			setService((TokenProcessingService) Class.forName(tokenProcessingServiceClass).newInstance());
+			setTokenProcessingService((TokenProcessingService) Class.forName(tokenProcessingServiceClass).newInstance());
 		} catch (Exception exc) {
 			String error = "Unable to instanciate the TokenProcessingService class '" + 
 					tokenProcessingServiceClass + "' : " + exc.getMessage();
@@ -230,24 +300,22 @@ public class OAuth2RedirectionFilter implements Filter {
 				// Gets the wanted url
 				String targetUrl = request.getParameter(targetUrlParameter);
 				String code = request.getParameter("code");
-				if(targetUrl == null && code == null) {
-					response.setStatus(Status.BAD_REQUEST.getStatusCode());
-				} else if (targetUrl != null) {
-					// No access code, lets redirect to the authentication server.
-					// Build redirection url.
-					StringBuilder redirection = new StringBuilder(authorizationServer)
-							.append("?response_type=code&client_id=")
-							.append(clientId)
-							.append("&redirect_uri=")
-							.append(URLEncoder.encode(request.getRequestURL().toString(), "UTF-8"))
-							.append("&state=")
-							.append(URLEncoder.encode(targetUrl, "UTF-8"));
-					logger.trace("[doFilter] redirection to {}", redirection.toString());
-					// Redirect incoming request.
-					response.sendRedirect(redirection.toString());
-				} else if (code != null) {
-					// Access code: lets get the corresponding token.
-					obtainToken(code, request, response);
+				try {
+					if(targetUrl == null && code == null) {
+						response.setStatus(Status.BAD_REQUEST.getStatusCode());
+					} else if (code != null) {
+						// Access code: lets get the corresponding token.
+						TokenResponse token = utilities.obtainTokenFromCode(code, request, response);
+						Token tokenDetails = utilities.obtainTokenDetails(token.accessToken);
+						tokenProcessingService.process(tokenDetails, request.getParameter("state"), request, response);
+					} else if (targetUrl != null) {
+						// No access code, lets redirect to the authentication server.
+						// Build redirection url.
+						utilities.redirectToAuthenticationEndPoint(targetUrl, request, response, true);
+					} 
+				} catch (Exception exc) {
+					// Error when processing request.
+					response.setStatus(Status.INTERNAL_SERVER_ERROR.getStatusCode());
 				}
 			}
 		} else {
