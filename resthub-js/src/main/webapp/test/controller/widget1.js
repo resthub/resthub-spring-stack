@@ -1,12 +1,9 @@
-define(['jquery', 'resthub.controller', 'jquery.ejs'], function($) {
-	$.widget("test.widget1", $.ui.controller, {
-	
-		options: {
-			template: 'widget1.html'
-		},
+define(['jquery', 'resthub.controller'], function($, Controller) {
+	Controller.extend("Widget1", {
 			
-		_init: function() {
-			this._render();			
+		init: function() {
+			this.template = 'widget1.html';
+			this.render();			
 		}
 	});
 });

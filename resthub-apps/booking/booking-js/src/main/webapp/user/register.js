@@ -1,12 +1,10 @@
 define([ 'resthub.controller', 'repositories/user.repository', 'jquery.json' ], function(Controller, UserRepository) {
-		$.widget("booking.userRegister", $.ui.controller, {
-			options : {
-				template : 'user/register.html'
-			},
-			_init : function() {
+		Controller.extend("UserRegisterController", {
+			template : 'user/register.html',
+			init : function() {
 
 				document.title = 'Register';
-				this._render();
+				this.render();
 
 				var self = this;
 				$('#register-button').bind('click', function() {

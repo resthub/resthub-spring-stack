@@ -1,9 +1,8 @@
-define([ 'jquery', 'resthub.controller', 'repositories/booking.repository' ], function($, Controller, BookingRepository) {
-	return $.widget("booking.deleteBooking", $.ui.controller, {
-		options : {
-			id : null
-		},
-		_init : function() {
+define([ 'resthub.controller', 'repositories/booking.repository' ], function(Controller, BookingRepository) {
+	return Controller.extend("DeleteBookingController", {
+		id : null,
+		
+		init : function() {
 			BookingRepository.remove($.proxy(this, '_bookingDeleted'), this.options.id);
 		},
 		_bookingDeleted : function() {

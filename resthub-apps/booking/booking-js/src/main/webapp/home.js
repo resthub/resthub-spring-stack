@@ -1,23 +1,21 @@
-define(['jquery','resthub.controller', 'booking/list', 'hotel/search', 'resthub.storage'], function($, Controller) {
-	return $.widget("booking.home", $.ui.controller, {
-		options: {
-			searchVal: null,
-			size: 5,
-			template: 'home.html'
-		},
-	
-		_init: function() {
-			document.title = 'Home';	
-			this.options.searchVal = $('#search-value').val();
-			this.options.size = $('#search-size').val();
-			this._render();
-			
-			$('#search').searchHotels({
-				searchVal: this.options.searchVal,
-				off: this.options.off,
-				size: this.options.size
+define([ 'jquery', 'resthub.controller', 'booking/list', 'hotel/search', 'resthub.storage' ], function($, Controller) {
+
+	return Controller.extend("HomeController", {
+		searchVal : null,
+		size : 5,
+		template : 'home.html',
+
+		init : function() {
+			document.title = 'Home';
+			this.searchVal = $('#search-value').val();
+			this.size = $('#search-size').val();
+			this.render();
+
+			$('#search').search_hotels({
+				searchVal : this.searchVal,
+				size : this.size
 			});
-			$('#booking-list').listBookings();
+			$('#booking-list').list_bookings();
 			$.storage.setItem('search-offset', 0);
 		}
 	});

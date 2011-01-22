@@ -1,33 +1,32 @@
-define([ 'jquery', 'repositories/booking.repository', 'resthub.controller', 'jquery.json',  ], function($, Booking ) {
-	$.widget("booking.viewBooking", $.ui.controller, {
-		options : {
-			booking : {},
-			template : 'booking/view.html',
-			mode : 'view'
-		},
-		_init : function() {
+define([ 'resthub.controller', 'repositories/booking.repository', 'jquery.json',  ], function(Controller, BookingRepository ) {
+	Controller.extend("ViewBookingController", {
+		booking : {},
+		template : 'booking/view.html',
+		mode : 'view',
+		
+		init : function() {
 
-			if (this.options.mode == 'view') {
-				BookingRepository.read($.proxy(this, '_displayViewMode'), this.options.booking.id);
+			if (this.mode == 'view') {
+				BookingRepository.read($.proxy(this, '_displayViewMode'), this.booking.id);
 			} else {
 				this._displayConfirmMode();
 			}
 		},
 		_displayViewMode : function() {
-			this._render({
-				booking : this.options.booking,
-				mode : this.options.mode
+			this.render({
+				booking : this.booking,
+				mode : this.mode
 			});
 		},
 		_displayConfirmMode : function() {
-			this.options.booking = $.storage.getJSONItem('booking');
+			this.booking = $.storage.getJSONItem('booking');
 			var daysBetween = $.storage.getItem('daysBetween');
-			var total = daysBetween * this.options.booking.hotel.price;
+			var total = daysBetween * this.booking.hotel.price;
 
-			this._render({
-				booking : this.options.booking,
+			this.render({
+				booking : this.booking,
 				total : total,
-				mode : this.options.mode
+				mode : this.mode
 			});
 
 			$('#content h1:first').html("Confirm hotel booking");
@@ -39,10 +38,10 @@ define([ 'jquery', 'repositories/booking.repository', 'resthub.controller', 'jqu
 			$('input#book-confirm').bind('click', $.proxy(this, '_sendBooking'));
 		},
 		_reviseBooking : function() {
-			$.route('#/booking/hotel/' + this.options.booking.hotel.id);
+			$.route('#/booking/hotel/' + this.booking.hotel.id);
 		},
 		_sendBooking : function() {
-			BookingRepository.save($.proxy(this, '_endOfBooking'), $.toJSON(this.options.booking));
+			BookingRepository.save($.proxy(this, '_endOfBooking'), $.toJSON(this.booking));
 		},
 		/* Go back home page and trigger end-of-booking event */
 		_endOfBooking : function(booking) {

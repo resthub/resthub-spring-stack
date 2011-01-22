@@ -1,18 +1,17 @@
-define(['jquery', 'resthub.controller','jqueryui/datepicker','jquery.validate'], function($, Controller) {
+define(['resthub.controller','jqueryui/datepicker','jquery.validate'], function(Controller) {
 
 
-$.widget("booking.editBooking", $.ui.controller, {
-	options: {
-		booking: {},
-		template: 'booking/edit.html'
-	},
-	_init: function() {
+return Controller.extend("EditBookingController", {
+	booking: {},
+	template: 'booking/edit.html',
+	
+	init: function() {
 		this._displayBookingForm();
 	},
 	/* Display the booking form with potential values from session (ie. after revise button click) */
 	_displayBookingForm: function() {
 
-		this._render({booking: this.options.booking});
+		this.render({booking: this.booking});
 
 		$('#content h1:first').html("Book hotel");
 		this._sessionToForm();
@@ -53,7 +52,7 @@ $.widget("booking.editBooking", $.ui.controller, {
 		booking.creditCardExpiryMonth = $('select[name=creditCardExpiryMonth] option:selected').val();
 		booking.creditCardExpiryYear = $('select[name=creditCardExpiryYear] option:selected').val();
 		$.storage.setJSONItem('booking', booking);
-		this.options.booking = booking;
+		this.booking = booking;
 	},
 	/* Display session data in booking form (after reload or revise button click) */
 	_sessionToForm: function() {
@@ -71,8 +70,8 @@ $.widget("booking.editBooking", $.ui.controller, {
 	/* Calculate the number of days between checkinDate and checkoutDate */
 	_daysBetween: function() {
 
-		var checkinDate = this.options.booking.checkinDate;
-		var checkoutDate = this.options.booking.checkoutDate;
+		var checkinDate = this.booking.checkinDate;
+		var checkoutDate = this.booking.checkoutDate;
 
 		if(checkinDate >= checkoutDate) { return false; }
 

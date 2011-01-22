@@ -1,5 +1,5 @@
-define([ "jquery", "hotel/list" ], function($) {
-		$.widget("booking.searchHotels", $.ui.controller, {
+define([ "jquery", "resthub.controller", "hotel/list" ], function($, Controller) {
+	Controller.extend("SearchHotelsController", {
 			options : {
 				searchVal : null,
 				size : 5,
@@ -7,9 +7,9 @@ define([ "jquery", "hotel/list" ], function($) {
 				delay : 1000,
 				searching : null
 			},
-			_init : function() {
+			init : function() {
 
-				this._render();
+				this.render();
 				var self = this;
 
 				$('#search-submit').bind('click', function() {
@@ -34,7 +34,7 @@ define([ "jquery", "hotel/list" ], function($) {
 				$('#search-value').attr('value', this.options.searchVal);
 
 				if (this.options.searchVal != '#home') {
-					$('#result').listHotels({
+					$('#result').list_hotels({
 						searchVal : self.options.searchVal,
 						size : self.options.size
 					});

@@ -13,7 +13,7 @@ define([ 'resthub.route', 'hotel/view' ], function() {
 	 * View hotel
 	 */
 	$.route('#/hotel/:id', function(params) {
-		$('#content').viewHotel({
+		$('#content').view_hotel({
 			id : params.id
 		});
 	});

@@ -27,7 +27,7 @@ define([ 'resthub.route', 'booking/book', 'booking/delete' ], function() {
 				id : params.id
 			}
 		};
-		$('#content').bookBooking({
+		$('#content').book_booking({
 			booking : booking,
 			mode : 'edit'
 		});
@@ -37,7 +37,7 @@ define([ 'resthub.route', 'booking/book', 'booking/delete' ], function() {
 	 * Booking confirmation
 	 */
 	$.route('#/booking/confirm', function() {
-		$('#content').bookBooking({
+		$('#content').book_booking({
 			mode : 'view'
 		});
 	});
@@ -48,7 +48,7 @@ define([ 'resthub.route', 'booking/book', 'booking/delete' ], function() {
 	$.route('#/booking/del/:id', function(params) {
 		var options = { id : params.id };
 		console.debug('#/booking/del/:id' + params.id);
-		$('#content').deleteBooking(options);
+		$('#content').delete_booking(options);
 	});
 
 });

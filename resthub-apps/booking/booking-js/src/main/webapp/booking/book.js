@@ -1,21 +1,21 @@
-define([ 'jquery', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function($, Hotel) {
-	$.widget("booking.bookBooking", $.ui.controller, {
-		options : {
-			hotelId : null,
-			booking : {},
-			template : 'booking/book.html',
-			mode : 'edit'
-		},
-		_init : function() {
-			this._render({
-				hotelId : this.options.hotelId
+define([ 'resthub.controller', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function(Controller, HotelRepository) {
+	Controller.extend("booking.bookBooking", {
+		
+		hotelId : null,
+		booking : {},
+		template : 'booking/book.html',
+		mode : 'edit',
+		
+		init : function() {
+			this.render({
+				hotelId : this.hotelId
 			});
-			this.options.booking = $.storage.getJSONItem('booking');
+			this.booking = $.storage.getJSONItem('booking');
 
-			if (this.options.booking == undefined) {
-				HotelRepository.read($.proxy(this, '_initBookingData'), this.options.hotelId);
+			if (this.booking == undefined) {
+				HotelRepository.read($.proxy(this, '_initBookingData'), this.hotelId);
 			} else {
-				this._displayBookingView(this.options.booking);
+				this._displayBookingView(this.booking);
 			}
 		},
 		/**
@@ -23,23 +23,23 @@ define([ 'jquery', 'repositories/hotel.repository', 'booking/view', 'booking/edi
 		 * function creates a booking with user and hotel...
 		 */
 		_initBookingData : function(hotel) {
-			this.options.booking = {
+			this.booking = {
 				user : $.storage.getJSONItem('user'),
 				hotel : hotel
 			};
-			$.storage.setJSONItem('booking', this.options.booking);
-			this._displayBookingView(this.options.booking);
+			$.storage.setJSONItem('booking', this.booking);
+			this._displayBookingView(this.booking);
 		},
 		_displayBookingView : function() {
 
 			var self = this;
 
 			$('#hotel-data').viewHotel({
-				id : self.options.booking.hotel.id,
+				id : self.booking.hotel.id,
 				only_data : true
 			});
 
-			if (this.options.mode == 'edit') {
+			if (this.mode == 'edit') {
 				this._switchToEdit();
 			} else {
 				this._switchToView();
@@ -49,16 +49,16 @@ define([ 'jquery', 'repositories/hotel.repository', 'booking/view', 'booking/edi
 			var self = this;
 			console.log('Booking workflow : edit mode.');
 
-			$('#booking-data').editBooking({
-				booking : self.options.booking
+			$('#booking-data').edit_booking({
+				booking : self.booking
 			});
 
 		},
 		_switchToView : function() {
 			var self = this;
 			console.log('Booking workflow : confirmation mode.');
-			$('#booking-data').viewBooking({
-				booking : self.options.booking,
+			$('#booking-data').view_booking({
+				booking : self.booking,
 				mode : 'confirm'
 			});
 		}

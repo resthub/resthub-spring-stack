@@ -13,7 +13,7 @@ define([ "jquery", "routes/user.routes", "routes/booking.routes",
 			if ($.storage.getJSONItem('user') != null) {
 				$.route('#/home');
 			} else {
-				$('#content').userLogin();
+				$('#content').user_login();
 			}
 		});
 		

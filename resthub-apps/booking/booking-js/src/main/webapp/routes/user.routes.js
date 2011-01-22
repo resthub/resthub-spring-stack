@@ -36,14 +36,14 @@ define([ 'resthub.route', 'user/login', 'user/register', 'user/edit' ], function
 	 * User register
 	 */
 	$.route('#/register', function() {
-		$('#content').userRegister();
+		$('#content').user_register();
 	});
 
 	/**
 	 * Update user
 	 */
 	$.route('#/settings', function() {
-		$('#content').editUser();
+		$('#content').edit_user();
 	});
 
 	/**

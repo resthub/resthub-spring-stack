@@ -119,7 +119,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 		}
 
-		this._renderAxis = function(target) {
+		this.renderAxis = function(target) {
 
 			target = target || this.element;
 
@@ -156,7 +156,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 		};
 
 		//TODO: make renderAxis a prototype function
-		this._renderAxis(this.element);
+		this.renderAxis(this.element);
 
 		this._handles = $('.ui-resizable-handle', this.element)
 			.disableSelection();
@@ -250,7 +250,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 		if ($.browser.opera && (/relative/).test(el.css('position')))
 			el.css({ position: 'relative', top: 'auto', left: 'auto' });
 
-		this._renderProxy();
+		this.renderProxy();
 
 		var curleft = num(this.helper.css('left')), curtop = num(this.helper.css('top'));
 
