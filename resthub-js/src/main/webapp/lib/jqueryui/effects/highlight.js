@@ -11,7 +11,7 @@ define('jqueryui/effects/highlight', ['jquery','jqueryui/effects/core'], functio
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.effects.highlight = function(o) {
 	return this.queue(function() {

@@ -14,7 +14,7 @@ define('jqueryui/droppable', ['jquery','jqueryui/core','jqueryui/widget','jquery
  *	jquery.ui.mouse.js
  *	jquery.ui.draggable.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.widget("ui.droppable", {
 	widgetEventPrefix: "drop",

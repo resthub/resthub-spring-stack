@@ -13,7 +13,7 @@ define('jqueryui/autocomplete', ['jquery','jqueryui/core','jqueryui/widget','jqu
  *	jquery.ui.widget.js
  *	jquery.ui.position.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.widget( "ui.autocomplete", {
 	options: {
@@ -228,7 +228,7 @@ $.widget( "ui.autocomplete", {
 			this._initSource();
 		}
 		if ( key === "appendTo" ) {
-			this.menu.element.appendTo( $( value || "body", this.element[0].ownerDocument )[0] )
+			this.menu.element.appendTo( $( value || "body", this.element[0].ownerDocument )[0] );
 		}
 	},
 

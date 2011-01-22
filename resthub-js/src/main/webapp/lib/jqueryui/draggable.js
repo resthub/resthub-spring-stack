@@ -13,7 +13,7 @@ define('jqueryui/draggable', ['jquery','jqueryui/core','jqueryui/mouse','jqueryu
  *	jquery.ui.mouse.js
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.widget("ui.draggable", $.ui.mouse, {
 	widgetEventPrefix: "drag",

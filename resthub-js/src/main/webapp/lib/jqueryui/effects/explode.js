@@ -11,7 +11,7 @@ define('jqueryui/effects/explode', ['jquery','jqueryui/effects/core'], function 
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.effects.explode = function(o) {
 

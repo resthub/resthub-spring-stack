@@ -11,7 +11,7 @@ define('jqueryui/effects/fold', ['jquery','jqueryui/effects/core'], function (jQ
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.effects.fold = function(o) {
 

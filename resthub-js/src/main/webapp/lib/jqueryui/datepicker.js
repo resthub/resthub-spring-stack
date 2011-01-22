@@ -11,7 +11,7 @@ define('jqueryui/datepicker', ['jquery','jqueryui/core'], function (jQuery) {
  * Depends:
  *	jquery.ui.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.extend($.ui, { datepicker: { version: "1.8.7" } });
 
@@ -669,7 +669,7 @@ $.extend(Datepicker.prototype, {
 		inst.dpDiv.empty().append(this._generateHTML(inst));
 		var cover = inst.dpDiv.find('iframe.ui-datepicker-cover'); // IE6- only
 		if( !!cover.length ){ //avoid call to outerXXXX() when not in IE6
-			cover.css({left: -borders[0], top: -borders[1], width: inst.dpDiv.outerWidth(), height: inst.dpDiv.outerHeight()})
+			cover.css({left: -borders[0], top: -borders[1], width: inst.dpDiv.outerWidth(), height: inst.dpDiv.outerHeight()});
 		}
 		inst.dpDiv.find('button, .ui-datepicker-prev, .ui-datepicker-next, .ui-datepicker-calendar td a')
 				.bind('mouseout', function(){

@@ -13,7 +13,7 @@ define('jqueryui/selectable', ['jquery','jqueryui/core','jqueryui/mouse','jquery
  *	jquery.ui.mouse.js
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.widget("ui.selectable", $.ui.mouse, {
 	options: {

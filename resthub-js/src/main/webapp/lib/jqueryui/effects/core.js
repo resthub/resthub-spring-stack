@@ -8,7 +8,7 @@ define('jqueryui/effects/core', ['jquery'], function (jQuery) {
  *
  * http://docs.jquery.com/UI/Effects/
  */
-;jQuery.effects || (function($, undefined) {
+;jQuery.effects || (function($) {
 
 $.effects = {};
 

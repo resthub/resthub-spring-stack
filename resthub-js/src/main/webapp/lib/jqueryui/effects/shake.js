@@ -11,7 +11,7 @@ define('jqueryui/effects/shake', ['jquery','jqueryui/effects/core'], function (j
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.effects.shake = function(o) {
 

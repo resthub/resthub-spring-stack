@@ -11,7 +11,7 @@ define('jqueryui/effects/scale', ['jquery','jqueryui/effects/core'], function (j
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.effects.puff = function(o) {
 	return this.queue(function() {

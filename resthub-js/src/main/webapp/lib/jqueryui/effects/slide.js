@@ -11,7 +11,7 @@ define('jqueryui/effects/slide', ['jquery','jqueryui/effects/core'], function (j
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.effects.slide = function(o) {
 

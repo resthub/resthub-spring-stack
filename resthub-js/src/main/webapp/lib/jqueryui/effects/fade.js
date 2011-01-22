@@ -11,7 +11,7 @@ define('jqueryui/effects/fade', ['jquery','jqueryui/effects/core'], function (jQ
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.effects.fade = function(o) {
 	return this.queue(function() {

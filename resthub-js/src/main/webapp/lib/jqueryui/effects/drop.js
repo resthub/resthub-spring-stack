@@ -11,7 +11,7 @@ define('jqueryui/effects/drop', ['jquery','jqueryui/effects/core'], function (jQ
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.effects.drop = function(o) {
 

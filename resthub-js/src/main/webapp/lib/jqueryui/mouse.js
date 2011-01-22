@@ -11,7 +11,7 @@ define('jqueryui/mouse', ['jquery','jqueryui/widget'], function (jQuery) {
  * Depends:
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 $.widget("ui.mouse", {
 	options: {

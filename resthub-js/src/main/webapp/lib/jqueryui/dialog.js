@@ -17,7 +17,7 @@ define('jqueryui/dialog', ['jquery','jqueryui/core','jqueryui/widget','jqueryui/
  *	jquery.ui.position.js
  *	jquery.ui.resizable.js
  */
-(function( $, undefined ) {
+(function( $) {
 
 var uiDialogClasses =
 		'ui-dialog ' +
