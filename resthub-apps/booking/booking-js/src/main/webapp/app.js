@@ -3,21 +3,21 @@
  */
 define([ "jquery", "routes/user.routes", "routes/booking.routes",
 		"routes/hotel.routes", "resthub.controller", "console",
-		"route", "resthub.storage", "jquery.json",
+		"resthub.route", "resthub.storage", "jquery.json",
 		"jquery.ejs", "jquery.pnotify", "home" ], function($, UserRoutes,
 		BookingRoutes, HotelRoutes, Controller) {
 
 	$(document).ready(function() {
 					
-		route('#').bind(function() {
+		$.route('#/', function() {
 			if ($.storage.getJSONItem('user') != null) {
-				route('#/home').run();
+				$.route('#/home');
 			} else {
 				$('#content').userLogin();
 			}
 		});
 		
-		route('#/home').bind(function() {
+		$.route('#/home', function() {
 			$('#content').home();
 		});
 
@@ -28,7 +28,7 @@ define([ "jquery", "routes/user.routes", "routes/booking.routes",
 			type : 'POST'
 		});
 		
-		route('#').run();
+		$.route(location.hash);
 
 	});
 

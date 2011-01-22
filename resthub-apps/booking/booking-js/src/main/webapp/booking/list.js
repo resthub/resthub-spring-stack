@@ -1,4 +1,4 @@
-define([ 'jquery.controller', 'dao/booking.dao' ], function() {
+define([ 'jquery.controller', 'repositories/booking.repository' ], function() {
 	(function($) {
 
 		$.widget("booking.listBookings", $.ui.controller, {
@@ -8,7 +8,7 @@ define([ 'jquery.controller', 'dao/booking.dao' ], function() {
 			_init : function() {
 				var user = $.storage.getJSONItem('user');
 				if (user.id) {
-					BookingDao.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
+					BookingRepository.read($.proxy(this, '_displayBookings'), 'user/'+ user.id);
 				}
 			},
 			_displayBookings : function(bookings) {

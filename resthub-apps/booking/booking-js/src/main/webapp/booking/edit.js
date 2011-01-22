@@ -36,7 +36,7 @@ $.widget("booking.editBooking", $.ui.controller, {
 			// Valid dates and checkinDate > checkoutDate
 			if (daysBetween) {
 				$.storage.setItem('daysBetween', daysBetween);
-				route('#/booking/confirm').run();
+				$.route('#/booking/confirm');
 			}
 		}
 	},

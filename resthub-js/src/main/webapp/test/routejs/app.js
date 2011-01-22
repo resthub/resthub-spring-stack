@@ -1,25 +1,34 @@
-define(['jquery', 'jquery.tinypubsub', 'route', 'console'], function() {
-
+define(["jquery", "resthub.route"], function($) {
+	
 	$(document).ready(function(){
-		route('#').bind(function(){
-			$('#main').html('<p>Home</p>');
-			console.info('home');
+		
+		$.route('#', function() {
+			$('#main').html('<span>Root</span>');
 		});
-		route('#/route1').bind(function(){
-			$('#main').html('<p>Route 1</p>');
-			console.warn('route 1');
+				
+		$.route('#/login', function() {
+			$('#main').html('<span>Hello you</span>');
 		});
-		route('#/route2').bind(function(){
-			$('#main').html('<p>Route 2</p>');
-			console.log('route 2');
+		
+		// Test multiple callbacks on the same route
+		$.route('#/login', function() {
+			alert('Hello you');
 		});
-		route('#/route3/:id').bind(function(params){
-			$('#main').html('<p>Route 3, id = </p>' + params.id);
-			console.log('route 3, id = ' + params.id);
+		
+		$.route('#/logout', function() {
+			$('#main').html('<span>See ya !</span>');
 		});
-		route('#/route4/test/:id').bind(function(params){
-			$('#main').html('<p>Route 4, id = </p>' + params.id);
-			console.log('route 4, id = ' + params.id);
+		
+		$.route('#/link/:id', function(p) {
+			$('#main').html('Link ' + p.id);
 		});
+		
+		$.route('#/toto/:id/tutu/:id2', function(p) {
+			$('#main').html('Toto ' + p.id + ', tutu ' + p.id2);
+		});
+		
+		$.route(location.hash);
+				
 	});
+
 });

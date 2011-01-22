@@ -1,4 +1,4 @@
-define([ 'jquery', 'resthub.controller', 'dao/hotel.dao' ], function($, Controller) {
+define([ 'jquery', 'resthub.controller', 'repositories/hotel.repository' ], function($, Controller) {
 	(function($) {
 
 		$.widget("booking.listHotels", $.ui.controller, {
@@ -9,7 +9,7 @@ define([ 'jquery', 'resthub.controller', 'dao/hotel.dao' ], function($, Controll
 				template : 'hotel/list.html'
 			},
 			_init : function() {
-				HotelDao.find($.proxy(this, '_displayHotels'), this.options.searchVal, this.options.page,
+				HotelRepository.find($.proxy(this, '_displayHotels'), this.options.searchVal, this.options.page,
 						this.options.size);
 			},
 			_displayHotels : function(result) {

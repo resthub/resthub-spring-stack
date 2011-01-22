@@ -1,4 +1,4 @@
-define([ 'jquery.tinypubsub', 'route', 'booking/book', 'booking/delete' ], function() {
+define([ 'resthub.route', 'booking/book', 'booking/delete' ], function() {
 
 	/* BEGIN EVENTS */
 
@@ -12,7 +12,7 @@ define([ 'jquery.tinypubsub', 'route', 'booking/book', 'booking/delete' ], funct
 
 	$.subscribe('booking-deleted', function() {
 		$.pnotify('Your booking has been deleted.');
-		route('#/home').run();
+		$.route('#/home');
 	});
 
 	/* END EVENTS */
@@ -20,7 +20,7 @@ define([ 'jquery.tinypubsub', 'route', 'booking/book', 'booking/delete' ], funct
 	/**
 	 * Book hotel identified by 'id'
 	 */
-	route('#/booking/hotel/:id').bind(function(params) {
+	$.route('#/booking/hotel/:id', function(params) {
 		console.debug('#/booking/hotel/:id' + params.id);
 		var booking = {
 			hotel : {
@@ -36,7 +36,7 @@ define([ 'jquery.tinypubsub', 'route', 'booking/book', 'booking/delete' ], funct
 	/**
 	 * Booking confirmation
 	 */
-	route('#/booking/confirm').bind(function() {
+	$.route('#/booking/confirm', function() {
 		$('#content').bookBooking({
 			mode : 'view'
 		});
@@ -45,7 +45,7 @@ define([ 'jquery.tinypubsub', 'route', 'booking/book', 'booking/delete' ], funct
 	/**
 	 * Delete booking
 	 */
-	route('#/booking/del/:id').bind(function(params) {
+	$.route('#/booking/del/:id', function(params) {
 		var options = { id : params.id };
 		console.debug('#/booking/del/:id' + params.id);
 		$('#content').deleteBooking(options);

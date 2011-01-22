@@ -1,4 +1,4 @@
-define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], function($, Booking ) {
+define([ 'jquery', 'repositories/booking.repository', 'resthub.controller', 'jquery.json',  ], function($, Booking ) {
 	$.widget("booking.viewBooking", $.ui.controller, {
 		options : {
 			booking : {},
@@ -8,7 +8,7 @@ define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], f
 		_init : function() {
 
 			if (this.options.mode == 'view') {
-				BookingDao.read($.proxy(this, '_displayViewMode'), this.options.booking.id);
+				BookingRepository.read($.proxy(this, '_displayViewMode'), this.options.booking.id);
 			} else {
 				this._displayConfirmMode();
 			}
@@ -39,15 +39,15 @@ define([ 'jquery', 'dao/booking.dao', 'resthub.controller', 'jquery.json',  ], f
 			$('input#book-confirm').bind('click', $.proxy(this, '_sendBooking'));
 		},
 		_reviseBooking : function() {
-			route('#/booking/hotel/' + this.options.booking.hotel.id).run();
+			$.route('#/booking/hotel/' + this.options.booking.hotel.id);
 		},
 		_sendBooking : function() {
-			BookingDao.save($.proxy(this, '_endOfBooking'), $.toJSON(this.options.booking));
+			BookingRepository.save($.proxy(this, '_endOfBooking'), $.toJSON(this.options.booking));
 		},
 		/* Go back home page and trigger end-of-booking event */
 		_endOfBooking : function(booking) {
 			$.storage.setJSONItem('booking', booking);
-			route('#/home').run();
+			$.route('#/home');
 			$.publish('end-of-booking');
 		}
 	});

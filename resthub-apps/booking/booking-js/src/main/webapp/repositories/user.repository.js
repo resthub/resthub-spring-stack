@@ -1,6 +1,6 @@
-define([ 'resthub.dao' ], function(Dao) {
+define([ 'resthub.repository' ], function(Repository) {
 
-	return Dao.extend("UserDao", {
+	return Repository.extend("UserRepository", {
 
 		root : 'api/user/',
 

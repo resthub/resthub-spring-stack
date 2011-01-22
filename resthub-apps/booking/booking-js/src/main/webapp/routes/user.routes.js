@@ -1,4 +1,4 @@
-define([ 'jquery.tinypubsub', 'route', 'user/login', 'user/register', 'user/edit' ], function() {
+define([ 'resthub.route', 'user/login', 'user/register', 'user/edit' ], function() {
 
 	/* BEGIN EVENTS */
 	
@@ -9,14 +9,14 @@ define([ 'jquery.tinypubsub', 'route', 'user/login', 'user/register', 'user/edit
 		});
 	});
 
-	$.subscribe('user-registered', function() {
+	$.subscribe('user-registered', function(user) {
 		$.pnotify('Your are now registered ' + user.fullname + ' !');
-		route('#').run();
+		$.route('#/');
 	});
 
 	$.subscribe('password-updated',  function() {
 		$.pnotify('Your password has been updated.');
-		route('#/home').run();
+		$.route('#/home');
 	});
 
 	$.subscribe('user-logged-in', function() {
@@ -26,8 +26,8 @@ define([ 'jquery.tinypubsub', 'route', 'user/login', 'user/register', 'user/edit
 
 	$.subscribe('user-logged-out', function() {
 		$.pnotify('See ya !');
-		this.storage.clear();
-		route('#').run();
+		$.storage.clear();
+		$.route('#');
 	});
 
 	/* END EVENTS */
@@ -35,21 +35,21 @@ define([ 'jquery.tinypubsub', 'route', 'user/login', 'user/register', 'user/edit
 	/**
 	 * User register
 	 */
-	route('#/register').bind(function() {
+	$.route('#/register', function() {
 		$('#content').userRegister();
 	});
 
 	/**
 	 * Update user
 	 */
-	route('#/settings', function() {
+	$.route('#/settings', function() {
 		$('#content').editUser();
 	});
 
 	/**
 	 * User logout
 	 */
-	route('#/logout', function() {
+	$.route('#/logout', function() {
 		$.publish('user-logged-out');
 	});
 

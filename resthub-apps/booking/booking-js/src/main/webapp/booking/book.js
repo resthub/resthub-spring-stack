@@ -1,4 +1,4 @@
-define([ 'jquery', 'dao/hotel.dao', 'booking/view', 'booking/edit' ], function($, Hotel) {
+define([ 'jquery', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function($, Hotel) {
 	$.widget("booking.bookBooking", $.ui.controller, {
 		options : {
 			hotelId : null,
@@ -13,7 +13,7 @@ define([ 'jquery', 'dao/hotel.dao', 'booking/view', 'booking/edit' ], function($
 			this.options.booking = $.storage.getJSONItem('booking');
 
 			if (this.options.booking == undefined) {
-				HotelDao.read($.proxy(this, '_initBookingData'), this.options.hotelId);
+				HotelRepository.read($.proxy(this, '_initBookingData'), this.options.hotelId);
 			} else {
 				this._displayBookingView(this.options.booking);
 			}

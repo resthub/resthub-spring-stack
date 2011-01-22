@@ -1,5 +1,5 @@
-define([ 'resthub.controller', 'dao/hotel.dao' ],
-		function(Controller, HotelDao) {
+define([ 'resthub.controller', 'repositories/hotel.repository' ],
+		function(Controller, HotelRepository) {
 			$.widget("booking.viewHotel", $.ui.controller, {
 				options : {
 					id : null,
@@ -8,7 +8,7 @@ define([ 'resthub.controller', 'dao/hotel.dao' ],
 				},
 				_init : function() {
 					if (!isNaN(this.options.id)) {
-						HotelDao.read($.proxy(this, '_displayHotel'),
+						HotelRepository.read($.proxy(this, '_displayHotel'),
 								this.options.id);
 					}
 				},
@@ -25,7 +25,7 @@ define([ 'resthub.controller', 'dao/hotel.dao' ],
 							user : $.storage.getJSONItem('user')
 						};
 						$.storage.setJSONItem('booking', booking);
-						route('#/booking/hotel/'+ id).run();
+						$.route('#/booking/hotel/'+ id);
 					});
 				}
 			});

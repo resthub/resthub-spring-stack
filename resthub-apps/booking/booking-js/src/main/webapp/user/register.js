@@ -1,4 +1,4 @@
-define([ 'resthub.controller', 'dao/user.dao', 'jquery.json' ], function(Controller, UserDao) {
+define([ 'resthub.controller', 'repositories/user.repository', 'jquery.json' ], function(Controller, UserRepository) {
 		$.widget("booking.userRegister", $.ui.controller, {
 			options : {
 				template : 'user/register.html'
@@ -16,7 +16,7 @@ define([ 'resthub.controller', 'dao/user.dao', 'jquery.json' ], function(Control
 						password : $('input[name=password]').val(),
 						fullname : $('input[name=name]').val()
 					};
-					UserDao.save($.proxy(self, '_userRegistered'), $.toJSON(user));
+					UserRepository.save($.proxy(self, '_userRegistered'), $.toJSON(user));
 				});
 			},
 			_userRegistered : function(user) {

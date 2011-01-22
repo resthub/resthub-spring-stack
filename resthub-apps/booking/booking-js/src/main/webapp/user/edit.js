@@ -1,4 +1,4 @@
-define([ 'jquery', 'dao/user.dao', 'resthub.controller', 'jquery.json' ], function($, UserDao, Controller) {
+define([ 'jquery', 'repositories/user.repository', 'resthub.controller', 'jquery.json' ], function($, UserRepository, Controller) {
 	$.widget("booking.editUser", $.ui.controller, {
 		options : {
 			user : null,
@@ -13,7 +13,7 @@ define([ 'jquery', 'dao/user.dao', 'resthub.controller', 'jquery.json' ], functi
 			if ($('input[name=password]').val() == $('input[name=verifyPassword]').val()) {
 				this.options.user = $.storage.getJSONItem('user');
 				this.options.user.password = $('input[name=password]').val();
-				UserDao.update($.proxy(this, '_passwordUpdated'), this.options.user.id, $.toJSON(this.options.user));
+				UserRepository.update($.proxy(this, '_passwordUpdated'), this.options.user.id, $.toJSON(this.options.user));
 			}
 		},
 		_passwordUpdated : function() {

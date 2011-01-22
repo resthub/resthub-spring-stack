@@ -1,6 +1,6 @@
 define([ 'jquery', 'jquery.class' ], function($, Class) {
 
-	return Class.extend("Dao", {
+	return Class.extend("Repository", {
 	/* @static */
 
 		defaults : {

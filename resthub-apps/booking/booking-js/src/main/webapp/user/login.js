@@ -1,4 +1,4 @@
-define([ 'require', 'resthub.controller', 'jquery.json' ], function(require) {
+define([ 'require', 'resthub.controller', 'repositories/user.repository', 'jquery.json' ], function(require) {
 
 	$.widget("booking.userLogin", $.ui.controller, {
 		options : {
@@ -15,7 +15,7 @@ define([ 'require', 'resthub.controller', 'jquery.json' ], function(require) {
 					password : $('input[name="password"]').val()
 				};
 				require(['dao/user.dao'], function() {
-					UserDao.check($.proxy(self, '_userLoggedIn'), $.toJSON(user));
+					UserRepository.check($.proxy(self, '_userLoggedIn'), $.toJSON(user));
 				});
 				return false; 
 			});
@@ -23,7 +23,7 @@ define([ 'require', 'resthub.controller', 'jquery.json' ], function(require) {
 		},
 		_userLoggedIn : function(user) {
 			$.storage.setJSONItem('user', user);
-			route('#/home').run();
+			$.route('#/home');
 			$.publish('user-logged-in');
 		}
 	});

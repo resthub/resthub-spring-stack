@@ -1,4 +1,4 @@
-define([ 'jquery.tinypubsub', 'route', 'hotel/view' ], function() {
+define([ 'resthub.route', 'hotel/view' ], function() {
 
 	/* BEGIN EVENTS */
 
@@ -12,7 +12,7 @@ define([ 'jquery.tinypubsub', 'route', 'hotel/view' ], function() {
 	/**
 	 * View hotel
 	 */
-	route('#/hotel/:id').bind(function(params) {
+	$.route('#/hotel/:id', function(params) {
 		$('#content').viewHotel({
 			id : params.id
 		});
