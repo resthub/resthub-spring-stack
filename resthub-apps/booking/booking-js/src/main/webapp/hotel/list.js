@@ -4,6 +4,7 @@ define([ 'resthub.controller', 'repositories/hotel.repository' ], function(Contr
 		page : 0,
 		size : 5,
 		template : 'hotel/list.html',
+		
 		init : function() {
 			HotelRepository.find($.proxy(this, '_displayHotels'), this.searchVal, this.page, this.size);
 		},
@@ -16,7 +17,7 @@ define([ 'resthub.controller', 'repositories/hotel.repository' ], function(Contr
 		},
 		_nextPage : function() {
 			this.page++;
-			this._init();
+			this.init();
 		}
 	});
 });

@@ -2,6 +2,7 @@ define([ 'resthub.controller', 'repositories/booking.repository' ], function(Con
 
 	return Controller.extend("ListBookingsController", {
 		template : 'booking/list.html',
+		
 		init : function() {
 			var user = $.storage.getJSONItem('user');
 			if (user.id) {

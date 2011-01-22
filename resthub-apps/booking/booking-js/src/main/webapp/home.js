@@ -7,8 +7,6 @@ define([ 'jquery', 'resthub.controller', 'booking/list', 'hotel/search', 'resthu
 
 		init : function() {
 			document.title = 'Home';
-			this.searchVal = $('#search-value').val();
-			this.size = $('#search-size').val();
 			this.render();
 
 			$('#search').search_hotels({
