@@ -69,6 +69,7 @@ define([ 'jquery', 'jquery.class', 'jquery.ejs' ], function($, Class) {
 			
 			setup: function( element, options ) {
 				this.element = $(element);
+				$.extend( true, this, options );
 			},
 			
 			/**

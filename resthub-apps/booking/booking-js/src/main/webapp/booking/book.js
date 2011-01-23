@@ -1,5 +1,5 @@
 define([ 'resthub.controller', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function(Controller, HotelRepository) {
-	Controller.extend("booking.bookBooking", {
+	Controller.extend("BookBookingController", {
 		
 		hotelId : null,
 		booking : {},
@@ -34,7 +34,7 @@ define([ 'resthub.controller', 'repositories/hotel.repository', 'booking/view', 
 
 			var self = this;
 
-			$('#hotel-data').viewHotel({
+			$('#hotel-data').view_hotel({
 				id : self.booking.hotel.id,
 				only_data : true
 			});
