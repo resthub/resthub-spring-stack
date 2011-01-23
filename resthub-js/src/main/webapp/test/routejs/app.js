@@ -1,4 +1,4 @@
-define(["jquery", "resthub.route"], function($) {
+define(["route"], function() {
 	
 	$(document).ready(function(){
 		

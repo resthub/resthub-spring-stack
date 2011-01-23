@@ -1,4 +1,4 @@
-define([ 'resthub.controller', 'repositories/user.repository', 'jquery.json' ], function(Controller, UserRepository) {
+define([ 'controller', 'repositories/user.repository' ], function(Controller, UserRepository) {
 		Controller.extend("UserRegisterController", {
 			template : 'user/register.html',
 			init : function() {

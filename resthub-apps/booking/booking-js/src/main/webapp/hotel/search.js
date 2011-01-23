@@ -1,4 +1,4 @@
-define([ "jquery", "resthub.controller", "hotel/list" ], function($, Controller) {
+define([ 'controller', 'hotel/list' ], function(Controller) {
 	Controller.extend("SearchHotelsController", {
 		
 		searchVal : null,

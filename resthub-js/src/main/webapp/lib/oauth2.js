@@ -6,7 +6,7 @@
  * Does not manage the access token storage, nor that the protocol errors.
  * Users could thus plug their own storage and error management solutions. 
  */
-define(['jquery','jquery.controller'], function(jQuery) {
+define(['jquery','controller'], function(jQuery) {
 
 	jQuery.extend({   
 		

@@ -1,4 +1,4 @@
-define([ 'jquery', 'repositories/user.repository', 'resthub.controller', 'jquery.json' ], function($, UserRepository, Controller) {
+define([ 'controller','repositories/user.repository' ], function(Controller, UserRepository) {
 	Controller.extend("EditUserController", {
 		
 		user : null,

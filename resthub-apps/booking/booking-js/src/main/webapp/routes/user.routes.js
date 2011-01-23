@@ -1,4 +1,4 @@
-define([ 'resthub.route', 'user/login', 'user/register', 'user/edit' ], function() {
+define([ 'user/login', 'user/register', 'user/edit' ], function() {
 
 	/* BEGIN EVENTS */
 	

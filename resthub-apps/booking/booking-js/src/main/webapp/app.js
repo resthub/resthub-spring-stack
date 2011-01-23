@@ -1,11 +1,9 @@
 /**
  * Routes
  */
-define([ "jquery", "routes/user.routes", "routes/booking.routes",
-		"routes/hotel.routes", "resthub.controller", "console",
-		"resthub.route", "resthub.storage", "jquery.json",
-		"jquery.ejs", "jquery.pnotify", "home" ], function($, UserRoutes,
-		BookingRoutes, HotelRoutes, Controller) {
+define([ 'resthub', 'routes/user.routes', 'routes/booking.routes',
+		'routes/hotel.routes', 'jquery/jquery.pnotify', 'home' ],
+		function($, UserRoutes, BookingRoutes, HotelRoutes, Controller) {
 
 	$(document).ready(function() {
 					

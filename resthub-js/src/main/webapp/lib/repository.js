@@ -1,16 +1,36 @@
-define([ 'jquery', 'jquery.class' ], function($, Class) {
+define([ 'jquery', 'class' ], function($, Class) {
 
+	/**
+	 * Repository class are designed to send ajax requests in order to retreive/send data from/to server
+	 * Since they are stateless, they only define static vars and functions
+	 * Default data format is json
+	 * 
+	 * Usage :
+	 * 
+	 * 		Repository.extend("BookingRepository", {
+	 *			root : 'api/booking/'
+	 *		}, {});
+	 *
+	 *  	BookingRepository.read(callback, id);
+	 *  
+	 *  Be carefull about 2 points :
+	 *   - Don't forget the second pair of {} in your repository declaration, it means that vars and functions declared in
+	 *     the first one are static. Read Class JSdoc for more details
+	 *   - you may need to use $.proxy(this, 'callback') instead just callback if you use "this" object in your callback
+	 */
 	return Class.extend("Repository", {
-	/* @static */
 
 		defaults : {
 			dataType : 'json',
 			contentType : 'application/json; charset=utf-8'
 		},
 
-		// default root
+		/**
+		 * Default URL root for ajax requests
+		 * For example, 'api/users'
+		 **/
 		root : '',
-		//singleton methods
+		
 		init : function() {
 			this.root = this.root || '';
 		},
@@ -28,7 +48,6 @@ define([ 'jquery', 'jquery.class' ], function($, Class) {
 			return this._put(this.root + id, callback, data);
 		},
 
-		//will probably not be overriden
 		_post : function _post(url, callback, data) {
 			this._ajax(url, callback, 'POST', data);
 			return this;

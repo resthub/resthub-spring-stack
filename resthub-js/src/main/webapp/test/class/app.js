@@ -1,4 +1,4 @@
-define(['jquery.class'], function(Class) {
+define(['class'], function(Class) {
 
 	var Resource = Class.extend({
 	  init: function(name) {

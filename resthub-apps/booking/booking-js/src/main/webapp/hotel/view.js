@@ -1,4 +1,4 @@
-define([ 'resthub.controller', 'repositories/hotel.repository' ], function(Controller, HotelRepository) {
+define([ 'controller', 'repositories/hotel.repository' ], function(Controller, HotelRepository) {
 	Controller.extend("ViewHotelController", {
 		id : null,
 		template : 'hotel/view.html',

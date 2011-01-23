@@ -1,4 +1,4 @@
-define(['resthub.storage'], function() {
+define(['storage'], function() {
 
 	$(document).ready(function(){
 		

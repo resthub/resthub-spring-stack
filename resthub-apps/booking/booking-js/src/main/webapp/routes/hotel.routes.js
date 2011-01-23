@@ -1,4 +1,4 @@
-define([ 'resthub.route', 'hotel/view' ], function() {
+define([ 'hotel/view' ], function() {
 
 	/* BEGIN EVENTS */
 

@@ -1,4 +1,4 @@
-define([ 'resthub.controller', 'repositories/user.repository', 'jquery.json' ], function(Controller) {
+define([ 'controller', 'repositories/user.repository' ], function(Controller, UserRepository) {
 
 	return Controller.extend("UserLoginController", {
 		template: 'user/login.html',

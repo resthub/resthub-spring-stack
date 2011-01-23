@@ -1,4 +1,4 @@
-define([ 'resthub.repository' ], function(Repository) {
+define([ 'repository' ], function(Repository) {
 
 	return Repository.extend("UserRepository", {
 

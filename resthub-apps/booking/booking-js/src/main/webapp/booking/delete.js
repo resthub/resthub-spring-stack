@@ -1,4 +1,4 @@
-define([ 'resthub.controller', 'repositories/booking.repository' ], function(Controller, BookingRepository) {
+define([ 'controller', 'repositories/booking.repository' ], function(Controller, BookingRepository) {
 	return Controller.extend("DeleteBookingController", {
 		id : null,
 		

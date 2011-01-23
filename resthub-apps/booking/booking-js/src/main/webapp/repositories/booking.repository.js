@@ -1,8 +1,5 @@
-define([ 'resthub.repository' ], function(Repository) {
-
+define([ 'repository' ], function(Repository) {
 	return Repository.extend("BookingRepository", {
-		
 		root : 'api/booking/'
-
 	}, {});
 });

@@ -1,4 +1,4 @@
-define([ 'resthub.controller', 'repositories/booking.repository' ], function(Controller) {
+define([ 'controller', 'repositories/booking.repository' ], function(Controller, BookingRepository) {
 
 	return Controller.extend("ListBookingsController", {
 		template : 'booking/list.html',

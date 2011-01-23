@@ -1,4 +1,4 @@
-define(['resthub.controller','jqueryui/datepicker','jquery.validate'], function(Controller) {
+define(['controller', 'jqueryui/datepicker','jquery/jquery.validate'], function(Controller) {
 
 
 return Controller.extend("EditBookingController", {

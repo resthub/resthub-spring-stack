@@ -1,4 +1,4 @@
-define([ 'jquery', 'jquery.json' ], function() {
+define([ 'jquery', 'json' ], function() {
 (function($) {
 
     if(!localStorage) {

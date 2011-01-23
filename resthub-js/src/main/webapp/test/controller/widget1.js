@@ -1,4 +1,4 @@
-define(['jquery', 'resthub.controller'], function($, Controller) {
+define(['controller'], function(Controller) {
 	Controller.extend("Widget1", {
 			
 		init: function() {

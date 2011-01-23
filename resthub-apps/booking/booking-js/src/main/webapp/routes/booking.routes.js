@@ -1,4 +1,4 @@
-define([ 'resthub.route', 'booking/book', 'booking/delete' ], function() {
+define([ 'booking/book', 'booking/delete' ], function() {
 
 	/* BEGIN EVENTS */
 

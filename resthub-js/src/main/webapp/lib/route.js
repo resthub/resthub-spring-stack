@@ -1,6 +1,28 @@
-define(['jquery', 'jquery.tinypubsub'], function (jQuery) {
+define(['jquery', 'pubsub'], function (jQuery) {
 	(function($) {
 		
+		/**
+		 * Define or run a route depending parameters.
+		 * A route is defined by a location hash, that will trigger the callback passed in parameter
+		 * 
+		 * On recent browser, the hashchange event is used. On other browser, a timer check if location.hash has changed
+		 * or not in order to determine what route should be runned
+		 * 
+		 * Define a route with the matching callback
+		 * $.route('#/route1', function() {
+		 * 	console.log('Run route 1');
+		 * });
+		 * 
+		 * Define a route with parameter
+		 * $.route('#/route2/:id', function(params) {
+		 * 	console.log('Run route 2 with parameter id = ' + params.id);
+		 * });
+		 * 
+		 * Run a route
+		 * When a route is runned, thet run-route event is dispatched (could be catched thanks to $.subscribe())
+		 * $.route('#/route1');
+		 * 
+		 */
 		$.route = function() {
 			
 			if(arguments.length == 0 || arguments.length > 2) {
