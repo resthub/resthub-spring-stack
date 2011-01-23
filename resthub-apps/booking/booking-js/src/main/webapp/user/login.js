@@ -21,7 +21,7 @@ define([ 'resthub.controller', 'repositories/user.repository', 'jquery.json' ], 
 			
 		},
 		_userLoggedIn : function(user) {
-			$.storage.setJSONItem('user', user);
+			$.storage.set('user', user);
 			$.route('#/home');
 			$.publish('user-logged-in');
 		}

@@ -13,20 +13,20 @@ define([ "jquery", "resthub.controller", "hotel/list" ], function($, Controller)
 			var self = this;
 
 			$('#search-submit').bind('click', function() {
-				$.storage.setItem('search-offset', 0);
+				$.storage.set('search-offset', 0);
 				$.publish('hotel-search');
 			});
 
 			$('#search-value').bind('keyup', function() {
 				clearTimeout(self.searching);
 				self.searching = setTimeout(function() {
-					$.storage.setItem('search-offset', 0);
+					$.storage.set('search-offset', 0);
 					$.publish('hotel-search');
 				}, self.delay);
 			});
 
 			$('#search-size').bind('change', function() {
-				$.storage.setItem('search-offset', 0);
+				$.storage.set('search-offset', 0);
 				$.publish('hotel-search');
 			});
 

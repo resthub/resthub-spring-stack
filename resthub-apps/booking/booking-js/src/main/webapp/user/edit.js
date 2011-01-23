@@ -11,13 +11,13 @@ define([ 'jquery', 'repositories/user.repository', 'resthub.controller', 'jquery
 		},
 		_changePassword : function() {
 			if ($('input[name=password]').val() == $('input[name=verifyPassword]').val()) {
-				this.user = $.storage.getJSONItem('user');
+				this.user = $.storage.get('user');
 				this.user.password = $('input[name=password]').val();
 				UserRepository.update($.proxy(this, '_passwordUpdated'), this.user.id, $.toJSON(this.user));
 			}
 		},
 		_passwordUpdated : function() {
-			$.storage.setJSONItem('user', this.user);
+			$.storage.set('user', this.user);
 			$.publish('password-updated');
 		}
 	});

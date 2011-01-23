@@ -34,14 +34,14 @@ return Controller.extend("EditBookingController", {
 			
 			// Valid dates and checkinDate > checkoutDate
 			if (daysBetween) {
-				$.storage.setItem('daysBetween', daysBetween);
+				$.storage.set('daysBetween', daysBetween);
 				$.route('#/booking/confirm');
 			}
 		}
 	},
 	/* Put form data in session */
 	_formToSession: function() {
-		var booking = $.storage.getJSONItem('booking');
+		var booking = $.storage.get('booking');
 		booking.checkinDate = $('input[name=checkinDate]').val();
 		booking.checkoutDate = $('input[name=checkoutDate]').val();
 		booking.beds = $('select[name=beds] option:selected').val();
@@ -51,12 +51,12 @@ return Controller.extend("EditBookingController", {
 		booking.creditCardName = $('input[name=creditCardName]').val();
 		booking.creditCardExpiryMonth = $('select[name=creditCardExpiryMonth] option:selected').val();
 		booking.creditCardExpiryYear = $('select[name=creditCardExpiryYear] option:selected').val();
-		$.storage.setJSONItem('booking', booking);
+		$.storage.set('booking', booking);
 		this.booking = booking;
 	},
 	/* Display session data in booking form (after reload or revise button click) */
 	_sessionToForm: function() {
-		var booking = $.storage.getJSONItem('booking');
+		var booking = $.storage.get('booking');
 		$('input[name=checkinDate]').val(booking.checkinDate);
 		$('input[name=checkoutDate]').val(booking.checkoutDate);
 		$('select[name=beds] option[value='+ booking.beds +']').attr('selected', 'selected');

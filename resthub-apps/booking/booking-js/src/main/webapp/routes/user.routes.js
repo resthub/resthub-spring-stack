@@ -3,7 +3,7 @@ define([ 'resthub.route', 'user/login', 'user/register', 'user/edit' ], function
 	/* BEGIN EVENTS */
 	
 	$.subscribe('run-route', function() {
-		var user = $.storage.getJSONItem('user');
+		var user = $.storage.get('user');
 		$('#header').render('header.html', {
 			user : user
 		});
@@ -20,7 +20,7 @@ define([ 'resthub.route', 'user/login', 'user/register', 'user/edit' ], function
 	});
 
 	$.subscribe('user-logged-in', function() {
-		var user = $.storage.getJSONItem('user');
+		var user = $.storage.get('user');
 		$.pnotify('Welcome ' + user.fullname + ' !');
 	});
 

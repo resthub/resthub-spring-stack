@@ -19,9 +19,9 @@ define([ 'resthub.controller', 'repositories/hotel.repository' ], function(Contr
 			$('input#book-request').bind('click', function() {
 				var booking = {
 					hotel : hotel,
-					user : $.storage.getJSONItem('user')
+					user : $.storage.get('user')
 				};
-				$.storage.setJSONItem('booking', booking);
+				$.storage.set('booking', booking);
 				$.route('#/booking/hotel/' + id);
 			});
 		}

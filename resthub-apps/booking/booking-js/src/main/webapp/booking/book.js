@@ -10,7 +10,7 @@ define([ 'resthub.controller', 'repositories/hotel.repository', 'booking/view', 
 			this.render({
 				hotelId : this.hotelId
 			});
-			this.booking = $.storage.getJSONItem('booking');
+			this.booking = $.storage.get('booking');
 
 			if (this.booking == undefined) {
 				HotelRepository.read($.proxy(this, '_initBookingData'), this.hotelId);
@@ -24,10 +24,10 @@ define([ 'resthub.controller', 'repositories/hotel.repository', 'booking/view', 
 		 */
 		_initBookingData : function(hotel) {
 			this.booking = {
-				user : $.storage.getJSONItem('user'),
+				user : $.storage.get('user'),
 				hotel : hotel
 			};
-			$.storage.setJSONItem('booking', this.booking);
+			$.storage.set('booking', this.booking);
 			this._displayBookingView(this.booking);
 		},
 		_displayBookingView : function() {

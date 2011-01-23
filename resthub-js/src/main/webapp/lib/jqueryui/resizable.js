@@ -13,7 +13,7 @@ define('jqueryui/resizable', ['jquery','jqueryui/core','jqueryui/mouse','jqueryu
  *	jquery.ui.mouse.js
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.widget("ui.resizable", $.ui.mouse, {
 	widgetEventPrefix: "resize",

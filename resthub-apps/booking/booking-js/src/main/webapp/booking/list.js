@@ -4,7 +4,7 @@ define([ 'resthub.controller', 'repositories/booking.repository' ], function(Con
 		template : 'booking/list.html',
 		
 		init : function() {
-			var user = $.storage.getJSONItem('user');
+			var user = $.storage.get('user');
 			if (user.id) {
 				BookingRepository.read($.proxy(this, '_displayBookings'), 'user/' + user.id);
 			}

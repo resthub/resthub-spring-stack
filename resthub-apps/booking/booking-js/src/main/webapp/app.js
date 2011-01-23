@@ -10,7 +10,7 @@ define([ "jquery", "routes/user.routes", "routes/booking.routes",
 	$(document).ready(function() {
 					
 		$.route('#/', function() {
-			if ($.storage.getJSONItem('user') != null) {
+			if ($.storage.get('user') != null) {
 				$.route('#/home');
 			} else {
 				$('#content').user_login();

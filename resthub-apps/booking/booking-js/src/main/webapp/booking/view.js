@@ -19,8 +19,8 @@ define([ 'resthub.controller', 'repositories/booking.repository', 'jquery.json',
 			});
 		},
 		_displayConfirmMode : function() {
-			this.booking = $.storage.getJSONItem('booking');
-			var daysBetween = $.storage.getItem('daysBetween');
+			this.booking = $.storage.get('booking');
+			var daysBetween = $.storage.get('daysBetween');
 			var total = daysBetween * this.booking.hotel.price;
 
 			this.render({
@@ -45,7 +45,7 @@ define([ 'resthub.controller', 'repositories/booking.repository', 'jquery.json',
 		},
 		/* Go back home page and trigger end-of-booking event */
 		_endOfBooking : function(booking) {
-			$.storage.setJSONItem('booking', booking);
+			$.storage.set('booking', booking);
 			$.route('#/home');
 			$.publish('end-of-booking');
 		}

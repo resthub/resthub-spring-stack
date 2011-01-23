@@ -3,11 +3,11 @@ define([ 'resthub.route', 'booking/book', 'booking/delete' ], function() {
 	/* BEGIN EVENTS */
 
 	$.subscribe('end-of-booking', function() {
-		var booking = $.storage.getJSONItem('booking');
+		var booking = $.storage.get('booking');
 		$.pnotify('Thank you, ' + booking.user.fullname
 				+ ', your confirmation number for ' + booking.hotel.name
 				+ ' is ' + booking.id + '.');
-		$.storage.removeItem('booking');
+		$.storage.remove('booking');
 	});
 
 	$.subscribe('booking-deleted', function() {

@@ -14,7 +14,7 @@ define([ 'jquery', 'resthub.controller', 'booking/list', 'hotel/search', 'resthu
 				size : this.size
 			});
 			$('#booking-list').list_bookings();
-			$.storage.setItem('search-offset', 0);
+			$.storage.set('search-offset', 0);
 		}
 	});
 });
