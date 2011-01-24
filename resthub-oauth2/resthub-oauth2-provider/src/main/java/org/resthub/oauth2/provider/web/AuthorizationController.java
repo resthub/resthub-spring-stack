@@ -1,5 +1,6 @@
 package org.resthub.oauth2.provider.web;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -8,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,6 +44,7 @@ public interface AuthorizationController {
 	 * must be empty.</b>.
 	 * @param state An opaque and optional value used by the client to maintain state between the request and callback. 
 	 * The authorization server includes this value when redirecting the user-agent back to the client.  
+	 * @param request The incoming request.  
 	 * 
 	 * @return A page displaying the access demand and waiting for end-user aggreement and credentials (HTTP 200),
 	 * or an ObtainTokenErrorResponse (HTTP 400) otherwise.
@@ -57,7 +60,8 @@ public interface AuthorizationController {
 			@QueryParam("client_id") String clientId,
 			@QueryParam("redirect_uri") String redirectUri,
 			@QueryParam("scope") String scopes,
-			@QueryParam("state") String state
+			@QueryParam("state") String state,
+			@Context HttpServletRequest request
 	);
 	
 	/**

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.NewCookie;
@@ -56,7 +58,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 * Inject the cookie name.
 	 */
 	@Value("#{securityConfig.cookieName}")
-	protected String cookieName = "oauth_token";
+	protected String cookieName = null;
 
 	/**
 	 * Inject the cookie domain.
@@ -134,6 +136,36 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		return builder.build();
 	} // redirectOnError().
 	
+	/**
+	 * Redirect the end-user user agent to the redirectURI, with in addition the accessCode and state.
+	 * 
+	 * @param redirectUri The redirection URI
+	 * @param accessCode access code added to the URI.
+	 * @param state state (may be null) added to th URI
+	 * @return The redirected response.
+	 * 
+	 * @throws ProtocolException - INVALID_REQUEST if the redirection URI is misformated. 
+	 */
+	protected Response redirectToIncomingResource(String redirectUri, String accessCode, String state) {
+		// No errors, lets send a page to authenticate user.
+		ResponseBuilder builder = Response.status(302);
+		try {
+			boolean containsQuestionMark = redirectUri.contains("?");
+			StringBuilder address = new StringBuilder(redirectUri).append(containsQuestionMark ? "&": "?")
+					.append("code=")
+					.append(accessCode);
+			if (state != null && state != "") {
+				address.append("&state=").append(state);
+			}
+			URI redirection = new URI(address.toString());
+			builder.location(redirection);
+		} catch (URISyntaxException exc2) {
+			logger.debug("[redirectToIncomingResource] unable to redirect to {}", redirectUri);
+			throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
+		}
+		return builder.build();
+	} // redirectToIncomingResource().
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// AuthorizationController inherited methods
 
@@ -142,7 +174,7 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	 */
 	@Override
 	public Response obtainAccessCode(String responseType, String clientId, String redirectUri, String scopes, 
-				String state) {
+				String state, HttpServletRequest request) {
 		logger.trace("[obtainAccessCode] End-user authentication for clientId '{}', response type '{}', redirect URI " +
 				"{} and scopes {}", new Object[]{clientId, responseType, redirectUri, scopes});
 		// Only redirection uri problems will lead to an exception.
@@ -187,24 +219,44 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		}
 		
 		if (response == null) {
-			logger.debug("[obtainAccessCode] redirect to {}", authenticationPage);
-			// No errors, lets send a page to authenticate user.
-			ResponseBuilder builder = Response.status(302);
-			try {
-				boolean containsQuestionMark = authenticationPage.contains("?");
-				StringBuilder address = new StringBuilder(authenticationPage).append(containsQuestionMark ? "&": "?")
-						.append("redirect_uri=")
-						.append(redirectUri);
-				if (state != null && state != "") {
-					address.append("&state=").append(state);
+			// check the Cookie presence.
+			Cookie[] cookies = request.getCookies();
+			String accessToken = null;
+			if (cookies != null && cookieName != null) {
+				// Search for the right cookie.
+				for (Cookie cookie : cookies) {
+					if (cookieName.equals(cookie.getName())) {
+						accessToken = cookie.getValue();
+						break;
+					}
 				}
-				redirection = new URI(address.toString());
-			} catch (URISyntaxException exc2) {
-				logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
-				throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
 			}
-			builder.location(redirection);
-			response = builder.build();
+			if (accessToken != null) {
+				logger.debug("[obtainAccessCode] end-user already known {}", accessToken);
+				Token token = service.getTokenInformation(accessToken);
+				token = service.generateCode(token, redirectUri);
+				response = redirectToIncomingResource(redirectUri, token.code, state);
+			} else {
+				logger.debug("[obtainAccessCode] redirect to {}", authenticationPage);
+				// No errors, lets send a page to authenticate user.
+				ResponseBuilder builder = Response.status(302);
+				try {
+					boolean containsQuestionMark = authenticationPage.contains("?");
+					StringBuilder address = new StringBuilder(authenticationPage)
+							.append(containsQuestionMark ? "&": "?")
+							.append("redirect_uri=")
+							.append(redirectUri);
+					if (state != null && state != "") {
+						address.append("&state=").append(state);
+					}
+					redirection = new URI(address.toString());
+				} catch (URISyntaxException exc2) {
+					logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
+					throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
+				}
+				builder.location(redirection);
+				response = builder.build();
+			}
 		}
 		return response;	
 	} // obtainAccessCode().
@@ -270,8 +322,10 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		builder.cacheControl(noCache);
 		
 		// Sets cookie.
-		builder.cookie(new NewCookie("oauth_token", token.accessToken, cookiePath, cookieDomain, "", token.lifeTime, 
-				false));
+		if (cookieName != null) {
+			builder.cookie(new NewCookie(cookieName, token.accessToken, cookiePath, cookieDomain, "", token.lifeTime, 
+					false));
+		}
 		// Sends response.
 		return builder.build(); 
 	} // obtainAccessToken().
@@ -309,9 +363,8 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 					" are mandatory");
 		}
 		// Checks URI format.
-		URI redirection;
 		try {
-			redirection = new URI(redirectUri);
+			URI redirection = new URI(redirectUri);
 		} catch (URISyntaxException exc) {
 			logger.debug("[authenticateEndUser] redirection uri misformated {}", redirectUri);
 			throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri");			
@@ -319,24 +372,8 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		Response response = null;
 		try {
 			// Generate Access code
-			String accessCode = service.generateToken(new ArrayList<String>(), username, password, redirectUri).code;	
-			// No errors, lets send a page to authenticate user.
-			ResponseBuilder builder = Response.status(302);
-			try {
-				boolean containsQuestionMark = redirectUri.contains("?");
-				StringBuilder address = new StringBuilder(redirectUri).append(containsQuestionMark ? "&": "?")
-						.append("code=")
-						.append(accessCode);
-				if (state != null && state != "") {
-					address.append("&state=").append(state);
-				}
-				redirection = new URI(address.toString());
-			} catch (URISyntaxException exc2) {
-				logger.debug("[obtainAccessCode] unable to redirect to {}", redirectUri);
-				throw new ProtocolException(Error.INVALID_REQUEST, "malformated redirect_uri or state");			
-			}
-			builder.location(redirection);
-			response = builder.build();
+			String accessCode = service.generateToken(new ArrayList<String>(), username, password, redirectUri).code;
+			response = redirectToIncomingResource(redirectUri, accessCode, state);
 		} catch (ProtocolException exc) {
 			if (exc.errorCase == Error.INVALID_GRANT) {
 				// No user fond, access denied.

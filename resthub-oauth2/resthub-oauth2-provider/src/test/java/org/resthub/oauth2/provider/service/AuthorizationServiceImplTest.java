@@ -304,4 +304,46 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		}
 	} // shouldExpiredTokenFail().
 
+	@Test
+	public void shouldCodeBeAddedToToken() {
+		// Given an existing token without code
+		String redirectUri = "http://localhost:8080";
+		Token token = service.generateToken(new ArrayList<String>(), "test", "t3st", null);
+		
+		// When requesting the addition of a code
+		Token enhancedToken = service.generateCode(token, redirectUri);
+		
+		// Then the code is added
+		assertNotNull(enhancedToken);
+		assertEquals(token, enhancedToken);
+		assertEquals("Access token modified", token.accessToken, enhancedToken.accessToken);
+		assertEquals("Creation date modified", token.createdOn, enhancedToken.createdOn);
+		assertEquals("Token lifetime modified", token.lifeTime, enhancedToken.lifeTime);
+		assertEquals("Redirection URI not set", redirectUri, enhancedToken.redirectUri);
+		assertNotNull("Code not set", enhancedToken.code);
+		assertNotNull("Code expiry date not set", enhancedToken.codeExpiry);
+	} // shouldCodeBeAddedToToken().
+	
+	@Test
+	public void shouldGenerateCodeFailedOnNullToken() {
+		try {
+			// When requesting the addition of a code with null token parameter
+			service.generateCode(null, "");
+			fail("An IllegalArgumentException for null token parameter must have been raised");
+		} catch (IllegalArgumentException exc) {
+			// Then an exception is thrown.
+		}
+	} // shouldGenerateCodeFailedOnNullToken().
+	
+	@Test
+	public void shouldGenerateCodeFailedOnNullRedirectUri() {
+		try {
+			// When requesting the addition of a code with null token parameter
+			service.generateCode(new Token(), null);
+			fail("An IllegalArgumentException for null token parameter must have been raised");
+		} catch (IllegalArgumentException exc) {
+			// Then an exception is thrown.
+		}
+	} // shouldGenerateCodeFailedOnNullRedirectUri().
+	
 } // Classe AuthorizationServiceImplTest

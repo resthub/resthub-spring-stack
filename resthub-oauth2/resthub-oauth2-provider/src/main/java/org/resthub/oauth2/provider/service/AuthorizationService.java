@@ -29,7 +29,17 @@ public interface AuthorizationService extends GenericService<Token, Long>{
 	 * @throws IllegalArgumentException when scopes or userName parameter is null.
 	 */
 	Token generateToken(List<String> scopes, String userName, String password, String redirectUri);
-	
+
+	/**
+	 * Adds an access code (with limited lifetime), related to a redirection URI, to a token.<br/>
+	 * Save the token in database.
+	 * 
+	 * @param token Token to wich a code is added.
+	 * @param redirectUri The redirection Uri used to generate an access code.
+	 * @return The generated token.
+	 */
+	Token generateCode(Token token, String redirectUri);
+
 	/**
 	 * Retrieves all infromation (rights, lifetime, etc...) related to a code.
 	 * 

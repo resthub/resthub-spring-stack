@@ -71,8 +71,8 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	 * 
 	 * @param tokenLifeTime Token lifetime.
 	 */
-	public void setTokenLifeTime(Integer codeLifeTime) {
-		this.codeLifeTime = codeLifeTime;
+	public void setTokenLifeTime(Integer tokenLifeTime) {
+		this.tokenLifeTime = tokenLifeTime;
 	} // setTokenLifeTime().
 
 	/**
@@ -143,17 +143,38 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 		token.lifeTime = tokenLifeTime;
 		// Possible code generation.
 		if (redirectUri != null) {
-			token.code = Utils.generateString(tokenLength);
-			token.redirectUri = redirectUri;
-			token.codeExpiry = new Date().getTime()+codeLifeTime*1000;
+			// Save the token and generate token.
+			generateCode(token, redirectUri);
+		} else {
+			// Save the token.
+			token = dao.save(token);
 		}
 		logger.info("[generateToken] Save token {} for {} during {}", new Object[]{token.accessToken, token.userId, 
 				token.lifeTime});
+		return token;
+	} // generateToken().
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = false)
+	@Override
+	public Token generateCode(Token token, String redirectUri) {
+		// Check non-nullity.
+		if(token == null || redirectUri == null) {
+			throw new IllegalArgumentException("token nor redirectUri parameter mustn't be null");
+		}
+		if(logger.isTraceEnabled()) {
+			logger.trace("[generateToken] generate new code for token {}", token.accessToken);
+		}
+		token.code = Utils.generateString(tokenLength);
+		token.redirectUri = redirectUri;
+		token.codeExpiry = new Date().getTime()+codeLifeTime*1000;
 		// Save the token.
 		token = dao.save(token);
 		return token;
-	} // generateToken().
-	
+	} // generateCode().
+
 	/**
 	 * {@inheritDoc}
 	 */

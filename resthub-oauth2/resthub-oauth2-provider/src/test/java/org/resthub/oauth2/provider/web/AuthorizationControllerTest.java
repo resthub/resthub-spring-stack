@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
@@ -674,7 +675,7 @@ public class AuthorizationControllerTest {
 		form.add("username", "test");
 		form.add("password", "t3st");
 		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
-		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		response.getHeaders().get(HttpHeaders.LOCATION).get(0);
 
 		WebResource server = resource();		
 		form = new Form();
@@ -703,7 +704,7 @@ public class AuthorizationControllerTest {
 		form.add("username", "test");
 		form.add("password", "t3st");
 		ClientResponse response = notFollowingResource().path("authorize/authenticate").post(ClientResponse.class, form);
-		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		response.getHeaders().get(HttpHeaders.LOCATION).get(0);
 
 		WebResource server = resource();		
 		form = new Form();
@@ -762,5 +763,47 @@ public class AuthorizationControllerTest {
 		}
 	} // shouldExpiredCodeFailonError().
 
+	@Test
+	public void shouldEndUserBeAuthenticatedByCookie() {
+		WebResource client = resource();
+
+		// Given an existing token.
+		Form form = new Form();
+		form.add("grant_type", "password");
+		form.add("client_id", null);
+		form.add("client_secret", null);
+		form.add("username", "test");
+		form.add("password", "t3st");
+		TokenResponse tokenResponse = client.path("authorize/token").
+			type(MediaType.APPLICATION_FORM_URLENCODED).post(TokenResponse.class, form);
+			
+		// Given a cookie embedding this token.
+		Cookie cookie = new Cookie("oauth_token", tokenResponse.accessToken, "/", "");
+		
+		// When requiering an access code with the token embed.
+		ClientResponse response = notFollowingResource().path("authorize")
+			.queryParam("client_id", CLIENT_ID)
+			.queryParam("response_type", "code")
+			.queryParam("redirect_uri", REDIRECT_URI)
+			.cookie(cookie)
+			.get(ClientResponse.class);
+		
+		// Then a code was generated.
+		Token token = client.path("authorize/tokenDetails")
+			.queryParam("access_token", tokenResponse.accessToken)
+			.header(HttpHeaders.AUTHORIZATION, "p@ssw0rd")
+			.get(Token.class);
+		assertNotNull(token.code);	
+
+		// Then the request code is returned in query parameter.
+		assertEquals("Response not redirected", 302, response.getStatus());
+		assertTrue("No redirection url in response", response.getHeaders().containsKey(HttpHeaders.LOCATION));		
+		String redirect = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
+		assertTrue("Wrong redirection: "+redirect, redirect.startsWith(REDIRECT_URI));
+
+		assertTrue("No access_code parameter: "+redirect, redirect.contains("code="));	
+		assertTrue("Wrong access_code value: "+redirect, redirect.contains(token.code));	
+	} // shouldEndUserBeAuthenticatedByCookie().
+	
 	// TODO refresh token.
 } // class AuthorizationControllerTest
