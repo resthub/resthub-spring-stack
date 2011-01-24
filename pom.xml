@@ -15,7 +15,6 @@
     <modules>
         <module>resthub-core</module>
         <module>resthub-web</module>
-        <module>resthub-js</module>
         <module>resthub-apps</module>
         <module>resthub-archetypes</module>
         <module>resthub-oauth2</module>
