@@ -3,7 +3,7 @@ define([ 'controller', 'repositories/booking.repository' ], function(Controller,
 		id : null,
 		
 		init : function() {
-			BookingRepository.remove($.proxy(this, '_bookingDeleted'), this.options.id);
+			BookingRepository.remove($.proxy(this, '_bookingDeleted'), this.id);
 		},
 		_bookingDeleted : function() {
 			$.publish('booking-deleted');

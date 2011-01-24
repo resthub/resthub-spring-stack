@@ -1,14 +1,5 @@
 define([ 'hotel/view' ], function() {
 
-	/* BEGIN EVENTS */
-
-	$.subscribe('hotel-search', function() {
-		$('#content').home();
-		$('#search-value').focus();
-	});
-
-	/* END EVENTS */
-
 	/**
 	 * View hotel
 	 */

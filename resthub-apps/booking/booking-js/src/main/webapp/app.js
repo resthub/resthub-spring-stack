@@ -6,7 +6,11 @@ define([ 'resthub', 'routes/user.routes', 'routes/booking.routes',
 		function($, UserRoutes, BookingRoutes, HotelRoutes, Controller) {
 
 	$(document).ready(function() {
-					
+		
+		// Store default values
+		$.storage.set('search-size', 5);
+		$.storage.set('search-page', 0);
+		
 		$.route('#/', function() {
 			if ($.storage.get('user') != null) {
 				$.route('#/home');

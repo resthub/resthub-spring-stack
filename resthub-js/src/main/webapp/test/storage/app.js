@@ -45,8 +45,11 @@ define(['storage'], function() {
 		});
 		
 		// Listen to storage-set
-		$.subscribe('storage-set', function(event, key, value) {
-			console.debug("storage-set event for item with key " + key + " and value " + value);
+		$.subscribe('storage-set-item1', function(value) {
+			console.debug("storage-set event for item1 with value " + value);
+		});
+		$.subscribe('storage-set-item2', function(value) {
+			console.debug("storage-set event for item2 with value " + value);
 		});
 		
 	});

@@ -2,7 +2,7 @@ define([ 'user/login', 'user/register', 'user/edit' ], function() {
 
 	/* BEGIN EVENTS */
 	
-	$.subscribe('run-route', function() {
+	$.subscribe('route-run', function() {
 		var user = $.storage.get('user');
 		$('#header').render('header.html', {
 			user : user

@@ -46,9 +46,8 @@ define([ 'booking/book', 'booking/delete' ], function() {
 	 * Delete booking
 	 */
 	$.route('#/booking/del/:id', function(params) {
-		var options = { id : params.id };
 		console.debug('#/booking/del/:id' + params.id);
-		$('#content').delete_booking(options);
+		$('#content').delete_booking(params);
 	});
 
 });

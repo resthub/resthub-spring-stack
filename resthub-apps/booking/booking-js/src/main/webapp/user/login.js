@@ -7,7 +7,7 @@ define([ 'controller', 'repositories/user.repository' ], function(Controller, Us
 			this.render();
 			var self = this;
 			$('#formLogin').submit(function() {
-				$.storage.clear();
+				$.storage.remove('user');
 				document.title = 'Login';
 				var user = {
 					username : $('input[name="username"]').val(),

@@ -17,14 +17,20 @@ define(['jquery'], function (jQuery) {
 	  /**
 	   * Define an event handler for this eventType listening on th event bus
 	   *
-	   * .bind( eventType, [ eventData ], handler(eventObject) )
+	   * subscribe( eventType, handler(args) )
 	   * @param {String} eventType A string that identify your custom javaScript event type
-	   * @param {object} eventData A map of data that will be passed to the event handler
-	   * @param {function} handler(eventObject) function to execute each time the event is triggered
+	   * @param {function} handler(args) function to execute each time the event is triggered, with
 	   * 
 	   */
 	  $.subscribe = function() {
-	    o.bind.apply( o, arguments );
+		
+		var type = arguments[0];
+		var callback = arguments[1];
+		// Remove uneeded event argument
+		var new_callback = function() {
+			callback.apply(this, Array.prototype.slice.call(arguments, 1));
+		};
+	    o.bind.apply( o, [type, new_callback] );
 	  };
 	  
 	  /**

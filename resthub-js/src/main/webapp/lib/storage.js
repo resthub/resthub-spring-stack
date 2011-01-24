@@ -17,7 +17,8 @@ define([ 'jquery', 'json', 'pubsub' ], function() {
 		/**
 		 * Store an item in the local storage (Not compatible with Internet Explorer <= 7)
 		 * 
-		 * Publish an event storage-set with the key and item as eventData
+		 * Publish an event storage-set-itemkey (replace itemkey by you item key)and the item as eventData
+		 * For example, storing user item will publish a  storage-set-user event
 		 *
 		 * @param {String} key Key of the stored item, this will be used to retreive it later
 		 * @param {Object} item Item than will be stored in the local storage, can be a string or an object
@@ -25,7 +26,7 @@ define([ 'jquery', 'json', 'pubsub' ], function() {
     	set : function(key, item){
 			var string_value = (typeof item == 'string') ? item : JSON.stringify(item);
 			localStorage.setItem(key, string_value);
-			$.publish('storage-set', [key, item]);
+			$.publish('storage-set-' + key , item);
         },
         
         /**

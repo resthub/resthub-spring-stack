@@ -29,7 +29,7 @@ define(["route"], function() {
 		});
 		
 		// Listen to the run-route event on the event bus
-		$.subscribe('route-run', function(event, path) {
+		$.subscribe('route-run', function(path) {
 			console.debug("route-run event for route " + path);
 		});
 		
