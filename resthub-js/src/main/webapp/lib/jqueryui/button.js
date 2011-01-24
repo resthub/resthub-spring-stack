@@ -12,7 +12,7 @@ define('jqueryui/button', ['jquery','jqueryui/core','jqueryui/widget'], function
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 var lastActive,
 	baseClasses = "ui-button ui-widget ui-state-default ui-corner-all",

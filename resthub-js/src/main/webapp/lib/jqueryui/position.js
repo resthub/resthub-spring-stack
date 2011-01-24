@@ -8,7 +8,7 @@ define('jqueryui/position', ['jquery'], function (jQuery) {
  *
  * http://docs.jquery.com/UI/Position
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.ui = $.ui || {};
 

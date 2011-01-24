@@ -8,7 +8,7 @@ define('jqueryui/core', ['jquery'], function (jQuery) {
  *
  * http://docs.jquery.com/UI
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 // prevent duplicate loading
 // this is only a problem because we proxy existing functions

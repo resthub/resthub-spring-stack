@@ -12,7 +12,7 @@ define('jqueryui/tabs', ['jquery','jqueryui/core','jqueryui/widget'], function (
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 var tabId = 0,
 	listId = 0;

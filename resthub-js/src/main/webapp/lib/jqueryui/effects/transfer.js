@@ -11,7 +11,7 @@ define('jqueryui/effects/transfer', ['jquery','jqueryui/effects/core'], function
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.effects.transfer = function(o) {
 	return this.queue(function() {

@@ -11,7 +11,7 @@ define('jqueryui/effects/pulsate', ['jquery','jqueryui/effects/core'], function 
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.effects.pulsate = function(o) {
 	return this.queue(function() {

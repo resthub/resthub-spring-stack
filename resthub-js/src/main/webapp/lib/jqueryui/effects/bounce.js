@@ -11,7 +11,7 @@ define('jqueryui/effects/bounce', ['jquery','jqueryui/effects/core'], function (
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.effects.bounce = function(o) {
 

@@ -11,7 +11,7 @@ define('jqueryui/effects/blind', ['jquery','jqueryui/effects/core'], function (j
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.effects.blind = function(o) {
 

@@ -12,7 +12,7 @@ define('jqueryui/accordion', ['jquery','jqueryui/core','jqueryui/widget'], funct
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.widget( "ui.accordion", {
 	options: {

@@ -12,7 +12,7 @@ define('jqueryui/progressbar', ['jqueryui/core','jqueryui/widget'], function (jQ
  *   jquery.ui.core.js
  *   jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.widget( "ui.progressbar", {
 	options: {

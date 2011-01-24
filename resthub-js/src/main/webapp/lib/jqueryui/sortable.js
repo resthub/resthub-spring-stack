@@ -13,7 +13,7 @@ define('jqueryui/sortable', ['jquery','jqueryui/core','jqueryui/mouse','jqueryui
  *	jquery.ui.mouse.js
  *	jquery.ui.widget.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.widget("ui.sortable", $.ui.mouse, {
 	widgetEventPrefix: "sort",

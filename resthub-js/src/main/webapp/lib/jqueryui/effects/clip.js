@@ -11,7 +11,7 @@ define('jqueryui/effects/clip', ['jquery','jqueryui/effects/core'], function (jQ
  * Depends:
  *	jquery.effects.core.js
  */
-(function( $, undefined ) {
+(function( $ ) {
 
 $.effects.clip = function(o) {
 
