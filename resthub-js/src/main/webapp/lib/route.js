@@ -19,7 +19,7 @@ define(['jquery', 'pubsub'], function (jQuery) {
 		 * });
 		 * 
 		 * Run a route
-		 * When a route is runned, thet run-route event is dispatched (could be catched thanks to $.subscribe())
+		 * When a route is runned, the route-run event is dispatched (could be catched thanks to $.subscribe())
 		 * $.route('#/route1');
 		 * 
 		 */
@@ -85,7 +85,7 @@ define(['jquery', 'pubsub'], function (jQuery) {
 					callbacks[i](args);  
 				}			
 				location.hash = real_path;
-				$.publish('run-route', real_path);
+				$.publish('route-run', [real_path, args]);
 				console.debug('Run route ' + arguments[0]);
 				
 			// Register route

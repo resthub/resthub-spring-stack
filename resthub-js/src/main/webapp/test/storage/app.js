@@ -2,6 +2,7 @@ define(['storage'], function() {
 
 	$(document).ready(function(){
 		
+		// Test storage handlers
 		$('.setitem1').click(function() {
 			$.storage.set('item1', 'lorem ipsum');
 			$('#main').text('item1 stored');
@@ -41,6 +42,11 @@ define(['storage'], function() {
 		$('.clear').click(function() {
 			$.storage.clear();
 			$('#main').text('All items cleared');
+		});
+		
+		// Listen to storage-set
+		$.subscribe('storage-set', function(event, key, value) {
+			console.debug("storage-set event for item with key " + key + " and value " + value);
 		});
 		
 	});

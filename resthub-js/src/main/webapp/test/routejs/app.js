@@ -2,6 +2,7 @@ define(["route"], function() {
 	
 	$(document).ready(function(){
 		
+		// Define routes
 		$.route('#', function() {
 			$('#main').html('<span>Root</span>');
 		});
@@ -27,6 +28,12 @@ define(["route"], function() {
 			$('#main').html('Toto ' + p.id + ', tutu ' + p.id2);
 		});
 		
+		// Listen to the run-route event on the event bus
+		$.subscribe('route-run', function(event, path) {
+			console.debug("route-run event for route " + path);
+		});
+		
+		// Run current route
 		$.route(location.hash);
 				
 	});
