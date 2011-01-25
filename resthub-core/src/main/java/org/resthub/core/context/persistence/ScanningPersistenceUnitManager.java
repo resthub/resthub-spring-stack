@@ -64,6 +64,8 @@ public class ScanningPersistenceUnitManager extends
 	 * manager
 	 */
 	private List<TypeFilter> typeFilters = new ArrayList<TypeFilter>();
+	
+	private EntityListContextBean entityListContextBean;
 
 	public String getClasspathPatterns() {
 		return classpathPatterns;
@@ -92,6 +94,10 @@ public class ScanningPersistenceUnitManager extends
 				.warn("ClasspathPattern definition found : entities-scan base configuration is ignored !!");
 		this.classpathPatterns = classpathPatterns;
 	}
+	
+	public void setEntityListContextBean(EntityListContextBean entityListContextBean) {
+		this.entityListContextBean = entityListContextBean;
+	}
 
 	/**
 	 * {@InheritDoc}
@@ -119,8 +125,8 @@ public class ScanningPersistenceUnitManager extends
 
 			entities = getMatchingEntitiesFromContext(pui, pui
 					.getPersistenceUnitName());
-			PersistenceEntitiesContext.getInstance().clearPersistenceUnit(
-					pui.getPersistenceUnitName());
+			/*PersistenceEntitiesContext.getInstance().clearPersistenceUnit(
+					pui.getPersistenceUnitName());*/
 		}
 
 		addEntitiesToPersistenceUnit(pui, entities);
@@ -151,7 +157,7 @@ public class ScanningPersistenceUnitManager extends
 	protected Set<String> getMatchingEntitiesFromContext(
 			MutablePersistenceUnitInfo pui, String persistenceUnitName) {
 
-		Set<String> entities = PersistenceEntitiesContext.getInstance().getEntities(
+		Set<String> entities = entityListContextBean.getEntities(
 				persistenceUnitName);
 
 		return entities;

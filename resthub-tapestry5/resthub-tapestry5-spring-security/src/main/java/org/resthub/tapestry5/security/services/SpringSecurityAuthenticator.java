@@ -1,6 +1,5 @@
 package org.resthub.tapestry5.security.services;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,9 +54,16 @@ public class SpringSecurityAuthenticator implements Authenticator {
 	 * {@InheritDoc}
 	 */
 	public boolean isLoggedIn() {
-		Principal principal = requestGlobals.getHTTPServletRequest()
-				.getUserPrincipal();
-		return principal != null && principal.getName() != "";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		UserDetails userDetails;
+		try {
+			userDetails = (UserDetails) authentication.getPrincipal();
+		} catch (ClassCastException e) {
+			
+			return false;
+		}
+		return userDetails != null && userDetails.getUsername() != "";
 	}
 
 	/**
