@@ -30,6 +30,7 @@
 		<property name="dao" ref="tokenDao" />
 		<property name="tokenLifeTime" value="500" />
 		<property name="tokenLength" value="15" />
+		<property name="codeLifeTime" value="1" />
 		<property name="authenticationProviders">
 			<list>
 				<bean name="mockAuthenticationService" class="org.resthub.oauth2.test.authorizationService.MockAuthenticationService"/>
@@ -41,6 +42,10 @@
 	<util:properties id="securityConfig">
 		<prop key="resourceName">BusinessService</prop>
 		<prop key="authorizationPassword">p@ssw0rd</prop>
+		<prop key="cookieName">oauth_token</prop>
+		<prop key="cookiePath">/</prop>
+		<prop key="cookieDomain"></prop>
+		<prop key="authenticationPage">http://localhost:9797/jsp/authent.jsp</prop>
 	</util:properties>
 
 </beans>
