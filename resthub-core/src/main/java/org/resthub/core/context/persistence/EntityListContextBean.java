@@ -1,5 +1,6 @@
 package org.resthub.core.context.persistence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.Set;
 
 import javax.inject.Named;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * This singleton allow to store and share scanned persistence entities names
@@ -23,16 +26,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author bmeurant <Baptiste Meurant>
  */
 @Named("entityListContextBean")
-class EntityListContextBean {
+class EntityListContextBean implements ApplicationContextAware  {
 
 	private Map<String, Set<String>> includedEntitiesMap;
 	private Map<String, Set<String>> excludedEntitiesMap;
 
-	@Autowired(required = false)
-	private List<EntityListIncluderBean> includerBeans;
+	public List<EntityListIncluderBean> includerBeans;
+	public List<EntityListExcluderBean> excluderBeans;
 
-	@Autowired(required = false)
-	private List<EntityListExcluderBean> excluderBeans;
+	private ApplicationContext applicationContext;
 
 	/**
 	 * Retrieve the list of all entities name for the provided persistence unit
@@ -55,6 +57,8 @@ class EntityListContextBean {
 
 	private void initEntitiesMaps() {
 
+		initBeansList();
+		
 		if (includerBeans != null) {
 			for (EntityListIncluderBean includerBean : includerBeans) {
 				Set<String> entitiesList = this.includedEntitiesMap
@@ -87,6 +91,18 @@ class EntityListContextBean {
 			}
 		}
 
+	}
+
+	private void initBeansList() {
+		Map<String, EntityListIncluderBean> tempIncludersMap = this.applicationContext.getBeansOfType(EntityListIncluderBean.class);
+		if(tempIncludersMap != null) {
+			this.includerBeans = new ArrayList<EntityListIncluderBean>(tempIncludersMap.values());
+		}
+		
+		Map<String, EntityListExcluderBean> tempExcludersMap = this.applicationContext.getBeansOfType(EntityListExcluderBean.class);
+		if(tempExcludersMap != null) {
+			this.excluderBeans = new ArrayList<EntityListExcluderBean>(tempExcludersMap.values());
+		}
 	}
 
 	private Set<String> getEffectiveEntities(String persistenceUnitName) {
@@ -209,6 +225,12 @@ class EntityListContextBean {
 		if (null != excludedEntitiesMap) {
 			this.excludedEntitiesMap.remove(persistenceUnitName);
 		}
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		this.applicationContext = applicationContext;
 	}
 
 }
