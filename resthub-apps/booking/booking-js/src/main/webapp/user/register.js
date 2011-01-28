@@ -1,4 +1,4 @@
-define([ 'controller', 'repositories/user.repository' ], function(Controller, UserRepository) {
+define([ 'lib/controller', 'repositories/user.repository' ], function(Controller, UserRepository) {
 		Controller.extend("UserRegisterController", {
 			template : 'user/register.html',
 			init : function() {

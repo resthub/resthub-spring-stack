@@ -1,8 +1,8 @@
 /**
  * Routes
  */
-define([ 'resthub', 'routes/user.routes', 'routes/booking.routes',
-		'routes/hotel.routes', 'jquery/jquery.pnotify', 'home' ],
+define([ 'lib/resthub', 'routes/user.routes', 'routes/booking.routes',
+		'routes/hotel.routes', 'lib/jquery/jquery.pnotify', 'home' ],
 		function($, UserRoutes, BookingRoutes, HotelRoutes, Controller) {
 
 	$(document).ready(function() {

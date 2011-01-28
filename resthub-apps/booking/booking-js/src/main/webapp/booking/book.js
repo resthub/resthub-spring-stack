@@ -1,4 +1,4 @@
-define([ 'controller', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function(Controller, HotelRepository) {
+define([ 'lib/controller', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function(Controller, HotelRepository) {
 	Controller.extend("BookBookingController", {
 		
 		hotelId : null,

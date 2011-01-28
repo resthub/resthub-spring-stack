@@ -1,4 +1,4 @@
-define(['controller', 'repositories/booking.repository'], function(Controller, BookingRepository ) {
+define(['lib/controller', 'repositories/booking.repository'], function(Controller, BookingRepository ) {
 	Controller.extend("ViewBookingController", {
 		booking : {},
 		template : 'booking/view.html',

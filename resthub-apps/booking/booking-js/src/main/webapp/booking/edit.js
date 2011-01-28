@@ -1,4 +1,4 @@
-define(['controller', 'jqueryui/datepicker','jquery/jquery.validate'], function(Controller) {
+define(['lib/controller', 'lib/jqueryui/datepicker','lib/jquery/jquery.validate'], function(Controller) {
 
 
 return Controller.extend("EditBookingController", {

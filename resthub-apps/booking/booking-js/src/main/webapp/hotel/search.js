@@ -1,4 +1,4 @@
-define([ 'controller', 'hotel/list' ], function(Controller) {
+define([ 'lib/controller', 'hotel/list' ], function(Controller) {
 	Controller.extend("SearchHotelsController", {
 		
 		template : 'hotel/search.html',

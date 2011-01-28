@@ -1,4 +1,4 @@
-define([ 'repository' ], function(Repository) {
+define([ 'lib/repository' ], function(Repository) {
 
 	return Repository.extend("UserRepository", {
 
