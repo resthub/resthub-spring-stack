@@ -6,9 +6,7 @@
         Round Table main style.
 */
 
-/**
- * RESET
- */
+/* RESET ---------------------------------------------------------------------*/
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{ margin:0; padding:0;}
 table{ border-collapse:collapse; border-spacing:0;}
 fieldset,img{ border:0;}
@@ -18,22 +16,95 @@ caption,th{ text-align:left;}
 h1,h2,h3,h4,h5,h6{ font-size:100%; font-weight:normal;}
 q:before,q:after{ content:'';}
 abbr,acronym{ border:0;}
+.invisible{ display: none;}
+.right {float: right}
+.left {float: left}
+.center {text-align: center}
+.error {color: red}
+.bold {font-weight: bold}
 
-/**
- * GENERAL
- */
+/* BODY ----------------------------------------------------------------------*/
 html {overflow:-moz-scrollbars-vertical;}
-body{
+body {
     background: #eee url(image/bg.png) repeat-x top left;
-    color:#333;
-    font-family:Arial,sans-serif;
-    font-size:12px;
-    line-height:16px;
-    text-shadow:0 1px 0 #fff;
+    color: #333;
+    font-family: Arial,sans-serif;
+    font-size: 12px;
+    line-height: 16px;
 }
+
+/* HEADER --------------------------------------------------------------------*/
+body > * {
+    position: relative;
+    margin: 0 auto;
+    max-width: 980px;
+    overflow: hidden;
+    display: block;
+}
+body > header {
+    height: 80px;
+}
+
+body > header > h1#logo {
+    background: transparent url(image/title.png) no-repeat;
+    height: 87px;
+    margin-top: -7px;
+}
+
+/* NAVIGATION ----------------------------------------------------------------*/
+body > nav {
+    background: url("image/navigation.png") repeat-x scroll 0 -41px transparent;
+    height: 41px;
+}
+
+body > nav > ul, body > nav > ul > li {
+    line-height:38px;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+body > nav > ul > li > a {
+    background:url("image/navigation_s.png") no-repeat scroll left top transparent;
+    font-size:13px;
+    font-weight: bold;
+    color: #CCCCCC;
+    display:block;
+    float:left;
+    height:41px;
+    padding:0 18px;
+    text-decoration:none;
+}
+body > nav > ul > li:hover > a {color: white;}
+body > nav > ul > li#search {float: right;}
+
+/* CONTENT -------------------------------------------------------------------*/
+section#content {
+    min-height: 200px;
+    padding: 1em;
+    background: url("image/logo.png") no-repeat scroll 859px -136px transparent
+}
+
+section#content p.welcome {
+    font-size: 2em;
+    font-style: italic;
+    text-align: center;
+    padding-top: 100px;
+}
+
+/* FOOTER --------------------------------------------------------------------*/
+body > footer > p {
+    border-top: 1px solid black;
+    font-size: 80%;
+    font-variant: small-caps;
+}
+
+/* LINK ----------------------------------------------------------------------*/
 a{color:#333;text-decoration:underline;}
 a.more{font-weight: bold}
-#main form, div.poll {
+
+/* FORM ----------------------------------------------------------------------*/
+#content form, div.poll {
     background:#f7f7f7;
     background:-moz-linear-gradient(90deg, #ccc, #fff); /* Firefox */
     background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc)); /* Webkit */
@@ -45,7 +116,7 @@ a.more{font-weight: bold}
     margin:20px auto 0;
     padding:20px;
 }
-#main form > h1, div.poll > h1 {
+#content form > h1, div.poll > h1 {
     border-bottom:1px solid #ccc;
     font-size:11px;
     font-weight:bold;
@@ -60,16 +131,7 @@ blockquote {
     font-weight:normal;
     line-height:1.5em;
 }
-blockquote:before {
-    display: block;
-    font-size: 400%;
-    width: 50px;
-}
-blockquote:before {
-    content: open-quote;
-    height: 0;
-    margin-left: -0.55em;
-}
+
 label{
     cursor:pointer;
     display:block;
@@ -109,15 +171,12 @@ textarea:focus {
 	-webkit-box-shadow:0 0 3px #0459b7;
 	outline:none; /* Pour enlever le contour jaune lorsque l'on s�lectionne un input dans Chrome */
 }
-#main input[type=text],
-#main input[type=password],
+#content input[type=text],
+#content input[type=password],
 input[type=email],
-#main textarea {
+#content textarea {
     width: 100%;
 }
-
-
-root {display: block;}
 
 input[type=submit], input[type=button], a.submit{
 	background:#ddd;
@@ -174,103 +233,96 @@ div.grippie {
     overflow:hidden;
 }
 
-#container {
-    background:url("image/logo.png") no-repeat scroll 835px -16px transparent;
-    margin:0 auto;
-    max-width:980px;
-    position:relative;
-}
-
-/**
- * HEADER
- */
-#header {
-     background: #FFFFFF url(image/bg.png) repeat-x top left;
-     height: 80px;
-     width: 100%;
-     overflow: hidden;
-}
-
-#header > h1 {
-    background: transparent url(image/title.png) no-repeat;
-    height:82px;
-    margin-top:-7px;
-}
-
-/**
- * NAVIGATION
- */
-#navigation ul {
-     background:url("image/navigation.png") repeat-x scroll 0 -41px transparent;
-     height:41px;
-}
-
-#navigation ul, #navigation ul li {
-    font-size:13px;
-    line-height:38px;
-    list-style-type:none;
-    margin:0;
-    padding:0;
-}
-
-#navigation ul li a {
-    background:url("image/navigation_s.png") no-repeat scroll left top transparent;
-    color:#CCCCCC;
-    display:block;
-    float:left;
-    height:41px;
-    padding:0 18px;
+/* ---------------------------------------------------------------------------*/
+/* LIST SCREEN ---------------------------------------------------------------*/
+/* ---------------------------------------------------------------------------*/
+.rt-poll-list p.result-summary {
+    background-color:#0459B7;;
+    border:1px solid;
+    color:white;
+    font-weight:normal;
+    padding:0.5em;
     text-decoration:none;
+    text-shadow: 1px 1px 3px #CCC;
+    margin-top:1em;
+    -moz-border-radius:5px;
+    -webkit-border-radius:10px;
+    -moz-box-shadow:5px 5px 10px #AAAAAA;
+    -webkit-box-shadow:5px 5px 10px #AAAAAA;
 }
 
-#search {
-    float: right;
+.rt-poll-list ul {margin-bottom: 1em}
+.rt-poll-list li.poll-item {
+    background:#f7f7f7;
+    background:-moz-linear-gradient(90deg, #ccc, #fff); /* Firefox */
+    background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc)); /* Webkit */
+    border:1px solid #aaa;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    -moz-box-shadow:5px 5px 10px #AAAAAA;
+    -webkit-box-shadow:5px 5px 10px #AAAAAA;
+    margin:20px auto 0;
+    padding:10px;
+    cursor: pointer;
 }
 
-/**
- * MAIN
- */
-#main {
-    max-width:900px;
-    min-height: 200px;
+.rt-poll-list li.poll-item:hover {
+    background:-moz-linear-gradient(90deg, #eee, #fff); /* Firefox */
+    background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee)); /* Webkit */
+
 }
 
-/**
- * EDIT SCREEN
- */
-.rt-poll-edit form input[type="submit"] {float: right; margin-top: 10px;}
-.rt-poll-edit fieldset.answer {margin: 0px;padding: 1em 0 1em 0;}
-.rt-poll-edit ul.answers:first-child {border-top: none !important;}
-.rt-poll-edit ul.answers {margin: 0px;padding: 1em 0 0 0;}
-.rt-poll-edit ul.answers li {
-    background: url("image/v-grippy.png") no-repeat scroll left 5px transparent;
-    list-style-type: none;
+.rt-poll-list li.poll-item > h3 {
+    border-bottom:1px solid #ccc;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:2px;
+    margin-bottom:20px;
+    text-transform:uppercase;
+}
+
+.rt-poll-list li.poll-item span.author {
     font-style: italic;
-    border-top: solid thin black;
-    padding-left: 7px;
-    line-height: 2em;
-    cursor: move;
+    font-size:smaller;
+    text-transform:none;
 }
-.rt-poll-edit ul.answers li div {
-    float: left;
-    margin-left:4px;
-    margin-right:4px;
-    margin-top:1px;
-}
-.rt-poll-edit ul.answers li.ui-sortable-helper {border-top: none;}
-.rt-poll-edit ul.answers li.answer-placeholder {
-    height: 2em;
-    background-color: yellow;
-    background-image: none;
-}
-#attached-file-name{float:left;padding-right:1em;}
-#attached-file-remove{text-decoration: underline;cursor: pointer;}
 
-/**
- * VISUALIZATION SCREEN
- */
+.rt-poll-list li.poll-item p {
+    font-style: italic;
+}
 
-.rt-poll-detail div.body {height: 100px;}
+.rt-poll-list ul.pagination {
+    text-align:center;
+    width:100%;
+}
+
+.rt-poll-list ul.pagination li {
+    display:inline-block;
+}
+
+.rt-poll-list ul.pagination li.current a,
+.rt-poll-list ul.pagination a:hover {
+    color:#FFFFFF;
+    font-weight:bolder;
+    background-color:#0459B7;
+}
+
+.rt-poll-list ul.pagination a {
+    display: block;
+    line-height: 21px;
+    padding: 0 10px;
+    text-decoration: none;
+    text-shadow: none;
+    border:1px solid #0459B7;
+}
+
+/* ---------------------------------------------------------------------------*/
+/* VIEW SCREEN ---------------------------------------------------------------*/
+/* ---------------------------------------------------------------------------*/
+.rt-poll-detail div.body {
+    display: inline-block;
+    width: 100%;
+}
 .rt-poll-detail div.illustration {float:left;}
 .rt-poll-detail div.body blockquote {
     float:left;
@@ -358,88 +410,34 @@ table tr.result {
 .rt-poll-detail div.main table tr.result {text-align:center !important;}
 
 
-/**
- * LIST SCREEN
- */
 
-.rt-poll-list p.result-summary {
-    background-color:#0459B7;;
-    border:1px solid;
-    color:white;
-    font-weight:normal;
-    padding:0.5em;
-    text-decoration:none;
-    margin-top:1em;
-    -moz-border-radius:5px;
-    -webkit-border-radius:10px;
-    -moz-box-shadow:0 0 15px #aaa;
-    -webkit-box-shadow:0 0 15px #aaa;
-}
-
-
-.rt-poll-list ul {margin-bottom: 1em}
-.rt-poll-list li.poll-item {
-    background:#f7f7f7;
-    background:-moz-linear-gradient(90deg, #ccc, #fff); /* Firefox */
-    background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc)); /* Webkit */
-    border:1px solid #aaa;
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-    -moz-box-shadow:0 0 15px #aaa;
-    -webkit-box-shadow:0 0 15px #aaa;
-    margin:20px auto 0;
-    padding:20px;
-    cursor: pointer;
-}
-
-.rt-poll-list li.poll-item:hover {
-    color:white;
-    background:#08adff;
-    background:-moz-linear-gradient(90deg, #08adff, #0459B7); /* Firefox */
-    background:-webkit-gradient(linear, left top, left bottom, from(#0459B7), to(#08adff)); /* Webkit */
-}
-
-.rt-poll-list li.poll-item > h3 {
-    border-bottom:1px solid #ccc;
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:2px;
-    margin-bottom:20px;
-    text-transform:uppercase;
-}
-
-.rt-poll-list li.poll-item span.author {
+/* ---------------------------------------------------------------------------*/
+/* EDIT SCREEN ---------------------------------------------------------------*/
+/* ---------------------------------------------------------------------------*/
+.rt-poll-edit form input[type="submit"] {float: right; margin-top: 10px;}
+.rt-poll-edit fieldset.answer {margin: 0px;padding: 1em 0 1em 0;}
+.rt-poll-edit ul.answers:first-child {border-top: none !important;}
+.rt-poll-edit ul.answers {margin: 0px;padding: 1em 0 0 0;}
+.rt-poll-edit ul.answers li {
+    background: url("image/v-grippy.png") no-repeat scroll left 5px transparent;
+    list-style-type: none;
     font-style: italic;
-    font-size:smaller;
-    text-transform:none;
+    border-top: solid thin black;
+    padding-left: 7px;
+    line-height: 2em;
+    cursor: move;
 }
-
-.rt-poll-list li.poll-item p {
-    font-style: italic;
+.rt-poll-edit ul.answers li div {
+    float: left;
+    margin-left:4px;
+    margin-right:4px;
+    margin-top:1px;
 }
-
-.rt-poll-list ul.pagination {
-    text-align:center;
-    width:100%;
+.rt-poll-edit ul.answers li.ui-sortable-helper {border-top: none;}
+.rt-poll-edit ul.answers li.answer-placeholder {
+    height: 2em;
+    background-color: yellow;
+    background-image: none;
 }
-
-.rt-poll-list ul.pagination li {
-    border:1px solid #0459B7;
-    padding:3px 5px;
-    display:inline-block;
-}
-
-.rt-poll-list ul.pagination li.current {
-    background-color:#0459B7;
-}
-
-.rt-poll-list ul.pagination li.current a {
-    color:#FFFFFF;
-    font-weight:bolder;
-}
-
-.rt-poll-list ul.pagination a {
-    text-decoration: none;
-    text-shadow: none;
-}
-
+#attached-file-name{float:left;padding-right:1em;}
+#attached-file-remove{text-decoration: underline;cursor: pointer;}

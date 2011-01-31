@@ -1,35 +1,45 @@
 <!doctype html>
 <html manifest="manifest.blitz" lang="en">
     <head>
-        <meta charset=utf-8 />
         <title>RoundTable</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" href="lib/ui/css/jquery-ui.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="lib/jquery.pnotify.default.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="lib/fileuploader.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="lib/zoomimage/zoomimage.css" type="text/css" media="screen, projection">
-	<link rel="stylesheet" href="roundtable.css" type="text/css" media="screen, projection">
-        <script src="lib/resthub.stack.js"></script>
-        <script>
-            dominoes("lib/ui/jquery.ui.draggable.js lib/ui/jquery.ui.sortable.js > lib/jquery.textarearesizer.js lib/jquery.pnotify.js lib/jquery.validate.js lib/fileuploader.js > index.js");
-            dominoes("lib/zoomimage/eye.js > lib/zoomimage/utils.js lib/zoomimage/zoomimage.js");
-        </script>
+        <link rel="stylesheet" type="text/css" media="screen" href="roundtable.css" >
+        <link rel="stylesheet" type="text/css" media="screen" href="lib/themes/base/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="lib/themes/jquery.pnotify.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="lib/fileuploader.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="lib/zoomimage/zoomimage.css">
+        <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+
+        <script data-main="app" src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
     </head>
     <body>
-        <div id="container">
-            <div id="header">
-                <h1><span style="visibility: hidden">Round Table</span></h1>
-            </div>
-            <div id="navigation">
-                <ul>
-                    <li><a href="#/">Home</a></li>
-                    <li><a href="#/poll">View polls</a></li>
-                    <li><a href="#/poll/new">Create a new poll</a></li>
-                    <li id="search"></li>
-                    <li><a href="console.html">Console</a></li>
-                </ul>
-            </div>
-            <div id="main"></div>
-        </div>
+        <!-- HEADER ======================================================== -->
+        <header>
+            <h1 href="#/" id="logo"><span class="invisible">Round Table</span></h1>
+        </header>
+        <!-- /HEADER ======================================================= -->
+
+        <!-- NAVIGATION ==================================================== -->
+        <nav>
+            <ul>
+                <li><a href="#/">Home</a></li>
+                <li><a href="#/poll">View polls</a></li>
+                <li><a href="#/poll/new">Create a new poll</a></li>
+                <li id="search"></li>
+            </ul>
+        </nav>
+        <!-- /NAVIGATION =================================================== -->
+
+        <!-- CONTENT ======================================================= -->
+        <section id="content"></section>
+        <!-- /CONTENT ====================================================== -->
+
+        <!-- FOOTER ======================================================== -->
+        <footer>
+            <p>
+                Created with <a href="http://resthub.org">RESThub</a>.
+            </p>
+        </footer>
+        <!-- /FOOTER ======================================================= -->
     </body>
 </html>
