@@ -63,14 +63,9 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	}
 
 	/**
-	 * gets the User's Permissions
-	 * 
-	 * @param login
-	 *            the login of the user
-	 * @return permissions of the user. In this implementation inherited
-	 *         permissions from group to which the user belong are taken into
-	 *         accounts
+	 * {@inheritDoc}
 	 */
+	@Override
 	public List<String> getUserPermissions(String login) {
 		List<String> p = null;
 		User u = this.findByLogin(login);

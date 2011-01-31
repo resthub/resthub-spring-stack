@@ -1,0 +1,59 @@
+<a href="#" class="logout">Logout</a>
+<div class="manage">
+	<h1>User list</h1>
+	<table id="userList">
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Login</th>
+				<th>E-mail</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% var users = result.elements;
+			for (index in users) { %>
+			<tr>
+				<td><%= users[index].firstName %></td>
+				<td><%= users[index].lastName %></td>
+				<td><%= users[index].login %></td>
+				<td><%= users[index].email %></td>
+				<td><a data-idx="<%= index %>" class="userEdit" href="#">Edit</a><a data-idx="<%= index %>" class="userRemove" href="#">Remove</a></td>
+			</tr>
+		<% } %>
+		</tbody>
+	</table>
+	
+	<div id="userEdition">
+		<div id="editionRow">
+			<form id="userDetails">
+				<h1>Details</h1>
+				<div>
+					<label>First name: </label><input type="text" name="firstName"/>
+				</div>
+				<div>
+					<label>Last name: </label><input type="text" name="lastName"/>
+				</div>
+				<div>
+					<label>Login: </label><input type="text" name="login"/>
+				</div>
+				<div>
+					<label>Email: </label><input type="text" name="email"/>
+				</div>
+				<a href="#" class="submit"></a>
+				<a href="#" id="newUser">Cancel</a>
+			</form>
+			
+			<div id="permissions">
+				<h1>Direct permissions</h1>
+				<table id="userPermissions"></table>
+				<div>
+					<label>New permission: </label><input type="text" name="addedPermission"/>
+					<a href="#" class="submit">Add</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

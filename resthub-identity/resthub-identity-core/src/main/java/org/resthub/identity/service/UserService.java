@@ -51,6 +51,17 @@ public interface UserService extends GenericResourceService<User> {
 	public void removeGroupFromUser(String userLogin, String groupName);
 	
 	/**
+	 * gets the User's inherited Permissions
+	 * 
+	 * @param login
+	 *            the login of the user
+	 * @return permissions of the user. In this implementation inherited
+	 *         permissions from group to which the user belong are taken into
+	 *         accounts
+	 */
+	public List<String> getUserPermissions(String login);
+
+	/**
 	 * gets the User's direct Permissions
 	 * 
 	 * @param login

@@ -105,13 +105,34 @@ public class UserController extends
 	 * */
 	@GET
 	@Path("/me")
-	@RolesAllowed( { "IM-USER" })
-	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@RolesAllowed({"IM-USER"})
 	public Response currentUser(@HeaderParam("user_id") String login) {
-		User u = this.service.findByLogin(login);
+		User user = this.service.findByLogin(login);
+		Response response = Response.status(Status.NOT_FOUND).build();
+		if (user != null) {
+			user.getPermissions().clear();
+			user.getPermissions().addAll(this.service.getUserPermissions(login));
+			response = Response.ok(user).build();
+		}
+		return response;
+	}
+	
+	/**
+	 * Change the password of the user
+	 * 
+	 * @param user
+	 *            the user with the new password inside
+	 * */
+	@POST
+	@Path("/password")
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@RolesAllowed({"IM-USER"})
+	public Response changePassword(User u) {
+		u = this.service.updatePassword(u);
 		Response r;
-		r = (u == null) ? Response.status(Status.NOT_FOUND).build() : Response
-				.ok(u).build();
+		r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
+				"Unable to save the user").build() : Response.ok(u).build();
 		return r;
 	}
 
@@ -179,7 +200,7 @@ public class UserController extends
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getPermissionsFromUser(@PathParam("login") String login) {
 		Response r = null;
-		List<String> permissions = this.service.getUserDirectPermissions(login);
+		List<String> permissions = this.service.getUserPermissions(login);
 		r = (permissions == null) ? Response.status(Status.NOT_FOUND).entity(
 				"Unable to find permissions").build() : Response
 				.ok(permissions).build();
@@ -212,23 +233,6 @@ public class UserController extends
 	public void deletePermissionsFromUser(@PathParam("login") String login,
 			@PathParam("permission") String permission) {
 		this.service.removePermissionFromUser(login, permission);
-	}
-
-	/**
-	 * Change the password of the user
-	 * 
-	 * @param user
-	 *            the user with the new password inside
-	 * */
-	@POST
-	@Path("/password")
-	@Consumes( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response changePassword(User u) {
-		u = this.service.updatePassword(u);
-		Response r;
-		r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
-				"Unable to save the user").build() : Response.ok(u).build();
-		return r;
 	}
 
 	/**

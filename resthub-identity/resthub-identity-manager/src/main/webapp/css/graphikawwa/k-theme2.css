@@ -1,0 +1,323 @@
+/*-------------------------------------------------------------------- 
+          	  GRAPHIKAWWA 1.0 - Theme 2
+	          	  KAWWA2.0 Theme
+          By Le Studio, Atos Worldline, 2010
+-------------------------------------------------------------------- */
+
+/* DEPENDENCIES: "k-structure.css" , "k-reset.css"
+ * PROPERTIES REWRITTEN BY: "main.css"
+*/
+
+
+/* --------------------------------------------------------------------------- */
+/* ----------------------------- RE STRUCTURATION ---------------------------- */
+/*                           (rewrite k-structure.css)                         */
+/* --------------------------------------------------------------------------- */
+
+#container {width: 97%; min-width: 865px; max-width: 1240px; margin: 30px auto;}
+
+#header {
+	padding: 15px 0 5px;
+	color: #FFF;
+	background: #24405c url(../img/k-theme2/bg_header.png) no-repeat;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	-moz-box-shadow: 0 3px 5px #999;
+	-webkit-box-shadow: 0 3px 5px #999; 
+	box-shadow: 0 3px 5px #999;
+	z-index: 100;
+}
+
+#wrapper {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 2%;
+	color: #000;
+	background: #FFF;
+	-moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	-moz-box-shadow: 0 3px 5px #999;
+	-webkit-box-shadow: 0 3px 5px #999; 
+	box-shadow: 0 3px 5px #999;
+}
+
+#menu {width: 14.5%;}
+#main {
+	float: left;
+	width: 78%;
+	min-height: 400px;
+	padding-right: 2%;
+	background: #FFF url(../img/k-theme2/bg_sidebar.gif) top right repeat-y;
+}
+#sidebar {
+	width: 19%;
+	padding-left: 1%;
+}
+#menu + #main {margin-left: 0;}
+#menu + #sidebar + #main {width: 61.5%; padding: 0 2%; margin-left: 0;} 
+#sidebar + #main {margin-right: 0;}
+		
+#footer p.k-copyright {
+	clear: both;
+	padding: 8px 0 0 2%;
+	font-size: 0.65em;
+	color: #369;
+	background: transparent;
+}
+	
+/* --------------------------------------------------------------------------- */
+/* ------------------------------ DEFAULT VALUES ----------------------------- */
+/* --------------------------------------------------------------------------- */
+
+
+body {
+	font: 100%/1.3 Arial, "Helvetica Neue", Helvetica, sans-serif;
+	background: #FFF;
+}
+
+h2 {
+	font: 1.5em Arial, "Helvetica Neue", Helvetica, sans-serif;
+	margin-bottom: 20px;
+}
+
+h3 {
+	clear: both;
+	padding: 5px 0;
+	margin-bottom: 2%;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: left;
+	border-bottom: 1px solid #C3DCF5;
+}
+h3 img {margin-top: -8px;}
+	
+p, li, dt, dl {font-size: 0.75em;}
+li {line-height: 1.3;}
+li li {font-size: 100%;}
+
+/* --- FORM ELEMENTS --- */
+
+fieldset {
+	clear: both;
+	color: #333;
+	background: #FFF;
+	padding: 20px 20px 10px;
+	margin-bottom: 20px;
+	border: 1px solid #84D0F0;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+fieldset fieldset {
+	clear: none;
+	background-color: transparent;
+	background-image: none;
+	padding: 0;
+	border: none;
+}
+fieldset ul {margin: 0 0 20px 20px;}
+fieldset p {float: left; width: 100%; margin-bottom: 8px;}
+
+legend {
+	font-size: 0.95em;
+	font-weight: bold;
+	color: #68C800;
+	background: #FFF url(../img/k-theme2/bg_legend.gif) 5px 5px no-repeat;
+	padding: 0 8px 0 15px;
+}
+label {float: left; width: 10em; font-weight: bold; text-align: right; padding-right: 3px;}
+	label em {color: #F00; background: transparent;}
+
+/* General inputs */
+input {font-size: 103%; padding-bottom: 1px; margin: 0 0 5px 0;}
+
+/* Text inputs */
+input[type=text],
+input[type=password] {
+	padding: 0 0 2px 2px;
+	border: 1px solid #999;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+select {
+	margin-top: 3px;
+	padding: 2px;
+	font-size: 90%;
+	border: 1px solid #CCC;
+ 	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}		
+textarea {
+	font-size: 120%;
+	padding: 0 0 2px 2px;
+	border: 1px solid #999;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus {border: 1px solid #68C800;}
+
+table {color: #000; background: #FFF; margin-bottom: 20px;}
+caption {
+	padding: 5px 8px;
+	font-size: 0.75em;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #FFF;
+	background: #369;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-top-right-radius: 6px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+}
+
+tr:nth-child(even) td {color: #000; background: #FAF9E8;}
+th, td {
+	padding: 5px 8px;
+	font-size: 0.75em;
+	text-align: left;
+	border-bottom: 1px solid #C3DCF5;
+}
+
+th {
+	color: #000;
+	background: #E4EFF9;
+	border-top: 1px solid #FFF;
+	border-bottom: 2px solid #C3DCF5;
+}
+
+/* --------------------------------------------------------------------------- */
+/* ------------------------------ FORM SPECIFICS ----------------------------- */
+/* --------------------------------------------------------------------------- */
+
+/* --- FORM ACTIONS --- */
+
+/* Exception for inline paras */
+p.k-inline {display: inline; width: auto; margin-right: 20px;}
+
+/* --- LABELS --- */
+
+/* if label is on checkbox or radio */
+fieldset.k-radios legend {
+	font-size: 0.75em;
+	color: #000;
+	background: none;
+	padding: 0 0 6px;
+}
+fieldset.k-radios label {
+	float: none;
+	display: inline;
+	font-weight: normal;
+	vertical-align: 2px;
+}
+
+/* --- FORM INFOS --- */
+/* Contextual field comments */
+.k-comments {
+	display: inline-block;
+	font-size: 90%;
+	color: #666;
+	background: transparent;
+	padding-left: 8px;
+}
+
+/* mandatory fields */
+p.k-mandatory {
+	clear: both;
+	font-size: 0.7em;
+	font-weight: bold;
+	text-align: right;
+	color: #05B3FD;
+	padding-right: 5px;
+} 
+
+/* to position calendar on form */
+.k-calendar {vertical-align: -2px;}
+
+/* to position help icon */
+.k-pics {vertical-align: -6px;}
+
+/* --------------------------------------------------------------------------- */
+/* ------------------------------- NAVIGATION -------------------------------- */
+/* --------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------- MAIN NAV/ONE LEVEL */
+/* CB/ NAVBAR */
+
+ul.k-navbar {
+	float:left; 
+	width: 98%; 
+	padding-left: 2%; 
+	background: #E5F2DD;
+}
+ul.k-navbar li {
+	float: left;
+	width: auto;
+	list-style-type: none;
+	text-align: center;
+	margin-bottom: 10px;
+}
+ul.k-navbar a, ul.k-navbar a:visited {
+	display: block;
+	min-width: 10em;
+	height: 2.5em;
+	line-height: 2.5em;
+	font-weight: bold;
+	text-decoration: none;
+	color: #000;
+	background: #FFF;
+	padding: 0 1.5em;
+	margin-right: 5px;
+	-moz-box-shadow: 0 2px 3px #CCC;
+	-webkit-box-shadow: 0 2px 3px #CCC;
+	box-shadow: 0 2px 3px #CCC;
+ 	-moz-border-radius-bottomleft: 8px;
+ 	-moz-border-radius-bottomright: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+ul.k-navbar a:hover, ul.k-navbar a:focus {
+	color: #FFF;
+	background: #68C800;
+}
+
+/* Active section */
+ul.k-navbar li.active strong {
+	display: block;
+	min-width: 10em;
+	height: 2.5em;
+	line-height: 2.5em;
+	color: #FFF;
+	background: #68C800;
+	padding: 0 1.5em;
+	margin-right: 5px;
+	-moz-box-shadow: 0 2px 3px #CCC;
+	-webkit-box-shadow: 0 2px 3px #CCC;
+	box-shadow: 0 2px 3px #CCC;
+ 	-moz-border-radius-bottomleft: 8px;
+ 	-moz-border-radius-bottomright: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+		
+/* CE/ NAVBAR */		
