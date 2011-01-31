@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen, projection">
       
 		<!-- Javascript -->
-	 	<script data-main="../app" src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+	 	<script data-main="./app" src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<div id="container">

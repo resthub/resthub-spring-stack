@@ -41,12 +41,7 @@ define([
 		},
 		
 		_authenticateErrorHandler: function(error, details) {
-			// TODO
-			if (error == 'invalid_grant') {
-				alert('Wrong credentials !');
-			} else {
-				alert(details);
-			}
+			$.pnotify({pnotify_type:'error', pnotify_text:'Wrong credentials !'});
 		}
 	});
 
