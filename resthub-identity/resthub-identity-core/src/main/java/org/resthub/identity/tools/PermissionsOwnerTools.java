@@ -13,7 +13,8 @@ import org.resthub.identity.model.Group;
 public class PermissionsOwnerTools {
 	/**
 	 * Allow to get all the permissions of the entity, coming from both direct
-	 * permissions or inherited permissions
+	 * permissions or inherited permissions; each permission is reported once
+	 * even if it appears in different groups, roles or direct permssions
 	 * 
 	 * @param p
 	 *            the permissionOwner (User, Groups, ...) for which we are
@@ -26,7 +27,11 @@ public class PermissionsOwnerTools {
 		List<String> tmpPermissions;
 		tmpPermissions = p.getPermissions();
 		if (tmpPermissions != null) {
-			l.addAll(tmpPermissions);
+			for(String permission : tmpPermissions) {
+				if(!l.contains(permission)) {
+					l.add(permission);
+				}
+			}
 		}
 		List<Group> lg;
 		lg = p.getGroups();
@@ -35,7 +40,11 @@ public class PermissionsOwnerTools {
 				if (g != null) {
 					tmpPermissions = getInheritedPermission(g);
 					if (tmpPermissions != null) {
-						l.addAll(tmpPermissions);
+						for(String permission : tmpPermissions) {
+							if(!l.contains(permission)) {
+								l.add(permission);
+							}
+						}
 					}
 				}
 			}
