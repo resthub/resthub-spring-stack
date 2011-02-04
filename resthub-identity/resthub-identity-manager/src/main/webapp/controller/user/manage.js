@@ -79,6 +79,7 @@ define([
 				email:''
 			};
 			this._fillForm();
+			// add the password field to the form
 			$('#userDetails .submit').before('<div id="divPassword"><label>Password: </label><input type="text" name="password"/></div>');
 			return false;
 		},
@@ -152,7 +153,7 @@ define([
 		_listHandler: function(data, textStatus, XMLHttpRequest) {
 			this.users = data.elements;
 			this.render({result:data, edited:this.edited});
-			$.connectLogutButton();
+			$.connectLogoutButton();
 			document.title = 'Users management';
 			
 			$('.userEdit').button().click($.proxy(this, '_editButtonHandler'));

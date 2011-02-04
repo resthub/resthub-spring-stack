@@ -14,7 +14,7 @@ define(['lib/jquery'], function () {
 		}
 	};
 	
-	$.connectLogutButton = function() {
+	$.connectLogoutButton = function() {
 		$('.logout').button().click(function() {
 			$.logout();
 		});

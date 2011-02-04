@@ -14,7 +14,7 @@ define([
 		init : function() {
 			this.user = $.storage.get(Constants.USER_KEY);
 			this.render({user:this.user});	
-			$.connectLogutButton();
+			$.connectLogoutButton();
 			document.title = 'Home';
 			
 			$('#passwordChange input[name=password]').keyup($.proxy(this, '_keyupHandler'));
