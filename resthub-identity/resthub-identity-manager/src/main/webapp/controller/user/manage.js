@@ -118,8 +118,15 @@ define([
 			var added = $("input[name=addedPermission]").val();
 			this.edited.permissions.push(added);
 			this._refreshPermissionsTable();
-			UserRepository.addPermission($.proxy(this, '_permissionAddedHandler'), 
-					this.edited, added);
+			if(this.edited.id) {
+				// it's an edition of a user so one can add permission right now
+				UserRepository.addPermission($.proxy(this, '_permissionAddedHandler'),this.edited, added);
+			} else {
+				// it's a creation so the user does not exists on the server
+				// we just add the permission to the local js object, showing it in the list
+				// if the user save the user he's creating, the permissions will be saved too.
+			}
+					
 			return false;
 		},
 		
