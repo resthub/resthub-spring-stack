@@ -32,7 +32,7 @@ define([
 			$('#userDetails input[name="lastName"]').val(this.edited.lastName);	
 			$('#userDetails input[name="login"]').val(this.edited.login);	
 			$('#userDetails input[name="email"]').val(this.edited.email);	
-			
+
 			$('#userDetails .submit').button("option", {label: this.edited.id ? 'Save' : 'Create'});
 			
 			this._refreshPermissionsTable();
@@ -42,7 +42,10 @@ define([
 			this.edited.firstName = $('#userDetails input[name="firstName"]').val();
 			this.edited.lastName = $('#userDetails input[name="lastName"]').val();	
 			this.edited.login = $('#userDetails input[name="login"]').val();	
-			this.edited.email = $('#userDetails input[name="email"]').val();	
+			this.edited.email = $('#userDetails input[name="email"]').val();
+			if(!this.edited.id) {
+				this.edited.password = $('#userDetails input[name="password"]').val();
+			}
 		},
 				
 		_refreshPermissionsTable: function() {
@@ -76,6 +79,7 @@ define([
 				email:''
 			};
 			this._fillForm();
+			$('#userDetails .submit').before('<div id="divPassword"><label>Password: </label><input type="text" name="password"/></div>');
 			return false;
 		},
 		
@@ -90,6 +94,8 @@ define([
 			var idx = $(event.target.parentNode).data('idx');
 			this.edited = this.users[idx];
 			this._fillForm();
+			if($('#userDetails #divPassword')) $('#userDetails #divPassword').remove();
+			
 			return false;
 		},
 		
@@ -98,7 +104,8 @@ define([
 			return false;
 		},
 		
-		_removePermissionButtonHandler: function(idx) {
+		_removePermissionButtonHandler: function(event) {
+			idx=$(event.target.parentNode).data('idx');
 			var removed = this.edited.permissions.splice(idx, 1);
 			this._refreshPermissionsTable();
 			UserRepository.removePermission($.proxy(this, '_permissionRemovedHandler'), 

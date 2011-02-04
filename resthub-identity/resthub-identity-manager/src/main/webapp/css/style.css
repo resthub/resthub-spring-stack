@@ -2,7 +2,7 @@ h1 {
 	width: 100%;
 	font-size: 1.3em;
 	border-bottom: 1px solid #CCCCCC;
-	margin: 20px 0px 30px 0px;	
+	margin: 30px 0px 20px 0px;	
 }
 
 #header #title {
@@ -38,13 +38,12 @@ h1 {
 }
 .manage #userDetails input[type=submit] {
 	margin-left: 50px;	
+	margin-top: 50px;	
 }
 .manage #userDetails > div {
 	margin-bottom: 10px;
 }	
-.manage #userDetails *:nth-child(5) {
-	margin-bottom: 50px;
-}
+	
 .manage #permissions label {
 	float:none;
 }
