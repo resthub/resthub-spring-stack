@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.UserService;
+import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.resthub.web.controller.GenericResourceController;
 
 @Path("/user")
@@ -111,8 +112,9 @@ public class UserController extends
 		User user = this.service.findByLogin(login);
 		Response response = Response.status(Status.NOT_FOUND).build();
 		if (user != null) {
+			List<String> l = PermissionsOwnerTools.getInheritedPermission(user);
 			user.getPermissions().clear();
-			user.getPermissions().addAll(this.service.getUserPermissions(login));
+			user.getPermissions().addAll(l);
 			response = Response.ok(user).build();
 		}
 		return response;
