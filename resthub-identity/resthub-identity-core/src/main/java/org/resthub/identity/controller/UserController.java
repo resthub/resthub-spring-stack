@@ -112,9 +112,9 @@ public class UserController extends
 		User user = this.service.findByLogin(login);
 		Response response = Response.status(Status.NOT_FOUND).build();
 		if (user != null) {
-			List<String> l = PermissionsOwnerTools.getInheritedPermission(user);
+			List<String> permissions = PermissionsOwnerTools.getInheritedPermission(user);
 			user.getPermissions().clear();
-			user.getPermissions().addAll(l);
+			user.getPermissions().addAll(permissions);
 			response = Response.ok(user).build();
 		}
 		return response;

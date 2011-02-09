@@ -79,8 +79,6 @@ define([
 				email:''
 			};
 			this._fillForm();
-			// add the password field to the form
-			$('#userDetails .submit').before('<div id="divPassword"><label>Password: </label><input type="text" name="password"/></div>');
 			return false;
 		},
 		
@@ -95,7 +93,10 @@ define([
 			var idx = $(event.target.parentNode).data('idx');
 			this.edited = this.users[idx];
 			this._fillForm();
-			if($('#userDetails #divPassword')) $('#userDetails #divPassword').remove();
+			var password = $('#userDetails #divPassword');
+			if(password) {
+				password.remove();
+			}
 			
 			return false;
 		},
@@ -106,7 +107,7 @@ define([
 		},
 		
 		_removePermissionButtonHandler: function(event) {
-			idx=$(event.target.parentNode).data('idx');
+			var idx = $(event.target.parentNode).data('idx');
 			var removed = this.edited.permissions.splice(idx, 1);
 			this._refreshPermissionsTable();
 			UserRepository.removePermission($.proxy(this, '_permissionRemovedHandler'), 

@@ -41,6 +41,11 @@
 				<div>
 					<label>Email: </label><input type="text" name="email"/>
 				</div>
+				<% if (!edited || !edited.id) { %>
+				<div id="divPassword">
+					<label>Password: </label><input type="text" name="password"/>
+				</div>
+				<% } %>
 				<a href="#" class="submit"></a>
 				<a href="#" id="newUser">Cancel</a>
 			</form>

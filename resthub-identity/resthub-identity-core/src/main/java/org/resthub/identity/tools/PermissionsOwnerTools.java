@@ -22,33 +22,31 @@ public class PermissionsOwnerTools {
 	 * 
 	 * @return the List of permissions
 	 * */
-	public static List<String> getInheritedPermission(AbstractPermissionsOwner p) {
-		List<String> l = new ArrayList<String>();
-		List<String> tmpPermissions;
-		tmpPermissions = p.getPermissions();
+	public static List<String> getInheritedPermission(AbstractPermissionsOwner owner) {
+		List<String> result = new ArrayList<String>();
+		List<String> tmpPermissions = owner.getPermissions();
 		if (tmpPermissions != null) {
 			for(String permission : tmpPermissions) {
-				if(!l.contains(permission)) {
-					l.add(permission);
+				if(!result.contains(permission)) {
+					result.add(permission);
 				}
 			}
 		}
-		List<Group> lg;
-		lg = p.getGroups();
-		if (lg != null) {
-			for (Group g : lg) {
-				if (g != null) {
-					tmpPermissions = getInheritedPermission(g);
+		List<Group> groups = owner.getGroups();
+		if (groups != null) {
+			for (Group group : groups) {
+				if (group != null) {
+					tmpPermissions = getInheritedPermission(group);
 					if (tmpPermissions != null) {
 						for(String permission : tmpPermissions) {
-							if(!l.contains(permission)) {
-								l.add(permission);
+							if(!result.contains(permission)) {
+								result.add(permission);
 							}
 						}
 					}
 				}
 			}
 		}
-		return l;
+		return result;
 	}
 }
