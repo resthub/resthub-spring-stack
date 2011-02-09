@@ -10,8 +10,6 @@ target
 \.conflict\~$
 .DS_Store
 syntax: regexp
-^resthub-identity/resthub-identity-manager/src/main/webapp/index\.html$
-syntax: regexp
 ^resthub-wadl-explorer/src/main/webapp/META-INF/MANIFEST\.MF$
 syntax: regexp
 ^resthub-couchdb/test-output$
