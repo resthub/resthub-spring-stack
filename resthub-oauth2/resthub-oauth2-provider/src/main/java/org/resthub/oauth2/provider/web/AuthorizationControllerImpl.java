@@ -120,9 +120,12 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 	protected Response redirectOnError(String redirectUri, String state, ProtocolException exc) {
 		ResponseBuilder builder = Response.status(302);
 		URI redirection = null;
+		// somehow if we get here, the previously set token might be invalid
+		// unset it to avoid looping between the client and us
+		builder.cookie(new NewCookie(cookieName, "", cookiePath, cookieDomain, "", 0, false));
 		try {
 			boolean containsQuestionMark = redirectUri.contains("?");
-			StringBuilder address = new StringBuilder(containsQuestionMark ? "&": "?").append("error=").
+			StringBuilder address = new StringBuilder(redirectUri).append(containsQuestionMark ? "&": "?").append("error=").
 					append(exc.errorCase.value());
 			if (state != null && state != "") {
 				address.append("&state=").append(state);
@@ -231,12 +234,19 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 					}
 				}
 			}
-			if (accessToken != null) {
-				logger.debug("[obtainAccessCode] end-user already known {}", accessToken);
-				Token token = service.getTokenInformation(accessToken);
-				token = service.generateCode(token, redirectUri);
-				response = redirectToIncomingResource(redirectUri, token.code, state);
-			} else {
+			try {
+				if (accessToken != null) {
+					logger.debug("[obtainAccessCode] end-user already known {}", accessToken);
+					Token token = service.getTokenInformation(accessToken);
+					token = service.generateCode(token, redirectUri);
+					response = redirectToIncomingResource(redirectUri, token.code, state);
+				}
+			} catch (ProtocolException exc) {
+				// Redirect user with error.
+				response = redirectOnError(redirectUri, state, exc);
+			} 
+			
+			if(accessToken == null) {
 				logger.debug("[obtainAccessCode] redirect to {}", authenticationPage);
 				// No errors, lets send a page to authenticate user.
 				ResponseBuilder builder = Response.status(302);
