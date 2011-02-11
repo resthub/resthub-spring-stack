@@ -122,7 +122,9 @@ public class AuthorizationControllerImpl implements AuthorizationController {
 		URI redirection = null;
 		// somehow if we get here, the previously set token might be invalid
 		// unset it to avoid looping between the client and us
-		builder.cookie(new NewCookie(cookieName, "", cookiePath, cookieDomain, "", 0, false));
+		if (cookieName != null) {
+			builder.cookie(new NewCookie(cookieName, "", cookiePath, cookieDomain, "", 0, false));
+		}
 		try {
 			boolean containsQuestionMark = redirectUri.contains("?");
 			StringBuilder address = new StringBuilder(redirectUri).append(containsQuestionMark ? "&": "?").append("error=").
