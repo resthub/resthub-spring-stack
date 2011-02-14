@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * from comments without refactoring the abstractTestDao class
  */
 @Entity
-@Table
+@Table(name="idm_users")
 @XmlRootElement
 public class User extends AbstractPermissionsOwner {
 
@@ -30,7 +30,6 @@ public class User extends AbstractPermissionsOwner {
 	protected String password = null;
 	protected String email = null;
 
-	
 
 	/**
 	 * default Constructor

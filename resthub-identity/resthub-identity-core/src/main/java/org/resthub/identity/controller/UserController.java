@@ -25,7 +25,6 @@ import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.resthub.web.controller.GenericResourceController;
 
 @Path("/user")
-@RolesAllowed( { "IM-ADMIN" })
 /**
  Front controller for User Management<br/>
  Only ADMINS can access to the globality of this API<br/>
@@ -55,6 +54,7 @@ public class UserController extends
 	@GET
 	@Path("/all")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed( { "IM-ADMIN" })
 	public Response getAllUsers() {
 
 		List<User> users = this.service.findAll();
@@ -80,6 +80,7 @@ public class UserController extends
 	@GET
 	@Path("/login/{login}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed( { "IM-ADMIN" })
 	public Response getUserByLogin(@PathParam("login") String login) {
 		User user = this.service.findByLogin(login);
 		Response r;
@@ -107,7 +108,7 @@ public class UserController extends
 	@GET
 	@Path("/me")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	@RolesAllowed({"IM-USER"})
+	@RolesAllowed({"IM-USER", "IM-ADMIN"})
 	public Response currentUser(@HeaderParam("user_id") String login) {
 		User user = this.service.findByLogin(login);
 		Response response = Response.status(Status.NOT_FOUND).build();
@@ -129,7 +130,7 @@ public class UserController extends
 	@POST
 	@Path("/password")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	@RolesAllowed({"IM-USER"})
+	@RolesAllowed({"IM-USER", "IM-ADMIN"})
 	public Response changePassword(User u) {
 		u = this.service.updatePassword(u);
 		Response r;
@@ -149,6 +150,7 @@ public class UserController extends
 	@GET
 	@Path("/name/{login}/groups")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed({"IM-ADMIN"})
 	public Response getGroupsFromUser(@PathParam("login") String login) {
 		User user = this.service.findByLogin(login);
 		Response r = null;
@@ -170,6 +172,7 @@ public class UserController extends
 	@PUT
 	@Path("/name/{login}/groups/{group}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed({"IM-ADMIN"})
 	public void addGroupToUser(@PathParam("login") String login,
 			@PathParam("group") String group) {
 		this.service.addGroupToUser(login, group);
@@ -184,6 +187,7 @@ public class UserController extends
 	@DELETE
 	@Path("/name/{login}/groups/{groups}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed({"IM-ADMIN"})
 	public void removeGroupsForUser(@PathParam("login") String userLogin,
 			@PathParam("groups") String groupName) {
 		this.service.removeGroupFromUser(userLogin, groupName);
@@ -200,6 +204,7 @@ public class UserController extends
 	@GET
 	@Path("/name/{login}/permissions")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed({"IM-ADMIN"})
 	public Response getPermissionsFromUser(@PathParam("login") String login) {
 		Response r = null;
 		List<String> permissions = this.service.getUserPermissions(login);
@@ -218,6 +223,7 @@ public class UserController extends
 	@PUT
 	@Path("/name/{login}/permissions/{permission}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed({"IM-ADMIN"})
 	public void addPermissionsToUser(@PathParam("login") String login,
 			@PathParam("permission") String permission) {
 		this.service.addPermissionToUser(login, permission);
@@ -232,6 +238,7 @@ public class UserController extends
 	@DELETE
 	@Path("/name/{login}/permissions/{permission}")
 	@Produces( { MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@RolesAllowed({"IM-ADMIN"})
 	public void deletePermissionsFromUser(@PathParam("login") String login,
 			@PathParam("permission") String permission) {
 		this.service.removePermissionFromUser(login, permission);
@@ -245,6 +252,7 @@ public class UserController extends
 	 *            the user to create/update
 	 * */
 	@Override
+	@RolesAllowed({"IM-ADMIN"})
 	public Response create(User user) {
 		User u = service.create(user);
 		Response r;
