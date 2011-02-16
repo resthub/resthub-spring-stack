@@ -10,7 +10,15 @@ define([ 'lib/controller',
         },
         _displayPoll : function(poll) {
             var self = this;
-            this.render(poll);
+            this.render(poll, {
+                sumVotes: function(voteIndex) {
+                    var sum = 0;
+                    $.each(poll.voters, function(idx, voter) {
+                        sum += (voter.votes[voteIndex].value == "yes") ? 1 : 0;
+                    });
+                    return sum;
+                }
+            });
 
             this.element.find('tr.rt-vote-inputs td.no').click(function() {
                 $(this).toggleClass('no');

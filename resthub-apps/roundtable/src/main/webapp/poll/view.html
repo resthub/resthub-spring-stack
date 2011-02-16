@@ -1,14 +1,14 @@
 <div class="rt-poll-detail">
     <div class="body">
-        <% if (!$.isEmptyObject(illustration)) {%>
+        {{if illustration }}
             <div class="illustration">
-                <a href="api/illustration/<%= illustration %>" target="_blank" class="zgal">
-                    <img alt="illustration" src="api/thumbnail/<%= illustration %>" />
+                <a href="api/illustration/${illustration}" target="_blank" class="zgal">
+                    <img alt="illustration" src="api/thumbnail/${illustration}" />
                 </a>
             </div>
-        <% } %>
+        {{/if}}
         <blockquote>
-            <p><%= body %></p>
+            <p>${body}</p>
         </blockquote>
     </div>
     <div class="legend">
@@ -18,16 +18,15 @@
                     <td style="height: 36px;"></td>
                 </tr>
                 <!-- list voters -->
-                <% if (!$.isEmptyObject(voters)) {%>
-                    <% for(var i = 0; i < voters.length ; i++) { %>
-                        <% var voter = voters[i] %>
+                {{if voters }}
+                    {{each(i, voter) voters}}
                         <tr>
                             <td class="rt-voter">
-                                <span class="name"><%= voter.name %></span>
+                                <span class="name">${voter.name}</span>
                             </td>
                         </tr>
-                    <% } %>
-                <% } %>
+                    {{/each}}
+                {{/if}}
                 <!-- end list voters -->
                 <tr><td style="background-color: transparent; border: 0px none; height: 0.25em;"></td></tr>
                 <tr>
@@ -43,51 +42,40 @@
         <table cellspacing="1">
             <tbody>
                 <tr class="choices">
-                    <% for(var i = 0; i < answers.length ; i++) { %>
-                        <% var answer = answers[i] %>
-                        <th><%= answer.body %></th>
-                    <% } %>
+                    {{each(i, answer) answers}}
+                        <th>${answer.body}</th>
+                    {{/each}}
                     <th style="background-color: transparent; border: 0px none;width:50px;"></th>
                 </tr>
-                <% if (!$.isEmptyObject(voters)) {%>
-                    <% for(var i = 0; i < voters.length ; i++) { %>
-                        <% var voter = voters[i] %>
+                {{if voters }}
+                    {{each(i, voter) voters}}
                         <tr class="votes">
-                            <% for(var j = 0; j < answers.length ; j++) { %>
-                                <% var answer = answers[j] %>
-                                <% var vote = voter.votes[answer.order - 1] %>
-                                <td class="<%= vote.value %>" title="<%= voter.name %>, <%= answer.body %>: <%= vote.value %>" ></td>
-                            <% } %>
+                            {{each(j, answer) answers}}
+                                <td class="${voter.votes[answer.order - 1].value}"
+                                    title="${voter.name}, ${answer.body}: ${voter.votes[answer.order - 1].value}" >
+                                </td>
+                            {{/each}}
                             <td style="background-color: transparent; border: 0px none;"></td>
                         </tr>
-                    <% } %>
-                <% } %>
+                    {{/each}}
+                {{/if}}
                 <tr>
-                    <% for(var i = 0; i < answers.length ; i++) { %>
-                        <% var answer = answers[i] %>
+                    {{each answers}}
                         <td style="background-color: transparent; border: 0px none; height: 0.25em;"></td>
-                    <% } %>
+                    {{/each}}
                 </tr>
                 <tr class="rt-vote-inputs">
-                    <% for(var i = 0; i < answers.length ; i++) { %>
-                        <% var answer = answers[i] %>
-                        <td class="no rt-vote" title="<%= answer.body %>" id="p-<%= id %>-vote-<%= answer.order %>"></td>
-                    <% } %>
+                    {{each(i, answer) answers}}
+                        <td class="no rt-vote" title="${answer.body}" id="p-${id}-vote-${answer.order}"></td>
+                    {{/each}}
                     <td>
                         <input type="button" value="Vote" title="Submit your vote" />
                     </td>
                 </tr>
                 <tr class="result">
-                    <% for(var i = 0; i < answers.length ; i++) {%>
-                        <% var vote_sum = 0 %>
-                        <% if (!$.isEmptyObject(voters)) {%>
-                            <% for(var j = 0; j < voters.length ; j++) { %>
-                                <% var voter = voters[j] %>
-                                <% vote_sum += (voter.votes[i].value == "yes") ? 1 : 0 %>
-                            <% } %>
-                        <% } %>
-                        <td class="<%= (vote_sum > 0) ? 'bold' : '' %>" ><%= vote_sum %></td>
-                    <% } %>
+                    {{each answers}}
+                        <td>${$item.sumVotes($index)}</td>
+                    {{/each}}
                     <td style="background-color: transparent; border: 0px none;"></td>
                 </tr>
             </tbody>

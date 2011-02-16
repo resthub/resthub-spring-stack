@@ -12,7 +12,15 @@ define([ 'lib/controller', 'repositories/poll.repository' ], function(Controller
             this.render({
 		page: page_data,
 		query: this.query
-	    });
+            }, {
+                getPages: function() {
+                    return new Array(page_data.totalPages);
+                },
+                formatDate: function(date) {
+                    var d = new Date(date);
+                    return d.toDateString();
+                }
+            });
 
             // HACK until HTML5 href on LI will be support
             this.element.find('li.poll-item').click(function() {

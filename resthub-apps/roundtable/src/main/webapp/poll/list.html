@@ -1,35 +1,31 @@
 <div class="rt-poll-list">
     <p class="result-summary">
-        <% if (query != null && query != '') {%>
-            <%= page.totalElements %> poll(s) found foor query : <%= query %>
-        <% } else { %>
-            <%= page.totalElements %> total polls
-        <% } %>
+        {{if (query != null && query != '') }}
+            ${page.totalElements} poll(s) found foor query : ${query}
+        {{else}}
+            ${page.totalElements} total polls
+        {{/if}}
     </p>
 
     <ul>
-        <% if (!$.isEmptyObject(page.elements)) {%>
-            <% for(var i = 0; i < page.elements.length ; i++) { %>
-                <% var poll = page.elements[i] %>
-                <li class="poll-item" href="#/poll/<%= poll.id %>" >
-                    <h3><%= poll.topic %>
-                        <% var date = new Date(poll.creationDate) %>
-                        <span class="author">(by <%= poll.author %> on <%= date.toDateString() %>)</span>
+        {{if page.elements }}
+            {{each(i, poll) page.elements}}
+                <li class="poll-item" href="#/poll/${poll.id}" >
+                    <h3>${poll.topic}
+                        <span class="author">(by ${poll.author} on ${$item.formatDate(poll.creationDate)})</span>
                     </h3>
-                    <blockquote><p><%= poll.body %></p></blockquote>
+                    <blockquote><p>${poll.body}</p></blockquote>
                 </li>
-            <% } %>
-        <% } %>
+            {{/each}}
+        {{/if}}
     </ul>
-
-    <% if (page.totalPages > 1) {%>
+    {{if page.totalPages > 1 }}
         <ul class="pagination">
-            <% for(var i = 0; i < page.totalPages ; i++) { %>
-                <% var clazz = (i == page.number) ? 'current' : '' %>
-                <li class="<%= clazz %>">
-                    <a href="#/poll?page=<%= i %>&q=<%= query %>"><%= i %></a>
+            {{each $item.getPages()}}
+                <li class="{{if $index == page.number }} current {{/if}}">
+                    <a href="#/poll?page=${$index}&q=${query}">${$index + 1}</a>
                 </li>
-            <% } %>
+            {{/each}}
         </ul>
-    <% } %>
+    {{/if}}
 <div>
