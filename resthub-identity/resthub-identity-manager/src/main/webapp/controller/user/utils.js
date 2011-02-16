@@ -40,6 +40,7 @@ define(['lib/jquery'], function () {
 	 * Logout function: remove the current user in local storage, and redirect to login route.
 	 */
 	$.logout = function() {
+		$.loading(false);
 		$.storage.remove(Constants.USER_KEY);
 		$.route('#/login');
 	}; // logout().

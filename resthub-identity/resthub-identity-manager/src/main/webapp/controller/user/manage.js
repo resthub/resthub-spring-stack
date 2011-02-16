@@ -64,6 +64,11 @@ define([
 			UserRepository.list($.proxy(this, '_listHandler'), page);			
 		}, // _loadList().
 		
+		/**
+		 * Fills the UI form with values of the edited user.
+		 * Therefore, this._edited must not be null.
+		 * Refreshs the permission table.
+		 */
 		_fillForm: function() {
 			$('#userDetails input[name="firstName"]').val(this._edited.firstName);
 			$('#userDetails input[name="lastName"]').val(this._edited.lastName);	
@@ -75,6 +80,10 @@ define([
 			this._refreshPermissionsTable();
 		}, // _fillForm().
 		
+		/**
+		 * Fills the edited user with values from the UI form.
+		 * Therefore, this._edited must not be null.
+		 */
 		_fillEdited: function() {
 			this._edited.firstName = $('#userDetails input[name="firstName"]').val();
 			this._edited.lastName = $('#userDetails input[name="lastName"]').val();	
@@ -85,6 +94,10 @@ define([
 			}
 		}, // _fillEdited().
 				
+		/**
+		 * Redraw the permission table regarding the current user permissions.
+		 * Therefore, this._edited must not be null.
+		 */
 		_refreshPermissionsTable: function() {
 			var permTable = $('#userPermissions');
 			$('#userPermissions tr').remove();
@@ -107,6 +120,12 @@ define([
 			// ---------------------------------------------------------------------------------------------------------
 			// UI handlers
 
+		/**
+		 * Handler connected to the edition form reset.
+		 * Empties the form and show the clear password field.
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_newButtonHandler: function() {
 			// Empty all fields.
 			this._edited = {
@@ -123,6 +142,13 @@ define([
 			return false;
 		}, // _newButtonHandler().
 		
+		/**
+		 * Handler connected to the edition form submission.
+		 * Send the edited user to server, after filling it with UI form values.
+		 * this._userSavedHandler() is called on success.
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_saveButtonHandler: function() {
 			$.loading(true);
 			this._fillEdited();
@@ -131,19 +157,25 @@ define([
 			return false;
 		}, // _saveButtonHandler().
 		
+		/**
+		 * Handler connected to the edition action link in the user table.
+		 * Clears the edition form, changes the edited user, and fills the UI form with current user values.
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_editButtonHandler: function(event) {
 			var idx = $(event.target.parentNode).data('idx');
 			this._edited = this._users[idx];
 			$('#divPassword').hide();
 			this._fillForm();
-			var password = $('#userDetails #divPassword');
-			if(password) {
-				password.remove();
-			}
-			
 			return false;
 		}, // _editButtonHandler().
 		
+		/**
+		 * If the next button is enabled, goes to the next page.
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_nextPageButtonHandler: function(event) {
 			var button = $(event.target.parentNode).data().button;
 			if(!button.options.disabled) {
@@ -152,6 +184,11 @@ define([
 			return false;
 		}, // _nextPageButtonHandler().
 		
+		/**
+		 * If the previous button is enabled, goes to the previous page.
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_previousPageButtonHandler: function(event) {
 			var button = $(event.target.parentNode).data().button;
 			if(!button.options.disabled) {
@@ -160,39 +197,63 @@ define([
 			return false;
 		}, // _previousPageButtonHandler().
 		
+		/**
+		 * Handler invoked after user validation for user removal.
+		 * Call the server to remove the removed user.
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_removeButtonHandler: function(id) {
 			$.loading(true);
 			UserRepository.remove($.proxy(this, '_userRemovedHandler'), id);
 			return false;
 		}, // _removeButtonHandler().
 		
+		/**
+		 * Handler invoked to remove a permission of the edited user.
+		 * Call the server to remove the permissions if the edited user is already existing. 
+		 * Permission table is immediately refreshed. 
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_removePermissionButtonHandler: function(event) {
 			var idx = $(event.target.parentNode).data('idx');
 			var removed = this._edited.permissions.splice(idx, 1);
 			this._refreshPermissionsTable();
-			$.loading(true);
-			UserRepository.removePermission($.proxy(this, '_permissionRemovedHandler'), 
-					this._edited, removed);
+			if(this._edited.id) {
+				$.loading(true);
+				UserRepository.removePermission($.proxy(this, '_permissionRemovedHandler'), 
+						this._edited, removed);
+			}
 			return false;
 		}, // _removePermissionButtonHandler().
 		
+		/**
+		 * Handler invoked to add a permission of the edited user.
+		 * Call the server to add the permissions if the edited user is already existing. 
+		 * Permission table is immediately refreshed. 
+		 * 
+		 * @returns false to stop event propgation.
+		 */
 		_addPermissionButtonHandler: function(idx) {
 			var added = $("input[name=addedPermission]").val();
 			this._edited.permissions.push(added);
 			this._refreshPermissionsTable();
+			// it's a creation so the user does not exists on the server
+			// we just add the permission to the local js object, showing it in the list
+			// if the user save the user he's creating, the permissions will be saved too.
 			if(this._edited.id) {
 				// it's an edition of a user so one can add permission right now
 				$.loading(true);
 				UserRepository.addPermission($.proxy(this, '_permissionAddedHandler'),this._edited, added);
-			} else {
-				// it's a creation so the user does not exists on the server
-				// we just add the permission to the local js object, showing it in the list
-				// if the user save the user he's creating, the permissions will be saved too.
 			}
-					
+			
 			return false;
 		}, // _addPermissionButtonHandler().
 		
+		/**
+		 * Handler invoked when typing into the permission textbox, to enable or not the permission add button.
+		 */
 		_permissionKeyUpHandler: function() {
 			$('#permissions .submit').button('option', 'disabled', !this._edited || !this._edited.id || 
 					$('#permissions input[name=addedPermission]').val().length == 0);
@@ -201,6 +262,13 @@ define([
 			// ---------------------------------------------------------------------------------------------------------
 			// Server handlers
 
+		/**
+		 * Handler invoked after user save on server. Reloads entire list.
+		 * 
+		 * @param data Server's response.
+		 * @param textStatus Http response code.
+		 * @param XMLHttpRequest Communication object.
+		 */
 		_userSavedHandler: function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
 			this._edited = data;
@@ -208,6 +276,13 @@ define([
 			this._loadList();
 		}, // _userSavedHandler().
 		
+		/**
+		 * Handler invoked after user removal on server. Displays notification.
+		 * 
+		 * @param data Server's response.
+		 * @param textStatus Http response code.
+		 * @param XMLHttpRequest Communication object.
+		 */
 		_userRemovedHandler: function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
 			if (this._edited && this._edited.id == this._removed.id ) {
@@ -217,20 +292,44 @@ define([
 			this._loadList();			
 		}, // _userRemovedHandler().
 		
+		/**
+		 * Handler invoked after permission removal on server. Displays notification.
+		 * 
+		 * @param data Server's response.
+		 * @param textStatus Http response code.
+		 * @param XMLHttpRequest Communication object.
+		 */
 		_permissionRemovedHandler:  function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
 			$.pnotify('Permission removed !');			
 		}, // _permissionRemovedHandler().
 		
+		/**
+		 * Handler invoked after permission addition on server. Displays notification.
+		 * 
+		 * @param data Server's response.
+		 * @param textStatus Http response code.
+		 * @param XMLHttpRequest Communication object.
+		 */
 		_permissionAddedHandler:  function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
 			$.pnotify('Permission added !');			
 		}, // _permissionAddedHandler().
 		
+		/**
+		 * Handler invoked after list retrieval.  
+		 * Updates the current and total page numbers, refresh all rendering (user table, user edition form, permissions
+		 * table).
+		 * 
+		 * @param data Server's response.
+		 * @param textStatus Http response code.
+		 * @param XMLHttpRequest Communication object.
+		 */
 		_listHandler: function(data, textStatus, XMLHttpRequest) {
 			this._users = data.elements;
 			this._totalPages = data.totalPages;
 			this._page = data.number;		
+			// Refresh rendering.
 			this.render({
 				users: this._users, 
 				page: this._page, 
@@ -238,23 +337,22 @@ define([
 				edited:this._edited
 			});
 			$.connectLogoutButton();
-			document.title = 'Users management';
 			
-			$('.userEdit').button().click($.proxy(this, '_editButtonHandler'));
 			var self = this;
+			// Connect removal buttons, with confirmation.
 			$('.userRemove').button().click(function(event) {
 				var idx = $(event.target.parentNode).data('idx');
-				self.removed = self.users[idx];
+				self._removed = self._users[idx];
 				$('#userDetails').append('<div id="removeConfirm" title="User removal confirmation">'+
-						'Do you really want to delete user '+ self.removed.firstName + ' ' + 
-						self.removed.lastName +'</div>');
+						'Do you really want to delete user '+ self._removed.firstName + ' ' + 
+						self._removed.lastName +'</div>');
 				$("#removeConfirm").dialog({
 					resizable: false,
 					modal: true,
 					buttons: {
 						Yes: function() {
 							$('#removeConfirm').dialog("close").remove();
-							$.publish('delete-user', self.removed.id);
+							$.publish('delete-user', self._removed.id);
 						},
 						Cancel: function() {
 							$('#removeConfirm').dialog("close").remove();
@@ -263,31 +361,37 @@ define([
 				});	
 				return false;
 			});
+			// Connect buttons (new, edit, save, add permission, next/previous pages)
 			$('#newUser').button().click($.proxy(this, '_newButtonHandler'));
+			$('.userEdit').button().click($.proxy(this, '_editButtonHandler'));
 			$('#userDetails .submit').button().click($.proxy(this, '_saveButtonHandler'));
 			$('#permissions .submit').button().click($.proxy(this, '_addPermissionButtonHandler'));
-			
+			$('.buttonBar .previousPage').button({disabled: this._page == 0}).click(
+					$.proxy(this, '_previousPageButtonHandler'));
+			$('.buttonBar .nextPage').button({disabled: this._page == this._totalPages-1}).click(
+					$.proxy(this, '_nextPageButtonHandler'));
+			// Connect keyup handlers (add permission)		
 			$('#permissions input[name=addedPermission]').keyup($.proxy(this, '_permissionKeyUpHandler'));
-			
-			if (this._edited == null) {
+			// Refresh user edition.
+			$('#divPassword').hide();
+			if (!this._edited || !this._edited.id) {
 				this._newButtonHandler();
 			} else {
-				$('#divPassword').hide();
 				this._fillForm();
 			}
-			
-			$('.buttonBar .previousPage').button({disabled: this._page == 0})
-				.click($.proxy(this, '_previousPageButtonHandler'));
-			$('.buttonBar .nextPage').button({disabled: this._page == this._totalPages-1})
-				.click($.proxy(this, '_nextPageButtonHandler'));
 			$.loading(false);
 		}, // _listHandler().
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Constructor
 		
+		/**
+		 * Constructor. 
+		 * Subscribe to user deletion event.
+		 */
 		init : function() {
 			this._loadList();
+			document.title = 'Users management';
 			$.subscribe('delete-user', $.proxy(this, '_removeButtonHandler'));				
 		} // init().
 		

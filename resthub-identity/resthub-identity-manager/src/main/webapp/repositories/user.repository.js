@@ -29,11 +29,15 @@ define([
 		 * Otherwise, display error notification.
 		 * 
 		 * @param XMLHttpRequest The communication object.
-		 * @param textStatus Text error returned by server.
+		 * @param status Text error returned by server.
 		 * @param errorThrown Detailed text error returned by server.
 		 */
-		authorizationError : function(XMLHttpRequest, textStatus, errorThrown) {
-			if (status == 'expired_token') {
+		authorizationError : function(XMLHttpRequest, status, errorThrown) {
+			if (status == 'expired_token' || (status == 'invalid_token' && errorThrown == "Unvalid token")) {
+				$.pnotify({
+					pnotify_text: 'Your session has expired',
+					pnotify_type: 'error'
+				});
 				$.logout();
 			} else {
 				var error = {
@@ -41,7 +45,7 @@ define([
 						pnotify_text: 'The action cannot be realized:\n',
 						pnotify_type: 'error'
 					};
-					error.pnotify_text += errorThrown ? errorThrown : textStatus;
+					error.pnotify_text += errorThrown ? errorThrown : status;
 					$.pnotify(error);
 			}
 		}, // authorizationError().
