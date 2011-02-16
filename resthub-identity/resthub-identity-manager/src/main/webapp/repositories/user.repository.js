@@ -36,10 +36,6 @@ define([
 		addPermission: function(callback, user, permission) {
 			this._put(this.root + 'name/'+user.login+'/permissions/'+permission, callback);			
 		},
-
-		list: function(callback) {
-			this._get(this.root, callback);
-		},
 		
 		changePassword: function(callback, user) {
 			this._post(this.root + 'password/', callback, user);

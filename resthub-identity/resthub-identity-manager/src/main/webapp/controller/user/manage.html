@@ -1,6 +1,11 @@
 <a href="#" class="logout">Logout</a>
 <div class="manage">
 	<h1>User list</h1>
+	<div class="buttonBar">
+		<a href="#" class="previousPage">previous</a>
+		<%= page+1 %>/<%= totalPages %>
+		<a href="#" class="nextPage">next</a>
+	</div>
 	<table id="userList">
 		<thead>
 			<tr>
@@ -12,8 +17,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% var users = result.elements;
-			for (index in users) { %>
+		<% for (index in users) { %>
 			<tr>
 				<td><%= users[index].firstName %></td>
 				<td><%= users[index].lastName %></td>
@@ -41,11 +45,9 @@
 				<div>
 					<label>Email: </label><input type="text" name="email"/>
 				</div>
-				<% if (!edited || !edited.id) { %>
 				<div id="divPassword">
 					<label>Password: </label><input type="text" name="password"/>
 				</div>
-				<% } %>
 				<a href="#" class="submit"></a>
 				<a href="#" id="newUser">Cancel</a>
 			</form>

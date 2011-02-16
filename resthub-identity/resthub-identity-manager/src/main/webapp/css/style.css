@@ -56,8 +56,14 @@ h1 {
 }
 .manage .permissionRemove,
 .manage .userRemove,
-.manage .userEdit {
+.manage .userEdit,
+.manage .buttonBar {
 	font-size: 0.7em;
+}
+
+.manage .buttonBar {
+    text-align: right;
+    padding: 5px;
 }
 
 .formError {
