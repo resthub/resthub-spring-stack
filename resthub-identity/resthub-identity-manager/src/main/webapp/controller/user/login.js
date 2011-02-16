@@ -4,50 +4,106 @@ define([
         'lib/jqueryui/button'
     ], function(OAuth2Controller, UserRepository) {
 
+	/**
+	 * Class LoginController
+	 * 
+	 * Display a login forms, and redirect to home on success.
+	 */
 	return OAuth2Controller.extend('LoginController', {
 		
+		// -------------------------------------------------------------------------------------------------------------
+		// Public attributes
+
+		/**
+		 * Controller's template
+		 */
 		template: 'controller/user/login.html',
 		
-		login: "",
+		// -------------------------------------------------------------------------------------------------------------
+		// Private attributes
+
+		/**
+		 * Inputed login, reuse to get authenticated user details.
+		 */
+		_login: "",
 		
-		init : function() {
-			this.render();
-			document.title = 'Login';
-			var self = this;
-			
-			$('#formLogin .submit').button().click(function() {	
-				$.storage.remove('oauthToken');
-				// Try to authenticate
-				self.login = $('input[name="username"]').val();
-				self.getOAuth2token(
-						self.login,
-						$('input[name="password"]').val(),
-						$.proxy(self, '_authenticateHandler'),
-						$.proxy(self, '_authenticateErrorHandler')
-				);
-				return false;
-			});
-		},
+		// -------------------------------------------------------------------------------------------------------------
+		// Private methods
+
+			// ---------------------------------------------------------------------------------------------------------
+			// UI handlers
+
+		/**
+		 * Handler triggered when login form is submitted.
+		 * 
+		 * Calls server to perform authentication.
+		 * this._authenticateHandler() is the success callback, 
+		 * this._authenticateErrorHandler() is the error callback, 
+		 */
+		_submitButtonHandler: function(token) {
+			$.storage.remove('oauthToken');
+			// Try to authenticate
+			this._login = $('input[name="username"]').val();
+			$.loading(true);
+			this.getOAuth2token(
+					this._login,
+					$('input[name="password"]').val(),
+					$.proxy(this, '_authenticateHandler'),
+					$.proxy(this, '_authenticateErrorHandler')
+			);
+			return false;		
+		}, // _submitButtonHandler().
 		
+			// ---------------------------------------------------------------------------------------------------------
+			// Server handlers
+
+		/**
+		 * Invoked on authentication error. Displays a notification.
+		 * 
+		 * @param error Error status sent by the server.
+		 * @param details Detailed text message sent by the server.
+		 */
+		_authenticateErrorHandler: function(error, details) {
+			$.loading(false);
+			$.pnotify({pnotify_type:'error', pnotify_text:'Wrong credentials !'});
+		}, // _authenticateErrorHandler().
+		
+		/**
+		 * Callback invoked when authentication succeeded.
+		 */
+		_authenticateHandler: function() {
+			UserRepository.getAuthenticatedDetails($.proxy(this, '_getByLoginHandler'), this._login);
+		}, // _authenticateHandler().
+
+		/**
+		 * Invoked after login success, and current user retrieval.
+		 * Stored user in local storage and run home route.
+		 * 
+		 * @param data Server's response.
+		 * @param textStatus Http response code.
+		 * @param XMLHttpRequest Communication object.
+		 */
 		_getByLoginHandler: function(data, textStatus, XMLHttpRequest) {
+			$.loading(false);
 			// Stores user in storage.
 			$.storage.set(Constants.USER_KEY, data);
 			$.route('#/home');
 			$.publish('user-logged-in');
-		},
+		}, // _getByLoginHandler().
 		
-		_authenticateHandler: function(token) {
-			UserRepository.getAuthenticatedDetails($.proxy(this, '_getByLoginHandler'), this.login);
-		},
+		// -------------------------------------------------------------------------------------------------------------
+		// Constructor
+
+		/**
+		 * Constructor
+		 * Template rendering, and UI component initialization.
+		 */
+		init : function() {
+			this.render();
+			document.title = 'Login';
+			$('#formLogin .submit').button().click($.proxy(this, '_submitButtonHandler'));
+		} // Constructor.
 		
-		_authenticateErrorHandler: function(error, details) {
-			// TODO
-			if (error == 'invalid_grant') {
-				alert('Wrong credentials !');
-			} else {
-				alert(details);
-			}
-		}
-	});
+	}); // Class LoginController.
 
 });

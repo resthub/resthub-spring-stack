@@ -1,6 +1,11 @@
 <a href="#" class="logout">Logout</a>
-<div class="manage">
+<div class="usersManage">
 	<h1>User list</h1>
+	<div class="buttonBar">
+		<a href="#" class="previousPage">previous</a>
+		${page+1}/${totalPages}
+		<a href="#" class="nextPage">next</a>
+	</div>
 	<table id="userList">
 		<thead>
 			<tr>
@@ -12,16 +17,15 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% var users = result.elements;
-			for (index in users) { %>
+		{{each(i, user) users}}
 			<tr>
-				<td><%= users[index].firstName %></td>
-				<td><%= users[index].lastName %></td>
-				<td><%= users[index].login %></td>
-				<td><%= users[index].email %></td>
-				<td><a data-idx="<%= index %>" class="userEdit" href="#">Edit</a><a data-idx="<%= index %>" class="userRemove" href="#">Remove</a></td>
+				<td>${user.firstName}</td>
+				<td>${user.lastName}</td>
+				<td>${user.login}</td>
+				<td>${user.email}</td>
+				<td><a data-idx="${i}" class="userEdit" href="#">Edit</a><a data-idx="${i}" class="userRemove" href="#">Remove</a></td>
 			</tr>
-		<% } %>
+		{{/each}}
 		</tbody>
 	</table>
 	
@@ -40,6 +44,9 @@
 				</div>
 				<div>
 					<label>Email: </label><input type="text" name="email"/>
+				</div>
+				<div id="divPassword">
+					<label>Password: </label><input type="text" name="password"/>
 				</div>
 				<a href="#" class="submit"></a>
 				<a href="#" id="newUser">Cancel</a>

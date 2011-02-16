@@ -94,22 +94,6 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<filters>
-            			<filter>${basedir}/src/main/filters/filter-local.properties</filter>
-          			</filters>
-          			<webResources>
-          				<resource>
-              				<directory>src/main/filtered</directory>
-	              			<filtering>true</filtering>
-            			</resource>
-          			</webResources>
-				</configuration>
-			</plugin>
 			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -1,5 +1,6 @@
 package org.resthub.oauth2.provider.service;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -179,7 +180,7 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Token getTokenInformation(String accessToken) {
+	public Token getTokenInformation(String accessToken) throws ProtocolException {
 		// Check non-nullity.
 		if(accessToken == null) {
 			throw new IllegalArgumentException("accessToken parameter mustn't be null");
@@ -190,6 +191,9 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 		Token result = null;
 		if(tokens.size() > 0) {
 			result = tokens.get(0);
+		} else {
+			logger.info("[getTokenInformation] invalid access token {}", accessToken);
+			throw new ProtocolException(Error.INVALID_TOKEN, "access token is unknown");			
 		}
 		return result;
 	} // getTokenInformation().
@@ -210,16 +214,16 @@ public class AuthorizationServiceImpl extends GenericServiceImpl<Token, TokenDao
 		if(tokens.size() > 0) {
 			result = tokens.get(0);
 		} else {
-			logger.debug("[obtainAccessToken] invalid access code {}", code);
+			logger.debug("[getTokenFromCode] invalid access code {}", code);
 			throw new ProtocolException(Error.INVALID_GRANT, "access code is unknown");			
 		}
 		// Checks token lifetime and redirection URI
 		if (new Date().getTime() > result.codeExpiry) {
-			logger.debug("[obtainAccessToken] expired access code {}", code);
+			logger.debug("[getTokenFromCode] expired access code {}", code);
 			throw new ProtocolException(Error.INVALID_GRANT, "access code is expired");				
 		}
 		if (!redirectUri.equals(result.redirectUri)) {
-			logger.debug("[obtainAccessToken] redirection URI mismatch: found {}, expected {}", redirectUri, result.redirectUri);
+			logger.debug("[getTokenFromCode] redirection URI mismatch: found {}, expected {}", redirectUri, result.redirectUri);
 			throw new ProtocolException(Error.INVALID_GRANT, "redirection URI mismatch");				
 		}
 		return result;

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -19,9 +20,12 @@ import org.resthub.core.model.Resource;
  * <p>Describe a generic class for users and groups. It contains/manage mainly
  * permissions. When possible you SHOULD use method form the class and not from
  * the permissions list</p>
+ * 
+ * Must be an entity to be references by permissions_owner_permissions and 
+ * permissions_owner_groups 
  */
 @Entity
-@Table(name="PermissionsOwner")
+@Table(name = "permissions_owner")
 @XmlRootElement
 public abstract class AbstractPermissionsOwner extends Resource {
 
@@ -69,7 +73,9 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	 *         null
 	 * */
 	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "PermissionsOwner_Permission")
+	@JoinTable(name = "permissions_owner_permissions",
+		joinColumns = @JoinColumn(name="id", referencedColumnName="id")
+	)
 	@XmlElementWrapper(name = "permissions")
 	@XmlElement(name = "permission")
 	public List<String> getPermissions() {
@@ -77,11 +83,9 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	}
 
 	/**
-	 * Define the list of permission of the identity
-	 * 
-	 * @param permissions
-	 *            , the list of permission to be assigned
-	 * */
+	 * <b>Only used by Hibernate</b> Please use getPermissions() instead.
+	 */
+	@SuppressWarnings("unused")
 	private void setPermissions(List<String> permissions) {
 		this.permissions = permissions;
 	}
@@ -92,20 +96,18 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	 * @return the list of roles assigned to the identity.
 	 */
 	@ManyToMany
-	@JoinTable(name = "PermissionsOwner_role")
+	@JoinTable(name = "permissions_owner_roles")
 	public List<Role> getRoles() {
 		return this.roles;
 	}
 	
 	/**
-	 * Define the list of roles of the identity.
-	 * 
-	 * @param roles List of roles to assign to the identity.
+	 * <b>Only used by Hibernate</b> Please use getRoles() instead.
 	 */
-	protected void setRoles(List<Role> roles) {
+	@SuppressWarnings("unused")
+	private void setRoles(List<Role> roles) {
 		this.roles = roles;		
 	}
-
 	
 	/**
 	 * gets the user's Groups
@@ -115,17 +117,20 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	 * 
 	 */
 	@ManyToMany
-	@JoinTable(name = "PermissionsOwner_group")
+	@JoinTable(name = "permissions_owner_groups",
+		joinColumns=
+	        @JoinColumn(name="group_id", referencedColumnName="id"),
+	    inverseJoinColumns=
+	        @JoinColumn(name="permissions_owner", referencedColumnName="id")
+	)
 	public List<Group> getGroups() {
 		return groups;
 	}
 
 	/**
-	 * sets the Groups in which the user is
-	 * 
-	 * @param groups
-	 *            the list of groups in which the user belongs
-	 * */
+	 * <b>Only used by Hibernate</b> Please use getGroups() instead.
+	 */
+	@SuppressWarnings("unused")
 	private void setGroups(List<Group> groups) {
 		this.groups = groups;
 	}

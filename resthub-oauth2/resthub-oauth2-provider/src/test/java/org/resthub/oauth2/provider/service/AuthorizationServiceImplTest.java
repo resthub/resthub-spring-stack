@@ -181,7 +181,6 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	 */
 	@Test
 	public void getTokenInformation() {
-		assertNull("No token may have been retrieved !", service.getTokenInformation("unknown"));
 
 		String userName = "test";
 		String password = "t3st";
@@ -239,6 +238,19 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 		assertEquals(token.codeExpiry, retrieved.codeExpiry);
 		assertEquals(token.redirectUri, retrieved.redirectUri);
 	} // shouldTokenBeRetrievedByCode().
+	
+	@Test
+	public void shouldUnknownTokenFail() {
+		try {
+			// When getting a token with an unknown code.
+			service.getTokenInformation("unknown");
+			fail("A ProtocolException must have been raised for an unknown token");
+		} catch (ProtocolException exc) {
+			// Then an exception is thrown
+			assertEquals("The thrown Exception is not right", Error.INVALID_TOKEN, exc.errorCase);
+			
+		}
+	} // shouldUnknownTokenFail().
 	
 	@Test
 	public void shouldUnknownCodeFail() {

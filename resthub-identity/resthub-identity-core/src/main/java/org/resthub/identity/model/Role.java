@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.resthub.core.model.Resource;
 
 @Entity
-@Table
+@Table(name = "idm_roles")
 @XmlRootElement
 public class Role extends Resource {
 	private static final long serialVersionUID = 4727979823727123519L;
@@ -39,7 +39,7 @@ public class Role extends Resource {
 	
 	/**
 	 * Retrieve the name of the role.
-	 * 
+	 * 	
 	 * @return the name of the role.
 	 */
 	@Column(nullable = false, unique = true)
@@ -62,7 +62,7 @@ public class Role extends Resource {
 	 * @return the permissions assigned to the role.
 	 * */
 	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "Role_Permission")
+	@JoinTable(name = "role_permission")
 	@XmlElementWrapper(name = "permissions")
 	@XmlElement(name = "permission")
 	public List<String> getPermissions() {

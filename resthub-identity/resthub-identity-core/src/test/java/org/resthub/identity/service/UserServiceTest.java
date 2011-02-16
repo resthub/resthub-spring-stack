@@ -15,6 +15,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
+import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 
 public class UserServiceTest extends
@@ -195,14 +196,16 @@ public class UserServiceTest extends
 	}
 
 	@Test
-	public void testPermissions() {
+	public void testDirectPermissions() {
 		/* Given a user with permissions */
-		String login = "permisisonLogin";
+		String login = "permissionLogin";
 		String password = "Password";
+		
+		// direct permissions
 		List<String> permissions = new ArrayList<String>();
 		permissions.add("ADMIN");
 		permissions.add("USER");
-
+		
 		User u = new User();
 		u.setLogin(login);
 		u.setPassword(password);
@@ -211,14 +214,124 @@ public class UserServiceTest extends
 
 		/* When we retrieved him after a search */
 		u = resourceService.findByLogin(login);
-
-		/* We can get the permission */
-		assertTrue("Permissions not founded", u.getPermissions().contains(
-				"ADMIN"));
-		assertTrue("Permissions not founded", u.getPermissions().contains(
-				"USER"));
+		
+		/* We can get the direct permissions */
+		assertEquals("Permissions not found", 2, u.getPermissions().size()); 
+		assertTrue("Permissions not found", u.getPermissions().contains("ADMIN"));
+		assertTrue("Permissions not found", u.getPermissions().contains("USER"));
 
 		resourceService.delete(u);
 
+	}
+	
+	@Test
+	public void testGroupsPermissions() {
+		/* Given a user with permissions */
+		String login = "permissionLogin";
+		String password = "Password";
+		
+		// direct permissions
+		List<String> permissions = new ArrayList<String>();
+		permissions.add("ADMIN");
+		permissions.add("USER");
+		
+		// a group and a subGroup
+		Group group = new Group();
+		Group subGroup = new Group();
+		group.setName("TestGroup");
+		subGroup.setName("TestSubGroup");
+		
+		// add a permission to each group
+		group.getPermissions().add("TESTGROUPPERMISSION");
+		subGroup.getPermissions().add("TESTSUBGROUPPERMISSION");
+		
+		// make subGroup a permission of group 
+		group.getGroups().add(subGroup);
+		
+		User u = new User();
+		u.setLogin(login);
+		u.setPassword(password);
+		u.getPermissions().addAll(permissions);
+		u.getGroups().add(group);
+		resourceService.create(u);
+
+		/* When we retrieved him after a search */
+		u = resourceService.findByLogin(login);
+		
+		/* We can get the direct permissions */
+		assertEquals("Permissions not found", 2, u.getPermissions().size()); 
+		assertTrue("Permissions not found", u.getPermissions().contains("ADMIN"));
+		assertTrue("Permissions not found", u.getPermissions().contains("USER"));
+		
+		/* now with the permissions from groups */
+		List<String> allPermissions = resourceService.getUserPermissions(login);
+		assertEquals("Permissions not found", 4, allPermissions.size()); 
+		assertTrue("Permissions not found", allPermissions.contains("ADMIN"));
+		assertTrue("Permissions not found", allPermissions.contains("USER"));
+		assertTrue("Permissions not found", allPermissions.contains("TESTGROUPPERMISSION"));
+		assertTrue("Permissions not found", allPermissions.contains("TESTSUBGROUPPERMISSION"));
+		
+		resourceService.delete(u);
+	}
+	
+	@Test
+	public void testDuplicatePermissions() {
+		/* Given a user with permissions */
+		String login = "permissionLogin";
+		String password = "Password";
+		
+		// direct permissions
+		List<String> permissions = new ArrayList<String>();
+		permissions.add("ADMIN");
+		permissions.add("USER");
+		
+		// a group and a subGroup
+		Group group = new Group();
+		Group subGroup = new Group();
+		group.setName("TestGroup");
+		subGroup.setName("TestSubGroup");
+		
+		// add a permission to each group
+		group.getPermissions().add("TESTGROUPPERMISSION");
+		subGroup.getPermissions().add("TESTSUBGROUPPERMISSION");
+		
+		// this is the test: USER is already a direct permission of this user 
+		// getUserPermission should return only one time the permission USER
+		group.getPermissions().add("USER");
+		
+		// make subGroup a permission of group 
+		group.getGroups().add(subGroup);
+		
+		User u = new User();
+		u.setLogin(login);
+		u.setPassword(password);
+		u.getPermissions().addAll(permissions);
+		u.getGroups().add(group);
+		resourceService.create(u);
+
+		/* When we retrieved him after a search */
+		u = resourceService.findByLogin(login);
+		
+		/* We can get the direct permissions */
+		assertEquals("Permissions not found", 2, u.getPermissions().size()); 
+		assertTrue("Permissions not found", u.getPermissions().contains("ADMIN"));
+		assertTrue("Permissions not found", u.getPermissions().contains("USER"));
+		
+		/* now with the permissions from groups */
+		List<String> allPermissions = resourceService.getUserPermissions(login);
+		assertEquals("Permissions not found", 4, allPermissions.size()); 
+		assertTrue("Permissions not found", allPermissions.contains("ADMIN"));
+		// the USER permission should exists only once in the list
+		assertTrue("Permissions not found", allPermissions.contains("USER"));
+		assertTrue("Permissions not found", allPermissions.contains("TESTGROUPPERMISSION"));
+		assertTrue("Permissions not found", allPermissions.contains("TESTSUBGROUPPERMISSION"));
+		
+		resourceService.delete(u); 
+	}
+	
+	@Test
+	public void testRolesPermissions() {
+		// TODO: when roles are implemented, test that getUserPermissions also retrieve
+		// the permissions set from roles. 
 	}
 }
