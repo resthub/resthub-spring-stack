@@ -6,40 +6,60 @@ define([
         'lib/jqueryui/dialog'
     ], function(OAuth2Controller, UserRepository) {
 	
+	/**
+	 * Class ManageController
+	 * 
+	 * This controller is able to manage users: create, remove and list them (with pagination).
+	 * Performs user edition, and permissions management at user level.
+	 */
 	return OAuth2Controller.extend("ManageController", {
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Public attributes
 
+		/**
+		 * Controller's template
+		 */
 		template : 'controller/user/manage.html',
 
 		// -------------------------------------------------------------------------------------------------------------
 		// Private attributes
 		
+		/**
+		 * Currently edited user.
+		 */
 		_edited: null,
 		
+		/**
+		 * Currently removed user.
+		 */
 		_removed: null,
 		
+		/**
+		 * List of displayed users (related to the current page).
+		 */
 		_users: null,
 		
+		/**
+		 * Current displayed page.
+		 */
 		_page: 0,
 		
+		/**
+		 * Total page number. 
+		 */
 		_totalPages: 0,
-		
-		// -------------------------------------------------------------------------------------------------------------
-		// Constructor
-		
-		init : function() {
-			this._loadList();
-			$.subscribe('delete-user', $.proxy(this, '_removeButtonHandler'));				
-		}, // init().
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Private methods
 
+		/**
+		 * Load list of users.
+		 * this._listHandler() will be invoked on success.
+		 */
 		_loadList: function(newPage) {
-			// TODO waiting 
-			$('#wrapper').html('retrieving users, please wait...');
+			// Send server request.
+			$.loading(true);
 			var page = newPage === null || newPage === undefined ? this._page : newPage < 0 ? 0 : newPage;
 			UserRepository.list($.proxy(this, '_listHandler'), page);			
 		}, // _loadList().
@@ -84,8 +104,8 @@ define([
 			this._permissionKeyUpHandler();
 		}, // _refreshPermissionsTable().
 		
-		// -------------------------------------------------------------------------------------------------------------
-		// UI handlers
+			// ---------------------------------------------------------------------------------------------------------
+			// UI handlers
 
 		_newButtonHandler: function() {
 			// Empty all fields.
@@ -104,6 +124,7 @@ define([
 		}, // _newButtonHandler().
 		
 		_saveButtonHandler: function() {
+			$.loading(true);
 			this._fillEdited();
 			UserRepository.save($.proxy(this, '_userSavedHandler'), $.toJSON(this._edited));
 			// Do not post form.
@@ -140,6 +161,7 @@ define([
 		}, // _previousPageButtonHandler().
 		
 		_removeButtonHandler: function(id) {
+			$.loading(true);
 			UserRepository.remove($.proxy(this, '_userRemovedHandler'), id);
 			return false;
 		}, // _removeButtonHandler().
@@ -148,6 +170,7 @@ define([
 			var idx = $(event.target.parentNode).data('idx');
 			var removed = this._edited.permissions.splice(idx, 1);
 			this._refreshPermissionsTable();
+			$.loading(true);
 			UserRepository.removePermission($.proxy(this, '_permissionRemovedHandler'), 
 					this._edited, removed);
 			return false;
@@ -159,6 +182,7 @@ define([
 			this._refreshPermissionsTable();
 			if(this._edited.id) {
 				// it's an edition of a user so one can add permission right now
+				$.loading(true);
 				UserRepository.addPermission($.proxy(this, '_permissionAddedHandler'),this._edited, added);
 			} else {
 				// it's a creation so the user does not exists on the server
@@ -174,16 +198,18 @@ define([
 					$('#permissions input[name=addedPermission]').val().length == 0);
 		}, // _permissionKeyUpHandler().
 		
-		// -------------------------------------------------------------------------------------------------------------
-		// Server handlers
+			// ---------------------------------------------------------------------------------------------------------
+			// Server handlers
 
 		_userSavedHandler: function(data, textStatus, XMLHttpRequest) {
+			$.loading(false);
 			this._edited = data;
 			$.pnotify('User ' + this._edited.firstName + ' ' + this._edited.lastName + ' was saved.');
 			this._loadList();
 		}, // _userSavedHandler().
 		
 		_userRemovedHandler: function(data, textStatus, XMLHttpRequest) {
+			$.loading(false);
 			if (this._edited && this._edited.id == this._removed.id ) {
 				this._edited = null;
 			}
@@ -192,10 +218,12 @@ define([
 		}, // _userRemovedHandler().
 		
 		_permissionRemovedHandler:  function(data, textStatus, XMLHttpRequest) {
+			$.loading(false);
 			$.pnotify('Permission removed !');			
 		}, // _permissionRemovedHandler().
 		
 		_permissionAddedHandler:  function(data, textStatus, XMLHttpRequest) {
+			$.loading(false);
 			$.pnotify('Permission added !');			
 		}, // _permissionAddedHandler().
 		
@@ -252,7 +280,16 @@ define([
 				.click($.proxy(this, '_previousPageButtonHandler'));
 			$('.buttonBar .nextPage').button({disabled: this._page == this._totalPages-1})
 				.click($.proxy(this, '_nextPageButtonHandler'));
-		} // _listHandler().
+			$.loading(false);
+		}, // _listHandler().
+		
+		// -------------------------------------------------------------------------------------------------------------
+		// Constructor
+		
+		init : function() {
+			this._loadList();
+			$.subscribe('delete-user', $.proxy(this, '_removeButtonHandler'));				
+		} // init().
 		
 	}); // Class ManageController
 });

@@ -9,6 +9,10 @@ define(['lib/resthub',
 		USER_KEY: "currentUser"	
 	};
 	
+	/**
+	 * Application launch.
+	 * Runs the login route, or goes to home if a user is found in local storage.
+	 */
 	$(document).ready(function() {
 		OAuth2Controller.clientId = "";
 		OAuth2Controller.clientSecret = "";
@@ -24,6 +28,7 @@ define(['lib/resthub',
 			}
 		});
 		
+		// Run the selected route.
 		$.route(location.hash);
 	});
 });

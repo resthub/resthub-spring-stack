@@ -1,3 +1,7 @@
+/* ---------------------------------------------------------------------------------------------------------------------
+	General styles 	
+ */
+
 h1 {
 	width: 100%;
 	font-size: 1.3em;
@@ -5,65 +9,8 @@ h1 {
 	margin: 30px 0px 20px 0px;	
 }
 
-#header #title {
-    display: block;
-    font-size: 1.5em;
-    padding: 20px 0px 0px 50px;
-}
-
 .ui-widget {
 	font-size: 0.9em;
-}
-
-#main {
-	padding-top: 50px;	
-}
-
-.manage #userList {
-	padding-bottom: 50px;	
-}
-.manage #userEdition {
-	display: table;
-	width: 100%;
-}
-.manage #editionRow {
-	display: table-row;
-}
-.manage #userDetails {
-	display: table-cell;
-}
-.manage #permissions {
-	display: table-cell;
-	padding-left: 50px;
-}
-.manage #userDetails input[type=submit] {
-	margin-left: 50px;	
-	margin-top: 50px;	
-}
-.manage #userDetails > div {
-	margin-bottom: 10px;
-}	
-	
-.manage #permissions label {
-	float:none;
-}
-.manage #userPermissions {
-	width: auto;
-}
-.manage .userRemove,
-.manage .permissionRemove {
-	margin-left: 10px;
-}
-.manage .permissionRemove,
-.manage .userRemove,
-.manage .userEdit,
-.manage .buttonBar {
-	font-size: 0.7em;
-}
-
-.manage .buttonBar {
-    text-align: right;
-    padding: 5px;
 }
 
 .formError {
@@ -73,6 +20,86 @@ h1 {
 	max-width: 450px;	
 }
 
+/* ---------------------------------------------------------------------------------------------------------------------
+	General layout
+ */
+
+#header #title {
+    display: block;
+    font-size: 1.5em;
+    padding: 20px 0px 0px 50px;
+}
+
+#main {
+	padding-top: 50px;	
+}
+
 .logout {
 	float: right;
+}
+
+#loading {
+	background: url(img/loading.gif) no-repeat center;
+	display: none;
+	width: 100%;
+	height: 22px;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------
+	User management
+ */
+
+.usersManage .userRemove,
+.usersManage .permissionRemove {
+	margin-left: 10px;
+}
+.usersManage .permissionRemove,
+.usersManage .userRemove,
+.usersManage .userEdit,
+.usersManage .buttonBar {
+	font-size: 0.7em;
+}
+
+.usersManage .buttonBar {
+    text-align: right;
+    padding: 5px;
+}
+
+/* User list */
+
+.usersManage #userList {
+	padding-bottom: 50px;	
+}
+.usersManage #editionRow {
+	display: table-row;
+}
+
+/* User edition */
+
+.usersManage #userEdition {
+	display: table;
+	width: 100%;
+}
+.usersManage #userDetails {
+	display: table-cell;
+}
+.usersManage #userDetails input[type=submit] {
+	margin-left: 50px;	
+	margin-top: 50px;	
+}
+.usersManage #userDetails > div {
+	margin-bottom: 10px;
+}	
+
+/* Permission management */
+
+.usersManage #userPermissions {
+	width: auto;
+}
+.usersManage #permissions {
+	display: table-cell;
+	padding-left: 50px;
+}
+.usersManage #permissions label {
+	float:none;
 }
