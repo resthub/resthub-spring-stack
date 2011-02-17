@@ -61,60 +61,70 @@ h1 {
 }
 
 /* ---------------------------------------------------------------------------------------------------------------------
-	User management
+	User/group management
  */
 
-.usersManage .userRemove,
-.usersManage .permissionRemove {
-	margin-left: 10px;
+.userRemove,
+.permissionRemove,
+.groupRemove {
+		margin-left: 10px;
 }
-.usersManage .permissionRemove,
-.usersManage .userRemove,
-.usersManage .userEdit,
-.usersManage .buttonBar {
+.permissionRemove,
+.userRemove,
+.userEdit,
+.groupRemove,
+.groupEdit,
+.buttonBar {
 	font-size: 0.7em;
 }
 
-.usersManage .buttonBar {
+.buttonBar {
     text-align: right;
     padding: 5px;
 }
 
-/* User list */
+/* User/group list */
 
-.usersManage #userList {
+#userList, #groupList {
 	padding-bottom: 50px;	
 }
-.usersManage #editionRow {
+#userList th:last-child,
+#groupList th:last-child {
+	width: 25%;
+}
+
+#editionRow {
 	display: table-row;
 }
 
-/* User edition */
+/* User/group edition */
 
-.usersManage #userEdition {
+#userEdition, #groupEdition {
 	display: table;
 	width: 100%;
 }
-.usersManage #userDetails {
+#userDetails, #groupDetails {
 	display: table-cell;
 }
-.usersManage #userDetails input[type=submit] {
+#userDetails input[type=submit],
+#groupDetails input[type=submit] {
 	margin-left: 50px;	
 	margin-top: 50px;	
 }
-.usersManage #userDetails > div {
+#userDetails > div,
+#groupDetails > div {
 	margin-bottom: 10px;
 }	
 
 /* Permission management */
 
-.usersManage #userPermissions {
+#userPermissions, #groupPermissions {
 	width: auto;
 }
-.usersManage #permissions {
+#permissions {
 	display: table-cell;
 	padding-left: 50px;
 }
-.usersManage #permissions label {
+#permissions label {
 	float:none;
 }

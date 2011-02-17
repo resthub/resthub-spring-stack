@@ -6,7 +6,9 @@ define({
 	        'home': 'Accueil',
 	        'confirmUserRemoval': 'Confirmation de la suppression',
 	        'usersManagement': 'Gestion des utilisateurs',
-	        'serverError': 'Problème de communication'
+	        'serverError': 'Problème de communication',
+	        'confirmGroupRemoval': 'Confirmation de la suppression',
+	        'groupsManagement': 'Gestion des groupes'
 	    },
 	    'labels': {
 	    	'yes': 'Oui',
@@ -26,7 +28,12 @@ define({
 		    'addPersission': 'Nouvelle permission : ',
 		    'usersList': 'Liste des utilisateurs',
 		    'userDetails': 'Détails',
-		    'noPermissions': 'Aucune permission'
+		    'noPermissions': 'Aucune permission',
+		    'groupsManagement': 'Gestion des groupes',
+		    'name': 'Nom : ',
+			'groupsList': 'Liste des groupes',
+			'groupDetails': 'Détails',
+		    'groupPermissions': 'Permissions directes'
 	    },
 	    'buttons':  {
 	        'login': 'Entrer',
@@ -39,19 +46,26 @@ define({
 	        'nextPage': 'Suivante',
 	        'editUser': 'Editer',
 	        'removeUser': 'Supprimer',
-	        'newUser': 'Annuler',
-	        'addPermission': 'Ajouter'
+	        'newUser': 'Réinitialiser',
+	        'addPermission': 'Ajouter',
+	        'saveGroup':'Enregistrer',
+	        'createGroup':'Créer',
+	        'editGroup': 'Editer',
+	        'removeGroup': 'Supprimer',
+	        'newGroup': 'Réinitialiser'
 	    },
 	    'columns': {
 	    	'firstName': 'Prénom',
 	    	'lastName': 'Nom',
 	    	'login': 'Identifiant',
 	    	'email': 'E-mail',
-	    	'actions': 'Actions'
+	    	'actions': 'Actions',
+		    'name': 'Nom'
 	    },
 	    'texts': {
 	    	'confirmUserDeletion': 'Voulez vous vraiment supprimer l\'utilisateur %s %s ?',
-	    	'welcome': 'Bienvenue %s %s !'
+	    	'welcome': 'Bienvenue %s %s !',
+		    'confirmGroupDeletion': 'Voulez vous vraiment supprimer le groupe %s ?'
 	    },
 	    'notifications': {
 	    	'passwordSaved':'Mot de passe enregistré !',
@@ -60,7 +74,9 @@ define({
 		    'permissionAdded':'Permission ajoutée !',
 		    'userSaved': 'L\'utilisateur %s %s à été enregistré.',
 		    'userRemoved': 'L\'utilisateur %s %s à été supprimé.',
-		    'welcome': 'Bienvenue %s %s !'
+		    'welcome': 'Bienvenue %s %s !',
+		    'groupSaved': 'Le groupe %s à été enregistré.',
+		    'groupRemoved': 'Le groupe %s à été supprimé.'
 	    },
 	    'errors': {
 		    'tooWeakPassword': 'Votre mot de passe n\'est pas assez sécurisé : il doit contenir entre 5 et 15 caractères, dont une majuscule, une minuscule et un chiffre.',

@@ -1,6 +1,6 @@
 define([
         'i18n!nls/labels',
-        'controller/user/utils',
+        'controller/utils',
         'controller/user/login',
         'controller/user/home',
         'controller/user/manage',
@@ -47,7 +47,7 @@ define([
 	 */
 	$.route('#/manage-users', function() {
 		$.redirectIfNotLogged();
-		$('#wrapper').manage();
+		$('#wrapper').user_manage();
 	});
 
 }); 

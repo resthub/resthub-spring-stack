@@ -2,7 +2,7 @@ define([
         'i18n!nls/labels',
         'lib/oauth2controller',
         'repositories/user.repository',
-        'controller/user/utils',
+        'controller/utils',
         'lib/jqueryui/button',
         'lib/jquery/jquery.sprintf'
    ], function(i18n, OAuth2Controller, UserRepository) {

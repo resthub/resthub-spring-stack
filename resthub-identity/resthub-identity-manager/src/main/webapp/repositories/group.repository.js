@@ -5,13 +5,13 @@ define([
     ], function(i18n, OAuth2Repository) {
 
 	/**
-	 * Class UserRepository
+	 * Class GroupRepository
 	 * 
-	 * Server calls to manage users.
+	 * Server calls to manage groups.
 	 * Adds permissions management to the CRUD functionnalities.
 	 * All functions are statics.
 	 */
-	return OAuth2Repository.extend("UserRepository", {
+	return OAuth2Repository.extend("GroupRepository", {
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Static attributes
@@ -19,7 +19,7 @@ define([
 		/**
 		 * Server context root.
 		 */
-		root : 'api/user/',
+		root : 'api/group/',
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Static inherited methods
@@ -55,60 +55,38 @@ define([
 		// Static methods
 
 			// ---------------------------------------------------------------------------------------------------------
-			// User methods
-
-		/**
-		 * Gets details on the connected user.
-		 * 
-		 * @param callback Callback invoked on server response.
-		 */
-		getAuthenticatedDetails: function(callback) {
-			this._get(this.root + 'me', callback);			
-		}, // getAuthenticatedDetails().
-		
-		/**
-		 * Change a user's password.
-		 * 
-		 * @param callback Callback invoked on server response.
-		 * @param user The modified user, embedding its clear password.
-		 */
-		changePassword: function(callback, user) {
-			this._post(this.root + 'password/', callback, user);
-		},// changePassword().
-
-			// ---------------------------------------------------------------------------------------------------------
 			// Admin methods
 		
 		/**
-		 * Gets permissions of a specific user.
+		 * Gets permissions of a specific group.
 		 * 
 		 * @param callback Callback invoked on server response.
-		 * @param callback Concerned user.
+		 * @param group Concerned group.
 		 */
-		getPermissions: function(callback, user) {
-			this._get(this.root + 'name/'+user.login+'/permissions', callback);			
+		getPermissions: function(callback, group) {
+			this._get(this.root + 'name/'+group.name+'/permissions', callback);			
 		}, // getPermissions().
 
 		/**
-		 * Adds a specific permission to a user.
+		 * Adds a specific permission to a group.
 		 * 
 		 * @param callback Callback invoked on server response.
-		 * @param callback Concerned user.
+		 * @param group Concerned group.
 		 * @param permission Added permission.
 		 */
-		addPermission: function(callback, user, permission) {
-			this._put(this.root + 'name/'+user.login+'/permissions/'+permission, callback);			
+		addPermission: function(callback, group, permission) {
+			this._put(this.root + 'name/'+group.name+'/permissions/'+permission, callback);			
 		}, // addPermission().
 				
 		/**
-		 * Removes a specific permission for a user.
+		 * Removes a specific permission for a group.
 		 * 
 		 * @param callback Callback invoked on server response.
-		 * @param callback Concerned user.
+		 * @param group Concerned group.
 		 * @param permission Removed permission.
 		 */
-		removePermission: function(callback, user, permission) {
-			this._delete(this.root + 'name/'+user.login+'/permissions/'+permission, callback);			
+		removePermission: function(callback, group, permission) {
+			this._delete(this.root + 'name/'+group.login+'/permissions/'+permission, callback);			
 		} // removePermission().
 		
 	}, {}); // Class UserRepository

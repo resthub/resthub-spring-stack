@@ -1,20 +1,20 @@
 define([ 
         'i18n!nls/labels',
         'lib/oauth2controller',
-        'repositories/user.repository',
+        'repositories/group.repository',
         'lib/jqueryui/button',
         'controller/utils',
         'lib/jqueryui/dialog',
         'lib/jquery/jquery.sprintf'
-    ], function(i18n, OAuth2Controller, UserRepository) {
+    ], function(i18n, OAuth2Controller, GroupRepository) {
 	
 	/**
-	 * Class UserManageController
+	 * Class GroupManageController
 	 * 
-	 * This controller is able to manage users: create, remove and list them (with pagination).
-	 * Performs user edition, and permissions management at user level.
+	 * This controller is able to manage groups: create, remove and list them (with pagination).
+	 * Performs groups edition, and permissions management at groups level.
 	 */
-	return OAuth2Controller.extend("UserManageController", {
+	return OAuth2Controller.extend("GroupManageController", {
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Public attributes
@@ -22,25 +22,25 @@ define([
 		/**
 		 * Controller's template
 		 */
-		template : 'controller/user/manage.html',
+		template : 'controller/group/manage.html',
 
 		// -------------------------------------------------------------------------------------------------------------
 		// Private attributes
 		
 		/**
-		 * Currently edited user.
+		 * Currently edited group.
 		 */
 		_edited: null,
 		
 		/**
-		 * Currently removed user.
+		 * Currently removed group.
 		 */
 		_removed: null,
 		
 		/**
-		 * List of displayed users (related to the current page).
+		 * List of displayed groups (related to the current page).
 		 */
-		_users: null,
+		_groups: null,
 		
 		/**
 		 * Current displayed page.
@@ -56,54 +56,44 @@ define([
 		// Private methods
 
 		/**
-		 * Load list of users.
+		 * Load list of groups.
 		 * this._listHandler() will be invoked on success.
 		 */
 		_loadList: function(newPage) {
 			// Send server request.
 			$.loading(true);
 			var page = newPage === null || newPage === undefined ? this._page : newPage < 0 ? 0 : newPage;
-			UserRepository.list($.proxy(this, '_listHandler'), page);			
+			GroupRepository.list($.proxy(this, '_listHandler'), page);			
 		}, // _loadList().
 		
 		/**
-		 * Fills the UI form with values of the edited user.
+		 * Fills the UI form with values of the edited group.
 		 * Therefore, this._edited must not be null.
 		 * Refreshs the permission table.
 		 */
 		_fillForm: function() {
-			$('#userDetails input[name="firstName"]').val(this._edited.firstName);
-			$('#userDetails input[name="lastName"]').val(this._edited.lastName);	
-			$('#userDetails input[name="login"]').val(this._edited.login);	
-			$('#userDetails input[name="email"]').val(this._edited.email);	
-			
-			$('#userDetails .submit').button("option", {label: this._edited.id ? i18n.buttons.saveUser : 
-				i18n.buttons.createUser});
+			$('#groupDetails input[name="name"]').val(this._edited.name);
+			$('#groupDetails .submit').button("option", {label: this._edited.id ? i18n.buttons.saveGroup : 
+				i18n.buttons.createGroup});
 			
 			this._refreshPermissionsTable();
 		}, // _fillForm().
 		
 		/**
-		 * Fills the edited user with values from the UI form.
+		 * Fills the edited group with values from the UI form.
 		 * Therefore, this._edited must not be null.
 		 */
 		_fillEdited: function() {
-			this._edited.firstName = $('#userDetails input[name="firstName"]').val();
-			this._edited.lastName = $('#userDetails input[name="lastName"]').val();	
-			this._edited.login = $('#userDetails input[name="login"]').val();	
-			this._edited.email = $('#userDetails input[name="email"]').val();
-			if(!this._edited.id) {
-				this._edited.password = $('#userDetails input[name="password"]').val();
-			}
+			this._edited.name = $('#groupDetails input[name="name"]').val();
 		}, // _fillEdited().
 				
 		/**
-		 * Redraw the permission table regarding the current user permissions.
+		 * Redraw the permission table regarding the current group permissions.
 		 * Therefore, this._edited must not be null.
 		 */
 		_refreshPermissionsTable: function() {
-			var permTable = $('#userPermissions');
-			$('#userPermissions tr').remove();
+			var permTable = $('#groupPermissions');
+			$('#groupPermissions tr').remove();
 			if (this._edited) {
 				for (var idx in this._edited.permissions) {
 					permTable.append('<tr><td>'+this._edited.permissions[idx]+'</td>'+
@@ -113,7 +103,7 @@ define([
 				if (this._edited.permissions.length == 0) {
 					permTable.append('<tr><td>'+i18n.labels.noPermissions+'</td></tr>');
 				} else {
-					$('#userPermissions .permissionRemove').button().click($.proxy(this, 
+					$('#groupPermissions .permissionRemove').button().click($.proxy(this, 
 							'_removePermissionButtonHandler'));
 				}
 			}
@@ -125,51 +115,44 @@ define([
 
 		/**
 		 * Handler connected to the edition form reset.
-		 * Empties the form and show the clear password field.
+		 * Empties the form.
 		 * 
 		 * @returns false to stop event propgation.
 		 */
 		_newButtonHandler: function() {
 			// Empty all fields.
 			this._edited = {
-	            groups: [],
 	            permissions: [],
-				firstName: '',
-				lastName:'',
-				login:'',
-				password:'',
-				email:''
+				name: ''
 			};
-			$('#divPassword').show();
 			this._fillForm();
 			return false;
 		}, // _newButtonHandler().
 		
 		/**
 		 * Handler connected to the edition form submission.
-		 * Send the edited user to server, after filling it with UI form values.
-		 * this._userSavedHandler() is called on success.
+		 * Send the edited group to server, after filling it with UI form values.
+		 * this._groupSavedHandler() is called on success.
 		 * 
 		 * @returns false to stop event propgation.
 		 */
 		_saveButtonHandler: function() {
 			$.loading(true);
 			this._fillEdited();
-			UserRepository.save($.proxy(this, '_userSavedHandler'), $.toJSON(this._edited));
+			GroupRepository.save($.proxy(this, '_groupSavedHandler'), $.toJSON(this._edited));
 			// Do not post form.
 			return false;
 		}, // _saveButtonHandler().
 		
 		/**
-		 * Handler connected to the edition action link in the user table.
-		 * Clears the edition form, changes the edited user, and fills the UI form with current user values.
+		 * Handler connected to the edition action link in the group table.
+		 * Clears the edition form, changes the edited group, and fills the UI form with current group values.
 		 * 
 		 * @returns false to stop event propgation.
 		 */
 		_editButtonHandler: function(event) {
 			var idx = $(event.target.parentNode).data('idx');
-			this._edited = this._users[idx];
-			$('#divPassword').hide();
+			this._edited = this._groups[idx];
 			this._fillForm();
 			return false;
 		}, // _editButtonHandler().
@@ -201,20 +184,20 @@ define([
 		}, // _previousPageButtonHandler().
 		
 		/**
-		 * Handler invoked after user validation for user removal.
-		 * Call the server to remove the removed user.
+		 * Handler invoked after end-user validation for group removal.
+		 * Call the server to remove the removed group.
 		 * 
 		 * @returns false to stop event propgation.
 		 */
 		_removeButtonHandler: function(id) {
 			$.loading(true);
-			UserRepository.remove($.proxy(this, '_userRemovedHandler'), id);
+			GroupRepository.remove($.proxy(this, '_groupRemovedHandler'), id);
 			return false;
 		}, // _removeButtonHandler().
 		
 		/**
-		 * Handler invoked to remove a permission of the edited user.
-		 * Call the server to remove the permissions if the edited user is already existing. 
+		 * Handler invoked to remove a permission of the edited group.
+		 * Call the server to remove the permissions if the edited group is already existing. 
 		 * Permission table is immediately refreshed. 
 		 * 
 		 * @returns false to stop event propgation.
@@ -225,15 +208,15 @@ define([
 			this._refreshPermissionsTable();
 			if(this._edited.id) {
 				$.loading(true);
-				UserRepository.removePermission($.proxy(this, '_permissionRemovedHandler'), 
+				GroupRepository.removePermission($.proxy(this, '_permissionRemovedHandler'), 
 						this._edited, removed);
 			}
 			return false;
 		}, // _removePermissionButtonHandler().
 		
 		/**
-		 * Handler invoked to add a permission of the edited user.
-		 * Call the server to add the permissions if the edited user is already existing. 
+		 * Handler invoked to add a permission of the edited group.
+		 * Call the server to add the permissions if the edited group is already existing. 
 		 * Permission table is immediately refreshed. 
 		 * 
 		 * @returns false to stop event propgation.
@@ -242,13 +225,13 @@ define([
 			var added = $("input[name=addedPermission]").val();
 			this._edited.permissions.push(added);
 			this._refreshPermissionsTable();
-			// it's a creation so the user does not exists on the server
+			// it's a creation so the group does not exists on the server
 			// we just add the permission to the local js object, showing it in the list
-			// if the user save the user he's creating, the permissions will be saved too.
+			// if the group save the group he's creating, the permissions will be saved too.
 			if(this._edited.id) {
-				// it's an edition of a user so one can add permission right now
+				// it's an edition of a group so one can add permission right now
 				$.loading(true);
-				UserRepository.addPermission($.proxy(this, '_permissionAddedHandler'),this._edited, added);
+				GroupRepository.addPermission($.proxy(this, '_permissionAddedHandler'),this._edited, added);
 			}
 			
 			return false;
@@ -266,34 +249,34 @@ define([
 			// Server handlers
 
 		/**
-		 * Handler invoked after user save on server. Reloads entire list.
+		 * Handler invoked after group save on server. Reloads entire list.
 		 * 
 		 * @param data Server's response.
 		 * @param textStatus Http response code.
 		 * @param XMLHttpRequest Communication object.
 		 */
-		_userSavedHandler: function(data, textStatus, XMLHttpRequest) {
+		_groupSavedHandler: function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
 			this._edited = data;
-			$.pnotify($.sprintf(i18n.notifications.userSaved, this._edited.firstName, this._edited.lastName));
+			$.pnotify($.sprintf(i18n.notifications.groupSaved, this._edited.name));
 			this._loadList();
-		}, // _userSavedHandler().
+		}, // _groupSavedHandler().
 		
 		/**
-		 * Handler invoked after user removal on server. Displays notification.
+		 * Handler invoked after group removal on server. Displays notification.
 		 * 
 		 * @param data Server's response.
 		 * @param textStatus Http response code.
 		 * @param XMLHttpRequest Communication object.
 		 */
-		_userRemovedHandler: function(data, textStatus, XMLHttpRequest) {
+		_groupRemovedHandler: function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
 			if (this._edited && this._edited.id == this._removed.id ) {
 				this._edited = null;
 			}
-			$.pnotify($.sprintf(i18n.notifications.userRemoved, this._removed.firstName, this._removed.lastName));
+			$.pnotify($.sprintf(i18n.notifications.groupRemoved, this._removed.name));
 			this._loadList();			
-		}, // _userRemovedHandler().
+		}, // _groupRemovedHandler().
 		
 		/**
 		 * Handler invoked after permission removal on server. Displays notification.
@@ -321,21 +304,21 @@ define([
 		
 		/**
 		 * Handler invoked after list retrieval.  
-		 * Updates the current and total page numbers, refresh all rendering (user table, user edition form, permissions
-		 * table).
+		 * Updates the current and total page numbers, refresh all rendering (group table, group edition form,
+		 * permissions table).
 		 * 
 		 * @param data Server's response.
 		 * @param textStatus Http response code.
 		 * @param XMLHttpRequest Communication object.
 		 */
 		_listHandler: function(data, textStatus, XMLHttpRequest) {
-			this._users = data.elements;
+			this._groups = data.elements;
 			this._totalPages = data.totalPages;
 			this._page = data.number;		
 			// Refresh rendering.
 			this.render({
 				i18n:i18n,
-				users: this._users, 
+				groups: this._groups, 
 				page: this._page, 
 				totalPages: this._totalPages, 
 				edited:this._edited
@@ -344,12 +327,11 @@ define([
 			
 			var self = this;
 			// Connect removal buttons, with confirmation.
-			$('.userRemove').button().click(function(event) {
+			$('.groupRemove').button().click(function(event) {
 				var idx = $(event.target.parentNode).data('idx');
-				self._removed = self._users[idx];
-				$('#userDetails').append('<div id="removeConfirm" title="'+i18n.titles.confirmUserRemoval+'">'+
-						$.sprintf(i18n.texts.confirmUserDeletion, self._removed.firstName, self._removed.lastName)
-						+'</div>');
+				self._removed = self._groups[idx];
+				$('#groupDetails').append('<div id="removeConfirm" title="'+i18n.titles.confirmGroupRemoval+'">'+
+						$.sprintf(i18n.texts.confirmGroupDeletion, self._removed.name)+'</div>');
 				$("#removeConfirm").dialog({
 					resizable: false,
 					modal: true,
@@ -359,16 +341,16 @@ define([
 						}},
 			        	{text: i18n.labels.yes, click: function() {
 							$('#removeConfirm').dialog("close").remove();
-							$.publish('delete-user', self._removed.id);
+							$.publish('delete-group', self._removed.id);
 						}}
 					]
 				});	
 				return false;
 			});
 			// Connect buttons (new, edit, save, add permission, next/previous pages)
-			$('#newUser').button().click($.proxy(this, '_newButtonHandler'));
-			$('.userEdit').button().click($.proxy(this, '_editButtonHandler'));
-			$('#userDetails .submit').button().click($.proxy(this, '_saveButtonHandler'));
+			$('#newGroup').button().click($.proxy(this, '_newButtonHandler'));
+			$('.groupEdit').button().click($.proxy(this, '_editButtonHandler'));
+			$('#groupDetails .submit').button().click($.proxy(this, '_saveButtonHandler'));
 			$('#permissions .submit').button().click($.proxy(this, '_addPermissionButtonHandler'));
 			$('.buttonBar .previousPage').button({disabled: this._page == 0}).click(
 					$.proxy(this, '_previousPageButtonHandler'));
@@ -376,8 +358,7 @@ define([
 					$.proxy(this, '_nextPageButtonHandler'));
 			// Connect keyup handlers (add permission)		
 			$('#permissions input[name=addedPermission]').keyup($.proxy(this, '_permissionKeyUpHandler'));
-			// Refresh user edition.
-			$('#divPassword').hide();
+			// Refresh group edition.
 			if (!this._edited || !this._edited.id) {
 				this._newButtonHandler();
 			} else {
@@ -391,13 +372,13 @@ define([
 		
 		/**
 		 * Constructor. 
-		 * Subscribe to user deletion event.
+		 * Subscribe to group deletion event.
 		 */
 		init : function() {
 			this._loadList();
-			document.title = i18n.titles.usersManagement;
-			$.subscribe('delete-user', $.proxy(this, '_removeButtonHandler'));				
+			document.title = i18n.titles.groupsManagement;
+			$.subscribe('delete-group', $.proxy(this, '_removeButtonHandler'));				
 		} // init().
 		
-	}); // Class UserManageController
+	}); // Class GroupManageController
 });

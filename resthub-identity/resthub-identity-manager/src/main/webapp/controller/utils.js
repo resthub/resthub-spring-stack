@@ -22,7 +22,8 @@ define(['i18n!nls/labels', 'lib/jquery'], function (i18n) {
 		} else {
 			if (user.permissions.indexOf('IM-ADMIN') != -1) {
 				$('#navbar-content').append('<li><a href="#/home">'+i18n.labels.home+'</a></li>'+
-						'<li><a href="#/manage-users">'+i18n.labels.usersManagement+'</a></li>');
+						'<li><a href="#/manage-users">'+i18n.labels.usersManagement+'</a></li>'+
+						'<li><a href="#/manage-groups">'+i18n.labels.groupsManagement+'</a></li>');
 			}
 		}
 	}; // redirectIfNotLogged().

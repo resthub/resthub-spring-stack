@@ -1,6 +1,7 @@
 define(['lib/resthub',
         'lib/oauth2controller',
-        'routes/user.routes'], function(){	
+        'routes/user.routes',
+        'routes/group.routes'], function(){	
 		
 	Constants = {
 		/**
