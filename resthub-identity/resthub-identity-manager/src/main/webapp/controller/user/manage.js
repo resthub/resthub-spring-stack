@@ -1,10 +1,12 @@
 define([ 
+        'i18n!nls/labels',
         'lib/oauth2controller',
         'repositories/user.repository',
         'lib/jqueryui/button',
         'controller/user/utils',
-        'lib/jqueryui/dialog'
-    ], function(OAuth2Controller, UserRepository) {
+        'lib/jqueryui/dialog',
+        'lib/jquery/jquery.sprintf'
+    ], function(i18n, OAuth2Controller, UserRepository) {
 	
 	/**
 	 * Class ManageController
@@ -75,7 +77,8 @@ define([
 			$('#userDetails input[name="login"]').val(this._edited.login);	
 			$('#userDetails input[name="email"]').val(this._edited.email);	
 			
-			$('#userDetails .submit').button("option", {label: this._edited.id ? 'Save' : 'Create'});
+			$('#userDetails .submit').button("option", {label: this._edited.id ? i18n.buttons.saveUser : 
+				i18n.buttons.createUser});
 			
 			this._refreshPermissionsTable();
 		}, // _fillForm().
@@ -105,10 +108,10 @@ define([
 				for (var idx in this._edited.permissions) {
 					permTable.append('<tr><td>'+this._edited.permissions[idx]+'</td>'+
 							'<td><a data-idx="'+idx+'" class="permissionRemove" href="#">'+
-							'Remove</a></td></tr>');
+							i18n.buttons.removePermission+'</a></td></tr>');
 				}
 				if (this._edited.permissions.length == 0) {
-					permTable.append('<tr><td>No permission yet</td></tr>');
+					permTable.append('<tr><td>'+i18n.labels.noPermissions+'</td></tr>');
 				} else {
 					$('#userPermissions .permissionRemove').button().click($.proxy(this, 
 							'_removePermissionButtonHandler'));
@@ -272,7 +275,7 @@ define([
 		_userSavedHandler: function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
 			this._edited = data;
-			$.pnotify('User ' + this._edited.firstName + ' ' + this._edited.lastName + ' was saved.');
+			$.pnotify($.sprintf(i18n.notifications.userSaved, this._edited.firstName, this._edited.lastName));
 			this._loadList();
 		}, // _userSavedHandler().
 		
@@ -288,7 +291,7 @@ define([
 			if (this._edited && this._edited.id == this._removed.id ) {
 				this._edited = null;
 			}
-			$.pnotify('User ' + this._removed.firstName + ' ' + this._removed.lastName + ' was removed.');
+			$.pnotify($.sprintf(i18n.notifications.userSaved, this._removed.firstName, this._removed.lastName));
 			this._loadList();			
 		}, // _userRemovedHandler().
 		
@@ -301,7 +304,7 @@ define([
 		 */
 		_permissionRemovedHandler:  function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
-			$.pnotify('Permission removed !');			
+			$.pnotify(i18n.notifications.permissionRemoved);			
 		}, // _permissionRemovedHandler().
 		
 		/**
@@ -313,7 +316,7 @@ define([
 		 */
 		_permissionAddedHandler:  function(data, textStatus, XMLHttpRequest) {
 			$.loading(false);
-			$.pnotify('Permission added !');			
+			$.pnotify(i18n.notifications.permissionAdded);			
 		}, // _permissionAddedHandler().
 		
 		/**
@@ -331,6 +334,7 @@ define([
 			this._page = data.number;		
 			// Refresh rendering.
 			this.render({
+				i18n:i18n,
 				users: this._users, 
 				page: this._page, 
 				totalPages: this._totalPages, 
@@ -343,21 +347,21 @@ define([
 			$('.userRemove').button().click(function(event) {
 				var idx = $(event.target.parentNode).data('idx');
 				self._removed = self._users[idx];
-				$('#userDetails').append('<div id="removeConfirm" title="User removal confirmation">'+
-						'Do you really want to delete user '+ self._removed.firstName + ' ' + 
-						self._removed.lastName +'</div>');
+				$('#userDetails').append('<div id="removeConfirm" title="'+i18n.titles.confirmUserRemoval+'">'+
+						$.sprintf(i18n.texts.confirmUserDeletion, self._removed.firstName, self._removed.lastName)
+						+'</div>');
 				$("#removeConfirm").dialog({
 					resizable: false,
 					modal: true,
-					buttons: {
-						Yes: function() {
+					buttons: [
+						{text: i18n.labels.cancel, click: function() {
+							$('#removeConfirm').dialog("close").remove();
+						}},
+			        	{text: i18n.labels.yes, click: function() {
 							$('#removeConfirm').dialog("close").remove();
 							$.publish('delete-user', self._removed.id);
-						},
-						Cancel: function() {
-							$('#removeConfirm').dialog("close").remove();
-						}
-					}
+						}}
+					]
 				});	
 				return false;
 			});
@@ -391,7 +395,7 @@ define([
 		 */
 		init : function() {
 			this._loadList();
-			document.title = 'Users management';
+			document.title = i18n.titles.usersManagement;
 			$.subscribe('delete-user', $.proxy(this, '_removeButtonHandler'));				
 		} // init().
 		

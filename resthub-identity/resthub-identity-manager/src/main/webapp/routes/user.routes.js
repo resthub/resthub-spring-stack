@@ -1,10 +1,12 @@
 define([
+        'i18n!nls/labels',
         'controller/user/utils',
         'controller/user/login',
         'controller/user/home',
         'controller/user/manage',
-        'lib/jquery/jquery.pnotify'
-    ], function() {
+        'lib/jquery/jquery.pnotify',
+        'lib/jquery/jquery.sprintf'
+    ], function(i18n) {
 
 	// -------------------------------------------------------------------------------------------------------------
 	// Events
@@ -14,7 +16,7 @@ define([
 	 */
 	$.subscribe('user-logged-in', function() {
 		var user = $.storage.get(Constants.USER_KEY);
-		$.pnotify('Welcome ' + user.firstName + ' ' + user.lastName + ' !');
+		$.pnotify($.sprintf(i18n.notifications.welcome, user.firstName, user.lastName));
 	});
 
 	// -------------------------------------------------------------------------------------------------------------

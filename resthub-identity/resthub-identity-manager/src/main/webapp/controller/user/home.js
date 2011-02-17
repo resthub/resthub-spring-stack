@@ -1,9 +1,11 @@
 define([
+        'i18n!nls/labels',
         'lib/oauth2controller',
         'repositories/user.repository',
         'controller/user/utils',
-        'lib/jqueryui/button'
-    ], function(OAuth2Controller, UserRepository) {
+        'lib/jqueryui/button',
+        'lib/jquery/jquery.sprintf'
+   ], function(i18n, OAuth2Controller, UserRepository) {
 
 	/**
 	 * Class HomeController
@@ -60,12 +62,11 @@ define([
 			var confirm = $('#passwordChange input[name=confirm]').val();
 			if (!this._isPasswordSecured(password)) {
 				// Password too weak.
-				$('#passwordError').html('Your password isn\'t strong enough: please between 5 and 15 characters,' +
-					' contains a lower-case, an upper-case and a digit.');
+				$('#passwordError').html(i18n.errors.tooWeakPassword);
 				buttonActive = false;
 			} else if (password != confirm) {
 				// Confirmation not equals
-				$('#confirmError').html('The confirmation does not match the password.');
+				$('#confirmError').html(i18n.errors.passwordConfirmation);
 				buttonActive = false;
 			}
 			// Disable submission button
@@ -96,7 +97,7 @@ define([
 		 */
 		_passwordChangedHandler: function(data, textStatus, XMlHttpRequest) {
 			$.loading(false);
-			$.pnotify("Password successfully changed !");
+			$.pnotify(i18n.notifications.passwordSaved);
 		}, // _passwordChangedHandler().
 		
 		// -------------------------------------------------------------------------------------------------------------
@@ -110,9 +111,9 @@ define([
 		 */
 		init : function() {
 			this.user = $.storage.get(Constants.USER_KEY);
-			this.render({user:this.user});	
+			this.render({i18n:i18n, user:this.user});	
 			$.connectLogoutButton();
-			document.title = 'Home';
+			document.title = i18n.titles.home;
 			
 			$('#passwordChange input[name=password]').keyup($.proxy(this, '_keyupHandler'));
 			$('#passwordChange input[name=confirm]').keyup($.proxy(this, '_keyupHandler'));

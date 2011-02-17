@@ -1,19 +1,19 @@
-<a href="#" class="logout">Logout</a>
+<a href="#" class="logout">${i18n.buttons.logout}</a>
 <div class="usersManage">
-	<h1>User list</h1>
+	<h1>${i18n.labels.usersList}</h1>
 	<div class="buttonBar">
-		<a href="#" class="previousPage">previous</a>
+		<a href="#" class="previousPage">${i18n.buttons.previousPage}</a>
 		${page+1}/${totalPages}
-		<a href="#" class="nextPage">next</a>
+		<a href="#" class="nextPage">${i18n.buttons.previousPage}</a>
 	</div>
 	<table id="userList">
 		<thead>
 			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Login</th>
-				<th>E-mail</th>
-				<th>Actions</th>
+				<th>${i18n.columns.firstName}</th>
+				<th>${i18n.columns.lastName}</th>
+				<th>${i18n.columns.login}</th>
+				<th>${i18n.columns.email}</th>
+				<th>${i18n.columns.actions}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -23,7 +23,7 @@
 				<td>${user.lastName}</td>
 				<td>${user.login}</td>
 				<td>${user.email}</td>
-				<td><a data-idx="${i}" class="userEdit" href="#">Edit</a><a data-idx="${i}" class="userRemove" href="#">Remove</a></td>
+				<td><a data-idx="${i}" class="userEdit" href="#">${i18n.buttons.editUser}</a><a data-idx="${i}" class="userRemove" href="#">${i18n.buttons.removeUser}</a></td>
 			</tr>
 		{{/each}}
 		</tbody>
@@ -32,32 +32,32 @@
 	<div id="userEdition">
 		<div id="editionRow">
 			<form id="userDetails">
-				<h1>Details</h1>
+				<h1>${i18n.labels.userDetails}</h1>
 				<div>
-					<label>First name: </label><input type="text" name="firstName"/>
+					<label>${i18n.labels.firstName}</label><input type="text" name="firstName"/>
 				</div>
 				<div>
-					<label>Last name: </label><input type="text" name="lastName"/>
+					<label>${i18n.labels.lastName}</label><input type="text" name="lastName"/>
 				</div>
 				<div>
-					<label>Login: </label><input type="text" name="login"/>
+					<label>${i18n.labels.username}</label><input type="text" name="login"/>
 				</div>
 				<div>
-					<label>Email: </label><input type="text" name="email"/>
+					<label>${i18n.labels.email}</label><input type="text" name="email"/>
 				</div>
 				<div id="divPassword">
-					<label>Password: </label><input type="text" name="password"/>
+					<label>${i18n.labels.password}</label><input type="text" name="password"/>
 				</div>
 				<a href="#" class="submit"></a>
-				<a href="#" id="newUser">Cancel</a>
+				<a href="#" id="newUser">${i18n.buttons.newUser}</a>
 			</form>
 			
 			<div id="permissions">
-				<h1>Direct permissions</h1>
+				<h1>${i18n.labels.userPermissions}</h1>
 				<table id="userPermissions"></table>
 				<div>
-					<label>New permission: </label><input type="text" name="addedPermission"/>
-					<a href="#" class="submit">Add</a>
+					<label>${i18n.labels.addPermission}</label><input type="text" name="addedPermission"/>
+					<a href="#" class="submit">${i18n.buttons.addPermission}</a>
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-define(['lib/jquery'], function () {
+define(['i18n!nls/labels', 'lib/jquery'], function (i18n) {
 (function($){
 	  	  
 	/**
@@ -21,8 +21,8 @@ define(['lib/jquery'], function () {
 			$.route("#/login");
 		} else {
 			if (user.permissions.indexOf('IM-ADMIN') != -1) {
-				$('#navbar-content').append('<li><a href="#/home">Home</a></li>'+
-						'<li><a href="#/manage-users">Users Management</a></li>');
+				$('#navbar-content').append('<li><a href="#/home">'+i18n.labels.home+'</a></li>'+
+						'<li><a href="#/manage-users">'+i18n.labels.usersManagement+'</a></li>');
 			}
 		}
 	}; // redirectIfNotLogged().

@@ -1,8 +1,9 @@
 define([
+        'i18n!nls/labels',
         'lib/oauth2controller',
         'repositories/user.repository',
         'lib/jqueryui/button'
-    ], function(OAuth2Controller, UserRepository) {
+    ], function(i18n, OAuth2Controller, UserRepository) {
 
 	/**
 	 * Class LoginController
@@ -65,7 +66,7 @@ define([
 		 */
 		_authenticateErrorHandler: function(error, details) {
 			$.loading(false);
-			$.pnotify({pnotify_type:'error', pnotify_text:'Wrong credentials !'});
+			$.pnotify({pnotify_type:'error', pnotify_text: i18n.notifications.wrongCredentials});
 		}, // _authenticateErrorHandler().
 		
 		/**
@@ -99,8 +100,8 @@ define([
 		 * Template rendering, and UI component initialization.
 		 */
 		init : function() {
-			this.render();
-			document.title = 'Login';
+			this.render({i18n:i18n});
+			document.title = i18n.titles.login;
 			$('#formLogin .submit').button().click($.proxy(this, '_submitButtonHandler'));
 		} // Constructor.
 		

@@ -1,17 +1,17 @@
-<a href="#" class="logout">Logout</a>
+<a href="#" class="logout">${i18n.buttons.logout}</a>
 <div class="home">
-	<h1>Welcome ${user.firstName} ${user.lastName}</h1>
+	<h1>${$.sprintf(i18n.texts.welcome, user.firstName, user.lastName)}</h1>
 	
 	<form id="passwordChange">
-		<h2>Password edition</h2>
+		<h2>${i18n.labels.editPassword}</h2>
 		<div>
-			<label>New value: </label><input type="password" name="password"/>
+			<label>${i18n.labels.newPassword}</label><input type="password" name="password"/>
 			<span class="formError" id="passwordError"></span>
 		</div>
 		<div>
-			<label>Confirmation: </label><input type="password" name="confirm"/>
+			<label>${i18n.labels.confirmPassword}</label><input type="password" name="confirm"/>
 			<span class="formError" id="confirmError"></span>
 		</div>
-		<a href="#" class="submit">Change password</a>
+		<a href="#" class="submit">${i18n.buttons.changePassword}</a>
 	</form>
 </div>

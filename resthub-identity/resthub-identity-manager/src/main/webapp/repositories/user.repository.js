@@ -1,7 +1,8 @@
 define([
+        'i18n!nls/labels',
         'lib/oauth2repository', 
-        'controller/user/utils' 
-    ], function(OAuth2Repository) {
+        'controller/user/utils'
+    ], function(i18n, OAuth2Repository) {
 
 	/**
 	 * Class UserRepository
@@ -35,14 +36,14 @@ define([
 		authorizationError : function(XMLHttpRequest, status, errorThrown) {
 			if (status == 'expired_token' || (status == 'invalid_token' && errorThrown == "Unvalid token")) {
 				$.pnotify({
-					pnotify_text: 'Your session has expired',
+					pnotify_text: i18n.errors.sessionExpired,
 					pnotify_type: 'error'
 				});
 				$.logout();
 			} else {
 				var error = {
-						pnotify_title: 'Server problem',
-						pnotify_text: 'The action cannot be realized:\n',
+						pnotify_title: i18n.titles.serverError,
+						pnotify_text: i18n.errors.serverError,
 						pnotify_type: 'error'
 					};
 					error.pnotify_text += errorThrown ? errorThrown : status;
