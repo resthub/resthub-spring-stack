@@ -103,6 +103,8 @@ define([
 			this.render({i18n:i18n});
 			document.title = i18n.titles.login;
 			$('#formLogin .submit').button().click($.proxy(this, '_submitButtonHandler'));
+			// Empty existing notifications.
+			$.pnotify_clear();
 		} // Constructor.
 		
 	}); // Class LoginController.

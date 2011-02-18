@@ -43,7 +43,8 @@ define(['i18n!nls/labels', 'lib/jquery'], function (i18n) {
 	$.logout = function() {
 		$.loading(false);
 		$.storage.remove(Constants.USER_KEY);
-		$.route('#/login');
+		// Reload entierly the application to avoid reuse of past data.
+		$.route('');
 	}; // logout().
 
 	/**
