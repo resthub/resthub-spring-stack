@@ -1,7 +1,7 @@
 <h1>RESThub Javascript stack booking demo</h1>
-<% if(user != null) { %>
+{{if user}}
 <div id="options">
-    Connected as <%= user.username %>
+    Connected as ${user.username}
     |
     <a href="#/home">Search</a>
     |
@@ -9,4 +9,4 @@
     |
     <a href="#/logout">Logout</a>
 </div>
-<% } %>
+{{/if}}

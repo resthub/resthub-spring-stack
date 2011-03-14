@@ -1,10 +1,6 @@
 <h1>Current Hotel Bookings</h1>
 
-<% if ($.isEmptyObject(bookings)) { %>
-	<p>
-		No Bookings Found
-	</p>
-<% } else { %>
+{{if (bookings && bookings.length>0)}}
 	<table>
 		<thead>
 			<tr>
@@ -18,19 +14,21 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% for (index in bookings) { %>
-				<tr class="booking-item" id="booking-<%= bookings[index].id %>">
-					<td><%= bookings[index].hotel.name %></td>
-					<td><%= bookings[index].hotel.address %></td>
-					<td><%= bookings[index].hotel.city %>, <%= bookings[index].hotel.state %>, <%= bookings[index].hotel.country %></td>
-					<td><%= bookings[index].checkinDate %></td>
-					<td><%= bookings[index].checkoutDate %></td>
-					<td><%= bookings[index].id %></td>
+			{{each(index, booking) bookings}}
+				<tr class="booking-item" id="booking-${booking.id}">
+					<td>${booking.hotel.name}</td>
+					<td>${booking.hotel.address}</td>
+					<td>${booking.hotel.city}, ${booking.hotel.state}, ${booking.hotel.country}</td>
+					<td>${booking.hotel.checkinDate}</td>
+					<td>${booking.hotel.checkoutDate}</td>
+					<td>${booking.hotel.id}</td>
 					<td>
-						<a href="#/booking/del/<%= bookings[index].id %>">Cancel</a>
+						<a href="#/booking/del/${booking.id}">Cancel</a>
 					</td>
 				</tr>
-			<% } %>
+			{{/each}}
 		</tbody>
 	</table>
-<% } %>
+{{else}}
+	<p>No Bookings Found</p>
+{{/if}}

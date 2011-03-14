@@ -1,6 +1,4 @@
-<% if ($.isEmptyObject(result.elements)) { %>
-	<p>No hotels found...</p>
-<% } else { %>
+{{if result.elements}}
 	<table>
 		<thead>
 			<tr>
@@ -12,18 +10,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% var hotels = result.elements %>
-			<% for (index in hotels) { %>
-				<tr class="hotel-item" id="hotel-<%= hotels[index].id %>">
-					<td><%= hotels[index].name %></td>
-					<td><%= hotels[index].address %></td>
-					<td><%= hotels[index].city %>, <%= hotels[index].state %></td>
-					<td><%= hotels[index].zip %></td>
-					<td><a href="#/hotel/<%= hotels[index].id %>">View Hotel</a></td>
+			{{each(i, hotel) result.elements}}
+				<tr class="hotel-item" id="hotel-${hotel.id}">
+					<td>${hotel.name}</td>
+					<td>${hotel.address}</td>
+					<td>${hotel.city}, ${hotel.state}</td>
+					<td>${hotel.zip}</td>
+					<td><a href="#/hotel/${hotel.id}">View Hotel</a></td>
 				</tr>
-			<% } %>
+			{{/each}}
 		</tbody>
 	</table>
-<br/>
-<input id="search-next" type="button" value="More results">
-<% } %>
+	<br/>
+	<input id="search-next" type="button" value="More results">
+{{else}}
+	<p>No hotels found...</p>
+{{/if}}
