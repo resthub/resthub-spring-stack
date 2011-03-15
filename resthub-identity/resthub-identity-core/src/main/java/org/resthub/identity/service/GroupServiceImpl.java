@@ -40,18 +40,6 @@ public class GroupServiceImpl extends
 	}
 
 	/**
-	 * A Reference to the userService This is needed for the creation of Groups
-	 * including users
-	 */
-	UserService userService;
-
-	@Inject
-	@Named("userService")
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
