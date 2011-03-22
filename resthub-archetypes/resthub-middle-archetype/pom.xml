@@ -5,13 +5,13 @@
   	<parent>
 		<artifactId>resthub-archetypes</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-beta1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
   <groupId>org.resthub</groupId>
   <artifactId>resthub-middle-archetype</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1-beta1</version>
   <packaging>maven-archetype</packaging>
 
   <name>JAR module archetype based on RESThub</name>
