@@ -5,7 +5,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.model.Group;
@@ -43,7 +42,6 @@ public class GroupServiceImpl extends
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	public Group findByName(String name) {
 		Assert.notNull(name, "Group name can't be null");
 		List<Group> result = this.dao.findEquals("name", name);
@@ -60,7 +58,6 @@ public class GroupServiceImpl extends
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	public List<Group> findAllGroups() {
 		return this.dao.readAll();
 	}

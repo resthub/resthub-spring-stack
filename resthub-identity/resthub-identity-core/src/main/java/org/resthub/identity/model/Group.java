@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "idm_groups")
-/* "Group" conflicts with SQL keyword */
 @XmlRootElement
 public class Group extends AbstractPermissionsOwner {
 

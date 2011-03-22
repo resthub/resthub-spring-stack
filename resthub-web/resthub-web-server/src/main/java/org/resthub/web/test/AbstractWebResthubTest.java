@@ -34,7 +34,7 @@ public abstract class AbstractWebResthubTest {
 
     protected static Server server;
 
-    protected static String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml";
+    protected static String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath*:applicationContext.xml classpath:applicationContext.xml";
 
     @Before
     public void setUp() throws Exception {

@@ -554,6 +554,21 @@
             <id>resthub</id>
             <url>http://resthub.org/nexus/content/groups/resthub</url>
         </repository>
+        <repository>
+            <id>jboss</id>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>github</id>
+            <url>http://oss.sonatype.org/content/repositories/github-releases/</url>
+        </repository>
+        <repository>
+            <id>thirdparty</id>
+            <url>http://resthub.org/nexus/content/repositories/thirdparty/</url>
+        </repository>
+        
+        
+        
     </repositories>
 
     <pluginRepositories>

@@ -129,8 +129,10 @@ public class ScanningPersistenceUnitManager extends
 					pui.getPersistenceUnitName());*/
 		}
 
-		addEntitiesToPersistenceUnit(pui, entities);
-
+                if(entities != null) {
+                    addEntitiesToPersistenceUnit(pui, entities);
+                }
+                
 		super.postProcessPersistenceUnitInfo(pui);
 	}
 

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
@@ -40,7 +39,6 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 	 *            the login to look for
 	 * @return the corresponding User object if founded, null otherwise
 	 * */
-	@Auditable
 	public User findByLogin(String login) {
 		Assert.notNull(login, "User login can't be null");
 		List<User> result = this.dao.findEquals("login", login);
