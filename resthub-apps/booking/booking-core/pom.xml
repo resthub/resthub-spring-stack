@@ -13,10 +13,6 @@
 	<name>Booking Core</name>
 	<description>Core lib for business layers for booking samples projects</description>
 
-	<properties>
-		<hibernate.search.version>3.2.1.Final</hibernate.search.version>
-	</properties>
-
 	<dependencies>
 
 		<!--
@@ -38,7 +34,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
-			<version>${hibernate.search.version}</version>
 		</dependency>
 
 	</dependencies>

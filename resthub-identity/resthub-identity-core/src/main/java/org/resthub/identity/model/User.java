@@ -9,6 +9,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 /**
  * Describe a user account.<br/>
  * A User has some attributes such as login, password, email, ... TODO there is
@@ -18,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="idm_users")
 @XmlRootElement
+@Indexed
 public class User extends AbstractPermissionsOwner {
 
 	private static final long serialVersionUID = -7139715798005612136L;
@@ -56,6 +60,7 @@ public class User extends AbstractPermissionsOwner {
 	 * 
 	 * @return the user login
 	 * */
+	@Field
 	@Column(unique = true , nullable = false )
 	public String getLogin() {
 		return login;
@@ -98,6 +103,7 @@ public class User extends AbstractPermissionsOwner {
 	 * 
 	 * @return user's FirstName
 	 * */
+	@Field
 	@Column
 	public String getFirstName() {
 		return firstName;
@@ -118,6 +124,7 @@ public class User extends AbstractPermissionsOwner {
 	 * 
 	 * @return user's lastName
 	 * */
+	@Field
 	@Column
 	public String getLastName() {
 		return lastName;
@@ -138,6 +145,7 @@ public class User extends AbstractPermissionsOwner {
 	 * 
 	 *@return user's email;
 	 * */
+	@Field
 	@Column(/* nullable = false */)
 	public String getEmail() {
 		return email;
