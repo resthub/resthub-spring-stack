@@ -6,7 +6,7 @@
     <artifactId>resthub</artifactId>
     <packaging>pom</packaging>
     <name>RESThub framework</name>
-    <version>1.1-beta1</version>
+    <version>1.1-SNAPSHOT</version>
     <url>http://resthub.org</url>
     <description>
 		RESThub is an Open Source (LGPL) framework designed to allow you to build web applications following KISS (Keep It Simple and Stupid), DRY (Don’t Repeat Yourself) and REST principles.
@@ -26,7 +26,7 @@
 		<env>local</env>
 		<jersey.version>1.4</jersey.version>
         <jackson.version>1.5.5</jackson.version>
-        <hibernate.version>3.5.6-Final</hibernate.version>
+        <hibernate.version>3.6.2.Final</hibernate.version>
         <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
         <h2.version>1.2.144</h2.version>
         <hades.version>2.0.0.RELEASE</hades.version>
@@ -36,6 +36,7 @@
         <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.8.2</junit.version>
         <jetty.version>7.2.0.v20101020</jetty.version>
+        <hibernate-search-version>3.3.0.Final</hibernate-search-version>
     </properties>
 
     <profiles>
@@ -434,6 +435,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-search</artifactId>
+				<version>${hibernate-search-version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>log4j</groupId>
@@ -566,9 +572,6 @@
             <id>thirdparty</id>
             <url>http://resthub.org/nexus/content/repositories/thirdparty/</url>
         </repository>
-        
-        
-        
     </repositories>
 
     <pluginRepositories>

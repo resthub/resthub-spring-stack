@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 /**
  * Describes a group.<br/>
  * A group has few attributes, a name, a list of {@link User} belonging to this
@@ -12,7 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "idm_groups")
+/* "Group" conflicts with SQL keyword */
 @XmlRootElement
+@Indexed
 public class Group extends AbstractPermissionsOwner {
 
 	private static final long serialVersionUID = 475935404179730841L;
@@ -34,6 +39,7 @@ public class Group extends AbstractPermissionsOwner {
 	 * 
 	 * @return name of the group
 	 * */
+	@Field
 	@Column(unique = true, nullable = false)
 	public String getName() {
 		return name;

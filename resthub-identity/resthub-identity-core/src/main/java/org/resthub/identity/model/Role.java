@@ -13,11 +13,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import org.resthub.core.model.Resource;
 
 @Entity
 @Table(name = "idm_roles")
 @XmlRootElement
+@Indexed
 public class Role extends Resource {
 	private static final long serialVersionUID = 4727979823727123519L;
 
@@ -42,6 +45,7 @@ public class Role extends Resource {
 	 * 	
 	 * @return the name of the role.
 	 */
+	@Field
 	@Column(nullable = false, unique = true)
 	public String getName() {
 		return this.name;
