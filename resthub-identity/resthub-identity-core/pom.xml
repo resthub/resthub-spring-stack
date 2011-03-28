@@ -46,7 +46,6 @@
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-provider</artifactId>
 			<version>1.1-SNAPSHOT</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
@@ -57,13 +56,49 @@
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
 			<version>1.7</version>
-			<type>jar</type>
 		</dependency>
+		
+		<!-- Spring Security ACL dependencies -->
+		<dependency>
+           <groupId>org.springframework.security</groupId>
+           <artifactId>spring-security-acl</artifactId>
+           <version>${spring.security.version}</version>
+           <exclusions>
+		        <exclusion>
+		        	<groupId>org.springframework</groupId>
+          			<artifactId>spring-context-support</artifactId>
+		        </exclusion>
+		         <exclusion>
+		        	<groupId>org.springframework</groupId>
+          			<artifactId>spring-jdbc</artifactId>
+		        </exclusion>   
+           </exclusions>
+   		</dependency>
+   		<dependency>
+	        <groupId>org.springframework.security</groupId>
+	        <artifactId>spring-security-config</artifactId>
+	        <version>${spring.security.version}</version>
+    	</dependency>   		
+   		<dependency>
+        	<groupId>org.springframework</groupId>
+     		<artifactId>spring-context-support</artifactId>
+     		<version>${spring.version}</version>
+        </dependency>
+         <dependency>
+        	<groupId>org.springframework</groupId>
+        	<artifactId>spring-jdbc</artifactId>
+        	<version>${spring.version}</version>
+        </dependency>
+         <dependency>
+         	<groupId>net.sf.ehcache</groupId>
+         	<artifactId>ehcache-core</artifactId>
+         	<version>2.3.2</version>
+         </dependency>
+		
 	</dependencies>
 </project>
