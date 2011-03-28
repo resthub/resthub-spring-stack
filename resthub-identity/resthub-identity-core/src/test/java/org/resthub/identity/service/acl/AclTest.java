@@ -22,6 +22,7 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.util.FileCopyUtils;
 
 /**
@@ -97,7 +98,7 @@ public class AclTest extends AbstractResthubTest {
 		Sid sid = new PrincipalSid("joe");
 		Permission p = BasePermission.ADMINISTRATION;
 		
-		permissionService.addPermission(hp, sid, p);
+		permissionService.addPermission(hp, hp.getId(), sid, p);
 	}
 
 	@Test

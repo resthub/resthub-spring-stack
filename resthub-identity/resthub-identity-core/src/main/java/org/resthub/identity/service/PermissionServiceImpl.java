@@ -5,9 +5,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.identity.model.Group;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.model.AccessControlEntry;
+import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.MutableAcl;
 import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.model.NotFoundException;
@@ -16,7 +16,7 @@ import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
 
 @Named("permissionService")
-public class PermissionService {
+public class PermissionServiceImpl implements PermissionService {
 	
 	private MutableAclService aclService;
 	
@@ -30,12 +30,9 @@ public class PermissionService {
 		this.aclService = aclService;
 	}
 
-	/**
-	 * TODO : move to a PermissionService class
-	 */
-	public void addPermission(Group resource, Sid recipient, Permission permission) {
+	public void addPermission(Object resource, long id, Sid recipient, Permission permission) {
 	       MutableAcl acl;
-	       ObjectIdentity oid = new ObjectIdentityImpl(Group.class, resource.getId());
+	       ObjectIdentity oid = new ObjectIdentityImpl(resource.getClass(), id);
 	 
 	       try {
 	           acl = (MutableAcl) aclService.readAclById(oid);
@@ -48,12 +45,9 @@ public class PermissionService {
 
 	}
 	
-	/**
-	 * TODO : move to a PermissionService class
-	 */
-	public void deletePermission(Group resource, Sid recipient, Permission permission) {
+	public void deletePermission(Object resource, long id, Sid recipient, Permission permission) {
 
-		ObjectIdentity oid = new ObjectIdentityImpl(Group.class, resource.getId());
+		ObjectIdentity oid = new ObjectIdentityImpl(resource.getClass(), id);
 	       MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
 
 	       // Remove all permissions associated with this particular recipient (string equality to KISS)
@@ -68,5 +62,11 @@ public class PermissionService {
 	       aclService.updateAcl(acl);
 
 	   }
+	
+	public Acl getPermissions(Object resource, long id, Sid recipient) {
+	       ObjectIdentity oid = new ObjectIdentityImpl(resource.getClass(), id);
+	       MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
+	       return acl;
+	}
 
 }
