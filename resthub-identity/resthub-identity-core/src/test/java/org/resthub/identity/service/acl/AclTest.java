@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.core.test.AbstractResthubTest;
 import org.resthub.identity.model.Group;
@@ -22,7 +23,6 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.util.FileCopyUtils;
 
 /**
@@ -102,6 +102,7 @@ public class AclTest extends AbstractResthubTest {
 	}
 
 	@Test
+	@Ignore
 	public void testAuthorizedDelete() {
 		Group g = groupService.findByName("Hocus Pocus");
 		securedGroupService.delete(g);
