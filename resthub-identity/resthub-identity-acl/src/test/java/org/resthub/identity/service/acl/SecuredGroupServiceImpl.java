@@ -5,27 +5,23 @@ import javax.inject.Named;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Named("securedGroupService")
 public class SecuredGroupServiceImpl implements SecuredGroupService {
 	
-	public GroupService getGroupService() {
-		return groupService;
-	}
-
 	@Inject
 	@Named("groupService")
-	public void setGroupService(GroupService groupService) {
-		this.groupService = groupService;
-	}
-
-	private GroupService groupService;
+	protected GroupService groupService;
 	
 	/** Global role, because it does not exists **/
+	@Override
 	public Group create(Group group) {
 		return groupService.create(group);
 	}
 	
+	@PreAuthorize("hasPermission(#group, 'CUSTOM')")
+	@Override
 	public void delete(Group group) {
 		groupService.delete(group);
 	}
