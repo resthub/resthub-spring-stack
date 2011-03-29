@@ -10,19 +10,14 @@ import org.junit.Test;
 import org.resthub.core.test.AbstractResthubTest;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
-import org.resthub.identity.service.PermissionService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.acls.model.Permission;
-import org.springframework.security.acls.model.Sid;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.FileCopyUtils;
 
 /**
@@ -46,11 +41,12 @@ import org.springframework.util.FileCopyUtils;
  *    - Update RESThub OAuth2 to support Spring Security  
  *
  */
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml", "classpath:securityContext.xml" })
 public class AclTest extends AbstractResthubTest {
 	
 	@Inject
-	@Named("permissionService")
-	private PermissionService permissionService;
+	@Named("idmAclService")
+	private AclService aclService;
 	
 	@Inject
 	@Named("securedGroupService")
@@ -76,6 +72,7 @@ public class AclTest extends AbstractResthubTest {
 	    
 	    // Inspired from https://fisheye.springsource.org/browse/~raw,r=052537c8b04182595e92abd1e1949b0ff7e731b4/spring-security/acl/src/test/java/org/springframework/security/acls/domain/AclImplTests.java
 	    SecurityContextHolder.getContext().setAuthentication(auth);
+	    Object p = auth.getPrincipal();
 	    auth.setAuthenticated(true);
 	    
 	    this.configurePermissions();
@@ -94,16 +91,13 @@ public class AclTest extends AbstractResthubTest {
 		Group hp = new Group();
 		hp.setName("Hocus Pocus");
 		hp = groupService.create(hp);
-		
-		Sid sid = new PrincipalSid("joe");
-		Permission p = BasePermission.ADMINISTRATION;
-		
-		permissionService.addPermission(hp, hp.getId(), sid, p);
+
+		aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
 	}
 
 	@Test
 	public void testAuthorizedDelete() {
-		Group g = groupService.findByName("Hocus Pocus");
+	    Group g = groupService.findByName("Hocus Pocus");
 		securedGroupService.delete(g);
 	}
 	
