@@ -27,14 +27,14 @@ import org.springframework.test.context.ContextConfiguration;
  * Ususally you will have to redefine @ContextConfiguration to specify your application context file in addition to resthub ones  
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" })
 public abstract class AbstractWebResthubTest {
 
     protected static int port = 9797;
 
     protected static Server server;
 
-    protected static String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath*:applicationContext.xml classpath:applicationContext.xml";
+    protected static String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
 
     @Before
     public void setUp() throws Exception {

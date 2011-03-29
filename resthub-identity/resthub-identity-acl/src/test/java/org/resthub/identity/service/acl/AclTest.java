@@ -37,7 +37,6 @@ import org.springframework.test.context.ContextConfiguration;
  *    - Update RESThub OAuth2 to support Spring Security  
  *
  */
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml", "classpath:securityContext.xml" })
 public class AclTest extends AbstractResthubTest {
 	
 	@Inject

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Ususally you will have to redefine @ContextConfiguration to specify your application context file in addition to resthub ones  
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml"})
 @TransactionConfiguration(defaultRollback = true)
 @Transactional(readOnly = false)
 public abstract class AbstractResthubTest {

@@ -77,8 +77,7 @@ public class AclOauth2Test {
         // Spring listener.
         context.addEventListener(new ContextLoaderListener());
         context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml " +
-        		"classpath*:applicationContext.xml classpath:inMemoryApplicationContext.xml " +
-        		"classpath:securityContext.xml");
+        		"classpath*:applicationContext.xml classpath:inMemoryApplicationContext.xml");
         // JPA filter
         context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
         // OAuth2 filter

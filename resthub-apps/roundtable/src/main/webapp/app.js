@@ -12,7 +12,7 @@ define([ 'lib/resthub', 'routes/poll.routes', 'lib/jquery/jquery.pnotify' ],
             // Rebuild Lucene index
             $.ajax({
                 url : 'api/lucene/rebuild',
-                dataType : 'json',
+                dataType : 'text/plain',
                 type : 'POST'
             });
 
