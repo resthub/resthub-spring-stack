@@ -44,16 +44,16 @@ public class SearchServiceImpl implements SearchService {
 	 */
 	public List<Resource> search(String query, boolean withUsers, boolean withGroups, boolean withRoles) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("[search] Search with query '"+query+"'"+(withUsers ? "on users" : "")+
-					(withGroups ? "on groups" : "")+(withRoles ? "on roles" : ""));
+			logger.debug("[search] Search with query '"+query+"'"+(withUsers ? " on users" : "")+
+					(withGroups ? " on groups" : "")+(withRoles ? " on roles" : ""));
 		}
 		// Argument validation.
 		if (query == null) {
 			throw new IllegalArgumentException("query must not be null");
 		}
 		// Adds * after each terms if terms are simple (no keywords, no quotes)
-		if (!query.matches("\\+|\"|-|~|\\?|\\*|\\[|\\(") && !query.contains("NOT") && !query.contains("AND") && 
-				!query.contains("OR")) {
+		if (query.trim().length() > 0 && !query.matches("\\+|\"|-|~|\\?|\\*|\\[|\\(") && !query.contains("NOT") && 
+				!query.contains("AND") && !query.contains("OR")) {
 			String[] terms = query.split(" ");
 			query = "";
 			for (String term : terms) {

@@ -14,6 +14,7 @@
   <description>RESThub identity management in order to allow you to build quickly identity functionnalities on your applications</description>
   <modules>
   	<module>resthub-identity-core</module>
+  	<module>resthub-identity-acl</module>
   	<module>resthub-identity-manager</module>
   </modules>
 </project>
