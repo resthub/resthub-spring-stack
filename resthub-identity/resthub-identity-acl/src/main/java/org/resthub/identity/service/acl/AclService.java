@@ -1,6 +1,7 @@
 package org.resthub.identity.service.acl;
 
-import org.resthub.core.model.Resource;
+import java.io.Serializable;
+
 import org.springframework.security.acls.model.Acl;
 
 /**
@@ -15,28 +16,31 @@ public interface AclService {
 	 * Saves an ACL (or update the existing one) for a specified owner on a specified resource.
 	 *  
 	 * @param domainObject The resource concerned.
+	 * @param domainObjectId The concerned resource Id.
 	 * @param userId Id of the user.
 	 * @param permission Permission added to this owner on this resource.
 	 */
-	void saveAcl(Resource domainObject, String userId, String permission);
+	void saveAcl(Object domainObject, Serializable domainObjectId, String userId, String permission);
 	
 	/**
 	 * Removes an ACL for a specified owner on a specified resource.
 	 * 
 	 * @param domainObject The resource concerned.
+	 * @param domainObjectId The concerned resource Id.
 	 * @param userId Id of the user.
 	 * @param permission Permission removed from this owner on this resource.
 	 * 
 	 * @throws NotFoundException If the permission is not associated to this owner on 
 	 */
-	void removeAcl(Resource domainObject, String userId, String permission);
+	void removeAcl(Object domainObject, Serializable domainObjectId, String userId, String permission);
 	
 	/**
 	 * Retrieves existing ACL for a specified resource.
 	 * 
 	 * @param domainObject The resource concerned.
+	 * @param domainObjectId The concerned resource Id.
 	 * @return ACL for this resource, containing all permissions of all related owner.
 	 */
-	Acl getAcls(Resource domainObject);
+	Acl getAcls(Object domainObject, Serializable domainObjectId);
 	
 } // interface AclService

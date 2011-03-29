@@ -1,11 +1,11 @@
 package org.resthub.identity.service.acl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.model.Resource;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.AccessControlEntry;
@@ -46,11 +46,11 @@ public class AclServiceImpl implements AclService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void saveAcl(Resource domainObject, String ownerId, String permission) {
+	public void saveAcl(Object domainObject, Serializable domainObjectId, String ownerId, String permission) {
 		// Sid identifies the user.
 		Sid owner = new PrincipalSid(ownerId); 
 		// ObjectIdentity is a unic identifier for the model object
-		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObject.getId());
+		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObjectId);
 		
 		// Creates the acl, or update the existing one.
 		MutableAcl acl;
@@ -69,11 +69,11 @@ public class AclServiceImpl implements AclService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void removeAcl(Resource domainObject, String ownerId, String permission) {
+	public void removeAcl(Object domainObject, Serializable domainObjectId, String ownerId, String permission) {
 		// Sid identifies the user.
 		Sid owner = new PrincipalSid(ownerId); 
 		// ObjectIdentity is a unic identifier for the model object
-		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObject.getId());
+		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObjectId);
 		
 		// Gets the existing acl.
 		MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
@@ -97,9 +97,9 @@ public class AclServiceImpl implements AclService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Acl getAcls(Resource domainObject) {
+	public Acl getAcls(Object domainObject, Serializable domainObjectId) {
 		// ObjectIdentity is a unic identifier for the model object
-		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObject.getId());
+		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObjectId);
 		MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
 		return acl;
 	} // getAcl().

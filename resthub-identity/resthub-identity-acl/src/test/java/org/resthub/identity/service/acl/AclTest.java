@@ -92,7 +92,7 @@ public class AclTest extends AbstractResthubTest {
 		hp.setName("Hocus Pocus");
 		hp = groupService.create(hp);
 
-		aclService.saveAcl(hp, "joe", "CUSTOM");
+		aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
 	}
 
 	@Test
