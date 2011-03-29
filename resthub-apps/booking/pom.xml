@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-beta2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>booking</artifactId>
 	<name>Sample Booking applications</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-beta2</version>
 	<packaging>pom</packaging>
 	<description>
 		Sample web booking applications provided to help you to build your own RESThub based
