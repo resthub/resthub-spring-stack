@@ -27,6 +27,10 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         super.setResourceService(resourceService);
     }
 
+    @Inject
+    @Named("groupService")
+    private GroupService groupService;
+
     @Override
     public User createTestRessource() {
         String userLogin = "UserTestUserName" + Math.round(Math.random() * 1000);
@@ -336,8 +340,10 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
     @Test
     public void testShouldGetUsersFromGroup() {
         /* Given a new group */
+        String groupName = "testGroup";
         Group g = new Group();
-        g.setName("testGroup");
+        g.setName(groupName);
+        this.groupService.create(g);
 
         /* Given a new user */
         String firstName = "first";
@@ -350,7 +356,19 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         u.setLastName(lastName);
         u.setPassword(password);
         u.setLogin(login);
+        
+        /* Given a link between this user and the group */
         u.getGroups().add(g);
         u = this.resourceService.create(u);
+
+        /* When I get the users of the group */
+        List<User> usersFromGroup = this.resourceService.getUsersFromGroup(groupName);
+
+        /* Then the list of users contains our user */
+        assertTrue("The list of users should contain our just added user", usersFromGroup.contains(u));
+
+        /* Cleanup */
+        this.resourceService.delete(u);
+        this.groupService.delete(g);
     }
 }

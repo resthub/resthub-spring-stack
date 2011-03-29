@@ -22,8 +22,7 @@ public class JpaUserDao extends GenericJpaResourceDao<User> implements UserDao {
      */
     @Override
     public List<User> getUsersFromGroup(String groupName) {
-        String queryString = "select u from " + this.getDomainClass().getName() + " u JOIN "
-                + Group.class.getName() + " g where g.name=:groupName";
+        String queryString = "select u from " + this.getDomainClass().getName() + " u JOIN u.groups g where g.name=:groupName";
         Query q = this.getEntityManager().createQuery(queryString);
         q.setParameter("groupName", groupName);
         return q.getResultList();
