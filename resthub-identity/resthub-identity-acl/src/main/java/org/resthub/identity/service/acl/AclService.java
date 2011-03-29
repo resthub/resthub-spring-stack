@@ -3,6 +3,7 @@ package org.resthub.identity.service.acl;
 import java.io.Serializable;
 
 import org.springframework.security.acls.model.Acl;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service that manage ACLs.
@@ -10,6 +11,7 @@ import org.springframework.security.acls.model.Acl;
  * a user's id.
  * TODO
  */
+@Transactional(readOnly=false)
 public interface AclService {
 	
 	/**
@@ -41,6 +43,7 @@ public interface AclService {
 	 * @param domainObjectId The concerned resource Id.
 	 * @return ACL for this resource, containing all permissions of all related owner.
 	 */
+	@Transactional(readOnly=true)
 	Acl getAcls(Object domainObject, Serializable domainObjectId);
 	
 } // interface AclService

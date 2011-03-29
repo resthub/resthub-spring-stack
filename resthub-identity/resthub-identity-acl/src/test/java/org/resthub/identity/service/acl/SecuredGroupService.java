@@ -4,7 +4,8 @@ import org.resthub.identity.model.Group;
 
 public interface SecuredGroupService {
 	
-	/** Global role, because it does not exists **/
+	Group getById(Long id);
+
 	Group create(Group group);
 	
 	void delete(Group group);

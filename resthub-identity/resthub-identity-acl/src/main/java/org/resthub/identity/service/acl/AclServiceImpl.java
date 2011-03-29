@@ -3,9 +3,14 @@ package org.resthub.identity.service.acl;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.AccessControlEntry;
@@ -16,6 +21,7 @@ import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
+import org.springframework.util.FileCopyUtils;
 
 /**
  * Implementation of the ACL Service based on Spring Security.
@@ -34,10 +40,37 @@ public class AclServiceImpl implements AclService {
 	protected MutableAclService aclService;
 	
 	/**
+	 * Datasource used to access to database.
+	 */
+	@Inject
+	@Named("dataSource")
+	private DriverManagerDataSource datasource;
+	
+	/**
 	 * Mapper between strings and permissions. Injected by Spring.
 	 */
 	@Inject
 	protected ConfigurablePermissionFactory permissionFactory;
+	
+	// -----------------------------------------------------------------------------------------------------------------
+	// public methods
+
+	/**
+	 * Initialization: creates Spring Security's tables, using datasourcE.
+	 */
+	@PostConstruct
+	public void init() {
+		try {
+			// Re-use declared datasource
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
+			ClassPathResource resource = new ClassPathResource("import-acl.sql");
+			// Populates tables.
+			String sql = new String(FileCopyUtils.copyToByteArray(resource.getInputStream()));
+		    jdbcTemplate.execute(sql);
+		} catch (Exception exc) {
+			throw new BeanCreationException("Cannot set SpringSecurity ACL tables in db", exc);
+		}
+	} // init().
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Inherited methods

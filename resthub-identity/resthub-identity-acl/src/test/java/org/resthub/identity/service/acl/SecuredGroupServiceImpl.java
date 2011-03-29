@@ -14,7 +14,13 @@ public class SecuredGroupServiceImpl implements SecuredGroupService {
 	@Named("groupService")
 	protected GroupService groupService;
 	
+	@Override
+	public Group getById(Long id) {
+		return groupService.findById(id);
+	}
+	
 	/** Global role, because it does not exists **/
+	@PreAuthorize("hasRole('CREATE')")
 	@Override
 	public Group create(Group group) {
 		return groupService.create(group);

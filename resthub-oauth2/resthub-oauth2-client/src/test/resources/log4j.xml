@@ -18,11 +18,11 @@
 	</logger>
 
 	<logger name="org.springframework">
-		<level value="warn"/>
+		<level value="debug"/>
 	</logger>
 
 	<root>
-		<level value="all"/>
+		<level value="warn"/>
 		<appender-ref ref="stdout"/>
 	</root>
 	

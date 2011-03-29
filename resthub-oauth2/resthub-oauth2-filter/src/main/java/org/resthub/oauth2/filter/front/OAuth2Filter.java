@@ -36,6 +36,10 @@ import org.slf4j.LoggerFactory;
  * The "DoSetCookie" mode stores the validated token into a cookie.
  * When no token is specified by header or as GET/POST parameter, it reuse the existing cookie.
  * 
+ * This filter can populate the Spring Security's SecurityContext if you want to use Spring Security ACLs.
+ * <b><u>The Spring-Security artifact need to be provided at runtime</u>. (groupId: org.springframework.security, 
+ * artifactId: spring-security-acl, version: 3.0.5.RELEASE+)</b><br/><br/>
+ *
  * This filter can be declared with Spring with a DelegatingFilterProxy, and an XML declaration :
  * <br/>In web.xml
  * <pre>
@@ -52,6 +56,7 @@ import org.slf4j.LoggerFactory;
  *   &lt;property name="service" ref="validationService" /&gt;
  *   &lt;property name="resource" value="MyResource" /&gt;
  *   &lt;property name="doSetCookie" value="false" /&gt;
+ *   &lt;property name="popupateSecurityContext" value="true" /&gt;
  * &lt;/bean&gt;
  * </pre>
  * 
@@ -61,22 +66,28 @@ import org.slf4j.LoggerFactory;
  * <li>doSetCookie: Enable or not the Cookie behaviour (false if absent)</li>
  * <li>validationServiceClass: The validation service class name and package. This class must implements the 
  * ValidationService interface and have a default constructor</li>
+ * <li>popupateSecurityContext: Used if the SpringSecurity's SecurityContext needs to be populated with the 
+ * * connected user.</li>
  * </ul>
  * In your Web.xml:
  * <pre>
  * &lt;context-param&gt;
- *   &lt;param-name>securedResourceName&lt;/param-name&gt;
- *   &lt;param-value>MyResource&lt;/param-value&gt;
+ *   &lt;param-name&gtsecuredResourceName&lt;/param-name&gt;
+ *   &lt;param-value&gtMyResource&lt;/param-value&gt;
+ * &lt;/context-param;
+ * &lt;context-param&gt;
+ *   &lt;param-name&gtdoSetCookie&lt;/param-name&gt;
+ *   &lt;param-value&gtfalse&lt;/param-value&gt;
+ * &lt;/context-param;
+ * &lt;context-param&gt;
+ *   &lt;param-name&gtvalidationServiceClass&lt;/param-name&gt;
+ *   &lt;param-value&gtorg.reshub.oauth2.filter.service.ExternalValidationService&lt;/param-value&gt;
  * &lt;/context-param&gt;
  * &lt;context-param&gt;
- *   &lt;param-name>doSetCookie&lt;/param-name&gt;
- *   &lt;param-value>false&lt;/param-value&gt;
+ *   &lt;param-name&gtpopupateSecurityContext&lt;/param-name&gt;
+ *   &lt;param-value&gtrue&lt;/param-value&gt;
  * &lt;/context-param&gt;
- * &lt;context-param&gt;
- *   &lt;param-name>validationServiceClass&lt;/param-name&gt;
- *   &lt;param-value>org.reshub.oauth2.filter.service.ExternalValidationService&lt;/param-value&gt;
- * &lt;/context-param&gt;
- * 
+ *  
  * &lt;filter&gt;
  *   &lt;!-- The name is important (thanks to Spring mecanisms). It's the filter bean name	--&gt;
  *   &lt;filter-name&gt;OAuth2Filter&lt;/filter-name&gt;
@@ -135,6 +146,21 @@ public class OAuth2Filter implements Filter {
 		this.service = service;
 	} // setService().
 
+	/**
+	 * Used if the SpringSecurity's SecurityContext needs to be populated with the 
+	 * connected user.
+	 */
+	protected boolean popupateSecurityContext = false;
+
+	/**
+	 * Used to change the popupateSecurityContext option when working with spring.
+	 * 
+	 * @param service
+	 */
+	public void setPopupateSecurityContext(Boolean popupateSecurityContext) {
+		this.popupateSecurityContext = popupateSecurityContext;
+	} // setPopupateSecurityContext().
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Protected methods
 
@@ -238,6 +264,7 @@ public class OAuth2Filter implements Filter {
 			logger.error("[init] " + error);
 			throw new ServletException(error, exc);
 		}
+		setPopupateSecurityContext(Boolean.valueOf(config.getInitParameter("popupateSecurityContext")));
 	} // init().
 
 	/**
@@ -294,7 +321,8 @@ public class OAuth2Filter implements Filter {
 						token = null;
 					} else {
 						// Process request.
-						chain.doFilter(new SecuredHttpRequest(token.userId, token.permissions, request), rawResponse);
+						chain.doFilter(new SecuredHttpRequest(token.userId, token.permissions, popupateSecurityContext, 
+								request), rawResponse);
 					}
 				}
 			}

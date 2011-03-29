@@ -10,15 +10,11 @@ import org.junit.Test;
 import org.resthub.core.test.AbstractResthubTest;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.util.FileCopyUtils;
 
 /**
  * First unit test in order to test Spring ACL support
@@ -56,32 +52,15 @@ public class AclTest extends AbstractResthubTest {
 	@Named("groupService")
 	private GroupService groupService;
 	
-	@Inject
-	@Named("dataSource")
-	private DriverManagerDataSource datasource;
-	
-	Authentication auth = new TestingAuthenticationToken("joe", "ignored");
+	protected Authentication auth = new TestingAuthenticationToken("joe", "ignored", "ROLE_ADMINISTRATOR");
 	
 	@Before
 	// Create database tables if needed
-	public void init() throws IOException {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
-		ClassPathResource resource = new ClassPathResource("import-acl.sql");
-		String sql = new String(FileCopyUtils.copyToByteArray(resource.getInputStream()));
-	    jdbcTemplate.execute(sql);
-	    
+	public void init() throws IOException {    
 	    // Inspired from https://fisheye.springsource.org/browse/~raw,r=052537c8b04182595e92abd1e1949b0ff7e731b4/spring-security/acl/src/test/java/org/springframework/security/acls/domain/AclImplTests.java
 	    SecurityContextHolder.getContext().setAuthentication(auth);
-	    Object p = auth.getPrincipal();
 	    auth.setAuthenticated(true);
 	    
-	    this.configurePermissions();
-	    
-	}
-	
-	/** In this test we add permissions to manipulate a Group instance **/
-	private void configurePermissions() {
-		
 		// Create Wax Taylor with no permissions on it
 		Group wt = new Group();
 		wt.setName("Wax Taylor");
@@ -94,9 +73,10 @@ public class AclTest extends AbstractResthubTest {
 
 		aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
 	}
-
+	
 	@Test
 	public void testAuthorizedDelete() {
+
 	    Group g = groupService.findByName("Hocus Pocus");
 		securedGroupService.delete(g);
 	}
