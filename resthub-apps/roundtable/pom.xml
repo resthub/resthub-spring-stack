@@ -5,14 +5,14 @@
 	<parent>
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-beta3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>roundtable</artifactId>
 	<packaging>war</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-beta3</version>
 	<name>Round Table</name>
 	<description>
 		Poll application based on RESThub
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-beta3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
