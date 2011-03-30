@@ -6,7 +6,7 @@ import javax.inject.Named;
 
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.resthub.core.service.GenericResourceServiceImpl;
-import org.resthub.identity.dao.PermissionsOwnerDao;
+import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
 import org.resthub.oauth2.provider.service.AuthenticationService;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * */
 @Named("userService")
 public abstract class AbstractEncryptedPasswordUserService extends
-		GenericResourceServiceImpl<User, PermissionsOwnerDao<User>> implements UserService,
+		GenericResourceServiceImpl<User, UserDao> implements UserService,
 		AuthenticationService {
 
 	/** A password encryptor, doing 1000 times MD5 has, with a 8 bytes salt */

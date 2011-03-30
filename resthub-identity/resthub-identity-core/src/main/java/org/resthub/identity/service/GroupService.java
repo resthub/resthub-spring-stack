@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -76,5 +77,4 @@ public interface GroupService extends GenericResourceService<Group> {
 	 */
 	@Transactional
 	public void addGroupToGroup(String groupName, String subGroupName);
-
 }
