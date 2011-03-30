@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import javax.ws.rs.core.MediaType;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -121,6 +123,16 @@ public class SearchControllerTest {
 	// Tests
 
 	@Test
+	public void shouldIndexesBeReseted() {
+		// Given a resource on the server
+		WebResource server = resource();
+		// When reseting indexes
+		ClientResponse response = server.path("/api/search").put(ClientResponse.class);
+		// Then the operation is processed
+		assertEquals(204, response.getClientResponseStatus().getStatusCode());
+	} // shouldIndexesBeReseted().
+
+	@Test
 	public void shouldNullQueryFailed() {
 		// Given a resource on the server
 		WebResource server = resource();
@@ -183,6 +195,40 @@ public class SearchControllerTest {
 		assertEquals(user, results[0]);
 		assertEquals(user2, results[1]);
 	} // shouldQueryReturnsUsers().
+	
+	
+	@Test
+	public void shouldQueryReturnsUsersInJson() {
+		// Given a resource on the server
+		WebResource server = resource();
+		// Given a user with jdujardin as login
+		User user = new User();
+		user.setLogin("jdujardin");
+		user.setPassword("pwd");
+		user = server.path("/api/user/").post(User.class, user);
+		
+		// Given a user with jean as name
+		User user2 = new User();
+		user2.setLogin("user2");
+		user2.setLastName("jean");
+		user2.setPassword("pwd");
+		user2 = server.path("/api/user/").post(User.class, user2);
+
+		ClientResponse response = server.path("/api/search").queryParam("query", "j")
+				.accept(MediaType.APPLICATION_JSON)
+				.get(ClientResponse.class);
+		System.out.println(response.getEntity(String.class));
+		
+		// When searching the created user in JSON
+		User[] results = server.path("/api/search").queryParam("query", "j")
+				.accept(MediaType.APPLICATION_JSON)
+				.get(User[].class);
+		// Then the result contains the user.
+		assertNotNull(results);
+		assertEquals(2, results.length);
+		assertEquals(user, results[0]);
+		assertEquals(user2, results[1]);
+	} // shouldQueryReturnsUsersInJson().
 	
 	@Test
 	public void shouldQueryWithoutUsersNotReturnsUsers() {

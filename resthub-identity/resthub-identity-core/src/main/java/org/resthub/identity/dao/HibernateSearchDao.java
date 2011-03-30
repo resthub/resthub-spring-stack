@@ -13,6 +13,7 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.util.Version;
+import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -92,6 +93,13 @@ public class HibernateSearchDao implements SearchDao {
 					// Keeps only distinct results.
 					for (Resource foundResource : found) {
 						if (!results.contains(foundResource)) {
+							// TODO Remove this Hibernate specific block. 
+							// Sometimes hibernate Search returns Javassist proxies, which can't be properly
+							// deserialize by Jackson.
+							if (foundResource instanceof HibernateProxy){
+								HibernateProxy h = (HibernateProxy)foundResource;
+								foundResource = (Resource)h.getHibernateLazyInitializer().getImplementation();
+							}
 							results.add(foundResource);
 						}
 					}

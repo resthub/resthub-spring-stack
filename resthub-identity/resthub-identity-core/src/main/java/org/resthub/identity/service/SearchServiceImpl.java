@@ -10,13 +10,11 @@ import org.resthub.core.model.Resource;
 import org.resthub.identity.dao.SearchDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Search service implementation.
  */
 @Named("searchService")
-@Transactional(readOnly=true)
 public class SearchServiceImpl implements SearchService {
 
 	/**

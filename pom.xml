@@ -26,7 +26,7 @@
 		<env>local</env>
 		<resthub.js.version>1.1-beta2</resthub.js.version>
 		<jersey.version>1.4</jersey.version>
-        <jackson.version>1.5.5</jackson.version>
+        <jackson.version>1.5.8</jackson.version>
         <hibernate.version>3.6.2.Final</hibernate.version>
         <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
         <h2.version>1.2.144</h2.version>
@@ -37,7 +37,7 @@
         <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.8.2</junit.version>
         <jetty.version>7.2.0.v20101020</jetty.version>
-        <hibernate-search-version>3.3.0.Final</hibernate-search-version>
+        <hibernate-search-version>3.4.0.CR1</hibernate-search-version>
     </properties>
 
     <profiles>

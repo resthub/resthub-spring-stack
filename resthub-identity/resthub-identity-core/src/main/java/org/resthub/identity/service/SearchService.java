@@ -3,10 +3,12 @@ package org.resthub.identity.service;
 import java.util.List;
 
 import org.resthub.core.model.Resource;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Special service that performs search queries on users, groups and roles
  */
+@Transactional(readOnly=true)
 public interface SearchService {
 
 	/**

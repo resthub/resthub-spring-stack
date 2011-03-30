@@ -20,8 +20,6 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
  	<context:component-scan base-package="org.resthub.oauth2" />
-    <resthub:include-entities base-package="org.resthub.identity.model" />
-    <resthub:include-jaxb-elements base-package="org.resthub.identity.model" />
     		
  	<!-- Security configuration -->
 	<util:properties id="securityConfig">
