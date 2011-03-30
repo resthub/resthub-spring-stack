@@ -9,9 +9,10 @@ define([ 'lib/controller', 'hotel/list' ], function(Controller) {
 
 			this.render();
 			var self = this;
-			var value = $('#search-value').val();
+			
 
 			$('#search-submit').bind('click', function() {
+				var value = $('#search-value').val();
 				$.storage.set('search-page', 0);
 				$.publish('hotel-search', value);
 			});
@@ -19,12 +20,14 @@ define([ 'lib/controller', 'hotel/list' ], function(Controller) {
 			$('#search-value').bind('keyup', function() {
 				clearTimeout(self.searching);
 				self.searching = setTimeout(function() {
+					var value = $('#search-value').val();
 					$.storage.set('search-page', 0);
 					$.publish('hotel-search', value);
 				}, self.delay);
 			});
 
 			$('#search-size').bind('change', function() {
+				var value = $('#search-value').val();
 				$.storage.set('search-page', 0);
 				$.storage.set('search-size', $('#search-size').val());
 				$.publish('hotel-search', value);
