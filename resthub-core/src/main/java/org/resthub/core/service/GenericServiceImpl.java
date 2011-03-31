@@ -31,7 +31,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	@Transactional(readOnly = false)
 	public T create(T resource) {
 		Assert.notNull(resource, "Resource can't be null");
@@ -43,7 +42,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	@Transactional(readOnly = false)
 	public T update(T resource) {
 		Assert.notNull(resource, "Resource can't be null");
@@ -55,7 +53,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	@Transactional(readOnly = false)
 	public void delete(T resource) {
 		Assert.notNull(resource, "Resource can't be null");
@@ -67,7 +64,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	@Transactional(readOnly = false)
 	public void delete(ID id) {
 		Assert.notNull(id, "Resource ID can't be null");
@@ -78,7 +74,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	public T findById(ID id) {
 		Assert.notNull(id, "Resource ID can't be null");
 		return dao.readByPrimaryKey(id);
@@ -88,7 +83,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	public List<T> findAll(Integer offset, Integer limit) {
 		Integer o = (offset == null || offset < 0) ? 0 : offset;
 		Integer l = (limit == null || limit < 0) ? 100 : limit;
@@ -99,7 +93,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	public List<T> findAll() {
 		return dao.readAll();
 	}
@@ -116,7 +109,6 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Auditable
 	public Long count() {
 		return dao.count();
 	}

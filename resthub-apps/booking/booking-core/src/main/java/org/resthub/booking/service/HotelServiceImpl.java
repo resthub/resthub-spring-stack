@@ -8,7 +8,6 @@ import javax.inject.Named;
 
 import org.resthub.booking.dao.HotelDao;
 import org.resthub.booking.model.Hotel;
-import org.resthub.core.audit.annotation.Auditable;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
@@ -33,7 +32,6 @@ public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao
 	/**
 	 * {@inheritDoc}
 	 */
-    @Auditable
 	public Page<Hotel> find(final String query, final Pageable pageable) {
         if (query == null || query.isEmpty()) {
             return this.findAll(pageable);
@@ -46,7 +44,6 @@ public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao
     /**
 	 * {@inheritDoc}
 	 */
-    @Auditable
 	public List<Hotel> find(final String query) {
         if (query == null || query.isEmpty()) {
             return this.findAll();
@@ -65,7 +62,6 @@ public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao
 	/**
 	 * {@inheritDoc}
 	 */
-    @Auditable
     public void rebuildIndex() {
         this.dao.rebuildIndex();
     }
