@@ -1,19 +1,29 @@
 package org.resthub.identity.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
 
 public class GroupServiceTest extends AbstractResourceServiceTest<Group, GenericResourceService<Group>> {
 
     Logger logger = Logger.getLogger(GroupServiceTest.class);
+
+    @Inject
+    @Named("userService")
+    private UserService userService;
+    
+    @PersistenceContext
+    protected EntityManager em;
 
     @Override
     public Group createTestRessource() {
@@ -57,5 +67,32 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
         assertEquals(toString2, g.toString());
 
         resourceService.delete(g);
+    }
+
+    @Test
+    public void shouldDeleteGroupWithUsers() {
+        /* Given a user */
+        User testUser = new User();
+        testUser.setLogin("testUser");
+        testUser = userService.create(testUser);
+
+        /* Given a group */
+        Group testGroup  = this.createTestRessource();
+        testGroup.setName("testGroup");
+        testGroup = resourceService.create(testGroup);
+
+        /* Given a link between this group and this user */
+        userService.addGroupToUser(testUser.getLogin(), testGroup.getName());
+
+        /* When deleting this group */
+        resourceService.delete(testGroup);
+        em.flush(); // enforce database queries to be executed
+
+        /* Then the user shouldn't have this group anymore */
+        User user = userService.findById(testUser.getId());
+        assertFalse("The user shouldn't contain this group anymore", user.getGroups().contains(testGroup));
+        /* And the group shouldn't exist */
+        Group deleteGroup = resourceService.findById(testGroup.getId());
+        assertNull("The deleted group shouldn't exist anymore", deleteGroup);
     }
 }
