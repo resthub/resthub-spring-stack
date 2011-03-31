@@ -37,7 +37,7 @@ public abstract class AbstractResourceControllerTest <T extends Resource, C exte
 	 * @return id
 	 */
 	@Override
-	protected Serializable getIdFromObject(Object obj) {
+	protected Serializable getIdFromEntity(Object obj) {
 		return ((T)obj).getId();
 	}
 }

@@ -44,13 +44,13 @@ public class AuthorizationServiceImplTest extends AbstractServiceTest<Token, Lon
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Long getIdFromObject(Token obj) {
+	public Long getIdFromEntity(Token obj) {
 		Long id = null;
 		if (obj != null) {
 			id = obj.id;
 		}
 		return id;
-	} // getIdFromObject().
+	} // getIdFromEntity().
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Tests

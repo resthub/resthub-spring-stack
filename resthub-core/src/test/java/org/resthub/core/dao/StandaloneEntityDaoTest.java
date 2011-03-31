@@ -1,6 +1,6 @@
 package org.resthub.core.dao;
 
-
+import static org.junit.Assert.assertEquals;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,6 +28,14 @@ public class StandaloneEntityDaoTest extends AbstractDaoTest<StandaloneEntity, L
 
     @Override
     public void testUpdate() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StandaloneEntity entity = new StandaloneEntity();
+        entity.setName("Name");
+        dao.saveAndFlush(entity);
+        
+        entity.setName("New name");
+        dao.saveAndFlush(entity);
+
+        StandaloneEntity updatedEntity = dao.readByPrimaryKey(entity.getId());
+        assertEquals("Entity name should have been modified", "New name", updatedEntity.getName());
     }
 }

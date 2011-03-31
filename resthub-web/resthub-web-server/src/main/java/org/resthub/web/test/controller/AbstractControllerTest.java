@@ -18,128 +18,133 @@ import org.resthub.web.test.AbstractWebResthubTest;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.resthub.core.util.MetamodelUtils;
 
 /**
  * Base class for your generic controller tests
  */
 public abstract class AbstractControllerTest<T, PK extends Serializable, C extends GenericController<T, GenericService<T, PK>, PK>>
-						extends AbstractWebResthubTest {
+        extends AbstractWebResthubTest {
 
-	/**
-	 * The tested controller
-	 */
-	protected C controller;
+    /**
+     * The tested controller
+     */
+    protected C controller;
+    
+    @PersistenceContext
+    private EntityManager em;
 
-	/**
-	 * Injection of controller
-	 */
-	public void setController(C controller) {
-		this.controller = controller;
-	}
-
-	/**
-	 * Returns the resource path of controller class
-	 */
-	public String getResourcePath() throws Exception {
-		Class<? extends GenericController> classInstance = controller.getClass();
-		return classInstance.getAnnotation(Path.class).value();
-	}
-
-	/**
-	 * Returns the resource class
-	 */
-	public Class<?> getResourceClass() throws Exception {
-		return this.createTestResource().getClass();
-	}
-
-	/**
-	 * Creates a generic instance for tests
-	 * @return T
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	protected T createTestResource() throws Exception {
-		return (T) ClassUtils.getGenericTypeFromBean(this.controller).newInstance();
-	}
-
-	/**
-	 * Cleans all persisted objects to simulate transactionnal tests
-	 */
-	@After
-	public void cleanAll() throws Exception {
-		List<T> list = controller.getService().findAll();
-		for(T entity : list) {
-			controller.delete(getIdFromObject(entity));
-		}
-	}
-
-	/**
-	 * Implement this method to return the primary key from its object.
-	 * @param obj The object from whom we need primary key
-	 * @return The corresponding primary key.
-	 */
-	protected abstract PK getIdFromObject(T obj);
-
-	// -------------------------------------------------------------------------
-	// Tests methods
-
-	@Test
-    public void testCreateResource() throws Exception {
-        WebResource r = resource().path(getResourcePath());
-		T res = (T)r.type(MediaType.APPLICATION_XML)
-					.post(getResourceClass(), createTestResource());
-		Assert.assertNotNull("Resource not created", res);
+    /**
+     * Injection of controller
+     */
+    public void setController(C controller) {
+        this.controller = controller;
     }
 
-	@Test
-	public void testFindAllResourcesJson() throws Exception {
-		WebResource r = resource().path(getResourcePath());
-		r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
-		r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
-		String response = r.accept(MediaType.APPLICATION_JSON).get(String.class);
+    /**
+     * Returns the resource path of controller class
+     */
+    public String getResourcePath() throws Exception {
+        Class<? extends GenericController> classInstance = controller.getClass();
+        return classInstance.getAnnotation(Path.class).value();
+    }
 
-		Assert.assertTrue("Unable to find all resources or bad-formed JSON",
-				response.contains("\"totalElements\":2"));
-	}
+    /**
+     * Returns the resource class
+     */
+    public Class<?> getResourceClass() throws Exception {
+        return this.createTestResource().getClass();
+    }
 
-	@Test
-	public void testFindAllResourcesXml() throws Exception {
-		WebResource r = resource().path(getResourcePath());
-		r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
-		r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
-		String response = r.accept(MediaType.APPLICATION_XML).get(String.class);
+    /**
+     * Creates a generic instance for tests
+     * @return T
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    protected T createTestResource() throws Exception {
+        return (T) ClassUtils.getGenericTypeFromBean(this.controller).newInstance();
+    }
 
-		Assert.assertTrue("Unable to find all resources or bad-formed XML",
-				response.contains("<totalElements>2</totalElements>"));
-	}
+    /**
+     * Cleans all persisted objects to simulate transactionnal tests
+     */
+    @After
+    public void cleanAll() throws Exception {
+        List<T> list = controller.getService().findAll();
+        for (T entity : list) {
+            controller.delete(getIdFromEntity(entity));
+        }
+    }
 
-	@Test
-	public void testDeleteResource() throws Exception {
-		WebResource r = resource().path(getResourcePath());
-		T res = (T)r.type(MediaType.APPLICATION_XML)
-					.accept(MediaType.APPLICATION_JSON)
-					.post(getResourceClass(), createTestResource());
-		Assert.assertNotNull("Resource not created", res);
+    /**
+     * Automatically retrieve ID from entity instance.
+     * 
+     * @param obj The object from whom we need primary key
+     * @return The corresponding primary key.
+     */
+    protected PK getIdFromEntity(T obj) {
+        MetamodelUtils utils = new MetamodelUtils<T, PK>((Class<T>) ClassUtils.getGenericTypeFromBean(this.controller), em.getMetamodel());
+        return (PK) utils.getIdFromEntity(obj);
+    }
 
-		r = resource().path(getResourcePath() + "/" + getIdFromObject(res));
-		ClientResponse response = r.delete(ClientResponse.class);
-		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
-		response = r.accept(MediaType.APPLICATION_XML).get(ClientResponse.class);
-		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
-	}
+    // -------------------------------------------------------------------------
+    // Tests methods
+    @Test
+    public void testCreateResource() throws Exception {
+        WebResource r = resource().path(getResourcePath());
+        T res = (T) r.type(MediaType.APPLICATION_XML).post(getResourceClass(), createTestResource());
+        Assert.assertNotNull("Resource not created", res);
+    }
 
-	@Test
-	public void testFindResource() throws Exception {
-		WebResource r = resource().path(getResourcePath());
-		T res = (T)r.type(MediaType.APPLICATION_XML)
-					.post(getResourceClass(), createTestResource());
-		Assert.assertNotNull("Resource not created", res);
+    @Test
+    public void testFindAllResourcesJson() throws Exception {
+        WebResource r = resource().path(getResourcePath());
+        r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
+        r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
+        String response = r.accept(MediaType.APPLICATION_JSON).get(String.class);
 
-		r = resource().path(getResourcePath() + "/" + getIdFromObject(res));
-		ClientResponse cr = r.get(ClientResponse.class);
-		Assert.assertEquals("Unable to find resource", Status.OK.getStatusCode(), cr.getStatus());
-	}
+        Assert.assertTrue("Unable to find all resources or bad-formed JSON",
+                response.contains("\"totalElements\":2"));
+    }
 
-	@Test
-	public abstract void testUpdate() throws Exception;
+    @Test
+    public void testFindAllResourcesXml() throws Exception {
+        WebResource r = resource().path(getResourcePath());
+        r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
+        r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
+        String response = r.accept(MediaType.APPLICATION_XML).get(String.class);
+
+        Assert.assertTrue("Unable to find all resources or bad-formed XML",
+                response.contains("<totalElements>2</totalElements>"));
+    }
+
+    @Test
+    public void testDeleteResource() throws Exception {
+        WebResource r = resource().path(getResourcePath());
+        T res = (T) r.type(MediaType.APPLICATION_XML).accept(MediaType.APPLICATION_JSON).post(getResourceClass(), createTestResource());
+        Assert.assertNotNull("Resource not created", res);
+
+        r = resource().path(getResourcePath() + "/" + getIdFromEntity(res));
+        ClientResponse response = r.delete(ClientResponse.class);
+        Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
+        response = r.accept(MediaType.APPLICATION_XML).get(ClientResponse.class);
+        Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testFindResource() throws Exception {
+        WebResource r = resource().path(getResourcePath());
+        T res = (T) r.type(MediaType.APPLICATION_XML).post(getResourceClass(), createTestResource());
+        Assert.assertNotNull("Resource not created", res);
+
+        r = resource().path(getResourcePath() + "/" + getIdFromEntity(res));
+        ClientResponse cr = r.get(ClientResponse.class);
+        Assert.assertEquals("Unable to find resource", Status.OK.getStatusCode(), cr.getStatus());
+    }
+
+    @Test
+    public abstract void testUpdate() throws Exception;
 }
