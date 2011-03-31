@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.resthub.core.audit.annotation.Auditable;
 
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.PermissionsOwnerDao;
@@ -172,5 +173,39 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
                 permissions.remove(permission);
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Auditable
+    @Transactional(readOnly = false)
+    public void delete(Long id) {
+        // Get the actual group
+        Group group = this.findById(id);
+
+        // Let the other delete method do the job
+        this.delete(group);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Auditable
+    @Transactional(readOnly = false)
+    public void delete(Group group) {
+        // Find the users who are in this group
+        List<User> users = userDao.getUsersFromGroup(group.getName());
+
+        // Unlink each user from this group
+        for (User user : users) {
+            user.getGroups().remove(group);
+        }
+        userDao.save(users);
+
+        // Proceed with the actual delete
+        super.delete(group);
     }
 }
