@@ -8,7 +8,9 @@ import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.resthub.core.service.GenericResourceService;
+import org.resthub.identity.controller.UserController;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericController;
 import org.resthub.web.controller.GenericResourceController;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
@@ -21,16 +23,15 @@ import com.sun.jersey.api.client.ClientResponse.Status;
  * 
  * @author Guillaume Zurbach
  */
-public class UserControllerTest
-		extends
-		AbstractResourceControllerTest<User, GenericResourceController<User, GenericResourceService<User>>> {
+public class UserControllerTest extends
+		AbstractResourceControllerTest<User, UserService, UserController> {
 
 	Logger logger = Logger.getLogger(UserControllerTest.class);
 
 	
+    @Override
 	@Inject
-	@Named("userController")
-	public void setController(GenericResourceController userController) {
+	public void setController(UserController userController) {
 		super.setController(userController);
 	}
 
@@ -69,14 +70,6 @@ public class UserControllerTest
 				MediaType.APPLICATION_JSON).get(String.class);
 		Assert.assertFalse("User not updated", response.contains("u1"));
 		Assert.assertTrue("User not updated", response.contains("u2"));
-	}
-
-	@Inject
-	@Named("userController")
-	@Override
-	@SuppressWarnings("unchecked")
-	public void setController(GenericController controller) {
-		super.setController(controller);
 	}
 
 }

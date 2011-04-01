@@ -9,8 +9,8 @@ import org.resthub.web.controller.GenericResourceController;
 /**
  * Base class for your generic resource controller tests
  */
-public abstract class AbstractResourceControllerTest <T extends Resource, C extends GenericResourceController<T, GenericResourceService<T>>>
-						extends AbstractControllerTest {
+public abstract class AbstractResourceControllerTest<T extends Resource, S extends GenericResourceService<T>, C extends GenericResourceController<T, S>>
+						extends AbstractControllerTest<T, Long, S, C> {
 
 	/**
 	 * Returns the resource class
@@ -37,7 +37,7 @@ public abstract class AbstractResourceControllerTest <T extends Resource, C exte
 	 * @return id
 	 */
 	@Override
-	protected Serializable getIdFromObject(Object obj) {
-		return ((T)obj).getId();
+	protected Long getIdFromObject(Resource resource) {
+		return resource.getId();
 	}
 }

@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import static org.junit.Assert.assertTrue;
 
 import org.resthub.core.service.GenericResourceService;
+import org.resthub.identity.controller.GroupController;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
 import org.resthub.web.controller.GenericController;
@@ -25,11 +26,11 @@ import org.resthub.identity.model.User;
  * @author Guillaume Zurbach
  */
 public class GroupControllerTest
-        extends AbstractResourceControllerTest<Group, GenericResourceController<Group, GenericResourceService<Group>>> {
+        extends AbstractResourceControllerTest<Group, GroupService, GroupController> {
 
+    @Override
     @Inject
-    @Named("groupController")
-    public void setController(GenericResourceController groupController) {
+    public void setController(GroupController groupController) {
         super.setController(groupController);
     }
 
@@ -68,14 +69,6 @@ public class GroupControllerTest
                 MediaType.APPLICATION_JSON).get(String.class);
         Assert.assertFalse("Group not updated", response.contains("u1"));
         Assert.assertTrue("Group not updated", response.contains("u2"));
-    }
-
-    @Inject
-    @Named("groupController")
-    @Override
-    @SuppressWarnings("unchecked")
-    public void setController(GenericController controller) {
-        super.setController(controller);
     }
 
     @Test

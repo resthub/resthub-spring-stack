@@ -22,7 +22,7 @@ import com.sun.jersey.api.client.WebResource;
 /**
  * Base class for your generic controller tests
  */
-public abstract class AbstractControllerTest<T, PK extends Serializable, C extends GenericController<T, GenericService<T, PK>, PK>>
+public abstract class AbstractControllerTest<T, PK extends Serializable, S extends GenericService<T, PK>, C extends GenericController<T, S, PK>>
 						extends AbstractWebResthubTest {
 
 	/**
