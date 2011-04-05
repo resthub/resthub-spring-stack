@@ -33,18 +33,6 @@ public class TokenDaoImplTest extends AbstractDaoTest<Token, Long, TokenDao> {
 	public void setDao(TokenDao dao) {
 		super.setDao(dao);
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Long getIdFromObject(Token obj) {
-		Long id = null;
-		if (obj != null) {
-			id = obj.id;
-		}
-		return id;
-	} // getIdFromObject().
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Tests

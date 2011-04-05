@@ -35,11 +35,6 @@ public class TestUserDao extends AbstractDaoTest<User, Long, UserDao> {
 		user.setPassword("password");
 		return user;
 	}
-	
-	@Override
-	public Long getIdFromObject(User user) {
-		return user.getId();
-	}
 
 	@Override
 	public void testUpdate() throws Exception {
