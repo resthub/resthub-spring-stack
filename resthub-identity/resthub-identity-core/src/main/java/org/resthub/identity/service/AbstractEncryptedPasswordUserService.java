@@ -3,10 +3,8 @@ package org.resthub.identity.service;
 import java.util.List;
 
 import javax.inject.Named;
-import org.jasypt.digest.config.SimpleDigesterConfig;
 
 import org.jasypt.util.password.PasswordEncryptor;
-import org.jasypt.util.password.rfc2307.RFC2307SMD5PasswordEncryptor;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
@@ -34,8 +32,8 @@ public abstract class AbstractEncryptedPasswordUserService extends GenericResour
     private final PasswordEncryptor passwordEncryptor = getEncryptor();
 
     private static PasswordEncryptor getEncryptor() {
-        // Initialize the password encryptor
-        CustomMD5PasswordEncryptor encryptor = new CustomMD5PasswordEncryptor(32);
+        // Initialize the password encryptor with a 32-bit salt (4 bytes)
+        CustomMD5PasswordEncryptor encryptor = new CustomMD5PasswordEncryptor(4);
         return encryptor;
     }
     
