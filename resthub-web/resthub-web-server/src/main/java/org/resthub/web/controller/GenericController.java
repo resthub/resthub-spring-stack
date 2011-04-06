@@ -91,6 +91,7 @@ public abstract class GenericController<T, S extends GenericService<T, ID>, ID e
 	@PUT
 	@Path("/{id}")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response update(@PathParam("id") ID id, T entity) {
 		T e = this.service.findById(id);
 
