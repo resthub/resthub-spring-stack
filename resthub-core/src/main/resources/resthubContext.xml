@@ -81,9 +81,4 @@
 		<property name="order" value="200" />
 	</bean>
 	
-	<bean id="auditInterceptor" class="org.resthub.core.audit.AuditInterceptor">
-		<property name="annotation" value="org.resthub.core.audit.annotation.Auditable" />
-		<property name="order" value="1" />
-	</bean>
-
 </beans>

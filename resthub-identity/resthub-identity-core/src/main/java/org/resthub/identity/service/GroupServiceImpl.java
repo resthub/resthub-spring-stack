@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.resthub.core.audit.annotation.Auditable;
 
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.PermissionsOwnerDao;
@@ -179,7 +178,6 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
      * {@inheritDoc}
      */
     @Override
-    @Auditable
     @Transactional(readOnly = false)
     public void delete(Long id) {
         // Get the actual group
@@ -193,7 +191,6 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
      * {@inheritDoc}
      */
     @Override
-    @Auditable
     @Transactional(readOnly = false)
     public void delete(Group group) {
         // Find the users who are in this group
