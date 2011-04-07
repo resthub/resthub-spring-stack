@@ -1,18 +1,13 @@
 package org.resthub.identity.controller;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
 
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
-import org.resthub.core.service.GenericResourceService;
-import org.resthub.identity.controller.UserController;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.UserService;
-import org.resthub.web.controller.GenericController;
-import org.resthub.web.controller.GenericResourceController;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
 
 import com.sun.jersey.api.client.ClientResponse;

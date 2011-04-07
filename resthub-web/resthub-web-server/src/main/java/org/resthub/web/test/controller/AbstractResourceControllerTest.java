@@ -30,14 +30,4 @@ public abstract class AbstractResourceControllerTest<T extends Resource, S exten
 	protected T createTestResource() throws Exception {
 		return (T) ClassUtils.getGenericTypeFromBean(this.controller).newInstance();
 	}
-
-	/**
-	 * Returns object id
-	 * @param obj
-	 * @return id
-	 */
-	@Override
-	protected Long getIdFromObject(Resource resource) {
-		return resource.getId();
-	}
 }

@@ -7,12 +7,8 @@ import javax.ws.rs.core.MediaType;
 import junit.framework.Assert;
 import static org.junit.Assert.assertTrue;
 
-import org.resthub.core.service.GenericResourceService;
-import org.resthub.identity.controller.GroupController;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
-import org.resthub.web.controller.GenericController;
-import org.resthub.web.controller.GenericResourceController;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
 
 import com.sun.jersey.api.client.ClientResponse;
