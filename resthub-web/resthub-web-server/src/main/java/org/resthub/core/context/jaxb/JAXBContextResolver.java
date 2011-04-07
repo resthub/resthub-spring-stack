@@ -247,10 +247,10 @@ public class JAXBContextResolver implements ContextResolver<JAXBContext> {
 										elements, " "));
 			}
 		} catch (ClassNotFoundException classEx) {
-			logger.error("test");
+			 logger.error("Exception when adding class to the JAXBContext", classEx);
 
 		} catch (JAXBException jaxbEx) {
-			logger.error("test");
+			logger.error("Exception when adding class to the JAXBContext", jaxbEx);
 		}
 
 	}
