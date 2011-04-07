@@ -1,6 +1,7 @@
 package org.resthub.identity.service;
 
 import java.util.List;
+import javax.inject.Inject;
 
 import javax.inject.Named;
 
@@ -8,7 +9,7 @@ import org.jasypt.util.password.PasswordEncryptor;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
-import org.resthub.identity.tools.CustomMD5PasswordEncryptor;
+import org.resthub.identity.tools.ApacheSHAPasswordEncryptor;
 import org.resthub.oauth2.provider.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class AbstractEncryptedPasswordUserService extends GenericResourceServiceImpl<User, UserDao> implements UserService,
         AuthenticationService {
 
-    /** A password encryptor, doing 1000 times MD5 has, with a 8 bytes salt */
-    private final PasswordEncryptor passwordEncryptor = getEncryptor();
-
-    private static PasswordEncryptor getEncryptor() {
-        // Initialize the password encryptor with a 32-bit salt (4 bytes)
-        CustomMD5PasswordEncryptor encryptor = new CustomMD5PasswordEncryptor(4);
-        return encryptor;
-    }
+    @Inject
+    @Named("passwordEncryptor")
+    private PasswordEncryptor passwordEncryptor;
     
     final static Logger logger = LoggerFactory.getLogger(AbstractEncryptedPasswordUserService.class);
 
