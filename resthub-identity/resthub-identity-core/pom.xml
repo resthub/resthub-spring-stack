@@ -4,13 +4,13 @@
 	<parent>
 		<artifactId>resthub-identity</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-beta4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-identity-core</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-beta4</version>
 	<name>Identity manager core</name>
 	<description>
 		Provide identity management functionnality with security integration.
@@ -40,22 +40,22 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-beta4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-provider</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-beta4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-filter-validators</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-beta4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-beta4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jasypt</groupId>

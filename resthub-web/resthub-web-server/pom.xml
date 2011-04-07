@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>resthub-web</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-beta4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-web-server</artifactId>
 	<name>Webservices support</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-beta4</version>
 	<packaging>jar</packaging>
 	<description>
 		RESThub support for Generic JAX-RS server
@@ -19,12 +19,12 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-beta4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-common</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-beta4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
