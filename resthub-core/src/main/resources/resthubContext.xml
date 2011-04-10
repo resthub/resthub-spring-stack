@@ -47,12 +47,8 @@
 		<property name="jpaProperties">
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-				<!--
-					<entry key="hibernate.dialect"
-					value="org.hibernate.dialect.MySQL5InnoDBDialect" />
-				-->
 				<entry key="hibernate.format_sql" value="true" />
-				<entry key="hibernate.hbm2ddl.auto" value="create" />
+				<entry key="hibernate.hbm2ddl.auto" value="update" />
 				<entry key="hibernate.cache.use_second_level_cache" value="true"/>
 				<entry key="hibernate.cache.region.factory_class" value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory" />
 				<entry key="hibernate.cache.provider_class" value=" net.sf.ehcache.hibernate.SingletonEhCacheProvider"/>
