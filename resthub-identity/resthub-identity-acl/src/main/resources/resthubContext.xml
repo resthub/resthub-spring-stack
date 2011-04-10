@@ -25,7 +25,13 @@
 			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 				<property name="cacheManager">
 
-					<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
+					<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+						<property name="configLocation">
+							<bean class="org.springframework.core.io.ClassPathResource">
+								<constructor-arg value="ehcache-acl.xml" />
+							</bean>
+						</property>
+					</bean>
 				</property>
 				<property name="cacheName" value="aclCache" />
 			</bean>

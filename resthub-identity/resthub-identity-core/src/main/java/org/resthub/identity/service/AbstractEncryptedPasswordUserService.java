@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * It is a bean whose name is userService
  * 
- * */
+ **/
 @Named("userService")
 public abstract class AbstractEncryptedPasswordUserService extends
 		GenericResourceServiceImpl<User, UserDao> implements UserService,
