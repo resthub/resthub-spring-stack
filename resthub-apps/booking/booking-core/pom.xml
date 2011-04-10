@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>booking</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-beta5</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>booking-core</artifactId>
-	<version>1.1-beta5</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Booking Core</name>
 	<description>Core lib for business layers for booking samples projects</description>
 
@@ -21,14 +21,14 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.1-beta5</version>
+			<version>1.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- We use RESThub web classes and dependencies built around Jersey -->
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1-beta5</version>
+			<version>1.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
