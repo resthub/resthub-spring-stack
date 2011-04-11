@@ -7,9 +7,7 @@ import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import org.junit.Assert;
-import org.resthub.core.service.GenericResourceService;
 import org.resthub.web.model.WebSampleResource;
-import org.resthub.web.controller.WebSampleResourceController;
 import org.resthub.web.service.WebSampleResourceService;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
 

@@ -22,11 +22,14 @@
 		<tx:annotation-driven transaction-manager="transactionManager"
 		order="200" />
 	-->
-
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1" />
-	</bean>
+        
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1"/>
+        <property name="maxActive" value="20"/>
+        <property name="maxWait" value="1000"/>
+        <property name="poolPreparedStatements" value="true"/>
+    </bean>
 	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -44,12 +47,11 @@
 		<property name="jpaProperties">
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-				<!--
-					<entry key="hibernate.dialect"
-					value="org.hibernate.dialect.MySQL5InnoDBDialect" />
-				-->
 				<entry key="hibernate.format_sql" value="true" />
-				<entry key="hibernate.hbm2ddl.auto" value="create" />
+				<entry key="hibernate.hbm2ddl.auto" value="update" />
+				<entry key="hibernate.cache.use_second_level_cache" value="true"/>
+				<entry key="hibernate.cache.region.factory_class" value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory" />
+				<entry key="hibernate.cache.provider_class" value=" net.sf.ehcache.hibernate.SingletonEhCacheProvider"/>
 			</map>
 		</property>
 	</bean>
@@ -81,9 +83,4 @@
 		<property name="order" value="200" />
 	</bean>
 	
-	<bean id="auditInterceptor" class="org.resthub.core.audit.AuditInterceptor">
-		<property name="annotation" value="org.resthub.core.audit.annotation.Auditable" />
-		<property name="order" value="1" />
-	</bean>
-
 </beans>

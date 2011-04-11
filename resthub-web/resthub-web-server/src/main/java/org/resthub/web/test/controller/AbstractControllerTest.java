@@ -18,6 +18,9 @@ import org.resthub.web.test.AbstractWebResthubTest;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.resthub.core.util.MetamodelUtils;
 
 /**
  * Base class for your generic controller tests
@@ -29,6 +32,9 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 	 * The tested controller
 	 */
 	protected C controller;
+
+    @PersistenceContext
+    private EntityManager em;
 
 	/**
 	 * Injection of controller
@@ -69,16 +75,20 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 	public void cleanAll() throws Exception {
 		List<T> list = controller.getService().findAll();
 		for(T entity : list) {
-			controller.delete(getIdFromObject(entity));
+			controller.delete(getIdFromEntity(entity));
 		}
 	}
 
 	/**
-	 * Implement this method to return the primary key from its object.
-	 * @param obj The object from whom we need primary key
-	 * @return The corresponding primary key.
-	 */
-	protected abstract PK getIdFromObject(T obj);
+     * Automatically retrieve ID from entity instance.
+     *
+     * @param obj The object from whom we need primary key
+     * @return The corresponding primary key.
+     */
+    protected PK getIdFromEntity(T obj) {
+        MetamodelUtils utils = new MetamodelUtils<T, PK>((Class<T>) ClassUtils.getGenericTypeFromBean(this.controller), em.getMetamodel());
+        return (PK) utils.getIdFromEntity(obj);
+    }
 
 	// -------------------------------------------------------------------------
 	// Tests methods
@@ -121,7 +131,7 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 					.post(getResourceClass(), createTestResource());
 		Assert.assertNotNull("Resource not created", res);
 
-		r = resource().path(getResourcePath() + "/" + getIdFromObject(res));
+		r = resource().path(getResourcePath() + "/" + getIdFromEntity(res));
 		ClientResponse response = r.delete(ClientResponse.class);
 		Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
 		response = r.accept(MediaType.APPLICATION_XML).get(ClientResponse.class);
@@ -135,7 +145,7 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 					.post(getResourceClass(), createTestResource());
 		Assert.assertNotNull("Resource not created", res);
 
-		r = resource().path(getResourcePath() + "/" + getIdFromObject(res));
+		r = resource().path(getResourcePath() + "/" + getIdFromEntity(res));
 		ClientResponse cr = r.get(ClientResponse.class);
 		Assert.assertEquals("Unable to find resource", Status.OK.getStatusCode(), cr.getStatus());
 	}

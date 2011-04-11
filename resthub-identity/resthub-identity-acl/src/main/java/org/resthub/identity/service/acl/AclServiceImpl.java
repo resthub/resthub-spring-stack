@@ -7,16 +7,18 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.dbcp.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.jdbc.JdbcMutableAclService;
 import org.springframework.security.acls.model.AccessControlEntry;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.MutableAcl;
-import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Permission;
@@ -29,6 +31,8 @@ import org.springframework.util.FileCopyUtils;
 @Named("idmAclService")
 public class AclServiceImpl implements AclService {
 	
+	private static final Logger logger = LoggerFactory.getLogger(AclServiceImpl.class);
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Protected attributes
 	
@@ -37,14 +41,14 @@ public class AclServiceImpl implements AclService {
 	 */
 	@Inject
 	@Named("aclService")
-	protected MutableAclService aclService;
+	protected JdbcMutableAclService aclService;
 	
 	/**
 	 * Datasource used to access to database.
 	 */
 	@Inject
 	@Named("dataSource")
-	private DriverManagerDataSource datasource;
+	protected BasicDataSource datasource;
 	
 	/**
 	 * Mapper between strings and permissions. Injected by Spring.
@@ -63,13 +67,30 @@ public class AclServiceImpl implements AclService {
 		try {
 			// Re-use declared datasource
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
-			ClassPathResource resource = new ClassPathResource("import-acl.sql");
+			// PostgreSQL table creation script is different than others
+			ClassPathResource resource = null;
+			if(datasource.getDriverClassName().equals("org.postgresql.Driver")) {
+				logger.info("PostgreSQL support activated for ACL Service");
+				resource = new ClassPathResource("import-acl-pg.sql");
+				aclService.setClassIdentityQuery("select currval(pg_get_serial_sequence('acl_class', 'id'))"); 
+				aclService.setSidIdentityQuery("select currval(pg_get_serial_sequence('acl_sid', 'id'))");
+			} else {
+				logger.info("Generic SQL support activated for ACL Service");
+				resource = new ClassPathResource("import-acl.sql");
+			}			 
 			// Populates tables.
 			String sql = new String(FileCopyUtils.copyToByteArray(resource.getInputStream()));
 		    jdbcTemplate.execute(sql);
 		} catch (Exception exc) {
-			throw new BeanCreationException("Cannot set SpringSecurity ACL tables in db", exc);
+			// Create table if not exists does not exists in PostgreSql
+			if(datasource.getDriverClassName().equals("org.postgresql.Driver")) {
+				logger.info(" SpringSecurity ACL tables exists already !");
+			} else {
+				throw new BeanCreationException("Cannot set SpringSecurity ACL tables in db", exc);
+			}
 		}
+		
+		
 	} // init().
 	
 	// -----------------------------------------------------------------------------------------------------------------
