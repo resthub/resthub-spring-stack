@@ -1,1 +1,0 @@
-INSERT INTO SAMPLERESOURCE(ID, NAME) VALUES (1, 'Sample resource 1');

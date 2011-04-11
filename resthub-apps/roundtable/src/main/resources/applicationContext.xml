@@ -11,7 +11,10 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+    http://www.springframework.org/schema/jdbc
+    http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config/>
     <context:component-scan base-package="org.resthub.roundtable" />
@@ -20,12 +23,9 @@
     <resthub:include-jaxb-elements base-package="org.resthub.roundtable.model" />
 
     <util:properties id="config" location="classpath:/rt.properties" />
-
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:file:~/roundtable;AUTO_SERVER=TRUE" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
-	</bean>
+	
+	<jdbc:initialize-database data-source="dataSource">
+  		<jdbc:script location="classpath:import-roundtable.sql"/>
+	</jdbc:initialize-database>
 
 </beans>

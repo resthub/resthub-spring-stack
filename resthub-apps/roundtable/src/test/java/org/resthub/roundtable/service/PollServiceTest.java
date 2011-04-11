@@ -62,6 +62,6 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollServi
     public void testFind() throws Exception {
         resourceService.rebuildIndex();
         List<Poll> polls = resourceService.find("test", null).asList();
-        Assert.assertEquals("Unable to find Polls", 1, polls.size());
+        Assert.assertEquals("Unable to find Polls", 2, polls.size());
     }
 }

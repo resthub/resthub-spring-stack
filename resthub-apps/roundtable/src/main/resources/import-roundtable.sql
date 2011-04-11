@@ -1,7 +1,7 @@
-insert into poll (id, author, topic, body, creation_date, expiration_date) values (1, 'Me', 'Sample Topic', 'What''s the best day for schedule a meeting ?.', '2010-01-01', '2010-01-01');
+insert into poll (id, author, topic, body, creation_date, expiration_date) values (1, 'Me', 'Sample Topic', 'Whats the best day for schedule a meeting ?.', '2010-01-01', '2010-01-01');
 insert into poll (id, author, topic, body, creation_date, expiration_date) values (2, 'Me', 'Sample Topic', 'Can you deliver this for me ?', '2010-01-01', '2010-01-01');
 insert into poll (id, author, topic, body, creation_date, expiration_date) values (3, 'Me', 'Sample Topic', 'How do you do ?', '2010-01-01', '2010-01-01');
-insert into poll (id, author, topic, body, creation_date, expiration_date) values (4, 'Me', 'Misc Topic', 'What''s Your Favorite Color?', '2010-01-01', '2010-01-01');
+insert into poll (id, author, topic, body, creation_date, expiration_date) values (4, 'Me', 'Misc Topic', 'Whats Your Favorite Color?', '2010-01-01', '2010-01-01');
 insert into poll (id, author, topic, body, creation_date, expiration_date) values (5, 'Me', 'Misc Topic', 'What is the air speed velocity of an unladen swallow?', '2010-01-01', '2010-01-01');
 insert into poll (id, author, topic, body, creation_date, expiration_date) values (6, 'Me', 'Misc Topic', 'Whate is the universal answer to all ?', '2010-01-01', '2010-01-01');
 insert into poll (id, author, topic, body, creation_date, expiration_date) values (7, 'Me', 'Misc Topic', 'Be or not to be that is the question.', '2010-01-01', '2010-01-01');

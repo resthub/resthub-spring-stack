@@ -62,12 +62,12 @@ public class AclTest extends AbstractResthubTest {
 	    
 		// Create Wax Taylor with no permissions on it
 		Group wt = new Group();
-		wt.setName("Wax Taylor");
+		wt.setName("Wax Taylor 2 le retour");
 		groupService.create(wt);
 		
 		// Create Hocus Pocus group, and give Joe access to it 
 		Group hp = new Group();
-		hp.setName("Hocus Pocus");
+		hp.setName("Hocus Pocus 2 le retour");
 		hp = groupService.create(hp);
 
 		aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
@@ -76,13 +76,13 @@ public class AclTest extends AbstractResthubTest {
 	@Test
 	public void testAuthorizedDelete() {
 
-	    Group g = groupService.findByName("Hocus Pocus");
+	    Group g = groupService.findByName("Hocus Pocus 2 le retour");
 		securedGroupService.delete(g);
 	}
 	
 	@Test(expected=AccessDeniedException.class)
 	public void testUnauthorizedDelete() {
-		Group g = groupService.findByName("Wax Taylor");
+		Group g = groupService.findByName("Wax Taylor 2 le retour");
 		securedGroupService.delete(g);
 	}
 	 
