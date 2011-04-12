@@ -16,10 +16,4 @@ public interface UserDao extends PermissionsOwnerDao<User> {
      */
     List<User> getUsersFromGroup(String groupName);
 
-    /**
-     * Gets all the users that have a role, direct or inherited.
-     * @param roles A list of roles to look for.
-     * @return A list of users having at least one of the roles defined as parameter.
-     */
-    List<User> findAllUsersWithRoles(List<String> roles);
 }

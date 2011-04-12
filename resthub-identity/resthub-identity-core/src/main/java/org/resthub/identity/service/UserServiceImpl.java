@@ -1,12 +1,14 @@
 package org.resthub.identity.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 
-import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 import org.resthub.identity.tools.PermissionsOwnerTools;
@@ -30,7 +32,10 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     }
     @Inject
     @Named("groupService")
-    GroupService groupService;
+    protected GroupService groupService;
+    @Inject
+    @Named("abstractPermissionsOwnerDao")
+    protected AbstractPermissionsOwnerDao abstractPermissionsOwnerDao;
 
     /**
      * Retrieves a user by his login
@@ -172,5 +177,53 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     public List<User> getUsersFromGroup(String groupName) {
         List<User> usersFromGroup = this.dao.getUsersFromGroup(groupName);
         return usersFromGroup;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<User> findAllUsersWithRoles(List<String> roles) {
+        List<User> usersWithRole = new ArrayList<User>(); // this list will hold all the users for the result
+
+        // Start by finding the entities directly linked to the roles
+        List<AbstractPermissionsOwner> withRoles = abstractPermissionsOwnerDao.getWithRoles(roles);
+
+        // The query may have brought a mix of users and groups,
+        // this loop will process them individually to form the final result.
+        for (AbstractPermissionsOwner owner : withRoles) {
+            this.getUsersFromRootElement(usersWithRole, owner);
+        }
+
+        return usersWithRole;
+    }
+
+    /**
+     * Recursive method to get all the users in an AbstractPermissionsOwner,
+     * if the owner is a user, it will be directly added to the list,
+     * if the owner is a group, his subgroups will be explored to find users.
+     * @param users User list to add users into, must not be null.
+     * @param owner Root element to begin exploration.
+     */
+    private void getUsersFromRootElement(List<User> users, AbstractPermissionsOwner owner) {
+        // Stop the processing if one of the parameters is null
+        if (users != null && owner != null) {
+            // The root element may be user or a group
+            if (owner instanceof User) {
+                User user = (User) owner;
+                // If we have a user, we can't go further so add it if needed and finish.
+                if (!users.contains(user)) {
+                    users.add(user);
+                }
+            } else if (owner instanceof Group) {
+                // If we have a group, we must get both users and groups having this group as parent
+                List<AbstractPermissionsOwner> withGroupAsParent = abstractPermissionsOwnerDao.getWithGroupAsParent((Group) owner);
+
+                // Each result will be recursively evaluated using this method.
+                for (AbstractPermissionsOwner child : withGroupAsParent) {
+                    this.getUsersFromRootElement(users, child);
+                }
+            }
+        }
     }
 }
