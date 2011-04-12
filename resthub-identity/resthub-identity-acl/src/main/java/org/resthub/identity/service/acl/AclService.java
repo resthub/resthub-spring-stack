@@ -2,6 +2,7 @@ package org.resthub.identity.service.acl;
 
 import java.io.Serializable;
 
+import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,27 @@ import org.springframework.transaction.annotation.Transactional;
  * TODO
  */
 @Transactional(readOnly=false)
-public interface AclService {
+public interface AclService extends TracableService {
+	
+	/**
+	 * Kind of changes notified by this service
+	 */
+	enum AclServiceChange {
+		/**
+		 * Group creation. Arguments : 
+		 * 1- Id of the concerned domainObject
+		 * 2- Id of the concerned user
+		 * 3- added permission
+		 */
+		ACL_CREATION, 
+		/**
+		 * Group deletion. Arguments : 
+		 * 1- Id of the concerned domainObject
+		 * 2- Id of the concerned user
+		 * 3- added permission
+		 */
+		ACL_DELETION
+	};
 	
 	/**
 	 * Saves an ACL (or update the existing one) for a specified owner on a specified resource.

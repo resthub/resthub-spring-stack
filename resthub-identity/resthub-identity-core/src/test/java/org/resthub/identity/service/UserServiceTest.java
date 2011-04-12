@@ -1,5 +1,6 @@
 package org.resthub.identity.service;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -7,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,6 +19,7 @@ import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.UserService.UserServiceChange;
 
 public class UserServiceTest extends AbstractResourceServiceTest<User, UserService> {
 
@@ -371,4 +374,109 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         this.resourceService.delete(u);
         this.groupService.delete(g);
     }
+    
+    @Test
+    public void shouldCreationBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	userService.addListener(listener);
+    	
+    	// Given a user
+    	User u = new User();
+    	u.setLogin("user"+new Random().nextInt());
+    	
+    	// When saving it
+    	u = userService.create(u);
+    	
+    	// Then a creation notification has been received
+    	assertEquals(UserServiceChange.USER_CREATION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{u}, listener.lastArguments);    	
+    } // shouldCreationBeNotified().
+    
+    @Test
+    public void shouldDeletionBeNotifiedById() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	userService.addListener(listener);
+    	
+    	// Given a created user
+    	User u = new User();
+    	u.setLogin("user"+new Random().nextInt());
+    	u = userService.create(u);
+    	
+    	// When removing it by id
+    	userService.delete(u.getId());
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(UserServiceChange.USER_DELETION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{u}, listener.lastArguments);    	
+    } // shouldDeletionBeNotifiedById().
+    
+    @Test
+    public void shouldDeletionBeNotifiedByUser() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	userService.addListener(listener);
+    	
+    	// Given a created user
+    	User u = new User();
+    	u.setLogin("user"+new Random().nextInt());
+    	u = userService.create(u);
+    	
+    	// When removing it
+    	userService.delete(u);
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(UserServiceChange.USER_DELETION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{u}, listener.lastArguments);    	
+    } // shouldDeletionBeNotifiedByUser().
+    
+    @Test
+    public void shouldUserAdditionToGroupBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	userService.addListener(listener);
+    	
+    	// Given a created user
+    	User u = new User();
+    	u.setLogin("user"+new Random().nextInt());
+    	u = userService.create(u);
+    	
+    	// Given a group
+    	Group g = new Group();
+    	g.setName("group"+new Random().nextInt());
+    	g = groupService.create(g);
+    	
+    	// When adding the user to the group
+    	userService.addGroupToUser(u.getLogin(), g.getName());
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(UserServiceChange.USER_ADDED_TO_GROUP.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{u, g}, listener.lastArguments);    	
+    } // shouldUserAdditionToGroupBeNotified().
+    
+    @Test
+    public void shouldUserRemovalFromGroupBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	userService.addListener(listener);
+    	
+    	// Given a group
+    	Group g = new Group();
+    	g.setName("group"+new Random().nextInt());
+    	g = groupService.create(g);
+
+    	// Given a created user in this group
+    	User u = new User();
+    	u.setLogin("user"+new Random().nextInt());
+    	u = userService.create(u);   	
+    	userService.addGroupToUser(u.getLogin(), g.getName());
+   	
+    	// When adding the user to the group
+    	userService.removeGroupFromUser(u.getLogin(), g.getName());
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(UserServiceChange.USER_REMOVED_FROM_GROUP.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{u, g}, listener.lastArguments);    	
+    } // shouldUserRemovalFromGroupBeNotified().
 }

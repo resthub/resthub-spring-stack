@@ -1,6 +1,11 @@
 package org.resthub.identity.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -13,6 +18,7 @@ import org.resthub.core.service.GenericResourceService;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.GroupService.GroupServiceChange;
 
 public class GroupServiceTest extends AbstractResourceServiceTest<Group, GenericResourceService<Group>> {
 
@@ -95,4 +101,109 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
         Group deleteGroup = resourceService.findById(testGroup.getId());
         assertNull("The deleted group shouldn't exist anymore", deleteGroup);
     }
+    
+    @Test
+    public void shouldCreationBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	((GroupService)resourceService).addListener(listener);
+    	
+    	// Given a user
+    	Group g = new Group();
+    	g.setName("group"+new Random().nextInt());
+    	
+    	// When saving it
+    	g = resourceService.create(g);
+    	
+    	// Then a creation notification has been received
+    	assertEquals(GroupServiceChange.GROUP_CREATION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{g}, listener.lastArguments);    	
+    } // shouldCreationBeNotified().
+    
+    @Test
+    public void shouldDeletionBeNotifiedById() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	((GroupService)resourceService).addListener(listener);
+    	
+    	// Given a created group
+    	Group g = new Group();
+    	g.setName("group"+new Random().nextInt());
+    	g = resourceService.create(g);
+    	
+    	// When removing it by id
+    	resourceService.delete(g.getId());
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(GroupServiceChange.GROUP_DELETION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{g}, listener.lastArguments);    	
+    } // shouldDeletionBeNotifiedById().
+    
+    @Test
+    public void shouldDeletionBeNotifiedByGroup() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	((GroupService)resourceService).addListener(listener);
+    	
+    	// Given a created group
+    	Group g = new Group();
+    	g.setName("group"+new Random().nextInt());
+    	g = resourceService.create(g);
+    	
+    	// When removing it
+    	resourceService.delete(g);
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(GroupServiceChange.GROUP_DELETION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{g}, listener.lastArguments);    	
+    } // shouldDeletionBeNotifiedByGroup().
+    
+    @Test
+    public void shouldGroupAdditionToGroupBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	((GroupService)resourceService).addListener(listener);
+    	
+    	// Given a created user
+    	Group subG = new Group();
+    	subG.setName("group"+new Random().nextInt());
+    	subG = resourceService.create(subG);
+    	
+    	// Given a group
+    	Group g = new Group();
+    	g.setName("group"+new Random().nextInt());
+    	g = resourceService.create(g);
+    	
+    	// When adding the user to the group
+    	((GroupService)resourceService).addGroupToGroup(g.getName(), subG.getName());
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(GroupServiceChange.GROUP_ADDED_TO_GROUP.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{subG, g}, listener.lastArguments);    	
+    } // shouldGroupAdditionToGroupBeNotified().
+    
+    @Test
+    public void shouldGroupRemovalFromGroupBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	((GroupService)resourceService).addListener(listener);
+    	
+    	// Given a group
+    	Group g = new Group();
+    	g.setName("group"+new Random().nextInt());
+    	g = resourceService.create(g);
+
+    	// Given a created user in this group
+    	Group subG = new Group();
+    	subG.setName("group"+new Random().nextInt());
+    	subG = resourceService.create(subG);
+    	((GroupService)resourceService).addGroupToGroup(g.getName(), subG.getName());
+   	
+    	// When adding the user to the group
+    	((GroupService)resourceService).removeGroupFromGroup(g.getName(), subG.getName());
+    	
+    	// Then a deletion notification has been received
+    	assertEquals(GroupServiceChange.GROUP_REMOVED_FROM_GROUP.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{subG, g}, listener.lastArguments);    	
+    } // shouldGroupRemovalFromGroupBeNotified().
 }
