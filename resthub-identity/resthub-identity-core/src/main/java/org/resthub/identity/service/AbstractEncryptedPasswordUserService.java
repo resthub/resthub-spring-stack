@@ -1,13 +1,15 @@
 package org.resthub.identity.service;
 
 import java.util.List;
+import javax.inject.Inject;
 
 import javax.inject.Named;
 
-import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jasypt.util.password.PasswordEncryptor;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
+import org.resthub.identity.tools.ApacheSHAPasswordEncryptor;
 import org.resthub.oauth2.provider.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,133 +26,129 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  **/
 @Named("userService")
-public abstract class AbstractEncryptedPasswordUserService extends
-		GenericResourceServiceImpl<User, UserDao> implements UserService,
-		AuthenticationService {
+public abstract class AbstractEncryptedPasswordUserService extends GenericResourceServiceImpl<User, UserDao> implements UserService,
+        AuthenticationService {
 
-	/** A password encryptor, doing 1000 times MD5 has, with a 8 bytes salt */
-	BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+    @Inject
+    @Named("passwordEncryptor")
+    private PasswordEncryptor passwordEncryptor;
+    
+    final static Logger logger = LoggerFactory.getLogger(AbstractEncryptedPasswordUserService.class);
 
-	final static Logger logger = LoggerFactory
-			.getLogger(AbstractEncryptedPasswordUserService.class);
+    /**
+     * Create a user with password encryption
+     *
+     * @param user
+     *            the user to create
+     * */
+    @Transactional
+    public User create(User user) {
+        return updateUser(user);
+    }
 
-	/**
-	 * Create a user with password encryption
-	 * 
-	 * @param user
-	 *            the user to create
-	 * */
-	@Transactional
-	public User create(User user) {
-		return updateUser(user);
-	}
+    /**
+     * Update a user without changing the password
+     *
+     * @param user
+     *            the user to update
+     */
+    @Transactional
+    public User update(User user) {
+        return updateUser(user);
+    }
 
-	/**
-	 * Update a user without changing the password
-	 * 
-	 * @param user
-	 *            the user to update
-	 */
-	@Transactional
-	public User update(User user) {
-		return updateUser(user);
-	};
+    ;
 
-	/**
-	 * Usefull to create or update a user don't update password
-	 * 
-	 * @param user
-	 *            the user to save
-	 *@return user, the saved user
-	 */
-	@Transactional
-	public User updateUser(User user) {
-		User userToReturn = null;
-		List<User> l = dao.findEquals("login", user.getLogin());
-		int size = (l == null) ? 0 : l.size();
-		if (size > 0) {
-			/** Existing User */
-					User daoUser = l.get(0);
-			user.setPassword(daoUser.getPassword());
-			user.setId(daoUser.getId());
+    /**
+     * Usefull to create or update a user don't update password
+     *
+     * @param user
+     *            the user to save
+     *@return user, the saved user
+     */
+    @Transactional
+    public User updateUser(User user) {
+        User userToReturn = null;
+        List<User> l = dao.findEquals("login", user.getLogin());
+        int size = (l == null) ? 0 : l.size();
+        if (size > 0) {
+            /** Existing User */
+            User daoUser = l.get(0);
+            user.setPassword(daoUser.getPassword());
+            user.setId(daoUser.getId());
 
-			userToReturn = dao.save(user);
-		} else {
-			/** New User */
-			if(user.getPassword()==null){
-				user.setPassword(user.generateDefaultPassword());
-			}
-			user.setPassword(passwordEncryptor.encryptPassword(user
-					.getPassword()));
-			userToReturn = dao.save(user);
-		}
-		return userToReturn;
-	}
-	
-	@Transactional
-	public User updatePassword(User user) {
-		List<User> l = dao.findEquals("login", user.getLogin());
-		int size = (l == null) ? 0 : l.size();
-		User userToReturn = null;
-		if (size > 0) {
-			User daoUser = l.get(0);
-			String newPassword = user.getPassword();
-			size = (newPassword == null) ? 0 : newPassword.length();
-			if (size > 0) {
-				logger.debug("we are updating password of user "+daoUser.getLogin());
-				daoUser.setPassword(passwordEncryptor.encryptPassword(newPassword));
-				userToReturn = dao.save(daoUser);
-			}
-		}
-		return userToReturn;
-	}
+            userToReturn = dao.save(user);
+        } else {
+            /** New User */
+            if (user.getPassword() == null) {
+                user.setPassword(user.generateDefaultPassword());
+            }
+            user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
+            userToReturn = dao.save(user);
+        }
+        return userToReturn;
+    }
 
-	/**
-	 * Interesting but useless right now Only amdinb can make som modification,
-	 * we never do password check
-	 */
-	@Transactional
-	public User updatePassword(User user, String password) {
-		List<User> l = dao.findEquals("login", user.getLogin());
-		int size = (l == null) ? 0 : l.size();
-		User userToReturn = null;
-		if (size > 0) {
-			User daoUser = l.get(0);
-			Boolean passwordsMatch = passwordEncryptor.checkPassword(user
-					.getPassword(), daoUser.getPassword());
-			if (passwordsMatch) {
-				if (user.getPassword().equals(password)) {
-					user.setPassword(daoUser.getPassword());
-				} else {
-					user.setPassword(passwordEncryptor
-							.encryptPassword(password));
-				}
-				user.setId(daoUser.getId());
-				userToReturn = dao.save(user);
-			}
-		} else {
-			user.setPassword(passwordEncryptor.encryptPassword(user
-					.getPassword()));
-			userToReturn = dao.save(user);
-		}
-		return userToReturn;
-	}
+    @Transactional
+    public User updatePassword(User user) {
+        List<User> l = dao.findEquals("login", user.getLogin());
+        int size = (l == null) ? 0 : l.size();
+        User userToReturn = null;
+        if (size > 0) {
+            User daoUser = l.get(0);
+            String newPassword = user.getPassword();
+            size = (newPassword == null) ? 0 : newPassword.length();
+            if (size > 0) {
+                logger.debug("we are updating password of user " + daoUser.getLogin());
+                daoUser.setPassword(passwordEncryptor.encryptPassword(newPassword));
+                userToReturn = dao.save(daoUser);
+            }
+        }
+        return userToReturn;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public User authenticateUser(String login, String password) {
-		List<User> l = dao.findEquals("Login", login);
-		User u = null;
-		if (l != null) {
-			for (User tmpU : l) {
-				if (passwordEncryptor.checkPassword(password, tmpU
-						.getPassword())) {
-					u = tmpU;
-					break;
-				}
-			}
-		}
-		return u;
-	}
+    /**
+     * Interesting but useless right now Only amdinb can make som modification,
+     * we never do password check
+     */
+    @Transactional
+    public User updatePassword(User user, String password) {
+        List<User> l = dao.findEquals("login", user.getLogin());
+        int size = (l == null) ? 0 : l.size();
+        User userToReturn = null;
+        if (size > 0) {
+            User daoUser = l.get(0);
+            Boolean passwordsMatch = passwordEncryptor.checkPassword(user.getPassword(), daoUser.getPassword());
+            if (passwordsMatch) {
+                if (user.getPassword().equals(password)) {
+                    user.setPassword(daoUser.getPassword());
+                } else {
+                    user.setPassword(passwordEncryptor.encryptPassword(password));
+                }
+                user.setId(daoUser.getId());
+                userToReturn = dao.save(user);
+            }
+        } else {
+            user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
+            userToReturn = dao.save(user);
+        }
+        return userToReturn;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public User authenticateUser(String login, String password) {
+        List<User> l = dao.findEquals("Login", login);
+        User u = null;
+        if (l != null) {
+            for (User tmpU : l) {
+                if (passwordEncryptor.checkPassword(password, tmpU.getPassword())) {
+                    u = tmpU;
+                    break;
+                }
+            }
+        }
+        return u;
+    }
 }

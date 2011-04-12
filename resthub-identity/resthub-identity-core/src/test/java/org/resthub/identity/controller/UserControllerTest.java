@@ -1,5 +1,7 @@
 package org.resthub.identity.controller;
 
+import java.util.Random;
+
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
@@ -11,8 +13,8 @@ import org.resthub.identity.service.UserService;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
 
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.ClientResponse.Status;
+import com.sun.jersey.api.client.WebResource;
 
 /**
  * 
@@ -31,10 +33,9 @@ public class UserControllerTest extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected User createTestResource() throws Exception {
 		logger.debug("UserControllerTest : createTestResource");
-		String userLogin = "UserTestUserLogin"+ Math.round(Math.random() * 1000);
+		String userLogin = "UserTestUserLogin"+ new Random().nextInt();
 		String userPassword = "UserTestUserPassword";
 		User u = new User();
 		u.setLogin(userLogin);

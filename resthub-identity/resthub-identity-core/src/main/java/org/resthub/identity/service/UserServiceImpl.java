@@ -1,15 +1,19 @@
 package org.resthub.identity.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.tracability.ServiceListener;
 import org.resthub.identity.tools.PermissionsOwnerTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -23,6 +27,16 @@ import org.springframework.util.Assert;
 @Named("userService")
 public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 
+	/**
+	 * Class logger
+	 */
+	final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+	/**
+	 * Set of registered listeners
+	 */
+	protected Set<ServiceListener> listeners = new HashSet<ServiceListener>();
+	
     @Inject
     @Named("userDao")
     public void setResourceDao(UserDao userDao) {
@@ -32,6 +46,43 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     @Named("groupService")
     GroupService groupService;
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	@Transactional(readOnly=false)
+    public User create(User user) {
+    	// Overloaded method call
+    	User created = super.create(user);
+        // Publish notification
+        publishChange(UserServiceChange.USER_CREATION.name(), created);
+        return created;
+    } // create().
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	@Transactional(readOnly=false)
+    public void delete(Long id) {
+    	User deleted = findById(id);
+    	// Overloaded method call
+    	super.delete(id);
+        // Publish notification
+        publishChange(UserServiceChange.USER_DELETION.name(), deleted);
+    } // delete().
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	@Transactional(readOnly=false)
+    public void delete(User user) {
+    	super.delete(user);
+        // Publish notification
+        publishChange(UserServiceChange.USER_DELETION.name(), user);
+    } // delete().
+    
     /**
      * Retrieves a user by his login
      *
@@ -146,7 +197,9 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
             if (u != null && g != null) {
                 u.getGroups().add(g);
             }
-        }
+            // Publish notification
+            publishChange(UserServiceChange.USER_ADDED_TO_GROUP.name(), u, g);
+       }
     }
 
     /**
@@ -165,6 +218,8 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
             if (u != null && g != null) {
                 u.getGroups().remove(g);
             }
+            // Publish notification
+            publishChange(UserServiceChange.USER_REMOVED_FROM_GROUP.name(), u, g);
         }
     }
 
@@ -173,4 +228,45 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
         List<User> usersFromGroup = this.dao.getUsersFromGroup(groupName);
         return usersFromGroup;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addListener(ServiceListener listener) {
+    	// Adds a new listener if needed.
+    	if (!listeners.contains(listener)) {
+    		listeners.add(listener);
+    	}
+    } // addListener().
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeListener(ServiceListener listener) {
+    	// Adds a new listener if needed.
+    	if (listeners.contains(listener)) {
+    		listeners.remove(listener);
+    	}
+    } // removeListener().
+    
+    /**
+     * Sends a notification to every listernes registered.
+     * Do not fail if a user thrown an exception (report exception in logs).
+     * 
+     * @param type Type of notification.
+     * @param arguments Notification arguments.
+     */
+    protected void publishChange(String type, Object... arguments) {
+	    for (ServiceListener listener : listeners) {           
+	    	try {
+	    		// Sends notification to each known listeners
+	    		listener.onChange(type, arguments);
+	        } catch (Exception exc) {
+	        	// Log exception
+	        	logger.warn("[publishChange] Cannot bublish " + type + " changes", exc);
+	        }
+	    }
+    } // publishChange().
 }

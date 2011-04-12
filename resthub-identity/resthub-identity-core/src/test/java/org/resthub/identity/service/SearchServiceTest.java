@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * SearchService test
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:resthubContext.xml", "classpath*:applicationContext.xml", "classpath:applicationContext.xml" })
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:applicationContext.xml" })
 public class SearchServiceTest {
 
 	/**
@@ -43,17 +44,17 @@ public class SearchServiceTest {
 	@Inject
 	@Named("groupService")
 	protected GroupService groupService;
-
+	
 	@Test
 	public void shouldExistingResourcesBeReIndexed() {
 		// Given an existing group
 		Group g1 = new Group();
-		g1.setName("group 1");
+		g1.setName("group 1"+new Random().nextInt());
 		g1 = groupService.create(g1);
 		
 		// Given an existing user
 		User u1 = new User();
-		u1.setLogin("user 1");
+		u1.setLogin("user 1"+new Random().nextInt());
 		u1.setPassword(u1.getLogin());
 		u1 = userService.create(u1);
 		
@@ -72,34 +73,34 @@ public class SearchServiceTest {
 		
 		// Given a user with login 'jdujardin'
 		User u1 = new User();
-		u1.setLogin("jdujardin");
+		u1.setLogin("jdujardin"+new Random().nextInt());
 		u1.setPassword(pwd);
 		u1 = userService.create(u1);
 		
 		// Given a user with email 'jdujardin@test.com'
 		User u2 = new User();
-		u2.setLogin(login+2);
+		u2.setLogin(login+new Random().nextInt());
 		u2.setEmail("jdujardin@test.com");
 		u2.setPassword(pwd);
 		u2 = userService.create(u2);		
 
 		// Given a user with first name 'jean'
 		User u3 = new User();
-		u3.setLogin(login+3);
+		u3.setLogin(login+new Random().nextInt());
 		u3.setFirstName("jean");
 		u3.setPassword(pwd);
 		u3 = userService.create(u3);		
 		
 		// Given a user with last name 'dujardin'
 		User u4 = new User();
-		u4.setLogin(login+4);
+		u4.setLogin(login+new Random().nextInt());
 		u4.setLastName("dujardin");
 		u4.setPassword(pwd);
 		u4 = userService.create(u4);
 		
 		// Given a user with login 'adurand'
 		User u5 = new User();
-		u5.setLogin(login+5);
+		u5.setLogin(login+new Random().nextInt());
 		u5.setLogin("adurand");
 		u5.setPassword(pwd);
 		u5 = userService.create(u5);		
@@ -127,17 +128,17 @@ public class SearchServiceTest {
 	public void shouldGroupsBeRetrieved() {
 		// Given a group with name 'jeans'
 		Group g1 = new Group();
-		g1.setName("jdujardin");
+		g1.setName("jdujardin"+new Random().nextInt());
 		g1 = groupService.create(g1);
 		
 		// Given a group with name 'dujeu'
 		Group g2 = new Group();
-		g2.setName("dujeu");
+		g2.setName("dujeu"+new Random().nextInt());
 		g2 = groupService.create(g2);		
 			
 		// Given a group with login 'other'
 		Group g3 = new Group();
-		g3.setName("other");
+		g3.setName("other"+new Random().nextInt());
 		g3 = groupService.create(g3);		
 		
 		// When requesting j on users
@@ -159,24 +160,24 @@ public class SearchServiceTest {
 		
 		// Given a user with login 'jdujardin'
 		User u1 = new User();
-		u1.setLogin("jdujardin");
+		u1.setLogin("jdujardin"+new Random().nextInt());
 		u1.setPassword(pwd);
 		u1 = userService.create(u1);
 		
 		// Given a user with first name 'other'
 		User u2 = new User();
-		u2.setLogin("other");
+		u2.setLogin("other"+new Random().nextInt());
 		u2.setPassword(pwd);
 		u2 = userService.create(u2);		
 				
 		// Given a group with name 'jeans'
 		Group g1 = new Group();
-		g1.setName("jeans");
+		g1.setName("jeans"+new Random().nextInt());
 		g1 = groupService.create(g1);	
 			
 		// Given a group with login 'other-group'
 		Group g2 = new Group();
-		g2.setName("other-group");
+		g2.setName("other-group"+new Random().nextInt());
 		g2 = groupService.create(g2);		
 		
 		// When requesting j on users and groups
@@ -201,30 +202,30 @@ public class SearchServiceTest {
 		
 		// Given a user with login 'dujardin' and first name 'jean'
 		User u1 = new User();
-		u1.setLogin("dujardin");
+		u1.setLogin("dujardin"+new Random().nextInt());
 		u1.setFirstName("jean");
 		u1.setPassword(pwd);
 		u1 = userService.create(u1);
 		
 		// Given a user with login 'other' abd last name 'george'
 		User u2 = new User();
-		u2.setLogin("other");
+		u2.setLogin("other"+new Random().nextInt());
 		u2.setLastName("george");
 		u2.setPassword(pwd);
 		u2 = userService.create(u2);		
 				
 		// Given a group with name 'admin'
 		Group g1 = new Group();
-		g1.setName("admin");
+		g1.setName("admin"+new Random().nextInt());
 		g1 = groupService.create(g1);	
 			
 		// Given a group with login 'users'
 		Group g2 = new Group();
-		g2.setName("users");
+		g2.setName("users"+new Random().nextInt());
 		g2 = groupService.create(g2);		
 		
 		// When requesting j on users and groups
-		List<Resource> results = tested.search("lastName:g* OR firstName:j* OR name:admin", true, true, false);
+		List<Resource> results = tested.search("lastName:g* OR firstName:j* OR name:admin*", true, true, false);
 						
 		// Then the first user is retrieved
 		assertTrue("last name 'jean' did not match", results.contains(u1));
@@ -233,7 +234,7 @@ public class SearchServiceTest {
 		assertTrue("first name 'george' did not match", results.contains(u2));
 				
 		// Then the first group is retrieved
-		assertTrue("name 'jeans' did not match", results.contains(g1));
+		assertTrue("name 'admin' did not match", results.contains(g1));
 		
 		// Then the second group is not retrived
 		assertFalse("name 'users' did match", results.contains(g2));	

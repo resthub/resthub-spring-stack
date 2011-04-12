@@ -4,15 +4,43 @@ import java.util.List;
 
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.User;
+import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Group services interface.
  * @author Guillaume Zurbach
  */
-public interface GroupService extends GenericResourceService<Group> {
+public interface GroupService extends GenericResourceService<Group>, TracableService {
 
+	/**
+	 * Kind of changes notified by this service
+	 */
+	enum GroupServiceChange {
+		/**
+		 * Group creation. Arguments : 
+		 * 1- created group.
+		 */
+		GROUP_CREATION, 
+		/**
+		 * Group deletion. Arguments : 
+		 * 1- deleted group.
+		 */
+		GROUP_DELETION, 
+		/**
+		 * Group addition to a group. Arguments : 
+		 * 1- added group.
+		 * 2- concerned parent group.
+		 */
+		GROUP_ADDED_TO_GROUP, 
+		/**
+		 * Group removal from a group. Arguments : 
+		 * 1- removed group.
+		 * 2- concerned parent group.
+		 */
+		GROUP_REMOVED_FROM_GROUP 
+	};
+	
 	/**
 	 * Finds group by name.
 	 * @param name

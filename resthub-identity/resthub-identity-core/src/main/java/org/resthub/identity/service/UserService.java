@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -11,8 +12,36 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Guillaume Zurbach
  */
-public interface UserService extends GenericResourceService<User> {
+public interface UserService extends GenericResourceService<User>, TracableService {
 
+	/**
+	 * Kind of changes notified by this service
+	 */
+	enum UserServiceChange {
+		/**
+		 * User creation. Arguments : 
+		 * 1- created user.
+		 */
+		USER_CREATION, 
+		/**
+		 * User deletion. Arguments : 
+		 * 1- deleted user.
+		 */
+		USER_DELETION, 
+		/**
+		 * User addition to a group. Arguments : 
+		 * 1- added user.
+		 * 2- concerned group.
+		 */
+		USER_ADDED_TO_GROUP, 
+		/**
+		 * User removal from a group. Arguments : 
+		 * 1- removed user.
+		 * 2- concerned group.
+		 */
+		USER_REMOVED_FROM_GROUP 
+	};
+	
     /**
      * Find user by login.
      *

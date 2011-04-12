@@ -108,10 +108,10 @@ public class ExternalValidationService implements ValidationService {
 		} catch (UniformInterfaceException exc) {
 			// Do not trace exception for unknown tokens.
 			if (exc.getResponse().getStatus() != Status.NO_CONTENT.getStatusCode()) {
-				logger.warn("[getByAccessToken] Cannot retrieved information on token '" + accessToken + "'", exc);
+				logger.warn("[getByAccessToken] Cannot retrieved information on token '" + accessToken + "'");
 			}
 		} catch (Exception exc) {
-			logger.warn("[getByAccessToken] Error while retrieving information on token '" + accessToken + "'", exc);
+			logger.warn("[getByAccessToken] Error while retrieving information on token '" + accessToken + "'");
 		}
 		return token;
 	} // validateToken()

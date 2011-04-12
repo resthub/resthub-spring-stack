@@ -1,6 +1,10 @@
 package org.resthub.identity.service.acl;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,11 +14,11 @@ import org.junit.Test;
 import org.resthub.core.test.AbstractResthubTest;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
+import org.resthub.identity.service.acl.AclService.AclServiceChange;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
 
 /**
  * First unit test in order to test Spring ACL support
@@ -51,6 +55,8 @@ public class AclTest extends AbstractResthubTest {
 	@Named("groupService")
 	private GroupService groupService;
 	
+	private Long group1Id;
+	
 	protected Authentication auth = new TestingAuthenticationToken("joe", "ignored", "ROLE_ADMINISTRATOR");
 	
 	@Before
@@ -64,12 +70,13 @@ public class AclTest extends AbstractResthubTest {
 		Group wt = new Group();
 		wt.setName("Wax Taylor 2 le retour");
 		groupService.create(wt);
+		group1Id = wt.getId();
 		
 		// Create Hocus Pocus group, and give Joe access to it 
 		Group hp = new Group();
 		hp.setName("Hocus Pocus 2 le retour");
 		hp = groupService.create(hp);
-
+			
 		aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
 	}
 	
@@ -86,5 +93,45 @@ public class AclTest extends AbstractResthubTest {
 		securedGroupService.delete(g);
 	}
 	 
+    @Test
+    public void shouldAclCreationBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	aclService.addListener(listener);
+    	
+    	// Given a created group and domain object
+		Group g1 = groupService.findById(group1Id);
+		String userId = "kac"+new Random().nextInt();
+		String permission = "DELETE";
+		
+    	// When creating an acl
+		aclService.saveAcl(g1, group1Id, userId, permission);
+    	
+    	// Then a creation notification has been received
+    	assertEquals(AclServiceChange.ACL_CREATION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{group1Id, userId, permission}, listener.lastArguments);    	
+    } // shouldAclCreationBeNotified().
+    
+    @Test
+    public void shouldAclDeletionBeNotified() {
+    	// Given a registered listener
+    	TestListener listener = new TestListener();
+    	aclService.addListener(listener);
+    	
+       	// Given a created group and domain object
+		Group g1 = groupService.findById(group1Id);
+		String userId = "kac"+new Random().nextInt();
+		String permission = "DELETE";
+		
+		// Given an acl
+		aclService.saveAcl(g1, group1Id, userId, permission);
+		
+    	// When deleting the acl
+		aclService.removeAcl(g1, group1Id, userId, permission);
+   	
+    	// Then a deletion notification has been received
+    	assertEquals(AclServiceChange.ACL_DELETION.name(), listener.lastType);
+    	assertArrayEquals(new Object[]{group1Id, userId, permission}, listener.lastArguments);    	
+    } // shouldAclDeletionBeNotified().
 
 }
