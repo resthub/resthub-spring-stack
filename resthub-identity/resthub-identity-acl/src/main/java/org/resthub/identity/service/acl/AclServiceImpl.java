@@ -1,13 +1,15 @@
 package org.resthub.identity.service.acl;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -48,7 +50,7 @@ public class AclServiceImpl implements AclService {
 	 */
 	@Inject
 	@Named("dataSource")
-	protected BasicDataSource datasource;
+	protected DataSource datasource;
 	
 	/**
 	 * Mapper between strings and permissions. Injected by Spring.
@@ -64,12 +66,18 @@ public class AclServiceImpl implements AclService {
 	 */
 	@PostConstruct
 	public void init() {
+		String productName = "";
+		
 		try {
 			// Re-use declared datasource
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
 			// PostgreSQL table creation script is different than others
 			ClassPathResource resource = null;
-			if(datasource.getDriverClassName().equals("org.postgresql.Driver")) {
+			Connection connection = datasource.getConnection();
+			DatabaseMetaData metatData = connection.getMetaData();
+			productName = metatData.getDatabaseProductName().toLowerCase();
+			
+			if(productName.equals("postgresql")) {
 				logger.info("PostgreSQL support activated for ACL Service");
 				resource = new ClassPathResource("import-acl-pg.sql");
 				aclService.setClassIdentityQuery("select currval(pg_get_serial_sequence('acl_class', 'id'))"); 
@@ -83,7 +91,7 @@ public class AclServiceImpl implements AclService {
 		    jdbcTemplate.execute(sql);
 		} catch (Exception exc) {
 			// Create table if not exists does not exists in PostgreSql
-			if(datasource.getDriverClassName().equals("org.postgresql.Driver")) {
+			if(productName.equals("postgresql")) {
 				logger.info(" SpringSecurity ACL tables exists already !");
 			} else {
 				throw new BeanCreationException("Cannot set SpringSecurity ACL tables in db", exc);
