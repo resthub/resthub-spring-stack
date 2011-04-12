@@ -15,8 +15,10 @@
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security-3.0.xsd
+    http://www.springframework.org/schema/jdbc
+    http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
     http://www.springframework.org/schema/util 
-    http://www.springframework.org/schema/util/spring-util.xsd" >
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd" >
 	
 	<!-- ========= ACL SERVICE DEFINITIONS ========= -->
 	<bean id="aclCache"
@@ -89,5 +91,14 @@
    <security:global-method-security pre-post-annotations="enabled">
        <security:expression-handler ref="expressionHandler"/>
    </security:global-method-security>
+   
+   <jdbc:initialize-database data-source="dataSource" enabled="#{dataSource.driverClassName == 'org.postgresql.Driver'}" ignore-failures="ALL">
+  		<jdbc:script location="classpath:/createAclSchemaPostgres.sql"/>
+   </jdbc:initialize-database>
+   
+   <jdbc:initialize-database data-source="dataSource" enabled="#{dataSource.driverClassName != 'org.postgresql.Driver'}" ignore-failures="ALL">
+  		<jdbc:script location="classpath:createAclSchema.sql"/>
+   </jdbc:initialize-database>
+	
 	
 </beans>

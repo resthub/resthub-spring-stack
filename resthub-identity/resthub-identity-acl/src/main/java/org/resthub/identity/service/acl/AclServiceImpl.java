@@ -32,32 +32,32 @@ import org.springframework.util.FileCopyUtils;
  */
 @Named("idmAclService")
 public class AclServiceImpl implements AclService {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(AclServiceImpl.class);
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 	// Protected attributes
-	
+
 	/**
 	 * Spring Security's ACL facility. Injected by Spring.
 	 */
 	@Inject
 	@Named("aclService")
 	protected JdbcMutableAclService aclService;
-	
+
 	/**
 	 * Datasource used to access to database.
 	 */
 	@Inject
 	@Named("dataSource")
 	protected DataSource datasource;
-	
+
 	/**
 	 * Mapper between strings and permissions. Injected by Spring.
 	 */
 	@Inject
 	protected ConfigurablePermissionFactory permissionFactory;
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 	// public methods
 
@@ -66,41 +66,24 @@ public class AclServiceImpl implements AclService {
 	 */
 	@PostConstruct
 	public void init() {
-		String productName = "";
-		
+
 		try {
-			// Re-use declared datasource
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
-			// PostgreSQL table creation script is different than others
-			ClassPathResource resource = null;
 			Connection connection = datasource.getConnection();
 			DatabaseMetaData metatData = connection.getMetaData();
-			productName = metatData.getDatabaseProductName().toLowerCase();
-			
-			if(productName.equals("postgresql")) {
+			String productName = metatData.getDatabaseProductName().toLowerCase();
+
+			if (productName.equals("postgresql")) {
 				logger.info("PostgreSQL support activated for ACL Service");
-				resource = new ClassPathResource("import-acl-pg.sql");
-				aclService.setClassIdentityQuery("select currval(pg_get_serial_sequence('acl_class', 'id'))"); 
+				aclService.setClassIdentityQuery("select currval(pg_get_serial_sequence('acl_class', 'id'))");
 				aclService.setSidIdentityQuery("select currval(pg_get_serial_sequence('acl_sid', 'id'))");
-			} else {
-				logger.info("Generic SQL support activated for ACL Service");
-				resource = new ClassPathResource("import-acl.sql");
-			}			 
-			// Populates tables.
-			String sql = new String(FileCopyUtils.copyToByteArray(resource.getInputStream()));
-		    jdbcTemplate.execute(sql);
-		} catch (Exception exc) {
-			// Create table if not exists does not exists in PostgreSql
-			if(productName.equals("postgresql")) {
-				logger.info(" SpringSecurity ACL tables exists already !");
-			} else {
-				throw new BeanCreationException("Cannot set SpringSecurity ACL tables in db", exc);
 			}
+
+		} catch (Exception exc) {
+			throw new BeanCreationException("Cannot set SpringSecurity ACL tables in db", exc);
 		}
-		
-		
+
 	} // init().
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 	// Inherited methods
 
@@ -110,51 +93,52 @@ public class AclServiceImpl implements AclService {
 	@Override
 	public void saveAcl(Object domainObject, Serializable domainObjectId, String ownerId, String permission) {
 		// Sid identifies the user.
-		Sid owner = new PrincipalSid(ownerId); 
+		Sid owner = new PrincipalSid(ownerId);
 		// ObjectIdentity is a unic identifier for the model object
 		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObjectId);
-		
+
 		// Creates the acl, or update the existing one.
 		MutableAcl acl;
-	    try {
-	    	acl = (MutableAcl) aclService.readAclById(oid);
-	    } catch (NotFoundException nfe) {
-	    	acl = aclService.createAcl(oid);
-	    }
-	    
-	    // Update the acl for this user on this model object.
-	    acl.insertAce(acl.getEntries().size(), permissionFactory.buildFromName(permission), owner, true);
-	    aclService.updateAcl(acl);
+		try {
+			acl = (MutableAcl) aclService.readAclById(oid);
+		} catch (NotFoundException nfe) {
+			acl = aclService.createAcl(oid);
+		}
+
+		// Update the acl for this user on this model object.
+		acl.insertAce(acl.getEntries().size(), permissionFactory.buildFromName(permission), owner, true);
+		aclService.updateAcl(acl);
 	} // saveAcl().
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void removeAcl(Object domainObject, Serializable domainObjectId, String ownerId, String permission) {
 		// Sid identifies the user.
-		Sid owner = new PrincipalSid(ownerId); 
+		Sid owner = new PrincipalSid(ownerId);
 		// ObjectIdentity is a unic identifier for the model object
 		ObjectIdentity oid = new ObjectIdentityImpl(domainObject.getClass(), domainObjectId);
-		
+
 		// Gets the existing acl.
 		MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
 		Permission effectivePerm = permissionFactory.buildFromName(permission);
-		
-		// Remove all permissions associated with this particular recipient (string equality to KISS)
-	    List<AccessControlEntry> entries = acl.getEntries();
-	    int i = 0;
-	    for (AccessControlEntry entry : entries) {
-        	if (entry.getSid().equals(owner) && entry.getPermission().equals(effectivePerm)) {
-               acl.deleteAce(i);
-        	}
-        	i++;
-        }
+
+		// Remove all permissions associated with this particular recipient
+		// (string equality to KISS)
+		List<AccessControlEntry> entries = acl.getEntries();
+		int i = 0;
+		for (AccessControlEntry entry : entries) {
+			if (entry.getSid().equals(owner) && entry.getPermission().equals(effectivePerm)) {
+				acl.deleteAce(i);
+			}
+			i++;
+		}
 
 		// Update the acl for this user on this model object.
-	    aclService.updateAcl(acl);		
+		aclService.updateAcl(acl);
 	} // removeAcl().
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
