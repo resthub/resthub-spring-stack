@@ -9,11 +9,11 @@ import javax.inject.Named;
 
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.PermissionsOwnerDao;
-import org.resthub.identity.dao.RoleDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.service.tracability.ServiceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -264,6 +264,7 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
                 if (!g.getRoles().contains(r)) {
                     g.getRoles().add(r);
                     this.dao.save(g);
+                    this.publishChange(RoleChange.ROLE_ADDED_TO_GROUP.name(), r, g);
                 }
             }
         }
@@ -282,6 +283,7 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
                 if (g.getRoles().contains(r)) {
                     g.getRoles().remove(r);
                     this.dao.save(g);
+                    this.publishChange(RoleChange.ROLE_REMOVED_FROM_GROUP.name(), r, g);
                 }
             }
         }
@@ -323,7 +325,7 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
                 listener.onChange(type, arguments);
             } catch (Exception exc) {
                 // Log exception
-                logger.warn("[publishChange] Cannot bublish " + type + " changes", exc);
+                logger.warn("[publishChange] Cannot publish " + type + " changes", exc);
             }
         }
     } // publishChange().

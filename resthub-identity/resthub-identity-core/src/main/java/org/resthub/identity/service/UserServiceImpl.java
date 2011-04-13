@@ -14,6 +14,7 @@ import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.service.tracability.ServiceListener;
 import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.slf4j.Logger;
@@ -31,16 +32,15 @@ import org.springframework.util.Assert;
 @Named("userService")
 public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 
-	/**
-	 * Class logger
-	 */
-	final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    /**
+     * Class logger
+     */
+    final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    /**
+     * Set of registered listeners
+     */
+    protected Set<ServiceListener> listeners = new HashSet<ServiceListener>();
 
-	/**
-	 * Set of registered listeners
-	 */
-	protected Set<ServiceListener> listeners = new HashSet<ServiceListener>();
-	
     @Inject
     @Named("userDao")
     public void setResourceDao(UserDao userDao) {
@@ -60,39 +60,39 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      * {@inheritDoc}
      */
     @Override
-	@Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public User create(User user) {
-    	// Overloaded method call
-    	User created = super.create(user);
+        // Overloaded method call
+        User created = super.create(user);
         // Publish notification
         publishChange(UserServiceChange.USER_CREATION.name(), created);
         return created;
     } // create().
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-	@Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public void delete(Long id) {
-    	User deleted = findById(id);
-    	// Overloaded method call
-    	super.delete(id);
+        User deleted = findById(id);
+        // Overloaded method call
+        super.delete(id);
         // Publish notification
         publishChange(UserServiceChange.USER_DELETION.name(), deleted);
     } // delete().
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-	@Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public void delete(User user) {
-    	super.delete(user);
+        super.delete(user);
         // Publish notification
         publishChange(UserServiceChange.USER_DELETION.name(), user);
     } // delete().
-    
+
     /**
      * Retrieves a user by his login
      *
@@ -209,7 +209,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
             }
             // Publish notification
             publishChange(UserServiceChange.USER_ADDED_TO_GROUP.name(), u, g);
-       }
+        }
     }
 
     /**
@@ -300,6 +300,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
                 if (!u.getRoles().contains(r)) {
                     u.getRoles().add(r);
                     this.dao.save(u);
+                    this.publishChange(RoleChange.ROLE_ADDED_TO_USER.name(), r, u);
                 }
             }
         }
@@ -318,6 +319,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
                 if (u.getRoles().contains(r)) {
                     u.getRoles().remove(r);
                     this.dao.save(u);
+                    this.publishChange(RoleChange.ROLE_REMOVED_FROM_USER.name(), r, u);
                 }
             }
         }
@@ -328,10 +330,10 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      */
     @Override
     public void addListener(ServiceListener listener) {
-    	// Adds a new listener if needed.
-    	if (!listeners.contains(listener)) {
-    		listeners.add(listener);
-    	}
+        // Adds a new listener if needed.
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
     } // addListener().
 
     /**
@@ -339,10 +341,10 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      */
     @Override
     public void removeListener(ServiceListener listener) {
-    	// Adds a new listener if needed.
-    	if (listeners.contains(listener)) {
-    		listeners.remove(listener);
-    	}
+        // Adds a new listener if needed.
+        if (listeners.contains(listener)) {
+            listeners.remove(listener);
+        }
     } // removeListener().
 
     /**
@@ -353,14 +355,14 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      * @param arguments Notification arguments.
      */
     protected void publishChange(String type, Object... arguments) {
-	    for (ServiceListener listener : listeners) {
-	    	try {
-	    		// Sends notification to each known listeners
-	    		listener.onChange(type, arguments);
-	        } catch (Exception exc) {
-	        	// Log exception
-	        	logger.warn("[publishChange] Cannot bublish " + type + " changes", exc);
-	        }
-	    }
+        for (ServiceListener listener : listeners) {
+            try {
+                // Sends notification to each known listeners
+                listener.onChange(type, arguments);
+            } catch (Exception exc) {
+                // Log exception
+                logger.warn("[publishChange] Cannot bublish " + type + " changes", exc);
+            }
+        }
     } // publishChange().
 }

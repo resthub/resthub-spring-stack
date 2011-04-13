@@ -1,18 +1,21 @@
 package org.resthub.identity.service;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
-import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.dao.RoleDao;
-import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
+import org.resthub.identity.service.tracability.ServiceListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,6 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Named("roleService")
 public class RoleServiceImpl extends GenericResourceServiceImpl<Role, RoleDao> implements RoleService {
 
+    /**
+     * Set of registered listeners
+     */
+    protected Set<ServiceListener> listeners = new HashSet<ServiceListener>();
+    /**
+     * Class logger
+     */
+    final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Inject
     @Named("abstractPermissionsOwnerDao")
     protected AbstractPermissionsOwnerDao abstractPermissionsOwnerDao;
@@ -78,6 +89,7 @@ public class RoleServiceImpl extends GenericResourceServiceImpl<Role, RoleDao> i
 
         // Proceed with the actual delete
         super.delete(role);
+        this.publishChange(RoleChange.ROLE_DELETION.name(), role);
     }
 
     @Override
@@ -86,4 +98,52 @@ public class RoleServiceImpl extends GenericResourceServiceImpl<Role, RoleDao> i
         int size = roles.size();
         return (size > 0) ? roles.get(0) : null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public Role create(Role resource) {
+        // Call the standard role creation
+        Role createdRole = super.create(resource);
+        // Publish the creation event
+        this.publishChange(RoleChange.ROLE_CREATION.name(), createdRole);
+        return createdRole;
+    }
+
+    @Override
+    public void addListener(ServiceListener listener) {
+        // Adds a new listener if needed.
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
+    }
+
+    @Override
+    public void removeListener(ServiceListener listener) {
+        // Removes a listener if existing.
+        if (listeners.contains(listener)) {
+            listeners.remove(listener);
+        }
+    }
+
+    /**
+     * Sends a notification to every listernes registered.
+     * Do not fail if a user thrown an exception (report exception in logs).
+     *
+     * @param type Type of notification.
+     * @param arguments Notification arguments.
+     */
+    protected void publishChange(String type, Object... arguments) {
+        for (ServiceListener listener : listeners) {
+            try {
+                // Sends notification to each known listeners
+                listener.onChange(type, arguments);
+            } catch (Exception exc) {
+                // Log exception
+                logger.warn("[publishChange] Cannot publish " + type + " changes", exc);
+            }
+        }
+    } // publishChange().
 }
