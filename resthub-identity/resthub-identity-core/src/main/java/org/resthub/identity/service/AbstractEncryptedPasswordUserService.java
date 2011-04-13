@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jasypt.util.password.PasswordEncryptor;
+import org.resthub.core.dao.GenericResourceDao;
+import org.resthub.core.model.Resource;
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
@@ -26,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  **/
 @Named("userService")
-public abstract class AbstractEncryptedPasswordUserService extends GenericResourceServiceImpl<User, UserDao> implements UserService,
+public abstract class AbstractEncryptedPasswordUserService extends AbstractTraceableServiceImpl<User, UserDao> implements UserService,
         AuthenticationService {
 
     @Inject

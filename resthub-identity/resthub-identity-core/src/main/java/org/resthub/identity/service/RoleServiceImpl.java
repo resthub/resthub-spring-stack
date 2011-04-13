@@ -1,21 +1,15 @@
 package org.resthub.identity.service;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 import org.resthub.identity.dao.RoleDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
-import org.resthub.identity.service.tracability.ServiceListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -23,16 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
 @Named("roleService")
-public class RoleServiceImpl extends GenericResourceServiceImpl<Role, RoleDao> implements RoleService {
-
-    /**
-     * Set of registered listeners
-     */
-    protected Set<ServiceListener> listeners = new HashSet<ServiceListener>();
-    /**
-     * Class logger
-     */
-    final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+public class RoleServiceImpl extends AbstractTraceableServiceImpl<Role, RoleDao> implements RoleService {
     @Inject
     @Named("abstractPermissionsOwnerDao")
     protected AbstractPermissionsOwnerDao abstractPermissionsOwnerDao;
@@ -111,39 +96,4 @@ public class RoleServiceImpl extends GenericResourceServiceImpl<Role, RoleDao> i
         this.publishChange(RoleChange.ROLE_CREATION.name(), createdRole);
         return createdRole;
     }
-
-    @Override
-    public void addListener(ServiceListener listener) {
-        // Adds a new listener if needed.
-        if (!listeners.contains(listener)) {
-            listeners.add(listener);
-        }
-    }
-
-    @Override
-    public void removeListener(ServiceListener listener) {
-        // Removes a listener if existing.
-        if (listeners.contains(listener)) {
-            listeners.remove(listener);
-        }
-    }
-
-    /**
-     * Sends a notification to every listernes registered.
-     * Do not fail if a user thrown an exception (report exception in logs).
-     *
-     * @param type Type of notification.
-     * @param arguments Notification arguments.
-     */
-    protected void publishChange(String type, Object... arguments) {
-        for (ServiceListener listener : listeners) {
-            try {
-                // Sends notification to each known listeners
-                listener.onChange(type, arguments);
-            } catch (Exception exc) {
-                // Log exception
-                logger.warn("[publishChange] Cannot publish " + type + " changes", exc);
-            }
-        }
-    } // publishChange().
 }
