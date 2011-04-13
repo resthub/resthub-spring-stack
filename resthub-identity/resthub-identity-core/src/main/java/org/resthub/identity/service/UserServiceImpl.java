@@ -10,6 +10,7 @@ import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,9 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     @Inject
     @Named("groupService")
     protected GroupService groupService;
+    @Inject
+    @Named("roleService")
+    protected RoleService roleService;
     @Inject
     @Named("abstractPermissionsOwnerDao")
     protected AbstractPermissionsOwnerDao abstractPermissionsOwnerDao;
@@ -222,6 +226,42 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
                 // Each result will be recursively evaluated using this method.
                 for (AbstractPermissionsOwner child : withGroupAsParent) {
                     this.getUsersFromRootElement(users, child);
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void addRoleToUser(String userLogin, String roleName) {
+        User u = this.findByLogin(userLogin);
+        if (u != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (!u.getRoles().contains(r)) {
+                    u.getRoles().add(r);
+                    this.dao.save(u);
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void removeRoleFromUser(String userLogin, String roleName) {
+        User u = this.findByLogin(userLogin);
+        if (u != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (u.getRoles().contains(r)) {
+                    u.getRoles().remove(r);
+                    this.dao.save(u);
                 }
             }
         }

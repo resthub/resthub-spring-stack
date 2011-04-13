@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -536,5 +537,42 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         assertTrue("The list of users with role2 and role3 should contain user2", role2AndRole3Users.contains(u2));
         assertTrue("The list of users with role2 and role3 should contain user3", role2AndRole3Users.contains(u3));
         assertTrue("The list of users with role2 and role3 should contain user4", role2AndRole3Users.contains(u4));
+    }
+
+    @Test
+    public void shouldAddRoleToUser() {
+        // Given a new role
+        Role r = new Role("Role");
+        r = this.roleService.create(r);
+
+        // Given a new user
+        User u = this.createTestRessource();
+        u = this.resourceService.create(u);
+
+        // When I associate the user and the role
+        this.resourceService.addRoleToUser(u.getLogin(), r.getName());
+
+        // Then I get the user with this role
+        User userWithRole = this.resourceService.findById(u.getId());
+        assertTrue("The user should contain the role", userWithRole.getRoles().contains(r));
+    }
+
+    @Test
+    public void shouldRemoveRoleFromUser() {
+        // Given a new role
+        Role r = new Role("Role");
+        r = this.roleService.create(r);
+
+        // Given a new user associated to the previous role
+        User u = this.createTestRessource();
+        u = this.resourceService.create(u);
+        this.resourceService.addRoleToUser(u.getLogin(), r.getName());
+
+        // When I remove the role from the user
+        this.resourceService.removeRoleFromUser(u.getLogin(), r.getName());
+
+        // Then I get the user without this role
+        User userWithRole = this.resourceService.findById(u.getId());
+        assertFalse("The user shouldn't contain the role", userWithRole.getRoles().contains(r));
     }
 }

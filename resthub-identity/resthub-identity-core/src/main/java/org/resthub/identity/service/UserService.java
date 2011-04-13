@@ -114,4 +114,18 @@ public interface UserService extends GenericResourceService<User> {
      * @return A list of users having at least one of the roles defined as parameter.
      */
     List<User> findAllUsersWithRoles(List<String> roles);
+
+    /**
+     * Add a role to a user.
+     * @param userLogin User to which the role will be added.
+     * @param roleName The role that will be added.
+     */
+    void addRoleToUser(String userLogin, String roleName);
+
+    /**
+     * Remove a role from a user.
+     * @param userLogin User to which the role will be removed.
+     * @param roleName The role that will be removed.
+     */
+    void removeRoleFromUser(String userLogin, String roleName);
 }

@@ -7,8 +7,10 @@ import javax.inject.Named;
 
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.PermissionsOwnerDao;
+import org.resthub.identity.dao.RoleDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -30,7 +32,14 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
      */
     @Inject
     @Named("userDao")
-    UserDao userDao;
+    protected UserDao userDao;
+    protected RoleService roleService;
+
+    @Inject
+    @Named("roleService")
+    protected void setRoleDao(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Inject
     @Named("groupDao")
@@ -204,5 +213,41 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
 
         // Proceed with the actual delete
         super.delete(group);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void addRoleToGroup(String groupName, String roleName) {
+        Group g = this.findByName(groupName);
+        if (g != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (!g.getRoles().contains(r)) {
+                    g.getRoles().add(r);
+                    this.dao.save(g);
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void removeRoleFromGroup(String groupName, String roleName) {
+        Group g = this.findByName(groupName);
+        if (g != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (g.getRoles().contains(r)) {
+                    g.getRoles().remove(r);
+                    this.dao.save(g);
+                }
+            }
+        }
     }
 }

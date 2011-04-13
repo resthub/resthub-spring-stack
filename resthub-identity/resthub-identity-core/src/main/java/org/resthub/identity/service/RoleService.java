@@ -9,4 +9,10 @@ import org.resthub.identity.model.Role;
  */
 public interface RoleService extends GenericResourceService<Role> {
 
+    /**
+     * Find the role with its name.
+     * @param name Name to search.
+     * @return The corresponding role.
+     */
+    Role findByName(String name);
 }

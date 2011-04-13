@@ -1,5 +1,6 @@
 package org.resthub.identity.service;
 
+import org.junit.Test;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
@@ -47,5 +48,32 @@ public class RoleServiceTest extends AbstractResourceServiceTest<Role, RoleServi
 
         // Then the modification is done.
         assertEquals("Role not updated!", testRole.getName(), newRoleName);
+    }
+
+    @Test
+    public void shouldFindByName() {
+        // Given a new role
+        Role r = this.createTestRessource();
+        r = this.resourceService.create(r);
+
+        // When I find it by name
+        Role roleFromName = this.resourceService.findByName(r.getName());
+
+        // Then I can find it
+        assertNotNull("The role should be found", roleFromName);
+        assertEquals("The role found should be the same as the one created", r, roleFromName);
+    }
+
+    @Test
+    public void shouldNotFindRoleWithWeirdName() {
+        // Given a new role
+        Role r = this.createTestRessource();
+        r = this.resourceService.create(r);
+
+        // When I find it with a weird name
+        Role roleFromName = this.resourceService.findByName("InventedNameThatShouldntBringAnyResult");
+
+        // Then I can find it
+        assertNull("No role should be found", roleFromName);
     }
 }
