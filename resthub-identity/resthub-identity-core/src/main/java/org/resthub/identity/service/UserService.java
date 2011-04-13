@@ -136,4 +136,25 @@ public interface UserService extends GenericResourceService<User>, TracableServi
      * @return A list of users corresponding to the given group.
      */
     List<User> getUsersFromGroup(String groupName);
+
+    /**
+     * Gets all the users that have a role, direct or inherited.
+     * @param roles A list of roles to look for.
+     * @return A list of users having at least one of the roles defined as parameter.
+     */
+    List<User> findAllUsersWithRoles(List<String> roles);
+
+    /**
+     * Add a role to a user.
+     * @param userLogin User to which the role will be added.
+     * @param roleName The role that will be added.
+     */
+    void addRoleToUser(String userLogin, String roleName);
+
+    /**
+     * Remove a role from a user.
+     * @param userLogin User to which the role will be removed.
+     * @param roleName The role that will be removed.
+     */
+    void removeRoleFromUser(String userLogin, String roleName);
 }

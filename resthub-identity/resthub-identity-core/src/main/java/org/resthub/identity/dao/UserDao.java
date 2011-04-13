@@ -15,4 +15,5 @@ public interface UserDao extends PermissionsOwnerDao<User> {
      * @return A list of users corresponding to the given group.
      */
     List<User> getUsersFromGroup(String groupName);
+
 }
