@@ -9,7 +9,6 @@
 
 	<groupId>org.resthub</groupId>
 	<artifactId>booking-core</artifactId>
-	<version>1.1-SNAPSHOT</version>
 	<name>Booking Core</name>
 	<description>Core lib for business layers for booking samples projects</description>
 
@@ -21,14 +20,20 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- We use RESThub web classes and dependencies built around Jersey -->
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-test</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>

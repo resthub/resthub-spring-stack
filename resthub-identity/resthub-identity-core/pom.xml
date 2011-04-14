@@ -10,7 +10,6 @@
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-identity-core</artifactId>
-	<version>1.1-SNAPSHOT</version>
 	<name>Identity manager core</name>
 	<description>
 		Provide identity management functionnality with security integration.
@@ -57,6 +56,12 @@
 			<artifactId>resthub-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+            <groupId>org.resthub</groupId>
+            <artifactId>resthub-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>

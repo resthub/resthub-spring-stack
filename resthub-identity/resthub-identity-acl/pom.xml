@@ -8,7 +8,6 @@
     </parent>
     <groupId>org.resthub</groupId>
     <artifactId>resthub-identity-acl</artifactId>
-    <version>1.1-SNAPSHOT</version>
     <name>Identity ACL support</name>
     <description>Usage of Spring Security's ACL</description>
   
@@ -16,8 +15,14 @@
         <dependency>
             <groupId>org.resthub</groupId>
             <artifactId>resthub-identity-core</artifactId>
-            <version>1.1-SNAPSHOT</version>
-        </dependency>   		
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.resthub</groupId>
+            <artifactId>resthub-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-acl</artifactId>
