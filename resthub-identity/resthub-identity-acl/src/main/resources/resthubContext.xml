@@ -1,4 +1,4 @@
-<beans  
+<beans
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -7,6 +7,7 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:resthub="http://www.resthub.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
@@ -18,7 +19,9 @@
     http://www.springframework.org/schema/jdbc
     http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
     http://www.springframework.org/schema/util 
-    http://www.springframework.org/schema/util/spring-util-3.0.xsd" >
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd
+    http://www.resthub.org/schema/context
+    http://www.resthub.org/schema/context/resthub-context-1.0.xsd" >
 	
 	<!-- ========= ACL SERVICE DEFINITIONS ========= -->
 	<bean id="aclCache"
@@ -92,13 +95,12 @@
        <security:expression-handler ref="expressionHandler"/>
    </security:global-method-security>
    
-   <jdbc:initialize-database data-source="dataSource" enabled="#{dataSource.driverClassName == 'org.postgresql.Driver'}" ignore-failures="ALL">
-  		<jdbc:script location="classpath:/createAclSchemaPostgres.sql"/>
-   </jdbc:initialize-database>
-   
-   <jdbc:initialize-database data-source="dataSource" enabled="#{dataSource.driverClassName != 'org.postgresql.Driver'}" ignore-failures="ALL">
-  		<jdbc:script location="classpath:createAclSchema.sql"/>
-   </jdbc:initialize-database>
-	
+   <resthub:db-descriptor id="db-descriptor" data-source="dataSource"/>
+   <resthub:db-initialize data-source="dataSource" ignore-failures="NONE" enabled="#{!dbDescriptor.tables.contains('ACL_SID')}">
+   		<resthub:script location="classpath:createAclSchema.sql"/>
+   		<resthub:exception product="postgresql">
+   			<resthub:script location="classpath:createAclSchemaPostgres.sql"/>
+   		</resthub:exception>
+   </resthub:db-initialize>
 	
 </beans>
