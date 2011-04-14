@@ -73,6 +73,13 @@ public class OAuth2SpringSecurityPreAuthentcationFilter extends OAuth2Redirectio
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) resp;
 			SecurityContext context = SecurityContextHolder.getContext();
+			
+			if(context.getAuthentication() == null) {
+				context = (SecurityContext)req.getAttribute("SPRING_SECURITY_AUTH");
+			} else {
+				req.setAttribute("SPRING_SECURITY_AUTH", context);
+			}
+			
 			if (request.getMethod() == HttpMethod.GET && context.getAuthentication() == null) {
 				process = false;
 				// Gets the wanted url

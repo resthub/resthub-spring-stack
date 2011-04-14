@@ -140,15 +140,13 @@ public abstract class AbstractEncryptedPasswordUserService extends GenericResour
      */
     public User authenticateUser(String login, String password) {
         List<User> l = dao.findEquals("Login", login);
-        User u = null;
         if (l != null) {
             for (User tmpU : l) {
                 if (passwordEncryptor.checkPassword(password, tmpU.getPassword())) {
-                    u = tmpU;
-                    break;
+                   return tmpU;
                 }
             }
         }
-        return u;
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package org.resthub.identity.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,12 @@ import org.resthub.identity.service.tracability.ServiceListener;
 import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -108,6 +115,18 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      */
     public String getUser(String login, String password) {
         User u = this.authenticateUser(login, password);
+        
+        if (u != null) {
+        	
+        	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        	for (String permission : u.getPermissions()) {
+        		authorities.add(new GrantedAuthorityImpl(permission));
+			}
+        	
+        	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, password, authorities);
+        	SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+        
         return (u != null) ? u.getLogin() : null;
     }
 
