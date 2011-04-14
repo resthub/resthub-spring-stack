@@ -1,9 +1,10 @@
-package org.resthub.core.context.jaxb;
+package org.resthub.core.context.config.jaxb;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
-import org.resthub.core.context.AbstractClassPathScanner;
+import org.resthub.core.context.config.AbstractClassPathScanner;
+import org.resthub.core.context.jaxb.JAXBElementListBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

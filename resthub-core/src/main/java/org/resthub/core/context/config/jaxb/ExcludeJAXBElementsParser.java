@@ -1,4 +1,7 @@
-package org.resthub.core.context.jaxb;
+package org.resthub.core.context.config.jaxb;
+
+import org.resthub.core.context.jaxb.JAXBElementListBean;
+import org.resthub.core.context.jaxb.JAXBElementListExcluderBean;
 
 
 /**
@@ -15,6 +18,11 @@ public class ExcludeJAXBElementsParser extends
 	@Override
 	protected Class<? extends JAXBElementListBean> getBeanClass() {
 		return JAXBElementListExcluderBean.class;
+	}
+
+	@Override
+	public String getElementName() {
+		return "exclude-jaxb-elements";
 	}
 	
 }

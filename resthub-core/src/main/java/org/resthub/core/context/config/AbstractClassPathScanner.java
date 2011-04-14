@@ -1,4 +1,4 @@
-package org.resthub.core.context;
+package org.resthub.core.context.config;
 
 import java.util.ArrayList;
 import java.util.HashSet;

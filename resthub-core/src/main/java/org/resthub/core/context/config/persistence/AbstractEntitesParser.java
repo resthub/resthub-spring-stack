@@ -1,6 +1,7 @@
-package org.resthub.core.context.persistence;
+package org.resthub.core.context.config.persistence;
 
-import org.resthub.core.context.AbstractParser;
+import org.resthub.core.context.config.AbstractParser;
+import org.resthub.core.context.persistence.EntityListBean;
 import org.springframework.beans.factory.xml.XmlReaderContext;
 import org.w3c.dom.Element;
 

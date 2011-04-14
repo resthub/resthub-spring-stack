@@ -1,4 +1,7 @@
-package org.resthub.core.context.persistence;
+package org.resthub.core.context.config.persistence;
+
+import org.resthub.core.context.persistence.EntityListBean;
+import org.resthub.core.context.persistence.EntityListExcluderBean;
 
 
 /**
@@ -15,6 +18,11 @@ public class ExcludeEntitiesParser extends
 	@Override
 	protected Class<? extends EntityListBean> getBeanClass() {
 		return EntityListExcluderBean.class;
+	}
+
+	@Override
+	public String getElementName() {
+		return "exclude-entities";
 	}
 
 }

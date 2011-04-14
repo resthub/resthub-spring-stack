@@ -1,7 +1,8 @@
-package org.resthub.core.context.jaxb;
+package org.resthub.core.context.config.jaxb;
 
-import org.resthub.core.context.AbstractClassPathScanner;
-import org.resthub.core.context.AbstractParser;
+import org.resthub.core.context.config.AbstractClassPathScanner;
+import org.resthub.core.context.config.AbstractParser;
+import org.resthub.core.context.jaxb.JAXBElementListBean;
 import org.springframework.beans.factory.xml.XmlReaderContext;
 import org.w3c.dom.Element;
 

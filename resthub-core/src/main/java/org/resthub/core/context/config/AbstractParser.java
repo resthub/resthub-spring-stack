@@ -1,4 +1,4 @@
-package org.resthub.core.context;
+package org.resthub.core.context.config;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-public abstract class AbstractParser extends ComponentScanBeanDefinitionParser {
+public abstract class AbstractParser extends ComponentScanBeanDefinitionParser implements ResthubBeanDefinitionParser {
 
 	private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
