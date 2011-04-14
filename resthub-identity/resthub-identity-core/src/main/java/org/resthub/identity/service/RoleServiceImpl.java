@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Named("roleService")
 public class RoleServiceImpl extends AbstractTraceableServiceImpl<Role, RoleDao> implements RoleService {
+
     @Inject
     @Named("abstractPermissionsOwnerDao")
     protected AbstractPermissionsOwnerDao abstractPermissionsOwnerDao;
@@ -77,11 +78,23 @@ public class RoleServiceImpl extends AbstractTraceableServiceImpl<Role, RoleDao>
         this.publishChange(RoleChange.ROLE_DELETION.name(), role);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Role findByName(String name) {
         List<Role> roles = this.dao.findEquals("name", name);
         int size = roles.size();
         return (size > 0) ? roles.get(0) : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Role> findByNameLike(String pattern) {
+        List<Role> roles = this.dao.findLike("name", pattern);
+        return roles;
     }
 
     /**

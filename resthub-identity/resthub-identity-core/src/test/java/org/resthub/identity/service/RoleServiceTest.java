@@ -1,5 +1,6 @@
 package org.resthub.identity.service;
 
+import java.util.List;
 import org.junit.Test;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -75,5 +76,19 @@ public class RoleServiceTest extends AbstractResourceServiceTest<Role, RoleServi
 
         // Then I can find it
         assertNull("No role should be found", roleFromName);
+    }
+
+    @Test
+    public void shouldFindNameWithWildcard() {
+        // Given a new role
+        Role r = this.createTestRessource();
+        r = this.resourceService.create(r);
+
+        // When I search for a part of its name
+        List<Role> roles = this.resourceService.findByNameLike(r.getName().substring(0, 9) + "%");
+
+        // Then the list is not empty and contains our role
+        assertFalse("The list of roles shouldn't be empty", roles.isEmpty());
+        assertTrue("The list of roles should contain our role", roles.contains(r));
     }
 }
