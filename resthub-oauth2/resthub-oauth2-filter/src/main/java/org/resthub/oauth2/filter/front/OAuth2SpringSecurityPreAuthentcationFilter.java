@@ -61,6 +61,8 @@ public class OAuth2SpringSecurityPreAuthentcationFilter extends OAuth2Redirectio
 	// -----------------------------------------------------------------------------------------------------------------
 	// OAuth2RedirectionFilter inherited methods
 
+	private static final String SPRING_SECURITY_AUTH = "SPRING_SECURITY_AUTH";
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -75,9 +77,9 @@ public class OAuth2SpringSecurityPreAuthentcationFilter extends OAuth2Redirectio
 			SecurityContext context = SecurityContextHolder.getContext();
 			
 			if(context.getAuthentication() == null) {
-				context = (SecurityContext)req.getAttribute("SPRING_SECURITY_AUTH");
+				context = (SecurityContext)req.getAttribute(SPRING_SECURITY_AUTH);
 			} else {
-				req.setAttribute("SPRING_SECURITY_AUTH", context);
+				req.setAttribute(SPRING_SECURITY_AUTH, context);
 			}
 			
 			if (request.getMethod() == HttpMethod.GET && context.getAuthentication() == null) {
