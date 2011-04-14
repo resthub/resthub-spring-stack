@@ -1,12 +1,15 @@
 package org.resthub.identity.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Named;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.resthub.core.dao.GenericJpaResourceDao;
-import org.resthub.identity.model.User;
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
 
 /**
  * The JpaUserDao class is based on both {@link GenericJpaResourceDao} and

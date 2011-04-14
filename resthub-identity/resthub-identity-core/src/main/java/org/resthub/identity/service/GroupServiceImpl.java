@@ -1,8 +1,6 @@
 package org.resthub.identity.service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -11,10 +9,9 @@ import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
-import org.resthub.identity.service.tracability.ServiceListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.resthub.identity.service.RoleService.RoleChange;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -26,26 +23,22 @@ import org.springframework.util.Assert;
  * It's a bean whose name is "groupService"
  * */
 @Named("groupService")
-public class GroupServiceImpl extends GenericResourceServiceImpl<Group, PermissionsOwnerDao<Group>> implements
+public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, PermissionsOwnerDao<Group>> implements
         GroupService {
-
-	/**
-	 * Class logger
-	 */
-	final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-	/**
-	 * Set of registered listeners
-	 */
-	protected Set<ServiceListener> listeners = new HashSet<ServiceListener>();
-
     /**
      * The userDao<br/>
      * This class need it in order to be able to deal with users
      */
     @Inject
     @Named("userDao")
-    UserDao userDao;
+    protected UserDao userDao;
+    protected RoleService roleService;
+
+    @Inject
+    @Named("roleService")
+    protected void setRoleDao(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Inject
     @Named("groupDao")
@@ -213,15 +206,15 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
      * {@inheritDoc}
      */
     @Override
-	@Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public Group create(Group created) {
-    	// Overriden method call.
-    	created = super.create(created);
+        // Overriden method call.
+        created = super.create(created);
         // Publish notification
         publishChange(GroupServiceChange.GROUP_CREATION.name(), created);
         return created;
     } // create().
-    
+
     /**
      * {@inheritDoc}
      */
@@ -239,50 +232,46 @@ public class GroupServiceImpl extends GenericResourceServiceImpl<Group, Permissi
 
         // Proceed with the actual delete
         super.delete(group);
-        
+
         // Publish notification
         publishChange(GroupServiceChange.GROUP_DELETION.name(), group);
     } // delete().
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addListener(ServiceListener listener) {
-    	// Adds a new listener if needed.
-    	if (!listeners.contains(listener)) {
-    		listeners.add(listener);
-    	}
-    } // addListener().
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(ServiceListener listener) {
-    	// Adds a new listener if needed.
-    	if (listeners.contains(listener)) {
-    		listeners.remove(listener);
-    	}
-    } // removeListener().
-    
-    /**
-     * Sends a notification to every listernes registered.
-     * Do not fail if a user thrown an exception (report exception in logs).
-     * 
-     * @param type Type of notification.
-     * @param arguments Notification arguments.
-     */
-    protected void publishChange(String type, Object... arguments) {
-	    for (ServiceListener listener : listeners) {           
-	    	try {
-	    		// Sends notification to each known listeners
-	    		listener.onChange(type, arguments);
-	        } catch (Exception exc) {
-	        	// Log exception
-	        	logger.warn("[publishChange] Cannot bublish " + type + " changes", exc);
-	        }
-	    }
-    } // publishChange().
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void addRoleToGroup(String groupName, String roleName) {
+        Group g = this.findByName(groupName);
+        if (g != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (!g.getRoles().contains(r)) {
+                    g.getRoles().add(r);
+                    this.dao.save(g);
+                    this.publishChange(RoleChange.ROLE_ADDED_TO_GROUP.name(), r, g);
+                }
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void removeRoleFromGroup(String groupName, String roleName) {
+        Group g = this.findByName(groupName);
+        if (g != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (g.getRoles().contains(r)) {
+                    g.getRoles().remove(r);
+                    this.dao.save(g);
+                    this.publishChange(RoleChange.ROLE_REMOVED_FROM_GROUP.name(), r, g);
+                }
+            }
+        }
+    }
 }

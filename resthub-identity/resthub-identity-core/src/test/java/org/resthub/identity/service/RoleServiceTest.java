@@ -1,5 +1,7 @@
 package org.resthub.identity.service;
 
+import java.util.List;
+import org.junit.Test;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
@@ -47,5 +49,46 @@ public class RoleServiceTest extends AbstractResourceServiceTest<Role, RoleServi
 
         // Then the modification is done.
         assertEquals("Role not updated!", testRole.getName(), newRoleName);
+    }
+
+    @Test
+    public void shouldFindByName() {
+        // Given a new role
+        Role r = this.createTestRessource();
+        r = this.resourceService.create(r);
+
+        // When I find it by name
+        Role roleFromName = this.resourceService.findByName(r.getName());
+
+        // Then I can find it
+        assertNotNull("The role should be found", roleFromName);
+        assertEquals("The role found should be the same as the one created", r, roleFromName);
+    }
+
+    @Test
+    public void shouldNotFindRoleWithWeirdName() {
+        // Given a new role
+        Role r = this.createTestRessource();
+        r = this.resourceService.create(r);
+
+        // When I find it with a weird name
+        Role roleFromName = this.resourceService.findByName("InventedNameThatShouldntBringAnyResult");
+
+        // Then I can find it
+        assertNull("No role should be found", roleFromName);
+    }
+
+    @Test
+    public void shouldFindNameWithWildcard() {
+        // Given a new role
+        Role r = this.createTestRessource();
+        r = this.resourceService.create(r);
+
+        // When I search for a part of its name
+        List<Role> roles = this.resourceService.findByNameLike(r.getName().substring(0, 9) + "%");
+
+        // Then the list is not empty and contains our role
+        assertFalse("The list of roles shouldn't be empty", roles.isEmpty());
+        assertTrue("The list of roles should contain our role", roles.contains(r));
     }
 }

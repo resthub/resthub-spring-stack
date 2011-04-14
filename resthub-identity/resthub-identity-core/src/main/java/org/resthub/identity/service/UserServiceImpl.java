@@ -1,23 +1,20 @@
 package org.resthub.identity.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 
 import org.resthub.identity.dao.UserDao;
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
-import org.resthub.identity.service.tracability.ServiceListener;
+import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.tools.PermissionsOwnerTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,16 +31,6 @@ import org.springframework.util.Assert;
 @Named("userService")
 public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
 
-	/**
-	 * Class logger
-	 */
-	final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-	/**
-	 * Set of registered listeners
-	 */
-	protected Set<ServiceListener> listeners = new HashSet<ServiceListener>();
-	
     @Inject
     @Named("userDao")
     public void setResourceDao(UserDao userDao) {
@@ -51,45 +38,51 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     }
     @Inject
     @Named("groupService")
-    GroupService groupService;
+    protected GroupService groupService;
+    @Inject
+    @Named("roleService")
+    protected RoleService roleService;
+    @Inject
+    @Named("abstractPermissionsOwnerDao")
+    protected AbstractPermissionsOwnerDao abstractPermissionsOwnerDao;
 
     /**
      * {@inheritDoc}
      */
     @Override
-	@Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public User create(User user) {
-    	// Overloaded method call
-    	User created = super.create(user);
+        // Overloaded method call
+        User created = super.create(user);
         // Publish notification
         publishChange(UserServiceChange.USER_CREATION.name(), created);
         return created;
     } // create().
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-	@Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public void delete(Long id) {
-    	User deleted = findById(id);
-    	// Overloaded method call
-    	super.delete(id);
+        User deleted = findById(id);
+        // Overloaded method call
+        super.delete(id);
         // Publish notification
         publishChange(UserServiceChange.USER_DELETION.name(), deleted);
     } // delete().
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-	@Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public void delete(User user) {
-    	super.delete(user);
+        super.delete(user);
         // Publish notification
         publishChange(UserServiceChange.USER_DELETION.name(), user);
     } // delete().
-    
+
     /**
      * Retrieves a user by his login
      *
@@ -115,18 +108,18 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      */
     public String getUser(String login, String password) {
         User u = this.authenticateUser(login, password);
-        
+
         if (u != null) {
-        	
-        	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        	for (String permission : u.getPermissions()) {
-        		authorities.add(new GrantedAuthorityImpl(permission));
-			}
-        	
-        	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, password, authorities);
-        	SecurityContextHolder.getContext().setAuthentication(auth);
+
+            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            for (String permission : u.getPermissions()) {
+                authorities.add(new GrantedAuthorityImpl(permission));
+            }
+
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, password, authorities);
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
-        
+
         return (u != null) ? u.getLogin() : null;
     }
 
@@ -218,7 +211,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
             }
             // Publish notification
             publishChange(UserServiceChange.USER_ADDED_TO_GROUP.name(), u, g);
-       }
+        }
     }
 
     /**
@@ -247,45 +240,90 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
         List<User> usersFromGroup = this.dao.getUsersFromGroup(groupName);
         return usersFromGroup;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addListener(ServiceListener listener) {
-    	// Adds a new listener if needed.
-    	if (!listeners.contains(listener)) {
-    		listeners.add(listener);
-    	}
-    } // addListener().
-    
+    public List<User> findAllUsersWithRoles(List<String> roles) {
+        List<User> usersWithRole = new ArrayList<User>(); // this list will hold all the users for the result
+
+        // Start by finding the entities directly linked to the roles
+        List<AbstractPermissionsOwner> withRoles = abstractPermissionsOwnerDao.getWithRoles(roles);
+
+        // The query may have brought a mix of users and groups,
+        // this loop will process them individually to form the final result.
+        for (AbstractPermissionsOwner owner : withRoles) {
+            this.getUsersFromRootElement(usersWithRole, owner);
+        }
+
+        return usersWithRole;
+    }
+
+    /**
+     * Recursive method to get all the users in an AbstractPermissionsOwner,
+     * if the owner is a user, it will be directly added to the list,
+     * if the owner is a group, his subgroups will be explored to find users.
+     * @param users User list to add users into, must not be null.
+     * @param owner Root element to begin exploration.
+     */
+    private void getUsersFromRootElement(List<User> users, AbstractPermissionsOwner owner) {
+        // Stop the processing if one of the parameters is null
+        if (users != null && owner != null) {
+            // The root element may be user or a group
+            if (owner instanceof User) {
+                User user = (User) owner;
+                // If we have a user, we can't go further so add it if needed and finish.
+                if (!users.contains(user)) {
+                    users.add(user);
+                }
+            } else if (owner instanceof Group) {
+                // If we have a group, we must get both users and groups having this group as parent
+                List<AbstractPermissionsOwner> withGroupAsParent = abstractPermissionsOwnerDao.getWithGroupAsParent((Group) owner);
+
+                // Each result will be recursively evaluated using this method.
+                for (AbstractPermissionsOwner child : withGroupAsParent) {
+                    this.getUsersFromRootElement(users, child);
+                }
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void removeListener(ServiceListener listener) {
-    	// Adds a new listener if needed.
-    	if (listeners.contains(listener)) {
-    		listeners.remove(listener);
-    	}
-    } // removeListener().
-    
+    @Transactional
+    public void addRoleToUser(String userLogin, String roleName) {
+        User u = this.findByLogin(userLogin);
+        if (u != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (!u.getRoles().contains(r)) {
+                    u.getRoles().add(r);
+                    this.dao.save(u);
+                    this.publishChange(RoleChange.ROLE_ADDED_TO_USER.name(), r, u);
+                }
+            }
+        }
+    }
+
     /**
-     * Sends a notification to every listernes registered.
-     * Do not fail if a user thrown an exception (report exception in logs).
-     * 
-     * @param type Type of notification.
-     * @param arguments Notification arguments.
+     * {@inheritDoc}
      */
-    protected void publishChange(String type, Object... arguments) {
-	    for (ServiceListener listener : listeners) {           
-	    	try {
-	    		// Sends notification to each known listeners
-	    		listener.onChange(type, arguments);
-	        } catch (Exception exc) {
-	        	// Log exception
-	        	logger.warn("[publishChange] Cannot bublish " + type + " changes", exc);
-	        }
-	    }
-    } // publishChange().
+    @Override
+    @Transactional
+    public void removeRoleFromUser(String userLogin, String roleName) {
+        User u = this.findByLogin(userLogin);
+        if (u != null) {
+            Role r = roleService.findByName(roleName);
+            if (r != null) {
+                if (u.getRoles().contains(r)) {
+                    u.getRoles().remove(r);
+                    this.dao.save(u);
+                    this.publishChange(RoleChange.ROLE_REMOVED_FROM_USER.name(), r, u);
+                }
+            }
+        }
+    }
 }
