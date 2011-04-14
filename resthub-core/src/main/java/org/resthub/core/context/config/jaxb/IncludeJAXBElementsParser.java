@@ -1,4 +1,7 @@
-package org.resthub.core.context.jaxb;
+package org.resthub.core.context.config.jaxb;
+
+import org.resthub.core.context.jaxb.JAXBElementListBean;
+import org.resthub.core.context.jaxb.JAXBElementListIncluderBean;
 
 
 /**
@@ -15,6 +18,11 @@ public class IncludeJAXBElementsParser extends
 	@Override
 	protected Class<? extends JAXBElementListBean> getBeanClass() {
 		return JAXBElementListIncluderBean.class;
+	}
+
+	@Override
+	public String getElementName() {
+		return "include-jaxb-elements";
 	}
 	
 }

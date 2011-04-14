@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>compile</scope>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
@@ -108,9 +108,6 @@
 
 	</dependencies>
 	<build>
-		<filters>
-			<filter>../src/main/filters/${env}.properties</filter>
-		</filters>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

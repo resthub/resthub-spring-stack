@@ -14,7 +14,6 @@ import javax.inject.Named;
 import org.junit.Test;
 import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.service.StandaloneEntityService;
-import org.resthub.core.test.AbstractResthubTest;
 
 /**
  * Perform tests on audit feature
@@ -22,7 +21,7 @@ import org.resthub.core.test.AbstractResthubTest;
  * @author bmeurant <Baptiste Meurant>
  * 
  */
-public class AuditTest extends AbstractResthubTest {
+public class AuditTest {
 
 	@Inject
 	@Named("standaloneEntityService")

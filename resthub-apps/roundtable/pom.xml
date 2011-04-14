@@ -12,7 +12,6 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>roundtable</artifactId>
 	<packaging>war</packaging>
-	<version>1.1-SNAPSHOT</version>
 	<name>Round Table</name>
 	<description>
 		Poll application based on RESThub
@@ -28,8 +27,14 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+            <groupId>org.resthub</groupId>
+            <artifactId>resthub-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>

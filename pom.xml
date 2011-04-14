@@ -20,6 +20,7 @@
         <module>resthub-oauth2</module>
         <module>resthub-identity</module>
         <module>resthub-tapestry5</module>
+        <module>resthub-test</module>
     </modules>
 
     <properties>
@@ -122,6 +123,11 @@
         <developer>
             <id>dst17</id>
             <name>Johan Poirier</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>vanackej</id>
+            <name>Johann Vanackere</name>
             <timezone>+1</timezone>
         </developer>
     </developers>
@@ -227,7 +233,7 @@
                     <executions>
                         <execution>
                             <id>attach-sources</id>
-                            <phase>compile</phase>
+                            <phase>package</phase>
                             <goals>
                                 <goal>jar-no-fork</goal>
                             </goals>
