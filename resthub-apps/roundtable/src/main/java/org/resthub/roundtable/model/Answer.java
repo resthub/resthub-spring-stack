@@ -3,8 +3,6 @@ package org.resthub.roundtable.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,14 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
-
 import org.resthub.core.model.Resource;
 
 /**
@@ -29,27 +26,18 @@ import org.resthub.core.model.Resource;
  */
 @Entity
 @Table(name = "answer")
-@Access(AccessType.FIELD)
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Answer extends Resource {
+	
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    @XmlTransient
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "poll_id", nullable = false)
     private Poll poll;
 
-    @Column(name = "order_num", nullable = false)
     private Integer order;
 
-    @Column(name = "body", nullable = false)
-    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String body;
 
-    @XmlTransient
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "answer", fetch = FetchType.LAZY)
     private Set<Vote> votes = new HashSet<Vote>();
 
     /**
@@ -59,6 +47,8 @@ public class Answer extends Resource {
         super();
     }
 
+    @Column(name = "body", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     public String getBody() {
         return body;
     }
@@ -67,6 +57,7 @@ public class Answer extends Resource {
         this.body = body;
     }
 
+    @Column(name = "order_num", nullable = false)
     public Integer getOrder() {
         return order;
     }
@@ -75,6 +66,10 @@ public class Answer extends Resource {
         this.order = order;
     }
 
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "poll_id", nullable = false)
+    @JsonIgnore
     public Poll getPoll() {
         return poll;
     }
@@ -83,6 +78,9 @@ public class Answer extends Resource {
         this.poll = poll;
     }
 
+    @XmlTransient
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "answer", fetch = FetchType.LAZY)
     public Set<Vote> getVotes() {
         return votes;
     }

@@ -105,7 +105,7 @@ public class RoleControllerTest extends AbstractResourceControllerTest<Role, Rol
         String role2Users = resource().path("role/role2/users").accept(MediaType.APPLICATION_JSON).get(String.class);
 
         // Then the lists should only contain what I asked for
-        assertEquals("A search with an unknown role shouldn't bring anything", "[]", notExistingRoleUsers);
+        assertEquals("A search with an unknown role shouldn't bring anything", "[ ]", notExistingRoleUsers);
 
         assertTrue("The list of users with role1 should contain user1", role1Users.contains(u1.getLogin()));
         assertFalse("The list of users with role1 shouldn't contain user2", role1Users.contains(u2.getLogin()));

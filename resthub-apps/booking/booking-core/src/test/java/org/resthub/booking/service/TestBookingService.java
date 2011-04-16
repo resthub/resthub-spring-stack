@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.resthub.booking.dao.HotelDao;
 import org.resthub.booking.dao.UserDao;
@@ -45,7 +46,7 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	@Override
 	protected Booking createTestRessource() throws Exception {
 		Hotel hotel = new Hotel();
-		hotel.setName("testBookingName");
+		hotel.setName("testBookingName"+new Random().nextInt(100));
 		hotel.setAddress("testBookingAddress");
 		hotel.setCity("testBookingCity");
 		hotel.setZip("ZIP");
@@ -88,7 +89,4 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 		assertTrue("bookings list should contain an unique result", bookings.size() == 1);
 		assertEquals("credit card names should be equals", TEST_CARD_NAME, bookings.get(0).getCreditCardName());
 	}
-
-
-
 }

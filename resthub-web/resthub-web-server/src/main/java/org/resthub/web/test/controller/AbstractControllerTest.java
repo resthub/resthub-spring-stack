@@ -109,7 +109,7 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 		String response = r.accept(MediaType.APPLICATION_JSON).get(String.class);
 
 		Assert.assertTrue("Unable to find all resources or bad-formed JSON",
-				response.contains("\"totalElements\":2"));
+				response.contains("\"totalElements\" : 2"));
 	}
 
 	@Test

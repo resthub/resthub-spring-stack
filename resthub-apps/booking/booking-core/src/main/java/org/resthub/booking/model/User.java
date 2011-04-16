@@ -10,8 +10,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.NaturalId;
@@ -30,41 +28,18 @@ import org.hibernate.validator.constraints.Email;
         @NamedQuery(name = User.BY_CREDENTIALS, query = "Select u from User u where u.username = :username and u.password = :password") })
 @Table(name = "customer")
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class User
 {
 
     public static final String ALL = "User.all";
-
     public static final String BY_USERNAME_OR_EMAIL = "User.byUserNameOrEmail";
-
     public static final String BY_CREDENTIALS = "User.byCredentials";
-
     private static final long serialVersionUID = 4060967693790504175L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NaturalId
-    @Column(nullable = false, unique = true)
-    @NotNull
-    @Size(min = 3, max = 15)
     private String username;
-
-    @Column(nullable = false)
-    @NotNull
-    @Size(min = 3, max = 50)
     private String fullname;
-
-    @Column(nullable = false)
-    @NotNull
-    @Email
     private String email;
-
-    @Column(nullable = false)
-    @Size(min = 3, max = 12)
-    @NotNull
     private String password;
 
     public User()
@@ -107,6 +82,8 @@ public class User
         return builder.toString();
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId()
     {
         return id;
@@ -117,6 +94,9 @@ public class User
         this.id = id;
     }
 
+    @Column(nullable = false)
+    @NotNull
+    @Email
     public String getEmail()
     {
         return email;
@@ -127,6 +107,10 @@ public class User
         this.email = email;
     }
 
+    @NaturalId
+    @Column(nullable = false, unique = true)
+    @NotNull
+    @Size(min = 3, max = 15)
     public String getUsername()
     {
         return username;
@@ -142,11 +126,17 @@ public class User
         this.fullname = fullname;
     }
 
+    @Column(nullable = false)
+    @NotNull
+    @Size(min = 3, max = 50)
     public String getFullname()
     {
         return fullname;
     }
 
+    @Column(nullable = false)
+    @Size(min = 3, max = 12)
+    @NotNull
     public String getPassword()
     {
         return password;

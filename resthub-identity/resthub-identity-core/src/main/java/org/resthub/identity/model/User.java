@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -84,6 +85,7 @@ public class User extends AbstractPermissionsOwner {
 	 * */
 	@Column( nullable = false )
 	@XmlTransient
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

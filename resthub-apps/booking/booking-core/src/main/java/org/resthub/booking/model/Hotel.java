@@ -11,8 +11,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.NaturalId;
@@ -34,30 +32,18 @@ import org.resthub.core.model.Resource;
 @Entity
 @Table(name = "hotel")
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Hotel extends Resource implements Serializable
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -9200804524025548138L;
 
-    @NaturalId
-    @Column(unique = true)
     private String name;
-
     private String address;
-
     private String city;
-
     private String state;
-
     private String zip;
-
     private String country;
-
     private Integer stars;
-
     private BigDecimal price;
 
     public Hotel()
@@ -91,6 +77,8 @@ public class Hotel extends Resource implements Serializable
     @Size(max = 50)
     @NotNull
     @Field(index = Index.TOKENIZED, store = Store.NO)
+    @NaturalId
+    @Column(unique = true)
     public String getName()
     {
         return name;

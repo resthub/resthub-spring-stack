@@ -6,9 +6,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.jaxrs.Annotations;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.introspect.VisibilityChecker;
 
 /**
  * JAX-RS extension intended to handle JSON serialization and deserialization.
@@ -16,7 +20,9 @@ import org.codehaus.jackson.map.ObjectMapper;
  * because it realy more flexible and match our need.
  * 
  * One key point is that, unlike Jersey default feature, it does not try to use a
- * JAXB XML oriented model o serialize objects. This one is real object to JSON implementation. 
+ * JAXB XML oriented model o serialize objects. This one is real object to JSON implementation.
+ * 
+ * Jackson annoations only are used, combinaison with JAXB annotations introspector seem to be buggy
  * 
  * @author sdeleuze
  */
@@ -30,7 +36,7 @@ public class JacksonProvider extends JacksonJsonProvider {
      * construction: use JAXB annotations if found;
      */
     public final static Annotations[] DEFAULT_ANNOTATIONS = {
-         Annotations.JAXB
+         Annotations.JACKSON
     };
 
     /**
@@ -58,7 +64,17 @@ public class JacksonProvider extends JacksonJsonProvider {
      */
     public JacksonProvider(ObjectMapper mapper, Annotations[] annotationsToUse)
     {
-        super(mapper, annotationsToUse);
+    	super(mapper, annotationsToUse);
+
+        
+        _mapperConfig.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+       
+        _mapperConfig.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        _mapperConfig.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+        
+        // Does not work for now ...
+    	//this._mapperConfig.getConfiguredMapper().setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
+        
     }
 
 }

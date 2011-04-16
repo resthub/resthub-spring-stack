@@ -8,7 +8,6 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,33 +38,21 @@ import org.resthub.core.model.Resource;
 @Table(name = "bookings")
 public class Booking extends Resource implements Serializable
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -6176295317720795275L;
 
     public static final String BY_USERNAME = "Booking.byUsername";
 
     private User user;
-
     private Hotel hotel;
-
     private Date checkinDate;
-
     private Date checkoutDate;
-
     private String creditCardNumber;
-
     private CreditCardType creditCardType;
-
     private String creditCardName;
-
     private int creditCardExpiryMonth;
-
     private int creditCardExpiryYear;
-
     private boolean smoking;
-
     private int beds;
 
     public Booking()

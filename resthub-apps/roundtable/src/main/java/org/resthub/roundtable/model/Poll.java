@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,16 +16,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import org.resthub.core.model.Resource;
 
 /**
@@ -37,48 +33,19 @@ import org.resthub.core.model.Resource;
 @Indexed
 @Entity
 @Table(name = "poll")
-@Access(AccessType.FIELD)
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Poll extends Resource {
+	
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty
-    @Size(max=50)
-    @Column(name = "author", nullable = false)
-    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String author;
-
-    @NotEmpty
-    @Size(max=100)
-    @Column(name = "topic", nullable = false)
-    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String topic;
-
-    @NotEmpty
-    @Size(max=1000)
-    @Column(name = "body", nullable = false)
-    @Field(index = Index.TOKENIZED, store = Store.NO)
     private String body;
-
-    @Column(name = "illustration")
     private String illustration;
-
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @IndexedEmbedded
     private List<Answer> answers = new ArrayList<Answer>();
-
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Voter> voters = new HashSet<Voter>();
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date", nullable = false)
     private Date creationDate;
-
-    @Future
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "expiration_date", nullable = false)
     private Date expirationDate;
 
     /**
@@ -88,6 +55,8 @@ public class Poll extends Resource {
         super();
     }
 
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @IndexedEmbedded
     public List<Answer> getAnswers() {
         return answers;
     }
@@ -96,6 +65,10 @@ public class Poll extends Resource {
         this.answers = answers;
     }
 
+    @NotEmpty
+    @Size(max=50)
+    @Column(name = "author", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     public String getAuthor() {
         return author;
     }
@@ -104,6 +77,10 @@ public class Poll extends Resource {
         this.author = author;
     }
 
+    @NotEmpty
+    @Size(max=1000)
+    @Column(name = "body", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     public String getBody() {
         return body;
     }
@@ -112,6 +89,8 @@ public class Poll extends Resource {
         this.body = body;
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "creation_date", nullable = false)
     public Date getCreationDate() {
         return creationDate;
     }
@@ -120,6 +99,9 @@ public class Poll extends Resource {
         this.creationDate = creationDate;
     }
 
+    @Future
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expiration_date", nullable = false)
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -128,14 +110,19 @@ public class Poll extends Resource {
         this.expirationDate = expirationDate;
     }
 
+    @Column(name = "illustration")
     public String getIllustration() {
-	return illustration;
+    	return illustration;
     }
 
     public void setIllustration(String illustration) {
 	this.illustration = illustration;
     }
 
+    @NotEmpty
+    @Size(max=100)
+    @Column(name = "topic", nullable = false)
+    @Field(index = Index.TOKENIZED, store = Store.NO)
     public String getTopic() {
         return topic;
     }
@@ -144,6 +131,7 @@ public class Poll extends Resource {
         this.topic = topic;
     }
 
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     public Set<Voter> getVoters() {
         return voters;
     }

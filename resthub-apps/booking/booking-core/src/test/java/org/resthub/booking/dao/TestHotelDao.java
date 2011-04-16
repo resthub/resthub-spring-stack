@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,7 +27,7 @@ public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
 	@Override
 	protected Hotel createTestRessource() throws Exception {
 		Hotel hotel = new Hotel();
-		hotel.setName(TEST_HOTEL_NAME);
+		hotel.setName(TEST_HOTEL_NAME+new Random().nextInt(100));
 		hotel.setAddress("testHotelAddress");
 		hotel.setCity("testHotelCity");
 		hotel.setZip("ZIP");
@@ -37,7 +38,7 @@ public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
 	@Override
 	public void testUpdate() throws Exception {
 		
-		List<Hotel> hotels = this.resourceDao.findEquals("name", TEST_HOTEL_NAME);
+		List<Hotel> hotels = this.resourceDao.findLike("name", TEST_HOTEL_NAME+"%");
 		assertTrue("hotels list should contain an unique result", hotels.size() == 1);
 		
 		Hotel hotel = hotels.get(0);
