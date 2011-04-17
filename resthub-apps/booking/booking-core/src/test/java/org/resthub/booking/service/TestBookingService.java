@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.resthub.booking.dao.HotelDao;
@@ -46,7 +47,7 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	@Override
 	protected Booking createTestRessource() throws Exception {
 		Hotel hotel = new Hotel();
-		hotel.setName("testBookingName"+new Random().nextInt(100));
+		hotel.setName("testBookingName"+new Random().nextInt(10000));
 		hotel.setAddress("testBookingAddress");
 		hotel.setCity("testBookingCity");
 		hotel.setZip("ZIP");
@@ -54,7 +55,7 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 		hotel = hotelDao.save(hotel);
 		
 		user = new User ();
-		String username = "user"+new Random().nextInt(100);
+		String username = "user"+new Random().nextInt(10000);
 		user.setUsername(username);
 		user.setEmail(Calendar.getInstance().getTimeInMillis()+"test@booking.user");
 		user.setFullname("testBookingUserFullname");
@@ -71,6 +72,21 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 		booking.setUser(user);
 		return booking;
 	}
+	
+	@After
+	@Override
+    public void tearDown() throws Exception {
+    	// Don't use deleteAll because it does not acheive cascade delete
+		for (Booking booking : resourceService.findAll()) {
+    		resourceService.delete(booking);
+        }
+    	for (Hotel hotel : hotelDao.readAll()) {
+    		hotelDao.delete(hotel);
+        }
+    	for (User user : userDao.readAll()) {
+    		userDao.delete(user);
+        }    	
+    }
 
 	@Override
 	public void testUpdate() throws Exception {

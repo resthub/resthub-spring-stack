@@ -68,6 +68,11 @@ public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID exte
 		Assert.notNull(id, "Resource ID can't be null");
 		dao.delete(id);
 	}
+	
+	@Transactional(readOnly = false)
+	public void deleteAll() {
+		dao.deleteAll();
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -11,13 +11,11 @@ import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
  /**
  * Test of Poll services.
  * @author Nicolas Carlier
  */
-@TransactionConfiguration(defaultRollback = false)
 public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollService> {
 
     @Inject
@@ -38,6 +36,7 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollServi
         for (int i = 1; i <= 3; i++) {
             Answer answer = new Answer();
             answer.setBody("Answer number " + i);
+            answer.setPoll(poll);
             answers.add(answer);
         }
 
@@ -62,6 +61,6 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollServi
     public void testFind() throws Exception {
         resourceService.rebuildIndex();
         List<Poll> polls = resourceService.find("test", null).asList();
-        Assert.assertEquals("Unable to find Polls", 2, polls.size());
+        Assert.assertEquals(1, polls.size());
     }
 }

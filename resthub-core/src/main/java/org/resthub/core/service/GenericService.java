@@ -38,6 +38,12 @@ public interface GenericService<T, ID extends Serializable> {
      * @param id Resource id
      */
     void delete(ID id);
+    
+    /**
+     * Delete all existing resource.
+     * Do not use cascade remove (not a choice -> JPA specs)
+     */
+    void deleteAll();
 
     /**
      * Find resource by id.

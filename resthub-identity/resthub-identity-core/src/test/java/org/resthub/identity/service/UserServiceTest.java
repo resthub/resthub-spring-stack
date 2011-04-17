@@ -17,6 +17,7 @@ import javax.inject.Named;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.Group;
@@ -263,7 +264,10 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
 
         // make subGroup a permission of group
         group.getGroups().add(subGroup);
-
+        
+        subGroup = groupService.create(subGroup);
+        group = groupService.create(group);
+        
         User u = new User();
         u.setLogin(login);
         u.setPassword(password);
@@ -287,7 +291,10 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         assertTrue("Permissions not found", allPermissions.contains("TESTGROUPPERMISSION"));
         assertTrue("Permissions not found", allPermissions.contains("TESTSUBGROUPPERMISSION"));
 
+        // TODO : remove this when we will use DBunit
         resourceService.delete(u);
+        groupService.delete(group);
+        groupService.delete(subGroup);
     }
 
     @Test
@@ -317,6 +324,9 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
 
         // make subGroup a permission of group
         group.getGroups().add(subGroup);
+        
+        subGroup = groupService.create(subGroup);
+        group = groupService.create(group);
 
         User u = new User();
         u.setLogin(login);
@@ -342,7 +352,10 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         assertTrue("Permissions not found", allPermissions.contains("TESTGROUPPERMISSION"));
         assertTrue("Permissions not found", allPermissions.contains("TESTSUBGROUPPERMISSION"));
 
+        // TODO : remove this when we will use DBunit
         resourceService.delete(u);
+        groupService.delete(group);
+        groupService.delete(subGroup);
     }
 
     @Test
@@ -434,6 +447,17 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         assertTrue("The list of users with role2 should contain user1", role1AndRole2Users.contains(u1));
         assertTrue("The list of users with role2 should contain user3", role1AndRole2Users.contains(u3));
         assertTrue("The list of users with role2 should contain user4", role1AndRole2Users.contains(u4));
+        
+        // TODO : remove this when we will use DBunit
+        u1.getRoles().clear();
+        this.resourceService.update(u1);
+        u2.getRoles().clear();
+        this.resourceService.update(u2);
+        u3.getRoles().clear();
+        this.resourceService.update(u3);
+        u4.getRoles().clear();
+        this.resourceService.update(u4);
+        this.roleService.deleteAll();
     }
 
     /**
@@ -540,6 +564,31 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         assertTrue("The list of users with role2 and role3 should contain user2", role2AndRole3Users.contains(u2));
         assertTrue("The list of users with role2 and role3 should contain user3", role2AndRole3Users.contains(u3));
         assertTrue("The list of users with role2 and role3 should contain user4", role2AndRole3Users.contains(u4));
+        
+        // TODO : remove this when we will use DBunit
+        u1.getRoles().clear();
+        u1.getGroups().clear();
+        this.resourceService.update(u1);
+        u2.getRoles().clear();
+        u2.getGroups().clear();
+        this.resourceService.update(u2);
+        u3.getRoles().clear();
+        u3.getGroups().clear();
+        this.resourceService.update(u3);
+        u4.getRoles().clear();
+        u4.getGroups().clear();
+        this.resourceService.update(u4);
+        
+        g1.getRoles().clear();
+        this.groupService.update(g1);
+        g2.getRoles().clear();
+        this.groupService.update(g2);
+        g3.getRoles().clear();
+        this.groupService.update(g3);
+        g4.getRoles().clear();
+        this.groupService.update(g4);
+        
+        this.roleService.deleteAll();
     }
 
     @Test
@@ -558,12 +607,15 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         // Then I get the user with this role
         User userWithRole = this.resourceService.findById(u.getId());
         assertTrue("The user should contain the role", userWithRole.getRoles().contains(r));
+        
+        // TODO : remove this when we will use DBunit
+        this.resourceService.removeRoleFromUser(u.getLogin(), r.getName());
     }
 
-    @Test
+	@Test
     public void shouldRemoveRoleFromUser() {
         // Given a new role
-        Role r = new Role("Role");
+        Role r = new Role("Role123");
         r = this.roleService.create(r);
 
         // Given a new user associated to the previous role
@@ -577,6 +629,8 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         // Then I get the user without this role
         User userWithRole = this.resourceService.findById(u.getId());
         assertFalse("The user shouldn't contain the role", userWithRole.getRoles().contains(r));
+        
+        this.roleService.deleteAll();
     }
 
     @Test
@@ -657,6 +711,9 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         // Then a deletion notification has been received
         assertEquals(UserServiceChange.USER_ADDED_TO_GROUP.name(), listener.lastType);
         assertArrayEquals(new Object[]{u, g}, listener.lastArguments);
+        
+        userService.removeGroupFromUser(u.getLogin(), g.getName());
+        
     } // shouldUserAdditionToGroupBeNotified().
 
     @Test

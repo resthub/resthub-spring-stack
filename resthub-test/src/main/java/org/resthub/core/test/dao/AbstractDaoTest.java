@@ -7,17 +7,19 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.dao.GenericDao;
-import org.resthub.core.test.AbstractResthubTest;
+import org.resthub.core.test.AbstractResthubTransactionalTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 
-public abstract class AbstractDaoTest<T, PK extends Serializable, D extends GenericDao<T, PK>> extends AbstractResthubTest {
+public abstract class AbstractDaoTest<T, PK extends Serializable, D extends GenericDao<T, PK>> extends AbstractResthubTransactionalTest {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Attributes
@@ -67,6 +69,14 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
         T resource = this.createTestRessource();
         resource = dao.save(resource);
         this.id = getIdFromEntity(resource);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        // Don't use deleteAll because it does not acheive cascade delete
+    	for (T resource : dao.readAll()) {
+        	dao.delete(resource);
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------------------

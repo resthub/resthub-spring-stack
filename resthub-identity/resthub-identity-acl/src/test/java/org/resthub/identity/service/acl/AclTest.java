@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.test.AbstractResthubTest;
@@ -78,6 +79,11 @@ public class AclTest extends AbstractResthubTest {
 		hp = groupService.create(hp);
 			
 		aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
+	}
+	
+	@After
+	public void clean() {
+		groupService.deleteAll();
 	}
 	
 	@Test

@@ -15,7 +15,7 @@ import org.resthub.core.test.dao.AbstractDaoTest;
 
 public class TestUserDao extends AbstractDaoTest<User, Long, UserDao> {
 
-	private static final String CHANGED_TEST_USER_NAME = "user"+new Random().nextInt(100);
+	private static final String CHANGED_TEST_USER_EMAIL = "user"+new Random().nextInt(10000)+"@test.com";
 	private String testUsername;
 
 	@Override
@@ -28,7 +28,7 @@ public class TestUserDao extends AbstractDaoTest<User, Long, UserDao> {
 	@Override
 	protected User createTestRessource() throws Exception {
 		User user = new User ();
-		this.testUsername = "user"+new Random().nextInt(100);
+		this.testUsername = "user"+new Random().nextInt(10000);
 		user.setUsername(testUsername);
 		user.setEmail(Calendar.getInstance().getTimeInMillis()+"test@booking.user");
 		user.setFullname("testBookingUserFullname");
@@ -43,9 +43,9 @@ public class TestUserDao extends AbstractDaoTest<User, Long, UserDao> {
 		assertTrue("users list should contain an unique result", users.size() == 1);
 		
 		User user = users.get(0);
-		user.setUsername(CHANGED_TEST_USER_NAME);
+		user.setEmail(CHANGED_TEST_USER_EMAIL);
 		user = this.dao.save(user);
-		assertEquals("user name should have been modified", CHANGED_TEST_USER_NAME, user.getUsername());
+		assertEquals("user name should have been modified", CHANGED_TEST_USER_EMAIL, user.getEmail());
 	}
 
 }

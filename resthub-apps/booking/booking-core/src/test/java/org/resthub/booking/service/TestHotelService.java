@@ -12,7 +12,8 @@ import org.resthub.core.test.service.AbstractResourceServiceTest;
 
 public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelService> {
 
-	private static final String CHANGED_TEST_HOTEL_NAME = "changedTestHotelName";
+	private static final String CHANGED_TEST_HOTEL_NAME = "testHotelName2";
+	private static final String CHANGED_TEST_HOTEL_STATE = "testState2";
 	
 	private Hotel hotel;
 
@@ -29,6 +30,7 @@ public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelSe
 		hotel.setName("testHotelName");
 		hotel.setAddress("testHotelAddress");
 		hotel.setCity("testHotelCity");
+		hotel.setState("testState");
 		hotel.setZip("ZIP");
 		hotel.setCountry("testHotelCountry");
 		return hotel;
@@ -40,9 +42,9 @@ public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelSe
 		hotel = this.resourceService.findById(hotel.getId());
 		assertNotNull("hotel should not be null", hotel);
 		
-		hotel.setName(CHANGED_TEST_HOTEL_NAME);
+		hotel.setState(CHANGED_TEST_HOTEL_STATE);
 		hotel = this.resourceService.update(hotel);
-		assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_NAME, hotel.getName());
+		assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_STATE, hotel.getState());
 	}
 	
 	@Override

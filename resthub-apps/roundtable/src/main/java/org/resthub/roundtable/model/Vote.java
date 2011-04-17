@@ -1,6 +1,7 @@
 package org.resthub.roundtable.model;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,7 +41,7 @@ public class Vote extends Resource {
         super();
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "answer_id", nullable = false)
     @JsonIgnore
     public Answer getAnswer() {

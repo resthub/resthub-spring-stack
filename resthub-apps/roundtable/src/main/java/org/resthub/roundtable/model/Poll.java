@@ -55,7 +55,7 @@ public class Poll extends Resource {
         super();
     }
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
     @IndexedEmbedded
     public List<Answer> getAnswers() {
         return answers;

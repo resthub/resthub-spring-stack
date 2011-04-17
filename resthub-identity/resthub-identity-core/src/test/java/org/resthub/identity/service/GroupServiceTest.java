@@ -47,7 +47,7 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
     }
 
     @Override
-    @Test()
+    @Test
     public void testUpdate() throws Exception {
         /* Given a  new group*/
         String groupName = "GroupTestGroupUpdate";
@@ -92,8 +92,7 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
 
         /* When deleting this group */
         resourceService.delete(testGroup);
-        em.flush(); // enforce database queries to be executed
-
+        
         /* Then the user shouldn't have this group anymore */
         User user = userService.findById(testUser.getId());
         assertFalse("The user shouldn't contain this group anymore", user.getGroups().contains(testGroup));
@@ -179,7 +178,10 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
     	
     	// Then a deletion notification has been received
     	assertEquals(GroupServiceChange.GROUP_ADDED_TO_GROUP.name(), listener.lastType);
-    	assertArrayEquals(new Object[]{subG, g}, listener.lastArguments);    	
+    	assertArrayEquals(new Object[]{subG, g}, listener.lastArguments);
+    	
+    	// TODO : remove this when we will use DBunit
+    	resourceService.delete(g);
     } // shouldGroupAdditionToGroupBeNotified().
     
     @Test
@@ -205,5 +207,8 @@ public class GroupServiceTest extends AbstractResourceServiceTest<Group, Generic
     	// Then a deletion notification has been received
     	assertEquals(GroupServiceChange.GROUP_REMOVED_FROM_GROUP.name(), listener.lastType);
     	assertArrayEquals(new Object[]{subG, g}, listener.lastArguments);    	
+    	
+    	// TODO : remove this when we will use DBunit
+    	resourceService.delete(g);
     } // shouldGroupRemovalFromGroupBeNotified().
 }

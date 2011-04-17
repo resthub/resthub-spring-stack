@@ -1,19 +1,20 @@
 package org.resthub.identity.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.core.test.dao.AbstractResourceDaoTest;
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -102,5 +103,8 @@ public class UserDaoTest extends AbstractResourceDaoTest<User, UserDao> {
         assertNotNull(u1);
         assertEquals(login, u1.getLogin());
         assertEquals(u1.getPermissions().get(0), "ADMIN");
+        
+        // TODO : remove this when we will use DBunit
+        u1.getPermissions().clear();
     }
 }

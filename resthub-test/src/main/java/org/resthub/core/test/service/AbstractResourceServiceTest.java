@@ -1,16 +1,17 @@
 package org.resthub.core.test.service;
 
-import org.resthub.core.test.AbstractResthubTest;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.model.Resource;
 import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.test.AbstractResthubTransactionAwareTest;
 import org.resthub.core.util.ClassUtils;
 
-public abstract class AbstractResourceServiceTest<T extends Resource, D extends GenericResourceService<T>> extends AbstractResthubTest {
+public abstract class AbstractResourceServiceTest<T extends Resource, D extends GenericResourceService<T>> extends AbstractResthubTransactionAwareTest {
 
 	protected D resourceService;
 
@@ -30,6 +31,14 @@ public abstract class AbstractResourceServiceTest<T extends Resource, D extends 
 		T resource = resourceService.create(this.createTestRessource());
 		this.resourceId = resource.getId();
 	}
+	
+    @After
+    public void tearDown() throws Exception {
+    	// Don't use deleteAll because it does not acheive cascade delete
+    	for (T resource : resourceService.findAll()) {
+    		resourceService.delete(resource);
+        }
+    }
 
 	@Test
 	public void testCreate() throws Exception {

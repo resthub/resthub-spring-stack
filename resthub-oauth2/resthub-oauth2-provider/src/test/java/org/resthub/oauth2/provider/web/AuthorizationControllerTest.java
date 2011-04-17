@@ -66,7 +66,7 @@ public class AuthorizationControllerTest {
     /**
      * Spring context configuration.
      */
-    protected static String contextLocations = "classpath*:resthubContext.xml classpath:resthubContext.xml classpath:applicationContext.xml";
+    protected static String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Constants

@@ -2,7 +2,6 @@ package org.resthub.oauth2.provider.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.test.dao.AbstractDaoTest;
 import org.resthub.oauth2.common.model.Token;
@@ -33,6 +33,13 @@ public class TokenDaoImplTest extends AbstractDaoTest<Token, Long, TokenDao> {
 	public void setDao(TokenDao dao) {
 		super.setDao(dao);
 	}
+	
+	@Before
+    public void setUp() throws Exception {
+		// Needed to cleanupdirty database
+		this.tearDown();
+		super.setUp();
+    }
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Tests
@@ -68,17 +75,13 @@ public class TokenDaoImplTest extends AbstractDaoTest<Token, Long, TokenDao> {
 		retrieved.createdOn.setTime(retrieved.createdOn.getTime()+5000);
 		retrieved.userId = newUserId;
 
-		// updates the user and checks new values
+		// updates the token and checks new values
 		Token updated = dao.save(retrieved);
 
 		assertEquals("token's id has changed", token.id, updated.id);
 		assertEquals("token's value should have changed", newValue, updated.accessToken);
 		assertEquals("token's user id name should have changed", newUserId, updated.userId);
 
-		// deletes the user
-		dao.delete(updated);
-
-		assertNull("token not deleted", dao.readByPrimaryKey(updated.id));
 	} // testUpdate().
 	
 	/**
@@ -95,6 +98,7 @@ public class TokenDaoImplTest extends AbstractDaoTest<Token, Long, TokenDao> {
 		assertNotNull("Result must not be null", results);
 		assertEquals("Only one token must be returned", 1 , results.size());
 		assertTrue("Returned token not equals to expected one", results.contains(token));
+		
 	} // testFindEquals().
 
 } // class TokenDaoImplTest().

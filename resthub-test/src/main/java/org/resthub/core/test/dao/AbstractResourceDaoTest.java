@@ -1,21 +1,22 @@
 package org.resthub.core.test.dao;
 
-import org.resthub.core.test.AbstractResthubTest;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.core.model.Resource;
+import org.resthub.core.test.AbstractResthubTransactionalTest;
 import org.resthub.core.util.ClassUtils;
 
 public abstract class AbstractResourceDaoTest<T extends Resource, D extends GenericResourceDao<T>>
-		extends AbstractResthubTest {
+		extends AbstractResthubTransactionalTest {
 
 	protected D resourceDao;
 
@@ -40,6 +41,14 @@ public abstract class AbstractResourceDaoTest<T extends Resource, D extends Gene
 		T resource = this.createTestRessource();
 		resource = resourceDao.save(resource);
 		this.resourceId = resource.getId();
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+		// Don't use deleteAll because it does not acheive cascade delete
+    	for (T resource : resourceDao.readAll()) {
+        	resourceDao.delete(resource);
+        }
 	}
 
 	@Test

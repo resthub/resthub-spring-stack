@@ -6,10 +6,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.test.AbstractResthubTest;
+import org.resthub.core.test.AbstractResthubTransactionAwareTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 
@@ -17,7 +18,7 @@ import org.resthub.roundtable.model.Poll;
  * Test of Poll services.
  * @author Nicolas Carlier
  */
-public class VoteServiceTest extends AbstractResthubTest {
+public class VoteServiceTest extends AbstractResthubTransactionAwareTest {
     protected VoteService voteService;
     
     protected PollService pollService;
@@ -54,7 +55,7 @@ public class VoteServiceTest extends AbstractResthubTest {
         poll = this.pollService.create(poll);
         this.pollId = poll.getId();
     }
-
+    
     @Test
     public void testVote() throws Exception {
         List<String> values = new ArrayList<String>();

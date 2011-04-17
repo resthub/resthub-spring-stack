@@ -14,7 +14,7 @@ import org.resthub.core.test.dao.AbstractResourceDaoTest;
 
 public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
 
-	private static final String CHANGED_TEST_HOTEL_NAME = "changedTestHotelName";
+	private static final String CHANGED_TEST_HOTEL_STATE = "hotelState";
 	private static final String TEST_HOTEL_NAME = "testHotelName";
 
 	@Override
@@ -27,7 +27,7 @@ public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
 	@Override
 	protected Hotel createTestRessource() throws Exception {
 		Hotel hotel = new Hotel();
-		hotel.setName(TEST_HOTEL_NAME+new Random().nextInt(100));
+		hotel.setName(TEST_HOTEL_NAME+new Random().nextInt(10000));
 		hotel.setAddress("testHotelAddress");
 		hotel.setCity("testHotelCity");
 		hotel.setZip("ZIP");
@@ -42,9 +42,9 @@ public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
 		assertTrue("hotels list should contain an unique result", hotels.size() == 1);
 		
 		Hotel hotel = hotels.get(0);
-		hotel.setName(CHANGED_TEST_HOTEL_NAME);
+		hotel.setState(CHANGED_TEST_HOTEL_STATE);
 		hotel = this.resourceDao.save(hotel);
-		assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_NAME, hotel.getName());
+		assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_STATE, hotel.getState());
 	}
 
 

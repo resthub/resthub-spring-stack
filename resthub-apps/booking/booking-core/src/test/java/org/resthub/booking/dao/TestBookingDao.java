@@ -41,7 +41,7 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 	@Override
 	protected Booking createTestRessource() throws Exception {
 		Hotel hotel = new Hotel();
-		hotel.setName("testBookingName"+new Random().nextInt(100));
+		hotel.setName("testBookingName"+new Random().nextInt(10000));
 		hotel.setAddress("testBookingAddress");
 		hotel.setCity("testBookingCity");
 		hotel.setZip("ZIP");
@@ -49,7 +49,7 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 		hotel = hotelDao.save(hotel);
 		
 		user = new User ();
-		String username = "user"+new Random().nextInt(100);
+		String username = "user"+new Random().nextInt(10000);
 		user.setUsername(username);
 		user.setEmail(Calendar.getInstance().getTimeInMillis()+"test@booking.user");
 		user.setFullname("testBookingUserFullname");

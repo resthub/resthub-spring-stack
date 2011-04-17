@@ -5,15 +5,17 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.service.GenericService;
 import org.resthub.core.test.AbstractResthubTest;
+import org.resthub.core.test.AbstractResthubTransactionAwareTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 
-public abstract class AbstractServiceTest<T, PK extends Serializable, D extends GenericService<T, PK>> extends AbstractResthubTest {
+public abstract class AbstractServiceTest<T, PK extends Serializable, D extends GenericService<T, PK>> extends AbstractResthubTransactionAwareTest {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Attributes
@@ -62,6 +64,15 @@ public abstract class AbstractServiceTest<T, PK extends Serializable, D extends 
     public void setUp() throws Exception {
         T resource = service.create(this.createTestRessource());
         this.id = getIdFromEntity(resource);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+    	// Don't use deleteAll because it does not acheive cascade delete
+    	for (T resource : service.findAll()) {
+    		service.delete(resource);
+        }
+
     }
 
     // -----------------------------------------------------------------------------------------------------------------

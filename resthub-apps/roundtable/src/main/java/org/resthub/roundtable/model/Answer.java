@@ -67,9 +67,9 @@ public class Answer extends Resource {
     }
 
     @XmlTransient
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "poll_id", nullable = false)
-    @JsonIgnore
     public Poll getPoll() {
         return poll;
     }

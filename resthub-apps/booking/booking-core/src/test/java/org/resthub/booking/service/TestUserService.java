@@ -14,8 +14,8 @@ import org.resthub.core.test.service.AbstractServiceTest;
 
 public class TestUserService extends AbstractServiceTest<User, Long, UserService> {
 
-	private static final String CHANGED_TEST_USER_NAME = "user"
-			+ new Random().nextInt(100);
+	private static final String CHANGED_TEST_USER_EMAIL = "user"
+			+ new Random().nextInt(10000)+"@test.com";
 	
 	private User user;
 
@@ -29,7 +29,7 @@ public class TestUserService extends AbstractServiceTest<User, Long, UserService
 	@Override
 	protected User createTestRessource() throws Exception {
 		user = new User();
-		user.setUsername("user" + new Random().nextInt(100));
+		user.setUsername("user" + new Random().nextInt(10000));
 		user.setEmail(Calendar.getInstance().getTimeInMillis()
 				+ "test@booking.user");
 		user.setFullname("testBookingUserFullname");
@@ -48,10 +48,10 @@ public class TestUserService extends AbstractServiceTest<User, Long, UserService
 		user = this.service.findById(user.getId());
 		assertNotNull("user should not be null", user);
 
-		user.setUsername(CHANGED_TEST_USER_NAME);
+		user.setEmail(CHANGED_TEST_USER_EMAIL);
 		user = this.service.update(user);
 		assertEquals("user name should have been modified",
-				CHANGED_TEST_USER_NAME, user.getUsername());
+				CHANGED_TEST_USER_EMAIL, user.getEmail());
 	}
 
 }
