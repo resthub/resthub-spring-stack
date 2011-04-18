@@ -32,7 +32,7 @@
 		
 		<dependency>
 			<groupId>org.resthub</groupId>
-			<artifactId>resthub-test</artifactId>
+			<artifactId>resthub-test-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
