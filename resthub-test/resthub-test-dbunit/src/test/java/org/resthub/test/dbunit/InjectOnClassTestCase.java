@@ -27,7 +27,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DirtiesContextTestExecutionListener.class,
 		DbUnitTestExecutionListener.class,
-		TransactionalTestExecutionListener.class, })
+		TransactionalTestExecutionListener.class })
 public class InjectOnClassTestCase {
 
 	private IDatabaseTester databaseTester;

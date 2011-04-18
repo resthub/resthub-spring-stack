@@ -9,7 +9,7 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-test-dbunit</artifactId>
 	<packaging>jar</packaging>
-	<name>Test</name>
+	<name>Test Spring DBUnit integration</name>
 	<description>
 		Test facilities for DBUnit.	
 	</description>
