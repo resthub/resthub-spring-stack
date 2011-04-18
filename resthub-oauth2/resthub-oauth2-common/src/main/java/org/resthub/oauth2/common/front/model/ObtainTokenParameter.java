@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Parameter of the token obtention end-point, as described in the Oauth 2 specification (Section 4.1.2).
  */
@@ -20,18 +22,21 @@ public class ObtainTokenParameter implements Serializable {
 	 * Access grant type. <b>For now, only "password" supported</b>.
 	 */
 	@XmlElement(name="grant_type")
+	@JsonProperty("grant_type")
 	public String grant;
 
 	/**
 	 * Client identifier. <b>Not used now, must be null</b>.
 	 */
 	@XmlElement(name="client_id")
+	@JsonProperty("client_id")
 	public String clientId;
 
 	/**
 	 * Client secret. <b>Not used now, must be null</b>.  
 	 */
 	@XmlElement(name="client_secret")
+	@JsonProperty("client_secret")
 	public String clientSecret;
 
 	/**
@@ -43,6 +48,7 @@ public class ObtainTokenParameter implements Serializable {
 	 * End-user name. 
 	 */
 	@XmlElement(name="username")
+	@JsonProperty("username")
 	public String userName;
 
 	/**

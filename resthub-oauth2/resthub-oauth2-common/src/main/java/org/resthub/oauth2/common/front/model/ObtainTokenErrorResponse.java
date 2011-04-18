@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.resthub.oauth2.common.exception.ProtocolException;
 
 /**
@@ -24,6 +25,7 @@ public class ObtainTokenErrorResponse implements Serializable {
 	 * A single error code.
 	 */
 	@XmlElement(name="error")
+	@JsonProperty("error")
 	public String error;
 
 	/**
@@ -31,6 +33,7 @@ public class ObtainTokenErrorResponse implements Serializable {
 	 * error occurred.
 	 */
 	@XmlElement(name="error_description")
+	@JsonProperty("error_description")
 	public String description;
 
 	/**
@@ -38,6 +41,7 @@ public class ObtainTokenErrorResponse implements Serializable {
 	 * additional information about the error.
 	 */
 	@XmlElement(name="error_uri")
+	@JsonProperty("error_uri")
 	public String detailsUri;
 
 	// -----------------------------------------------------------------------------------------------------------------

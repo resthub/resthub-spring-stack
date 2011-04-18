@@ -8,12 +8,11 @@ import javax.persistence.PersistenceUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.springframework.orm.jpa.EntityManagerHolder;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
@@ -22,13 +21,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * It is inspired from OpenSessionInViewFilter, and is suitable for Service classes unit tests
  * ContextConfiguration is preconfigured to scan your applicationContext.xml files from classpath  
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml"})
 @TransactionConfiguration(defaultRollback = false)
-@TestExecutionListeners(listeners = {
-		DependencyInjectionTestExecutionListener.class,
-		DirtiesContextTestExecutionListener.class,
-		//DbUnitTestExecutionListener.class,
-		TransactionalTestExecutionListener.class})
-public abstract class AbstractResthubTransactionAwareTest extends AbstractResthubTest {
+public abstract class AbstractResthubTransactionAwareTest {
 	
 	@PersistenceUnit
 	protected EntityManagerFactory emf;

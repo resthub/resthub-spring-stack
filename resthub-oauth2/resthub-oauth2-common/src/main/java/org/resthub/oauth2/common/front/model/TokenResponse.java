@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.resthub.oauth2.common.model.Token;
 
 /**
@@ -24,18 +25,21 @@ public class TokenResponse implements Serializable {
 	 * The access token issued by the authorization server.
 	 */
 	@XmlElement(name="access_token")
+	@JsonProperty("access_token")
 	public String accessToken;
 
 	/**
 	 * The duration in seconds of the access token lifetime.  
 	 */
 	@XmlElement(name="expires_in")
+	@JsonProperty("expires_in")
 	public Integer expiresIn;
 
 	/**
 	 * The refresh token used to obtain new access tokens using the same end-user access grant.  
 	 */
 	@XmlElement(name="refresh_token")
+	@JsonProperty("refresh_token")
 	public String refreshToken;
 
 	/**
@@ -45,6 +49,7 @@ public class TokenResponse implements Serializable {
 	 * additional access range to the requested scope.
 	 */
 	@XmlElement(name="scope")
+	@JsonProperty("scope")
 	public String scope;
 
 	// -----------------------------------------------------------------------------------------------------------------

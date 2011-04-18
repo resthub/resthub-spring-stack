@@ -228,7 +228,7 @@ public class OAuth2Filter implements Filter {
 			}
 			if (headerValue == null && otherValue == null) {
 				// No token at all.
-				logger.trace("[doFilter] No token found");
+				logger.debug("[doFilter] No token found");
 				setError(response, Error.UNAUTHORIZED_REQUEST.value(), null, Error.UNAUTHORIZED_REQUEST.status());
 			} else if (headerValue != null && otherValue != null) {
 				// Too many tokens !
