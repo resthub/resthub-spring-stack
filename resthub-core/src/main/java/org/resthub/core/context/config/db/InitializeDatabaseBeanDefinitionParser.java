@@ -49,21 +49,21 @@ public class InitializeDatabaseBeanDefinitionParser extends
 		
 		BeanDefinitionBuilder selectivebuilder = BeanDefinitionBuilder.genericBeanDefinition(SelectiveDatabasePopulator.class);
 		
-		BeanDefinitionBuilder defaultDbPopulatorbuilder = createResourceDatabasePopulatorBuilder(scripts, ignoreFailedDrops, continueOnError);
+		BeanDefinition defaultDbPopulator = createResourceDatabasePopulator(scripts, ignoreFailedDrops, continueOnError);
 		
-		selectivebuilder.addPropertyValue("databasePopulator", defaultDbPopulatorbuilder);
+		selectivebuilder.addPropertyValue("databasePopulator", defaultDbPopulator);
 		
 		for (Element exception : exceptionElements){
 			String product = exception.getAttribute("product");
 			List<Element> exceptionScripts = DomUtils.getChildElementsByTagName(exception,
 			"script");
-			selectivebuilder.addPropertyValue("exceptions[" + product + "]", createResourceDatabasePopulatorBuilder(exceptionScripts, ignoreFailedDrops, continueOnError));
+			selectivebuilder.addPropertyValue("exceptions[" + product + "]", createResourceDatabasePopulator(exceptionScripts, ignoreFailedDrops, continueOnError));
 		}
 
 		return selectivebuilder.getBeanDefinition();
 	}
 
-	private BeanDefinitionBuilder createResourceDatabasePopulatorBuilder(List<Element> scripts, boolean ignoreFailedDrops, boolean continueOnError) {
+	private BeanDefinition createResourceDatabasePopulator(List<Element> scripts, boolean ignoreFailedDrops, boolean continueOnError) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder
 				.genericBeanDefinition(ResourceDatabasePopulator.class);
 		builder.addPropertyValue("ignoreFailedDrops", ignoreFailedDrops);
@@ -83,7 +83,7 @@ public class InitializeDatabaseBeanDefinitionParser extends
 		builder.addPropertyValue("scripts",
 				resourcesFactory.getBeanDefinition());
 
-		return builder;
+		return builder.getBeanDefinition();
 	}
 
 	private AbstractBeanDefinition getSourcedBeanDefinition(
