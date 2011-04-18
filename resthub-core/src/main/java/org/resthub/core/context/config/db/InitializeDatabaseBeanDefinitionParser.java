@@ -1,12 +1,10 @@
 package org.resthub.core.context.config.db;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.resthub.core.context.config.ResthubBeanDefinitionParser;
-import org.resthub.core.util.db.DynamicDataSourceInitializer;
+import org.resthub.core.util.db.SelectiveDatabasePopulator;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -25,11 +23,11 @@ public class InitializeDatabaseBeanDefinitionParser extends
 	protected AbstractBeanDefinition parseInternal(Element element,
 			ParserContext context) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder
-				.genericBeanDefinition(DynamicDataSourceInitializer.class);
+				.genericBeanDefinition(DataSourceInitializer.class);
 		builder.addPropertyReference("dataSource",
 				element.getAttribute("data-source"));
 		builder.addPropertyValue("enabled", element.getAttribute("enabled"));
-		setDatabasePopulator(element, builder);
+		builder.addPropertyValue("databasePopulator",createSelectiveDatabasePopulator(element));
 		return getSourcedBeanDefinition(builder, element, context);
 	}
 
@@ -38,7 +36,8 @@ public class InitializeDatabaseBeanDefinitionParser extends
 		return true;
 	}
 
-	private void setDatabasePopulator(Element element, BeanDefinitionBuilder builder) {
+	private BeanDefinition createSelectiveDatabasePopulator(Element element) {
+		
 		List<Element> scripts = DomUtils.getChildElementsByTagName(element,
 				"script");
 		
@@ -48,26 +47,23 @@ public class InitializeDatabaseBeanDefinitionParser extends
 		boolean ignoreFailedDrops = element.getAttribute("ignore-failures").equals("DROPS");
 		boolean continueOnError = element.getAttribute("ignore-failures").equals("ALL");
 		
-		if (scripts.size() > 0) {
-			builder.addPropertyValue("databasePopulator",
-					createDatabasePopulator(scripts, ignoreFailedDrops, continueOnError));
-		}
+		BeanDefinitionBuilder selectivebuilder = BeanDefinitionBuilder.genericBeanDefinition(SelectiveDatabasePopulator.class);
 		
-		//Map<String, BeanDefinition> exceptions = new HashMap<String, BeanDefinition>();
+		BeanDefinitionBuilder defaultDbPopulatorbuilder = createResourceDatabasePopulatorBuilder(scripts, ignoreFailedDrops, continueOnError);
+		
+		selectivebuilder.addPropertyValue("databasePopulator", defaultDbPopulatorbuilder);
 		
 		for (Element exception : exceptionElements){
 			String product = exception.getAttribute("product");
 			List<Element> exceptionScripts = DomUtils.getChildElementsByTagName(exception,
 			"script");
-			builder.addPropertyValue("exceptions[" + product + "]", createDatabasePopulator(exceptionScripts, ignoreFailedDrops, continueOnError));
-			
-			//exceptions.put(product, createDatabasePopulator(exceptionScripts, ignoreFailedDrops, continueOnError));
-			
+			selectivebuilder.addPropertyValue("exceptions[" + product + "]", createResourceDatabasePopulatorBuilder(exceptionScripts, ignoreFailedDrops, continueOnError));
 		}
-		//builder.addPropertyValue("exceptions", exceptions);
+
+		return selectivebuilder.getBeanDefinition();
 	}
 
-	private BeanDefinition createDatabasePopulator(List<Element> scripts, boolean ignoreFailedDrops, boolean continueOnError) {
+	private BeanDefinitionBuilder createResourceDatabasePopulatorBuilder(List<Element> scripts, boolean ignoreFailedDrops, boolean continueOnError) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder
 				.genericBeanDefinition(ResourceDatabasePopulator.class);
 		builder.addPropertyValue("ignoreFailedDrops", ignoreFailedDrops);
@@ -87,7 +83,7 @@ public class InitializeDatabaseBeanDefinitionParser extends
 		builder.addPropertyValue("scripts",
 				resourcesFactory.getBeanDefinition());
 
-		return builder.getBeanDefinition();
+		return builder;
 	}
 
 	private AbstractBeanDefinition getSourcedBeanDefinition(

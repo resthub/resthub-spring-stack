@@ -1,0 +1,3 @@
+# Tooling related information for the Resthub test namespace
+http\://www.resthub.org/schema/dbunit@name=DBUnit Namespace
+http\://www.resthub.org/schema/dbunit@prefix=dbunit

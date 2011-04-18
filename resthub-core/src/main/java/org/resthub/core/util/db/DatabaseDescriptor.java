@@ -16,13 +16,11 @@ import org.springframework.util.Assert;
  * Stores information related to a database and the jdbc driver used to access
  * the database.
  * 
- * @author Johann Vanackere
+ * @author vanackej
  * 
  */
 public class DatabaseDescriptor {
 
-	private DataSource dataSource;
-	
 	private String productName;
 
 	private String productVersion;
@@ -39,42 +37,45 @@ public class DatabaseDescriptor {
 
 	private int driverMinorVersion;
 
+	private LinkedHashSet<String> tables;
+
+	public DatabaseDescriptor(Connection connection) throws SQLException {
+		init(connection);
+	}
+	
 	public DatabaseDescriptor(DataSource dataSource) throws SQLException {
 		Assert.notNull(dataSource, "dataSource is required");
-		this.dataSource = dataSource;
-
 		Connection connection = DataSourceUtils.getConnection(dataSource);
 		try {
-			DatabaseMetaData metatData = connection.getMetaData();
-			setProductName(metatData.getDatabaseProductName()
-					.toLowerCase().trim());
-			setProductVersion(metatData.getDatabaseProductVersion()
-					.toLowerCase().trim());
-			setMajorVersion(metatData.getDatabaseMajorVersion());
-			setMinorVersion(metatData.getDatabaseMinorVersion());
-			setDriverName(metatData.getDriverName().trim());
-			setDriverVersion(metatData.getDriverVersion().trim());
-			setDriverMajorVersion(metatData.getDriverMajorVersion());
-			setDriverMinorVersion(metatData.getDriverMinorVersion());
+			init(connection);
 		} finally {
 			DataSourceUtils.releaseConnection(connection, dataSource);
 		}
 	}
 	
-	public Set<String> getTables() throws SQLException {
-		Set<String> tables = new LinkedHashSet<String>();
+	private void init(Connection connection) throws SQLException {
+		Assert.notNull(connection, "connection is required");
+		DatabaseMetaData metatData = connection.getMetaData();
+		setProductName(metatData.getDatabaseProductName()
+				.toLowerCase().trim());
+		setProductVersion(metatData.getDatabaseProductVersion()
+				.toLowerCase().trim());
+		setMajorVersion(metatData.getDatabaseMajorVersion());
+		setMinorVersion(metatData.getDatabaseMinorVersion());
+		setDriverName(metatData.getDriverName().trim());
+		setDriverVersion(metatData.getDriverVersion().trim());
+		setDriverMajorVersion(metatData.getDriverMajorVersion());
+		setDriverMinorVersion(metatData.getDriverMinorVersion());
 		
-		Connection connection = DataSourceUtils.getConnection(dataSource);
-		try {
-			DatabaseMetaData metatData = connection.getMetaData();
-			ResultSet rs = metatData.getTables(null, null, "%", new String[]{"TABLE"});
-			while (rs.next()) {
-				tables.add(rs.getString(3));
-			}
-		} finally {
-			DataSourceUtils.releaseConnection(connection, dataSource);
+		this.tables = new LinkedHashSet<String>();
+		
+		ResultSet rs = metatData.getTables(null, null, "%", new String[]{"TABLE"});
+		while (rs.next()) {
+			tables.add(rs.getString(3));
 		}
-		
+	}
+	
+	public Set<String> getTables() {
 		return tables;
 	}
 	
