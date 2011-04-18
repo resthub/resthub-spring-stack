@@ -55,7 +55,6 @@
             </activation>
             <properties>
                 <deploy.host>resthub.org</deploy.host>
-                <site.plugin.version>3.0-beta-3</site.plugin.version>
             </properties>
         </profile>
         <profile>
@@ -68,7 +67,6 @@
             </activation>
             <properties>
                 <deploy.host>localhost</deploy.host>
-                <site.plugin.version>2.0.1</site.plugin.version>
             </properties>
         </profile>
     </profiles>
@@ -187,7 +185,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>${site.plugin.version}</version>
+                    <version>3.0-beta-3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
