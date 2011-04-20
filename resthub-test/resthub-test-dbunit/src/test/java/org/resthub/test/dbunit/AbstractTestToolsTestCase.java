@@ -1,7 +1,5 @@
 package org.resthub.test.dbunit;
 
-import javax.sql.DataSource;
-
 import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.ITable;
 import org.junit.Assert;
@@ -9,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.resthub.test.dbunit.annotation.DBOperation;
 import org.resthub.test.dbunit.annotation.InjectDataSet;
-import org.resthub.test.dbunit.utils.DelegateDataSourceDatabaseTester;
+import org.resthub.test.dbunit.config.DbUnitConfiguration;
 import org.resthub.test.dbunit.utils.MyApplicationDataSetInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,21 +18,14 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @TransactionConfiguration(defaultRollback = false)
 public abstract class AbstractTestToolsTestCase extends AbstractDBUnitTestCase {
 
+	@Autowired
 	private IDatabaseTester databaseTester;
 
-	@Autowired
-	private DataSource dataSource;
-
-	@Before
-	public void init() {
-		databaseTester = new DelegateDataSourceDatabaseTester(dataSource);
-	}
-
 	@Test
-	@InjectDataSet("dataset")
-	public void testSomeMethod() throws Exception {
+	@InjectDataSet({"dataset", "dataset2"})
+	public void testXMLDataSet() throws Exception {
 		ITable table1 = databaseTester.getConnection().createTable("table1");
-		Assert.assertEquals(1, table1.getRowCount());
+		Assert.assertEquals(2, table1.getRowCount());
 	}
 
 	@Test

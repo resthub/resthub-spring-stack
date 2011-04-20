@@ -3,6 +3,8 @@ package org.resthub.test.dbunit.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbunit.DefaultDatabaseTester;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -23,7 +25,21 @@ public class DBUnitConfigurationParser extends AbstractSingleBeanDefinitionParse
 	@Override
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 		
-		builder.addPropertyReference("dataSource", element.getAttribute(DATASOURCE_ATTRIBUTE));
+		BeanDefinitionBuilder databaseConnectionBuilder = BeanDefinitionBuilder.genericBeanDefinition(DatabaseConnectionFactory.class);
+		databaseConnectionBuilder.addPropertyReference("dataSource", element.getAttribute(DATASOURCE_ATTRIBUTE));
+		// TODO : add support for dbunitProperties
+		AbstractBeanDefinition databaseConnectionBean = databaseConnectionBuilder.getBeanDefinition();
+		
+		String databaseConnectionBeanName = resolveId(element, databaseConnectionBean, parserContext) + "-databaseConnection";
+		parserContext.getRegistry().registerBeanDefinition(databaseConnectionBeanName, databaseConnectionBean);
+		builder.addPropertyReference("databaseConnection", databaseConnectionBeanName);
+		
+		BeanDefinitionBuilder dbTesterBeanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(DefaultDatabaseTester.class);
+		dbTesterBeanDefinitionBuilder.addConstructorArgReference(databaseConnectionBeanName);
+		AbstractBeanDefinition dbTesterBean = dbTesterBeanDefinitionBuilder.getBeanDefinition();
+		String dbTesterBeanName = resolveId(element, dbTesterBean, parserContext) + "-databaseTester";
+		parserContext.getRegistry().registerBeanDefinition(dbTesterBeanName, dbTesterBean);
+		builder.addPropertyReference("databaseTester", dbTesterBeanName);
 		
 		List<Element> includeElements = DomUtils.getChildElementsByTagName(element, INCLUDE_TABLE_ELEMENT);
 		if (includeElements.size() > 0) {

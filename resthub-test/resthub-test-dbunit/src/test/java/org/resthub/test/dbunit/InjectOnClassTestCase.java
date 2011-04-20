@@ -5,11 +5,9 @@ import javax.sql.DataSource;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.ITable;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.resthub.test.dbunit.annotation.InjectDataSet;
-import org.resthub.test.dbunit.utils.DelegateDataSourceDatabaseTester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,16 +28,12 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 		TransactionalTestExecutionListener.class })
 public class InjectOnClassTestCase {
 
+	@Autowired
 	private IDatabaseTester databaseTester;
 	
 	@Autowired
 	private DataSource dataSource;
 	
-	@Before
-	public void init() {
-		databaseTester = new DelegateDataSourceDatabaseTester(dataSource);
-	}
-
 	@Test
 	public void shouldHaveInjectedDataSet() throws Exception {
 		ITable table1 = databaseTester.getConnection().createTable("table2");
