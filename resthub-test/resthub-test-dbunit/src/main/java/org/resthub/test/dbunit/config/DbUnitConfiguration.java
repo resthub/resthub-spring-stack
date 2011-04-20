@@ -15,10 +15,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
+ * Stores DBunit configuration
+ * 
  * @author vanackej
  * 
  */
-public class DbUnitConfiguration implements InitializingBean {
+public class DbUnitConfiguration {
 
 	private IDatabaseConnection databaseConnection;
 	
@@ -27,8 +29,6 @@ public class DbUnitConfiguration implements InitializingBean {
 	private List<String> excludeTables;
 
 	private List<String> includeTables;
-
-	
 
 	public IDatabaseConnection getDatabaseConnection() {
 		return databaseConnection;
@@ -74,12 +74,6 @@ public class DbUnitConfiguration implements InitializingBean {
 	 */
 	public void setIncludeTables(List<String> includeTables) {
 		this.includeTables = includeTables;
-	}
-
-	public void afterPropertiesSet() throws Exception {
-
-		// Initialize only if no databaseConnection has been injected (legacy
-		// initialization mode)
 	}
 
 }

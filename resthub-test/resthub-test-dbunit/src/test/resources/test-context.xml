@@ -11,6 +11,7 @@
 
 	<bean class="org.resthub.test.dbunit.config.DbUnitConfiguration">
 		<property name="databaseConnection" ref="databaseConnection"/>
+		<property name="databaseTester" ref="databaseTester"/>
 	</bean>
 	
 	<bean id="databaseConnection" class="org.resthub.test.dbunit.config.DatabaseConnectionFactory">
@@ -23,6 +24,10 @@
 	
 	<bean id="dataset" class="org.resthub.test.dbunit.initializer.XMLDatabaseInitializer">
 		<property name="location" value="classpath:datasets/dataset.xml"/>
+	</bean>
+	
+	<bean id="dataset2" class="org.resthub.test.dbunit.initializer.XMLDatabaseInitializer">
+		<property name="location" value="classpath:datasets/dataset2.xml"/>
 	</bean>
 	
 	<bean id="datasetInitializer" class="org.resthub.test.dbunit.utils.MyApplicationDataSetInitializer"/>

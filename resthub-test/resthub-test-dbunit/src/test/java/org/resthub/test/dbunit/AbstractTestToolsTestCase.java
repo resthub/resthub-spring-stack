@@ -18,21 +18,14 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @TransactionConfiguration(defaultRollback = false)
 public abstract class AbstractTestToolsTestCase extends AbstractDBUnitTestCase {
 
-	private IDatabaseTester databaseTester;
-
 	@Autowired
-	private DbUnitConfiguration configuration;
-
-	@Before
-	public void init() {
-		databaseTester = configuration.getDatabaseTester();
-	}
+	private IDatabaseTester databaseTester;
 
 	@Test
 	@InjectDataSet({"dataset", "dataset2"})
-	public void testSomeMethod() throws Exception {
+	public void testXMLDataSet() throws Exception {
 		ITable table1 = databaseTester.getConnection().createTable("table1");
-		Assert.assertEquals(1, table1.getRowCount());
+		Assert.assertEquals(2, table1.getRowCount());
 	}
 
 	@Test

@@ -29,14 +29,15 @@ public class DBUnitConfigurationParser extends AbstractSingleBeanDefinitionParse
 		databaseConnectionBuilder.addPropertyReference("dataSource", element.getAttribute(DATASOURCE_ATTRIBUTE));
 		// TODO : add support for dbunitProperties
 		AbstractBeanDefinition databaseConnectionBean = databaseConnectionBuilder.getBeanDefinition();
-		String databaseConnectionBeanName = parserContext.getReaderContext().generateBeanName(databaseConnectionBean);
+		
+		String databaseConnectionBeanName = resolveId(element, databaseConnectionBean, parserContext) + "-databaseConnection";
 		parserContext.getRegistry().registerBeanDefinition(databaseConnectionBeanName, databaseConnectionBean);
 		builder.addPropertyReference("databaseConnection", databaseConnectionBeanName);
 		
 		BeanDefinitionBuilder dbTesterBeanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(DefaultDatabaseTester.class);
 		dbTesterBeanDefinitionBuilder.addConstructorArgReference(databaseConnectionBeanName);
 		AbstractBeanDefinition dbTesterBean = dbTesterBeanDefinitionBuilder.getBeanDefinition();
-		String dbTesterBeanName = parserContext.getReaderContext().generateBeanName(dbTesterBean);
+		String dbTesterBeanName = resolveId(element, dbTesterBean, parserContext) + "-databaseTester";
 		parserContext.getRegistry().registerBeanDefinition(dbTesterBeanName, dbTesterBean);
 		builder.addPropertyReference("databaseTester", dbTesterBeanName);
 		
