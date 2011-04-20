@@ -26,7 +26,7 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.h2.Driver"/>
         <property name="url" value="jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1"/>
-        <property name="maxActive" value="20"/>
+        <property name="maxActive" value="50"/>
         <property name="maxWait" value="1000"/>
         <property name="poolPreparedStatements" value="true"/>
     </bean>
