@@ -10,7 +10,15 @@
 	</jdbc:initialize-database>
 
 	<bean class="org.resthub.test.dbunit.config.DbUnitConfiguration">
+		<property name="databaseConnection" ref="databaseConnection"/>
+	</bean>
+	
+	<bean id="databaseConnection" class="org.resthub.test.dbunit.config.DatabaseConnectionFactory">
 		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="databaseTester" class="org.dbunit.DefaultDatabaseTester">
+		<constructor-arg ref="databaseConnection"/>
 	</bean>
 	
 	<bean id="dataset" class="org.resthub.test.dbunit.initializer.XMLDatabaseInitializer">
