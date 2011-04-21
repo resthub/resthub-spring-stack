@@ -1,6 +1,7 @@
 package org.resthub.identity.service.acl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.security.acls.model.Acl;
@@ -66,5 +67,27 @@ public interface AclService extends TracableService {
 	 */
 	@Transactional(readOnly=true)
 	Acl getAcls(Object domainObject, Serializable domainObjectId);
+	
+	/**
+	 * Saves an ACL (or update the existing one) for a specified owner on a specified resource.
+	 *  
+	 * @param domainObject The resource concerned.
+	 * @param domainObjectId The concerned resource Id.
+	 * @param userId Id of the user.
+	 * @param permissions List of permissions added to this owner on this resource.
+	 */
+	void saveAcls(Object domainObject, Serializable domainObjectId, String userId, List<String> permissions);
+	
+	/**
+	 * Removes an ACL for a specified owner on a specified resource.
+	 * 
+	 * @param domainObject The resource concerned.
+	 * @param domainObjectId The concerned resource Id.
+	 * @param userId Id of the user.
+	 * @param permissions List of permissions removed from this owner on this resource.
+	 * 
+	 * @throws NotFoundException If the permission is not associated to this owner on 
+	 */
+	void removeAcls(Object domainObject, Serializable domainObjectId, String userId, List<String> permissions);
 	
 } // interface AclService
