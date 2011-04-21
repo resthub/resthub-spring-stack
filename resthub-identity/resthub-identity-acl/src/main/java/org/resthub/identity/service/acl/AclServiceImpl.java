@@ -133,6 +133,7 @@ public class AclServiceImpl implements AclService {
 	    
 	    // Update the acl for this user on this model object.
 	    acl.insertAce(acl.getEntries().size(), permissionFactory.buildFromName(permission), owner, true);
+
 	    aclService.updateAcl(acl);
 	    // Publish ACL creation.
 	    publishChange(AclServiceChange.ACL_CREATION.name(), domainObjectId, ownerId, permission);
@@ -202,5 +203,29 @@ public class AclServiceImpl implements AclService {
     		listeners.remove(listener);
     	}
     } // removeListener().
+
+    /**
+     * {@inheritDoc}
+     */
+	@Override
+	public void saveAcls(Object domainObject, Serializable domainObjectId,
+			String userId, List<String> permissions) {
+		for(String permission : permissions){
+			this.saveAcl(domainObject, domainObjectId, userId, permission);
+		}
+
+	}
+
+	 /**
+     * {@inheritDoc}
+     */
+	@Override
+	public void removeAcls(Object domainObject, Serializable domainObjectId,
+			String userId, List<String> permissions) {
+		for(String permission : permissions){
+			this.removeAcl(domainObject, domainObjectId, userId, permission);
+		}
+		
+	}
 
 } // class AclServiceImpl.
