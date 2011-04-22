@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>resthub-web</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-rc2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-web-client</artifactId>
 	<name>Webservices client library</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-rc2</version>
 	<packaging>jar</packaging>
 	<description>
 		RESThub webservice client for requesting REST webservices with JSON support bundled
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-common</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
