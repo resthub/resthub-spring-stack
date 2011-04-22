@@ -1,9 +1,15 @@
 package org.resthub.core.dao;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.resthub.core.model.StandaloneEntity;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author bmeurant <baptiste.meurant@gmail.com>
@@ -14,24 +20,24 @@ import org.resthub.core.model.StandaloneEntity;
  *         resource dervied entity
  * 
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml"})
 public class StandaloneEntityDaoTest {
 
     @Inject
     @Named("standaloneEntityDao")
-    public void setDao(StandaloneEntityDao dao) {
-//        this.dao = dao;
-    }
+    protected StandaloneEntityDao dao;
 
-//    @Override
-//    public void testUpdate() throws Exception {
-//        StandaloneEntity entity = new StandaloneEntity();
-//        entity.setName("Name");
-//        dao.saveAndFlush(entity);
-//        
-//        entity.setName("New name");
-//        dao.saveAndFlush(entity);
-//
-//        StandaloneEntity updatedEntity = dao.readByPrimaryKey(entity.getId());
-//        assertEquals("Entity name should have been modified", "New name", updatedEntity.getName());
-//    }
+    @Test
+    public void testUpdate() throws Exception {
+        StandaloneEntity entity = new StandaloneEntity();
+        entity.setName("Name");
+        dao.saveAndFlush(entity);
+        
+        entity.setName("New name");
+        dao.saveAndFlush(entity);
+
+        StandaloneEntity updatedEntity = dao.readByPrimaryKey(entity.getId());
+        assertEquals("Entity name should have been modified", "New name", updatedEntity.getName());
+    }
 }

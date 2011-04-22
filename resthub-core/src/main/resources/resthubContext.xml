@@ -17,18 +17,22 @@
 	<context:component-scan base-package="org.resthub.core" />
 
 	<resthub:include-entities base-package="org.resthub.**.model" />
-
-	<!--
-		<tx:annotation-driven transaction-manager="transactionManager"
-		order="200" />
-	-->
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location" value="classpath:resthub.properties" />
+    	<property name="ignoreResourceNotFound" value="true" />
+    	<property name="ignoreUnresolvablePlaceholders" value="true" />
+    	<property name="valueSeparator" value="?" />
+	</bean>
         
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1"/>
-        <property name="maxActive" value="50"/>
-        <property name="maxWait" value="1000"/>
-        <property name="poolPreparedStatements" value="true"/>
+        <property name="driverClassName" value="${dataSource.driverClassName?org.h2.Driver}"/>
+        <property name="url" value="${dataSource.url?jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1}"/>
+        <property name="maxActive" value="${dataSource.maxActive?50}"/>
+        <property name="maxWait" value="${dataSource.maxWait?1000}"/>
+        <property name="poolPreparedStatements" value="${dataSource.poolPreparedStatements?true}"/>
+        <property name="username" value="${dataSource.username?sa}" />
+		<property name="password" value="${dataSource.password}" />
     </bean>
 	
 	<bean id="entityManagerFactory"
@@ -41,16 +45,16 @@
 		</property>
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="showSql" value="false" />
+				<property name="showSql" value="${showSql?false}" />
 			</bean>
 		</property>
 		<property name="jpaProperties">
 			<map>
-				<entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-				<entry key="hibernate.format_sql" value="true" />
-				<entry key="hibernate.hbm2ddl.auto" value="update" />
-				<entry key="hibernate.cache.use_second_level_cache" value="true"/>
-				<entry key="hibernate.cache.provider_class" value=" net.sf.ehcache.hibernate.SingletonEhCacheProvider"/>
+				<entry key="hibernate.dialect" value="${hibernate.dialect?org.hibernate.dialect.H2Dialect}" />
+				<entry key="hibernate.format_sql" value="${hibernate.format_sql?true}" />
+				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto?update}" />
+				<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache?true}"/>
+				<entry key="hibernate.cache.provider_class" value="${hibernate.cache.provider_class?net.sf.ehcache.hibernate.SingletonEhCacheProvider}"/>
 			</map>
 		</property>
 	</bean>

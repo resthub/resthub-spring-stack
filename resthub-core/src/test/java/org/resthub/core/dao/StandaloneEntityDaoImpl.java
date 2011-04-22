@@ -24,7 +24,7 @@ public class StandaloneEntityDaoImpl extends GenericJpaDao<StandaloneEntity, Lon
 	
 	@SuppressWarnings("unchecked")
 	public List<StandaloneEntity> findByName(String name) {
-		String queryString = getQueryString("from %s where name = :name", getDomainClass());
+		String queryString = getQueryString("from %s where name = :name", StandaloneEntity.class);
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("name", name);
 		return query.getResultList();
