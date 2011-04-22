@@ -32,7 +32,7 @@
         <property name="maxWait" value="${dataSource.maxWait?1000}"/>
         <property name="poolPreparedStatements" value="${dataSource.poolPreparedStatements?true}"/>
         <property name="username" value="${dataSource.username?sa}" />
-		<property name="password" value="${dataSource.password}" />
+		<property name="password" value="${dataSource.password?}" />
     </bean>
 	
 	<bean id="entityManagerFactory"
