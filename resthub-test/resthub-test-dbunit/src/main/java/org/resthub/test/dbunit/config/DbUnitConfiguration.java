@@ -1,18 +1,11 @@
 package org.resthub.test.dbunit.config;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.sql.DataSource;
-
-import org.dbunit.DefaultDatabaseTester;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.filter.ExcludeTableFilter;
 import org.dbunit.dataset.filter.IncludeTableFilter;
-import org.resthub.test.dbunit.utils.DelegateDatabaseDataSourceConnection;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.Assert;
 
 /**
  * Stores DBunit configuration

@@ -22,11 +22,11 @@
 		<constructor-arg ref="databaseConnection"/>
 	</bean>
 	
-	<bean id="dataset" class="org.resthub.test.dbunit.initializer.XMLDatabaseInitializer">
+	<bean id="dataset" class="org.resthub.test.dbunit.initializer.FlatXMLDatabaseInitializer">
 		<property name="location" value="classpath:datasets/dataset.xml"/>
 	</bean>
 	
-	<bean id="dataset2" class="org.resthub.test.dbunit.initializer.XMLDatabaseInitializer">
+	<bean id="dataset2" class="org.resthub.test.dbunit.initializer.FlatXMLDatabaseInitializer">
 		<property name="location" value="classpath:datasets/dataset2.xml"/>
 	</bean>
 	

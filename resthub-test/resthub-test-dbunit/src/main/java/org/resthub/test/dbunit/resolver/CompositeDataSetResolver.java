@@ -1,11 +1,8 @@
 package org.resthub.test.dbunit.resolver;
 
-import java.io.InputStream;
 import java.util.List;
 
 import org.dbunit.dataset.IDataSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 /**
@@ -16,8 +13,6 @@ import org.springframework.util.Assert;
  */
 public class CompositeDataSetResolver implements DataSetResolver {
 
-	private Logger logger = LoggerFactory.getLogger(CompositeDataSetResolver.class);
-	
 	private List<DataSetResolver> resolvers;
 
 	public CompositeDataSetResolver(List<DataSetResolver> resolvers) {
