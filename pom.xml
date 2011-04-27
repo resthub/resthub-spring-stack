@@ -21,6 +21,7 @@
         <module>resthub-identity</module>
         <module>resthub-tapestry5</module>
         <module>resthub-test</module>
+        <module>resthub-oauth2-spring-security</module>
     </modules>
 
     <properties>
