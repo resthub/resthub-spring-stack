@@ -26,9 +26,13 @@
 		<jdbc:script location="classpath:import-booking.sql" />
 	</jdbc:initialize-database>
 	
-	<security:http>
-		<security:intercept-url pattern="/api/**" access="ROLE_AUTH" />
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="bookingUserDetailsService"/>
+	</security:authentication-manager>
+	
+	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint">
 		<security:intercept-url pattern="/api/lucene/rebuild" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<security:intercept-url pattern="/api/**" access="ROLE_AUTH" />
 		<security:access-denied-handler ref="oauth2AccessDeniedHandler" />
 	</security:http>
 	
@@ -43,8 +47,8 @@
 		<oauth2:client clientId="booking" authorizedGrantTypes="password" />
 	</oauth2:client-details-service>
 	
-	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="bookingUserDetailsService"/>
-	</security:authentication-manager>
+	
+	
+	
 	
 </beans>
