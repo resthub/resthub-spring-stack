@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.tools.PermissionsOwnerTools;
@@ -275,5 +276,17 @@ public class UserController extends GenericResourceController<User, UserService>
     @RolesAllowed({"IM-ADMIN"})
     public void removeRoleFromUser(@PathParam("login") String login, @PathParam("role") String role) {
         this.service.removeRoleFromUser(login, role);
+    }
+
+    /**
+     * Get all the roles of a user.
+     * @param login Login to check.
+     * @return A list of roles the given user has.
+     */
+    @GET
+    @Path("/name/{login}/roles")
+    @RolesAllowed({"IM-ADMIN"})
+    public List<Role> getAllUserRoles(@PathParam("login") String login) {
+        return this.service.getAllUserRoles(login);
     }
 }

@@ -264,10 +264,10 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
 
         // make subGroup a permission of group
         group.getGroups().add(subGroup);
-        
+
         subGroup = groupService.create(subGroup);
         group = groupService.create(group);
-        
+
         User u = new User();
         u.setLogin(login);
         u.setPassword(password);
@@ -324,7 +324,7 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
 
         // make subGroup a permission of group
         group.getGroups().add(subGroup);
-        
+
         subGroup = groupService.create(subGroup);
         group = groupService.create(group);
 
@@ -447,7 +447,7 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         assertTrue("The list of users with role2 should contain user1", role1AndRole2Users.contains(u1));
         assertTrue("The list of users with role2 should contain user3", role1AndRole2Users.contains(u3));
         assertTrue("The list of users with role2 should contain user4", role1AndRole2Users.contains(u4));
-        
+
         // TODO : remove this when we will use DBunit
         u1.getRoles().clear();
         this.resourceService.update(u1);
@@ -564,7 +564,7 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         assertTrue("The list of users with role2 and role3 should contain user2", role2AndRole3Users.contains(u2));
         assertTrue("The list of users with role2 and role3 should contain user3", role2AndRole3Users.contains(u3));
         assertTrue("The list of users with role2 and role3 should contain user4", role2AndRole3Users.contains(u4));
-        
+
         // TODO : remove this when we will use DBunit
         u1.getRoles().clear();
         u1.getGroups().clear();
@@ -578,7 +578,7 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         u4.getRoles().clear();
         u4.getGroups().clear();
         this.resourceService.update(u4);
-        
+
         g1.getRoles().clear();
         this.groupService.update(g1);
         g2.getRoles().clear();
@@ -587,7 +587,117 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         this.groupService.update(g3);
         g4.getRoles().clear();
         this.groupService.update(g4);
-        
+
+        this.roleService.deleteAll();
+    }
+
+    /**
+     * Here is a little scheme of the hierarchy that will be set in this test
+     * g1 (r1)
+     * |_g2 (r2)
+     * | |_g4 (r4)
+     * |   |_u1 (r1)
+     * |   |_u3
+     * |_g3 (r3)
+     *   |_u2
+     *   |_u3
+     *   |_u4 (r4)
+     */
+    @Test
+    public void shouldGetUserRoles() {
+        // Given some new roles
+        Role r1 = new Role("role1");
+        Role r2 = new Role("role2");
+        Role r3 = new Role("role3");
+        Role r4 = new Role("role4");
+        r1 = this.roleService.create(r1);
+        r2 = this.roleService.create(r2);
+        r3 = this.roleService.create(r3);
+        r4 = this.roleService.create(r4);
+
+        // Given some new groups
+        Group g1 = this.createTestGroup();
+        Group g2 = this.createTestGroup();
+        Group g3 = this.createTestGroup();
+        Group g4 = this.createTestGroup();
+
+        g1.getRoles().add(r1); // add role1 to g1
+        g2.getGroups().add(g1); // add g1 as parent of g2
+        g2.getRoles().add(r2); // add role2 to g2
+        g3.getGroups().add(g1); // add g1 as parent of g3
+        g3.getRoles().add(r3); // add role3 to g3
+        g4.getGroups().add(g2); // add g2 as parent of g4
+        g4.getRoles().add(r4); // add role4 to g4
+
+        g1 = this.groupService.create(g1);
+        g2 = this.groupService.create(g2);
+        g3 = this.groupService.create(g3);
+        g4 = this.groupService.create(g4);
+
+        // Given some new users
+        // u1 with direct role1 and inside group4
+        User u1 = this.createTestRessource();
+        u1.getRoles().add(r1); // add role1 to u1
+        u1.getGroups().add(g4); // add group4 as parent of u1
+
+        // u2 without any role and inside group3
+        User u2 = this.createTestRessource();
+        u2.getGroups().add(g3);
+
+        // u3 without any role and inside group3 and group4
+        User u3 = this.createTestRessource();
+        u3.getGroups().add(g3);
+        u3.getGroups().add(g4);
+
+        // u4 with role4 and inside group3
+        User u4 = this.createTestRessource();
+        u4.getRoles().add(r4);
+        u4.getGroups().add(g3);
+
+        u1 = this.resourceService.create(u1);
+        u2 = this.resourceService.create(u2);
+        u3 = this.resourceService.create(u3);
+        u4 = this.resourceService.create(u4);
+
+        // When I ask for user roles
+        List<Role> u1Roles = this.resourceService.getAllUserRoles(u1.getLogin());
+        List<Role> u2Roles = this.resourceService.getAllUserRoles(u2.getLogin());
+        List<Role> u3Roles = this.resourceService.getAllUserRoles(u3.getLogin());
+        List<Role> u4Roles = this.resourceService.getAllUserRoles(u4.getLogin());
+
+        // Then users should have the correct roles
+        assertEquals("User1 should have 3 roles", 3, u1Roles.size());
+        assertTrue("User1 should have role1, role2 and role4", u1Roles.contains(r1) && u1Roles.contains(r2) && u1Roles.contains(r4));
+        assertEquals("User2 should have 2 roles", 2, u2Roles.size());
+        assertTrue("User2 should have role1, role2 and role4", u2Roles.contains(r1) && u2Roles.contains(r3));
+        assertEquals("User3 should have 4 roles", 4, u3Roles.size());
+        assertTrue("User3 should have role1, role2 and role4", u3Roles.contains(r1) && u3Roles.contains(r2) && u3Roles.contains(r3) && u3Roles.contains(r4));
+        assertEquals("User4 should have 3 roles", 3, u4Roles.size());
+        assertTrue("User4 should have role1, role2 and role4", u4Roles.contains(r1) && u4Roles.contains(r3) && u4Roles.contains(r4));
+
+        // TODO : remove this when we will use DBunit
+        u1.getRoles().clear();
+        u1.getGroups().clear();
+        this.resourceService.update(u1);
+        u2.getRoles().clear();
+        u2.getGroups().clear();
+        this.resourceService.update(u2);
+        u3.getRoles().clear();
+        u3.getGroups().clear();
+        this.resourceService.update(u3);
+        u4.getRoles().clear();
+        u4.getGroups().clear();
+        this.resourceService.update(u4);
+
+        g1.getRoles().clear();
+        this.groupService.update(g1);
+        g2.getRoles().clear();
+        this.groupService.update(g2);
+        g3.getRoles().clear();
+        this.groupService.update(g3);
+        g4.getRoles().clear();
+        this.groupService.update(g4);
+
         this.roleService.deleteAll();
     }
 
@@ -607,12 +717,12 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         // Then I get the user with this role
         User userWithRole = this.resourceService.findById(u.getId());
         assertTrue("The user should contain the role", userWithRole.getRoles().contains(r));
-        
+
         // TODO : remove this when we will use DBunit
         this.resourceService.removeRoleFromUser(u.getLogin(), r.getName());
     }
 
-	@Test
+    @Test
     public void shouldRemoveRoleFromUser() {
         // Given a new role
         Role r = new Role("Role123");
@@ -629,7 +739,7 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         // Then I get the user without this role
         User userWithRole = this.resourceService.findById(u.getId());
         assertFalse("The user shouldn't contain the role", userWithRole.getRoles().contains(r));
-        
+
         this.roleService.deleteAll();
     }
 
@@ -711,9 +821,9 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         // Then a deletion notification has been received
         assertEquals(UserServiceChange.USER_ADDED_TO_GROUP.name(), listener.lastType);
         assertArrayEquals(new Object[]{u, g}, listener.lastArguments);
-        
+
         userService.removeGroupFromUser(u.getLogin(), g.getName());
-        
+
     } // shouldUserAdditionToGroupBeNotified().
 
     @Test

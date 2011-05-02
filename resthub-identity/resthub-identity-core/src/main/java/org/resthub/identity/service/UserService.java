@@ -3,6 +3,7 @@ package org.resthub.identity.service;
 import java.util.List;
 
 import org.resthub.core.service.GenericResourceService;
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,4 +158,12 @@ public interface UserService extends GenericResourceService<User>, TracableServi
      * @param roleName The role that will be removed.
      */
     void removeRoleFromUser(String userLogin, String roleName);
+    
+    /**
+     * Get all the roles a user owns.
+     * 
+     * @param userLogin User to gather roles from.
+     * @return A list of roles that the given user has.
+     */
+    List<Role> getAllUserRoles(String userLogin);
 }
