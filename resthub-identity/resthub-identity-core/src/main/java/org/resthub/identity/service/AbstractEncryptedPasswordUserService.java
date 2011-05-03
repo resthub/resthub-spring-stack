@@ -1,18 +1,13 @@
 package org.resthub.identity.service;
 
 import java.util.List;
-import javax.inject.Inject;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jasypt.util.password.PasswordEncryptor;
-import org.resthub.core.dao.GenericResourceDao;
-import org.resthub.core.model.Resource;
-import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.User;
-import org.resthub.identity.tools.ApacheSHAPasswordEncryptor;
-import org.resthub.oauth2.provider.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  **/
 @Named("userService")
-public abstract class AbstractEncryptedPasswordUserService extends AbstractTraceableServiceImpl<User, UserDao> implements UserService,
-        AuthenticationService {
+public abstract class AbstractEncryptedPasswordUserService extends AbstractTraceableServiceImpl<User, UserDao> implements UserService {
 
     @Inject
     @Named("passwordEncryptor")

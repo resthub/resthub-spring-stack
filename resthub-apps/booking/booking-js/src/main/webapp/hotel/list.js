@@ -2,10 +2,15 @@ define([ 'lib/controller', 'repositories/hotel.repository' ], function(Controlle
 	return Controller.extend("ListHotelsController", {
 		template : 'hotel/list.html',
 		lastSearchedVal: '',
+		hotelSearchHandle: {},
 		
 		init : function() {
-			$.subscribe('hotel-search', $.proxy(this, '_findHotels'));
+			this.hotelSearchHandle = $.subscribe('hotel-search', $.proxy(this, '_findHotels'));
 			$.publish('hotel-search', '');
+		},
+		destroy: function() {
+			$.unsubscribe(this.hotelSearchHandle);
+	        this._super();
 		},
 		_findHotels: function(value) {
 			this.lastSearchedVal = value;

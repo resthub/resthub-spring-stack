@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<artifactId>booking</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-kazan-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>booking-js</artifactId>
 	<packaging>war</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-kazan-SNAPSHOT</version>
 	<name>Booking javascript stack based demo</name>
 	<description>
 		RESThub javascript stack version of the booking sample webapplication
 	</description>
-	
+
 	<properties>
 		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
 	</properties>
@@ -32,17 +33,23 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-      <groupId>org.resthub</groupId>
-      <artifactId>booking-core</artifactId>
-      <version>1.1-SNAPSHOT</version>
-    </dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>booking-core</artifactId>
+			<version>1.1-kazan-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-oauth2-spring-security</artifactId>
+			<version>1.1-kazan-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
 		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -53,5 +60,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
 

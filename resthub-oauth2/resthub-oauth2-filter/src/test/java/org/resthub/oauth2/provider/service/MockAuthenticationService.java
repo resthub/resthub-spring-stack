@@ -12,7 +12,7 @@ import javax.inject.Singleton;
  */
 @Named("mockAuthenticationService")
 @Singleton
-public class MockAuthenticationService implements AuthenticationService {
+public class MockAuthenticationService {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public constants
@@ -54,7 +54,7 @@ public class MockAuthenticationService implements AuthenticationService {
 	 * @param password The corresponding password.
 	 * @return Identifier of the user account. Null if no account found.
 	 */
-	@Override
+	
 	public String getUser(String userName, String password) {
 		String userId = null;
 		if(UNKNOWN_USERNAME.compareTo(userName) != 0) {
@@ -74,7 +74,7 @@ public class MockAuthenticationService implements AuthenticationService {
 	 * @param userId an existing userId
 	 * @return List of the user's permissions.
 	 */
-	@Override
+	
 	public List<String> getUserPermissions(String userId) {
 		List<String> permissions = new ArrayList<String>();
 		if (NO_PERMISSIONS_USER_ID.compareTo(userId) != 0) {
