@@ -25,7 +25,7 @@
 
     <properties>
         <env>local</env>
-        <resthub.js.version>1.1-SNAPSHOT</resthub.js.version>
+        <resthub.js.version>1.1-kazan-SNAPSHOT</resthub.js.version>
         <jersey.version>1.6</jersey.version>
         <jackson.version>1.7.6</jackson.version>
         <hibernate.version>3.6.3.Final</hibernate.version>
