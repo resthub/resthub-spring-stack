@@ -73,18 +73,11 @@ public class SearchControllerTest {
         // Spring listener.
         context.addEventListener(new ContextLoaderListener());
         context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml " +
-        		"classpath*:applicationContext.xml classpath:inMemoryApplicationContext.xml");
+        		"classpath*:applicationContext.xml");
         // JPA filter
         context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
-        /*// OAuth2 filter
-        FilterHolder oauth2Filter = new FilterHolder(DelegatingFilterProxy.class);
-        oauth2Filter.setName("OAuth2Filter");
-        context.addFilter(oauth2Filter, "/api/user/*", FilterMapping.REQUEST);
-        context.addFilter(oauth2Filter, "/api/group/*", FilterMapping.REQUEST);*/
         // Jersey Servlet.
         ServletHolder jerseyServlet = new ServletHolder(SpringServlet.class);
-        /*jerseyServlet.setInitParameter("com.sun.jersey.spi.container.ResourceFilters", 
-        		"com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory");*/
         context.addServlet(jerseyServlet, "/api/*");
             
 		// Jetty start.

@@ -321,8 +321,7 @@ public class OAuth2Filter implements Filter {
 						token = null;
 					} else {
 						// Process request.
-						chain.doFilter(new SecuredHttpRequest(token.userId, token.permissions, popupateSecurityContext, 
-								request), rawResponse);
+						chain.doFilter(new SecuredHttpRequest(token.userId, token.permissions, request), rawResponse);
 					}
 				}
 			}

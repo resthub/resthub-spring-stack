@@ -43,16 +43,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
-			<artifactId>resthub-oauth2-provider</artifactId>
-			<version>1.1-kazan-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-oauth2-filter-validators</artifactId>
-			<version>1.1-kazan-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
 			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
@@ -66,6 +56,11 @@
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
 			<version>1.7</version>
-		</dependency>		
+		</dependency>	
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>	
 	</dependencies>
 </project>

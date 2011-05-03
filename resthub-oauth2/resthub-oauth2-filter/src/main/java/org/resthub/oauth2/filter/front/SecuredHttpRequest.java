@@ -9,12 +9,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 /**
  * This wrapper allows the OAuth 2 filter to enrich the request with the user informations.<br/><br/>
  * 
@@ -62,22 +56,11 @@ public class SecuredHttpRequest extends HttpServletRequestWrapper {
 	 * @param permissions The user's permissions
 	 * @param request The wrapped request.
 	 */
-	public SecuredHttpRequest(String userId, List<String> permissions, boolean populateSecurityContext, HttpServletRequest request) {
+	public SecuredHttpRequest(String userId, List<String> permissions, HttpServletRequest request) {
 		super(request);
 		this.userId = userId;
 		this.permissions = permissions;
 		this.innerRequest = request;
-		if (populateSecurityContext) {
-			// Translate permissions to authorities.
-			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			for (int i = 0; i < permissions.size(); i++) {
-				authorities.add(new GrantedAuthorityImpl(permissions.get(i)));
-			}
-			// Creates a Spring Security authentication
-			Authentication auth = new UsernamePasswordAuthenticationToken(userId, "", authorities);
-			// Sets it into the security context.
-			SecurityContextHolder.getContext().setAuthentication(auth);
-		}
 	} // constructor.
 
 	// -----------------------------------------------------------------------------------------------------------------
