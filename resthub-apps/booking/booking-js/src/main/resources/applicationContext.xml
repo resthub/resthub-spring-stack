@@ -45,10 +45,6 @@
 		
 	<oauth2:client-details-service id="clientDetails" >
 		<oauth2:client clientId="booking" authorizedGrantTypes="password" />
-	</oauth2:client-details-service>
-	
-	
-	
-	
+	</oauth2:client-details-service>	
 	
 </beans>
