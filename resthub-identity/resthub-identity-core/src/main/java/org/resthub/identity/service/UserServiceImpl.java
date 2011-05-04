@@ -326,4 +326,40 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
             }
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Role> getAllUserRoles(String userLogin) {
+        List<Role> roles = new ArrayList<Role>();
+        User u = this.findByLogin(userLogin);
+        if (u != null) {
+            this.getRolesFromRootElement(roles, u);
+        }
+
+        return roles;
+    }
+
+    /**
+     * From a root element, take all the roles and go up the hierarchy to find inheritances.
+     * @param roles A list of roles that will be filled.
+     * @param owner The root element to begin with.
+     */
+    private void getRolesFromRootElement(List<Role> roles, AbstractPermissionsOwner owner) {
+        // Stop the processing if one of the parameters is null
+        if (roles != null && owner != null) {
+            // Add the roles we find on our path if needed.
+            for (Role r : owner.getRoles()) {
+                if (!roles.contains(r)) {
+                    roles.add(r);
+                }
+            }
+
+            // Climbing up the hierarchy of groups recursively.
+            for (Group g : owner.getGroups()) {
+                this.getRolesFromRootElement(roles, g);
+            }
+        }
+    }
 }
