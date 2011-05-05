@@ -30,3 +30,5 @@ syntax: regexp
 syntax: regexp
 ^resthub-apps/booking/booking-tapestry5/src/main/webapp/META-INF/MANIFEST\.MF$
 relre:\.*MANIFEST.MF$
+relre:\.pmd
+relre:\.checkstyle
