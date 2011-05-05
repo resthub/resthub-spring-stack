@@ -6,11 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.test.dao.AbstractDaoTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author bmeurant <baptiste.meurant@gmail.com>
