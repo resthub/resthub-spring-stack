@@ -6,35 +6,31 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.ServiceId;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.resthub.tapestry5.security.services.Authenticator;
-import org.resthub.tapestry5.security.services.LoginService;
-import org.resthub.tapestry5.security.services.LoginServiceImpl;
-import org.resthub.tapestry5.security.services.SpringSecurityAuthenticator;
 import org.springframework.security.authentication.AuthenticationManager;
 
 /**
- * Provide configuration for Tapestry5 resthub spring security module : contributions of
- * services, behaviours, configuration parameters, libraries, etc.
+ * Provide configuration for Tapestry5 resthub spring security module :
+ * contributions of services, behaviours, configuration parameters, libraries,
+ * etc.
  * 
  * Basically, configure and build login service
  * 
  * @author bmeurant <Baptiste Meurant>
  * 
  */
-@SubModule( { SecurityModule.class })
+@SubModule({ SecurityModule.class })
 public class ResthubSecurityModule {
 
-	public static void bind(ServiceBinder binder)
-    {
+    public static void bind(ServiceBinder binder) {
         binder.bind(Authenticator.class, SpringSecurityAuthenticator.class);
     }
-	
-	@ServiceId("loginService")
-	public static LoginService buildLoginService(
-			@InjectService("providerManager") AuthenticationManager authenticationManager) {
-		LoginService loginService = new LoginServiceImpl(authenticationManager);
 
-		return loginService;
-	}
-	
+    @ServiceId("loginService")
+    public static LoginService buildLoginService(
+            @InjectService("providerManager") AuthenticationManager authenticationManager) {
+        LoginService loginService = new LoginServiceImpl(authenticationManager);
+
+        return loginService;
+    }
+
 }

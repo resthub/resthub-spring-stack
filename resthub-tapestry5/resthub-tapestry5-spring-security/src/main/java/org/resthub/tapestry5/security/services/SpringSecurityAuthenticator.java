@@ -23,70 +23,70 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class SpringSecurityAuthenticator implements Authenticator {
 
-	@Inject
-	private RequestGlobals requestGlobals;
+    @Inject
+    private RequestGlobals requestGlobals;
 
-	@Inject
-	private LoginService loginService;
+    @Inject
+    private LoginService loginService;
 
-	@Inject
-	private LogoutService logoutService;
+    @Inject
+    private LogoutService logoutService;
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public void login(String username, String password)
-			throws AuthenticationException {
+    /**
+     * {@InheritDoc}
+     */
+    public void login(String username, String password)
+            throws AuthenticationException {
 
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new GrantedAuthorityImpl("ROLE_AUTH"));
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new GrantedAuthorityImpl("ROLE_AUTH"));
 
-		Boolean logged = this.loginService.executeLogin(username, password,
-				authorities);
+        Boolean logged = this.loginService.executeLogin(username, password,
+                authorities);
 
-		if (!logged) {
-			throw new AuthenticationException(
-					"Authentication process has failed");
-		}
-	}
+        if (!logged) {
+            throw new AuthenticationException(
+                    "Authentication process has failed");
+        }
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public boolean isLoggedIn() {
-		Authentication authentication = SecurityContextHolder.getContext()
-				.getAuthentication();
-		UserDetails userDetails;
-		try {
-			userDetails = (UserDetails) authentication.getPrincipal();
-		} catch (ClassCastException e) {
-			
-			return false;
-		}
-		return userDetails != null && userDetails.getUsername() != "";
-	}
+    /**
+     * {@InheritDoc}
+     */
+    public boolean isLoggedIn() {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        UserDetails userDetails;
+        try {
+            userDetails = (UserDetails) authentication.getPrincipal();
+        } catch (ClassCastException e) {
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public void logout() {
-		requestGlobals.getRequest().getSession(false).invalidate();
-		logoutService.logout();
-	}
+            return false;
+        }
+        return userDetails != null && !userDetails.getUsername().isEmpty();
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public UserDetails getLoggedUser() {
-		UserDetails userDetails = null;
+    /**
+     * {@InheritDoc}
+     */
+    public void logout() {
+        requestGlobals.getRequest().getSession(false).invalidate();
+        logoutService.logout();
+    }
 
-		if (isLoggedIn()) {
-			Authentication authentication = SecurityContextHolder.getContext()
-					.getAuthentication();
-			userDetails = (UserDetails) authentication.getPrincipal();
-		}
+    /**
+     * {@InheritDoc}
+     */
+    public UserDetails getLoggedUser() {
+        UserDetails userDetails = null;
 
-		return userDetails;
-	}
+        if (isLoggedIn()) {
+            Authentication authentication = SecurityContextHolder.getContext()
+                    .getAuthentication();
+            userDetails = (UserDetails) authentication.getPrincipal();
+        }
+
+        return userDetails;
+    }
 
 }

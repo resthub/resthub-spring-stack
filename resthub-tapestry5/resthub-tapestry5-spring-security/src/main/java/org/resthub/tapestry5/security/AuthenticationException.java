@@ -6,31 +6,26 @@ package org.resthub.tapestry5.security;
  * @author karesti
  * 
  */
-public class AuthenticationException extends Exception
-{
+public class AuthenticationException extends Exception {
 
     private static final long serialVersionUID = 7740628210842909239L;
 
-    public AuthenticationException()
-    {
+    public AuthenticationException() {
         super();
 
     }
 
-    public AuthenticationException(String message, Throwable cause)
-    {
+    public AuthenticationException(String message, Throwable cause) {
         super(message, cause);
 
     }
 
-    public AuthenticationException(String message)
-    {
+    public AuthenticationException(String message) {
         super(message);
 
     }
 
-    public AuthenticationException(Throwable cause)
-    {
+    public AuthenticationException(Throwable cause) {
         super(cause);
 
     }
