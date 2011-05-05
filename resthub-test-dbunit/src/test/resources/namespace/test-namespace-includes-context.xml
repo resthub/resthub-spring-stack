@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://www.resthub.org/schema/dbunit http://www.resthub.org/schema/dbunit/resthub-dbunit-1.0.xsd">
 
-	<jdbc:embedded-database id="dataSource" type="HSQL" />
+	<jdbc:embedded-database id="dataSource" type="H2" />
 	
 	<dbunit:configuration id="dbunitConf" data-source="dataSource">
 		<dbunit:include-table>user_*</dbunit:include-table>
