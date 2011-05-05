@@ -3,7 +3,6 @@ package org.resthub.core.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class StandaloneEntityServiceTest extends
 	}
 
 	@Override
-	protected StandaloneEntity createTestRessource() throws Exception {
+	protected StandaloneEntity createTestRessource() {
 		StandaloneEntity standaloneEntity = new StandaloneEntity();
 		standaloneEntity.setName("test");
 		return standaloneEntity;
@@ -36,7 +35,7 @@ public class StandaloneEntityServiceTest extends
 				.findByName("test");
 		assertNotNull("entities should not be null", entities);
 		assertFalse("entities should not empty", entities.isEmpty());
-		assertTrue("entities size should be exactly 1", entities.size() == 1);
+		assertEquals("entities size should be exactly 1", 1, entities.size());
 		assertEquals("entitie name should be 'test'", "test", entities.get(0)
 				.getName());
 	}

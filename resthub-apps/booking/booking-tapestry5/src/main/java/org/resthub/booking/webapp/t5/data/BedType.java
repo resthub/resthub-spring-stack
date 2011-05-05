@@ -24,6 +24,8 @@ public class BedType extends AbstractSelectModel {
 	private List<OptionModel> options = new ArrayList<OptionModel>();
 
 	public BedType(Messages messages) {
+	    super();
+	    
 		options.add(new OptionModelImpl(messages.get("BedType.KING_SIZE"), 1));
 		options.add(new OptionModelImpl(messages.get("BedType.TWO_BEDS"), 2));
 		options.add(new OptionModelImpl(messages.get("BedType.THREE_BEDS"), 3));

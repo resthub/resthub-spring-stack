@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Test;
 import org.resthub.booking.model.User;
 import org.resthub.core.test.service.AbstractServiceTest;
 
@@ -43,6 +44,7 @@ public class TestUserService extends AbstractServiceTest<User, Long, UserService
 	}
 
 	@Override
+	@Test
 	public void testUpdate() throws Exception {
 
 		user = this.service.findById(user.getId());

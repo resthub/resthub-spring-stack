@@ -29,11 +29,12 @@ import org.synyx.hades.domain.Pageable;
 public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements
 		HotelDao {
 
-	private static int BATCH_SIZE = 10;
+	private static final int BATCH_SIZE = 10;
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public Page<Hotel> find(final String query, final Pageable pageable) {
 		FullTextEntityManager fullTextEntityManager = Search
@@ -42,8 +43,8 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements
 		String[] fields = new String[] { "name", "address", "city", "state",
 				"country" };
 		MultiFieldQueryParser parser = new MultiFieldQueryParser(
-				Version.LUCENE_29, fields, new StandardAnalyzer(
-						Version.LUCENE_29));
+				Version.LUCENE_31, fields, new StandardAnalyzer(
+						Version.LUCENE_31));
 
 		Query q;
 		try {
@@ -55,19 +56,20 @@ public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements
 		FullTextQuery persistenceQuery = fullTextEntityManager
 				.createFullTextQuery(q, Hotel.class);
 
-		if (pageable != null) {
-			persistenceQuery.setFirstResult(pageable.getFirstItem());
-			persistenceQuery.setMaxResults(pageable.getPageSize());
-			return new PageImpl<Hotel>(persistenceQuery.getResultList(),
-					pageable, persistenceQuery.getResultSize());
+		if (pageable == null) {
+		    return new PageImpl<Hotel>(persistenceQuery.getResultList());
 		} else {
-			return new PageImpl<Hotel>(persistenceQuery.getResultList());
+			persistenceQuery.setFirstResult(pageable.getFirstItem());
+            persistenceQuery.setMaxResults(pageable.getPageSize());
+            return new PageImpl<Hotel>(persistenceQuery.getResultList(),
+                    pageable, persistenceQuery.getResultSize());
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void rebuildIndex() {
 
 		FullTextEntityManager fullTextEntityManager = Search

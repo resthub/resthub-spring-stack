@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.resthub.booking.model.Hotel;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 
@@ -37,6 +38,7 @@ public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelSe
 	}
 
 	@Override
+	@Test
 	public void testUpdate() throws Exception {
 		
 		hotel = this.resourceService.findById(hotel.getId());
@@ -48,6 +50,7 @@ public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelSe
 	}
 	
 	@Override
+	@Test
 	public void testCreate() throws Exception {
 		hotel = this.createTestRessource();
 		hotel.setName(CHANGED_TEST_HOTEL_NAME);

@@ -2,7 +2,6 @@ package org.resthub.core.dao;
 
 import java.util.List;
 
-import org.resthub.core.dao.GenericDao;
 import org.resthub.core.model.StandaloneEntity;
 
 /**

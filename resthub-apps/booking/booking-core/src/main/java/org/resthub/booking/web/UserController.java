@@ -40,10 +40,10 @@ public class UserController extends GenericController<User, UserService, Long> {
 	public Response checkCredentials(User user) {
 		User validUser = this.service.checkCredentials(user.getUsername(), user
 				.getPassword());
-		if (validUser != null) {
-			return Response.ok().entity(validUser).build();
+		if (validUser == null) {
+		    return Response.status(Response.Status.FORBIDDEN).build();
 		} else {
-			return Response.status(Response.Status.FORBIDDEN).build();
+		    return Response.ok().entity(validUser).build();
 		}
 
 	}

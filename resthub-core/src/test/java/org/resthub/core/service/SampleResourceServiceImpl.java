@@ -5,7 +5,6 @@ import javax.inject.Named;
 
 import org.resthub.core.dao.SampleResourceDao;
 import org.resthub.core.model.SampleResource;
-import org.resthub.core.service.SampleResourceService;
 
 @Named("sampleResourceService")
 public class SampleResourceServiceImpl extends

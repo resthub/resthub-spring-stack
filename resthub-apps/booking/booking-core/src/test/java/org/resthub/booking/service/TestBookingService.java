@@ -2,7 +2,6 @@ package org.resthub.booking.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.List;
@@ -12,7 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 import org.resthub.booking.dao.HotelDao;
 import org.resthub.booking.dao.UserDao;
@@ -77,18 +75,19 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	@Override
     public void tearDown() throws Exception {
     	// Don't use deleteAll because it does not acheive cascade delete
-		for (Booking booking : resourceService.findAll()) {
-    		resourceService.delete(booking);
+		for (Booking currentBooking : resourceService.findAll()) {
+    		resourceService.delete(currentBooking);
         }
     	for (Hotel hotel : hotelDao.readAll()) {
     		hotelDao.delete(hotel);
         }
-    	for (User user : userDao.readAll()) {
-    		userDao.delete(user);
+    	for (User currentUser : userDao.readAll()) {
+    		userDao.delete(currentUser);
         }    	
     }
 
 	@Override
+	@Test
 	public void testUpdate() throws Exception {
 		
 		booking = this.resourceService.findById(booking.getId());
@@ -102,7 +101,7 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	@Test
 	public void testFindByUser() {
 		List<Booking> bookings = this.resourceService.findByUserId(user.getId());
-		assertTrue("bookings list should contain an unique result", bookings.size() == 1);
+		assertEquals("bookings list should contain an unique result", 1, bookings.size());
 		assertEquals("credit card names should be equals", TEST_CARD_NAME, bookings.get(0).getCreditCardName());
 	}
 }

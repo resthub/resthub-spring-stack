@@ -17,7 +17,8 @@ import org.synyx.hades.domain.Pageable;
  * @author bmeurant <Baptiste Meurant>
  */
 @Named("hotelService")
-public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao> implements HotelService {
+public class HotelServiceImpl extends
+        GenericResourceServiceImpl<Hotel, HotelDao> implements HotelService {
 
     /**
      * {@InheritDoc}
@@ -29,39 +30,40 @@ public class HotelServiceImpl extends GenericResourceServiceImpl<Hotel, HotelDao
         this.dao = hotelDao;
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Page<Hotel> find(final String query, final Pageable pageable) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<Hotel> find(final String query, final Pageable pageable) {
         if (query == null || query.isEmpty()) {
             return this.findAll(pageable);
-        } 
-        else {
+        } else {
             return this.dao.find(query, pageable);
         }
     }
-    
+
     /**
-	 * {@inheritDoc}
-	 */
-	public List<Hotel> find(final String query) {
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Hotel> find(final String query) {
         if (query == null || query.isEmpty()) {
             return this.findAll();
-        } 
-        else {
-        	Page<Hotel> resultList = this.dao.find(query, null);
-        	if (resultList != null) {
-        		return this.dao.find(query, null).asList();
-        	}
-        	else {
-        		return new ArrayList<Hotel>();
-        	}
+        } else {
+            Page<Hotel> resultList = this.dao.find(query, null);
+            if (resultList == null) {
+                return new ArrayList<Hotel>();
+            } else {
+                return this.dao.find(query, null).asList();
+
+            }
         }
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void rebuildIndex() {
         this.dao.rebuildIndex();
     }

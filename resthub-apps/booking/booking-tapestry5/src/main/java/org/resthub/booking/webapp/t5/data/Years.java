@@ -26,10 +26,11 @@ public class Years extends AbstractSelectModel
 
     public Years()
     {
+        super();
         int year = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = 0; i < 6; i++)
         {
-            options.add(new OptionModelImpl(year + i + ""));
+            options.add(new OptionModelImpl(String.valueOf(year + i)));
         }
     }
 

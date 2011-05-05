@@ -1,5 +1,7 @@
 package org.resthub.booking.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,15 +23,13 @@ import org.hibernate.validator.constraints.Email;
  * @author karesti
  */
 @Entity
-@NamedQueries(
-{
+@NamedQueries({
         @NamedQuery(name = User.ALL, query = "Select u from User u"),
         @NamedQuery(name = User.BY_USERNAME_OR_EMAIL, query = "Select u from User u where u.username = :username or u.email = :email"),
         @NamedQuery(name = User.BY_CREDENTIALS, query = "Select u from User u where u.username = :username and u.password = :password") })
 @Table(name = "customer")
 @XmlRootElement
-public class User
-{
+public class User implements Serializable {
 
     public static final String ALL = "User.all";
     public static final String BY_USERNAME_OR_EMAIL = "User.byUserNameOrEmail";
@@ -42,26 +42,25 @@ public class User
     private String email;
     private String password;
 
-    public User()
-    {
+    public User() {
+        super();
     }
 
-    public User(final String fullname, final String username, final String email)
-    {
+    public User(final String fullname, final String username, final String email) {
+        super();
         this.fullname = fullname;
         this.username = username;
         this.email = email;
     }
 
-    public User(final String fullname, final String username, final String email,
-            final String password)
-    {
+    public User(final String fullname, final String username,
+            final String email, final String password) {
         this(fullname, username, email);
         this.password = password;
     }
 
-    public User(Long id, String username, String fullname, String email, String password)
-    {
+    public User(Long id, String username, String fullname, String email,
+            String password) {
         super();
         this.id = id;
         this.username = username;
@@ -71,8 +70,7 @@ public class User
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("id ");
         builder.append(id);
@@ -84,26 +82,22 @@ public class User
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Column(nullable = false)
     @NotNull
     @Email
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -111,39 +105,33 @@ public class User
     @Column(nullable = false, unique = true)
     @NotNull
     @Size(min = 3, max = 15)
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username)
-    {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setFullname(String fullname)
-    {
+    public void setFullname(String fullname) {
         this.fullname = fullname;
     }
 
     @Column(nullable = false)
     @NotNull
     @Size(min = 3, max = 50)
-    public String getFullname()
-    {
+    public String getFullname() {
         return fullname;
     }
 
     @Column(nullable = false)
     @Size(min = 3, max = 12)
     @NotNull
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 }
