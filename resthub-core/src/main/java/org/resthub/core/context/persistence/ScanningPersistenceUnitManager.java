@@ -52,186 +52,185 @@ import org.springframework.util.StringUtils;
  * 
  */
 public class ScanningPersistenceUnitManager extends
-		DefaultPersistenceUnitManager {
+        DefaultPersistenceUnitManager {
 
-	private final Logger logger = LoggerFactory
-			.getLogger(ScanningPersistenceUnitManager.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ScanningPersistenceUnitManager.class);
 
-	protected String classpathPatterns = null;
+    private String classpathPatterns = null;
 
-	/**
-	 * Filters that the class should match to be added to persistence unit
-	 * manager
-	 */
-	private List<TypeFilter> typeFilters = new ArrayList<TypeFilter>();
-	
-	private EntityListContextBean entityListContextBean;
+    /**
+     * Filters that the class should match to be added to persistence unit
+     * manager
+     */
+    private final List<TypeFilter> typeFilters = new ArrayList<TypeFilter>();
 
-	public String getClasspathPatterns() {
-		return classpathPatterns;
-	}
+    private EntityListContextBean entityListContextBean;
 
-	/**
-	 * Classpath patterns to scan for entities (holding annotation
-	 * {@link MappedSuperclass} or {@link Entity}. Pattern could use * or **
-	 * jokers You can specify more than one pattern by using , or ; separators
-	 * 
-	 * Following values are valid classpath patterns : -
-	 * classpath:org/mydomain/myproject/&#42;&#42;/domain/model/&#42;.class -
-	 * classpath&#42;:org/mydomain/myproject/&#42;&#42;/domain/model/&#42;.class
-	 * - classpath&#42;:org/mydomain/myproject1/&#42;&#42;/domain/model/&#42;.
-	 * class,
-	 * classpath&#42;:org/mydomain/myproject2/&#42;&#42;/domain/model/&#42
-	 * ;.class
-	 * 
-	 * Be attentive that using this property, entities-scan based configuration
-	 * is ignored
-	 * 
-	 * @param classpathPatterns The specified classpath patterns.
-	 */
-	public void setClasspathPatterns(String classpathPatterns) {
-		logger
-				.warn("ClasspathPattern definition found : entities-scan base configuration is ignored !!");
-		this.classpathPatterns = classpathPatterns;
-	}
-	
-	public void setEntityListContextBean(EntityListContextBean entityListContextBean) {
-		this.entityListContextBean = entityListContextBean;
-	}
+    public String getClasspathPatterns() {
+        return classpathPatterns;
+    }
 
-	/**
-	 * {@InheritDoc}
-	 * 
-	 * This implementation scan the provided classpath to add resources matching
-	 * with defined filters (or defaults). If no classpath pattern is defined,
-	 * this scanner search for entities in PersistenceContext filled during
-	 * Spring loading of context files.
-	 * 
-	 * Entities found are then dynamically added to persistence context to be
-	 * loaded as persistent resources
-	 * 
-	 */
-	@Override
-	protected void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
+    /**
+     * Classpath patterns to scan for entities (holding annotation
+     * {@link MappedSuperclass} or {@link Entity}. Pattern could use * or **
+     * jokers You can specify more than one pattern by using , or ; separators
+     * 
+     * Following values are valid classpath patterns : -
+     * classpath:org/mydomain/myproject/&#42;&#42;/domain/model/&#42;.class -
+     * classpath&#42;:org/mydomain/myproject/&#42;&#42;/domain/model/&#42;.class
+     * - classpath&#42;:org/mydomain/myproject1/&#42;&#42;/domain/model/&#42;.
+     * class,
+     * classpath&#42;:org/mydomain/myproject2/&#42;&#42;/domain/model/&#42
+     * ;.class
+     * 
+     * Be attentive that using this property, entities-scan based configuration
+     * is ignored
+     * 
+     * @param classpathPatterns
+     *            The specified classpath patterns.
+     */
+    public void setClasspathPatterns(String classpathPatterns) {
+        LOG.warn("ClasspathPattern definition found : entities-scan base configuration is ignored !!");
+        this.classpathPatterns = classpathPatterns;
+    }
 
-		Set<String> entities;
+    public void setEntityListContextBean(
+            EntityListContextBean entityListContextBean) {
+        this.entityListContextBean = entityListContextBean;
+    }
 
-		if (this.classpathPatterns != null) {
+    /**
+     * {@InheritDoc}
+     * 
+     * This implementation scan the provided classpath to add resources matching
+     * with defined filters (or defaults). If no classpath pattern is defined,
+     * this scanner search for entities in PersistenceContext filled during
+     * Spring loading of context files.
+     * 
+     * Entities found are then dynamically added to persistence context to be
+     * loaded as persistent resources
+     * 
+     */
+    @Override
+    protected void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
 
-			this.setFilters();
-			entities = findMatchingEntities(pui);
+        Set<String> entities;
 
-		} else {
+        if (this.classpathPatterns == null) {
 
-			entities = getMatchingEntitiesFromContext(pui, pui
-					.getPersistenceUnitName());
-			/*PersistenceEntitiesContext.getInstance().clearPersistenceUnit(
-					pui.getPersistenceUnitName());*/
-		}
+            entities = getMatchingEntitiesFromContext(pui,
+                    pui.getPersistenceUnitName());
 
-                if(entities != null) {
-                    addEntitiesToPersistenceUnit(pui, entities);
+        } else {
+
+            this.setFilters();
+            entities = findMatchingEntities(pui);
+        }
+
+        if (entities != null) {
+            addEntitiesToPersistenceUnit(pui, entities);
+        }
+
+        super.postProcessPersistenceUnitInfo(pui);
+    }
+
+    protected void addEntitiesToPersistenceUnit(MutablePersistenceUnitInfo pui,
+            Set<String> entities) {
+        for (String entityName : entities) {
+
+            if (!pui.getManagedClassNames().contains(entityName)) {
+                pui.addManagedClassName(entityName);
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Entity " + entityName + " found.");
+            }
+        }
+
+        if (LOG.isInfoEnabled()) {
+            LOG.info("persistenceUnit " + pui.getPersistenceUnitName()
+                    + " successfully scanned : " + entities.size()
+                    + " entities found.");
+        }
+
+    }
+
+    protected Set<String> getMatchingEntitiesFromContext(
+            MutablePersistenceUnitInfo pui, String persistenceUnitName) {
+
+        Set<String> entities = entityListContextBean
+                .getEntities(persistenceUnitName);
+
+        return entities;
+    }
+
+    protected Set<String> findMatchingEntities(MutablePersistenceUnitInfo pui) {
+        String[] basePackages = extractBasePackages();
+
+        Set<String> entities = new HashSet<String>();
+
+        for (String basePackage : basePackages) {
+
+            entities.addAll(findMatchingEntitiesFromPackage(basePackage));
+
+        }
+        return entities;
+    }
+
+    private String[] extractBasePackages() {
+        String[] basePackages = StringUtils.tokenizeToStringArray(
+                this.classpathPatterns,
+                ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+        return basePackages;
+    }
+
+    protected Set<String> findMatchingEntitiesFromPackage(String basePackage) {
+        ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(
+                Thread.currentThread().getContextClassLoader());
+
+        String entityName;
+        Resource[] resources = new Resource[0];
+        Set<String> entities = new HashSet<String>();
+
+        try {
+            resources = rpr.getResources(basePackage);
+
+            for (Resource resource : resources) {
+
+                entityName = this.isResourceMatching(resource);
+                if (entityName != null) {
+                    entities.add(entityName);
                 }
-                
-		super.postProcessPersistenceUnitInfo(pui);
-	}
+            }
 
-	protected void addEntitiesToPersistenceUnit(MutablePersistenceUnitInfo pui,
-			Set<String> entities) {
-		for (String entityName : entities) {
+        } catch (IOException e) {
+            LOG.warn("Error during scanning entities : cannot scan "
+                    + basePackage + ".", e);
+        }
+        if (LOG.isInfoEnabled()) {
+            LOG.info(basePackage + " successfully scanned : "
+                    + resources.length + " entities found.");
+        }
+        return entities;
+    }
 
-			if (!pui.getManagedClassNames().contains(entityName)) {
-				pui.addManagedClassName(entityName);
-			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("Entity " + entityName + " found.");
-			}
-		}
+    protected String isResourceMatching(Resource resource) throws IOException {
 
-		if (logger.isInfoEnabled()) {
-			logger.info("persistenceUnit " + pui.getPersistenceUnitName()
-					+ " successfully scanned : " + entities.size()
-					+ " entities found.");
-		}
-		
-	}
+        MetadataReaderFactory metadataReaderFactory = new SimpleMetadataReaderFactory();
+        MetadataReader metadataReader = null;
+        metadataReader = metadataReaderFactory.getMetadataReader(resource);
 
-	protected Set<String> getMatchingEntitiesFromContext(
-			MutablePersistenceUnitInfo pui, String persistenceUnitName) {
+        for (TypeFilter filter : this.typeFilters) {
+            if (filter.match(metadataReader, metadataReaderFactory)) {
+                return metadataReader.getClassMetadata().getClassName();
+            }
+        }
 
-		Set<String> entities = entityListContextBean.getEntities(
-				persistenceUnitName);
+        return null;
+    }
 
-		return entities;
-	}
-
-	protected Set<String> findMatchingEntities(MutablePersistenceUnitInfo pui) {
-		String[] basePackages = extractBasePackages();
-
-		Set<String> entities = new HashSet<String>();
-
-		for (String basePackage : basePackages) {
-
-			entities.addAll(findMatchingEntitiesFromPackage(basePackage));
-
-		}
-		return entities;
-	}
-
-	private String[] extractBasePackages() {
-		String[] basePackages = StringUtils.tokenizeToStringArray(
-				this.classpathPatterns,
-				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
-		return basePackages;
-	}
-
-	protected Set<String> findMatchingEntitiesFromPackage(String basePackage) {
-		ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(
-				Thread.currentThread().getContextClassLoader());
-		
-		String entityName;
-		Resource[] resources = new Resource[0];
-		Set<String> entities = new HashSet<String>();
-		
-		try {
-			resources = rpr.getResources(basePackage);
-
-			for (Resource resource : resources) {
-
-				entityName = this.isResourceMatching(resource);
-				if (entityName != null) {
-					entities.add(entityName);
-				}
-			}
-
-		} catch (IOException e) {
-			logger.warn("Error during scanning entities : cannot scan "
-					+ basePackage + ".", e);
-		}
-		if (logger.isInfoEnabled()) {
-			logger.info(basePackage + " successfully scanned : "
-					+ resources.length + " entities found.");
-		}
-		return entities;
-	}
-
-	protected String isResourceMatching(Resource resource) throws IOException {
-
-		MetadataReaderFactory metadataReaderFactory = new SimpleMetadataReaderFactory();
-		MetadataReader metadataReader = null;
-		metadataReader = metadataReaderFactory.getMetadataReader(resource);
-
-		for (TypeFilter filter : this.typeFilters) {
-			if (filter.match(metadataReader, metadataReaderFactory)) {
-				return metadataReader.getClassMetadata().getClassName();
-			}
-		}
-
-		return null;
-	}
-	
-	protected void setFilters() {
-		this.typeFilters.add(new AnnotationTypeFilter(Entity.class));
-		this.typeFilters.add(new AnnotationTypeFilter(MappedSuperclass.class));
-	}
+    protected void setFilters() {
+        this.typeFilters.add(new AnnotationTypeFilter(Entity.class));
+        this.typeFilters.add(new AnnotationTypeFilter(MappedSuperclass.class));
+    }
 }

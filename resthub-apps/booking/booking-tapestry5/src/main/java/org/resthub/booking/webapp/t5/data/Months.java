@@ -27,6 +27,8 @@ public class Months extends AbstractSelectModel
 
     public Months(Messages messages)
     {
+        super();
+        
         options.add(new OptionModelImpl(messages.get("Months.january"), 1));
         options.add(new OptionModelImpl(messages.get("Months.february"), 2));
         options.add(new OptionModelImpl(messages.get("Months.march"), 3));

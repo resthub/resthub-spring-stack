@@ -67,7 +67,7 @@ public abstract class AbstractClassPathScanner extends
 		return beanList;
 	}
 
-	abstract protected BeanDefinition createBeanDefinition(Set<String> entities);
+	protected abstract BeanDefinition createBeanDefinition(Set<String> entities);
 
 	/**
 	 * {@InheritDoc}

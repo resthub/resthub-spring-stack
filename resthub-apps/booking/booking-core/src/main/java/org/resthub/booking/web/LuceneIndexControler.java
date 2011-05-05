@@ -21,7 +21,7 @@ import org.resthub.booking.service.HotelService;
 @Singleton
 public class LuceneIndexControler {
 
-	protected HotelService hotelService;
+	private HotelService hotelService;
 
 	@Inject
 	@Named("hotelService")

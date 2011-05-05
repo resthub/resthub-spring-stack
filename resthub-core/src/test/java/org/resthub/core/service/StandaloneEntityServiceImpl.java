@@ -7,7 +7,6 @@ import javax.inject.Named;
 
 import org.resthub.core.dao.StandaloneEntityDao;
 import org.resthub.core.model.StandaloneEntity;
-import org.resthub.core.service.StandaloneEntityService;
 
 /**
  * @author bmeurant <baptiste.meurant@gmail.com>

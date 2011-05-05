@@ -1,7 +1,6 @@
 package org.resthub.core.context.config.db;
 
 import org.resthub.core.context.config.ResthubBeanDefinitionParser;
-import org.resthub.core.util.db.DatabaseDescriptor;
 import org.resthub.core.util.db.DatabaseDescriptorFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;

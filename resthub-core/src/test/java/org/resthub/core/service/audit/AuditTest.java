@@ -1,6 +1,6 @@
 package org.resthub.core.service.audit;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,109 +23,109 @@ import org.resthub.core.service.StandaloneEntityService;
  */
 public class AuditTest {
 
-	@Inject
-	@Named("standaloneEntityService")
-	private StandaloneEntityService standaloneEntityService;
+    private static final int NB_THREADS = 20;
 
-	/**
-	 * Custom ThreadFactory that provide a callback for any exception occuring
-	 * in a thread create with this factory
-	 * 
-	 * @author bmeurant <Baptiste Meurant>
-	 */
-	static class AuditThreadFactory implements ThreadFactory {
+    @Inject
+    @Named("standaloneEntityService")
+    private StandaloneEntityService standaloneEntityService;
 
-		/**
-		 * {@InheritDoc}
-		 */
-		@Override
-		public Thread newThread(Runnable r) {
-			Thread t = new Thread(r);
+    /**
+     * Custom ThreadFactory that provide a callback for any exception occuring
+     * in a thread create with this factory
+     * 
+     * @author bmeurant <Baptiste Meurant>
+     */
+    static class AuditThreadFactory implements ThreadFactory {
 
-			// define a custom exception handler for exceptions that were not
-			// caught by thread. In our case, we want to react on the occurence
-			// of a ClassCastException caused by non thread safe audit feature
-			t
-					.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-						@Override
-						public void uncaughtException(Thread t, Throwable e) {
-							if (e instanceof ClassCastException) {
-								// In the case of the tested error case,
-								// interruption of ThreadGroup in order to alert
-								// parent thread (unit test)
-								t.getThreadGroup().interrupt();
-							}
-						}
-					});
-			return t;
-		}
-	}
+        /**
+         * {@InheritDoc}
+         */
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r);
 
-	/**
-	 * Test the occurrence of a known "non thread safe" problem on audit
-	 * feature.
-	 * 
-	 * Related to bug #40 {@link http
-	 * ://bitbucket.org/ilabs/resthub/issue/40/orgresthubbookingmodeluser
-	 * -cannot-be-cast}
-	 * 
-	 */
-	@Test
-	public void multipleGetAndFind() {
+            // define a custom exception handler for exceptions that were not
+            // caught by thread. In our case, we want to react on the occurence
+            // of a ClassCastException caused by non thread safe audit feature
+            t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(final Thread t, final Throwable e) {
+                    if (e instanceof ClassCastException) {
+                        // In the case of the tested error case,
+                        // interruption of ThreadGroup in order to alert
+                        // parent thread (unit test)
+                        t.getThreadGroup().interrupt();
+                    }
+                }
+            });
+            return t;
+        }
+    }
 
-		// define task to execute getMethod
-		Runnable getWorker = new Runnable() {
+    /**
+     * Test the occurrence of a known "non thread safe" problem on audit
+     * feature.
+     * 
+     * Related to bug #40 {@link http
+     * ://bitbucket.org/ilabs/resthub/issue/40/orgresthubbookingmodeluser
+     * -cannot-be-cast}
+     * 
+     */
+    @Test
+    public void multipleGetAndFind() {
 
-			@Override
-			public void run() {
-				@SuppressWarnings("unused")
-				// execute and try to cast result : that can produce error
-				StandaloneEntity entity = (StandaloneEntity) standaloneEntityService
-						.findById(1L);
-				;
-			}
-		};
+        // define task to execute getMethod
+        Runnable getWorker = new Runnable() {
 
-		// define task to execute findMethod
-		Runnable findWorker = new Runnable() {
+            @Override
+            public void run() {
+                // execute and try to cast result : that can produce error
+                @SuppressWarnings("unused")
+                StandaloneEntity entity = (StandaloneEntity) standaloneEntityService
+                        .findById(1L);
+            }
+        };
 
-			@Override
-			public void run() {
-				// execute and try to cast result : that can produce error
-				@SuppressWarnings("unused")
-				List<StandaloneEntity> entities = (List<StandaloneEntity>) standaloneEntityService
-						.findAll();
-				;
-			}
-		};
+        // define task to execute findMethod
+        Runnable findWorker = new Runnable() {
 
-		// repeat execution because occuring of the error is not systematic : it
-		// depends on timing and concurrency context. But error occurred
-		// systematically at least one time on several executions
-		for (int i = 20; i > 0; i--) {
+            @Override
+            public void run() {
+                // execute and try to cast result : that can produce error
+                @SuppressWarnings("unused")
+                List<StandaloneEntity> entities = (List<StandaloneEntity>) standaloneEntityService
+                        .findAll();
+            }
+        };
 
-			// Use a custom ThreadFactory in order to be able to do something
-			// when the expected audit-related exception occured in one of the
-			// child thread
-			ExecutorService executor = Executors.newFixedThreadPool(2,
-					new AuditThreadFactory());
+        // repeat execution because occuring of the error is not systematic : it
+        // depends on timing and concurrency context. But error occurred
+        // systematically at least one time on several executions
+        for (int i = NB_THREADS; i > 0; i--) {
 
-			executor.execute(getWorker);
-			executor.execute(findWorker);
+            // Use a custom ThreadFactory in order to be able to do something
+            // when the expected audit-related exception occured in one of the
+            // child thread
+            ExecutorService executor = Executors.newFixedThreadPool(2,
+                    new AuditThreadFactory());
 
-			// This will make the executor accept no new threads
-			// and finish all existing threads in the queue
-			executor.shutdown();
+            executor.execute(getWorker);
+            executor.execute(findWorker);
 
-			// Wait until all threads are finish, a timeout occurs or thread is
-			// interrupted
-			try {
-				executor.awaitTermination(20, TimeUnit.SECONDS);
-			} catch (InterruptedException e) {
-				// One thread received an exception : error occurred, tais failed
-				// Force test failure
-				assertTrue("Concurrency error on audit feature !!", false);
-			}
-		}
-	}
+            // This will make the executor accept no new threads
+            // and finish all existing threads in the queue
+            executor.shutdown();
+
+            // Wait until all threads are finish, a timeout occurs or thread is
+            // interrupted
+            try {
+                executor.awaitTermination(NB_THREADS, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                // One thread received an exception : error occurred, tais
+                // failed
+                // Force test failure
+                fail("Concurrency error on audit feature !!");
+            }
+        }
+    }
 }

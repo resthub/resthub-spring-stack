@@ -26,18 +26,17 @@ import org.resthub.core.model.Resource;
 
 /**
  * <p>
- * <strong>Booking</strong> is the model/entity class that represents a hotel booking.
+ * <strong>Booking</strong> is the model/entity class that represents a hotel
+ * booking.
  * </p>
  * 
  * @author Gavin King
  * @author Dan Allen
  */
 @Entity
-@NamedQueries(
-{ @NamedQuery(name = Booking.BY_USERNAME, query = "Select b from Booking b where b.user.username = :username") })
+@NamedQueries({ @NamedQuery(name = Booking.BY_USERNAME, query = "Select b from Booking b where b.user.username = :username") })
 @Table(name = "bookings")
-public class Booking extends Resource implements Serializable
-{
+public class Booking extends Resource implements Serializable {
 
     private static final long serialVersionUID = -6176295317720795275L;
 
@@ -55,12 +54,12 @@ public class Booking extends Resource implements Serializable
     private boolean smoking;
     private int beds;
 
-    public Booking()
-    {
+    public Booking() {
+        super();
     }
 
-    public Booking(Hotel hotel, User user, int daysFromNow, int nights)
-    {
+    public Booking(Hotel hotel, User user, int daysFromNow, int nights) {
+        super();
         this.hotel = hotel;
         this.user = user;
         this.creditCardName = user.getFullname();
@@ -72,125 +71,103 @@ public class Booking extends Resource implements Serializable
 
     @NotNull
     @Temporal(DATE)
-    public Date getCheckinDate()
-    {
+    public Date getCheckinDate() {
         return checkinDate;
     }
 
-    public void setCheckinDate(Date datetime)
-    {
+    public void setCheckinDate(Date datetime) {
         this.checkinDate = datetime;
     }
 
     @NotNull
-    //@ManyToOne(cascade=CascadeType.PERSIST)
     @ManyToOne
-    public Hotel getHotel()
-    {
+    public Hotel getHotel() {
         return hotel;
     }
 
-    public void setHotel(Hotel hotel)
-    {
+    public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 
     @NotNull
     @ManyToOne
-    //@ManyToOne(cascade=CascadeType.PERSIST)
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user)
-    {
+    public void setUser(User user) {
         this.user = user;
     }
 
     @NotNull
     @Temporal(TemporalType.DATE)
-    public Date getCheckoutDate()
-    {
+    public Date getCheckoutDate() {
         return checkoutDate;
     }
 
-    public void setCheckoutDate(Date checkoutDate)
-    {
+    public void setCheckoutDate(Date checkoutDate) {
         this.checkoutDate = checkoutDate;
     }
 
-    public boolean isSmoking()
-    {
+    public boolean isSmoking() {
         return smoking;
     }
 
-    public void setSmoking(boolean smoking)
-    {
+    public void setSmoking(boolean smoking) {
         this.smoking = smoking;
     }
 
     // @Size(min = 1, max = 3)
-    public int getBeds()
-    {
+    public int getBeds() {
         return beds;
     }
 
-    public void setBeds(int beds)
-    {
+    public void setBeds(int beds) {
         this.beds = beds;
     }
 
     @NotNull(message = "Credit card number is required")
     @Size(min = 16, max = 16, message = "Credit card number must 16 digits long")
     @Pattern(regexp = "^\\d*$", message = "Credit card number must be numeric")
-    public String getCreditCardNumber()
-    {
+    public String getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(String creditCardNumber)
-    {
+    public void setCreditCardNumber(String creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 
     @NotNull(message = "Credit card type is required")
     @Enumerated(EnumType.STRING)
-    public CreditCardType getCreditCardType()
-    {
+    public CreditCardType getCreditCardType() {
         return creditCardType;
     }
 
-    public void setCreditCardType(CreditCardType creditCardType)
-    {
+    public void setCreditCardType(CreditCardType creditCardType) {
         this.creditCardType = creditCardType;
     }
 
     @NotNull(message = "Credit card name is required")
     @Size(min = 3, max = 70, message = "Credit card name is required")
-    public String getCreditCardName()
-    {
+    public String getCreditCardName() {
         return creditCardName;
     }
 
-    public void setCreditCardName(String creditCardName)
-    {
+    public void setCreditCardName(String creditCardName) {
         this.creditCardName = creditCardName;
     }
 
     /**
-     * The credit card expiration month, represented using a 1-based numeric value (i.e., Jan = 1,
-     * Feb = 2, ...).
+     * The credit card expiration month, represented using a 1-based numeric
+     * value (i.e., Jan = 1, Feb = 2, ...).
      * 
      * @return 1-based numeric month value
      */
-    public int getCreditCardExpiryMonth()
-    {
+    public int getCreditCardExpiryMonth() {
         return creditCardExpiryMonth;
     }
 
-    public void setCreditCardExpiryMonth(int creditCardExpiryMonth)
-    {
+    public void setCreditCardExpiryMonth(int creditCardExpiryMonth) {
         this.creditCardExpiryMonth = creditCardExpiryMonth;
     }
 
@@ -199,34 +176,31 @@ public class Booking extends Resource implements Serializable
      * 
      * @return numberic year value
      */
-    public int getCreditCardExpiryYear()
-    {
+    public int getCreditCardExpiryYear() {
         return creditCardExpiryYear;
     }
 
-    public void setCreditCardExpiryYear(int creditCardExpiryYear)
-    {
+    public void setCreditCardExpiryYear(int creditCardExpiryYear) {
         this.creditCardExpiryYear = creditCardExpiryYear;
     }
 
     @Transient
-    public String getDescription()
-    {
+    public String getDescription() {
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        return hotel == null ? null : hotel.getName() + ", " + df.format(getCheckinDate()) + " to "
+        return hotel == null ? null : hotel.getName() + ", "
+                + df.format(getCheckinDate()) + " to "
                 + df.format(getCheckoutDate());
     }
 
     @Transient
-    public BigDecimal getTotal()
-    {
+    public BigDecimal getTotal() {
         return hotel.getPrice().multiply(new BigDecimal(getNights()));
     }
 
     @Transient
-    public int getNights()
-    {
-        return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
+    public int getNights() {
+        return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000
+                / 60 / 60 / 24;
     }
 
     /**
@@ -237,20 +211,17 @@ public class Booking extends Resource implements Serializable
      * @param nights
      *            Length of the stay in number of nights
      */
-    public void setReservationDates(int daysFromNow, int nights)
-    {
+    public final void setReservationDates(int daysFromNow, int nights) {
         Calendar refDate = Calendar.getInstance();
-        refDate.set(refDate.get(Calendar.YEAR), refDate.get(Calendar.MONTH), refDate
-                .get(Calendar.DAY_OF_MONTH)
-                + daysFromNow, 0, 0, 0);
-        setCheckinDate(refDate.getTime());
+        refDate.set(refDate.get(Calendar.YEAR), refDate.get(Calendar.MONTH),
+                refDate.get(Calendar.DAY_OF_MONTH) + daysFromNow, 0, 0, 0);
+        this.checkinDate = refDate.getTime();
         refDate.add(Calendar.DAY_OF_MONTH, nights);
-        setCheckoutDate(refDate.getTime());
+        this.checkoutDate = refDate.getTime();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Booking(" + user + ", " + hotel + ")";
     }
 }

@@ -44,8 +44,8 @@ public class InitializeDatabaseBeanDefinitionParser extends
 		List<Element> exceptionElements = DomUtils.getChildElementsByTagName(element,
 		"exception");
 		
-		boolean ignoreFailedDrops = element.getAttribute("ignore-failures").equals("DROPS");
-		boolean continueOnError = element.getAttribute("ignore-failures").equals("ALL");
+		boolean ignoreFailedDrops = "DROPS".equals(element.getAttribute("ignore-failures"));
+		boolean continueOnError = "ALL".equals(element.getAttribute("ignore-failures"));
 		
 		BeanDefinitionBuilder selectivebuilder = BeanDefinitionBuilder.genericBeanDefinition(SelectiveDatabasePopulator.class);
 		

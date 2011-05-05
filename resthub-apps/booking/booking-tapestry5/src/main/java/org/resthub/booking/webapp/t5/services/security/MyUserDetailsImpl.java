@@ -17,7 +17,7 @@ public class MyUserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = -492528595540877572L;
 
-	private List<GrantedAuthority> authorities = CollectionFactory.newList();
+	private final List<GrantedAuthority> authorities = CollectionFactory.newList();
 
 	private String password;
 	private String username;
@@ -30,6 +30,7 @@ public class MyUserDetailsImpl implements UserDetails {
 	/**
 	 * {@InheritDoc}
 	 */
+	@Override
 	public List<GrantedAuthority> getAuthorities() {
 
 		return Collections.unmodifiableList(this.authorities);
@@ -43,6 +44,7 @@ public class MyUserDetailsImpl implements UserDetails {
 	/**
 	 * {@InheritDoc}
 	 */
+	@Override
 	public String getPassword() {
 
 		return password;
@@ -56,6 +58,7 @@ public class MyUserDetailsImpl implements UserDetails {
 	/**
 	 * {@InheritDoc}
 	 */
+	@Override
 	public String getUsername() {
 
 		return username;
@@ -69,6 +72,7 @@ public class MyUserDetailsImpl implements UserDetails {
 	/**
 	 * {@InheritDoc}
 	 */
+	@Override
 	public boolean isAccountNonExpired() {
 
 		return true;
@@ -77,6 +81,7 @@ public class MyUserDetailsImpl implements UserDetails {
 	/**
 	 * {@InheritDoc}
 	 */
+	@Override
 	public boolean isAccountNonLocked() {
 
 		return true;
@@ -85,6 +90,7 @@ public class MyUserDetailsImpl implements UserDetails {
 	/**
 	 * {@InheritDoc}
 	 */
+	@Override
 	public boolean isCredentialsNonExpired() {
 
 		return true;
@@ -93,6 +99,7 @@ public class MyUserDetailsImpl implements UserDetails {
 	/**
 	 * {@InheritDoc}
 	 */
+	@Override
 	public boolean isEnabled() {
 
 		return true;

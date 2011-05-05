@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.inject.Named;
 
-import org.resthub.core.tools.BeanDetail;
-import org.resthub.core.tools.ToolingService;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;

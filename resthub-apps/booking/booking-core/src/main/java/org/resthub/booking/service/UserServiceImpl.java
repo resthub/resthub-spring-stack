@@ -49,7 +49,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDao, Long>
 		List<User> users = this.dao.findEquals("username", username);
 
 		if (users.size() > 1) {
-			throw new RuntimeException("username should be unique");
+			throw new IllegalArgumentException("username should be unique");
 		}
 
 		if (users.isEmpty()) {
@@ -67,7 +67,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDao, Long>
 		List<User> users = this.dao.findEquals("email", email);
 
 		if (users.size() > 1) {
-			throw new RuntimeException("email should be unique");
+			throw new IllegalArgumentException("email should be unique");
 		}
 
 		if (users.isEmpty()) {

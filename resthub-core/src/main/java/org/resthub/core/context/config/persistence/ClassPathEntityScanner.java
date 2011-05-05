@@ -60,7 +60,7 @@ public class ClassPathEntityScanner extends
 			logger
 					.info("javax.persistence.MappedSuperclass found and supported for entity scanning");
 		} catch (ClassNotFoundException ex) {
-			// javax.persistence.MappedSuperclass not available - simply skip.
+			logger.warn("javax.persistence.MappedSuperclass not available - simply skip");
 		}
 		try {
 			this.addIncludeFilter(new AnnotationTypeFilter(
@@ -69,7 +69,7 @@ public class ClassPathEntityScanner extends
 			logger
 					.info("javax.persistence.Entity annotation found and supported for entity scanning");
 		} catch (ClassNotFoundException ex) {
-			// javax.persistence.Entity not available - simply skip.
+		    logger.warn("javax.persistence.Entity not available - simply skip");
 		}
 	}
 }

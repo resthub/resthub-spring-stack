@@ -21,136 +21,137 @@ import org.springframework.util.Assert;
  */
 public class DatabaseDescriptor {
 
-	private String productName;
+    private String productName;
 
-	private String productVersion;
+    private String productVersion;
 
-	private int majorVersion;
+    private int majorVersion;
 
-	private int minorVersion;
+    private int minorVersion;
 
-	private String driverName;
+    private String driverName;
 
-	private String driverVersion;
+    private String driverVersion;
 
-	private int driverMajorVersion;
+    private int driverMajorVersion;
 
-	private int driverMinorVersion;
+    private int driverMinorVersion;
 
-	private LinkedHashSet<String> tables;
+    private Set<String> tables;
 
-	public DatabaseDescriptor(Connection connection) throws SQLException {
-		init(connection);
-	}
-	
-	public DatabaseDescriptor(DataSource dataSource) throws SQLException {
-		Assert.notNull(dataSource, "dataSource is required");
-		Connection connection = DataSourceUtils.getConnection(dataSource);
-		try {
-			init(connection);
-		} finally {
-			DataSourceUtils.releaseConnection(connection, dataSource);
-		}
-	}
-	
-	private void init(Connection connection) throws SQLException {
-		Assert.notNull(connection, "connection is required");
-		DatabaseMetaData metatData = connection.getMetaData();
-		setProductName(metatData.getDatabaseProductName()
-				.toLowerCase().trim());
-		setProductVersion(metatData.getDatabaseProductVersion()
-				.toLowerCase().trim());
-		setMajorVersion(metatData.getDatabaseMajorVersion());
-		setMinorVersion(metatData.getDatabaseMinorVersion());
-		setDriverName(metatData.getDriverName().trim());
-		setDriverVersion(metatData.getDriverVersion().trim());
-		setDriverMajorVersion(metatData.getDriverMajorVersion());
-		setDriverMinorVersion(metatData.getDriverMinorVersion());
-		
-		this.tables = new LinkedHashSet<String>();
-		
-		ResultSet rs = metatData.getTables(null, null, "%", new String[]{"TABLE"});
-		while (rs.next()) {
-			tables.add(rs.getString(3));
-		}
-	}
-	
-	public Set<String> getTables() {
-		return tables;
-	}
-	
-	public String getProductName() {
-		return productName;
-	}
+    public DatabaseDescriptor(Connection connection) throws SQLException {
+        init(connection);
+    }
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
+    public DatabaseDescriptor(DataSource dataSource) throws SQLException {
+        Assert.notNull(dataSource, "dataSource is required");
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try {
+            init(connection);
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
 
-	public String getProductVersion() {
-		return productVersion;
-	}
+    private void init(Connection connection) throws SQLException {
+        Assert.notNull(connection, "connection is required");
+        DatabaseMetaData metaData = connection.getMetaData();
+        this.productName = metaData.getDatabaseProductName().toLowerCase()
+                .trim();
+        this.productVersion = metaData.getDatabaseProductVersion().toLowerCase()
+                .trim();
+        this.majorVersion = metaData.getDatabaseMajorVersion();
+        this.minorVersion = metaData.getDatabaseMinorVersion();
+        this.driverName = metaData.getDriverName().trim();
+        this.driverVersion = metaData.getDriverVersion().trim();
+        this.driverMajorVersion = metaData.getDriverMajorVersion();
+        this.driverMinorVersion = metaData.getDriverMinorVersion();
 
-	public void setProductVersion(String productVersion) {
-		this.productVersion = productVersion;
-	}
+        this.tables = new LinkedHashSet<String>();
 
-	public int getMajorVersion() {
-		return majorVersion;
-	}
+        ResultSet results = metaData.getTables(null, null, "%",
+                new String[] { "TABLE" });
+        while (results.next()) {
+            tables.add(results.getString(3));
+        }
+    }
 
-	public void setMajorVersion(int majorVersion) {
-		this.majorVersion = majorVersion;
-	}
+    public Set<String> getTables() {
+        return tables;
+    }
 
-	public int getMinorVersion() {
-		return minorVersion;
-	}
+    public String getProductName() {
+        return productName;
+    }
 
-	public void setMinorVersion(int minorVersion) {
-		this.minorVersion = minorVersion;
-	}
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-	public String getDriverName() {
-		return driverName;
-	}
+    public String getProductVersion() {
+        return productVersion;
+    }
 
-	public void setDriverName(String driverName) {
-		this.driverName = driverName;
-	}
+    public void setProductVersion(String productVersion) {
+        this.productVersion = productVersion;
+    }
 
-	public String getDriverVersion() {
-		return driverVersion;
-	}
+    public int getMajorVersion() {
+        return majorVersion;
+    }
 
-	public void setDriverVersion(String driverVersion) {
-		this.driverVersion = driverVersion;
-	}
+    public void setMajorVersion(int majorVersion) {
+        this.majorVersion = majorVersion;
+    }
 
-	public int getDriverMajorVersion() {
-		return driverMajorVersion;
-	}
+    public int getMinorVersion() {
+        return minorVersion;
+    }
 
-	public void setDriverMajorVersion(int driverMajorVersion) {
-		this.driverMajorVersion = driverMajorVersion;
-	}
+    public void setMinorVersion(int minorVersion) {
+        this.minorVersion = minorVersion;
+    }
 
-	public int getDriverMinorVersion() {
-		return driverMinorVersion;
-	}
+    public String getDriverName() {
+        return driverName;
+    }
 
-	public void setDriverMinorVersion(int driverMinorVersion) {
-		this.driverMinorVersion = driverMinorVersion;
-	}
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
 
-	@Override
-	public String toString() {
-		return "DatabaseDescriptor [productName=" + productName
-				+ ", productVersion=" + productVersion + ", majorVersion="
-				+ majorVersion + ", minorVersion=" + minorVersion
-				+ ", driverName=" + driverName + ", driverVersion="
-				+ driverVersion + ", driverMajorVersion=" + driverMajorVersion
-				+ ", driverMinorVersion=" + driverMinorVersion + "]";
-	}
+    public String getDriverVersion() {
+        return driverVersion;
+    }
+
+    public void setDriverVersion(String driverVersion) {
+        this.driverVersion = driverVersion;
+    }
+
+    public int getDriverMajorVersion() {
+        return driverMajorVersion;
+    }
+
+    public void setDriverMajorVersion(int driverMajorVersion) {
+        this.driverMajorVersion = driverMajorVersion;
+    }
+
+    public int getDriverMinorVersion() {
+        return driverMinorVersion;
+    }
+
+    public void setDriverMinorVersion(int driverMinorVersion) {
+        this.driverMinorVersion = driverMinorVersion;
+    }
+
+    @Override
+    public String toString() {
+        return "DatabaseDescriptor [productName=" + productName
+                + ", productVersion=" + productVersion + ", majorVersion="
+                + majorVersion + ", minorVersion=" + minorVersion
+                + ", driverName=" + driverName + ", driverVersion="
+                + driverVersion + ", driverMajorVersion=" + driverMajorVersion
+                + ", driverMinorVersion=" + driverMinorVersion + "]";
+    }
 
 }

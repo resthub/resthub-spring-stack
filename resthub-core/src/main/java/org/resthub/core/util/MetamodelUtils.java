@@ -15,8 +15,8 @@ import org.springframework.util.ReflectionUtils;
  */
 public class MetamodelUtils<T, PK extends Serializable> {
 
-	private Metamodel metamodel;
-	private Class<T> domainClass;
+	private final Metamodel metamodel;
+	private final Class<T> domainClass;
 
 	public MetamodelUtils(Class<T> domainClass, Metamodel metamodel) {
 		this.metamodel = metamodel;

@@ -44,15 +44,18 @@ public abstract class ClassUtils {
 
 		Type genericSuperclass = clazz.getGenericSuperclass();
 
-		if (genericSuperclass == null)
+		if (genericSuperclass == null) {
 			return null;
+		}
 
+		Class<?> effectiveClass = clazz;
 		while (!(genericSuperclass instanceof ParameterizedType)) {
-			clazz = clazz.getSuperclass();
-			genericSuperclass = clazz.getGenericSuperclass();
+		    effectiveClass = effectiveClass.getSuperclass();
+			genericSuperclass = effectiveClass.getGenericSuperclass();
 
-			if (clazz.equals(Object.class))
+			if (effectiveClass.equals(Object.class)) {
 				return null;
+			}
 		}
 		return (Class<?>) ((ParameterizedType) genericSuperclass)
 				.getActualTypeArguments()[index];

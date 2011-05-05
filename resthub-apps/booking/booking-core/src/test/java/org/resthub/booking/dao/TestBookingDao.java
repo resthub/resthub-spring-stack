@@ -1,7 +1,6 @@
 package org.resthub.booking.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.List;
@@ -68,10 +67,11 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 	}
 
 	@Override
+	@Test
 	public void testUpdate() throws Exception {
 		
 		List<Booking> bookings = this.resourceDao.findEquals("creditCardName", TEST_CARD_NAME);
-		assertTrue("bookings list should contain an unique result", bookings.size() == 1);
+		assertEquals("bookings list should contain an unique result", 1, bookings.size());
 		
 		Booking booking = bookings.get(0);
 		booking.setCreditCardName(CHANGED_TEST_CARD_NAME);
@@ -82,10 +82,8 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 	@Test
 	public void testFindByUser() {
 		List<Booking> bookings = this.resourceDao.findByUser(user);
-		assertTrue("bookings list should contain an unique result", bookings.size() == 1);
+		assertEquals("bookings list should contain an unique result", 1, bookings.size());
 		assertEquals("credit card names should be equals", TEST_CARD_NAME, bookings.get(0).getCreditCardName());
 	}
-
-
 
 }
