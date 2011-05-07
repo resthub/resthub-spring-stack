@@ -1,26 +1,22 @@
 package org.resthub.identity;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jasypt.util.password.PasswordEncryptor;
+import org.resthub.core.util.PostInitialize;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Named("userInit")
 public class UserInit {
-	
-	@Inject
-	@Named("passwordEncryptor")
-	protected PasswordEncryptor passwordEncryptor;
-	
+		
 	@Inject
 	@Named("userService")
 	protected UserService userService;
 	
-	@PostConstruct
+	@PostInitialize
 	@Transactional(readOnly = false)
 	public void initData() {
 		User u = null;		
