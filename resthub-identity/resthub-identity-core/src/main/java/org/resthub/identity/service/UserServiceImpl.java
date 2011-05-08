@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 
+import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
@@ -14,10 +14,7 @@ import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.tools.PermissionsOwnerTools;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -98,32 +95,6 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     }
 
     /**
-     * Authenticate a user based on login and Password and returns the login if
-     * successful
-     *
-     * @param login
-     * @param password
-     * @return login , the login of the user if the authentication succeed, null
-     *         otherwise
-     */
-    public String getUser(String login, String password) {
-        User u = this.authenticateUser(login, password);
-
-        if (u != null) {
-
-            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-            for (String permission : u.getPermissions()) {
-                authorities.add(new GrantedAuthorityImpl(permission));
-            }
-
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, password, authorities);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        }
-
-        return (u != null) ? u.getLogin() : null;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -160,7 +131,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      * @param permission
      *            the permission to be added
      */
-    @Transactional
+    @Transactional(readOnly = false)
     public void addPermissionToUser(String userLogin, String permission) {
         if (userLogin != null && permission != null) {
             User u = this.findByLogin(userLogin);
@@ -169,6 +140,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
                 if (!alreadyAllowed) {
                     u.getPermissions().add(permission);
                 }
+                this.update(u);
             }
         }
     }
@@ -181,7 +153,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      * @param permission
      *            the permission to delete
      */
-    @Transactional
+    @Transactional(readOnly = false)
     public void removePermissionFromUser(String userLogin, String permission) {
         if (userLogin != null && permission != null) {
             User u = this.findByLogin(userLogin);
@@ -201,7 +173,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      * @param groupeName
      *            the name of the group to add from the user's group list
      */
-    @Transactional
+    @Transactional(readOnly = false)
     public void addGroupToUser(String userLogin, String groupName) {
         if (userLogin != null && groupName != null) {
             User u = this.findByLogin(userLogin);
@@ -222,7 +194,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      * @param groupeName
      *            the name of the group to remove from the user's group list
      */
-    @Transactional
+    @Transactional(readOnly = false)
     public void removeGroupFromUser(String userLogin, String groupName) {
         if (userLogin != null && groupName != null) {
             User u = this.findByLogin(userLogin);

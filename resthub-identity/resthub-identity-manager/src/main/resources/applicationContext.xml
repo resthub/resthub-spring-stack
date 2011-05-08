@@ -3,6 +3,8 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
@@ -12,12 +14,19 @@
     http://www.springframework.org/schema/util 
     http://www.springframework.org/schema/util/spring-util-3.0.xsd
     http://www.springframework.org/schema/jdbc
-    http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+    http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-3.0.xsd
+    http://www.springframework.org/schema/security/oauth2
+    http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
 	
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
 	<context:component-scan base-package="org.resthub.oauth2.provider.front" />
 	<context:component-scan base-package="org.resthub.oauth2.provider.dao" />
+	
+	<!--  Should be moved in identity core when secure testing for controller will be ok -->
+	<security:global-method-security jsr250-annotations="enabled" />
 
 	<bean id="dataSource"
 			class="${hibernate-class}">
@@ -25,37 +34,28 @@
 		<property name="url" value="${hibernate-url}" />
 		<property name="username" value="${hibernate-username}"/>
 		<property name="password" value="${hibernate-password}" />
-	</bean>
+	</bean>	
 	
-		<!-- Spring bean used by the filter to validate incoming tokens -->
-	<bean name="validationService" init-method="postInit"
-		class="org.resthub.oauth2.filter.service.CachedExternalValidationService">
-		<property name="accessTokenParam" value="${validationService-Param}" />
-		<property name="tokenInformationEndpoint" value="${validationService-Endpoint}" />
-		<property name="authorizationPassword" value="${validationService-Password}" />
-
-		<!-- Just for CachedExternalValidationService -->
-		<property name="discardPeriod" value="${validationService-Discard}" />
-	</bean>
-
-	<!-- Declaration of the filter -->
-	<bean name="OAuth2Filter" class="org.resthub.oauth2.filter.front.OAuth2Filter">
-		<property name="service" ref="validationService" />
-		<property name="resource" value="#{securityConfig.resourceName}" />
-	</bean>
-        
-	<!-- Security configuration -->
-	<util:properties id="securityConfig">
-		<prop key="resourceName">Identity Manager</prop>
-		<prop key="authorizationPassword">${validationService-Password}</prop>
-		<prop key="cookieName">oauth_token</prop>
-		<prop key="cookieDomain"></prop>
-		<prop key="cookiePath">/</prop>
-		<prop key="authenticationPage">/authent.jsp</prop>
-	</util:properties>
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="identityUserDetailsService">
+			<security:password-encoder ref="identityPasswordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
 	
-	<jdbc:initialize-database data-source="dataSource">
-  		<jdbc:script location="classpath:import-identity.sql"/>
-	</jdbc:initialize-database>
+	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint">
+		<security:access-denied-handler ref="oauth2AccessDeniedHandler" />
+	</security:http>
+	
+	<bean id="oauth2AccessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl"/>	
+	<bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.InMemoryOAuth2ProviderTokenServices" />
+
+	<oauth2:provider client-details-service-ref="clientDetails" token-services-ref="tokenServices" >
+		<oauth2:verification-code disabled="true"/>
+	</oauth2:provider>
+		
+	<oauth2:client-details-service id="clientDetails" >
+		<oauth2:client clientId="identity" authorizedGrantTypes="password" />
+	</oauth2:client-details-service>	
+	
 	 	
 </beans>

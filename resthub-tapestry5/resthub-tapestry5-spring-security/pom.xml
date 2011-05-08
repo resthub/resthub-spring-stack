@@ -3,12 +3,12 @@
 	<parent>
 		<artifactId>resthub-tapestry5</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-kazan-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-spring-security</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-kazan-SNAPSHOT</version>
 	<name>Tapestry5 Spring Security integration</name>
 	<description>Provide Integration of SpringSecurity in Tapestry</description>
 
@@ -53,17 +53,11 @@
 				<groupId>org.apache.tapestry</groupId>
 				<artifactId>tapestry-beanvalidator</artifactId>
 			</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

@@ -15,9 +15,9 @@ define(['lib/resthub',
 	 * Runs the login route, or goes to home if a user is found in local storage.
 	 */
 	$(document).ready(function() {
-		OAuth2Controller.clientId = "";
+		OAuth2Controller.clientId = "identity";
 		OAuth2Controller.clientSecret = "";
-		OAuth2Controller.tokenEndPoint = "api/authorize/token";
+		OAuth2Controller.tokenEndPoint = "oauth/authorize";
 
 		$.route('#/', function() {
 			// When arriving, if user is already known, go to home.

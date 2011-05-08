@@ -4,14 +4,14 @@
 	<parent>
 		<artifactId>booking</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-kazan-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>booking-tapestry5</artifactId>
 	<packaging>war</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-kazan-SNAPSHOT</version>
 	<name>Tapestry5 Booking sample</name>
 
 	<properties>
@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>booking-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
 
 		<!--
@@ -32,13 +32,13 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-integration</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-spring-security</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
 
 		<!-- 
@@ -68,20 +68,4 @@
 		</plugins>
 	</build>
 
-	<repositories>
-		<!-- Contains all RESThub artifacts and transitive dependencies -->
-		<repository>
-			<id>resthub</id>
-			<url>http://resthub.org/nexus/content/groups/resthub</url>
-		</repository>
-		<!--  TAPX -->
-		<repository>
-			<id>tapestry360-stable</id>
-			<url>http://tapestry.formos.com/maven-repository</url>
-		</repository>
-		<repository>
-			<id>tapestry360-snapshot</id>
-			<url>http://tapestry.formos.com/maven-snapshot-repository</url>
-		</repository>
-	</repositories>
 </project>

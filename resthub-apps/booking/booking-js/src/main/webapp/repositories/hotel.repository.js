@@ -1,6 +1,6 @@
-define([ 'lib/repository' ], function(Repository) {
+define([ 'lib/oauth2repository' ], function(OAuth2Repository) {
 
-	return Repository.extend("HotelRepository", {
+	return OAuth2Repository.extend("HotelRepository", {
 
 		root : 'api/hotel/',
 

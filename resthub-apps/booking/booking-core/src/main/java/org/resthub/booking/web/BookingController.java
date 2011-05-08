@@ -53,7 +53,6 @@ public class BookingController extends GenericResourceController<Booking, Bookin
 			bookings = new ArrayList<Booking>();
 		}
 		
-		//return Response.ok(bookings.toArray(entityClassArray)).build();
 		return Response.ok(bookings).build();
 	}
 }

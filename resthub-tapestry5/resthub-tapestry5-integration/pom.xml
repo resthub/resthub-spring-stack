@@ -3,12 +3,12 @@
 	<parent>
 		<artifactId>resthub-tapestry5</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-kazan-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-integration</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-kazan-SNAPSHOT</version>
 	<name>Tapestry5 stack integration</name>
 	<description>Provide integration for simple and extensible integration of Resthub stack in Tapestry</description>
 
@@ -21,13 +21,13 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-components</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-jpa</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.1-kazan-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -38,11 +38,4 @@
 
 	</dependencies>
 
-	<repositories>
-		<!-- For tapestry-spring-security libraries -->
-		<repository>
-			<id>localhost.nu</id>
-			<url>http://www.localhost.nu/java/mvn</url>
-		</repository>
-	</repositories>
 </project>
