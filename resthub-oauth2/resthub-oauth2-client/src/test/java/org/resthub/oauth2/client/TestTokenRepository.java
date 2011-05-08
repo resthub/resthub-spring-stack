@@ -9,18 +9,19 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jetty.server.DispatcherType;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.FilterHolder;
+import org.eclipse.jetty.servlet.FilterMapping;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.resthub.oauth2.common.front.model.TokenResponse;
-import org.resthub.oauth2.test.authorizationService.MockAuthenticationService;
 import org.resthub.web.jackson.JacksonProvider;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
@@ -41,7 +42,10 @@ public class TestTokenRepository {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// Static private attributes
-
+	
+	public static final String CLIENT_ID = "test";
+	public static final String CLIENT_SECRET = "";
+	
 	/**
 	 * Tested utility.
 	 */
@@ -67,41 +71,27 @@ public class TestTokenRepository {
 	public static void suiteSetUp() throws Exception {
 		// Creates a Jetty server.
 		server = new Server(port);
-
+		
 		// Add a context for authorization service
-		ServletContextHandler authorization = new ServletContextHandler(
-				ServletContextHandler.SESSIONS);
-		authorization.setContextPath("/authorizationServer");			
-
-		authorization.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:AuthorizationContext.xml");
-		authorization.addServlet(SpringServlet.class, "/*");
-		authorization.addEventListener(new ContextLoaderListener());
-
-
-		// Add a context for resource service
-		ServletContextHandler resource = new ServletContextHandler(
-				ServletContextHandler.SESSIONS);
-		resource.setContextPath("/resourceServer");		
-		
-		resource.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath:ResourceContext.xml");
+		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		context.setDisplayName("resthub test webapp");
+	
+		context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml classpath*:applicationContext.xml");
 		FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
-		filterDef.setName("oauth2filter");
-		resource.addFilter(filterDef, "/*", 1);
-		
-		ServletHolder servletDef = new ServletHolder(SpringServlet.class);
-		servletDef.setInitParameter("com.sun.jersey.spi.container.ResourceFilters", 
-				"com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory");
-		resource.addServlet(servletDef, "/*");
-		resource.addEventListener(new ContextLoaderListener());
+        filterDef.setName("springSecurityFilterChain");
+		context.addFilter(filterDef, "/*", 0);	
+		context.addEventListener(new ContextLoaderListener());
+		context.addServlet(SpringServlet.class, "/api/*");
 
 		// Starts the server.
-		ContextHandlerCollection handlers = new ContextHandlerCollection();
-        handlers.setHandlers(new Handler[] {authorization, resource});
-        server.setHandler(handlers);
+        server.setHandler(context);
+			
 		server.start();
 		
 		// Tested service initialization.
 		tested = new TokenRepository();
+		tested.setClientId(CLIENT_ID);
+		tested.setClientSecret(CLIENT_SECRET);
 	} // suiteSetUp().
 
 	/**
@@ -124,21 +114,22 @@ public class TestTokenRepository {
 	public void testObtain() {
 		
 		// Initialize the TokenRepository
-		String username = "any";
-		String password = "any";
+		String username = "test";
+		String password = "t3st";
+		String scope = "";
+		
 		List<String> endPoints = new ArrayList<String>();
-		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
+		// TODO : [SDE] I don't interstand it is /api/oauth/authorize and not /oauth/authorize ...
+		endPoints.add("http://localhost:"+port+"/api/oauth/authorize");
 		tested.setAuthorizationEndPoints(endPoints);
 		
-		String resource = "/myResource";
-		String scope = "";
-		TokenResponse token = tested.obtain(resource, scope, username, password);
+		TokenResponse token = tested.obtain(username, password, scope);
 		assertNotNull("No response returned by obtain()", token);
 		assertNotNull("An access token was not generated", token.accessToken);
 		
 		// Wrong username
 		try {
-			tested.obtain(resource, scope, MockAuthenticationService.UNKNOWN_CLIENT_ID, password);
+			tested.obtain("unknown", password, scope);
 			fail("An NoTokenFoundException must be raised for token obtention with wrong clientId");
 		} catch (NoTokenFoundException exc) {
 			// Everything right.
@@ -146,7 +137,7 @@ public class TestTokenRepository {
 		
 		// Wrong password.
 		try {
-			tested.obtain(resource, scope, username, MockAuthenticationService.UNKNOWN_CLIENT_SECRET);
+			tested.obtain(username, "unknown", scope);
 			fail("An NoTokenFoundException must be raised for token obtention with wrong clientPassword");
 		} catch (NoTokenFoundException exc) {
 			// Everything right.
@@ -155,7 +146,7 @@ public class TestTokenRepository {
 		// No providers.
 		try {
 			tested.setAuthorizationEndPoints(new ArrayList<String>());
-			tested.obtain(resource, scope, username, password);
+			tested.obtain(username, password, scope);
 			fail("An NoTokenFoundException must be raised for token obtention with no providers");
 		} catch (NoTokenFoundException exc) {
 			// Everything right.
@@ -232,7 +223,7 @@ public class TestTokenRepository {
 	public void testAutoEnrich() {
 		ClientConfig config = new DefaultClientConfig();
         config.getSingletons().add(new JacksonProvider());
-		String resource = "/resourceServer";
+		String resource = "/api/resource/hello";
 		WebResource httpClient = Client.create(config).resource("http://localhost:"+port);
 		
 		// Check we cannot access the protected resource.
@@ -244,14 +235,15 @@ public class TestTokenRepository {
 		}
 		
 		// Initialize the TokenRepository
-		tested.addCredentials(resource, "any", "any");
+		tested.addCredentials("/api", "test", "t3st");
 		List<String> endPoints = new ArrayList<String>();
-		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
+		// TODO : [SDE] I don't interstand it is /api/oauth/authorize and not /oauth/authorize ...
+		endPoints.add("http://localhost:"+port+"/api/oauth/authorize");
 		tested.setAuthorizationEndPoints(endPoints);
 		
 		// Enrich and trigger a request.
 		String result = tested.enrich(httpClient.path(resource)).get(String.class);
-		assertEquals("Result returned is unexpected", "Hello World", result);	
+		assertEquals("Result returned is unexpected", "Hello", result);	
 	} // testEnrich().
 
 	/**
@@ -261,7 +253,7 @@ public class TestTokenRepository {
 	public void testEnrich() {
 		ClientConfig config = new DefaultClientConfig();
         config.getSingletons().add(new JacksonProvider());
-		String resource = "/resourceServer";
+		String resource = "/api/resource/hello";
 		WebResource httpClient = Client.create(config).resource("http://localhost:"+port);
 		
 		// Check we cannot access the protected resource.
@@ -273,9 +265,10 @@ public class TestTokenRepository {
 		}
 		
 		// Initialize the TokenRepository
-		tested.addCredentials(resource, "any", "any");
+		tested.addCredentials("/api", "test", "t3st");
 		List<String> endPoints = new ArrayList<String>();
-		endPoints.add("http://localhost:"+port+"/authorizationServer/authorize");
+		// TODO : [SDE] I don't interstand it is /api/oauth/authorize and not /oauth/authorize ...
+		endPoints.add("http://localhost:"+port+"/api/oauth/authorize");
 		tested.setAuthorizationEndPoints(endPoints);
 		
 		// Enrich a request to an unknown resource
@@ -295,13 +288,13 @@ public class TestTokenRepository {
 		}
 
 		String scope = "";
-		TokenResponse token = tested.obtain(resource, scope, "any", "any");
+		TokenResponse token = tested.obtain("test", "t3st", scope);
 		
 		// Adds the return token in the token repository
 		tested.addToken(resource, token);
 		// Enrich and trigger a request.
 		String result = tested.enrich(httpClient.path(resource)).get(String.class);
-		assertEquals("Result returned is unexpected", "Hello World", result);
+		assertEquals("Result returned is unexpected", "Hello", result);
 
 		// TODO test scopes.
 		

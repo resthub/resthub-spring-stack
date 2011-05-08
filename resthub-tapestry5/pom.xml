@@ -54,12 +54,4 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<repositories>
-		<!-- For Tapestry snapshots -->
-		<repository>
-			<id>apache-snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-		</repository>
-	</repositories>
-
 </project>

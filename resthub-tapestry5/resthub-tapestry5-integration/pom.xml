@@ -38,11 +38,4 @@
 
 	</dependencies>
 
-	<repositories>
-		<!-- For tapestry-spring-security libraries -->
-		<repository>
-			<id>localhost.nu</id>
-			<url>http://www.localhost.nu/java/mvn</url>
-		</repository>
-	</repositories>
 </project>

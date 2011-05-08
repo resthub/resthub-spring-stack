@@ -52,7 +52,6 @@ import com.sun.jersey.api.view.ImplicitProduces;
 @ImplicitProduces("text/html;qs=5")
 public abstract class GenericController<T, S extends GenericService<T, ID>, ID extends Serializable> {
 
-	protected T[] entityClassArray;
 	protected S service;
 
 	@Context
@@ -66,7 +65,7 @@ public abstract class GenericController<T, S extends GenericService<T, ID>, ID e
 
 	@SuppressWarnings("unchecked")
 	public GenericController() {
-		entityClassArray = (T[]) Array.newInstance(ClassUtils.getGenericTypeFromBean(this), 0);
+
 	}
 
 	public void setService(S service) {

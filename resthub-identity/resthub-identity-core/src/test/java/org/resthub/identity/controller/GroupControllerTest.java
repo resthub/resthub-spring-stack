@@ -31,7 +31,6 @@ public class GroupControllerTest
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected Group createTestResource() throws Exception {
         String groupName = "GroupTestGroupName" + Math.round(Math.random() * 1000);
         Group g = new Group();
