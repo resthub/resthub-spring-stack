@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-kazan-SNAPSHOT</version>
+		<version>1.1-rc3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -13,7 +13,7 @@
 	<artifactId>roundtable</artifactId>
 	<packaging>war</packaging>
 	<name>Round Table</name>
-	<version>1.1-kazan-SNAPSHOT</version>
+	<version>1.1-rc3</version>
 	<description>
 		Poll application based on RESThub
 	</description>
@@ -30,12 +30,6 @@
 			<artifactId>resthub-web-server</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-            <groupId>org.resthub</groupId>
-            <artifactId>resthub-test-core</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>

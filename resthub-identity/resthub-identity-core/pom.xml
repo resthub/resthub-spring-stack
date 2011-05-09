@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>resthub-identity</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-kazan-SNAPSHOT</version>
+		<version>1.1-rc3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -39,19 +39,13 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1-kazan-SNAPSHOT</version>
+			<version>1.1-rc3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.1-kazan-SNAPSHOT</version>
+			<version>1.1-rc3</version>
 		</dependency>
-		<dependency>
-            <groupId>org.resthub</groupId>
-            <artifactId>resthub-test-core</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>

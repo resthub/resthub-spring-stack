@@ -3,14 +3,14 @@
 	<parent>
 		<artifactId>booking</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-kazan-SNAPSHOT</version>
+		<version>1.1-rc3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>org.resthub</groupId>
 	<artifactId>booking-core</artifactId>
 	<name>Booking Core</name>
-	<version>1.1-kazan-SNAPSHOT</version>
+	<version>1.1-rc3</version>
 	<description>Core lib for business layers for booking samples projects</description>
 
 	<dependencies>
@@ -28,12 +28,6 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-test-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
