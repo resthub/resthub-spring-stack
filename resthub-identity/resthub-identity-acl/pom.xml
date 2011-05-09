@@ -4,7 +4,7 @@
     <parent>
         <artifactId>resthub-identity</artifactId>
         <groupId>org.resthub</groupId>
-        <version>1.1-rc3</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
     <groupId>org.resthub</groupId>
     <artifactId>resthub-identity-acl</artifactId>
