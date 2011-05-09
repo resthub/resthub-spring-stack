@@ -6,17 +6,14 @@ import org.junit.Test;
 
 public class ResourceTest {
 
-	@SuppressWarnings("serial")
-	class RedResource extends Resource {
-		public RedResource() {
-		}
-		
+	private static class RedResource extends Resource {
+
+        private static final long serialVersionUID = -8585643870699035987L;
 	}
 
-	@SuppressWarnings("serial")
-	class BlueResource extends Resource {
-		public BlueResource() {
-		}
+	private static class BlueResource extends Resource {
+
+        private static final long serialVersionUID = -3822790302007053336L;
 	}
 
 	@Test

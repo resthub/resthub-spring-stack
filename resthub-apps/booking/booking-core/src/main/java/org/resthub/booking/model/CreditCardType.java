@@ -1,6 +1,5 @@
 package org.resthub.booking.model;
 
-public enum CreditCardType
-{
+public enum CreditCardType {
     VISA, MasterCard, AMEX, Discover
 }

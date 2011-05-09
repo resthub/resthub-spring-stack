@@ -15,287 +15,309 @@ import org.resthub.core.context.model.ConfigResourceTwo;
 import org.resthub.core.model.Resource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-
 public class TestJAXBElementsContextScanning {
 
-		private static final String LOCATION_PREFIX = "org/resthub/core/context/jaxb/";
+    private static final String JAXB_CONTEXT_BEAN_NAME = "JAXBElementListContext";
+    private static final String LOCATION_PREFIX = "org/resthub/core/context/jaxb/";
 
-		/**
-		 * Test the loading of xmlElements from a single and simple package pattern
-		 */
-		@Test
-		public void testBasePackage() {
+    /**
+     * Test the loading of xmlElements from a single and simple package pattern
+     */
+    @Test
+    public void testBasePackage() {
 
-			String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml" };
-			
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
-			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
-			
-			elementListContextBean.clear();
-			Set<String> xmlElements = elementListContextBean.getXmlElements();
+        final String[] contextFiles = { LOCATION_PREFIX
+                + "packageOnlyContext.xml" };
 
-			assertNotNull("xmlElements list should not be null", xmlElements);
-			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
-			assertTrue("at least 3 xmlElements should have been found",
-					xmlElements.size() >= 3);
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                contextFiles);
+        final JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean) context
+                .getBean(JAXB_CONTEXT_BEAN_NAME);
 
-			assertFalse("xmlElements list should not contain "
-					+ Resource.class.getSimpleName(), xmlElements
-					.contains(Resource.class.getName()));
+        elementListContextBean.clear();
+        Set<String> xmlElements = elementListContextBean.getXmlElements();
 
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceOne.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceOne.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceThree.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceThree.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigAbstractResource.class.getSimpleName(), xmlElements
-					.contains(ConfigAbstractResource.class.getName()));
+        assertNotNull("xmlElements list should not be null", xmlElements);
+        assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
+        assertTrue("at least 3 xmlElements should have been found",
+                xmlElements.size() >= 3);
 
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceTwo.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceTwo.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceFour.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceFour.class.getName()));
-		}
+        assertFalse(
+                "xmlElements list should not contain "
+                        + Resource.class.getSimpleName(),
+                xmlElements.contains(Resource.class.getName()));
 
-		/**
-		 * Test the loading of xmlElements from multiple packages declared in multiple
-		 * context files
-		 */
-		@Test
-		public void testMultipleBasePackageWithResource() {
+        assertTrue(
+                "xmlElements list should contain "
+                        + ConfigResourceOne.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceOne.class.getName()));
 
-			String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml",
-					LOCATION_PREFIX + "modelContext.xml" };
+        assertTrue("xmlElements list should contain "
+                + ConfigResourceThree.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceThree.class.getName()));
 
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
-			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
-			
-			elementListContextBean.clear();
-			Set<String> xmlElements = elementListContextBean.getXmlElements();
+        assertTrue("xmlElements list should contain "
+                + ConfigAbstractResource.class.getSimpleName(),
+                xmlElements.contains(ConfigAbstractResource.class.getName()));
 
-			assertNotNull("xmlElements list should not be null", xmlElements);
-			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
-			assertTrue("at least 3 xmlElements should have been found",
-					xmlElements.size() >= 3);
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceTwo.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceTwo.class.getName()));
 
-			assertTrue("xmlElements list should contain "
-					+ Resource.class.getSimpleName(), xmlElements
-					.contains(Resource.class.getName()));
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceFour.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceFour.class.getName()));
+    }
 
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceOne.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceOne.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceThree.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceThree.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigAbstractResource.class.getSimpleName(), xmlElements
-					.contains(ConfigAbstractResource.class.getName()));
+    /**
+     * Test the loading of xmlElements from multiple packages declared in
+     * multiple context files
+     */
+    @Test
+    public void testMultipleBasePackageWithResource() {
 
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceTwo.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceTwo.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceFour.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceFour.class.getName()));
+        String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml",
+                LOCATION_PREFIX + "modelContext.xml" };
 
-		}
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                contextFiles);
+        JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean) context
+                .getBean(JAXB_CONTEXT_BEAN_NAME);
 
-		/**
-		 * Test the loading of xmlElements from packages declared with wilcard
-		 */
-		@Test
-		public void testPackageWithWildcards() {
+        elementListContextBean.clear();
+        Set<String> xmlElements = elementListContextBean.getXmlElements();
 
-			String[] contextFiles = { LOCATION_PREFIX + "wildcardContext.xml" };
+        assertNotNull("xmlElements list should not be null", xmlElements);
+        assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
+        assertTrue("at least 3 xmlElements should have been found",
+                xmlElements.size() >= 3);
 
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
-			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
-			
-			elementListContextBean.clear();
-			Set<String> xmlElements = elementListContextBean.getXmlElements();
+        assertTrue(
+                "xmlElements list should contain "
+                        + Resource.class.getSimpleName(),
+                xmlElements.contains(Resource.class.getName()));
 
-			assertNotNull("xmlElements list should not be null", xmlElements);
-			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
-			assertTrue("at least 3 xmlElements should have been found",
-					xmlElements.size() >= 3);
+        assertTrue(
+                "xmlElements list should contain "
+                        + ConfigResourceOne.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceOne.class.getName()));
 
-			assertTrue("xmlElements list should contain "
-					+ Resource.class.getSimpleName(), xmlElements
-					.contains(Resource.class.getName()));
+        assertTrue("xmlElements list should contain "
+                + ConfigResourceThree.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceThree.class.getName()));
 
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceOne.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceOne.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceThree.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceThree.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigAbstractResource.class.getSimpleName(), xmlElements
-					.contains(ConfigAbstractResource.class.getName()));
+        assertTrue("xmlElements list should contain "
+                + ConfigAbstractResource.class.getSimpleName(),
+                xmlElements.contains(ConfigAbstractResource.class.getName()));
 
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceTwo.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceTwo.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceFour.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceFour.class.getName()));
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceTwo.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceTwo.class.getName()));
 
-		}
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceFour.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceFour.class.getName()));
 
-		/**
-		 * Test to load the same entity multiple times (at least twice) and check
-		 * the unicity of its loading
-		 */
-		@Test
-		public void testMultipleBasePackageWithDoubles() {
+    }
 
-			String[] contextFiles = { LOCATION_PREFIX + "wildcardContext.xml",
-					LOCATION_PREFIX + "modelContext.xml" };
+    /**
+     * Test the loading of xmlElements from packages declared with wilcard
+     */
+    @Test
+    public void testPackageWithWildcards() {
 
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
-			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
-			
-			elementListContextBean.clear();
-			Set<String> xmlElements = elementListContextBean.getXmlElements();
+        String[] contextFiles = { LOCATION_PREFIX + "wildcardContext.xml" };
 
-			assertNotNull("xmlElements list should not be null", xmlElements);
-			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
-			assertTrue("at least 3 xmlElements should have been found",
-					xmlElements.size() >= 3);
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                contextFiles);
+        JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean) context
+                .getBean(JAXB_CONTEXT_BEAN_NAME);
 
-			assertTrue("xmlElements list should contain "
-					+ Resource.class.getSimpleName(), xmlElements
-					.contains(Resource.class.getName()));
+        elementListContextBean.clear();
+        Set<String> xmlElements = elementListContextBean.getXmlElements();
 
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceOne.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceOne.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceThree.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceThree.class.getName()));
-			
-			assertTrue("xmlElements list should contain "
-					+ ConfigAbstractResource.class.getSimpleName(), xmlElements
-					.contains(ConfigAbstractResource.class.getName()));
+        assertNotNull("xmlElements list should not be null", xmlElements);
+        assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
+        assertTrue("at least 3 xmlElements should have been found",
+                xmlElements.size() >= 3);
 
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceTwo.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceTwo.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceFour.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceFour.class.getName()));
+        assertTrue(
+                "xmlElements list should contain "
+                        + Resource.class.getSimpleName(),
+                xmlElements.contains(Resource.class.getName()));
 
-		}
+        assertTrue(
+                "xmlElements list should contain "
+                        + ConfigResourceOne.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceOne.class.getName()));
 
-		
-		/**
-		 * Test cutom filter config by specifying inclusion/exclusion based on
-		 * assignation criterion
-		 */
-		@Test
-		public void testFilterAssignable() {
+        assertTrue("xmlElements list should contain "
+                + ConfigResourceThree.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceThree.class.getName()));
 
-			String[] contextFiles = { LOCATION_PREFIX
-					+ "filterAssignableContext.xml" };
+        assertTrue("xmlElements list should contain "
+                + ConfigAbstractResource.class.getSimpleName(),
+                xmlElements.contains(ConfigAbstractResource.class.getName()));
 
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
-			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
-			
-			elementListContextBean.clear();
-			Set<String> xmlElements = elementListContextBean.getXmlElements();
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceTwo.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceTwo.class.getName()));
 
-			assertNotNull("xmlElements list should not be null", xmlElements);
-			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
-			assertTrue("at least 1 xmlElements should have been found",
-					xmlElements.size() >= 1);
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceFour.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceFour.class.getName()));
 
-			assertFalse("xmlElements list should not contain "
-					+ Resource.class.getSimpleName(), xmlElements
-					.contains(Resource.class.getName()));
+    }
 
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceOne.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceOne.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceThree.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceThree.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigAbstractResource.class.getSimpleName(), xmlElements
-					.contains(ConfigAbstractResource.class.getName()));
+    /**
+     * Test to load the same entity multiple times (at least twice) and check
+     * the unicity of its loading
+     */
+    @Test
+    public void testMultipleBasePackageWithDoubles() {
 
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceTwo.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceTwo.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceFour.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceFour.class.getName()));
-		}
-		
-		
-		/**
-		 * Test exclude xmlElements after having included the same xmlElements
-		 */
-		@Test
-		public void testElementsExclusion() {
+        String[] contextFiles = { LOCATION_PREFIX + "wildcardContext.xml",
+                LOCATION_PREFIX + "modelContext.xml" };
 
-			String[] contextFiles = { LOCATION_PREFIX
-					+ "packageOnlyContext.xml", LOCATION_PREFIX
-					+ "excludeElementsContext.xml" };
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                contextFiles);
+        JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean) context
+                .getBean(JAXB_CONTEXT_BEAN_NAME);
 
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(contextFiles);
-			JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean)context.getBean("JAXBElementListContext");		
-			
-			elementListContextBean.clear();
-			Set<String> xmlElements = elementListContextBean.getXmlElements();
+        elementListContextBean.clear();
+        Set<String> xmlElements = elementListContextBean.getXmlElements();
 
-			assertNotNull("xmlElements list should not be null", xmlElements);
-			assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
-			assertTrue("at least 1 xmlElements should have been found",
-					xmlElements.size() >= 1);
+        assertNotNull("xmlElements list should not be null", xmlElements);
+        assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
+        assertTrue("at least 3 xmlElements should have been found",
+                xmlElements.size() >= 3);
 
-			assertFalse("xmlElements list should not contain "
-					+ Resource.class.getSimpleName(), xmlElements
-					.contains(Resource.class.getName()));
+        assertTrue(
+                "xmlElements list should contain "
+                        + Resource.class.getSimpleName(),
+                xmlElements.contains(Resource.class.getName()));
 
-			assertTrue("xmlElements list should contain "
-					+ ConfigResourceOne.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceOne.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceThree.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceThree.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigAbstractResource.class.getSimpleName(), xmlElements
-					.contains(ConfigAbstractResource.class.getName()));
+        assertTrue(
+                "xmlElements list should contain "
+                        + ConfigResourceOne.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceOne.class.getName()));
 
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceTwo.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceTwo.class.getName()));
-			
-			assertFalse("xmlElements list should not contain "
-					+ ConfigResourceFour.class.getSimpleName(), xmlElements
-					.contains(ConfigResourceFour.class.getName()));
+        assertTrue("xmlElements list should contain "
+                + ConfigResourceThree.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceThree.class.getName()));
 
-		}
-		
+        assertTrue("xmlElements list should contain "
+                + ConfigAbstractResource.class.getSimpleName(),
+                xmlElements.contains(ConfigAbstractResource.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceTwo.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceTwo.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceFour.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceFour.class.getName()));
+
+    }
+
+    /**
+     * Test cutom filter config by specifying inclusion/exclusion based on
+     * assignation criterion
+     */
+    @Test
+    public void testFilterAssignable() {
+
+        String[] contextFiles = { LOCATION_PREFIX
+                + "filterAssignableContext.xml" };
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                contextFiles);
+        JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean) context
+                .getBean(JAXB_CONTEXT_BEAN_NAME);
+
+        elementListContextBean.clear();
+        Set<String> xmlElements = elementListContextBean.getXmlElements();
+
+        assertNotNull("xmlElements list should not be null", xmlElements);
+        assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
+        assertTrue("at least 1 xmlElements should have been found",
+                xmlElements.size() >= 1);
+
+        assertFalse(
+                "xmlElements list should not contain "
+                        + Resource.class.getSimpleName(),
+                xmlElements.contains(Resource.class.getName()));
+
+        assertTrue(
+                "xmlElements list should contain "
+                        + ConfigResourceOne.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceOne.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceThree.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceThree.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigAbstractResource.class.getSimpleName(),
+                xmlElements.contains(ConfigAbstractResource.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceTwo.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceTwo.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceFour.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceFour.class.getName()));
+    }
+
+    /**
+     * Test exclude xmlElements after having included the same xmlElements
+     */
+    @Test
+    public void testElementsExclusion() {
+
+        String[] contextFiles = { LOCATION_PREFIX + "packageOnlyContext.xml",
+                LOCATION_PREFIX + "excludeElementsContext.xml" };
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                contextFiles);
+        JAXBElementListContextBean elementListContextBean = (JAXBElementListContextBean) context
+                .getBean(JAXB_CONTEXT_BEAN_NAME);
+
+        elementListContextBean.clear();
+        Set<String> xmlElements = elementListContextBean.getXmlElements();
+
+        assertNotNull("xmlElements list should not be null", xmlElements);
+        assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
+        assertTrue("at least 1 xmlElements should have been found",
+                xmlElements.size() >= 1);
+
+        assertFalse(
+                "xmlElements list should not contain "
+                        + Resource.class.getSimpleName(),
+                xmlElements.contains(Resource.class.getName()));
+
+        assertTrue(
+                "xmlElements list should contain "
+                        + ConfigResourceOne.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceOne.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceThree.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceThree.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigAbstractResource.class.getSimpleName(),
+                xmlElements.contains(ConfigAbstractResource.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceTwo.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceTwo.class.getName()));
+
+        assertFalse("xmlElements list should not contain "
+                + ConfigResourceFour.class.getSimpleName(),
+                xmlElements.contains(ConfigResourceFour.class.getName()));
+
+    }
+
 }

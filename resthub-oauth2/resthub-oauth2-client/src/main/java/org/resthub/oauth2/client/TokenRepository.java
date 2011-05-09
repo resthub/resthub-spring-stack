@@ -130,17 +130,16 @@ public class TokenRepository {
 
 	/**
 	 * Ask each authentication services for an access token corresponding to the given resource.
-	 * @param resource The resource from whom a token will be obtained.
-	 * @param scope The desired scope.
 	 * @param username The resource owner login. If null, the remanent username is used.
 	 * @param password The resource owner password. If null, the remanent password is used.
+	 * @param scope The desired scope.
 	 * @return The obtained token.
 	 * 
 	 * @throws NoTokenFoundException If no token can be retrieved for this resource and scope.
 	 */
-	public TokenResponse obtain(String resource, String scope, String username, 
-			String password) throws NoTokenFoundException {
-		logger.trace("[obtain] Try to get token for resource '" + resource + "' and scope '" + scope + "'");
+	public TokenResponse obtain(String username, String password, String scope) throws NoTokenFoundException {
+		logger.trace("[obtain] Try to get token for user '" + username + "' and scope '" + scope + "'");
+		
 		// Form sended to authentication servers.
 		Form form = new Form();
 		form.add("grant_type", "password");
@@ -154,7 +153,7 @@ public class TokenRepository {
 		for (String endPoint : authorizationEndPoints) {
 			try {
 				logger.debug("[obtain] Try to get token at " + endPoint);
-				result = httpClient.resource(endPoint).path("/token").type(MediaType.APPLICATION_FORM_URLENCODED).
+				result = httpClient.resource(endPoint).type(MediaType.APPLICATION_FORM_URLENCODED).
 					post(TokenResponse.class, form);
 			} catch (Exception exc) {
 				// No response returned.
@@ -168,7 +167,7 @@ public class TokenRepository {
 		}
 		if (result == null) {
 			logger.trace("[obtain] No token found !");
-			throw new NoTokenFoundException("No token obtained for resource '" + resource + "' and scope '" + scope + 
+			throw new NoTokenFoundException("No token obtained for user '" + username + "' and scope '" + scope + 
 					"'");
 		}
 		return result;
@@ -294,7 +293,7 @@ public class TokenRepository {
 				}
 			}
 			if (creds != null) {
-				token = obtain(resourceName, computedScope, creds[0], creds[1]);
+				token = obtain(creds[0], creds[1], computedScope);
 				if (token != null) {
 					addToken(resourceName, token);
 				} else {
@@ -307,7 +306,7 @@ public class TokenRepository {
 		// Enrich the request.
 		if (token != null) {
 			logger.debug("[enrich] Token " + token.toString() + " found for '" + url + "'");			
-			result = request.header(HttpHeaders.AUTHORIZATION, "OAuth "+token.accessToken);
+			result = request.header(HttpHeaders.AUTHORIZATION, "OAuth2 "+token.accessToken);
 		}
 		return result;
 	} // enrich().

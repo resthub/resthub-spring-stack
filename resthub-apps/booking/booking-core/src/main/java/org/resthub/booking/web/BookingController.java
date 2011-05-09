@@ -11,7 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.service.BookingService;
@@ -54,7 +53,6 @@ public class BookingController extends GenericResourceController<Booking, Bookin
 			bookings = new ArrayList<Booking>();
 		}
 		
-		//return Response.ok(bookings.toArray(entityClassArray)).build();
 		return Response.ok(bookings).build();
 	}
 }

@@ -31,8 +31,8 @@ class EntityListContextBean implements ApplicationContextAware  {
 	private Map<String, Set<String>> includedEntitiesMap;
 	private Map<String, Set<String>> excludedEntitiesMap;
 
-	public List<EntityListIncluderBean> includerBeans;
-	public List<EntityListExcluderBean> excluderBeans;
+	private List<EntityListIncluderBean> includerBeans;
+	private List<EntityListExcluderBean> excluderBeans;
 
 	private ApplicationContext applicationContext;
 

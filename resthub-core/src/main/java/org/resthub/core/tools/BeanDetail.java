@@ -26,9 +26,6 @@ public class BeanDetail {
 	private String description;
 	private String scope;
 
-	public BeanDetail() {
-	}
-
 	@XmlElement(required = true, name = "name")
 	public String getBeanName() {
 		return beanName;
@@ -83,14 +80,16 @@ public class BeanDetail {
 	@XmlElement(required = true)
 	public String getDescription() {
 		String result = "";
-		if (this.description != null && !this.description.isEmpty()) {
-			result = this.description;
-		} else {
-			if (this.bean != null) {
-				result = this.bean.toString();
-			}
+		
+		if ((this.description == null) || (this.description.isEmpty())) {
+		    if (this.bean != null) {
+                result = this.bean.toString();
+            }
 		}
-
+		else {
+		    result = this.description;
+		}
+		
 		return result;
 	}
 	

@@ -61,16 +61,16 @@ public class Search {
 	@Property
 	private String searchValue;
 
-	void onActivate() {
+	public void onActivate() {
 		this.searchSize = 5;
 	}
 
-	Boolean onActivate(Integer searchSize) {
+	public Boolean onActivate(Integer searchSize) {
 		this.searchSize = searchSize;
 		return true;
 	}
 
-	Integer onPassivate() {
+	public Integer onPassivate() {
 		return this.searchSize;
 	}
 
@@ -86,7 +86,7 @@ public class Search {
 		return model;
 	}
 
-	Object onSuccess() {
+	public Object onSuccess() {
 		this.hotelService.rebuildIndex();
 		this.prepareSearchValueForQuery();
 		this.hotels = this.hotelService.find(this.searchValue);
@@ -127,7 +127,7 @@ public class Search {
 	 * 
 	 * @return block to update
 	 */
-	Object onSearchValueChanged() {
+	public Object onSearchValueChanged() {
 		this.hotelService.rebuildIndex();
 		this.searchValue = request.getParameter("param");
 

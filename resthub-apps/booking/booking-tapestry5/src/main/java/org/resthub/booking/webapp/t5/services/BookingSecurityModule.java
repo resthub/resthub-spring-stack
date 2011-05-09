@@ -19,7 +19,7 @@ import org.springframework.security.authentication.encoding.PlaintextPasswordEnc
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * Configuration for integration with tapestry-spring-securitya library in order
+ * Configuration for integration with tapestry-spring-security a library in order
  * to provide complete and integrated login components
  * 
  * @author bmeurant <Baptiste Meurant>
@@ -27,7 +27,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @SubModule( { ResthubSecurityModule.class })
 public class BookingSecurityModule {
 
-	/**
+	private static final String ANONYMOUS_ROLE = "ROLE_ANONYMOUS";
+    private static final String AUTHENTICATED_ROLE = "ROLE_AUTH";
+
+    /**
 	 * Configure userDetailsService : service used to provide concrete
 	 * authentication
 	 * 
@@ -51,15 +54,15 @@ public class BookingSecurityModule {
 			Configuration<RequestInvocationDefinition> configuration) {
 
 		configuration.add(new RequestInvocationDefinition("/search/**",
-				"ROLE_AUTH"));
+				AUTHENTICATED_ROLE));
 		configuration.add(new RequestInvocationDefinition("/hotel/**",
-				"ROLE_AUTH"));
+				AUTHENTICATED_ROLE));
 		configuration.add(new RequestInvocationDefinition("/booking/**",
-				"ROLE_AUTH"));
+				AUTHENTICATED_ROLE));
 		configuration.add(new RequestInvocationDefinition("/settings",
-				"ROLE_AUTH"));
+				AUTHENTICATED_ROLE));
 		configuration.add(new RequestInvocationDefinition("/api/**",
-				"ROLE_ANONYMOUS"));
+				ANONYMOUS_ROLE));
 	}
 
 	public static void contributeProviderManager(
@@ -76,9 +79,8 @@ public class BookingSecurityModule {
 	 * 
 	 * @param configuration
 	 */
-	@SuppressWarnings("unchecked")
 	public static void contributeServiceOverride(
-			MappedConfiguration<Class, Object> configuration) {
+			MappedConfiguration<Class<?>, Object> configuration) {
 
 		configuration
 				.add(PasswordEncoder.class, new PlaintextPasswordEncoder());

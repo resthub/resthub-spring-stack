@@ -21,12 +21,13 @@ define([ 'user/login', 'user/register', 'user/edit' ], function() {
 
 	$.subscribe('user-logged-in', function() {
 		var user = $.storage.get('user');
-		$.pnotify('Welcome ' + user.fullname + ' !');
+		$.pnotify('Welcome ' + user.username + ' !');
 	});
 
 	$.subscribe('user-logged-out', function() {
 		$.pnotify('See ya !');
-		$.storage.clear();
+		$.storage.set('user', null);
+		$.storage.set(OAuth2Controller.storageKey, null);
 		$.route('#');
 	});
 

@@ -1,6 +1,5 @@
 package org.resthub.booking.dao;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
@@ -10,6 +9,7 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.junit.Test;
 import org.resthub.booking.model.User;
 import org.resthub.core.test.dao.AbstractDaoTest;
 
@@ -37,10 +37,11 @@ public class TestUserDao extends AbstractDaoTest<User, Long, UserDao> {
 	}
 
 	@Override
+	@Test
 	public void testUpdate() throws Exception {
 		
 		List<User> users = this.dao.findEquals("username", this.testUsername);
-		assertTrue("users list should contain an unique result", users.size() == 1);
+		assertEquals("users list should contain an unique result", 1, users.size());
 		
 		User user = users.get(0);
 		user.setEmail(CHANGED_TEST_USER_EMAIL);

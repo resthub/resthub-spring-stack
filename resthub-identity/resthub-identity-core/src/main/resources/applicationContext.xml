@@ -16,21 +16,7 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="org.resthub.identity" />
-	<!-- Scan Spring IOC annotations for oauth2 RESThub beans -->	
-	<context:component-scan base-package="org.resthub.oauth2" />
+	
     <resthub:include-jaxb-elements base-package="org.resthub.identity.model" />
 
-	<bean name="authorizationService"
-		class="org.resthub.oauth2.provider.service.AuthorizationServiceImpl">
-		<property name="dao" ref="tokenDao" />
-		<property name="tokenLifeTime" value="5000" />
-		<property name="tokenLength" value="15" />
-		<property name="authenticationProviders">
-			<list>
-				<!-- <ref bean="mockAuthenticationService" /> -->
-				<ref bean="userService" />
-			</list>
-		</property>
-	</bean>
-	
 </beans>

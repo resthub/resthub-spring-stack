@@ -207,7 +207,7 @@ public class OAuth2Filter implements Filter {
     	
     	// Look in headers first
     	String headerValue = request.getHeader(HttpHeaders.AUTHORIZATION);
-		if (headerValue != null && !headerValue.matches("^OAuth .*$")) {
+		if (headerValue != null && !headerValue.matches("^OAuth2 .*$")) {
 			// invalid token
 			StringBuilder sb = new StringBuilder("The token passed is misformated");
 			logger.trace("[doFilter] {}", sb.toString());
@@ -215,7 +215,7 @@ public class OAuth2Filter implements Filter {
 		} else {
 			// Try to extract the accessToken value.
 			if (headerValue != null) {
-				headerValue = headerValue.replace("OAuth", "").trim();
+				headerValue = headerValue.replace("OAuth2", "").trim();
 			}
 			String otherValue = null;
 			String method = request.getMethod();
@@ -321,8 +321,7 @@ public class OAuth2Filter implements Filter {
 						token = null;
 					} else {
 						// Process request.
-						chain.doFilter(new SecuredHttpRequest(token.userId, token.permissions, popupateSecurityContext, 
-								request), rawResponse);
+						chain.doFilter(new SecuredHttpRequest(token.userId, token.permissions, request), rawResponse);
 					}
 				}
 			}

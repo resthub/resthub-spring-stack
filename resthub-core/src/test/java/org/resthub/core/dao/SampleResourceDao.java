@@ -1,6 +1,5 @@
 package org.resthub.core.dao;
 
-import org.resthub.core.dao.GenericResourceDao;
 import org.resthub.core.model.SampleResource;
 
 /**

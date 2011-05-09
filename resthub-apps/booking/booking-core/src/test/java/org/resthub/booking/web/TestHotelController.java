@@ -3,14 +3,20 @@ package org.resthub.booking.web;
 import javax.ws.rs.core.MediaType;
 
 import junit.framework.Assert;
-import org.junit.Test;
-import org.resthub.web.test.AbstractWebResthubTest;
-import com.sun.jersey.api.client.WebResource;
+
 import org.junit.Ignore;
+import org.junit.Test;
 import org.resthub.booking.model.Hotel;
+import org.resthub.web.test.AbstractWebResthubTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sun.jersey.api.client.WebResource;
 
 public class TestHotelController extends AbstractWebResthubTest {
 
+    private static final Logger LOG = LoggerFactory
+    .getLogger(TestHotelController.class);
 
 	@Test
     @Ignore
@@ -34,7 +40,8 @@ public class TestHotelController extends AbstractWebResthubTest {
 		WebResource r = resource().path("hotel");
 		
         String response = r.type(MediaType.APPLICATION_XML).get(String.class);
-		System.out.print(response + "\n");
+		LOG.info(response + "\n");
+		
         Assert.assertTrue(response.contains("<pageResponse>"));
         Assert.assertTrue(response.contains("<elements>"));
     }
@@ -43,9 +50,9 @@ public class TestHotelController extends AbstractWebResthubTest {
     @Ignore
     public void testSearchHotels() {
         WebResource r = resource().path("hotel/search").queryParam("q", "Westin");
-        String s = r.accept(MediaType.APPLICATION_XML).get(String.class);
-        System.out.print(s + "\n");
-        Assert.assertTrue(s.contains("Westin"));
+        String response = r.accept(MediaType.APPLICATION_XML).get(String.class);
+        LOG.info(response + "\n");
+        Assert.assertTrue(response.contains("Westin"));
     }
 
 }

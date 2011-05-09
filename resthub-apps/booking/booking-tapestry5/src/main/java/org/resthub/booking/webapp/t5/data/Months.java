@@ -10,23 +10,23 @@ import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.util.AbstractSelectModel;
 
 /**
- * Used to display a list of months in card expiracy select list.
- * Tapestry5 booking sample
+ * Used to display a list of months in card expiracy select list. Tapestry5
+ * booking sample
  * (http://tapestry.zones.apache.org:8180/tapestry5-hotel-booking)
  * 
  * This component manage i18n messages.
- *
+ * 
  * @author ccordenier
  * @author bmeurant <Baptiste Meurant>
- *
+ * 
  */
-public class Months extends AbstractSelectModel
-{
+public class Months extends AbstractSelectModel {
 
     private List<OptionModel> options = new ArrayList<OptionModel>();
 
-    public Months(Messages messages)
-    {
+    public Months(Messages messages) {
+        super();
+
         options.add(new OptionModelImpl(messages.get("Months.january"), 1));
         options.add(new OptionModelImpl(messages.get("Months.february"), 2));
         options.add(new OptionModelImpl(messages.get("Months.march"), 3));
@@ -41,13 +41,11 @@ public class Months extends AbstractSelectModel
         options.add(new OptionModelImpl(messages.get("Months.december"), 12));
     }
 
-    public List<OptionGroupModel> getOptionGroups()
-    {
+    public List<OptionGroupModel> getOptionGroups() {
         return null;
     }
 
-    public List<OptionModel> getOptions()
-    {
+    public List<OptionModel> getOptions() {
         return options;
     }
 

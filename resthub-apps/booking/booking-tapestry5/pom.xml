@@ -68,20 +68,4 @@
 		</plugins>
 	</build>
 
-	<repositories>
-		<!-- Contains all RESThub artifacts and transitive dependencies -->
-		<repository>
-			<id>resthub</id>
-			<url>http://resthub.org/nexus/content/groups/resthub</url>
-		</repository>
-		<!--  TAPX -->
-		<repository>
-			<id>tapestry360-stable</id>
-			<url>http://tapestry.formos.com/maven-repository</url>
-		</repository>
-		<repository>
-			<id>tapestry360-snapshot</id>
-			<url>http://tapestry.formos.com/maven-snapshot-repository</url>
-		</repository>
-	</repositories>
 </project>

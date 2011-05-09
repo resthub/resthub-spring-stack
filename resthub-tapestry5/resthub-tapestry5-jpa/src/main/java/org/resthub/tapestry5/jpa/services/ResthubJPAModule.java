@@ -27,36 +27,35 @@ import org.tynamo.jpa.JPAModule;
  * @author bmeurant <Baptiste Meurant>
  * 
  */
-@SubModule( { JPAModule.class, JPACoreModule.class })
+@SubModule({ JPAModule.class, JPACoreModule.class })
 public class ResthubJPAModule {
-	@SuppressWarnings("unchecked")
-	public static void contributeServiceOverride(
-			MappedConfiguration<Class, Object> configuration,
-			@Local JPAEntityManagerSource directJPAEntityManagerSource) {
+    public static void contributeServiceOverride(
+            MappedConfiguration<Class<?>, Object> configuration,
+            @Local JPAEntityManagerSource directJPAEntityManagerSource) {
 
-		configuration.add(JPAEntityManagerSource.class,
-				directJPAEntityManagerSource);
-	}
+        configuration.add(JPAEntityManagerSource.class,
+                directJPAEntityManagerSource);
+    }
 
-	public static JPAEntityManagerSource buildDirectJPAEntityManagerSource(
-			Logger logger,
-			@Inject @Service("entityManagerFactory") EntityManagerFactory entityManagerFactory,
-			RegistryShutdownHub hub) {
-		DirectJPAEntityManagerSourceImpl hss = new DirectJPAEntityManagerSourceImpl(
-				logger, entityManagerFactory);
+    public static JPAEntityManagerSource buildDirectJPAEntityManagerSource(
+            Logger logger,
+            @Inject @Service("entityManagerFactory") EntityManagerFactory entityManagerFactory,
+            RegistryShutdownHub hub) {
+        DirectJPAEntityManagerSourceImpl hss = new DirectJPAEntityManagerSourceImpl(
+                entityManagerFactory);
 
-		hub.addRegistryShutdownListener(hss);
+        hub.addRegistryShutdownListener(hss);
 
-		return hss;
-	}
+        return hss;
+    }
 
-	public static JPAEntityPackageManager buildJPAEntityPackageManager(
-			final Collection<String> packageNames) {
-		return new JPAEntityPackageManager() {
-			public Collection<String> getPackageNames() {
-				return packageNames;
-			}
-		};
-	}
+    public static JPAEntityPackageManager buildJPAEntityPackageManager(
+            final Collection<String> packageNames) {
+        return new JPAEntityPackageManager() {
+            public Collection<String> getPackageNames() {
+                return packageNames;
+            }
+        };
+    }
 
 }

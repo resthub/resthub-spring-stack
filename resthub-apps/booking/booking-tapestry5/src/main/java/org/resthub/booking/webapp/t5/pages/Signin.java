@@ -32,7 +32,7 @@ public class Signin {
 		return request.getContextPath() + checkUrl;
 	}
 
-	void onActivate(String extra) {
+	public void onActivate(String extra) {
 		if (extra.equals(FAILED)) {
 			failed = true;
 		}

@@ -9,6 +9,14 @@
 		<param-value>classpath*:resthubContext.xml classpath*:applicationContext.xml</param-value>
 	</context-param>
 	<filter>
+    	<filter-name>springSecurityFilterChain</filter-name>
+    	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  	</filter>
+  	<filter-mapping>
+    	<filter-name>springSecurityFilterChain</filter-name>
+    	<url-pattern>/*</url-pattern>
+  	</filter-mapping> 
+	<filter>
 		<filter-name>JpaFilter</filter-name>
 		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
 	</filter>
@@ -22,11 +30,6 @@
 	<servlet>
 		<servlet-name>api</servlet-name>
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
-		<!--  added to filter resources -->
-		<init-param>
-			<param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>
-			<param-value>com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory</param-value>
-		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -42,29 +45,5 @@
 		<servlet-name>h2console</servlet-name>
 		<url-pattern>/console/database/*</url-pattern>
 	</servlet-mapping>
-	<servlet>
-		<servlet-name>default</servlet-name>
-		<servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
-		<init-param>
-			<param-name>useFileMappedBuffer</param-name>
-			<param-value>false</param-value>
-		</init-param>
-	</servlet>
-
-	<filter>
-		<!--
-			The name is important (thanks to Spring mecanisms). It's the filter
-			bean name
-		-->
-		<filter-name>OAuth2Filter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-
-	</filter>
-	<filter-mapping>
-		<filter-name>OAuth2Filter</filter-name>
-		<!-- Here the path of your protected resource -->
-		<url-pattern>/api/user/*</url-pattern>
-		<url-pattern>/api/group/*</url-pattern>
-	</filter-mapping>
 
 </web-app>

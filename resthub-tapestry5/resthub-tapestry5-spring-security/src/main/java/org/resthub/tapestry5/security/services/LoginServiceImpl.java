@@ -15,32 +15,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class LoginServiceImpl implements LoginService {
 
-	private AuthenticationManager authenticationManager = null;
+    private AuthenticationManager authenticationManager = null;
 
-	public LoginServiceImpl(final AuthenticationManager authenticationManager) {
-		this.authenticationManager = authenticationManager;
-	}
+    public LoginServiceImpl(final AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Boolean executeLogin(String i_username, String i_password,
-			List<GrantedAuthority> i_authorities) {
-		if (authenticationManager == null) {
-			return false;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean executeLogin(String username, String password,
+            List<GrantedAuthority> authorities) {
+        if (authenticationManager == null) {
+            return false;
+        }
 
-		try {
-			Authentication l_request = new UsernamePasswordAuthenticationToken(
-					i_username, i_password, i_authorities);
-			Authentication l_result = authenticationManager
-					.authenticate(l_request);
-			SecurityContextHolder.getContext().setAuthentication(l_result);
-		} catch (Exception l_exception) {
-			return false;
-		}
+        Authentication request = new UsernamePasswordAuthenticationToken(
+                username, password, authorities);
+        Authentication result = authenticationManager.authenticate(request);
+        SecurityContextHolder.getContext().setAuthentication(result);
 
-		return true;
-	}
+        return true;
+    }
 
 }

@@ -20,9 +20,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class MyUserDetailsService implements UserDetailsService {
 
-	private UserService userService;
+	private final UserService userService;
+	
 	@SuppressWarnings("unused")
-	private PasswordEncoder encoder;
+	private final PasswordEncoder encoder;
 
 	public MyUserDetailsService(UserService userService, PasswordEncoder encoder) {
 		super();

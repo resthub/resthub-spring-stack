@@ -32,8 +32,7 @@ import org.resthub.core.model.Resource;
 @Entity
 @Table(name = "hotel")
 @XmlRootElement
-public class Hotel extends Resource implements Serializable
-{
+public class Hotel extends Resource implements Serializable {
 
     private static final long serialVersionUID = -9200804524025548138L;
 
@@ -46,13 +45,13 @@ public class Hotel extends Resource implements Serializable
     private Integer stars;
     private BigDecimal price;
 
-    public Hotel()
-    {
+    public Hotel() {
+        super();
     }
 
-    public Hotel(final String name, final String address, final String city, final String state,
-            final String zip, final String country)
-    {
+    public Hotel(final String name, final String address, final String city,
+            final String state, final String zip, final String country) {
+        super();
         this.name = name;
         this.address = address;
         this.city = city;
@@ -61,9 +60,10 @@ public class Hotel extends Resource implements Serializable
         this.country = country;
     }
 
-    public Hotel(final int price, final int stars, final String name, final String address,
-            final String city, final String state, final String zip, final String country)
-    {
+    public Hotel(final int price, final int stars, final String name,
+            final String address, final String city, final String state,
+            final String zip, final String country) {
+        super();
         this.price = new BigDecimal(price);
         this.stars = stars;
         this.name = name;
@@ -79,111 +79,93 @@ public class Hotel extends Resource implements Serializable
     @Field(index = Index.TOKENIZED, store = Store.NO)
     @NaturalId
     @Column(unique = true)
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
     @Size(max = 100)
     @NotNull
     @Field(index = Index.TOKENIZED, store = Store.NO)
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(final String address)
-    {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
     @Size(max = 40)
     @NotNull
     @Field(index = Index.TOKENIZED, store = Store.NO)
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(final String city)
-    {
+    public void setCity(final String city) {
         this.city = city;
     }
 
     @Size(min = 3, max = 6)
     @NotNull
-    public String getZip()
-    {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(final String zip)
-    {
+    public void setZip(final String zip) {
         this.zip = zip;
     }
 
     @Size(min = 2, max = 10)
     @Field(index = Index.TOKENIZED, store = Store.NO)
-    public String getState()
-    {
+    public String getState() {
         return state;
     }
 
-    public void setState(final String state)
-    {
+    public void setState(final String state) {
         this.state = state;
     }
 
     @Size(min = 2, max = 40)
     @NotNull
     @Field(index = Index.TOKENIZED, store = Store.NO)
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(final String country)
-    {
+    public void setCountry(final String country) {
         this.country = country;
     }
 
     @Min(1)
     @Max(5)
-    public Integer getStars()
-    {
+    public Integer getStars() {
         return stars;
     }
 
-    public void setStars(final Integer stars)
-    {
+    public void setStars(final Integer stars) {
         this.stars = stars;
     }
 
     @Column(precision = 6, scale = 2)
-    public BigDecimal getPrice()
-    {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(final BigDecimal price)
-    {
+    public void setPrice(final BigDecimal price) {
         this.price = price;
     }
 
     @Transient
-    public String getLocation()
-    {
+    public String getLocation() {
         return city + ", " + state + ", " + country;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Hotel(" + name + "," + address + "," + city + "," + zip + ")";
     }
 }

@@ -8,7 +8,6 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -21,9 +20,13 @@ import javax.ws.rs.core.Response.Status;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
+import org.resthub.identity.security.IdentityUserDetailsAdapter;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.resthub.web.controller.GenericResourceController;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 @Path("/user")
 /**
@@ -107,8 +110,11 @@ public class UserController extends GenericResourceController<User, UserService>
     @Path("/me")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-USER", "IM-ADMIN"})
-    public Response currentUser(@HeaderParam("user_id") String login) {
-        User user = this.service.findByLogin(login);
+    public Response currentUser() {
+    	SecurityContext securityContext = SecurityContextHolder.getContext();
+    	IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter)securityContext.getAuthentication().getPrincipal();
+
+        User user = this.service.findByLogin(userDetails.getUsername());
         Response response = Response.status(Status.NOT_FOUND).build();
         if (user != null) {
             List<String> permissions = PermissionsOwnerTools.getInheritedPermission(user);

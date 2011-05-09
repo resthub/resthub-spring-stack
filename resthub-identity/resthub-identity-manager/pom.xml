@@ -45,6 +45,11 @@
 			<artifactId>resthub-identity-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-oauth2-spring-security</artifactId>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

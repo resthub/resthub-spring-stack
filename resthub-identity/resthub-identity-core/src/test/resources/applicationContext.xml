@@ -17,12 +17,4 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
  		
- 	<!-- Security configuration -->
-	<util:properties id="securityConfig">
-		<prop key="authorizationPassword">p@ssw0rd</prop>
-		<prop key="cookieName">oauth_token</prop>
-		<prop key="cookieDomain"></prop>
-		<prop key="cookiePath">/</prop>
-		<prop key="authenticationPage">/authent.jsp</prop>
-	</util:properties>
 </beans>

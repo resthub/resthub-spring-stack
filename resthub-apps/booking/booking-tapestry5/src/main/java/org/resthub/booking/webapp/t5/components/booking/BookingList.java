@@ -46,17 +46,17 @@ public class BookingList {
 	 * @return true if bookings found
 	 */
 	@SetupRender
-	boolean listBookings() {
+	public boolean listBookings() {
 		User user = userService.findAll().get(0);
 		bookings = bookingService.findByUserId(user.getId());
-		return bookings.size() > 0 ? true : false;
+		return !bookings.isEmpty();
 	}
 
 	/**
 	 * Simply cancel the booking and redirect to search page
 	 */
 	@OnEvent(component = "cancelBooking")
-	Object cancelBooking(Long bookingId) {
+	public Object cancelBooking(Long bookingId) {
 		bookingService.delete(bookingId);
 		return Search.class;
 	}

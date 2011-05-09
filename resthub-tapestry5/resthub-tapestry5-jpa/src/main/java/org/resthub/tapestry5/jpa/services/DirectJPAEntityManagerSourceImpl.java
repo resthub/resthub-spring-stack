@@ -18,25 +18,25 @@ import org.tynamo.jpa.JPAEntityManagerSource;
  * 
  */
 public class DirectJPAEntityManagerSourceImpl implements
-		JPAEntityManagerSource, RegistryShutdownListener {
-	private final EntityManagerFactory entityManagerFactory;
+        JPAEntityManagerSource, RegistryShutdownListener {
+    private final EntityManagerFactory entityManagerFactory;
 
-	public DirectJPAEntityManagerSourceImpl(Logger logger,
-			EntityManagerFactory entityManagerFactory) {
+    public DirectJPAEntityManagerSourceImpl(
+            EntityManagerFactory entityManagerFactory) {
 
-		this.entityManagerFactory = entityManagerFactory;
+        this.entityManagerFactory = entityManagerFactory;
 
-	}
+    }
 
-	public EntityManager create() {
-		return entityManagerFactory.createEntityManager();
-	}
+    public EntityManager create() {
+        return entityManagerFactory.createEntityManager();
+    }
 
-	public EntityManagerFactory getEntityManagerFactory() {
-		return entityManagerFactory;
-	}
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
+    }
 
-	public void registryDidShutdown() {
-		entityManagerFactory.close();
-	}
+    public void registryDidShutdown() {
+        entityManagerFactory.close();
+    }
 }
