@@ -11,6 +11,6 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 		
-    <!--context:property-placeholder location="classpath:org/resthub/core/config/database/database.properties" /-->
+    <context:property-placeholder order="2" location="classpath:org/resthub/core/config/database/database.properties" />
 
 </beans>

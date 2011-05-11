@@ -25,7 +25,15 @@
     
 	<resthub:include-entities base-package="org.resthub.**.model" />
 	
-    <context:property-placeholder properties-ref="databaseProperties" ignore-resource-not-found="true" ignore-unresolvable="true" />
+    <!--
+    PropertyPlaceholderConfigurer order priority default to Integer.MAX_VALUE
+    Use a lower order to override this default PropertyPlaceholderConfigurer.
+    -->
+    <context:property-placeholder 
+        location="classpath*:database.properties"
+        properties-ref="databaseProperties"
+        ignore-resource-not-found="true"
+        ignore-unresolvable="true" />
     
     <util:properties id="databaseProperties" >
         <prop key="dataSource.driverClassName">org.h2.Driver</prop>
@@ -36,7 +44,7 @@
         <prop key="dataSource.username">sa</prop>
         <prop key="dataSource.password"></prop>
         
-        <prop key="showSql">false</prop>
+        <prop key="hibernate.show_sql">false</prop>
         <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
         <prop key="hibernate.format_sql">true</prop>
         <prop key="hibernate.hbm2ddl.auto">update</prop>
@@ -64,7 +72,7 @@
 		</property>
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="showSql" value="${showSql}" />
+				<property name="showSql" value="${hibernate.show_sql}" />
 			</bean>
 		</property>
 		<property name="jpaProperties">

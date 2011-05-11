@@ -4,7 +4,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import junit.framework.Assert;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.hibernate.cfg.Environment;
 import org.junit.Test;
 import org.resthub.core.test.AbstractResthubTest;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -35,7 +34,10 @@ public class DefaultDatabaseConfigurationTest extends AbstractResthubTest {
     @Test
     public void testEntityManagerFactory() {
         Map<String, Object> jpaProperties = entityManagerFactory.getJpaPropertyMap();
-        //Assert.assertEquals("false", entityManagerFactory.getJpaVendorAdapter().getJpaPropertyMap().get(Environment.SHOW_SQL));
-        //Assert.assertEquals("org.hibernate.dialect.H2Dialect", jpaProperties.get("hibernate.dialect"));
+        Assert.assertEquals("org.hibernate.dialect.H2Dialect", jpaProperties.get("hibernate.dialect"));
+        Assert.assertEquals("true", jpaProperties.get("hibernate.format_sql"));
+        Assert.assertEquals("update", jpaProperties.get("hibernate.hbm2ddl.auto"));
+        Assert.assertEquals("true", jpaProperties.get("hibernate.cache.use_second_level_cache"));
+        Assert.assertEquals("net.sf.ehcache.hibernate.SingletonEhCacheProvider", jpaProperties.get("hibernate.cache.provider_class"));
     }
 }
