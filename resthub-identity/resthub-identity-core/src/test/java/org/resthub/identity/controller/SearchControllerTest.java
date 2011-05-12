@@ -30,216 +30,208 @@ import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
  */
 public class SearchControllerTest {
 
-	// -----------------------------------------------------------------------------------------------------------------
-	// Static private attributes
-	
-	/**
-	 * Jetty memory server port.
-	 */
-	protected static int serverPort = 9797;
+    // -----------------------------------------------------------------------------------------------------------------
+    // Static private attributes
+    /**
+     * Jetty memory server port.
+     */
+    protected static int serverPort = 9797;
+    /**
+     * Root of the in-memory server.
+     */
+    public static final String serverRoot = "/identity";
+    /**
+     * Jetty memory server instance.
+     */
+    protected static Server server;
+    /**
+     * Test class logger.
+     */
+    Logger logger = Logger.getLogger(SearchControllerTest.class);
 
-	/**
-	 * Root of the in-memory server.
-	 */
-	public static final String serverRoot = "/identity";
+    // -----------------------------------------------------------------------------------------------------------------
+    // Test suite initialization and finalization
+    /**
+     * Start an in-memory mock authorization server.
+     * To be used in test initialization.
+     */
+    @BeforeClass
+    public static void suiteSetUp() throws Exception {
+        // Creates a Jetty for the authorization server.
+        server = new Server(serverPort);
 
-	/**
-	 * Jetty memory server instance.
-	 */
-	protected static Server server;
-
-	/**
-	 * Test class logger.
-	 */
-	Logger logger = Logger.getLogger(SearchControllerTest.class);
-
-	// -----------------------------------------------------------------------------------------------------------------
-	// Test suite initialization and finalization
-
-	/**
-	 * Start an in-memory mock authorization server.
-	 * To be used in test initialization.
-	 */
-	@BeforeClass
-	public static void suiteSetUp() throws Exception {
-		// Creates a Jetty for the authorization server.
-		server = new Server(serverPort);
-
-		// On lance le serveur Jetty
+        // On lance le serveur Jetty
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath(serverRoot);
         context.setBaseResource(org.eclipse.jetty.util.resource.Resource.newResource("src/main/webapp"));
 
         // Spring listener.
         context.addEventListener(new ContextLoaderListener());
-        context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml " +
-        		"classpath*:applicationContext.xml");
+        context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml "
+                + "classpath*:applicationContext.xml");
         // JPA filter
         context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
         // Jersey Servlet.
         ServletHolder jerseyServlet = new ServletHolder(SpringServlet.class);
         context.addServlet(jerseyServlet, "/api/*");
-            
-		// Jetty start.
-		server.setHandler(context);
-		server.start();		
-	} // suiteSetUp().
-	
 
-	/**
-	 * After the test suite, stops the Jetty inmemory server.
-	 */
-	@AfterClass
-	public static void suiteTearDown() throws Exception {
-		if (server != null) {
-			server.stop();
-		}
-	} // suiteTearDown().
+        // Jetty start.
+        server.setHandler(context);
+        server.start();
+    } // suiteSetUp().
 
-	// -----------------------------------------------------------------------------------------------------------------
-	// Protected methods
+    /**
+     * After the test suite, stops the Jetty inmemory server.
+     */
+    @AfterClass
+    public static void suiteTearDown() throws Exception {
+        if (server != null) {
+            server.stop();
+        }
+    } // suiteTearDown().
 
-	/**
-	 * Returns an object to interact with the inmemory server.
-	 * 
-	 * @return A Jersey HTTP client.
-	 */
-	protected WebResource resource() {
+    // -----------------------------------------------------------------------------------------------------------------
+    // Protected methods
+    /**
+     * Returns an object to interact with the inmemory server.
+     * 
+     * @return A Jersey HTTP client.
+     */
+    protected WebResource resource() {
         ClientConfig config = new DefaultClientConfig();
         config.getSingletons().add(new JacksonProvider());
-     
+
         Client client = Client.create(config);
-		return client.resource("http://localhost:" + serverPort + serverRoot);
-	} // resource()
-	
-	// -----------------------------------------------------------------------------------------------------------------
-	// Tests
+        return client.resource("http://localhost:" + serverPort + serverRoot);
+    } // resource()
 
-	@Test
-	public void shouldIndexesBeReseted() {
-		// Given a resource on the server
-		WebResource server = resource();
-		// When reseting indexes
-		ClientResponse response = server.path("/api/search").put(ClientResponse.class);
-		// Then the operation is processed
-		assertEquals(204, response.getClientResponseStatus().getStatusCode());
-	} // shouldIndexesBeReseted().
+    // -----------------------------------------------------------------------------------------------------------------
+    // Tests
+    @Test
+    public void shouldIndexesBeReseted() {
+        // Given a resource on the server
+        WebResource server = resource();
+        // When reseting indexes
+        ClientResponse response = server.path("/api/search").put(ClientResponse.class);
+        // Then the operation is processed
+        assertEquals(204, response.getClientResponseStatus().getStatusCode());
+    } // shouldIndexesBeReseted().
 
-	@Test
-	public void shouldNullQueryFailed() {
-		// Given a resource on the server
-		WebResource server = resource();
-		// When searching without parameter
-		ClientResponse response = server.path("/api/search").get(ClientResponse.class);
-		// Then the result is an error.
-		assertEquals(500, response.getClientResponseStatus().getStatusCode());
-		String responseStr = response.getEntity(String.class);
-		assertTrue(responseStr.contains("query must not be null"));
-	} // shouldEmptyEmptyQueryReturnNothing().
-	
-	@Test
-	public void shouldEmptyQueryFailed() {
-		// Given a resource on the server
-		WebResource server = resource();
-		// When searching with empty query
-		ClientResponse response = server.path("/api/search").queryParam("query", "")
-				.get(ClientResponse.class);
-		// Then the result is empty.
-		assertEquals(500, response.getClientResponseStatus().getStatusCode());
-		String responseStr = response.getEntity(String.class);
-		assertTrue(responseStr.contains("Misformatted queryString"));
-	} // shouldEmptyQueryFailed().
-	
-	@Test
-	public void shouldUnmatchingQueryReturnsEmptyResults() {
-		// Given a resource on the server
-		WebResource server = resource();
-		// When searching with an unmatching query
-		Resource[] results = server.path("/api/search").queryParam("query", "toto")
-				.get(Resource[].class);
-		// Then the result is empty.
-		assertNotNull(results);
-		assertEquals(0, results.length);
-	} // shouldUnmatchingQueryReturnsEmptyResults().
-		
-	@Test
-	public void shouldQueryReturnsUsers() {
-		// Given a resource on the server
-		WebResource server = resource();
-		// Given a user with jdujardin as login
-		User user = new User();
-		user.setLogin("jdujardin");
-		user.setPassword("pwd");
-		user = server.path("/api/user/").post(User.class, user);
-		
-		// Given a user with jean as name
-		User user2 = new User();
-		user2.setLogin("user2");
-		user2.setLastName("jean");
-		user2.setPassword("pwd");
-		user2 = server.path("/api/user/").post(User.class, user2);
+    @Test
+    public void shouldNullQueryFailed() {
+        // Given a resource on the server
+        WebResource server = resource();
+        // When searching without parameter
+        ClientResponse response = server.path("/api/search").get(ClientResponse.class);
+        // Then the result is an error.
+        assertEquals(500, response.getClientResponseStatus().getStatusCode());
+        String responseStr = response.getEntity(String.class);
+        assertTrue(responseStr.contains("query must not be null"));
+    } // shouldEmptyEmptyQueryReturnNothing().
 
-		// When searching the created user
-		User[] results = server.path("/api/search").queryParam("query", "j")
-				.get(User[].class);
-		// Then the result contains the user.
-		assertNotNull(results);
-		assertEquals(2, results.length);
-		assertEquals(user, results[0]);
-		assertEquals(user2, results[1]);
-	} // shouldQueryReturnsUsers().
-	
-	
-	@Test
-	public void shouldQueryReturnsUsersInJson() {
-		// Given a resource on the server
-		WebResource server = resource();
-		// Given a user with jdujardin as login
-		User user = new User();
-		user.setLogin("jdujardin");
-		user.setPassword("pwd");
-		user = server.path("/api/user/").post(User.class, user);
-		
-		// Given a user with jean as name
-		User user2 = new User();
-		user2.setLogin("user2");
-		user2.setLastName("jean");
-		user2.setPassword("pwd");
-		user2 = server.path("/api/user/").post(User.class, user2);
+    @Test
+    public void shouldEmptyQueryFailed() {
+        // Given a resource on the server
+        WebResource server = resource();
+        // When searching with empty query
+        ClientResponse response = server.path("/api/search").queryParam("query", "").get(ClientResponse.class);
+        // Then the result is empty.
+        assertEquals(500, response.getClientResponseStatus().getStatusCode());
+        String responseStr = response.getEntity(String.class);
+        assertTrue(responseStr.contains("Misformatted queryString"));
+    } // shouldEmptyQueryFailed().
 
-		ClientResponse response = server.path("/api/search").queryParam("query", "j")
-				.accept(MediaType.APPLICATION_JSON)
-				.get(ClientResponse.class);
-		System.out.println(response.getEntity(String.class));
-		
-		// When searching the created user in JSON
-		User[] results = server.path("/api/search").queryParam("query", "j")
-				.accept(MediaType.APPLICATION_JSON)
-				.get(User[].class);
-		// Then the result contains the user.
-		assertNotNull(results);
-		assertEquals(2, results.length);
-		assertEquals(user, results[0]);
-		assertEquals(user2, results[1]);
-	} // shouldQueryReturnsUsersInJson().
-	
-	@Test
-	public void shouldQueryWithoutUsersNotReturnsUsers() {
-		// Given a resource on the server
-		WebResource server = resource();
-		// Given a user
-		User user = new User();
-		user.setLogin("jdujardin");
-		user.setPassword("pwd");
-		user = server.path("/api/user/").post(User.class, user);
+    @Test
+    public void shouldUnmatchingQueryReturnsEmptyResults() {
+        // Given a resource on the server
+        WebResource server = resource();
+        // When searching with an unmatching query
+        Resource[] results = server.path("/api/search").queryParam("query", "toto").get(Resource[].class);
+        // Then the result is empty.
+        assertNotNull(results);
+        assertEquals(0, results.length);
+    } // shouldUnmatchingQueryReturnsEmptyResults().
 
-		// When searching the created user without users
-		User[] results = server.path("/api/search").queryParam("query", "j")
-				.queryParam("users", "false")
-				.get(User[].class);
-		// Then the result does not contains the user.
-		assertNotNull(results);
-		assertEquals(0, results.length);
-	} // shouldQueryReturnsUsers().
-	
+    @Test
+    public void shouldQueryReturnsUsers() {
+        // Given a resource on the server
+        WebResource server = resource();
+        // Given a user with jdujardin as login
+        User user = new User();
+        user.setLogin("jdujardin");
+        user.setPassword("pwd");
+        user = server.path("/api/user/").post(User.class, user);
+
+        // Given a user with jean as name
+        User user2 = new User();
+        user2.setLogin("user2");
+        user2.setLastName("jean");
+        user2.setPassword("pwd");
+        user2 = server.path("/api/user/").post(User.class, user2);
+
+        // When searching the created user
+        User[] results = server.path("/api/search").queryParam("query", "j").get(User[].class);
+        // Then the result contains the user.
+        assertNotNull(results);
+        assertEquals(2, results.length);
+        assertEquals(user, results[0]);
+        assertEquals(user2, results[1]);
+
+        // Cleanup after work
+        server.path("/api/user/" + user.getId()).type(MediaType.APPLICATION_XML).delete();
+        server.path("/api/user/" + user2.getId()).type(MediaType.APPLICATION_XML).delete();
+    } // shouldQueryReturnsUsers().
+
+    @Test
+    public void shouldQueryReturnsUsersInJson() {
+        // Given a resource on the server
+        WebResource server = resource();
+        // Given a user with jdujardin as login
+        User user = new User();
+        user.setLogin("jdujardin");
+        user.setPassword("pwd");
+        user = server.path("/api/user/").post(User.class, user);
+
+        // Given a user with jean as name
+        User user2 = new User();
+        user2.setLogin("user2");
+        user2.setLastName("jean");
+        user2.setPassword("pwd");
+        user2 = server.path("/api/user/").post(User.class, user2);
+
+        ClientResponse response = server.path("/api/search").queryParam("query", "j").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        System.out.println(response.getEntity(String.class));
+
+        // When searching the created user in JSON
+        User[] results = server.path("/api/search").queryParam("query", "j").accept(MediaType.APPLICATION_JSON).get(User[].class);
+        // Then the result contains the user.
+        assertNotNull(results);
+        assertEquals(2, results.length);
+        assertEquals(user, results[0]);
+        assertEquals(user2, results[1]);
+
+        // Cleanup after work
+        server.path("/api/user/" + user.getId()).type(MediaType.APPLICATION_XML).delete();
+        server.path("/api/user/" + user2.getId()).type(MediaType.APPLICATION_XML).delete();
+    } // shouldQueryReturnsUsersInJson().
+
+    @Test
+    public void shouldQueryWithoutUsersNotReturnsUsers() {
+        // Given a resource on the server
+        WebResource server = resource();
+        // Given a user
+        User user = new User();
+        user.setLogin("jdujardin");
+        user.setPassword("pwd");
+        user = server.path("/api/user/").post(User.class, user);
+
+        // When searching the created user without users
+        User[] results = server.path("/api/search").queryParam("query", "j").queryParam("users", "false").get(User[].class);
+        // Then the result does not contains the user.
+        assertNotNull(results);
+        assertEquals(0, results.length);
+
+        // Cleanup after work
+        server.path("/api/user/" + user.getId()).type(MediaType.APPLICATION_XML).delete();
+    } // shouldQueryReturnsUsers().
 } // Class SearchControllerTest.

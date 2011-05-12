@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.resthub.core.exception.AlreadyExistingEntityException;
 
 import org.resthub.core.service.GenericResourceServiceImpl;
 import org.resthub.identity.dao.PermissionsOwnerDao;
@@ -25,6 +26,7 @@ import org.springframework.util.Assert;
 @Named("groupService")
 public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, PermissionsOwnerDao<Group>> implements
         GroupService {
+
     /**
      * The userDao<br/>
      * This class need it in order to be able to deal with users
@@ -207,13 +209,34 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
      */
     @Override
     @Transactional(readOnly = false)
-    public Group create(Group created) {
-        // Overriden method call.
-        created = super.create(created);
-        // Publish notification
-        publishChange(GroupServiceChange.GROUP_CREATION.name(), created);
-        return created;
+    public Group create(Group group) throws AlreadyExistingEntityException {
+        Group existingGroup = this.findByName(group.getName());
+        if (existingGroup == null) {
+            // Overriden method call.
+            group = super.create(group);
+            // Publish notification
+            publishChange(GroupServiceChange.GROUP_CREATION.name(), group);
+            return group;
+        } else {
+            throw new AlreadyExistingEntityException("Group " + group.getName() + " already exists.");
+        }
     } // create().
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public Group update(Group group) throws AlreadyExistingEntityException {
+        // Check if there is an already existing group with this name with a different ID
+        Group existingGroup = this.findByName(group.getName());
+        if (existingGroup == null || existingGroup.getId() == group.getId()) {
+            group = super.update(group);
+        } else {
+            throw new AlreadyExistingEntityException("Group " + group.getName() + " already exists.");
+        }
+        return group;
+    }
 
     /**
      * {@inheritDoc}

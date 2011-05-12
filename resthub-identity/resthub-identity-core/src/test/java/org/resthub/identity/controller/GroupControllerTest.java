@@ -41,29 +41,26 @@ public class GroupControllerTest
 
     @Inject
     @Named("groupService")
-    public void setGrouPService(GroupService gs) {
+    public void setGroupService(GroupService gs) {
         this.groupService = gs;
     }
 
     @Override
     public void testUpdate() throws Exception {
-        Group u1 = new Group();
-        u1.setName("u1");
+        Group g1 = new Group();
+        g1.setName("g1");
 
         WebResource r = resource().path("group");
-        u1 = r.type(MediaType.APPLICATION_XML).post(Group.class, u1);
-        r = resource().path("group/" + u1.getId());
-        Group u2 = u1;
-        u2.setName("u2");
+        g1 = r.type(MediaType.APPLICATION_XML).post(Group.class, g1);
+        r = resource().path("group/" + g1.getId());
+        Group g2 = g1;
+        g2.setName("g2");
         // Update name
-        ClientResponse cr = r.type(MediaType.APPLICATION_XML).accept(
-                MediaType.APPLICATION_JSON).put(ClientResponse.class, u2);
-        Assert.assertEquals("Group not updated",
-                Status.CREATED.getStatusCode(), cr.getStatus());
-        String response = resource().path("group").accept(
-                MediaType.APPLICATION_JSON).get(String.class);
-        Assert.assertFalse("Group not updated", response.contains("u1"));
-        Assert.assertTrue("Group not updated", response.contains("u2"));
+        ClientResponse cr = r.type(MediaType.APPLICATION_XML).accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, g2);
+        Assert.assertEquals("Group not updated", Status.OK.getStatusCode(), cr.getStatus());
+        String response = resource().path("group").accept(MediaType.APPLICATION_JSON).get(String.class);
+        Assert.assertFalse("Group not updated", response.contains("g1"));
+        Assert.assertTrue("Group not updated", response.contains("g2"));
     }
 
     @Test

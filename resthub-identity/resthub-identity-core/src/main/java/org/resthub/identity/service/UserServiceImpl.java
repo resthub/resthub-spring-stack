@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.resthub.core.exception.AlreadyExistingEntityException;
 
 import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
@@ -14,7 +15,6 @@ import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.tools.PermissionsOwnerTools;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -48,14 +48,35 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      */
     @Override
     @Transactional(readOnly = false)
-    public User create(User user) {
-        // Overloaded method call
-        User created = super.create(user);
-        // Publish notification
-        publishChange(UserServiceChange.USER_CREATION.name(), created);
-        return created;
+    public User create(User user) throws AlreadyExistingEntityException {
+        User existingUser = this.findByLogin(user.getLogin());
+        if (existingUser == null) {
+            // Overloaded method call
+            User created = super.create(user);
+            // Publish notification
+            publishChange(UserServiceChange.USER_CREATION.name(), created);
+            return created;
+        } else {
+            throw new AlreadyExistingEntityException("User " + user.getLogin() + " already exists.");
+        }
     } // create().
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public User update(User user) throws AlreadyExistingEntityException {
+        // Check if there is an already existing user with this login with a different ID
+        User existingUser = this.findByLogin(user.getLogin());
+        if (existingUser == null || existingUser.getId() == user.getId()) {
+            user = super.update(user);
+        } else {
+            throw new AlreadyExistingEntityException("User " + user.getLogin() + " already exists.");
+        }
+        return user;
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -87,6 +108,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      *            the login to look for
      * @return the corresponding User object if founded, null otherwise
      * */
+    @Override
     public User findByLogin(String login) {
         Assert.notNull(login, "User login can't be null");
         List<User> result = this.dao.findEquals("login", login);
@@ -114,6 +136,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      *            the login of the user
      * @return permissions of the user.
      */
+    @Override
     public List<String> getUserDirectPermissions(String login) {
         List<String> p = null;
         User u = this.findByLogin(login);
@@ -132,6 +155,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      *            the permission to be added
      */
     @Transactional(readOnly = false)
+    @Override
     public void addPermissionToUser(String userLogin, String permission) {
         if (userLogin != null && permission != null) {
             User u = this.findByLogin(userLogin);
@@ -154,6 +178,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      *            the permission to delete
      */
     @Transactional(readOnly = false)
+    @Override
     public void removePermissionFromUser(String userLogin, String permission) {
         if (userLogin != null && permission != null) {
             User u = this.findByLogin(userLogin);
@@ -174,6 +199,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      *            the name of the group to add from the user's group list
      */
     @Transactional(readOnly = false)
+    @Override
     public void addGroupToUser(String userLogin, String groupName) {
         if (userLogin != null && groupName != null) {
             User u = this.findByLogin(userLogin);
@@ -195,6 +221,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      *            the name of the group to remove from the user's group list
      */
     @Transactional(readOnly = false)
+    @Override
     public void removeGroupFromUser(String userLogin, String groupName) {
         if (userLogin != null && groupName != null) {
             User u = this.findByLogin(userLogin);

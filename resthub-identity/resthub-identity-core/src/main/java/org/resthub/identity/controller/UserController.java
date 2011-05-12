@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import org.resthub.core.exception.AlreadyExistingEntityException;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
@@ -26,7 +27,6 @@ import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.resthub.web.controller.GenericResourceController;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 
 @Path("/user")
 /**
@@ -111,8 +111,8 @@ public class UserController extends GenericResourceController<User, UserService>
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-USER", "IM-ADMIN"})
     public Response currentUser() {
-    	SecurityContext securityContext = SecurityContextHolder.getContext();
-    	IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter)securityContext.getAuthentication().getPrincipal();
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter) securityContext.getAuthentication().getPrincipal();
 
         User user = this.service.findByLogin(userDetails.getUsername());
         Response response = Response.status(Status.NOT_FOUND).build();
@@ -257,10 +257,41 @@ public class UserController extends GenericResourceController<User, UserService>
     @Override
     @RolesAllowed({"IM-ADMIN"})
     public Response create(User user) {
-        User u = service.create(user);
+        User u = null;
         Response r;
-        r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to save the user").build() : Response.ok(u).build();
+        try {
+            u = service.create(user);
+            r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
+                    "Unable to save the user").build() : Response.ok(u).build();
+        } catch (AlreadyExistingEntityException ex) {
+            r = Response.status(Status.CONFLICT).entity("User with the same login already existing").build();
+        }
+        return r;
+    }
+
+    /**
+     * Used to create or update a user - The differences come from the service
+     * layer
+     *
+     * @param user
+     *            the user to create/update
+     * */
+    @Override
+    @PUT
+    @Path("/{id}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @RolesAllowed({"IM-ADMIN"})
+    public Response update(@PathParam("id") Long id, User user) {
+        User u = null;
+        Response r;
+        try {
+            u = service.update(user);
+            r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
+                    "Unable to save the user").build() : Response.ok(u).build();
+        } catch (AlreadyExistingEntityException ex) {
+            r = Response.status(Status.CONFLICT).entity("User with the same login already existing").build();
+        }
         return r;
     }
 
