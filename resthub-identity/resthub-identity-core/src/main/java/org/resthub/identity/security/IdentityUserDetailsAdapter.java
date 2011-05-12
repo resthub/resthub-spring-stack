@@ -3,6 +3,7 @@ package org.resthub.identity.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +16,16 @@ public class IdentityUserDetailsAdapter implements UserDetails {
 	
 	private User user;
 	
+	private List<Role> roles;
+	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -28,7 +39,8 @@ public class IdentityUserDetailsAdapter implements UserDetails {
             grantedAuthorities = new ArrayList<GrantedAuthority>();
             for(String permission : PermissionsOwnerTools.getInheritedPermission(user)) {
                     grantedAuthorities.add(new GrantedAuthorityImpl(permission));
-            }            
+            }
+
     }
     
     public List<GrantedAuthority> getAuthorities() {
