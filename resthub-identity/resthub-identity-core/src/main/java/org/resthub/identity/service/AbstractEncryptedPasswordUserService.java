@@ -28,7 +28,6 @@ public abstract class AbstractEncryptedPasswordUserService extends AbstractTrace
     @Inject
     @Named("passwordEncryptor")
     private PasswordEncryptor passwordEncryptor;
-    
     final static Logger logger = LoggerFactory.getLogger(AbstractEncryptedPasswordUserService.class);
 
     /**
@@ -38,8 +37,13 @@ public abstract class AbstractEncryptedPasswordUserService extends AbstractTrace
      *            the user to create
      * */
     @Transactional
+    @Override
     public User create(User user) {
-        return updateUser(user);
+        if (user.getPassword() == null) {
+            user.setPassword(user.generateDefaultPassword());
+        }
+        user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
+        return dao.save(user);
     }
 
     /**
@@ -49,43 +53,19 @@ public abstract class AbstractEncryptedPasswordUserService extends AbstractTrace
      *            the user to update
      */
     @Transactional
+    @Override
     public User update(User user) {
-        return updateUser(user);
-    }
-
-    ;
-
-    /**
-     * Usefull to create or update a user don't update password
-     *
-     * @param user
-     *            the user to save
-     *@return user, the saved user
-     */
-    @Transactional
-    public User updateUser(User user) {
         User userToReturn = null;
-        List<User> l = dao.findEquals("login", user.getLogin());
-        int size = (l == null) ? 0 : l.size();
-        if (size > 0) {
-            /** Existing User */
-            User daoUser = l.get(0);
+        User daoUser = dao.readByPrimaryKey(user.getId());
+        if (daoUser != null) {
             user.setPassword(daoUser.getPassword());
-            user.setId(daoUser.getId());
-
-            userToReturn = dao.save(user);
-        } else {
-            /** New User */
-            if (user.getPassword() == null) {
-                user.setPassword(user.generateDefaultPassword());
-            }
-            user.setPassword(passwordEncryptor.encryptPassword(user.getPassword()));
             userToReturn = dao.save(user);
         }
         return userToReturn;
     }
 
     @Transactional
+    @Override
     public User updatePassword(User user) {
         List<User> l = dao.findEquals("login", user.getLogin());
         int size = (l == null) ? 0 : l.size();
@@ -134,12 +114,13 @@ public abstract class AbstractEncryptedPasswordUserService extends AbstractTrace
     /**
      * {@inheritDoc}
      */
+    @Override
     public User authenticateUser(String login, String password) {
         List<User> l = dao.findEquals("Login", login);
         if (l != null) {
             for (User tmpU : l) {
                 if (passwordEncryptor.checkPassword(password, tmpU.getPassword())) {
-                   return tmpU;
+                    return tmpU;
                 }
             }
         }

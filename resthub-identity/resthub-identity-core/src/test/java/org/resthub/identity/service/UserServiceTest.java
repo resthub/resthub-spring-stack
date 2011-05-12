@@ -17,7 +17,6 @@ import javax.inject.Named;
 
 import junit.framework.Assert;
 
-import org.junit.After;
 import org.junit.Test;
 import org.resthub.core.test.service.AbstractResourceServiceTest;
 import org.resthub.identity.model.Group;
@@ -105,7 +104,9 @@ public class UserServiceTest extends AbstractResourceServiceTest<User, UserServi
         u = this.resourceService.create(u);
 
         // when we try to change some info (firstName) about the user and that we give the good password
+        Long uid = u.getId();
         u = new User(u);
+        u.setId(uid);
         u.setFirstName(firstNameAbr);
         u.setPassword(password);
         u = resourceService.update(u);

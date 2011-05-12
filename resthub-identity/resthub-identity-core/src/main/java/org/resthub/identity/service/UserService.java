@@ -1,6 +1,7 @@
 package org.resthub.identity.service;
 
 import java.util.List;
+import org.resthub.core.exception.AlreadyExistingEntityException;
 
 import org.resthub.core.service.GenericResourceService;
 import org.resthub.identity.model.Role;
@@ -15,34 +16,51 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface UserService extends GenericResourceService<User>, TracableService {
 
-	/**
-	 * Kind of changes notified by this service
-	 */
-	enum UserServiceChange {
-		/**
-		 * User creation. Arguments : 
-		 * 1- created user.
-		 */
-		USER_CREATION, 
-		/**
-		 * User deletion. Arguments : 
-		 * 1- deleted user.
-		 */
-		USER_DELETION, 
-		/**
-		 * User addition to a group. Arguments : 
-		 * 1- added user.
-		 * 2- concerned group.
-		 */
-		USER_ADDED_TO_GROUP, 
-		/**
-		 * User removal from a group. Arguments : 
-		 * 1- removed user.
-		 * 2- concerned group.
-		 */
-		USER_REMOVED_FROM_GROUP 
-	};
-	
+    /**
+     * Kind of changes notified by this service
+     */
+    enum UserServiceChange {
+
+        /**
+         * User creation. Arguments : 
+         * 1- created user.
+         */
+        USER_CREATION,
+        /**
+         * User deletion. Arguments : 
+         * 1- deleted user.
+         */
+        USER_DELETION,
+        /**
+         * User addition to a group. Arguments : 
+         * 1- added user.
+         * 2- concerned group.
+         */
+        USER_ADDED_TO_GROUP,
+        /**
+         * User removal from a group. Arguments : 
+         * 1- removed user.
+         * 2- concerned group.
+         */
+        USER_REMOVED_FROM_GROUP
+    };
+
+    /**
+     * Create a new user.
+     * @param user User to create
+     * @return new user
+     */
+    @Override
+    User create(User user) throws AlreadyExistingEntityException;
+
+    /**
+     * Update existing user.
+     * @param user User to update
+     * @return user updated
+     */
+    @Override
+    User update(User user) throws AlreadyExistingEntityException;
+
     /**
      * Find user by login.
      *
@@ -158,7 +176,7 @@ public interface UserService extends GenericResourceService<User>, TracableServi
      * @param roleName The role that will be removed.
      */
     void removeRoleFromUser(String userLogin, String roleName);
-    
+
     /**
      * Get all the roles a user owns.
      * 

@@ -13,7 +13,6 @@ import org.resthub.identity.service.UserService;
 import org.resthub.web.test.controller.AbstractResourceControllerTest;
 
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.ClientResponse.Status;
 import javax.inject.Named;
@@ -38,16 +37,16 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
         super.setController(userController);
     }
 
-	@Override
-	protected User createTestResource() throws Exception {
-		logger.debug("UserControllerTest : createTestResource");
-		String userLogin = "UserTestUserLogin"+ new Random().nextInt();
-		String userPassword = "UserTestUserPassword";
-		User u = new User();
-		u.setLogin(userLogin);
-		u.setPassword(userPassword);
-		return u;
-	}
+    @Override
+    protected User createTestResource() throws Exception {
+        logger.debug("UserControllerTest : createTestResource");
+        String userLogin = "UserTestUserLogin" + new Random().nextInt();
+        String userPassword = "UserTestUserPassword";
+        User u = new User();
+        u.setLogin(userLogin);
+        u.setPassword(userPassword);
+        return u;
+    }
 
     @Override
     public void testUpdate() throws Exception {
@@ -66,7 +65,7 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
         // Update login
         ClientResponse cr = r.type(MediaType.APPLICATION_XML).accept(
                 MediaType.APPLICATION_JSON).put(ClientResponse.class, u2);
-        Assert.assertEquals("User not updated", Status.CREATED.getStatusCode(),
+        Assert.assertEquals("User not updated", Status.OK.getStatusCode(),
                 cr.getStatus());
         String response = resource().path("user").accept(
                 MediaType.APPLICATION_JSON).get(String.class);
@@ -110,8 +109,7 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
         String userWithRole = resource().path("user/login/" + u.getLogin()).accept(MediaType.APPLICATION_JSON).get(String.class);
         assertFalse("The user shouldn't contain the role", userWithRole.contains(r.getName()));
     }
-    
-    
+
     @Test
     public void shouldGetRolesFromUsers() throws Exception {
         // Given some new roles
@@ -150,5 +148,20 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
         assertEquals("The list of roles for user2 should be empty", "[ ]", user2Roles);
         assertTrue("The list of roles for user3 should contain role2", user3Roles.contains(r2.getName()));
         assertTrue("The list of roles for user4 should contain role1 and role2", user4Roles.contains(r1.getName()) && user4Roles.contains(r2.getName()));
+    }
+
+    @Test
+    public void cannotCreateTwiceTheSameUser() throws Exception {
+        // Given a new user
+        User u = this.createTestResource();
+
+        // When I create it twice
+        resource().path("user").type(MediaType.APPLICATION_XML).post(u);
+        ClientResponse response = resource().path("user").type(MediaType.APPLICATION_XML).post(ClientResponse.class, u);
+
+        // Then the response should be a 409 error
+        if (response.getClientResponseStatus() != Status.CONFLICT) {
+            fail();
+        }
     }
 }

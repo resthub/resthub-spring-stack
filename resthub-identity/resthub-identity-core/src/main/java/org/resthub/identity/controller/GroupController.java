@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -16,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import org.resthub.core.exception.AlreadyExistingEntityException;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
@@ -67,6 +69,50 @@ public class GroupController extends GenericResourceController<Group, GroupServi
     @Named("userService")
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    /**
+     * Used to create or update a user - The differences come from the service
+     * layer
+     *
+     * @param group
+     *            the user to create/update
+     * */
+    @Override
+    @RolesAllowed({"IM-ADMIN"})
+    public Response create(Group group) {
+        Group g = null;
+        Response r;
+        try {
+            g = service.create(group);
+            r = (g == null) ? Response.status(Status.NOT_FOUND).entity(
+                    "Unable to save the group").build() : Response.ok(g).build();
+        } catch (AlreadyExistingEntityException ex) {
+            r = Response.status(Status.CONFLICT).entity("Group with the same name already existing").build();
+        }
+        return r;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @PUT
+    @Path("/{id}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @RolesAllowed({"IM-ADMIN"})
+    public Response update(@PathParam("id") Long id, Group group) {
+        Group g = null;
+        Response r;
+        try {
+            g = service.update(group);
+            r = (g == null) ? Response.status(Status.NOT_FOUND).entity(
+                    "Unable to save the group").build() : Response.ok(g).build();
+        } catch (AlreadyExistingEntityException ex) {
+            r = Response.status(Status.CONFLICT).entity("Group with the same name already existing").build();
+        }
+        return r;
     }
 
     /**
