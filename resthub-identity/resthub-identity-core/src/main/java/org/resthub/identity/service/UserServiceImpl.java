@@ -345,7 +345,7 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
      * @param roles A list of roles that will be filled.
      * @param owner The root element to begin with.
      */
-    private void getRolesFromRootElement(List<Role> roles, AbstractPermissionsOwner owner) {
+    public void getRolesFromRootElement(List<Role> roles, AbstractPermissionsOwner owner) {
         // Stop the processing if one of the parameters is null
         if (roles != null && owner != null) {
             // Add the roles we find on our path if needed.

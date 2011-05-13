@@ -1,13 +1,21 @@
 package org.resthub.identity.security;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.RoleService;
+import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.service.tracability.ServiceListener;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,9 +34,9 @@ public class IdentityUserDetailsService implements UserDetailsService, ServiceLi
 	@Named("roleService")
 	private RoleService roleService;
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-		roleService.addListener(this);
+	@PostConstruct
+	public void init() {
+		userService.addListener(this);
 	}
 
 	@Override
@@ -54,19 +62,23 @@ public class IdentityUserDetailsService implements UserDetailsService, ServiceLi
 	
 	@Override
 	public void onChange(String type, Object... arguments) {
-		IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter)SecurityContextHolder.getContext().getAuthentication();
-		
-		if(userDetails != null) {
-			
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		if(auth != null) {
+			IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter)auth.getPrincipal();
+
 			// Update roles for logged users
-			if(type.startsWith("ROLE_")) {
-				userDetails.setRoles(userService.getAllUserRoles(userDetails.getUsername()));
-			}
-			
-			// TODO : test if update is necessary
-			// TODO : do the same for group or user update (permission)
+			if(userDetails != null && (type.equals(RoleChange.ROLE_ADDED_TO_USER.name()) || type.equals(RoleChange.ROLE_REMOVED_FROM_USER.name()))) {
+			    User user = (User)arguments[1];
+			    if(userDetails.getUsername().equals(user.getLogin())) {
+				    List<Role> roles = new ArrayList<Role>();
+				    userService.getRolesFromRootElement(roles, user);
+				    userDetails.setRoles(roles);
+			    }
 
-		}		
+				// TODO : test if update is necessary
+				// TODO : do the same for group or user update (permission)
+			}		
+		}
 	}
-
 }

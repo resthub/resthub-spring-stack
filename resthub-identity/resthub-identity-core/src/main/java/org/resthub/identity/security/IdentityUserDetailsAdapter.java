@@ -16,7 +16,11 @@ public class IdentityUserDetailsAdapter implements UserDetails {
 	
 	private User user;
 	
-	private List<Role> roles;
+	public void setUser(User user) {
+        this.user = user;
+    }
+
+    private List<Role> roles;
 	
 	public List<Role> getRoles() {
 		return roles;

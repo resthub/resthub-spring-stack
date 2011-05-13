@@ -1,9 +1,10 @@
 package org.resthub.identity.service;
 
 import java.util.List;
-import org.resthub.core.exception.AlreadyExistingEntityException;
 
+import org.resthub.core.exception.AlreadyExistingEntityException;
 import org.resthub.core.service.GenericResourceService;
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.tracability.TracableService;
@@ -184,4 +185,6 @@ public interface UserService extends GenericResourceService<User>, TracableServi
      * @return A list of roles that the given user has.
      */
     List<Role> getAllUserRoles(String userLogin);
+    
+    void getRolesFromRootElement(List<Role> roles, AbstractPermissionsOwner owner);
 }
