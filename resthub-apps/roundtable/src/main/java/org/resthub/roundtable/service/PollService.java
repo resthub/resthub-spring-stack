@@ -1,6 +1,6 @@
 package org.resthub.roundtable.service;
 
-import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.service.GenericService;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.service.common.ServiceException;
 import org.synyx.hades.domain.Page;
@@ -10,7 +10,7 @@ import org.synyx.hades.domain.Pageable;
  * Poll services interface.
  * @author Nicolas Carlier
  */
-public interface PollService extends GenericResourceService<Poll> {
+public interface PollService extends GenericService<Poll, Long> {
 
     /**
      * Find polls by full text query.

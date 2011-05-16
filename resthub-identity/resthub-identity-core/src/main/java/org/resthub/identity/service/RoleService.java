@@ -1,7 +1,8 @@
 package org.resthub.identity.service;
 
 import java.util.List;
-import org.resthub.core.service.GenericResourceService;
+
+import org.resthub.core.service.GenericService;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.service.tracability.TracableService;
 
@@ -9,7 +10,7 @@ import org.resthub.identity.service.tracability.TracableService;
  *
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
-public interface RoleService extends GenericResourceService<Role>, TracableService {
+public interface RoleService extends GenericService<Role, Long>, TracableService {
 
     /**
      * Kind of changes notified for role events

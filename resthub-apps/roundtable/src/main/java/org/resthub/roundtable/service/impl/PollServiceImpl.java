@@ -8,9 +8,9 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.lucene.queryParser.ParseException;
 
-import org.resthub.core.service.GenericResourceServiceImpl;
+import org.apache.lucene.queryParser.ParseException;
+import org.resthub.core.service.GenericServiceImpl;
 import org.resthub.roundtable.dao.PollDao;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
@@ -29,8 +29,9 @@ import org.synyx.hades.domain.Pageable;
  * @author Nicolas Carlier
  */
 @Named("pollService")
-public class PollServiceImpl extends GenericResourceServiceImpl<Poll, PollDao> implements PollService {
-    private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
+public class PollServiceImpl extends GenericServiceImpl<Poll, PollDao, Long> implements PollService {
+    
+	private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
 
     @Value("#{config['rt.data.dir']}")
     private String dataDirPath;

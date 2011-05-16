@@ -2,7 +2,7 @@ package org.resthub.identity.dao;
 
 import javax.inject.Named;
 
-import org.resthub.core.dao.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaDao;
 import org.resthub.identity.model.Group;
 
 /**
@@ -12,7 +12,7 @@ import org.resthub.identity.model.Group;
  * It is a bean whose name is "groupDao"
  * */
 @Named("groupDao")
-public class JpaGroupDao extends GenericJpaResourceDao<Group> implements
+public class JpaGroupDao extends GenericJpaDao<Group, Long> implements
 		PermissionsOwnerDao<Group> {
 
 }

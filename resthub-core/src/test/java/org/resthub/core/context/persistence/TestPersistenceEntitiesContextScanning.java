@@ -12,7 +12,6 @@ import org.resthub.core.context.model.ConfigResourceFour;
 import org.resthub.core.context.model.ConfigResourceOne;
 import org.resthub.core.context.model.ConfigResourceThree;
 import org.resthub.core.context.model.ConfigResourceTwo;
-import org.resthub.core.model.Resource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestPersistenceEntitiesContextScanning {
@@ -42,11 +41,6 @@ public class TestPersistenceEntitiesContextScanning {
         assertFalse("entities should not be empty", entities.isEmpty());
         assertTrue("exactly 2 entities should have been found",
                 entities.size() >= 2);
-
-        assertFalse(
-                "entities list should not contain "
-                        + Resource.class.getSimpleName(),
-                entities.contains(Resource.class.getName()));
 
         assertTrue(
                 "entities list should contain "
@@ -90,11 +84,6 @@ public class TestPersistenceEntitiesContextScanning {
 
         assertTrue(
                 "entities list should contain "
-                        + Resource.class.getSimpleName(),
-                entities.contains(Resource.class.getName()));
-
-        assertTrue(
-                "entities list should contain "
                         + ConfigResourceOne.class.getSimpleName(),
                 entities.contains(ConfigResourceOne.class.getName()));
 
@@ -130,11 +119,6 @@ public class TestPersistenceEntitiesContextScanning {
         assertFalse("entities should not be empty", entities.isEmpty());
         assertTrue("more than 3 entities should have been found",
                 entities.size() >= 3);
-
-        assertTrue(
-                "entities list should contain "
-                        + Resource.class.getSimpleName(),
-                entities.contains(Resource.class.getName()));
 
         assertTrue(
                 "entities list should contain "
@@ -175,18 +159,6 @@ public class TestPersistenceEntitiesContextScanning {
         assertFalse("entities should not be empty", entities.isEmpty());
         assertTrue("more than 3 entities should have been found",
                 entities.size() >= 3);
-
-        assertTrue(
-                "entities list should contain "
-                        + Resource.class.getSimpleName(),
-                entities.contains(Resource.class.getName()));
-
-        entities.remove(Resource.class.getName());
-
-        assertFalse(
-                "entities list should not contain "
-                        + Resource.class.getSimpleName(),
-                entities.contains(Resource.class.getName()));
 
         assertTrue(
                 "entities list should contain "
@@ -265,11 +237,6 @@ public class TestPersistenceEntitiesContextScanning {
                 + ConfigAbstractResource.class.getSimpleName(),
                 entities.contains(ConfigAbstractResource.class.getName()));
 
-        assertFalse(
-                "entities list should not contain "
-                        + Resource.class.getSimpleName(),
-                entities.contains(Resource.class.getName()));
-
         assertTrue(
                 "entities list should contain "
                         + ConfigResourceOne.class.getSimpleName(),
@@ -320,12 +287,7 @@ public class TestPersistenceEntitiesContextScanning {
         assertTrue("more than 2 resthubEntities should have been found",
                 resthubEntities.size() >= 2);
 
-        assertTrue(
-                "resthubEntities list should contain "
-                        + Resource.class.getSimpleName(),
-                resthubEntities.contains(Resource.class.getName()));
-
-        assertTrue("resthubEntities list should contain "
+        assertFalse("resthubEntities list should contain "
                 + ConfigResourceOne.class.getSimpleName(),
                 resthubEntities.contains(ConfigResourceOne.class.getName()));
 
@@ -352,12 +314,7 @@ public class TestPersistenceEntitiesContextScanning {
         assertTrue("more than 3 configEntities should have been found",
                 configEntities.size() >= 3);
 
-        assertFalse(
-                "configEntities list should not contain "
-                        + Resource.class.getSimpleName(),
-                configEntities.contains(Resource.class.getName()));
-
-        assertFalse("configEntities list should not contain "
+        assertTrue("configEntities list should not contain "
                 + ConfigResourceOne.class.getSimpleName(),
                 configEntities.contains(ConfigResourceOne.class.getName()));
 
@@ -405,12 +362,7 @@ public class TestPersistenceEntitiesContextScanning {
         assertFalse("entities list should not contain "
                 + ConfigAbstractResource.class.getSimpleName(),
                 entities.contains(ConfigAbstractResource.class.getName()));
-
-        assertFalse(
-                "entities list should not contain "
-                        + Resource.class.getSimpleName(),
-                entities.contains(Resource.class.getName()));
-
+        
         assertTrue(
                 "entities list should contain "
                         + ConfigResourceOne.class.getSimpleName(),
@@ -457,12 +409,7 @@ public class TestPersistenceEntitiesContextScanning {
         assertTrue("more than 2 resthubEntities should have been found",
                 resthubEntities.size() >= 2);
 
-        assertTrue(
-                "resthubEntities list should contain "
-                        + Resource.class.getSimpleName(),
-                resthubEntities.contains(Resource.class.getName()));
-
-        assertTrue("resthubEntities list should contain "
+        assertFalse("resthubEntities list should contain "
                 + ConfigResourceOne.class.getSimpleName(),
                 resthubEntities.contains(ConfigResourceOne.class.getName()));
 
@@ -489,12 +436,7 @@ public class TestPersistenceEntitiesContextScanning {
         assertTrue("more than 1 configEntities should have been found",
                 configEntities.size() >= 1);
 
-        assertFalse(
-                "configEntities list should not contain "
-                        + Resource.class.getSimpleName(),
-                configEntities.contains(Resource.class.getName()));
-
-        assertFalse("configEntities list should not contain "
+        assertTrue("configEntities list should not contain "
                 + ConfigResourceOne.class.getSimpleName(),
                 configEntities.contains(ConfigResourceOne.class.getName()));
 

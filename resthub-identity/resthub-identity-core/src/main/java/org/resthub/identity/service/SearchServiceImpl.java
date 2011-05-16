@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.model.Resource;
 import org.resthub.identity.dao.SearchDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,7 @@ public class SearchServiceImpl implements SearchService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Resource> search(String query, boolean withUsers, boolean withGroups, boolean withRoles) {
+	public List<Object> search(String query, boolean withUsers, boolean withGroups, boolean withRoles) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("[search] Search with query '"+query+"'"+(withUsers ? " on users" : "")+
 					(withGroups ? " on groups" : "")+(withRoles ? " on roles" : ""));

@@ -1,7 +1,7 @@
 package org.resthub.booking.dao;
 
 import org.resthub.booking.model.Hotel;
-import org.resthub.core.dao.GenericResourceDao;
+import org.resthub.core.dao.GenericDao;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
 
@@ -9,7 +9,7 @@ import org.synyx.hades.domain.Pageable;
  * @author Guillaume Zurbach
  * @author bmeurant <Baptiste Meurant>
  */
-public interface HotelDao extends GenericResourceDao<Hotel> {
+public interface HotelDao extends GenericDao<Hotel, Long> {
 
 	/**
 	 * Find hotel by fulltext search.

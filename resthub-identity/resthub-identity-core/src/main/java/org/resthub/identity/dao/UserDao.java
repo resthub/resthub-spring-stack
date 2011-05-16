@@ -1,6 +1,7 @@
 package org.resthub.identity.dao;
 
 import java.util.List;
+
 import org.resthub.identity.model.User;
 
 /**

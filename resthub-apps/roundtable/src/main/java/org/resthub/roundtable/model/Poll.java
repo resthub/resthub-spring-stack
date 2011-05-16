@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,7 +26,6 @@ import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.resthub.core.model.Resource;
 
 /**
  * Poll.
@@ -34,11 +35,9 @@ import org.resthub.core.model.Resource;
 @Entity
 @Table(name = "poll")
 @XmlRootElement
-public class Poll extends Resource {
+public class Poll {
 	
-    /** serialVersionUID */
-    private static final long serialVersionUID = 1L;
-
+    private Long id;
     private String author;
     private String topic;
     private String body;
@@ -53,6 +52,16 @@ public class Poll extends Resource {
      */
     public Poll() {
         super();
+    }
+    
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)

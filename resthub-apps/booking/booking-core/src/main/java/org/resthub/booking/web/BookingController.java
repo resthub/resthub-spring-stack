@@ -10,18 +10,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.service.BookingService;
-import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.controller.GenericController;
 
 /**
  * @author Guillaume Zurbach
  */
 @Path("/booking")
 @Named("bookingController")
-public class BookingController extends GenericResourceController<Booking, BookingService> {
+public class BookingController extends GenericController<Booking, Long, BookingService> {
 
 	/**
 	 * {@InheritDoc}
@@ -41,7 +40,7 @@ public class BookingController extends GenericResourceController<Booking, Bookin
 	@GET
 	@Path("/user/{id}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getBookingsByUser(@PathParam("id") String userId) {
+	public List<Booking> getBookingsByUser(@PathParam("id") String userId) {
 		List<Booking> bookings = null;
 		
 		Long id = Long.valueOf(userId);
@@ -53,6 +52,6 @@ public class BookingController extends GenericResourceController<Booking, Bookin
 			bookings = new ArrayList<Booking>();
 		}
 		
-		return Response.ok(bookings).build();
+		return bookings;
 	}
 }

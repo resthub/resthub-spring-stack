@@ -1,30 +1,35 @@
 package org.resthub.identity.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Random;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
-import org.resthub.identity.model.User;
-import org.resthub.identity.service.UserService;
-import org.resthub.web.test.controller.AbstractResourceControllerTest;
-
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.ClientResponse.Status;
-import javax.inject.Named;
 import org.junit.Test;
 import org.resthub.identity.model.Role;
-import static org.junit.Assert.*;
+import org.resthub.identity.model.User;
+import org.resthub.identity.service.UserService;
+import org.resthub.web.test.controller.AbstractControllerTest;
+
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.ClientResponse.Status;
+import com.sun.jersey.api.client.WebResource;
 
 /**
  * 
  * @author Guillaume Zurbach
  */
-public class UserControllerTest extends AbstractResourceControllerTest<User, UserService, UserController> {
+public class UserControllerTest extends AbstractControllerTest<User, Long, UserService, UserController> {
 
     Logger logger = Logger.getLogger(UserControllerTest.class);
     @Inject
@@ -36,11 +41,15 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
     public void setController(UserController userController) {
         super.setController(userController);
     }
+    
+    private String generateRandomLogin() {
+        return "Login" + Math.round(Math.random() * 10000);
+    }
 
     @Override
     protected User createTestResource() throws Exception {
         logger.debug("UserControllerTest : createTestResource");
-        String userLogin = "UserTestUserLogin" + new Random().nextInt();
+        String userLogin = generateRandomLogin();
         String userPassword = "UserTestUserPassword";
         User u = new User();
         u.setLogin(userLogin);
@@ -52,16 +61,14 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
     public void testUpdate() throws Exception {
         logger.debug("UserControllerTest : testUpdate : START");
         User u1 = createTestResource();
-        String userPassword = "UserTestUserPassword";
 
         WebResource r = resource().path("user");
         logger.debug("UserControllerTest : testUpdate : GonnaPost");
         u1 = r.type(MediaType.APPLICATION_XML).post(User.class, u1);
         logger.debug("UserControllerTest : testUpdate : DidPost");
         r = resource().path("user/" + u1.getId());
-        User u2 = u1;
-        u2.setPassword(userPassword);
-        u2.setLogin("u2");
+        User u2 = createTestResource();
+        u2.setId(u1.getId());
         // Update login
         ClientResponse cr = r.type(MediaType.APPLICATION_XML).accept(
                 MediaType.APPLICATION_JSON).put(ClientResponse.class, u2);
@@ -69,8 +76,8 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
                 cr.getStatus());
         String response = resource().path("user").accept(
                 MediaType.APPLICATION_JSON).get(String.class);
-        Assert.assertFalse("User not updated", response.contains("u1"));
-        Assert.assertTrue("User not updated", response.contains("u2"));
+        Assert.assertFalse("User not updated", response.contains(u1.getLogin()));
+        Assert.assertTrue("User not updated", response.contains(u2.getLogin()));
     }
 
     @Test
@@ -160,8 +167,6 @@ public class UserControllerTest extends AbstractResourceControllerTest<User, Use
         ClientResponse response = resource().path("user").type(MediaType.APPLICATION_XML).post(ClientResponse.class, u);
 
         // Then the response should be a 409 error
-        if (response.getClientResponseStatus() != Status.CONFLICT) {
-            fail();
-        }
+        assertEquals(Status.CONFLICT, response.getClientResponseStatus());
     }
 }

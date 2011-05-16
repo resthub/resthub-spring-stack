@@ -1,7 +1,8 @@
 package org.resthub.identity.dao;
 
 import java.util.List;
-import org.resthub.core.dao.GenericResourceDao;
+
+import org.resthub.core.dao.GenericDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 
@@ -10,7 +11,7 @@ import org.resthub.identity.model.Group;
  *
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
-public interface AbstractPermissionsOwnerDao extends GenericResourceDao<AbstractPermissionsOwner> {
+public interface AbstractPermissionsOwnerDao extends GenericDao<AbstractPermissionsOwner, Long> {
 
     /**
      * Gets all the AbstractPermissionsOwners that have a role.

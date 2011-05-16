@@ -25,7 +25,7 @@ import org.resthub.core.util.MetamodelUtils;
 /**
  * Base class for your generic controller tests
  */
-public abstract class AbstractControllerTest<T, PK extends Serializable, S extends GenericService<T, PK>, C extends GenericController<T, S, PK>>
+public abstract class AbstractControllerTest<T, ID extends Serializable, S extends GenericService<T, ID>, C extends GenericController<T, ID, S>>
 						extends AbstractWebResthubTest {
 
 	/**
@@ -46,15 +46,15 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 	/**
 	 * Returns the resource path of controller class
 	 */
-	public String getResourcePath() throws Exception {
-		Class<? extends GenericController> classInstance = controller.getClass();
+	protected String getResourcePath() throws Exception {
+		Class<?> classInstance = controller.getClass();
 		return classInstance.getAnnotation(Path.class).value();
 	}
 
 	/**
 	 * Returns the resource class
 	 */
-	public Class<?> getResourceClass() throws Exception {
+	protected Class<?> getResourceClass() throws Exception {
 		return this.createTestResource().getClass();
 	}
 
@@ -85,27 +85,28 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
      * @param obj The object from whom we need primary key
      * @return The corresponding primary key.
      */
-    protected PK getIdFromEntity(T obj) {
-        MetamodelUtils utils = new MetamodelUtils<T, PK>((Class<T>) ClassUtils.getGenericTypeFromBean(this.controller), em.getMetamodel());
-        return (PK) utils.getIdFromEntity(obj);
+	@SuppressWarnings({"rawtypes","unchecked"})
+    protected ID getIdFromEntity(T obj) {
+        MetamodelUtils utils = new MetamodelUtils<T, ID>((Class<T>) ClassUtils.getGenericTypeFromBean(this.controller), em.getMetamodel());
+        return (ID) utils.getIdFromEntity(obj);
     }
 
 	// -------------------------------------------------------------------------
 	// Tests methods
 
 	@Test
+	@SuppressWarnings("unchecked")
     public void testCreateResource() throws Exception {
         WebResource r = resource().path(getResourcePath());
-		T res = (T)r.type(MediaType.APPLICATION_XML)
-					.post(getResourceClass(), createTestResource());
+		T res = (T)r.type(MediaType.APPLICATION_XML).post(getResourceClass(), createTestResource());
 		Assert.assertNotNull("Resource not created", res);
     }
 
 	@Test
 	public void testFindAllResourcesJson() throws Exception {
 		WebResource r = resource().path(getResourcePath());
-		r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
-		r.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
+		r.type(MediaType.APPLICATION_JSON).post(String.class, createTestResource());
+		r.type(MediaType.APPLICATION_JSON).post(String.class, createTestResource());
 		String response = r.accept(MediaType.APPLICATION_JSON).get(String.class);
 
 		Assert.assertTrue("Unable to find all resources or bad-formed JSON",
@@ -124,10 +125,11 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 	}
 
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testDeleteResource() throws Exception {
 		WebResource r = resource().path(getResourcePath());
 		T res = (T)r.type(MediaType.APPLICATION_XML)
-					.accept(MediaType.APPLICATION_JSON)
+					.accept(MediaType.APPLICATION_XML)
 					.post(getResourceClass(), createTestResource());
 		Assert.assertNotNull("Resource not created", res);
 
@@ -139,6 +141,7 @@ public abstract class AbstractControllerTest<T, PK extends Serializable, S exten
 	}
 
 	@Test
+	@SuppressWarnings("unchecked")
 	public void testFindResource() throws Exception {
 		WebResource r = resource().path(getResourcePath());
 		T res = (T)r.type(MediaType.APPLICATION_XML)

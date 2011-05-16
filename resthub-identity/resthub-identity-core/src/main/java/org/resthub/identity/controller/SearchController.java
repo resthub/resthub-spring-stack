@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.resthub.core.model.Resource;
 import org.resthub.identity.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,9 +62,9 @@ public class SearchController {
 		logger.debug("[search] Performs a search on " + query);
 		ResponseBuilder response = Response.serverError();
 		try {
-			List<Resource> results = searchService.search(query, withUsers, withGroups, withRoles);
+			List<Object> results = searchService.search(query, withUsers, withGroups, withRoles);
 			// GenericEntity allows us to return a list of resource, tackling the type erasure problem.
-			GenericEntity<List<Resource>> entity = new GenericEntity<List<Resource>>(results) {};
+			GenericEntity<List<Object>> entity = new GenericEntity<List<Object>>(results) {};
 			response = Response.ok(entity);
 		} catch (Exception exc) {
 			response.entity(exc.getMessage());

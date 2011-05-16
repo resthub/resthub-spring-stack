@@ -14,9 +14,9 @@ import org.resthub.booking.model.Booking;
 import org.resthub.booking.model.CreditCardType;
 import org.resthub.booking.model.Hotel;
 import org.resthub.booking.model.User;
-import org.resthub.core.test.dao.AbstractResourceDaoTest;
+import org.resthub.core.test.dao.AbstractDaoTest;
 
-public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao> {
+public class TestBookingDao extends AbstractDaoTest<Booking, Long, BookingDao> {
 
 	private static final String TEST_CARD_NAME = "testCardName";
 	private static final String CHANGED_TEST_CARD_NAME = "changedTestCardName";
@@ -33,12 +33,12 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 	@Override
 	@Inject
 	@Named("bookingDao")
-	public void setResourceDao(BookingDao bookingDao) {
-		this.resourceDao = bookingDao;
+	public void setDao(BookingDao bookingDao) {
+		this.dao = bookingDao;
 	}
 	
 	@Override
-	protected Booking createTestRessource() throws Exception {
+	protected Booking createTestEntity() throws Exception {
 		Hotel hotel = new Hotel();
 		hotel.setName("testBookingName"+new Random().nextInt(10000));
 		hotel.setAddress("testBookingAddress");
@@ -70,18 +70,18 @@ public class TestBookingDao extends AbstractResourceDaoTest<Booking, BookingDao>
 	@Test
 	public void testUpdate() throws Exception {
 		
-		List<Booking> bookings = this.resourceDao.findEquals("creditCardName", TEST_CARD_NAME);
+		List<Booking> bookings = this.dao.findEquals("creditCardName", TEST_CARD_NAME);
 		assertEquals("bookings list should contain an unique result", 1, bookings.size());
 		
 		Booking booking = bookings.get(0);
 		booking.setCreditCardName(CHANGED_TEST_CARD_NAME);
-		booking = this.resourceDao.save(booking);
+		booking = this.dao.save(booking);
 		assertEquals("Card name should have been modified", CHANGED_TEST_CARD_NAME, booking.getCreditCardName());
 	}
 	
 	@Test
 	public void testFindByUser() {
-		List<Booking> bookings = this.resourceDao.findByUser(user);
+		List<Booking> bookings = this.dao.findByUser(user);
 		assertEquals("bookings list should contain an unique result", 1, bookings.size());
 		assertEquals("credit card names should be equals", TEST_CARD_NAME, bookings.get(0).getCreditCardName());
 	}

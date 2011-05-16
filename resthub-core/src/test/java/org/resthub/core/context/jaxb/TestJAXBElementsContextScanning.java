@@ -12,7 +12,6 @@ import org.resthub.core.context.model.ConfigResourceFour;
 import org.resthub.core.context.model.ConfigResourceOne;
 import org.resthub.core.context.model.ConfigResourceThree;
 import org.resthub.core.context.model.ConfigResourceTwo;
-import org.resthub.core.model.Resource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestJAXBElementsContextScanning {
@@ -41,11 +40,6 @@ public class TestJAXBElementsContextScanning {
         assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
         assertTrue("at least 3 xmlElements should have been found",
                 xmlElements.size() >= 3);
-
-        assertFalse(
-                "xmlElements list should not contain "
-                        + Resource.class.getSimpleName(),
-                xmlElements.contains(Resource.class.getName()));
 
         assertTrue(
                 "xmlElements list should contain "
@@ -94,11 +88,6 @@ public class TestJAXBElementsContextScanning {
 
         assertTrue(
                 "xmlElements list should contain "
-                        + Resource.class.getSimpleName(),
-                xmlElements.contains(Resource.class.getName()));
-
-        assertTrue(
-                "xmlElements list should contain "
                         + ConfigResourceOne.class.getSimpleName(),
                 xmlElements.contains(ConfigResourceOne.class.getName()));
 
@@ -140,11 +129,6 @@ public class TestJAXBElementsContextScanning {
         assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
         assertTrue("at least 3 xmlElements should have been found",
                 xmlElements.size() >= 3);
-
-        assertTrue(
-                "xmlElements list should contain "
-                        + Resource.class.getSimpleName(),
-                xmlElements.contains(Resource.class.getName()));
 
         assertTrue(
                 "xmlElements list should contain "
@@ -194,11 +178,6 @@ public class TestJAXBElementsContextScanning {
 
         assertTrue(
                 "xmlElements list should contain "
-                        + Resource.class.getSimpleName(),
-                xmlElements.contains(Resource.class.getName()));
-
-        assertTrue(
-                "xmlElements list should contain "
                         + ConfigResourceOne.class.getSimpleName(),
                 xmlElements.contains(ConfigResourceOne.class.getName()));
 
@@ -243,11 +222,6 @@ public class TestJAXBElementsContextScanning {
         assertTrue("at least 1 xmlElements should have been found",
                 xmlElements.size() >= 1);
 
-        assertFalse(
-                "xmlElements list should not contain "
-                        + Resource.class.getSimpleName(),
-                xmlElements.contains(Resource.class.getName()));
-
         assertTrue(
                 "xmlElements list should contain "
                         + ConfigResourceOne.class.getSimpleName(),
@@ -291,11 +265,6 @@ public class TestJAXBElementsContextScanning {
         assertFalse("xmlElements should not be empty", xmlElements.isEmpty());
         assertTrue("at least 1 xmlElements should have been found",
                 xmlElements.size() >= 1);
-
-        assertFalse(
-                "xmlElements list should not contain "
-                        + Resource.class.getSimpleName(),
-                xmlElements.contains(Resource.class.getName()));
 
         assertTrue(
                 "xmlElements list should contain "

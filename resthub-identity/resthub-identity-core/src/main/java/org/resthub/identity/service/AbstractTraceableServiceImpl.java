@@ -2,9 +2,9 @@ package org.resthub.identity.service;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.resthub.core.dao.GenericResourceDao;
-import org.resthub.core.model.Resource;
-import org.resthub.core.service.GenericResourceServiceImpl;
+
+import org.resthub.core.dao.GenericDao;
+import org.resthub.core.service.GenericServiceImpl;
 import org.resthub.identity.service.tracability.ServiceListener;
 import org.resthub.identity.service.tracability.TracableService;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
-public abstract class AbstractTraceableServiceImpl<TEntity extends Resource, TDao extends GenericResourceDao<TEntity>> extends GenericResourceServiceImpl<TEntity, TDao> implements TracableService {
+public abstract class AbstractTraceableServiceImpl<TEntity, TDao extends GenericDao<TEntity, Long>> extends GenericServiceImpl<TEntity, TDao, Long> implements TracableService {
 
     /**
      * Set of registered listeners

@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.model.User;
-import org.resthub.core.dao.GenericResourceDao;
+import org.resthub.core.dao.GenericDao;
 
 /**
  * @author bmeurant <Baptiste Meurant>
  */
-public interface BookingDao extends GenericResourceDao<Booking> {
+public interface BookingDao extends GenericDao<Booking, Long> {
 
 	/**
 	 * @param user

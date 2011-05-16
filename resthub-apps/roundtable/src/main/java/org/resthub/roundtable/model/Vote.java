@@ -5,6 +5,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -14,7 +16,6 @@ import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.resthub.core.model.Resource;
 
 /**
  * Vote Entity.
@@ -25,12 +26,10 @@ import org.resthub.core.model.Resource;
 @NamedQueries({
     @NamedQuery(name = "existsVote", query = "select count(v) from Vote as v where voter.id = :vid and answer.id = :aid")
 })
-public class Vote extends Resource {
-	
-    /** serialVersionUID */
-    private static final long serialVersionUID = 1L;
+public class Vote {
 
-    private Answer answer;
+	private Long id;
+	private Answer answer;
     private Voter voter;
     private String value;
 
@@ -39,6 +38,16 @@ public class Vote extends Resource {
      */
     public Vote() {
         super();
+    }
+    
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @ManyToOne(cascade = CascadeType.REMOVE)

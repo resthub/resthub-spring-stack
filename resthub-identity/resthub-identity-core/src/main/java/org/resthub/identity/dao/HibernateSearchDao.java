@@ -17,7 +17,6 @@ import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
-import org.resthub.core.model.Resource;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
@@ -53,8 +52,8 @@ public class HibernateSearchDao implements SearchDao {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Resource> search(String queryString, boolean withUsers, boolean withGroups, boolean withRoles) {
-		List<Resource> results = new ArrayList<Resource>();
+	public List<Object> search(String queryString, boolean withUsers, boolean withGroups, boolean withRoles) {
+		List<Object> results = new ArrayList<Object>();
 		// No query should be realized while re-indexing resources.
 		if(!inhibitSearch) {
 			// Gets the Hibernate search object to performs queries.
@@ -63,7 +62,7 @@ public class HibernateSearchDao implements SearchDao {
 			// Parse the the queryString.
 			MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
 					new String[] {"name", "firstName", "lastName", "email", "login"},
-					new StandardAnalyzer(Version.LUCENE_30));
+					new StandardAnalyzer(Version.LUCENE_31));
 			parser.setDefaultOperator(Operator.OR);
 			
 			try {
@@ -89,18 +88,18 @@ public class HibernateSearchDao implements SearchDao {
 				}
 				// Finally execute the query.
 				if (query != null) {
-					List<Resource> found = query.getResultList();
+					List<Object> found = query.getResultList();
 					// Keeps only distinct results.
-					for (Resource foundResource : found) {
-						if (!results.contains(foundResource)) {
+					for (Object foundObject : found) {
+						if (!results.contains(foundObject)) {
 							// TODO Remove this Hibernate specific block. 
 							// Sometimes hibernate Search returns Javassist proxies, which can't be properly
 							// deserialize by Jackson.
-							if (foundResource instanceof HibernateProxy){
-								HibernateProxy h = (HibernateProxy)foundResource;
-								foundResource = (Resource)h.getHibernateLazyInitializer().getImplementation();
+							if (foundObject instanceof HibernateProxy){
+								HibernateProxy h = (HibernateProxy)foundObject;
+								foundObject = (Object)h.getHibernateLazyInitializer().getImplementation();
 							}
-							results.add(foundResource);
+							results.add(foundObject);
 						}
 					}
 				}

@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.service.PollService;
 import org.resthub.roundtable.service.common.ServiceException;
-import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.controller.GenericController;
 import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.Order;
 import org.synyx.hades.domain.PageRequest;
@@ -24,7 +24,7 @@ import org.synyx.hades.domain.PageRequest;
  */
 @Path("/poll")
 @Named("pollController")
-public class PollController extends GenericResourceController<Poll, PollService> {
+public class PollController extends GenericController<Poll, Long, PollService> {
 
     @Inject
     @Named("pollService")

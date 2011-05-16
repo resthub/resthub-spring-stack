@@ -16,15 +16,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.resthub.core.exception.AlreadyExistingEntityException;
 
+import org.resthub.core.exception.AlreadyExistingEntityException;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.security.IdentityUserDetailsAdapter;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.tools.PermissionsOwnerTools;
-import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.controller.GenericController;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -35,7 +35,7 @@ Only ADMINS can access to the globality of this API<br/>
 Specific permissions are given when useful
  */
 @Named("userController")
-public class UserController extends GenericResourceController<User, UserService> {
+public class UserController extends GenericController<User, Long, UserService> {
 
     @Inject
     @Named("userService")
@@ -53,22 +53,10 @@ public class UserController extends GenericResourceController<User, UserService>
      * @return a list of users, in XML or JSON if users can be found otherwise
      *         HTTP Error 404
      */
-    @GET
-    @Path("/all")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Override
     @RolesAllowed({"IM-ADMIN"})
-    public Response getAllUsers() {
-
-        List<User> users = this.service.findAll();
-        Response r;
-        int size = (users == null) ? 0 : users.size();
-        if (size == 0) {
-            r = Response.status(Status.NOT_FOUND).entity("Unable to find users").build();
-        } else {
-            r = Response.ok(users).build();
-        }
-        return r;
-
+    public List<User> getEntities() {
+    	return super.getEntities();
     }
 
     /**
@@ -255,18 +243,10 @@ public class UserController extends GenericResourceController<User, UserService>
      *            the user to create/update
      * */
     @Override
+    @POST
     @RolesAllowed({"IM-ADMIN"})
-    public Response create(User user) {
-        User u = null;
-        Response r;
-        try {
-            u = service.create(user);
-            r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
-                    "Unable to save the user").build() : Response.ok(u).build();
-        } catch (AlreadyExistingEntityException ex) {
-            r = Response.status(Status.CONFLICT).entity("User with the same login already existing").build();
-        }
-        return r;
+    public User create(User user) {
+        return super.create(user);
     }
 
     /**
@@ -277,22 +257,11 @@ public class UserController extends GenericResourceController<User, UserService>
      *            the user to create/update
      * */
     @Override
-    @PUT
-    @Path("/{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@PUT
+	@Path("/{id}")
     @RolesAllowed({"IM-ADMIN"})
-    public Response update(@PathParam("id") Long id, User user) {
-        User u = null;
-        Response r;
-        try {
-            u = service.update(user);
-            r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
-                    "Unable to save the user").build() : Response.ok(u).build();
-        } catch (AlreadyExistingEntityException ex) {
-            r = Response.status(Status.CONFLICT).entity("User with the same login already existing").build();
-        }
-        return r;
+    public User update(@PathParam("id") Long id, User user) {
+        return super.update(id, user);
     }
 
     /**

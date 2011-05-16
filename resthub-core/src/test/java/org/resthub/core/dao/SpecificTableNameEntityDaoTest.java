@@ -34,7 +34,7 @@ public class SpecificTableNameEntityDaoTest
     }
 
     @Override
-    protected SpecificTableNameEntity createTestRessource() throws Exception {
+    protected SpecificTableNameEntity createTestEntity() throws Exception {
         SpecificTableNameEntity standaloneSpecificEntity = new SpecificTableNameEntity();
         standaloneSpecificEntity.setName(ENTITY_NAME);
         return standaloneSpecificEntity;

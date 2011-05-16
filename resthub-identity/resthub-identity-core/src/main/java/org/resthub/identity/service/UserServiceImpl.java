@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.resthub.core.exception.AlreadyExistingEntityException;
 
+import org.resthub.core.exception.AlreadyExistingEntityException;
 import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;
@@ -15,6 +15,7 @@ import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.tools.PermissionsOwnerTools;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -26,7 +27,7 @@ import org.springframework.util.Assert;
  * 
  * */
 @Named("userService")
-public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
+public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao> implements UserService {
 
     @Inject
     @Named("userDao")
@@ -42,6 +43,9 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     @Inject
     @Named("abstractPermissionsOwnerDao")
     protected AbstractPermissionsOwnerDao abstractPermissionsOwnerDao;
+    @Inject
+    @Named("passwordEncoder")
+    PasswordEncoder passwordEncoder;
 
     /**
      * {@inheritDoc}
@@ -51,7 +55,11 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     public User create(User user) throws AlreadyExistingEntityException {
         User existingUser = this.findByLogin(user.getLogin());
         if (existingUser == null) {
-            // Overloaded method call
+        	if (user.getPassword() == null) {
+                user.setPassword(user.generateDefaultPassword());
+            }
+            user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
+        	// Overloaded method call
             User created = super.create(user);
             // Publish notification
             publishChange(UserServiceChange.USER_CREATION.name(), created);
@@ -68,13 +76,12 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
     @Transactional(readOnly = false)
     public User update(User user) throws AlreadyExistingEntityException {
         // Check if there is an already existing user with this login with a different ID
-        User existingUser = this.findByLogin(user.getLogin());
-        if (existingUser == null || existingUser.getId() == user.getId()) {
-            user = super.update(user);
-        } else {
-            throw new AlreadyExistingEntityException("User " + user.getLogin() + " already exists.");
+        User existingUser = this.findById(user.getId());
+        if(existingUser != null) {
+        	// Update the user without changing the password
+        	user.setPassword(existingUser.getPassword());
         }
-        return user;
+        return super.update(user);
     }
     
     /**
@@ -360,5 +367,22 @@ public class UserServiceImpl extends AbstractEncryptedPasswordUserService {
                 this.getRolesFromRootElement(roles, g);
             }
         }
+    }
+
+	@Override
+	public User updatePassword(User user) {
+		User retreivedUser = this.findByLogin(user.getLogin());
+		String newPassword = user.getPassword();
+		retreivedUser.setPassword(passwordEncoder.encodePassword(newPassword, null));
+		return dao.save(user);
+	}
+	
+	@Override
+    public User authenticateUser(String login, String password) {
+		User retreivedUser = this.findByLogin(login);
+		if ((retreivedUser != null) && passwordEncoder.isPasswordValid(retreivedUser.getPassword(), password, null)) {
+			return retreivedUser;
+		}
+        return null;
     }
 }

@@ -7,13 +7,13 @@ import javax.persistence.Query;
 
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.model.User;
-import org.resthub.core.dao.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaDao;
 
 /**
  * @author Guillaume Zurbach
  */
 @Named("bookingDao")
-public class JpaBookingDao extends GenericJpaResourceDao<Booking> implements
+public class JpaBookingDao extends GenericJpaDao<Booking, Long> implements
 		BookingDao {
 
 	/**

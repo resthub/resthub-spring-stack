@@ -19,7 +19,7 @@ import org.resthub.core.test.AbstractResthubTransactionalTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 
-public abstract class AbstractDaoTest<T, PK extends Serializable, D extends GenericDao<T, PK>>
+public abstract class AbstractDaoTest<T, ID extends Serializable, D extends GenericDao<T, ID>>
 		extends AbstractResthubTransactionalTest {
 
 	/**
@@ -29,7 +29,7 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
 	/**
 	 * Id of the tested POJO
 	 */
-	protected PK id;
+	protected ID id;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -49,21 +49,21 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
 	 * @return The corresponding primary key.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected PK getIdFromEntity(T obj) {
-		MetamodelUtils utils = new MetamodelUtils<T, PK>(
+	protected ID getIdFromEntity(T obj) {
+		MetamodelUtils utils = new MetamodelUtils<T, ID>(
 				(Class<T>) ClassUtils.getGenericTypeFromBean(this.dao),
 				em.getMetamodel());
-		return (PK) utils.getIdFromEntity(obj);
+		return (ID) utils.getIdFromEntity(obj);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected T createTestRessource() throws Exception {
+	protected T createTestEntity() throws Exception {
 		return (T) ClassUtils.getGenericTypeFromBean(this.dao).newInstance();
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		T resource = this.createTestRessource();
+		T resource = this.createTestEntity();
 		resource = dao.save(resource);
 		this.id = getIdFromEntity(resource);
 	}
@@ -81,7 +81,7 @@ public abstract class AbstractDaoTest<T, PK extends Serializable, D extends Gene
 
 	@Test
 	public void testSave() throws Exception {
-		T resource = this.createTestRessource();
+		T resource = this.createTestEntity();
 		resource = dao.save(resource);
 
 		T foundResource = dao.readByPrimaryKey(getIdFromEntity(resource));

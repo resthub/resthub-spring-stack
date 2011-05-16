@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.resthub.core.model.Resource;
-import org.resthub.core.model.SampleResource;
 
 public class ClassUtilsTest {
 
 	@Test
 	public void testGetGenericType() {
 		Assert.assertNull(ClassUtils.getGenericType(Object.class));
-		Assert.assertNull(ClassUtils.getGenericType(Resource.class));
 		Assert.assertNull(ClassUtils.getGenericType(SampleResource.class));
 	}
 
@@ -25,6 +22,10 @@ public class ClassUtilsTest {
 		Assert.assertEquals("Base class generic type", SampleResource.class,
 				ClassUtils
 						.getGenericTypeFromBean(new SampleResourceArrayList()));
+	}
+	
+	private static class SampleResource {
+		private static final long serialVersionUID = 4925762850344399849L;
 	}
 
 	private static class SampleResourceArrayList extends ArrayList<SampleResource> {

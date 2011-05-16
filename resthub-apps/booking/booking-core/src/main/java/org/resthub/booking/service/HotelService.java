@@ -3,7 +3,7 @@ package org.resthub.booking.service;
 import java.util.List;
 
 import org.resthub.booking.model.Hotel;
-import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.service.GenericService;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
 
@@ -11,7 +11,7 @@ import org.synyx.hades.domain.Pageable;
  * @author Guillaume Zurbach
  * @author bmeurant <Baptiste Meurant>
  */
-public interface HotelService extends GenericResourceService<Hotel> {
+public interface HotelService extends GenericService<Hotel, Long> {
 
 	/**
 	 * Find hotels by full text query.

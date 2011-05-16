@@ -19,7 +19,7 @@
 	<resthub:include-entities
 		base-package="org.resthub.core.**.model" use-default-filters="false">
 		<resthub:include-filter type="assignable"
-			expression="org.resthub.core.model.Resource" />
+			expression="org.resthub.core.model.StandaloneEntity" />
 	</resthub:include-entities>
 
 	<!--
@@ -34,6 +34,6 @@
 		<resthub:include-filter type="annotation"
 			expression="javax.persistence.MappedSuperclass" />
 		<resthub:exclude-filter type="assignable"
-			expression="org.resthub.core.model.Resource" />
+			expression="org.resthub.core.model.StandaloneEntity" />
 	</resthub:include-entities>
 </beans>

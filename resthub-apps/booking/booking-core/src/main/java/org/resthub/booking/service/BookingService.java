@@ -3,13 +3,13 @@ package org.resthub.booking.service;
 import java.util.List;
 
 import org.resthub.booking.model.Booking;
-import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.service.GenericService;
 
 /**
  * @author Guillaume Zurbach
  * @author bmeurant <Baptiste Meurant>
  */
-public interface BookingService extends GenericResourceService<Booking> {
+public interface BookingService extends GenericService<Booking, Long> {
 
 	/**
 	 * @param userId

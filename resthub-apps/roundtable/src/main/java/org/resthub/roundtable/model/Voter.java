@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -19,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.resthub.core.model.Resource;
 
 /**
  * Vote Entity.
@@ -33,12 +34,10 @@ import org.resthub.core.model.Resource;
     @NamedQuery(name = "findVoterByNameAndPoll", query = "from Voter where name = :name and poll = :poll")
 
 })
-public class Voter extends Resource {
+public class Voter {
 	
-    /** serialVersionUID */
-    private static final long serialVersionUID = 1L;
-
-    private Poll poll;
+	private Long id;
+	private Poll poll;
     private String name;
     private List<Vote> votes = new ArrayList<Vote>();
 
@@ -47,6 +46,16 @@ public class Voter extends Resource {
      */
     public Voter() {
         super();
+    }
+    
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Column(name = "name", nullable = false)

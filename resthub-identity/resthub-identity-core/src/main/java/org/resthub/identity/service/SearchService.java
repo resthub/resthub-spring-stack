@@ -2,7 +2,6 @@ package org.resthub.identity.service;
 
 import java.util.List;
 
-import org.resthub.core.model.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,7 +21,7 @@ public interface SearchService {
 	 * 
 	 * @throws IllegalArgumentException If the query is invalid of misformated
 	 */
-	List<Resource> search(String query, boolean withUsers, boolean withGroups, boolean withRoles);
+	List<Object> search(String query, boolean withUsers, boolean withGroups, boolean withRoles);
 	
 	/**
 	 * Re-index existing groups, users and roles.

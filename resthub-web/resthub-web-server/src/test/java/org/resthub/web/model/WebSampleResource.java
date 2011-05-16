@@ -1,15 +1,17 @@
 package org.resthub.web.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.resthub.core.model.Resource;
 
 @Entity
 @XmlRootElement
-public class WebSampleResource extends Resource {
+public class WebSampleResource {
+	
     private static final long serialVersionUID = -7178337784737750452L;
 
+    private Long id;
     private String name;
 
     public WebSampleResource() {
@@ -20,6 +22,16 @@ public class WebSampleResource extends Resource {
         super();
         this.name = name;
     }
+    
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -27,6 +39,29 @@ public class WebSampleResource extends Resource {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final WebSampleResource other = (WebSampleResource) obj;
+        if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
+        return hash;
     }
 
 	@Override

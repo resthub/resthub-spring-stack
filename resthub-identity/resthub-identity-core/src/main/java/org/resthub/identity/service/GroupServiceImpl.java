@@ -4,9 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.resthub.core.exception.AlreadyExistingEntityException;
 
-import org.resthub.core.service.GenericResourceServiceImpl;
+import org.resthub.core.exception.AlreadyExistingEntityException;
 import org.resthub.identity.dao.PermissionsOwnerDao;
 import org.resthub.identity.dao.UserDao;
 import org.resthub.identity.model.Group;
@@ -62,14 +61,6 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
         }
         return g;
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Group> findAllGroups() {
-        return this.dao.readAll();
     }
 
     /**

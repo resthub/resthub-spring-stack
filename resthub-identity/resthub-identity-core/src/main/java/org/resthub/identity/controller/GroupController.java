@@ -7,9 +7,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,26 +17,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.resthub.core.exception.AlreadyExistingEntityException;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.UserService;
-import org.resthub.web.controller.GenericResourceController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.resthub.web.controller.GenericController;
 
-@Path("/group")
-@RolesAllowed({"IM-ADMIN"})
-@Named("groupController")
+import com.sun.jersey.api.NotFoundException;
+
 /**
 Front controller for Group Management<br/>
 Only ADMINS can access to this API
  */
-public class GroupController extends GenericResourceController<Group, GroupService> {
+@Path("/group")
+@RolesAllowed({"IM-ADMIN"})
+@Named("groupController")
+public class GroupController extends GenericController<Group, Long, GroupService> {
 
-    private final Logger logger = LoggerFactory.getLogger(GroupController.class);
     @PersistenceContext
     protected EntityManager em;
     /**
@@ -51,9 +49,6 @@ public class GroupController extends GenericResourceController<Group, GroupServi
     @Inject
     @Named("groupService")
     @Override
-    /**
-     * {@inheritDoc}
-     */
     public void setService(GroupService service) {
         this.service = service;
     }
@@ -79,18 +74,10 @@ public class GroupController extends GenericResourceController<Group, GroupServi
      *            the user to create/update
      * */
     @Override
+    @POST
     @RolesAllowed({"IM-ADMIN"})
-    public Response create(Group group) {
-        Group g = null;
-        Response r;
-        try {
-            g = service.create(group);
-            r = (g == null) ? Response.status(Status.NOT_FOUND).entity(
-                    "Unable to save the group").build() : Response.ok(g).build();
-        } catch (AlreadyExistingEntityException ex) {
-            r = Response.status(Status.CONFLICT).entity("Group with the same name already existing").build();
-        }
-        return r;
+    public Group create(Group group) {
+        return super.create(group);
     }
 
     /**
@@ -98,21 +85,10 @@ public class GroupController extends GenericResourceController<Group, GroupServi
      */
     @Override
     @PUT
-    @Path("/{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Path("/{id}")
     @RolesAllowed({"IM-ADMIN"})
-    public Response update(@PathParam("id") Long id, Group group) {
-        Group g = null;
-        Response r;
-        try {
-            g = service.update(group);
-            r = (g == null) ? Response.status(Status.NOT_FOUND).entity(
-                    "Unable to save the group").build() : Response.ok(g).build();
-        } catch (AlreadyExistingEntityException ex) {
-            r = Response.status(Status.CONFLICT).entity("Group with the same name already existing").build();
-        }
-        return r;
+    public Group update(@PathParam("id") Long id, Group group) {
+        return super.update(id, group);
     }
 
     /**
@@ -125,32 +101,12 @@ public class GroupController extends GenericResourceController<Group, GroupServi
      */
     @GET
     @Path("/name/{name}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getGroupByName(@PathParam("name") String name) {
+    public Group getGroupByName(@PathParam("name") String name) {
         Group group = this.service.findByName(name);
-        Response r;
-        r = (group == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to find the requested group.").build() : Response.ok(
-                group).build();
-        return r;
-    }
-
-    /**
-     * Return the list of all groups.<br/>
-     *
-     * @return the list of group, in XML or JSON * @return the group if their is
-     *         some groups defined otherwise HTTP Error 404
-     */
-    @GET
-    @Path("/all")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getAllGroups() {
-        List<Group> result = this.service.findAllGroups();
-        Response r;
-        int size = (result == null) ? 0 : result.size();
-        r = (size == 0) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to find any group.").build() : Response.ok(result).build();
-        return r;
+        if (group == null) {
+			throw new NotFoundException();
+		}
+        return group;
     }
 
     /**
@@ -163,7 +119,7 @@ public class GroupController extends GenericResourceController<Group, GroupServi
     @Path("/list")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response getAllGroupsName() {
-        List<Group> result = this.service.findAllGroups();
+        List<Group> result = this.service.findAll();
         int size = (result == null) ? 0 : result.size();
         Response r;
         if (size == 0) {

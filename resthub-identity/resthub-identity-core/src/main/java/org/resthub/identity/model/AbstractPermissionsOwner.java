@@ -6,6 +6,10 @@ import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -13,8 +17,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.resthub.core.model.Resource;
 
 /**
  * <p>Describe a generic class for users and groups. It contains/manage mainly
@@ -27,10 +29,13 @@ import org.resthub.core.model.Resource;
 @Entity
 @Table(name = "permissions_owner")
 @XmlRootElement
-public abstract class AbstractPermissionsOwner extends Resource {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class AbstractPermissionsOwner {
 
 	private static final long serialVersionUID = 3248710006663061799L;
 
+	private Long id;
+	
 	/**
 	 * the list of permissions
 	 * */
@@ -65,6 +70,16 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	public AbstractPermissionsOwner(List<String> permissions) {
 		this.permissions = permissions;
 	}
+	
+	@Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 	/**
 	 * Retrieve the permissions assigned to the identity
@@ -134,5 +149,29 @@ public abstract class AbstractPermissionsOwner extends Resource {
 	private void setGroups(List<Group> groups) {
 		this.groups = groups;
 	}
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractPermissionsOwner other = (AbstractPermissionsOwner) obj;
+       
+        if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
+        return hash;
+    }
 
 }

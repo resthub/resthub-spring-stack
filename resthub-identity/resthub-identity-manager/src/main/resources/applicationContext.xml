@@ -22,8 +22,6 @@
 	
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
-	<context:component-scan base-package="org.resthub.oauth2.provider.front" />
-	<context:component-scan base-package="org.resthub.oauth2.provider.dao" />
 	
 	<!--  Should be moved in identity core when secure testing for controller will be ok -->
 	<security:global-method-security jsr250-annotations="enabled" />

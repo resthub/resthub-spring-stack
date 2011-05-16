@@ -9,9 +9,9 @@ import javax.inject.Named;
 import org.junit.Assert;
 import org.junit.Test;
 import org.resthub.booking.model.Hotel;
-import org.resthub.core.test.service.AbstractResourceServiceTest;
+import org.resthub.core.test.service.AbstractServiceTest;
 
-public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelService> {
+public class TestHotelService extends AbstractServiceTest<Hotel, Long, HotelService> {
 
 	private static final String CHANGED_TEST_HOTEL_NAME = "testHotelName2";
 	private static final String CHANGED_TEST_HOTEL_STATE = "testState2";
@@ -21,8 +21,8 @@ public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelSe
 	@Override
 	@Inject
 	@Named("hotelService")
-	public void setResourceService(HotelService hotelService) {
-		this.resourceService = hotelService;
+	public void setService(HotelService hotelService) {
+		this.service = hotelService;
 	}
 	
 	@Override
@@ -41,11 +41,11 @@ public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelSe
 	@Test
 	public void testUpdate() throws Exception {
 		
-		hotel = this.resourceService.findById(hotel.getId());
+		hotel = this.service.findById(hotel.getId());
 		assertNotNull("hotel should not be null", hotel);
 		
 		hotel.setState(CHANGED_TEST_HOTEL_STATE);
-		hotel = this.resourceService.update(hotel);
+		hotel = this.service.update(hotel);
 		assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_STATE, hotel.getState());
 	}
 	
@@ -54,8 +54,8 @@ public class TestHotelService extends AbstractResourceServiceTest<Hotel, HotelSe
 	public void testCreate() throws Exception {
 		hotel = this.createTestRessource();
 		hotel.setName(CHANGED_TEST_HOTEL_NAME);
-		hotel = resourceService.create(hotel);
-		hotel = resourceService.findById(hotel.getId());
+		hotel = service.create(hotel);
+		hotel = service.findById(hotel.getId());
 		Assert.assertNotNull("Resource not created!", hotel);
 	}
 }

@@ -1,9 +1,9 @@
 package org.resthub.identity.service;
 
 import java.util.List;
-import org.resthub.core.exception.AlreadyExistingEntityException;
 
-import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.exception.AlreadyExistingEntityException;
+import org.resthub.core.service.GenericService;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Group services interface.
  * @author Guillaume Zurbach
  */
-public interface GroupService extends GenericResourceService<Group>, TracableService {
+public interface GroupService extends GenericService<Group, Long>, TracableService {
 
     /**
      * Kind of changes notified by this service
@@ -66,12 +66,6 @@ public interface GroupService extends GenericResourceService<Group>, TracableSer
      * @return the group or null if no group with this name is found
      */
     public Group findByName(String name);
-
-    /**
-     * Find all groups available.
-     * @return a list of groups.
-     */
-    public List<Group> findAllGroups();
 
     /**
      * Remove a group from one group's group

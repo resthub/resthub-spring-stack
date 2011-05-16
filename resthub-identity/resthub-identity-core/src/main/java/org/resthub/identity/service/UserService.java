@@ -3,7 +3,7 @@ package org.resthub.identity.service;
 import java.util.List;
 
 import org.resthub.core.exception.AlreadyExistingEntityException;
-import org.resthub.core.service.GenericResourceService;
+import org.resthub.core.service.GenericService;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Guillaume Zurbach
  */
-public interface UserService extends GenericResourceService<User>, TracableService {
+public interface UserService extends GenericService<User, Long>, TracableService {
 
     /**
      * Kind of changes notified by this service

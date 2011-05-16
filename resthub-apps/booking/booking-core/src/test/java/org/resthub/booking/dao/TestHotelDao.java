@@ -10,9 +10,9 @@ import javax.inject.Named;
 
 import org.junit.Test;
 import org.resthub.booking.model.Hotel;
-import org.resthub.core.test.dao.AbstractResourceDaoTest;
+import org.resthub.core.test.dao.AbstractDaoTest;
 
-public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
+public class TestHotelDao extends AbstractDaoTest<Hotel, Long, HotelDao> {
 
 	private static final String CHANGED_TEST_HOTEL_STATE = "hotelState";
 	private static final String TEST_HOTEL_NAME = "testHotelName";
@@ -20,12 +20,12 @@ public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
 	@Override
 	@Inject
 	@Named("hotelDao")
-	public void setResourceDao(HotelDao hotelDao) {
-		this.resourceDao = hotelDao;
+	public void setDao(HotelDao hotelDao) {
+		this.dao = hotelDao;
 	}
 	
 	@Override
-	protected Hotel createTestRessource() throws Exception {
+	protected Hotel createTestEntity() throws Exception {
 		Hotel hotel = new Hotel();
 		hotel.setName(TEST_HOTEL_NAME+new Random().nextInt(10000));
 		hotel.setAddress("testHotelAddress");
@@ -39,12 +39,12 @@ public class TestHotelDao extends AbstractResourceDaoTest<Hotel, HotelDao> {
 	@Test
 	public void testUpdate() throws Exception {
 		
-		List<Hotel> hotels = this.resourceDao.findLike("name", TEST_HOTEL_NAME+"%");
+		List<Hotel> hotels = this.dao.findLike("name", TEST_HOTEL_NAME+"%");
 		assertEquals("hotels list should contain an unique result", 1, hotels.size());
 		
 		Hotel hotel = hotels.get(0);
 		hotel.setState(CHANGED_TEST_HOTEL_STATE);
-		hotel = this.resourceDao.save(hotel);
+		hotel = this.dao.save(hotel);
 		assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_STATE, hotel.getState());
 	}
 

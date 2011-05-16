@@ -18,9 +18,9 @@ import org.resthub.booking.model.Booking;
 import org.resthub.booking.model.CreditCardType;
 import org.resthub.booking.model.Hotel;
 import org.resthub.booking.model.User;
-import org.resthub.core.test.service.AbstractResourceServiceTest;
+import org.resthub.core.test.service.AbstractServiceTest;
 
-public class TestBookingService extends AbstractResourceServiceTest<Booking, BookingService> {
+public class TestBookingService extends AbstractServiceTest<Booking, Long, BookingService> {
 
 	private static final String TEST_CARD_NAME = "testCardName";
 	private static final String CHANGED_TEST_CARD_NAME = "changedTestCardName";
@@ -38,8 +38,8 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	@Override
 	@Inject
 	@Named("bookingService")
-	public void setResourceService(BookingService bookingService) {
-		this.resourceService = bookingService;
+	public void setService(BookingService bookingService) {
+		this.service = bookingService;
 	}
 	
 	@Override
@@ -75,8 +75,8 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	@Override
     public void tearDown() throws Exception {
     	// Don't use deleteAll because it does not acheive cascade delete
-		for (Booking currentBooking : resourceService.findAll()) {
-    		resourceService.delete(currentBooking);
+		for (Booking currentBooking : service.findAll()) {
+			service.delete(currentBooking);
         }
     	for (Hotel hotel : hotelDao.readAll()) {
     		hotelDao.delete(hotel);
@@ -90,17 +90,17 @@ public class TestBookingService extends AbstractResourceServiceTest<Booking, Boo
 	@Test
 	public void testUpdate() throws Exception {
 		
-		booking = this.resourceService.findById(booking.getId());
+		booking = this.service.findById(booking.getId());
 		assertNotNull("booking should not be null", booking);
 		
 		booking.setCreditCardName(CHANGED_TEST_CARD_NAME);
-		booking = this.resourceService.update(booking);
+		booking = this.service.update(booking);
 		assertEquals("Card name should have been modified", CHANGED_TEST_CARD_NAME, booking.getCreditCardName());
 	}
 	
 	@Test
 	public void testFindByUser() {
-		List<Booking> bookings = this.resourceService.findByUserId(user.getId());
+		List<Booking> bookings = this.service.findByUserId(user.getId());
 		assertEquals("bookings list should contain an unique result", 1, bookings.size());
 		assertEquals("credit card names should be equals", TEST_CARD_NAME, bookings.get(0).getCreditCardName());
 	}

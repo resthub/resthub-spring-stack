@@ -1,6 +1,6 @@
 package org.resthub.roundtable.dao;
 
-import org.resthub.core.dao.GenericResourceDao;
+import org.resthub.core.dao.GenericDao;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.model.Voter;
 
@@ -8,7 +8,7 @@ import org.resthub.roundtable.model.Voter;
  * Voter DAO.
  * @author Nicolas Carlier
  */
-public interface VoterDao extends GenericResourceDao<Voter> {
+public interface VoterDao extends GenericDao<Voter, Long> {
 
     /**
      * Find Voter by his name and poll

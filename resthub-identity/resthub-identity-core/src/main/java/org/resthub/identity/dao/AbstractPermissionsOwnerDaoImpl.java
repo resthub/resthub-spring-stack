@@ -1,9 +1,11 @@
 package org.resthub.identity.dao;
 
 import java.util.List;
+
 import javax.inject.Named;
 import javax.persistence.TypedQuery;
-import org.resthub.core.dao.GenericJpaResourceDao;
+
+import org.resthub.core.dao.GenericJpaDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 
@@ -13,7 +15,7 @@ import org.resthub.identity.model.Group;
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
 @Named("abstractPermissionsOwnerDao")
-public class AbstractPermissionsOwnerDaoImpl extends GenericJpaResourceDao<AbstractPermissionsOwner> implements AbstractPermissionsOwnerDao {
+public class AbstractPermissionsOwnerDaoImpl extends GenericJpaDao<AbstractPermissionsOwner, Long> implements AbstractPermissionsOwnerDao {
 
     /**
      * {@inheritDoc}

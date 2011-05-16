@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
@@ -18,7 +20,6 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Store;
-import org.resthub.core.model.Resource;
 
 /**
  * <p>
@@ -32,10 +33,11 @@ import org.resthub.core.model.Resource;
 @Entity
 @Table(name = "hotel")
 @XmlRootElement
-public class Hotel extends Resource implements Serializable {
+public class Hotel implements Serializable {
 
     private static final long serialVersionUID = -9200804524025548138L;
 
+    private Long id;
     private String name;
     private String address;
     private String city;
@@ -72,6 +74,16 @@ public class Hotel extends Resource implements Serializable {
         this.state = state;
         this.zip = zip;
         this.country = country;
+    }
+    
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Size(max = 50)
@@ -162,6 +174,30 @@ public class Hotel extends Resource implements Serializable {
     @Transient
     public String getLocation() {
         return city + ", " + state + ", " + country;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Hotel other = (Hotel) obj;
+       
+        if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
+        return hash;
     }
 
     @Override

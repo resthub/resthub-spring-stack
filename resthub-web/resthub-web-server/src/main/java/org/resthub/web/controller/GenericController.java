@@ -1,10 +1,11 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.net.URI;
+import java.util.List;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -15,26 +16,27 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 
 import org.resthub.core.service.GenericService;
 import org.resthub.core.util.ClassUtils;
+import org.resthub.core.util.MetamodelUtils;
 import org.resthub.web.response.PageResponse;
+import org.springframework.util.Assert;
 import org.synyx.hades.domain.PageRequest;
 
+import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.api.view.ImplicitProduces;
 
 /**
  * <p>Generic REST controller</p>
  * 
- * <p>It provides 5 generic web services, all usable with XML or JSON serialization :
+ * <p>It provides following generic web services, all usable with XML or JSON serialization :
  * <ul>
- * 	<li>GET on / : returns all entities managed by this controller (pageable, see related documentation)</li>
+ * 	<li>GET on / : returns paged response of entities managed by this controller
+ *  <li>GET on /unpaged return all entities managed by this controller</li>
  *  <li>GET on /{id} : returns the entity identified by 'id'</li>
  *  <li>POST on / : create a new entity (given in parameter)</li>
  *  <li>PUT on /{id} : update an entity (given in parameter)</li>
@@ -50,20 +52,15 @@ import com.sun.jersey.api.view.ImplicitProduces;
  */
 @Singleton
 @ImplicitProduces("text/html;qs=5")
-public abstract class GenericController<T, S extends GenericService<T, ID>, ID extends Serializable> {
+@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+public abstract class GenericController<T, ID extends Serializable, S extends GenericService<T, ID>> {
 
 	protected S service;
+	
+	@PersistenceContext
+    private EntityManager em;
 
-	@Context
-	protected UriInfo uriInfo;
-
-	/**
-	 * Allow to custom how the identifier, used in URLs, is generated from the entity parameter
-	 * @param entity
-	 */
-	abstract public ID generateIdentifierFromEntity(T entity);
-
-	@SuppressWarnings("unchecked")
 	public GenericController() {
 
 	}
@@ -77,48 +74,51 @@ public abstract class GenericController<T, S extends GenericService<T, ID>, ID e
 	}
 
 	@POST
-	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response create(T entity) {
-		T e = this.service.create(entity);
-		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-		URI uri = uriBuilder.path(generateIdentifierFromEntity(e).toString()).build();
-
-		return Response.created(uri).entity(e).build();
+	public T create(T entity) {
+		return this.service.create(entity);
 	}
 
 	@PUT
 	@Path("/{id}")
-	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response update(@PathParam("id") ID id, T entity) {
-		T e = this.service.findById(id);
-
-		this.service.update(entity);
-		return Response.created(uriInfo.getAbsolutePath()).build();
+	public T update(@PathParam("id") ID id, T entity) {
+		Assert.notNull(id, "id cannot be null");
+		T retreivedEntity = this.service.findById(id);
+		if (retreivedEntity == null) {
+			throw new NotFoundException();
+		}
+		MetamodelUtils utils = new MetamodelUtils<T, ID>((Class<T>) ClassUtils.getGenericTypeFromBean(this.service), em.getMetamodel());
+	    Serializable entityId = utils.getIdFromEntity(entity);
+		if((entityId != null) && !id.equals(this.getIdFromEntity(retreivedEntity))) {
+			throw new WebApplicationException(Response.Status.CONFLICT);
+		}
+	    if (null == entityId) {
+	        utils.setIdForEntity(entity, id);
+	    }
+		return this.service.update(entity);
+	}
+	
+	@GET
+	@Path("/all")
+	public List<T> getEntities() {
+		return this.service.findAll();
 	}
 
 	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getEntities(
+	public PageResponse<T> getEntities(
                 @QueryParam("page") @DefaultValue("0") Integer page,
                 @QueryParam("size") @DefaultValue("5") Integer size) {
-
-            PageResponse<T> entitys = new PageResponse<T>(
-                    this.service.findAll(new PageRequest(page, size)));
-            return Response.ok(entitys).build();
+		return new PageResponse<T>(this.service.findAll(new PageRequest(page, size)));
 	}
 
 	@GET
 	@Path("/{id}")
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getResource(@PathParam("id") ID id) {
+	public T getResource(@PathParam("id") ID id) {
 		T entity = this.service.findById(id);
 		if (entity == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			throw new NotFoundException();
 		}
 
-		return Response.ok(entity).build();
+		return entity;
 	}
 
 	@DELETE
@@ -126,5 +126,17 @@ public abstract class GenericController<T, S extends GenericService<T, ID>, ID e
 	public void delete(@PathParam("id") ID id) {
 		this.service.delete(id);
 	}
+	
+	/**
+     * Automatically retrieve ID from entity instance.
+     *
+     * @param obj The object from whom we need primary key
+     * @return The corresponding primary key.
+     */
+	@SuppressWarnings({"rawtypes","unchecked"})
+    protected ID getIdFromEntity(T obj) {
+		MetamodelUtils utils = new MetamodelUtils<T, ID>((Class<T>) ClassUtils.getGenericTypeFromBean(this.service), em.getMetamodel());
+        return (ID) utils.getIdFromEntity(obj);
+    }
 
 }

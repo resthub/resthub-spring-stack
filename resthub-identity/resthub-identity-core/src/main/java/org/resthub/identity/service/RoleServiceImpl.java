@@ -2,8 +2,10 @@ package org.resthub.identity.service;
 
 import java.util.Arrays;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.resthub.identity.dao.AbstractPermissionsOwnerDao;
 import org.resthub.identity.dao.RoleDao;
 import org.resthub.identity.model.AbstractPermissionsOwner;

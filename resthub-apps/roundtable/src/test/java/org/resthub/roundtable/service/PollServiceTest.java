@@ -8,7 +8,7 @@ import javax.inject.Named;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.resthub.core.test.service.AbstractResourceServiceTest;
+import org.resthub.core.test.service.AbstractServiceTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 
@@ -16,13 +16,13 @@ import org.resthub.roundtable.model.Poll;
  * Test of Poll services.
  * @author Nicolas Carlier
  */
-public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollService> {
+public class PollServiceTest extends AbstractServiceTest<Poll,Long, PollService> {
 
     @Inject
     @Named("pollService")
     @Override
-    public void setResourceService(PollService pollService) {
-        super.setResourceService(pollService);
+    public void setService(PollService pollService) {
+        super.setService(pollService);
     }
 
     @Override
@@ -48,19 +48,19 @@ public class PollServiceTest extends AbstractResourceServiceTest<Poll, PollServi
     @Override
     @Test
     public void testUpdate() throws Exception {
-        Poll poll = resourceService.findById(this.resourceId);
+        Poll poll = service.findById(this.id);
         poll.setAuthor("somebody");
         poll.getAnswers().remove(1);
 
-        poll = resourceService.update(poll);
+        poll = service.update(poll);
         Assert.assertEquals("unable to update Poll", "somebody", poll.getAuthor());
         Assert.assertEquals("Unable to update Poll", 2, poll.getAnswers().size());
     }
 
     @Test
     public void testFind() throws Exception {
-        resourceService.rebuildIndex();
-        List<Poll> polls = resourceService.find("test", null).asList();
+        service.rebuildIndex();
+        List<Poll> polls = service.find("test", null).asList();
         Assert.assertEquals(1, polls.size());
     }
 }

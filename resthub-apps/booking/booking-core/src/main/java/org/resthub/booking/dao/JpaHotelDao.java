@@ -17,7 +17,7 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.resthub.booking.model.Hotel;
-import org.resthub.core.dao.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaDao;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.PageImpl;
 import org.synyx.hades.domain.Pageable;
@@ -26,7 +26,7 @@ import org.synyx.hades.domain.Pageable;
  * @author Guillaume Zurbach
  */
 @Named("hotelDao")
-public class JpaHotelDao extends GenericJpaResourceDao<Hotel> implements
+public class JpaHotelDao extends GenericJpaDao<Hotel, Long> implements
 		HotelDao {
 
 	private static final int BATCH_SIZE = 10;

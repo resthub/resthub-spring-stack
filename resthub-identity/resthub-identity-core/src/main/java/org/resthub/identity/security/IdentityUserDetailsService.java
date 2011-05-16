@@ -9,7 +9,6 @@ import javax.inject.Named;
 
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
-import org.resthub.identity.service.RoleService;
 import org.resthub.identity.service.RoleService.RoleChange;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.service.tracability.ServiceListener;
@@ -29,10 +28,6 @@ public class IdentityUserDetailsService implements UserDetailsService, ServiceLi
 	@Inject
 	@Named("userService")
 	private UserService userService;
-	
-	@Inject
-	@Named("roleService")
-	private RoleService roleService;
 
 	@PostConstruct
 	public void init() {

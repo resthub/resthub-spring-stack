@@ -3,7 +3,7 @@ package org.resthub.roundtable.dao.jpa;
 import javax.inject.Named;
 import javax.persistence.Query;
 
-import org.resthub.core.dao.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaDao;
 import org.resthub.roundtable.dao.VoteDao;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.model.Vote;
@@ -12,7 +12,7 @@ import org.resthub.roundtable.model.Vote;
  * {@inheritDoc}
  */
 @Named("voteDao")
-public class JpaVoteDao extends GenericJpaResourceDao<Vote> implements VoteDao {
+public class JpaVoteDao extends GenericJpaDao<Vote, Long> implements VoteDao {
 
     /**
      * {@inheritDoc}

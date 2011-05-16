@@ -11,19 +11,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.resthub.core.model.Resource;
+import org.resthub.core.test.AbstractResthubTransactionAwareTest;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * SearchService test
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath:applicationContext.xml" })
-public class SearchServiceTest {
+public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
 
 	/**
 	 * Injection of the tested service.
@@ -106,7 +101,7 @@ public class SearchServiceTest {
 		u5 = userService.create(u5);		
 		
 		// When requesting j on users
-		List<Resource> results = tested.search("j", true, false, false);
+		List<Object> results = tested.search("j", true, false, false);
 			
 		// Then the first user is retrieved
 		assertTrue("login 'jdujardin' did not match", results.contains(u1));
@@ -142,7 +137,7 @@ public class SearchServiceTest {
 		g3 = groupService.create(g3);		
 		
 		// When requesting j on users
-		List<Resource> results = tested.search("j", false, true, false);
+		List<Object> results = tested.search("j", false, true, false);
 			
 		// Then the first group is retrieved
 		assertTrue("login 'jeans' did not match", results.contains(g1));
@@ -181,7 +176,7 @@ public class SearchServiceTest {
 		g2 = groupService.create(g2);		
 		
 		// When requesting j on users and groups
-		List<Resource> results = tested.search("j", true, true, false);
+		List<Object> results = tested.search("j", true, true, false);
 						
 		// Then the first user is retrieved
 		assertTrue("login 'jdujardin' did not match", results.contains(u1));
@@ -225,7 +220,7 @@ public class SearchServiceTest {
 		g2 = groupService.create(g2);		
 		
 		// When requesting j on users and groups
-		List<Resource> results = tested.search("lastName:g* OR firstName:j* OR name:admin*", true, true, false);
+		List<Object> results = tested.search("lastName:g* OR firstName:j* OR name:admin*", true, true, false);
 						
 		// Then the first user is retrieved
 		assertTrue("last name 'jean' did not match", results.contains(u1));

@@ -11,6 +11,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,8 +23,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.resthub.core.model.Resource;
 
 /**
  * <p>
@@ -36,12 +36,13 @@ import org.resthub.core.model.Resource;
 @Entity
 @NamedQueries({ @NamedQuery(name = Booking.BY_USERNAME, query = "Select b from Booking b where b.user.username = :username") })
 @Table(name = "bookings")
-public class Booking extends Resource implements Serializable {
+public class Booking implements Serializable {
 
     private static final long serialVersionUID = -6176295317720795275L;
 
     public static final String BY_USERNAME = "Booking.byUsername";
 
+    private Long id;
     private User user;
     private Hotel hotel;
     private Date checkinDate;
@@ -67,6 +68,16 @@ public class Booking extends Resource implements Serializable {
         this.beds = 1;
         setReservationDates(daysFromNow, nights);
         creditCardExpiryMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    }
+    
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @NotNull
@@ -218,6 +229,30 @@ public class Booking extends Resource implements Serializable {
         this.checkinDate = refDate.getTime();
         refDate.add(Calendar.DAY_OF_MONTH, nights);
         this.checkoutDate = refDate.getTime();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Booking other = (Booking) obj;
+       
+        if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
+        return hash;
     }
 
     @Override

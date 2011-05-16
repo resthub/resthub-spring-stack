@@ -1,38 +1,43 @@
 package org.resthub.identity.controller;
 
+import static org.junit.Assert.assertTrue;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
 
 import junit.framework.Assert;
-import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
-import org.resthub.web.test.controller.AbstractResourceControllerTest;
+import org.resthub.web.test.controller.AbstractControllerTest;
 
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.ClientResponse.Status;
-import org.junit.Test;
-import org.resthub.identity.model.User;
+import com.sun.jersey.api.client.WebResource;
 
 /**
  * 
  * @author Guillaume Zurbach
  */
 public class GroupControllerTest
-        extends AbstractResourceControllerTest<Group, GroupService, GroupController> {
+        extends AbstractControllerTest<Group, Long, GroupService, GroupController> {
 
     @Override
     @Inject
     public void setController(GroupController groupController) {
         super.setController(groupController);
     }
+    
+    private String generateRandomGroupName() {
+        return "GroupName" + Math.round(Math.random() * 10000);
+    }
 
     @Override
     protected Group createTestResource() throws Exception {
-        String groupName = "GroupTestGroupName" + Math.round(Math.random() * 1000);
+        String groupName = this.generateRandomGroupName();
         Group g = new Group();
         g.setName(groupName);
         return g;
@@ -47,20 +52,19 @@ public class GroupControllerTest
 
     @Override
     public void testUpdate() throws Exception {
-        Group g1 = new Group();
-        g1.setName("g1");
+        Group g1 = this.createTestResource();
 
         WebResource r = resource().path("group");
         g1 = r.type(MediaType.APPLICATION_XML).post(Group.class, g1);
         r = resource().path("group/" + g1.getId());
-        Group g2 = g1;
-        g2.setName("g2");
+        Group g2 = this.createTestResource();
+        g2.setId(g1.getId());
         // Update name
         ClientResponse cr = r.type(MediaType.APPLICATION_XML).accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, g2);
         Assert.assertEquals("Group not updated", Status.OK.getStatusCode(), cr.getStatus());
         String response = resource().path("group").accept(MediaType.APPLICATION_JSON).get(String.class);
-        Assert.assertFalse("Group not updated", response.contains("g1"));
-        Assert.assertTrue("Group not updated", response.contains("g2"));
+        Assert.assertFalse("Group not updated", response.contains(g1.getName()));
+        Assert.assertTrue("Group not updated", response.contains(g2.getName()));
     }
 
     @Test

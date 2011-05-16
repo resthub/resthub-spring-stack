@@ -61,4 +61,39 @@ public class MetamodelUtils<T, PK extends Serializable> {
 		throw new IllegalArgumentException(
 				"Given member is neither Field nor Method!");
 	}
+	
+	 public void setIdForEntity(T entity, PK id) {
+	        EntityType<T> type = metamodel.entity(domainClass);
+	        SingularAttribute<? super T, ?> attribute = type.getId(type.getIdType()
+	                .getJavaType());
+	        setMemberValue(attribute.getJavaMember(), entity, id);
+	    }
+	 
+	 /**
+	     * Changes the value of the given {@link Member} of the given {@link Object}
+	     * with a new value
+	     * 
+	     * @param member
+	     * @param source
+	     * @param value
+	     */
+	    protected void setMemberValue(Member member, Object source, Object value) {
+
+	        if (member instanceof Field) {
+	            Field field = (Field) member;
+	            ReflectionUtils.makeAccessible(field);
+	            ReflectionUtils.setField(field, source, value);
+	        } else if (member instanceof Method) {
+	            Method method = (Method) member;
+	            ReflectionUtils.makeAccessible(method);
+	            ReflectionUtils.invokeMethod(method, source, value);
+	        }
+	        
+	        
+
+	        throw new IllegalArgumentException(
+	                "Given member is neither Field nor Method!");
+	    }
+
+
 }

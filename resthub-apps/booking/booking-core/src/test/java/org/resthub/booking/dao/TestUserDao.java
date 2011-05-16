@@ -26,7 +26,7 @@ public class TestUserDao extends AbstractDaoTest<User, Long, UserDao> {
 	}
 	
 	@Override
-	protected User createTestRessource() throws Exception {
+	protected User createTestEntity() throws Exception {
 		User user = new User ();
 		this.testUsername = "user"+new Random().nextInt(10000);
 		user.setUsername(testUsername);

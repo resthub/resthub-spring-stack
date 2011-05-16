@@ -1,14 +1,11 @@
 package org.resthub.identity.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Named;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
-import org.resthub.core.dao.GenericJpaResourceDao;
-import org.resthub.identity.model.AbstractPermissionsOwner;
-import org.resthub.identity.model.Group;
+import org.resthub.core.dao.GenericJpaDao;
 import org.resthub.identity.model.User;
 
 /**
@@ -18,7 +15,7 @@ import org.resthub.identity.model.User;
  * It is a bean whose name is userDao
  * */
 @Named("userDao")
-public class JpaUserDao extends GenericJpaResourceDao<User> implements UserDao {
+public class JpaUserDao extends GenericJpaDao<User, Long> implements UserDao {
 
     /**
      * {@inheritDoc}

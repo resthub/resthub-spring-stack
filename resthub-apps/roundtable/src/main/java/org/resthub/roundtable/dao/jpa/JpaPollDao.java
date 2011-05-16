@@ -2,10 +2,10 @@ package org.resthub.roundtable.dao.jpa;
 
 
 import javax.inject.Named;
+
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.search.Sort;
 import org.apache.lucene.util.Version;
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
@@ -16,8 +16,7 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
-
-import org.resthub.core.dao.GenericJpaResourceDao;
+import org.resthub.core.dao.GenericJpaDao;
 import org.resthub.roundtable.dao.PollDao;
 import org.resthub.roundtable.model.Poll;
 import org.synyx.hades.domain.Page;
@@ -28,7 +27,7 @@ import org.synyx.hades.domain.Pageable;
  * {@inheritDoc}
  */
 @Named("pollDao")
-public class JpaPollDao extends GenericJpaResourceDao<Poll> implements PollDao {
+public class JpaPollDao extends GenericJpaDao<Poll, Long> implements PollDao {
     private static int BATCH_SIZE = 10;
 
     @Override
@@ -38,7 +37,7 @@ public class JpaPollDao extends GenericJpaResourceDao<Poll> implements PollDao {
 
         // create native Lucene query
         String[] fields = new String[]{"author", "topic", "body"};
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, fields, new StandardAnalyzer(Version.LUCENE_29));
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, new StandardAnalyzer(Version.LUCENE_29));
         org.apache.lucene.search.Query q = parser.parse(query);
 
         FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(q, Poll.class);

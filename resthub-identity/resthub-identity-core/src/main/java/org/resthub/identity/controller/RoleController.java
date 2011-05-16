@@ -2,6 +2,7 @@ package org.resthub.identity.controller;
 
 import java.util.Arrays;
 import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,11 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.RoleService;
 import org.resthub.identity.service.UserService;
-import org.resthub.web.controller.GenericResourceController;
+import org.resthub.web.controller.GenericController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +29,7 @@ import org.slf4j.LoggerFactory;
 @Path("/role")
 @RolesAllowed({"IM-ADMIN"})
 @Named("roleController")
-public class RoleController extends GenericResourceController<Role, RoleService> {
-
-    /**
-     * Provide a logger for the whole class.
-     */
-    private final Logger logger = LoggerFactory.getLogger(GroupController.class);
+public class RoleController extends GenericController<Role, Long, RoleService> {
 
     @Inject
     @Named("userService")
@@ -41,14 +38,11 @@ public class RoleController extends GenericResourceController<Role, RoleService>
     @Inject
     @Named("roleService")
     @Override
-    /**
-     * {@inheritDoc}
-     */
     public void setService(RoleService service) {
         this.service = service;
     }
 
-        /**
+    /**
      * Gets all the users that have a role, direct or inherited.
      * @param filters A list of roles to look for.
      * @return A list of users having at least one of the roles defined as parameter.

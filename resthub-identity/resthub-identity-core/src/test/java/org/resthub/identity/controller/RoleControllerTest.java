@@ -1,24 +1,29 @@
 package org.resthub.identity.controller;
 
-import org.resthub.identity.model.User;
-import org.junit.Test;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.ClientResponse.Status;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
-import org.resthub.identity.model.Role;
-import org.resthub.identity.service.RoleService;
-import org.resthub.web.test.controller.AbstractResourceControllerTest;
-import static org.junit.Assert.*;
+
 import org.apache.log4j.Logger;
+import org.junit.Test;
+import org.resthub.identity.model.Role;
+import org.resthub.identity.model.User;
+import org.resthub.identity.service.RoleService;
+import org.resthub.web.test.controller.AbstractControllerTest;
+
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.ClientResponse.Status;
 
 /**
  * Test class for <tt>RoleController</tt>.
  *
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
-public class RoleControllerTest extends AbstractResourceControllerTest<Role, RoleService, RoleController> {
+public class RoleControllerTest extends AbstractControllerTest<Role, Long, RoleService, RoleController> {
 
     protected Logger logger = Logger.getLogger(UserControllerTest.class);
 
@@ -27,7 +32,7 @@ public class RoleControllerTest extends AbstractResourceControllerTest<Role, Rol
      * @return A unique role name.
      */
     private String generateRandomRoleName() {
-        return "RoleName" + Math.round(Math.random() * 1000);
+        return "RoleName" + Math.round(Math.random() * 10000);
     }
 
     @Override
@@ -45,7 +50,7 @@ public class RoleControllerTest extends AbstractResourceControllerTest<Role, Rol
 
     protected User createTestUser() {
         logger.debug("UserControllerTest : createTestUser");
-        String userLogin = "UserTestUserLogin" + Math.round(Math.random() * 1000);
+        String userLogin = "UserTestUserLogin" + Math.round(Math.random() * 10000);
         String userPassword = "UserTestUserPassword";
         User u = new User();
         u.setLogin(userLogin);
@@ -66,7 +71,7 @@ public class RoleControllerTest extends AbstractResourceControllerTest<Role, Rol
         ClientResponse cr = resource().path("role/" + testRole.getId()).type(MediaType.APPLICATION_XML).accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, testRole);
 
         // Then the modification is done.
-        assertEquals("Role not updated!", Status.CREATED.getStatusCode(), cr.getStatus());
+        assertEquals("Role not updated!", Status.OK.getStatusCode(), cr.getStatus());
         String response = resource().path("role").accept(MediaType.APPLICATION_JSON).get(String.class);
         assertFalse("Role not updated!", response.contains(initialRoleName));
         assertTrue("Role not updated!", response.contains(newRoleName));

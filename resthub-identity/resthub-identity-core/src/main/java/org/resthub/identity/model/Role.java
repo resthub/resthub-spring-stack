@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,15 +17,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
-import org.resthub.core.model.Resource;
 
 @Entity
 @Table(name = "idm_roles")
 @XmlRootElement
 @Indexed
-public class Role extends Resource {
+public class Role {
 	private static final long serialVersionUID = 4727979823727123519L;
 
+	protected Long id;
 	protected String name;
 	protected List<String> permissions = new ArrayList<String>();
 
@@ -39,6 +41,16 @@ public class Role extends Resource {
 	public Role(String roleName) {
 		this.setName(roleName);
 	}
+	
+	@Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 	
 	/**
 	 * Retrieve the name of the role.
@@ -81,4 +93,28 @@ public class Role extends Resource {
 	protected void setPermissions(List<String> permissions) {
 		this.permissions = permissions;
 	}
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Role other = (Role) obj;
+       
+        if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
+        return hash;
+    }
 }

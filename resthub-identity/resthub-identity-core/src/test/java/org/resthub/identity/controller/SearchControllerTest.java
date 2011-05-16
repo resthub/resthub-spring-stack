@@ -13,7 +13,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.resthub.core.model.Resource;
 import org.resthub.identity.model.User;
 import org.resthub.web.jackson.JacksonProvider;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
@@ -146,7 +145,7 @@ public class SearchControllerTest {
         // Given a resource on the server
         WebResource server = resource();
         // When searching with an unmatching query
-        Resource[] results = server.path("/api/search").queryParam("query", "toto").get(Resource[].class);
+        Object[] results = server.path("/api/search").queryParam("query", "toto").get(Object[].class);
         // Then the result is empty.
         assertNotNull(results);
         assertEquals(0, results.length);
