@@ -41,5 +41,6 @@
   		<jdbc:script location="classpath:import-users-and-permissions.sql"/>
 	</jdbc:initialize-database>
 	
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
 	
 </beans>
