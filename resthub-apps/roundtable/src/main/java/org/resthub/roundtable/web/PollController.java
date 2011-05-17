@@ -1,4 +1,4 @@
-package org.resthub.roundtable.web.controller;
+package org.resthub.roundtable.web;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,7 +35,6 @@ public class PollController extends GenericController<Poll, Long, PollService> {
 
     @GET
     @Path("/search")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response getResources(
             @QueryParam("q") String q,
             @QueryParam("page") @DefaultValue("0") Integer page,

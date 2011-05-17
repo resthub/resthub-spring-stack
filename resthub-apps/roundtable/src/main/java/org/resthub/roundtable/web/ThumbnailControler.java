@@ -1,4 +1,4 @@
-package org.resthub.roundtable.web.controller;
+package org.resthub.roundtable.web;
 
 import java.io.File;
 import java.io.IOException;

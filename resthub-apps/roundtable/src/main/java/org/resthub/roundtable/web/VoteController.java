@@ -1,4 +1,4 @@
-package org.resthub.roundtable.web.controller;
+package org.resthub.roundtable.web;
 
 import java.net.URI;
 import java.util.List;
