@@ -5,9 +5,7 @@ import javax.inject.Named;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 import org.resthub.booking.model.Hotel;
 import org.resthub.booking.service.HotelService;
@@ -38,7 +36,6 @@ public class HotelController extends GenericController<Hotel, Long, HotelService
 	 */
 	@GET
 	@Path("/search")
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public PageResponse<Hotel> searchHotels(
 			@QueryParam("q") String query,
 			@QueryParam("page") @DefaultValue("0") Integer page,

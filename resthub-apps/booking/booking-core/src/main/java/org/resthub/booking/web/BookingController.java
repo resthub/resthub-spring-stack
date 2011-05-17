@@ -8,8 +8,6 @@ import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.service.BookingService;
@@ -39,7 +37,6 @@ public class BookingController extends GenericController<Booking, Long, BookingS
 	 */
 	@GET
 	@Path("/user/{id}")
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public List<Booking> getBookingsByUser(@PathParam("id") String userId) {
 		List<Booking> bookings = null;
 		
