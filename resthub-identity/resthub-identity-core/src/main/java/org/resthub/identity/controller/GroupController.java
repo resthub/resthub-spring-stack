@@ -13,10 +13,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
@@ -110,28 +106,6 @@ public class GroupController extends GenericController<Group, Long, GroupService
     }
 
     /**
-     * Return the list of all groups without including users.<br/>
-     *
-     * @return a list of group, in XML or JSON if the group can be found
-     *         otherwise HTTP Error 404
-     */
-    @GET
-    @Path("/list")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getAllGroupsName() {
-        List<Group> result = this.service.findAll();
-        int size = (result == null) ? 0 : result.size();
-        Response r;
-        if (size == 0) {
-            r = Response.status(Status.NOT_FOUND).entity(
-                    "Unable to find any group.").build();
-        } else {
-            r = Response.ok(result).build();
-        }
-        return r;
-    }
-
-    /**
      * Gets the groups depending of the group
      *
      *@param name
@@ -142,17 +116,12 @@ public class GroupController extends GenericController<Group, Long, GroupService
      */
     @GET
     @Path("/name/{name}/groups")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getGroupsFromGroups(@PathParam("name") String name) {
+    public List<Group> getGroupsFromGroups(@PathParam("name") String name) {
         Group g = this.service.findByName(name);
-        Response r = null;
-        List<Group> groups = null;
-        if (g != null) {
-            groups = g.getGroups();
-        }
-        r = (groups == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to find groups").build() : Response.ok(groups).build();
-        return r;
+        if (g == null) {
+			throw new NotFoundException();
+		}
+        return g.getGroups();
     }
 
     /**
@@ -165,7 +134,6 @@ public class GroupController extends GenericController<Group, Long, GroupService
      */
     @PUT
     @Path("/name/{name}/groups/{group}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void addGroupToUser(@PathParam("name") String name,
             @PathParam("group") String group) {
         this.service.addGroupToGroup(name, group);
@@ -181,7 +149,6 @@ public class GroupController extends GenericController<Group, Long, GroupService
      */
     @DELETE
     @Path("/name/{name}/groups/{groups}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void removeGroupsForUser(@PathParam("name") String name,
             @PathParam("groups") String groupName) {
         this.service.removeGroupFromGroup(name, groupName);
@@ -198,13 +165,12 @@ public class GroupController extends GenericController<Group, Long, GroupService
      */
     @GET
     @Path("/name/{name}/permissions")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getPermisionsFromGroup(@PathParam("name") String name) {
-        Response r = null;
+    public List<String> getPermisionsFromGroup(@PathParam("name") String name) {
         List<String> permissions = this.service.getGroupDirectPermissions(name);
-        r = (permissions == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to find groups").build() : Response.ok(permissions).build();
-        return r;
+        if (permissions == null) {
+			throw new NotFoundException();
+		}
+        return permissions;
     }
 
     /**
@@ -217,7 +183,6 @@ public class GroupController extends GenericController<Group, Long, GroupService
      */
     @PUT
     @Path("/name/{name}/permissions/{permission}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void addPermissionsToUser(@PathParam("name") String login,
             @PathParam("permission") String permission) {
         this.service.addPermissionToGroup(login, permission);
@@ -233,7 +198,6 @@ public class GroupController extends GenericController<Group, Long, GroupService
      */
     @DELETE
     @Path("/name/{name}/permissions/{permission}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void deletePermissionsFromUser(@PathParam("name") String name,
             @PathParam("permission") String permission) {
         this.service.removePermissionFromGroup(name, permission);
@@ -241,11 +205,11 @@ public class GroupController extends GenericController<Group, Long, GroupService
 
     @GET
     @Path("/name/{name}/users")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response getUsersFromGroup(@PathParam("name") String name) {
-        Response r = null;
+    public List<User> getUsersFromGroup(@PathParam("name") String name) {
         List<User> usersFromGroup = this.userService.getUsersFromGroup(name);
-        r = (usersFromGroup == null) ? Response.status(Status.NOT_FOUND).build() : Response.ok(usersFromGroup).build();
-        return r;
+        if (usersFromGroup == null) {
+			throw new NotFoundException();
+		}
+        return usersFromGroup;
     }
 }

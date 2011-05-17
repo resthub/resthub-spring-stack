@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import org.junit.Test;
 import org.resthub.core.test.AbstractResthubTransactionAwareTest;
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 
@@ -101,7 +102,7 @@ public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
 		u5 = userService.create(u5);		
 		
 		// When requesting j on users
-		List<Object> results = tested.search("j", true, false, false);
+		List<AbstractPermissionsOwner> results = tested.search("j", true, false);
 			
 		// Then the first user is retrieved
 		assertTrue("login 'jdujardin' did not match", results.contains(u1));
@@ -137,7 +138,7 @@ public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
 		g3 = groupService.create(g3);		
 		
 		// When requesting j on users
-		List<Object> results = tested.search("j", false, true, false);
+		List<AbstractPermissionsOwner> results = tested.search("j", false, true);
 			
 		// Then the first group is retrieved
 		assertTrue("login 'jeans' did not match", results.contains(g1));
@@ -176,7 +177,7 @@ public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
 		g2 = groupService.create(g2);		
 		
 		// When requesting j on users and groups
-		List<Object> results = tested.search("j", true, true, false);
+		List<AbstractPermissionsOwner> results = tested.search("j", true, true);
 						
 		// Then the first user is retrieved
 		assertTrue("login 'jdujardin' did not match", results.contains(u1));
@@ -220,7 +221,7 @@ public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
 		g2 = groupService.create(g2);		
 		
 		// When requesting j on users and groups
-		List<Object> results = tested.search("lastName:g* OR firstName:j* OR name:admin*", true, true, false);
+		List<AbstractPermissionsOwner> results = tested.search("lastName:g* OR firstName:j* OR name:admin*", true, true);
 						
 		// Then the first user is retrieved
 		assertTrue("last name 'jean' did not match", results.contains(u1));
@@ -239,7 +240,7 @@ public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
 	public void shouldFailedOnNullQuery() {
 		try {
 			// When performing a search with a null query
-			tested.search(null, false, false, false);
+			tested.search(null, false, false);
 			fail("An IllegalArgumentException may have been raised");
 		} catch (IllegalArgumentException exc) {
 			// Then an exception is raised
@@ -251,7 +252,7 @@ public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
 	public void shouldFailedOnInvalidQuery() {
 		try {
 			// When performing a search with a invalide query
-			tested.search("name:*", false, false, false);
+			tested.search("name:*", false, false);
 			fail("An IllegalArgumentException may have been raised");
 		} catch (IllegalArgumentException exc) {
 			// Then an exception is raised

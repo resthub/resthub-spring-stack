@@ -17,6 +17,7 @@ import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
@@ -52,8 +53,8 @@ public class HibernateSearchDao implements SearchDao {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object> search(String queryString, boolean withUsers, boolean withGroups, boolean withRoles) {
-		List<Object> results = new ArrayList<Object>();
+	public List<AbstractPermissionsOwner> search(String queryString, boolean withUsers, boolean withGroups) {
+		List<AbstractPermissionsOwner> results = new ArrayList<AbstractPermissionsOwner>();
 		// No query should be realized while re-indexing resources.
 		if(!inhibitSearch) {
 			// Gets the Hibernate search object to performs queries.
@@ -71,33 +72,25 @@ public class HibernateSearchDao implements SearchDao {
 				FullTextQuery query = null;
 				// Because of the poor design of the Hibernate Search API and the usage of varagrs, we must have this
 				// if-else algorihm. TODO refactor with reflection.
-				if (withUsers && withGroups && withRoles) {
-					query = fullTextEntityManager.createFullTextQuery(luceneQuery, User.class, Group.class, Role.class);
-				} else if (withUsers && withGroups) {
+				if (withUsers && withGroups) {
 					query = fullTextEntityManager.createFullTextQuery(luceneQuery, User.class, Group.class);
-				} else if (withUsers && withRoles) {
-					query = fullTextEntityManager.createFullTextQuery(luceneQuery, User.class, Role.class);
-				} else if (withGroups && withRoles) {
-					query = fullTextEntityManager.createFullTextQuery(luceneQuery, Group.class, Role.class);
 				} else if (withUsers) {
 					query = fullTextEntityManager.createFullTextQuery(luceneQuery, User.class);
 				} else if (withGroups) {
 					query = fullTextEntityManager.createFullTextQuery(luceneQuery, Group.class);
-				} else if (withRoles) {
-					query = fullTextEntityManager.createFullTextQuery(luceneQuery, Role.class);
 				}
 				// Finally execute the query.
 				if (query != null) {
-					List<Object> found = query.getResultList();
+					List<AbstractPermissionsOwner> found = query.getResultList();
 					// Keeps only distinct results.
-					for (Object foundObject : found) {
+					for (AbstractPermissionsOwner foundObject : found) {
 						if (!results.contains(foundObject)) {
 							// TODO Remove this Hibernate specific block. 
 							// Sometimes hibernate Search returns Javassist proxies, which can't be properly
 							// deserialize by Jackson.
 							if (foundObject instanceof HibernateProxy){
 								HibernateProxy h = (HibernateProxy)foundObject;
-								foundObject = (Object)h.getHibernateLazyInitializer().getImplementation();
+								foundObject = (AbstractPermissionsOwner)h.getHibernateLazyInitializer().getImplementation();
 							}
 							results.add(foundObject);
 						}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/search")
 @Named("searchController")
+@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class SearchController {
 
 	// ----------------------------------------------------------------------------------------------------------------
@@ -50,21 +54,18 @@ public class SearchController {
 	 * @param query @QueryParam("query") Search query
 	 * @param withUsers @QueryParam("users")@DefaultValue("true") True to search on users
 	 * @param withGroups @QueryParam("groups")@DefaultValue("true") True to search on groups
-	 * @param withRoles @QueryParam("roles")@DefaultValue("true") True to search on roles
 	 * @return An array of matching users, groups and roles.
 	 */
 	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response search(@QueryParam("query") String query,
 			@QueryParam("users")@DefaultValue("true") Boolean withUsers,
-			@QueryParam("groups")@DefaultValue("true") Boolean withGroups,
-			@QueryParam("roles")@DefaultValue("true") Boolean withRoles) {
+			@QueryParam("groups")@DefaultValue("true") Boolean withGroups) {
 		logger.debug("[search] Performs a search on " + query);
 		ResponseBuilder response = Response.serverError();
 		try {
-			List<Object> results = searchService.search(query, withUsers, withGroups, withRoles);
+			List<AbstractPermissionsOwner> results = searchService.search(query, withUsers, withGroups);
 			// GenericEntity allows us to return a list of resource, tackling the type erasure problem.
-			GenericEntity<List<Object>> entity = new GenericEntity<List<Object>>(results) {};
+			GenericEntity<List<AbstractPermissionsOwner>> entity = new GenericEntity<List<AbstractPermissionsOwner>>(results) {};
 			response = Response.ok(entity);
 		} catch (Exception exc) {
 			response.entity(exc.getMessage());

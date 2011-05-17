@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.identity.dao.SearchDao;
+import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,10 +40,10 @@ public class SearchServiceImpl implements SearchService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Object> search(String query, boolean withUsers, boolean withGroups, boolean withRoles) {
+	public List<AbstractPermissionsOwner> search(String query, boolean withUsers, boolean withGroups) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("[search] Search with query '"+query+"'"+(withUsers ? " on users" : "")+
-					(withGroups ? " on groups" : "")+(withRoles ? " on roles" : ""));
+					(withGroups ? " on groups" : ""));
 		}
 		// Argument validation.
 		if (query == null) {
@@ -58,16 +59,16 @@ public class SearchServiceImpl implements SearchService {
 			}
 			logger.debug("[search] Query adapted to '"+query+"'");
 		}
-		return searchDao.search(query, withUsers, withGroups, withRoles);
+		return searchDao.search(query, withUsers, withGroups);
 	} // search().
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public void resetIndexes() {
-		logger.info("[init] Users, groups and roles re-indexation in progress...");
+		logger.info("[init] Users and groups re-indexation in progress...");
 		searchDao.resetIndexes();
-		logger.info("[init] Users, groups and roles re-indexation finished");
+		logger.info("[init] Users and groups re-indexation finished");
 	} // resetIndexes
 
 } // class SearchService

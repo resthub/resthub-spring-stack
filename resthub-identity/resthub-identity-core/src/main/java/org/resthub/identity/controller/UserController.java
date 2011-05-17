@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,10 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
-import org.resthub.core.exception.AlreadyExistingEntityException;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
@@ -27,6 +23,8 @@ import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.resthub.web.controller.GenericController;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.sun.jersey.api.NotFoundException;
 
 @Path("/user")
 /**
@@ -68,14 +66,13 @@ public class UserController extends GenericController<User, Long, UserService> {
      */
     @GET
     @Path("/login/{login}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
-    public Response getUserByLogin(@PathParam("login") String login) {
+    public User getUserByLogin(@PathParam("login") String login) {
         User user = this.service.findByLogin(login);
-        Response r;
-        r = (user == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to find the user").build() : Response.ok(user).build();
-        return r;
+        if (user == null) {
+			throw new NotFoundException();
+		}
+        return user;
     }
 
     /**
@@ -96,21 +93,21 @@ public class UserController extends GenericController<User, Long, UserService> {
      * */
     @GET
     @Path("/me")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-USER", "IM-ADMIN"})
-    public Response currentUser() {
+    public User currentUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter) securityContext.getAuthentication().getPrincipal();
 
         User user = this.service.findByLogin(userDetails.getUsername());
-        Response response = Response.status(Status.NOT_FOUND).build();
+        if (user == null) {
+			throw new NotFoundException();
+		}
         if (user != null) {
             List<String> permissions = PermissionsOwnerTools.getInheritedPermission(user);
             user.getPermissions().clear();
             user.getPermissions().addAll(permissions);
-            response = Response.ok(user).build();
         }
-        return response;
+        return user;
     }
 
     /**
@@ -121,14 +118,13 @@ public class UserController extends GenericController<User, Long, UserService> {
      * */
     @POST
     @Path("/password")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-USER", "IM-ADMIN"})
-    public Response changePassword(User u) {
-        u = this.service.updatePassword(u);
-        Response r;
-        r = (u == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to save the user").build() : Response.ok(u).build();
-        return r;
+    public User changePassword(User u) {
+        User updatedUser = this.service.updatePassword(u);
+        if (updatedUser == null) {
+			throw new NotFoundException();
+		}
+        return updatedUser;
     }
 
     /**
@@ -143,16 +139,19 @@ public class UserController extends GenericController<User, Long, UserService> {
     @Path("/name/{login}/groups")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
-    public Response getGroupsFromUser(@PathParam("login") String login) {
+    public List<Group> getGroupsFromUser(@PathParam("login") String login) {
         User user = this.service.findByLogin(login);
-        Response r = null;
+        if (user == null) {
+			throw new NotFoundException();
+		}
         List<Group> groups = null;
         if (user != null) {
             groups = user.getGroups();
         }
-        r = (groups == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to find groups").build() : Response.ok(groups).build();
-        return r;
+        if (groups == null) {
+			throw new NotFoundException();
+		}
+        return groups;
     }
 
     /**
@@ -163,7 +162,6 @@ public class UserController extends GenericController<User, Long, UserService> {
      */
     @PUT
     @Path("/name/{login}/groups/{group}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
     public void addGroupToUser(@PathParam("login") String login,
             @PathParam("group") String group) {
@@ -178,7 +176,6 @@ public class UserController extends GenericController<User, Long, UserService> {
      */
     @DELETE
     @Path("/name/{login}/groups/{groups}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
     public void removeGroupsForUser(@PathParam("login") String userLogin,
             @PathParam("groups") String groupName) {
@@ -195,14 +192,13 @@ public class UserController extends GenericController<User, Long, UserService> {
      */
     @GET
     @Path("/name/{login}/permissions")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
-    public Response getPermissionsFromUser(@PathParam("login") String login) {
-        Response r = null;
+    public List<String> getPermissionsFromUser(@PathParam("login") String login) {
         List<String> permissions = this.service.getUserPermissions(login);
-        r = (permissions == null) ? Response.status(Status.NOT_FOUND).entity(
-                "Unable to find permissions").build() : Response.ok(permissions).build();
-        return r;
+        if (permissions == null) {
+			throw new NotFoundException();
+		}
+        return permissions;
     }
 
     /**
@@ -213,7 +209,6 @@ public class UserController extends GenericController<User, Long, UserService> {
      */
     @PUT
     @Path("/name/{login}/permissions/{permission}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
     public void addPermissionsToUser(@PathParam("login") String login,
             @PathParam("permission") String permission) {
@@ -228,7 +223,6 @@ public class UserController extends GenericController<User, Long, UserService> {
      */
     @DELETE
     @Path("/name/{login}/permissions/{permission}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
     public void deletePermissionsFromUser(@PathParam("login") String login,
             @PathParam("permission") String permission) {

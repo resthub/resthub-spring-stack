@@ -9,18 +9,14 @@ import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.RoleService;
 import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.sun.jersey.api.NotFoundException;
 
 /**
  *
@@ -49,13 +45,12 @@ public class RoleController extends GenericController<Role, Long, RoleService> {
      */
     @GET
     @Path("/{name}/users")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @RolesAllowed({"IM-ADMIN"})
-    public Response findAllUsersWithRole(@PathParam("name") String name) {
+    public List<User> findAllUsersWithRole(@PathParam("name") String name) {
         List<User> usersWithRoles = this.userService.findAllUsersWithRoles(Arrays.asList(name));
-        Response r = (usersWithRoles == null)
-                ? Response.status(Status.NOT_FOUND).entity("Unable to find users").build()
-                : Response.ok(usersWithRoles).build();
-        return r;
+        if (usersWithRoles == null) {
+			throw new NotFoundException();
+		}
+        return usersWithRoles;
     }
 }
