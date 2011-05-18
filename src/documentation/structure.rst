@@ -20,16 +20,15 @@ pom.xml
 
 	<?xml version="1.0" encoding="UTF-8"?>
 	<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
 		<modelVersion>4.0.0</modelVersion>
 		<groupId>org.mydomain</groupId>
 		<artifactId>myproject</artifactId>
 		<packaging>war</packaging>
 		<version>1.1-SNAPSHOT</version>
 
-    	<dependencies>
+		<dependencies>
 			<!-- We use RESThub core classes and dependencies built around Spring 3 -->
-        	<dependency>
+			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-core</artifactId>
 				<version>1.1-SNAPSHOT</version>
@@ -37,10 +36,10 @@ pom.xml
 			<!-- We use RESThub web classes and dependencies built around Jersey -->
 			<dependency>
 				<groupId>org.resthub</groupId>
-				<artifactId>resthub-web</artifactId>
+				<artifactId>resthub-web-server</artifactId>
 				<version>1.1-SNAPSHOT</version>
 			</dependency>
-			<!-- We use RESThub js stack built around jQuery -->
+			<!-- We use RESThub JS stack built around jQuery -->
 			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-js</artifactId>
@@ -52,22 +51,22 @@ pom.xml
 		<build>
         	<pluginManagement>
 				<plugins>
-					<!-- Set default compilation to Java 1.5 and UTF-8 for encoding -->
+					<!-- Set default compilation to Java 6 and UTF-8 for encoding -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3</version>
+						<version>2.3.2</version>
 						<configuration>
 							<encoding>UTF-8</encoding>
-							<source>1.5</source>
-							<target>1.5</target>
+							<source>1.6</source>
+							<target>1.6</target>
 						</configuration>
 					</plugin>
 					<!-- It is recommanded to define resource encoding to avoid charset issues -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>
-						<version>2.4.2</version>
+						<version>2.5</version>
 						<configuration>
 							<encoding>UTF-8</encoding>
 						</configuration>
@@ -81,7 +80,16 @@ pom.xml
 					<artifactId>jetty-maven-plugin</artifactId>
 					<version>7.1.3.v20100526</version>
 					<configuration>
-						<scanIntervalSeconds>10</scanIntervalSeconds>
+						<!-- We use non NIO connector in order to avoid read only static files under windows -->
+						<connectors>
+							<connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
+								<port>8080</port>
+								<maxIdleTime>60000</maxIdleTime>
+							</connector>
+						</connectors>
+						<webAppConfig>
+							<contextPath>/</contextPath>
+						</webAppConfig>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -100,28 +108,24 @@ applicationContext.xml
 
 .. code-block:: xml
 
-	<beans	xmlns="http://www.springframework.org/schema/beans"
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xmlns:context="http://www.springframework.org/schema/context"
-			xmlns:tx="http://www.springframework.org/schema/tx"
-			xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-			xmlns:p="http://www.springframework.org/schema/p"
-			xsi:schemaLocation="http://www.springframework.org/schema/beans
-			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-			http://www.springframework.org/schema/context
-			http://www.springframework.org/schema/context/spring-context-3.0.xsd
-			http://www.springframework.org/schema/tx
-			http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-	
+	<beans 	xmlns="http://www.springframework.org/schema/beans"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+			xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+			xmlns:p="http://www.springframework.org/schema/p" xmlns:resthub="http://www.resthub.org/schema/context"
+			xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+			http://www.resthub.org/schema/context http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
+			
 		<!-- Enable bean declaration by annotations, update base package according to your project -->
 		<context:annotation-config/>
 		<context:component-scan base-package="org.mydomain.myproject" />
+
+		<!-- Scan your JPA entites to make them manage by EntityManager, even if dispatched in various packages -->
+		<resthub:include-entities base-package="org.mydomain.myproject.model" />
 		
-		<!-- You will have to customize classpathPatterns -->
-		<bean id="scanningPersistenceUnitManager" class="org.resthub.core.dao.jpa.ScanningPersistenceUnitManager">
-			<property name="defaultDataSource" ref="dataSource" />
-			<property name="classpathPatterns" value="classpath*:org/resthub/core/model/Resource.class;classpath:org/mydomain/myproject/model/**/*.class" />
-		</bean>	
+		<!-- Scan your model classes intended to be serialized/unserialized by Jersey -->
+		resthub:include-jaxb-elements base-package="org.mydomain.myproject.model" />
 	</beans>
 
 web.xml
@@ -174,74 +178,72 @@ We don't provide base resource classe because too much inheritance cause much pe
 Instead, you can use the following template class to create your own.
 
 .. code-block:: java
+	
+	import javax.persistence.Entity;
+	import javax.persistence.GeneratedValue;
+	import javax.persistence.Id;
+	import javax.xml.bind.annotation.XmlRootElement;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlRootElement;
+	@Entity
+	@XmlRootElement
+	public class SampleResource {
+	
+		private static final long serialVersionUID = -7178337784737750452L;
 
-   @Entity
-   @XmlRootElement
-   public class SampleResource {
-      
-       private static final long serialVersionUID = -7178337784737750452L;
-   
-       private Long id;
-       private String name;
-   
-       public WebSampleResource() {
-           super();
-       }
-   
-       public WebSampleResource(String name) {
-           super();
-           this.name = name;
-       }
-       
-       @Id
-       @GeneratedValue
-       public Long getId() {
-           return id;
-       }
-   
-       public void setId(Long id) {
-           this.id = id;
-       }
-   
-       public String getName() {
-           return name;
-       }
-   
-       public void setName(String name) {
-           this.name = name;
-       }
-       
-       @Override
-       public boolean equals(Object obj) {
-           if (obj == null) {
-               return false;
-           }
-           if (getClass() != obj.getClass()) {
-               return false;
-           }
-           final Resource other = (Resource) obj;
-           if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
-               return false;
-           }
-           
-           return true;
-       }
-   
-       @Override
-       public int hashCode() {
-           int hash = 3;
-           hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
-           return hash;
-       }
-   
-      @Override
-      public String toString() {
-         return "WebSampleResource[" + getId() + ","+ getName() + "]";
-      }
-   }
+		private Long id;
+		private String name;
 
+		public WebSampleResource() {
+			super();
+		}
+
+		public WebSampleResource(String name) {
+			super();
+			this.name = name;
+		}
+		
+		@Id
+		@GeneratedValue
+		public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+		
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
+			final Resource other = (Resource) obj;
+			if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
+				return false;
+			}
+			return true;
+		}
+		
+		@Override
+		public int hashCode() {
+			int hash = 3;
+			hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
+			return hash;
+		}
+		
+		@Override
+		public String toString() {
+			return "WebSampleResource[" + getId() + ","+ getName() + "]";
+		}
+	}
