@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
-public abstract class AbstractTraceableServiceImpl<TEntity, TDao extends GenericDao<TEntity, Long>> extends GenericServiceImpl<TEntity, TDao, Long> implements TracableService {
+public abstract class AbstractTraceableServiceImpl<TEntity, TDao extends GenericDao<TEntity, Long>> extends GenericServiceImpl<TEntity, Long, TDao> implements TracableService {
 
     /**
      * Set of registered listeners

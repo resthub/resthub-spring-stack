@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import junit.framework.Assert;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.Test;
-import org.resthub.core.test.AbstractResthubTest;
+import org.resthub.core.test.AbstractTest;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
  * @author Loïc Frering <loic.frering@gmail.com>
  */
 @ContextConfiguration(locations={"classpath:org/resthub/core/config/database/applicationContext.xml"})
-public class CustomDatabaseConfigurationTest extends AbstractResthubTest {
+public class CustomDatabaseConfigurationTest extends AbstractTest {
     
     @Inject
     BasicDataSource dataSource;

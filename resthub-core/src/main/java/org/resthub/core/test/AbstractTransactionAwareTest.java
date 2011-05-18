@@ -24,7 +24,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml"})
 @TransactionConfiguration(defaultRollback = false)
-public abstract class AbstractResthubTransactionAwareTest {
+public abstract class AbstractTransactionAwareTest {
 	
 	@PersistenceUnit
 	protected EntityManagerFactory emf;

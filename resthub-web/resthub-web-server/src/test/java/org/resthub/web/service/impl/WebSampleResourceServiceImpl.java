@@ -10,7 +10,7 @@ import org.resthub.web.service.WebSampleResourceService;
 
 @Named("webSampleResourceService")
 public class WebSampleResourceServiceImpl extends
-		GenericServiceImpl<WebSampleResource, WebSampleResourceDao, Long> implements
+		GenericServiceImpl<WebSampleResource, Long, WebSampleResourceDao> implements
 		WebSampleResourceService {
 
 	@Inject

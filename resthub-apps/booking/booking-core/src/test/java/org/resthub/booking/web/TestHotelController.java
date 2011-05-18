@@ -7,13 +7,13 @@ import junit.framework.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.resthub.booking.model.Hotel;
-import org.resthub.web.test.AbstractWebResthubTest;
+import org.resthub.web.test.AbstractWebTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.api.client.WebResource;
 
-public class TestHotelController extends AbstractWebResthubTest {
+public class TestHotelController extends AbstractWebTest {
 
     private static final Logger LOG = LoggerFactory
     .getLogger(TestHotelController.class);

@@ -11,12 +11,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.service.GenericService;
-import org.resthub.core.test.AbstractResthubTransactionAwareTest;
+import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 
-public abstract class AbstractServiceTest<T, PK extends Serializable, D extends GenericService<T, PK>>
-		extends AbstractResthubTransactionAwareTest {
+public abstract class AbstractServiceTest<T, ID extends Serializable, D extends GenericService<T, ID>>
+		extends AbstractTransactionAwareTest {
 
 	/**
 	 * The tested Service
@@ -25,7 +25,7 @@ public abstract class AbstractServiceTest<T, PK extends Serializable, D extends 
 	/**
 	 * The tested POJO
 	 */
-	protected PK id;
+	protected ID id;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -45,11 +45,11 @@ public abstract class AbstractServiceTest<T, PK extends Serializable, D extends 
 	 * @return The corresponding primary key.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected PK getIdFromEntity(T obj) {
-		MetamodelUtils utils = new MetamodelUtils<T, PK>(
+	protected ID getIdFromEntity(T obj) {
+		MetamodelUtils utils = new MetamodelUtils<T, ID>(
 				(Class<T>) ClassUtils.getGenericTypeFromBean(this.service),
 				em.getMetamodel());
-		return (PK) utils.getIdFromEntity(obj);
+		return (ID) utils.getIdFromEntity(obj);
 	}
 
 	@SuppressWarnings("unchecked")

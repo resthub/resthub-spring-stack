@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
  */
 @Named("bookingService")
 public class BookingServiceImpl extends
-		GenericServiceImpl<Booking, BookingDao, Long> implements
+		GenericServiceImpl<Booking, Long, BookingDao> implements
 		BookingService {
 
 	/**

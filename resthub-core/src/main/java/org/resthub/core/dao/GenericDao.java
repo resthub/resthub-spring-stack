@@ -9,13 +9,13 @@ import java.util.List;
  * 
  * @see <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/" target="_blank">Hades 2.0 Javadoc</a>
  */
-public interface GenericDao<T, PK extends Serializable> extends org.synyx.hades.dao.GenericDao<T, PK> {
+public interface GenericDao<T, ID extends Serializable> extends org.synyx.hades.dao.GenericDao<T, ID> {
 
 	/**
 	 * Delete persisted entity by id.
 	 * @param id entity ID to delete
 	 */
-	void delete(PK id);
+	void delete(ID id);
 	
 	/**
 	 * Get all Resources (in scrollable resulset).

@@ -17,7 +17,7 @@ import org.synyx.hades.domain.Pageable;
  * 
  */
 @Transactional(readOnly = true)
-public abstract class GenericServiceImpl<T, D extends GenericDao<T, ID>, ID extends Serializable>
+public abstract class GenericServiceImpl<T, ID extends Serializable, D extends GenericDao<T, ID>>
 		implements GenericService<T, ID> {
 
 	protected D dao;

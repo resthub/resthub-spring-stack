@@ -18,7 +18,7 @@ import org.synyx.hades.domain.Pageable;
  */
 @Named("hotelService")
 public class HotelServiceImpl extends
-        GenericServiceImpl<Hotel, HotelDao, Long> implements HotelService {
+        GenericServiceImpl<Hotel, Long, HotelDao> implements HotelService {
 
     /**
      * {@InheritDoc}

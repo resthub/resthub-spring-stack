@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.junit.Test;
-import org.resthub.core.test.AbstractResthubTransactionAwareTest;
+import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
@@ -19,7 +19,7 @@ import org.resthub.identity.model.User;
 /**
  * SearchService test
  */
-public class SearchServiceTest extends AbstractResthubTransactionAwareTest {
+public class SearchServiceTest extends AbstractTransactionAwareTest {
 
 	/**
 	 * Injection of the tested service.

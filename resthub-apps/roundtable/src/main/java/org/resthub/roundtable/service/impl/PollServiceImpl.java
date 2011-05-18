@@ -29,7 +29,7 @@ import org.synyx.hades.domain.Pageable;
  * @author Nicolas Carlier
  */
 @Named("pollService")
-public class PollServiceImpl extends GenericServiceImpl<Poll, PollDao, Long> implements PollService {
+public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollDao> implements PollService {
     
 	private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
 

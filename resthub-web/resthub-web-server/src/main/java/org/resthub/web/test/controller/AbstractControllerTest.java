@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.resthub.core.service.GenericService;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.web.controller.GenericController;
-import org.resthub.web.test.AbstractWebResthubTest;
+import org.resthub.web.test.AbstractWebTest;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -26,7 +26,7 @@ import org.resthub.core.util.MetamodelUtils;
  * Base class for your generic controller tests
  */
 public abstract class AbstractControllerTest<T, ID extends Serializable, S extends GenericService<T, ID>, C extends GenericController<T, ID, S>>
-						extends AbstractWebResthubTest {
+						extends AbstractWebTest {
 
 	/**
 	 * The tested controller

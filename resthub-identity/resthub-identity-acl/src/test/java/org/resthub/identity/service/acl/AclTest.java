@@ -15,7 +15,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.test.AbstractResthubTest;
+import org.resthub.core.test.AbstractTest;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.acl.AclService.AclServiceChange;
@@ -46,7 +46,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  *    - Update RESThub OAuth2 to support Spring Security  
  *
  */
-public class AclTest extends AbstractResthubTest {
+public class AclTest extends AbstractTest {
 	
 	@Inject
 	@Named("idmAclService")

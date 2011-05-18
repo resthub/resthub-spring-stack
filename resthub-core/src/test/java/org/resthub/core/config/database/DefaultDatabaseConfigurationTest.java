@@ -5,14 +5,14 @@ import javax.inject.Inject;
 import junit.framework.Assert;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.Test;
-import org.resthub.core.test.AbstractResthubTest;
+import org.resthub.core.test.AbstractTest;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 /**
  *
  * @author Loïc Frering <loic.frering@gmail.com>
  */
-public class DefaultDatabaseConfigurationTest extends AbstractResthubTest {
+public class DefaultDatabaseConfigurationTest extends AbstractTest {
     
     @Inject
     BasicDataSource dataSource;

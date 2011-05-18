@@ -19,9 +19,9 @@ import org.resthub.core.util.ClassUtils;
  *      href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/"
  *      target="_blank">Hades 2.0 Javadoc</a>
  */
-public abstract class GenericJpaDao<T, PK extends Serializable> extends
-        org.synyx.hades.dao.orm.GenericJpaDao<T, PK> implements
-        GenericDao<T, PK> {
+public abstract class GenericJpaDao<T, ID extends Serializable> extends
+        org.synyx.hades.dao.orm.GenericJpaDao<T, ID> implements
+        GenericDao<T, ID> {
 
     @SuppressWarnings("unchecked")
     public GenericJpaDao() {
@@ -31,7 +31,7 @@ public abstract class GenericJpaDao<T, PK extends Serializable> extends
     }
 
     @Override
-    public void delete(PK id) {
+    public void delete(ID id) {
         this.delete(this.readByPrimaryKey(id));
     }
 

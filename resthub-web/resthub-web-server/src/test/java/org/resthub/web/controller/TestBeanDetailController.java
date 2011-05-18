@@ -3,11 +3,11 @@ package org.resthub.web.controller;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.Test;
-import org.resthub.web.test.AbstractWebResthubTest;
+import org.resthub.web.test.AbstractWebTest;
 
 import com.sun.jersey.api.client.WebResource;
 
-public class TestBeanDetailController extends AbstractWebResthubTest {
+public class TestBeanDetailController extends AbstractWebTest {
     
     @Test
     public void testFindAllBeans() {

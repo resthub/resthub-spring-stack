@@ -9,7 +9,7 @@ import javax.inject.Named;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.resthub.core.test.AbstractResthubTransactionAwareTest;
+import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 
@@ -17,7 +17,7 @@ import org.resthub.roundtable.model.Poll;
  * Test of Poll services.
  * @author Nicolas Carlier
  */
-public class VoteServiceTest extends AbstractResthubTransactionAwareTest {
+public class VoteServiceTest extends AbstractTransactionAwareTest {
     protected VoteService voteService;
     
     protected PollService pollService;

@@ -15,12 +15,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.dao.GenericDao;
-import org.resthub.core.test.AbstractResthubTransactionalTest;
+import org.resthub.core.test.AbstractTransactionalTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 
 public abstract class AbstractDaoTest<T, ID extends Serializable, D extends GenericDao<T, ID>>
-		extends AbstractResthubTransactionalTest {
+		extends AbstractTransactionalTest {
 
 	/**
 	 * The tested DAO
