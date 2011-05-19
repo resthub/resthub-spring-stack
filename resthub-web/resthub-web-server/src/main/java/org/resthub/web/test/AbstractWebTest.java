@@ -2,23 +2,19 @@ package org.resthub.web.test;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-
-import org.resthub.web.jackson.JacksonProvider;
-
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
-import org.springframework.web.context.ContextLoaderListener;
-
-import org.junit.runner.RunWith;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.resthub.web.jackson.JacksonProvider;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.web.context.ContextLoaderListener;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
-import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration.
@@ -26,15 +22,38 @@ import org.springframework.test.context.ContextConfiguration;
  * If you want to restart Jetty only once, you can extend it, override setUp() methods and use @BeforeClass instead of @Before annotations (don't forget to call super.setUp())
  * Ususally you will have to redefine @ContextConfiguration to specify your application context file in addition to resthub ones  
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" })
+@RunWith(JUnit4.class)
 public abstract class AbstractWebTest {
 
-    protected static int port = 9797;
+    protected int port = 9797;
 
-    protected static Server server;
+    protected Server server;
+    
+    protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
+    
+    public int getPort() {
+		return this.port;
+	}
 
-    protected static String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public Server getServer() {
+		return this.server;
+	}
+
+	public void setServer(Server server) {
+		this.server = server;
+	}
+
+	public String getContextLocations() {
+		return contextLocations;
+	}
+
+	public void setContextLocations(String contextLocations) {
+		this.contextLocations = contextLocations;
+	}
 
     @Before
     public void setUp() throws Exception {

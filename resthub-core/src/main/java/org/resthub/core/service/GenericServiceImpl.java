@@ -73,6 +73,14 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends G
 	public void deleteAll() {
 		dao.deleteAll();
 	}
+	
+	@Transactional(readOnly = false)
+	public void deleteAllWithCascade() {
+		List<T> list = dao.readAll();
+		for(T entity : list) {
+			dao.delete(entity);
+		}
+	}
 
 	/**
 	 * {@inheritDoc}

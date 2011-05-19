@@ -3,51 +3,32 @@ package org.resthub.identity.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.util.Random;
-
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
-import org.resthub.identity.service.UserService;
-import org.resthub.web.test.controller.AbstractControllerTest;
+import org.resthub.web.test.controller.AbstractControllerWebTest;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
-import com.sun.jersey.api.client.WebResource;
 
 /**
  * 
  * @author Guillaume Zurbach
  */
-public class UserControllerTest extends AbstractControllerTest<User, Long, UserService, UserController> {
+public class UserControllerTest extends AbstractControllerWebTest<User, Long> {
 
     Logger logger = Logger.getLogger(UserControllerTest.class);
-    @Inject
-    @Named("roleController")
-    protected RoleController roleController;
 
-    @Override
-    @Inject
-    public void setController(UserController userController) {
-        super.setController(userController);
-    }
-    
     private String generateRandomLogin() {
         return "Login" + Math.round(Math.random() * 10000);
     }
 
     @Override
-    protected User createTestResource() throws Exception {
+    protected User createTestResource() {
         logger.debug("UserControllerTest : createTestResource");
         String userLogin = generateRandomLogin();
         String userPassword = "UserTestUserPassword";
@@ -56,31 +37,24 @@ public class UserControllerTest extends AbstractControllerTest<User, Long, UserS
         u.setPassword(userPassword);
         return u;
     }
-
+    
     @Override
-    public void testUpdate() throws Exception {
-        logger.debug("UserControllerTest : testUpdate : START");
-        User u1 = createTestResource();
+	protected String getResourcePath() {
+		return "/user";
+	}
 
-        WebResource r = resource().path("user");
-        logger.debug("UserControllerTest : testUpdate : GonnaPost");
-        u1 = r.type(MediaType.APPLICATION_XML).post(User.class, u1);
-        logger.debug("UserControllerTest : testUpdate : DidPost");
-        r = resource().path("user/" + u1.getId());
-        User u2 = createTestResource();
-        u2.setId(u1.getId());
-        // Update login
-        ClientResponse cr = r.type(MediaType.APPLICATION_XML).accept(
-                MediaType.APPLICATION_JSON).put(ClientResponse.class, u2);
-        Assert.assertEquals("User not updated", Status.OK.getStatusCode(),
-                cr.getStatus());
-        String response = resource().path("user").accept(
-                MediaType.APPLICATION_JSON).get(String.class);
-        Assert.assertFalse("User not updated", response.contains(u1.getLogin()));
-        Assert.assertTrue("User not updated", response.contains(u2.getLogin()));
-    }
+	@Override
+	protected User udpateTestResource(User u) {
+		u.setLogin(generateRandomLogin());
+		return u;
+	}
 
-    @Test
+	@Override
+	protected Long getResourceId(User u) {
+		return u.getId();
+	}
+
+	@Test
     public void shouldAddRoleToUser() throws Exception {
         // Given a new role
         Role r = new Role("Role" + Math.round(Math.random() * 1000));

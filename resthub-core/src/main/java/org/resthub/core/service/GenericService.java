@@ -44,6 +44,11 @@ public interface GenericService<T, ID extends Serializable> {
      * Do not use cascade remove (not a choice -> JPA specs)
      */
     void deleteAll();
+    
+    /**
+     * Delete all existing resource, including linked entities with cascade delete 
+     */
+    void deleteAllWithCascade();
 
     /**
      * Find resource by id.

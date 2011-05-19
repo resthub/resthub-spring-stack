@@ -120,6 +120,12 @@ public abstract class GenericController<T, ID extends Serializable, S extends Ge
 
 		return entity;
 	}
+	
+	@DELETE
+	@Path("/all")
+	public void delete() {
+		this.service.deleteAllWithCascade();
+	}
 
 	@DELETE
 	@Path("/{id}")
