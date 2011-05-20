@@ -28,7 +28,7 @@ import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
  */
-public class SearchControllerTest {
+public class SearchControllerWebTest {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Static private attributes
@@ -47,7 +47,7 @@ public class SearchControllerTest {
     /**
      * Test class logger.
      */
-    Logger logger = Logger.getLogger(SearchControllerTest.class);
+    Logger logger = Logger.getLogger(SearchControllerWebTest.class);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Test suite initialization and finalization

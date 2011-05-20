@@ -18,9 +18,9 @@ import org.resthub.web.test.controller.AbstractControllerWebTest;
  *
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
-public class RoleControllerTest extends AbstractControllerWebTest<Role, Long> {
+public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long> {
 
-    protected Logger logger = Logger.getLogger(UserControllerTest.class);
+    protected Logger logger = Logger.getLogger(UserControllerWebTest.class);
 
     /**
      * Generate a random role name based on a string and a randomized number.

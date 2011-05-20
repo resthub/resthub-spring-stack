@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.resthub.booking.model.Hotel;
 import org.resthub.core.test.service.AbstractServiceTest;
 
-public class TestHotelService extends AbstractServiceTest<Hotel, Long, HotelService> {
+public class HotelServiceTest extends AbstractServiceTest<Hotel, Long, HotelService> {
 
 	private static final String CHANGED_TEST_HOTEL_NAME = "testHotelName2";
 	private static final String CHANGED_TEST_HOTEL_STATE = "testState2";

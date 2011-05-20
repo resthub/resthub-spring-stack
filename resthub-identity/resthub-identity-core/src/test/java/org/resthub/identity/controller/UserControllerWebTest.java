@@ -19,9 +19,9 @@ import com.sun.jersey.api.client.ClientResponse.Status;
  * 
  * @author Guillaume Zurbach
  */
-public class UserControllerTest extends AbstractControllerWebTest<User, Long> {
+public class UserControllerWebTest extends AbstractControllerWebTest<User, Long> {
 
-    Logger logger = Logger.getLogger(UserControllerTest.class);
+    Logger logger = Logger.getLogger(UserControllerWebTest.class);
 
     private String generateRandomLogin() {
         return "Login" + Math.round(Math.random() * 10000);

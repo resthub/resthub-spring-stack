@@ -3,7 +3,7 @@ package org.resthub.web.controller;
 import org.resthub.web.model.WebSampleResource;
 import org.resthub.web.test.controller.AbstractControllerWebTest;
 
-public class TestWebSampleResourceController extends AbstractControllerWebTest<WebSampleResource, Long> {
+public class WebSampleResourceControllerWebTest extends AbstractControllerWebTest<WebSampleResource, Long> {
 
 	@Override
 	protected String getResourcePath() {

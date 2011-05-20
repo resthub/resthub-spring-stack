@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.resthub.booking.model.User;
 import org.resthub.core.test.service.AbstractServiceTest;
 
-public class TestUserService extends AbstractServiceTest<User, Long, UserService> {
+public class UserServiceTest extends AbstractServiceTest<User, Long, UserService> {
 
 	private static final String CHANGED_TEST_USER_EMAIL = "user"
 			+ new Random().nextInt(10000)+"@test.com";

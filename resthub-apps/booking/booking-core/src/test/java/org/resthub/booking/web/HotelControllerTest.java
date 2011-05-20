@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.api.client.WebResource;
 
-public class TestHotelController extends AbstractWebTest {
+public class HotelControllerTest extends AbstractWebTest {
 
     private static final Logger LOG = LoggerFactory
-    .getLogger(TestHotelController.class);
+    .getLogger(HotelControllerTest.class);
 
 	@Test
     @Ignore

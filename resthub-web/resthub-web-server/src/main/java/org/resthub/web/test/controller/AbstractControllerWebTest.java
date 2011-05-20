@@ -15,7 +15,8 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 /**
- * Base class for your generic controller tests
+ * Base class for your generic controller integration tests
+ * Run an embeded servlet container in order to test your controller
  */
 public abstract class AbstractControllerWebTest<T, ID extends Serializable> extends AbstractWebTest {
 

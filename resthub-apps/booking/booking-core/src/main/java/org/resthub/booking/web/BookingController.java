@@ -11,14 +11,14 @@ import javax.ws.rs.PathParam;
 
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.service.BookingService;
-import org.resthub.web.controller.GenericController;
+import org.resthub.web.controller.GenericControllerImpl;
 
 /**
  * @author Guillaume Zurbach
  */
 @Path("/booking")
 @Named("bookingController")
-public class BookingController extends GenericController<Booking, Long, BookingService> {
+public class BookingController extends GenericControllerImpl<Booking, Long, BookingService> {
 
 	/**
 	 * {@InheritDoc}

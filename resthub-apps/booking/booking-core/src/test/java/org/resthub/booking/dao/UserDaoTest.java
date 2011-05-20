@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.resthub.booking.model.User;
 import org.resthub.core.test.dao.AbstractDaoTest;
 
-public class TestUserDao extends AbstractDaoTest<User, Long, UserDao> {
+public class UserDaoTest extends AbstractDaoTest<User, Long, UserDao> {
 
 	private static final String CHANGED_TEST_USER_EMAIL = "user"+new Random().nextInt(10000)+"@test.com";
 	private String testUsername;

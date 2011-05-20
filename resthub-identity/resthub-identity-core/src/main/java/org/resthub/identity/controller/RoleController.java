@@ -14,7 +14,7 @@ import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.RoleService;
 import org.resthub.identity.service.UserService;
-import org.resthub.web.controller.GenericController;
+import org.resthub.web.controller.GenericControllerImpl;
 
 import com.sun.jersey.api.NotFoundException;
 
@@ -25,7 +25,7 @@ import com.sun.jersey.api.NotFoundException;
 @Path("/role")
 @RolesAllowed({"IM-ADMIN"})
 @Named("roleController")
-public class RoleController extends GenericController<Role, Long, RoleService> {
+public class RoleController extends GenericControllerImpl<Role, Long, RoleService> {
 
     @Inject
     @Named("userService")

@@ -13,7 +13,7 @@ import org.resthub.web.test.controller.AbstractControllerWebTest;
  * 
  * @author Guillaume Zurbach
  */
-public class GroupControllerTest extends AbstractControllerWebTest<Group, Long> {
+public class GroupControllerWebTest extends AbstractControllerWebTest<Group, Long> {
     
     private String generateRandomGroupName() {
         return "GroupName" + Math.round(Math.random() * 100000);

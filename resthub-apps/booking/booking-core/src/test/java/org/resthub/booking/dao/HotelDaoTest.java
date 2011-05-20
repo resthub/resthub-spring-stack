@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.resthub.booking.model.Hotel;
 import org.resthub.core.test.dao.AbstractDaoTest;
 
-public class TestHotelDao extends AbstractDaoTest<Hotel, Long, HotelDao> {
+public class HotelDaoTest extends AbstractDaoTest<Hotel, Long, HotelDao> {
 
 	private static final String CHANGED_TEST_HOTEL_STATE = "hotelState";
 	private static final String TEST_HOTEL_NAME = "testHotelName";

@@ -53,6 +53,9 @@ public class WebSampleResource {
         if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
             return false;
         }
+        if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName())) {
+            return false;
+        }
         
         return true;
     }

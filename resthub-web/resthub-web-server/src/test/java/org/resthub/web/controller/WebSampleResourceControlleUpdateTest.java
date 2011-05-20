@@ -1,24 +1,16 @@
 package org.resthub.web.controller;
 
-import static org.junit.Assert.assertEquals;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.web.model.WebSampleResource;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sun.jersey.api.NotFoundException;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:resthubContext.xml",
-		"classpath*:applicationContext.xml" })
-public class WebSampleResourceControlleUpdateTest {
+public class WebSampleResourceControlleUpdateTest extends AbstractTransactionAwareTest {
 
 	@Inject
 	@Named("webSampleResourceController")

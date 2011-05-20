@@ -18,7 +18,7 @@ import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.UserService;
-import org.resthub.web.controller.GenericController;
+import org.resthub.web.controller.GenericControllerImpl;
 
 import com.sun.jersey.api.NotFoundException;
 
@@ -29,7 +29,7 @@ Only ADMINS can access to this API
 @Path("/group")
 @RolesAllowed({"IM-ADMIN"})
 @Named("groupController")
-public class GroupController extends GenericController<Group, Long, GroupService> {
+public class GroupController extends GenericControllerImpl<Group, Long, GroupService> {
 
     @PersistenceContext
     protected EntityManager em;

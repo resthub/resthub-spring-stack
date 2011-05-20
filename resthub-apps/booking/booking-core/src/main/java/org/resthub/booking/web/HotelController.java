@@ -9,7 +9,7 @@ import javax.ws.rs.QueryParam;
 
 import org.resthub.booking.model.Hotel;
 import org.resthub.booking.service.HotelService;
-import org.resthub.web.controller.GenericController;
+import org.resthub.web.controller.GenericControllerImpl;
 import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
 
@@ -18,7 +18,7 @@ import org.synyx.hades.domain.PageRequest;
  */
 @Path("/hotel")
 @Named("hotelController")
-public class HotelController extends GenericController<Hotel, Long, HotelService> {
+public class HotelController extends GenericControllerImpl<Hotel, Long, HotelService> {
 
 	/**
 	 * {@InheritDoc}

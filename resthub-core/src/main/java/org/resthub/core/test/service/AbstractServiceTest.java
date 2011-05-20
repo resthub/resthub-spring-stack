@@ -15,16 +15,14 @@ import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 
-public abstract class AbstractServiceTest<T, ID extends Serializable, D extends GenericService<T, ID>>
+public abstract class AbstractServiceTest<T, ID extends Serializable, S extends GenericService<T, ID>>
 		extends AbstractTransactionAwareTest {
 
 	/**
 	 * The tested Service
 	 */
-	protected D service;
-	/**
-	 * The tested POJO
-	 */
+	protected S service;
+
 	protected ID id;
 
 	@PersistenceContext
@@ -33,7 +31,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, D extends 
 	/**
 	 * Injection of Service.
 	 */
-	public void setService(D service) {
+	public void setService(S service) {
 		this.service = service;
 	}
 

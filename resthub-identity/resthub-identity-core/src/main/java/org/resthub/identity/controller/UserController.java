@@ -20,7 +20,7 @@ import org.resthub.identity.model.User;
 import org.resthub.identity.security.IdentityUserDetailsAdapter;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.tools.PermissionsOwnerTools;
-import org.resthub.web.controller.GenericController;
+import org.resthub.web.controller.GenericControllerImpl;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -33,7 +33,7 @@ Only ADMINS can access to the globality of this API<br/>
 Specific permissions are given when useful
  */
 @Named("userController")
-public class UserController extends GenericController<User, Long, UserService> {
+public class UserController extends GenericControllerImpl<User, Long, UserService> {
 
     @Inject
     @Named("userService")
@@ -53,8 +53,8 @@ public class UserController extends GenericController<User, Long, UserService> {
      */
     @Override
     @RolesAllowed({"IM-ADMIN"})
-    public List<User> getEntities() {
-    	return super.getEntities();
+    public List<User> findAll() {
+    	return super.findAll();
     }
 
     /**

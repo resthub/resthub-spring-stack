@@ -6,14 +6,14 @@ import javax.ws.rs.Path;
 
 import org.resthub.booking.model.User;
 import org.resthub.booking.service.UserService;
-import org.resthub.web.controller.GenericController;
+import org.resthub.web.controller.GenericControllerImpl;
 
 /**
  * @author Guillaume Zurbach
  */
 @Path("/user")
 @Named("userController")
-public class UserController extends GenericController<User, Long, UserService> {
+public class UserController extends GenericControllerImpl<User, Long, UserService> {
 
 	@Inject
 	@Named("userService")
