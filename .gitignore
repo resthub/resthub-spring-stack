@@ -17,5 +17,6 @@ resthub-tapestry5/resthub-tapestry5-jpa/src/main/java/META-INF/MANIFEST.MF
 resthub-tapestry5/resthub-tapestry5-spring-security/src/main/java/META-INF/MANIFEST.MF
 resthub-web/resthub-web-common/src/main/java/META-INF/MANIFEST.MF
 resthub-web/resthub-web-server/src/main/java/META-INF/MANIFEST.MF
+resthub-web/resthub-web-client/META-INF/MANIFEST.MF
 .pmd
 .checkstyle

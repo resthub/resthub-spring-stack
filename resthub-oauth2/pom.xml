@@ -16,7 +16,6 @@
   <modules>
   	<module>resthub-oauth2-common</module>
   	<module>resthub-oauth2-spring-security</module>
-  	<module>resthub-oauth2-filter</module>
   	<module>resthub-oauth2-filter-validators</module>
   	<module>resthub-oauth2-client</module>
   </modules>

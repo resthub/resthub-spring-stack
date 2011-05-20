@@ -22,8 +22,9 @@
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
+  			<groupId>com.sun.jersey.contribs</groupId>
+  			<artifactId>jersey-apache-client4</artifactId>
+  			<version>1.7-ea07</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -27,16 +27,17 @@
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-web-client</artifactId>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-spring</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

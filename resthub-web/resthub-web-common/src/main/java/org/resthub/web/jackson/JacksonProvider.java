@@ -20,7 +20,7 @@ import org.codehaus.jackson.map.SerializationConfig;
  * One key point is that, unlike Jersey default feature, it does not try to use a
  * JAXB XML oriented model o serialize objects. This one is real object to JSON implementation.
  * 
- * Jackson annoations only are used, combinaison with JAXB annotations introspector seem to be buggy
+ * Jackson annotations only are used, combinaison with JAXB annotations introspector seem to be buggy
  * 
  * @author sdeleuze
  */

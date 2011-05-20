@@ -26,7 +26,7 @@
     <properties>
         <env>local</env>
         <resthub.js.version>1.1-rc4</resthub.js.version>
-        <jersey.version>1.6</jersey.version>
+        <jersey.version>1.7-ea07</jersey.version>
         <jackson.version>1.7.6</jackson.version>
         <hibernate.version>3.6.4.Final</hibernate.version>
         <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
@@ -561,8 +561,8 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.sun.jersey</groupId>
-                <artifactId>jersey-client</artifactId>
+                <groupId>com.sun.jersey.contribs</groupId>
+  				<artifactId>jersey-apache-client4</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
             <dependency>
