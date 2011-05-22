@@ -3,7 +3,6 @@ package org.resthub.identity;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jasypt.util.password.PasswordEncryptor;
 import org.resthub.core.util.PostInitialize;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.UserService;
