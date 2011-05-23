@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.resthub.identity.model.Group;
@@ -119,7 +120,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     @POST
     @Path("/password")
     @RolesAllowed({"IM-USER", "IM-ADMIN"})
-    public User changePassword(User u) {
+    public User changePassword(User u, @QueryParam("password")String password) {
+    	u.setPassword(password);
         User updatedUser = this.service.updatePassword(u);
         if (updatedUser == null) {
 			throw new NotFoundException();
@@ -288,5 +290,21 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     @RolesAllowed({"IM-ADMIN"})
     public List<Role> getAllUserRoles(@PathParam("login") String login) {
         return this.service.getAllUserRoles(login);
+    }
+
+    /**
+     * Check the user identity with the given user name and password.
+     * @param username The user name.
+     * @param password The password of the user.
+     * @return True of false whether the user provided a correct identity or not.
+     */
+    @POST
+    @Path("/checkuser")
+    // TODO: protect the method later with a technical role
+    public void authenticateUser(@QueryParam("user") String username, @QueryParam("password") String password) {
+    	User user = this.service.authenticateUser(username, password);
+    	if(user == null) {
+    		throw new NotFoundException();
+    	}
     }
 }

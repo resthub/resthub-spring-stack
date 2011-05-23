@@ -370,18 +370,19 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
     }
 
 	@Override
+	@Transactional(readOnly = false)
 	public User updatePassword(User user) {
-		User retreivedUser = this.findByLogin(user.getLogin());
+		User retrievedUser = this.findByLogin(user.getLogin());
 		String newPassword = user.getPassword();
-		retreivedUser.setPassword(passwordEncoder.encodePassword(newPassword, null));
-		return dao.save(user);
+		retrievedUser.setPassword(passwordEncoder.encodePassword(newPassword, null));
+		return dao.save(retrievedUser);
 	}
 	
 	@Override
     public User authenticateUser(String login, String password) {
-		User retreivedUser = this.findByLogin(login);
-		if ((retreivedUser != null) && passwordEncoder.isPasswordValid(retreivedUser.getPassword(), password, null)) {
-			return retreivedUser;
+		User retrievedUser = this.findByLogin(login);
+		if ((retrievedUser != null) && passwordEncoder.isPasswordValid(retrievedUser.getPassword(), password, null)) {
+			return retrievedUser;
 		}
         return null;
     }
