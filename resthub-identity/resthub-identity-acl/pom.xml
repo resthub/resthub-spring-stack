@@ -8,7 +8,7 @@
     </parent>
     <groupId>org.resthub</groupId>
     <artifactId>resthub-identity-acl</artifactId>
-    <name>Identity ACL support</name>
+    <name>RESThub identity ACL support</name>
     <description>Usage of Spring Security's ACL</description>
   
     <dependencies>

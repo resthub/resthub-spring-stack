@@ -8,7 +8,7 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-oauth2-filter-validators</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>OAuth v2 filter validators</name>
+	<name>RESThub OAuth2 filter validators</name>
 	<description>
 	  Implementation of the OAuth v2 filter with external call to Authentication service.
 	  It is in its own module in order to avoid too much depedencies in resthub-auth2-filter.   

@@ -10,7 +10,7 @@
   <artifactId>resthub-oauth2</artifactId>
   <version>1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>OAuth v2 implementation</name>
+  <name>RESThub OAuth2 support</name>
   <description>Security layer for RESThub service with OAuth v2</description>
   
   <modules>

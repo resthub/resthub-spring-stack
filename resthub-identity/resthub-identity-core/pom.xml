@@ -10,7 +10,7 @@
 
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-identity-core</artifactId>
-	<name>Identity manager core</name>
+	<name>RESThub identity manager core</name>
 	<description>
 		Provide identity management functionnality with security integration.
 	</description>

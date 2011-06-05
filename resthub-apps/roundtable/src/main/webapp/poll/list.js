@@ -2,7 +2,7 @@ define([ 'lib/controller', 'repositories/poll.repository' ], function(Controller
 
     return Controller.extend("ListPollController", {
         template : 'poll/list.html',
-        query: null,
+        query: '',
         page: 0,
 
         init : function() {

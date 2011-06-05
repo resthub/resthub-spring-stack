@@ -14,7 +14,7 @@
   <version>1.1-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
-  <name>Webapp archetype based on RESThub Tapestry5 integration</name>
+  <name>RESThub Tapestry5 webapp archetype</name>
 
   <build>
   	<plugins>

@@ -14,13 +14,12 @@
 	<artifactId>booking-js</artifactId>
 	<packaging>war</packaging>
 	<version>1.1-SNAPSHOT</version>
-	<name>Booking javascript stack based demo</name>
-	<description>
-		RESThub javascript stack version of the booking sample webapplication
+	<name>RESThub Booking app based on RESThub JS</name>
+	<description>RESThub javascript stack version of the booking sample webapplication
 	</description>
 
 	<properties>
-		<netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+		<netbeans.hint.deploy.server>Tomcat70</netbeans.hint.deploy.server>
 	</properties>
 
 	<dependencies>

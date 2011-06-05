@@ -12,7 +12,7 @@
 	<artifactId>booking-tapestry5</artifactId>
 	<packaging>war</packaging>
 	<version>1.1-SNAPSHOT</version>
-	<name>Tapestry5 Booking sample</name>
+	<name>RESThub Booking app based on Tapestry5</name>
 
 	<properties>
 		<tapx.release.version>1.1-20100818</tapx.release.version>

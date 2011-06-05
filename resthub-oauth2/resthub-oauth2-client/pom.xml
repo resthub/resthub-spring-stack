@@ -8,7 +8,7 @@
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-oauth2-client</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>OAuth v2 Client</name>
+	<name>RESThub OAuth2 client</name>
 	<description>Java OAuth v2 client for accessing protected resources</description>
 
 	<dependencies>

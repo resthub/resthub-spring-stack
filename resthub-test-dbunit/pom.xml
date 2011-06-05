@@ -10,7 +10,7 @@
 	<artifactId>resthub-test-dbunit</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Test Spring DBUnit integration</name>
+	<name>RESThub Spring and DBUnit integration</name>
 	<description>
 		Test facilities for DBUnit.	
 	</description>

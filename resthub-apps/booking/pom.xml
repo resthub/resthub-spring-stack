@@ -8,13 +8,10 @@
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>booking</artifactId>
-	<name>Sample Booking applications</name>
+	<name>RESThub Booking app</name>
 	<version>1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<description>
-		Sample web booking applications provided to help you to build your own RESThub based
-		application
-  </description>
+	<description>Sample web booking applications provided to help you to build your own RESThub based application</description>
 
 	<modules>
 		<module>booking-tapestry5</module>
