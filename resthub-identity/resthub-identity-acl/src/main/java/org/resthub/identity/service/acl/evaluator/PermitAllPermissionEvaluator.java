@@ -1,4 +1,4 @@
-package org.resthub.identity.service.acl;
+package org.resthub.identity.service.acl.evaluator;
 
 import java.io.Serializable;
 
@@ -8,8 +8,13 @@ import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
 /**
+ * Used by Spring Security's expression-based access control implementation to
+ * evaluate permissions for a particular object. Similar in behaviour to
+ * {@link org.springframework.security.acls.AclEntryVoter AclEntryVoter}.
+ * 
  * A null PermissionEvaluator which permit all access. Can be used to globally disable persmission checks.
  *
+ * @author Tantchonta M'PO
  * @author vanackej
  */
 public class PermitAllPermissionEvaluator implements PermissionEvaluator {

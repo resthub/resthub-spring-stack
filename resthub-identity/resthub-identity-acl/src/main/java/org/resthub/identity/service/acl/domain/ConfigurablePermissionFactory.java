@@ -1,13 +1,21 @@
-package org.resthub.identity.service.acl;
+package org.resthub.identity.service.acl.domain;
 
 import java.util.List;
 
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.security.acls.domain.DefaultPermissionFactory;
+import org.springframework.security.acls.domain.PermissionFactory;
 import org.springframework.security.acls.model.Permission;
 
 /**
- * TODO
+ * Default kazan implementation of {@link PermissionFactory}.
+ * <p>
+ * Used as a strategy by classes which wish to map integer masks and permission names to <tt>Permission</tt>
+ * instances for use with the ACL implementation.
+ * <p>
+ * Maintains a registry of permission names and masks to <tt>Permission</tt> instances.
+ *
+ * @author Tantchonta M'PO
  */
 public class ConfigurablePermissionFactory extends DefaultPermissionFactory {
 	

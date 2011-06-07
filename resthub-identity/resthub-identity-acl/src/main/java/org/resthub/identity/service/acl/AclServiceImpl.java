@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.sql.DataSource;
 
+import org.resthub.identity.service.acl.domain.ConfigurablePermissionFactory;
 import org.resthub.identity.service.tracability.ServiceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,18 @@ import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of the ACL Service based on Spring Security.
+ * Provides support for creating and storing <code>Acl</code> instances using a
+ * specific resource identifier
+ * 
+ * 
+ * @author Sebastien DELEUZE
+ * @author Damien FEUGAS
+ * @author Tantchonta M'PO
+ * 
  */
 @Named("idmAclService")
 public class AclServiceImpl implements AclService {
@@ -227,5 +237,73 @@ public class AclServiceImpl implements AclService {
 		}
 		
 	}
+	/**
+     * {@inheritDoc}
+     */
+	@Override
+    @Transactional(readOnly = false)
+    public void addPermission(Object domainObject, Sid recipient, String permissionName) {
+        addPermission(domainObject, recipient, permissionFactory.buildFromName(permissionName));
+    }
+	/**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void deletePermission(Object domainObject, Sid recipient, String permissionName) {
+        deletePermission(domainObject, recipient, permissionFactory.buildFromName(permissionName));
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void addPermission(Object domainObject, Sid recipient, int mask) {
+        addPermission(domainObject, recipient, permissionFactory.buildFromMask(mask));
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional(readOnly = false)
+    public void addPermission(Object domainObject, Sid recipient, Permission permission) {
+    	MutableAcl acl;
+        ObjectIdentity oid = new ObjectIdentityImpl(domainObject);
+
+        try {
+        	acl =  (MutableAcl) aclService.readAclById(oid);
+	         
+        } catch (NotFoundException nfe) {
+        	acl =  aclService.createAcl(oid);
+
+        }
+
+        acl.insertAce(acl.getEntries().size(), permission, recipient, true);
+        aclService.updateAcl(acl);
+
+        logger.debug("Added permission " + permission.toString() + " for Sid " + recipient.toString() + " to object "
+                + domainObject);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional(readOnly = false)
+    public void deletePermission(Object domainObject, Sid recipient, Permission permission) {
+        ObjectIdentity oid = new ObjectIdentityImpl(domainObject);
+        MutableAcl acl = (MutableAcl) aclService.readAclById(oid);
+
+        List<AccessControlEntry> entries = acl.getEntries();
+        if(entries.size()>1){
+        	 for (int i = 0; i < entries.size(); i++) {
+                 if (entries.get(i).getSid().equals(recipient) && entries.get(i).getPermission().equals(permission)) {
+                     acl.deleteAce(i);
+                 }
+             }
+        }
+       
+        aclService.updateAcl(acl);
+        logger.debug("Deleted resource " + domainObject + " ACL permissions for recipient " + recipient);
+
+    }
 
 } // class AclServiceImpl.

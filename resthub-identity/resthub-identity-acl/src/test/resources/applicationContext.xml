@@ -19,7 +19,7 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="org.resthub.identity" />
 
-   <bean id="configurablePermissionFactory" class="org.resthub.identity.service.acl.ConfigurablePermissionFactory"
+   <bean id="configurablePermissionFactory" class="org.resthub.identity.service.acl.domain.ConfigurablePermissionFactory"
    		init-method="init">
    		<property name="permissionClasses">
    			<list>
