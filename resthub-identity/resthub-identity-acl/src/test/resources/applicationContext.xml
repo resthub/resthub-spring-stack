@@ -1,3 +1,4 @@
+
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:context="http://www.springframework.org/schema/context"
@@ -16,31 +17,18 @@
     http://www.springframework.org/schema/jdbc
     http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 
-	<context:annotation-config/>
-	<context:component-scan base-package="org.resthub.identity" />
+    <context:annotation-config/>
+    <context:component-scan base-package="org.resthub.identity" />
 
-   <bean id="configurablePermissionFactory" class="org.resthub.identity.service.acl.domain.ConfigurablePermissionFactory"
+    <bean id="configurablePermissionFactory" class="org.resthub.identity.service.acl.domain.ConfigurablePermissionFactory"
    		init-method="init">
-   		<property name="permissionClasses">
-   			<list>
-  	    		<value>org.resthub.identity.service.acl.MyPermission</value>
-	   		</list>
-   		</property>
-   </bean> 		
-   
- 	<!-- Security configuration -->
-	<util:properties id="securityConfig">
-		<prop key="authorizationPassword">p@ssw0rd</prop>
-		<prop key="cookieName">oauth_token</prop>
-		<prop key="cookieDomain"></prop>
-		<prop key="cookiePath">/</prop>
-		<prop key="authenticationPage">/authent.jsp</prop>
-	</util:properties>
+        <property name="permissionClasses">
+            <list>
+                <value>org.resthub.identity.service.acl.MyPermission</value>
+            </list>
+        </property>
+    </bean> 		
 	
-	<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
-  		<jdbc:script location="classpath:import-users-and-permissions.sql"/>
-	</jdbc:initialize-database>
-	
-	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
+    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
 	
 </beans>

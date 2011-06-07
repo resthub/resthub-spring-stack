@@ -17,7 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.test.AbstractTest;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
+import org.resthub.identity.service.UserService;
 import org.resthub.identity.service.acl.AclService.AclServiceChange;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.acls.domain.BasePermission;
@@ -62,6 +64,10 @@ public class AclTest extends AbstractTest {
 	@Inject
 	@Named("groupService")
 	private GroupService groupService;
+        
+        @Inject
+	@Named("userService")
+	private UserService userService;
 	
 	private Long group1Id;
 	
@@ -73,19 +79,44 @@ public class AclTest extends AbstractTest {
 	    // Inspired from https://fisheye.springsource.org/browse/~raw,r=052537c8b04182595e92abd1e1949b0ff7e731b4/spring-security/acl/src/test/java/org/springframework/security/acls/domain/AclImplTests.java
 	    SecurityContextHolder.getContext().setAuthentication(auth);
 	    auth.setAuthenticated(true);
+            
+            // Create test users
+            if(userService.findByLogin("test") == null) {
+                User test = new User();
+                test.setLogin("test");
+                test.setPassword("t3st");
+                test.setFirstName("test");
+                test.setLastName("ing");
+                test.setEmail("test@resthub.org");
+                test.getPermissions().add("IM-USER");
+                test.getPermissions().add("CREATE");
+                userService.create(test);
+            }
 	    
-		// Create Wax Taylor with no permissions on it
-		Group wt = new Group();
-		wt.setName("Wax Taylor 2 le retour");
-		groupService.create(wt);
-		group1Id = wt.getId();
-		
-		// Create Hocus Pocus group, and give Joe access to it 
-		Group hp = new Group();
-		hp.setName("Hocus Pocus 2 le retour");
-		hp = groupService.create(hp);
-			
-		aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
+            // Create test users
+            if(userService.findByLogin("admin") == null) {
+                User admin = new User();
+                admin.setLogin("admin");
+                admin.setPassword("4dm|n");
+                admin.setFirstName("alex");
+                admin.setLastName("synclar");
+                admin.setEmail("user1@resthub.org");           
+                admin.getPermissions().add("IM-ADMIN");
+                userService.create(admin);
+            }
+            
+            // Create Wax Taylor with no permissions on it
+            Group wt = new Group();
+            wt.setName("Wax Taylor 2 le retour");
+            groupService.create(wt);
+            group1Id = wt.getId();
+
+            // Create Hocus Pocus group, and give Joe access to it 
+            Group hp = new Group();
+            hp.setName("Hocus Pocus 2 le retour");
+            hp = groupService.create(hp);
+
+            aclService.saveAcl(hp, hp.getId(), "joe", "CUSTOM");
 	}
 	
 	@After

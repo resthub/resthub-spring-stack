@@ -4,14 +4,15 @@ define([
     'lib/fileuploader',
     'lib/jquery/jquery.textarearesizer',
     'lib/jquery/jquery.validate',
-    'lib/jqueryui/sortable'
+    'lib/jqueryui/sortable',
+    'lib/resthub'
 ], function(Controller, PollRepository) {
 
     return Controller.extend("EditPollController", {
         template : 'poll/edit.html',
         answerTemplate : '<li>' +
-                '<div><input type="checkbox" name="answers" value="<%= answer %>"></div>' +
-                '<span><%= answer %></span>' +
+                '<div><input type="checkbox" name="answers" value="${answer}"></div>' +
+                '<span>${answer}</span>' +
                 '</li>',
         data : {
             id : null,
@@ -51,7 +52,7 @@ define([
             this.element.find('input:button[name=add]').click(function() {
                 var answer = self.element.find('textarea[name=answer]').val().trim();
                 if (answer != '') {
-                    self.element.find('ul.answers').append($.render('',{answer:answer},{text:self.answerTemplate}));
+                    $.tmpl(self.answerTemplate,{answer:answer}).appendTo(self.element.find('ul.answers').append());
                     self.element.find('textarea[name=answer]').val("");
                 }
             });

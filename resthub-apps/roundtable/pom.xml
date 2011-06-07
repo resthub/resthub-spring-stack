@@ -42,7 +42,7 @@
 	</dependencies>
 
 	<properties>
-            <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+            <netbeans.hint.deploy.server>Tomcat70</netbeans.hint.deploy.server>
 	</properties>
 
 	<build>
