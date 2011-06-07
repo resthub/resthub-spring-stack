@@ -3,8 +3,11 @@ package org.resthub.identity.service.acl;
 import java.io.Serializable;
 import java.util.List;
 
+
 import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.Permission;
+import org.springframework.security.acls.model.Sid;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -24,14 +27,14 @@ public interface AclService extends TracableService {
 		 * Group creation. Arguments : 
 		 * 1- Id of the concerned domainObject
 		 * 2- Id of the concerned user
-		 * 3- added permission
+		 * 3- Added permission
 		 */
 		ACL_CREATION, 
 		/**
 		 * Group deletion. Arguments : 
 		 * 1- Id of the concerned domainObject
 		 * 2- Id of the concerned user
-		 * 3- added permission
+		 * 3- Added permission
 		 */
 		ACL_DELETION
 	};
@@ -90,4 +93,64 @@ public interface AclService extends TracableService {
 	 */
 	void removeAcls(Object domainObject, Serializable domainObjectId, String userId, List<String> permissions);
 	
+	/**
+	 * Add the specified entry from the database
+	 * 
+	 * @param domainObject object to locate an {@link Acl}
+	 * @param recipient the security identities for which  {@link Acl} information is required
+	 * @param permissionName  Permission Name removed from this owner on this resource.
+	 * 
+	 * @throws NotFoundException If the permission is not associated
+	 */
+    void addPermission(Object domainObject, Sid recipient, String permissionName);
+    
+    /**
+     * Add the specified entry from the database
+     * 
+     * @param domainObject
+     * @param recipient the security identities for which  {@link Acl} information is required
+     * @param mask a permission mask, it's a integer value
+     * 
+     * @throws NotFoundException If the permission is not associated
+     */
+    void addPermission(Object domainObject, Sid recipient, int mask);
+    
+    /**
+     * Add the specified entry from the database
+     * 
+     * @param domainObject object to locate an {@link Acl}
+     * @param recipient the security identities for which  {@link Acl} information is required
+     * @param permission a given permission 
+     * 
+     * @throws NotFoundException If the permission is not associated
+     */
+
+    void addPermission(Object domainObject, Sid recipient, Permission permission);
+    
+    /**
+     * Removes the specified entry of permission on given object from
+     * <code>Acl</code> object in the database
+     * 
+     * @param domainObject object to locate an {@link Acl}
+     * @param recipient the security identities for which  {@link Acl} information is required
+     *        (may be <tt>null</tt> to denote all entries)
+     * @param permission a given permission 
+     */
+
+    void deletePermission(Object domainObject, Sid recipient, Permission permission);
+    
+    /**
+     * Removes the specified entry of permission on given object
+     * 
+     * @param domainObject object to locate an {@link Acl} for
+     * @param recipient the security identities for which  {@link Acl} information is required
+     * 
+     * @param permissionName a given permission. The effective permission must be build using 
+     * <code>ConfigurablePermissionFactory</code> class
+     * 
+     */
+
+    void deletePermission(Object domainObject, Sid recipient, String permissionName);
+
+
 } // interface AclService

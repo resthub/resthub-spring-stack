@@ -20,7 +20,10 @@ import org.resthub.identity.model.Group;
 import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.acl.AclService.AclServiceChange;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.Permission;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -162,6 +165,46 @@ public class AclTest extends AbstractTest {
 		Acl foudedAcl = aclService.getAcls(g1, group1Id);
 		Assert.assertNotNull(foudedAcl);
 		Assert.assertEquals(permissions.size(),foudedAcl.getEntries().size());
+	}
+    
+    @Test
+	public void testAddPermission (){
+    	
+    	Permission permission = BasePermission.READ;    	
+    	// Given a created group and domain object
+		Group g1 = groupService.findById(group1Id);
+		String userId = "userId"+new Random().nextInt();
+		
+    	// When creating an acl
+		aclService.addPermission(g1, new PrincipalSid(userId), permission);
+		Acl foundAcl = aclService.getAcls(g1, group1Id);
+		Assert.assertNotNull(foundAcl);
+		Assert.assertEquals(1,foundAcl.getEntries().size());
+	}
+    
+    
+    @Test
+	public void testDeletePermission (){
+    	
+    	List<String>permissions = new ArrayList<String>();
+    	permissions.add("CREATE");
+    	permissions.add("WRITE");
+    	permissions.add("READ");
+    	
+    	// Given a created group and domain object
+		Group g1 = groupService.findById(group1Id);
+		String userId = "userId"+new Random().nextInt();
+		
+    	// When creating an acl
+		aclService.saveAcls(g1, group1Id, userId, permissions);
+		Acl acl = aclService.getAcls(g1, group1Id);
+		Assert.assertNotNull(acl);
+		Assert.assertEquals(permissions.size(),acl.getEntries().size());
+		// Delete permission entry
+		aclService.deletePermission(g1, new PrincipalSid(userId), BasePermission.CREATE);
+		Assert.assertNotNull(acl);
+		Assert.assertEquals(permissions.size()-1,acl.getEntries().size());
+		
 	}
     
 }
