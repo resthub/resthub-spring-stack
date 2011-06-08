@@ -152,8 +152,7 @@ public class DbUnitTestExecutionListener implements TestExecutionListener {
 					contextAnnotation.value(), DbUnitConfiguration.class);
 		} else {
 			// take any bean of type DbUnitConfiguration
-			configuration = testContext.getApplicationContext().getBean(
-					DbUnitConfiguration.class);
+			configuration = testContext.getApplicationContext().getBean(DbUnitConfiguration.class);
 		}
 
 		return configuration;

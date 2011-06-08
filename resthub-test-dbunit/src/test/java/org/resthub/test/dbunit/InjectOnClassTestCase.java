@@ -7,25 +7,17 @@ import org.dbunit.dataset.ITable;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.resthub.test.dbunit.annotation.DbUnitSpringJUnit4ClassRunner;
 import org.resthub.test.dbunit.annotation.InjectDataSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 @ContextConfiguration(locations = { "classpath:test-context.xml", "classpath:application-context.xml" , "classpath:hsql-test-context.xml"})
 @TransactionConfiguration(defaultRollback = false)
 @InjectDataSet(value="dataset", onceForClass=false)
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-		DirtiesContextTestExecutionListener.class,
-		DbUnitTestExecutionListener.class,
-		TransactionalTestExecutionListener.class })
+@RunWith(DbUnitSpringJUnit4ClassRunner.class)
 public class InjectOnClassTestCase {
 
 	@Autowired

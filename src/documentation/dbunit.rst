@@ -110,11 +110,7 @@ Here is a simple test case::
 	@ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 	@TransactionConfiguration(defaultRollback = false)
 	@InjectDataSet("dataset")
-	@RunWith(SpringJUnit4ClassRunner.class)
-	@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-		DirtiesContextTestExecutionListener.class,
-		DbUnitTestExecutionListener.class,
-		TransactionalTestExecutionListener.class })
+	@RunWith(DbUnitSpringJUnit4ClassRunner.class)
 	public class DBUnitTestCase {
 
 		@Test
