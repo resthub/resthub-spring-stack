@@ -32,7 +32,7 @@ public class GroupServiceTest extends AbstractServiceTest<Group, Long, GroupServ
 
     @Override
     public Group createTestRessource() {
-        String groupName = "GroupTestGroupName" + Math.round(Math.random() * 1000);
+        String groupName = "GroupTestGroupName" + Math.round(Math.random() * 100000);
         Group g = new Group();
         g.setName(groupName);
         return g;

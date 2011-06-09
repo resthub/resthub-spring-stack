@@ -27,7 +27,7 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
      * @return A unique role name.
      */
     private String generateRandomRoleName() {
-        return "RoleName" + Math.round(Math.random() * 100000);
+        return "RoleName" + Math.round(Math.random() * 10000000);
     }
     
     @Override
@@ -61,7 +61,7 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
 
     protected User createTestUser() {
         logger.debug("UserControllerTest : createTestUser");
-        String userLogin = "UserTestUserLogin" + Math.round(Math.random() * 10000);
+        String userLogin = "UserTestUserLogin" + Math.round(Math.random() * 1000000);
         String userPassword = "UserTestUserPassword";
         User u = new User();
         u.setLogin(userLogin);

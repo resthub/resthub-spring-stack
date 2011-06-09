@@ -41,7 +41,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
     @Override
     public User createTestRessource() {
-        String userLogin = "UserTestUserName" + Math.round(Math.random() * 1000);
+        String userLogin = "UserTestUserName" + Math.round(Math.random() * 100000);
         String userPassword = "UserTestUserPassword";
         User u = new User();
         u.setLogin(userLogin);
@@ -51,7 +51,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
     public Group createTestGroup() {
         Group g = new Group();
-        g.setName("TestGroup" + Math.round(Math.random() * 1000));
+        g.setName("TestGroup" + Math.round(Math.random() * 100000));
         return g;
     }
     /*

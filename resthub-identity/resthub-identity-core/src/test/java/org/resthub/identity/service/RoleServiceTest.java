@@ -27,7 +27,7 @@ public class RoleServiceTest extends AbstractServiceTest<Role, Long, RoleService
      * @return A unique role name.
      */
     private String generateRandomRoleName() {
-        return "RoleName" + Math.round(Math.random() * 1000);
+        return "RoleName" + Math.round(Math.random() * 100000);
     }
 
     @Inject

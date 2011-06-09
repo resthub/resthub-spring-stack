@@ -25,7 +25,7 @@ public class UserControllerWebTest extends
 	Logger logger = Logger.getLogger(UserControllerWebTest.class);
 
 	private String generateRandomLogin() {
-		return "Login" + Math.round(Math.random() * 10000);
+		return "Login" + Math.round(Math.random() * 1000000);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class UserControllerWebTest extends
 	@Test
 	public void shouldAddRoleToUser() throws Exception {
 		// Given a new role
-		Role r = new Role("Role" + Math.round(Math.random() * 1000));
+		Role r = new Role("Role" + Math.round(Math.random() * 100000));
 		r = resource().path("role").type(MediaType.APPLICATION_XML)
 				.post(Role.class, r);
 
@@ -81,7 +81,7 @@ public class UserControllerWebTest extends
 	@Test
 	public void shouldRemoveRoleFromUser() throws Exception {
 		// Given a new role
-		Role r = new Role("Role" + Math.round(Math.random() * 1000));
+		Role r = new Role("Role" + Math.round(Math.random() * 100000));
 		r = resource().path("role").type(MediaType.APPLICATION_XML)
 				.post(Role.class, r);
 
