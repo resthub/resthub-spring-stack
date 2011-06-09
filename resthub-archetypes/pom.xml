@@ -3,13 +3,13 @@
 	<parent>
 		<artifactId>resthub</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-rc9</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-archetypes</artifactId>
 	<name>RESThub archetypes</name>
-	<version>1.1-rc9</version>
+	<version>1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>
 		Archetypes provided to allow quick start for your RESThub based projects
