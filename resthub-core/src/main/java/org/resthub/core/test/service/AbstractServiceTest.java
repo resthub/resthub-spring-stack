@@ -51,19 +51,28 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
 	}
 
 	@SuppressWarnings("unchecked")
-	protected T createTestRessource() throws Exception {
-		return (T) ClassUtils.getGenericTypeFromBean(this.service)
-				.newInstance();
+	protected T createTestRessource() {
+		try {
+			return (T) ClassUtils.getGenericTypeFromBean(this.service)
+					.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	@Override
+	public void setUp() {
+		super.setUp();
 		T resource = service.create(this.createTestRessource());
 		this.id = getIdFromEntity(resource);
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	@Override
+	public void tearDown() {
+		super.tearDown();
 		// Don't use deleteAll because it does not acheive cascade delete
 		for (T resource : service.findAll()) {
 			service.delete(resource);

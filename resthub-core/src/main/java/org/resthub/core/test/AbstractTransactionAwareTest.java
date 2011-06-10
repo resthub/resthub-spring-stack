@@ -30,12 +30,12 @@ public abstract class AbstractTransactionAwareTest {
 	protected EntityManagerFactory emf;
 	
 	@Before
-	public void setUpTransaction() {
+	public void setUp() {
 		TransactionSynchronizationManager.bindResource(emf, new EntityManagerHolder(emf.createEntityManager()));
 	}
 	
 	@After
-	public void tearDownTransaction() {
+	public void tearDown() {
 		EntityManagerHolder emHolder = (EntityManagerHolder) TransactionSynchronizationManager.unbindResource(emf);
 		emHolder.getEntityManager().close();
 	}

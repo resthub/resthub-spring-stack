@@ -37,7 +37,9 @@ public class VoteServiceTest extends AbstractTransactionAwareTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    @Override
+    public void setUp() {
+    	super.setUp();
         Poll poll = new Poll();
         poll.setAuthor("me");
         poll.setBody("Test poll");
@@ -53,6 +55,7 @@ public class VoteServiceTest extends AbstractTransactionAwareTest {
         poll.setAnswers(answers);
         poll = this.pollService.create(poll);
         this.pollId = poll.getId();
+
     }
     
     @Test

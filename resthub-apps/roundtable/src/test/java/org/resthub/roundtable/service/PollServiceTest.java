@@ -26,7 +26,7 @@ public class PollServiceTest extends AbstractServiceTest<Poll,Long, PollService>
     }
 
     @Override
-    protected Poll createTestRessource() throws Exception {
+    protected Poll createTestRessource() {
         Poll poll = new Poll();
         poll.setAuthor("me");
         poll.setBody("test poll");

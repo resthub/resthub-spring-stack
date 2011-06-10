@@ -43,7 +43,7 @@ public class BookingServiceTest extends AbstractServiceTest<Booking, Long, Booki
 	}
 	
 	@Override
-	protected Booking createTestRessource() throws Exception {
+	protected Booking createTestRessource() {
 		Hotel hotel = new Hotel();
 		hotel.setName("testBookingName"+new Random().nextInt(10000));
 		hotel.setAddress("testBookingAddress");
@@ -73,7 +73,8 @@ public class BookingServiceTest extends AbstractServiceTest<Booking, Long, Booki
 	
 	@After
 	@Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
+		super.tearDown();
     	// Don't use deleteAll because it does not acheive cascade delete
 		for (Booking currentBooking : service.findAll()) {
 			service.delete(currentBooking);

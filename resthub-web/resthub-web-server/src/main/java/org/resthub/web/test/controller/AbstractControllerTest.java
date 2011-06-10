@@ -57,19 +57,26 @@ public abstract class AbstractControllerTest <T, ID extends Serializable, C exte
 		}
 
 		@SuppressWarnings("unchecked")
-		protected T createTestRessource() throws Exception {
-			return (T) ClassUtils.getGenericTypeFromBean(this.controller)
-					.newInstance();
+		protected T createTestRessource() {
+			try {
+				return (T) ClassUtils.getGenericTypeFromBean(this.controller)
+						.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
 
 		@Before
-		public void setUp() throws Exception {
+		@Override
+		public void setUp() {
 			T resource = controller.create(this.createTestRessource());
 			this.id = getIdFromEntity(resource);
 		}
 
 		@After
-		public void tearDown() throws Exception {
+		@Override
+		public void tearDown() {
 			// Don't use deleteAll because it does not acheive cascade delete
 			for (T resource : controller.findAll()) {
 				controller.delete(getIdFromEntity(resource));

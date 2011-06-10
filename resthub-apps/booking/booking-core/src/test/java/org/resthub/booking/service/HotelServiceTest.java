@@ -26,7 +26,7 @@ public class HotelServiceTest extends AbstractServiceTest<Hotel, Long, HotelServ
 	}
 	
 	@Override
-	protected Hotel createTestRessource() throws Exception {
+	protected Hotel createTestRessource() {
 		hotel = new Hotel();
 		hotel.setName("testHotelName");
 		hotel.setAddress("testHotelAddress");
