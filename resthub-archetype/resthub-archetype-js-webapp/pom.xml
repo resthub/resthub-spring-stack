@@ -5,13 +5,13 @@
   <parent>
 		<artifactId>resthub-archetype</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-rc11</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
   <groupId>org.resthub</groupId>
   <artifactId>resthub-archetype-js-webapp</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1-rc11</version>
   <packaging>maven-archetype</packaging>
 
   <name>RESThub JS webapp archetype</name>

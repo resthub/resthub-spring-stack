@@ -13,7 +13,7 @@
     <artifactId>resthub</artifactId>
     <packaging>pom</packaging>
     <name>RESThub</name>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-rc11</version>
     <url>http://resthub.org</url>
     <description>RESThub is an Open Source framework designed to allow you to build web applications following KISS (Keep It Simple, Stupid), DRY (Don’t Repeat Yourself) and REST principles.</description>
 
