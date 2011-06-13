@@ -60,7 +60,7 @@ public abstract class AbstractControllerTest<T, ID extends Serializable, C exten
     }
 
     @SuppressWarnings("unchecked")
-    protected T createTestRessource() {
+    protected T createTestResource() {
         try {
             return (T) ClassUtils.getGenericTypeFromBean(this.controller).newInstance();
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public abstract class AbstractControllerTest<T, ID extends Serializable, C exten
     @Before
     @Override
     public void setUp() {
-        T resource = controller.create(this.createTestRessource());
+        T resource = controller.create(this.createTestResource());
         this.id = getIdFromEntity(resource);
     }
 
@@ -88,7 +88,7 @@ public abstract class AbstractControllerTest<T, ID extends Serializable, C exten
 
     @Test
     public void testCreate() {
-        T resource = controller.create(this.createTestRessource());
+        T resource = controller.create(this.createTestResource());
 
         T foundResource = controller.findById(getIdFromEntity(resource));
         Assert.assertNotNull("Resource not created!", foundResource);
