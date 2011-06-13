@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>resthub-parent</artifactId>
+        <groupId>org.resthub</groupId>
+        <version>${project.version}</version>
+    </parent>
+
+    <groupId>£${groupId}</groupId>
+    <artifactId>£${artifactId}</artifactId>
+    <packaging>jar</packaging>
+    <version>£${version}</version>
+    <name>£${artifactId}</name>
+
+    <dependencies>
+        <!-- We use RESThub core classes and dependencies built around Spring 3 -->
+        <dependency>
+            <groupId>org.resthub</groupId>
+            <artifactId>resthub-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
