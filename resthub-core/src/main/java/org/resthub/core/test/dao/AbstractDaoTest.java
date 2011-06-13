@@ -87,14 +87,14 @@ public abstract class AbstractDaoTest<T, ID extends Serializable, D extends Gene
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         T resource = this.createTestEntity();
         resource = dao.save(resource);
         this.id = getIdFromEntity(resource);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         // Don't use deleteAll because it does not acheive cascade delete
         for (T resource : dao.readAll()) {
             dao.delete(resource);
