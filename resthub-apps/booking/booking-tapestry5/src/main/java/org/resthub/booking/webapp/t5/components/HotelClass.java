@@ -27,7 +27,6 @@ public class HotelClass {
      * Get path to star image in function of the number of stars
      */
     public Asset getHotelClass() {
-        return assetSource.getContextAsset(
-                String.format(PATH_TO_STARS_IMAGES, stars), null);
+        return assetSource.getContextAsset(String.format(PATH_TO_STARS_IMAGES, stars), null);
     }
 }

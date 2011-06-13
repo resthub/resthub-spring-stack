@@ -11,12 +11,11 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
  * strict type checks).
  * 
  * In order to use it, add the following lines to your web.xml file :
- * <context-param>
- *      <param-name>contextClass</param-name>
- *      <param-value>org.kazansource.core.context.KazanXmlWebApplicationContext</param-value>
- * </context-param>
+ * <context-param> <param-name>contextClass</param-name>
+ * <param-value>org.kazansource
+ * .core.context.KazanXmlWebApplicationContext</param-value> </context-param>
  * 
- * @see org.resthub.core.context.ResthubXmlContextLoader 
+ * @see org.resthub.core.context.ResthubXmlContextLoader
  */
 public class ResthubXmlWebApplicationContext extends XmlWebApplicationContext {
 

@@ -34,6 +34,7 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
     public void setResourceDao(UserDao userDao) {
         super.setDao(userDao);
     }
+
     @Inject
     @Named("groupService")
     protected GroupService groupService;
@@ -55,11 +56,11 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
     public User create(User user) throws AlreadyExistingEntityException {
         User existingUser = this.findByLogin(user.getLogin());
         if (existingUser == null) {
-        	if (user.getPassword() == null) {
+            if (user.getPassword() == null) {
                 user.setPassword(user.generateDefaultPassword());
             }
             user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
-        	// Overloaded method call
+            // Overloaded method call
             User created = super.create(user);
             // Publish notification
             publishChange(UserServiceChange.USER_CREATION.name(), created);
@@ -75,15 +76,16 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
     @Override
     @Transactional(readOnly = false)
     public User update(User user) throws AlreadyExistingEntityException {
-        // Check if there is an already existing user with this login with a different ID
+        // Check if there is an already existing user with this login with a
+        // different ID
         User existingUser = this.findById(user.getId());
-        if(existingUser != null) {
-        	// Update the user without changing the password
-        	user.setPassword(existingUser.getPassword());
+        if (existingUser != null) {
+            // Update the user without changing the password
+            user.setPassword(existingUser.getPassword());
         }
         return super.update(user);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -110,7 +112,7 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
 
     /**
      * Retrieves a user by his login
-     *
+     * 
      * @param login
      *            the login to look for
      * @return the corresponding User object if founded, null otherwise
@@ -138,7 +140,7 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
 
     /**
      * gets the User's direct Permissions
-     *
+     * 
      * @param login
      *            the login of the user
      * @return permissions of the user.
@@ -155,7 +157,7 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
 
     /**
      * Add a permission to an user
-     *
+     * 
      * @param userLogin
      *            the login of the user
      * @param permission
@@ -178,7 +180,7 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
 
     /**
      * Remove the permission for the given user
-     *
+     * 
      * @param userLogin
      *            the login of the user
      * @param permission
@@ -199,7 +201,7 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
 
     /**
      * Add a group from one user's groups
-     *
+     * 
      * @param userLogin
      *            the login of the user to whom to group should be added
      * @param groupeName
@@ -221,7 +223,7 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
 
     /**
      * Remove a group from one user's groups
-     *
+     * 
      * @param userLogin
      *            the login of the user to whom to group should be remove
      * @param groupeName
@@ -252,7 +254,9 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
      */
     @Override
     public List<User> findAllUsersWithRoles(List<String> roles) {
-        List<User> usersWithRole = new ArrayList<User>(); // this list will hold all the users for the result
+        List<User> usersWithRole = new ArrayList<User>(); // this list will hold
+                                                          // all the users for
+                                                          // the result
 
         // Start by finding the entities directly linked to the roles
         List<AbstractPermissionsOwner> withRoles = abstractPermissionsOwnerDao.getWithRoles(roles);
@@ -267,11 +271,14 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
     }
 
     /**
-     * Recursive method to get all the users in an AbstractPermissionsOwner,
-     * if the owner is a user, it will be directly added to the list,
-     * if the owner is a group, his subgroups will be explored to find users.
-     * @param users User list to add users into, must not be null.
-     * @param owner Root element to begin exploration.
+     * Recursive method to get all the users in an AbstractPermissionsOwner, if
+     * the owner is a user, it will be directly added to the list, if the owner
+     * is a group, his subgroups will be explored to find users.
+     * 
+     * @param users
+     *            User list to add users into, must not be null.
+     * @param owner
+     *            Root element to begin exploration.
      */
     private void getUsersFromRootElement(List<User> users, AbstractPermissionsOwner owner) {
         // Stop the processing if one of the parameters is null
@@ -279,13 +286,16 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
             // The root element may be user or a group
             if (owner instanceof User) {
                 User user = (User) owner;
-                // If we have a user, we can't go further so add it if needed and finish.
+                // If we have a user, we can't go further so add it if needed
+                // and finish.
                 if (!users.contains(user)) {
                     users.add(user);
                 }
             } else if (owner instanceof Group) {
-                // If we have a group, we must get both users and groups having this group as parent
-                List<AbstractPermissionsOwner> withGroupAsParent = abstractPermissionsOwnerDao.getWithGroupAsParent((Group) owner);
+                // If we have a group, we must get both users and groups having
+                // this group as parent
+                List<AbstractPermissionsOwner> withGroupAsParent = abstractPermissionsOwnerDao
+                        .getWithGroupAsParent((Group) owner);
 
                 // Each result will be recursively evaluated using this method.
                 for (AbstractPermissionsOwner child : withGroupAsParent) {
@@ -348,9 +358,13 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
     }
 
     /**
-     * From a root element, take all the roles and go up the hierarchy to find inheritances.
-     * @param roles A list of roles that will be filled.
-     * @param owner The root element to begin with.
+     * From a root element, take all the roles and go up the hierarchy to find
+     * inheritances.
+     * 
+     * @param roles
+     *            A list of roles that will be filled.
+     * @param owner
+     *            The root element to begin with.
      */
     public void getRolesFromRootElement(List<Role> roles, AbstractPermissionsOwner owner) {
         // Stop the processing if one of the parameters is null
@@ -369,21 +383,21 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
         }
     }
 
-	@Override
-	@Transactional(readOnly = false)
-	public User updatePassword(User user) {
-		User retrievedUser = this.findByLogin(user.getLogin());
-		String newPassword = user.getPassword();
-		retrievedUser.setPassword(passwordEncoder.encodePassword(newPassword, null));
-		return dao.save(retrievedUser);
-	}
-	
-	@Override
+    @Override
+    @Transactional(readOnly = false)
+    public User updatePassword(User user) {
+        User retrievedUser = this.findByLogin(user.getLogin());
+        String newPassword = user.getPassword();
+        retrievedUser.setPassword(passwordEncoder.encodePassword(newPassword, null));
+        return dao.save(retrievedUser);
+    }
+
+    @Override
     public User authenticateUser(String login, String password) {
-		User retrievedUser = this.findByLogin(login);
-		if ((retrievedUser != null) && passwordEncoder.isPasswordValid(retrievedUser.getPassword(), password, null)) {
-			return retrievedUser;
-		}
+        User retrievedUser = this.findByLogin(login);
+        if ((retrievedUser != null) && passwordEncoder.isPasswordValid(retrievedUser.getPassword(), password, null)) {
+            return retrievedUser;
+        }
         return null;
     }
 }

@@ -15,11 +15,14 @@ import org.resthub.core.util.ClassUtils;
  * "http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/org/synyx/hades/dao/orm/GenericJpaDao.html"
  * >Hades GenericJpaDao</a>.
  * 
- * In RESThub, we usually use generic DAO with a normal Interface/Implementation way, without the magic behaviour
- * provided by Hades that allow to dynamically generate implementation from interface only. But you can use it if you
- * want by adding the <hades:dao-config /> element to your application context. 
+ * In RESThub, we usually use generic DAO with a normal Interface/Implementation
+ * way, without the magic behaviour provided by Hades that allow to dynamically
+ * generate implementation from interface only. But you can use it if you want
+ * by adding the <hades:dao-config /> element to your application context.
  * 
- * @see <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/" target="_blank">Hades 2.0 Javadoc</a>
+ * @see <a
+ *      href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/"
+ *      target="_blank">Hades 2.0 Javadoc</a>
  */
 public abstract class GenericJpaDao<T, ID extends Serializable> extends org.synyx.hades.dao.orm.GenericJpaDao<T, ID>
         implements GenericDao<T, ID> {

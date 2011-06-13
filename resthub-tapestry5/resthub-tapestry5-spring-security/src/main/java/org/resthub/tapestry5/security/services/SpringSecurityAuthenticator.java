@@ -35,18 +35,15 @@ public class SpringSecurityAuthenticator implements Authenticator {
     /**
      * {@InheritDoc}
      */
-    public void login(String username, String password)
-            throws AuthenticationException {
+    public void login(String username, String password) throws AuthenticationException {
 
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl("ROLE_AUTH"));
 
-        Boolean logged = this.loginService.executeLogin(username, password,
-                authorities);
+        Boolean logged = this.loginService.executeLogin(username, password, authorities);
 
         if (!logged) {
-            throw new AuthenticationException(
-                    "Authentication process has failed");
+            throw new AuthenticationException("Authentication process has failed");
         }
     }
 
@@ -54,8 +51,7 @@ public class SpringSecurityAuthenticator implements Authenticator {
      * {@InheritDoc}
      */
     public boolean isLoggedIn() {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails;
         try {
             userDetails = (UserDetails) authentication.getPrincipal();
@@ -81,8 +77,7 @@ public class SpringSecurityAuthenticator implements Authenticator {
         UserDetails userDetails = null;
 
         if (isLoggedIn()) {
-            Authentication authentication = SecurityContextHolder.getContext()
-                    .getAuthentication();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             userDetails = (UserDetails) authentication.getPrincipal();
         }
 

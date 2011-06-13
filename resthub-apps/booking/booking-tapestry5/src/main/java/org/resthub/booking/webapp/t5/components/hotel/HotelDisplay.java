@@ -4,15 +4,14 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.resthub.booking.model.Hotel;
 
-
 /**
  * @author bmeurant <Baptiste Meurant>
  */
 public class HotelDisplay {
 
-	@SuppressWarnings("unused")
-	@Parameter(required = true)
-	@Property
-	private Hotel hotel;
-	
+    @SuppressWarnings("unused")
+    @Parameter(required = true)
+    @Property
+    private Hotel hotel;
+
 }

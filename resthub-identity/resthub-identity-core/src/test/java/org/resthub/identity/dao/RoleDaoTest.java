@@ -10,13 +10,14 @@ import org.resthub.identity.model.Role;
 
 /**
  * Test class for <tt>RoleDao</tt>.
- *
+ * 
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
 public class RoleDaoTest extends AbstractDaoTest<Role, Long, RoleDao> {
 
     /**
      * Generate a random role name based on a string and a randomized number.
+     * 
      * @return A unique role name.
      */
     private String generateRandomRoleName() {
@@ -31,13 +32,13 @@ public class RoleDaoTest extends AbstractDaoTest<Role, Long, RoleDao> {
     }
 
     @Override
-    protected Role createTestEntity() throws Exception {
+    protected Role createTestEntity() {
         Role testRole = new Role(generateRandomRoleName());
         return testRole;
     }
 
     @Override
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         final String editedRoleName = generateRandomRoleName();
 
         Role role1 = this.dao.readByPrimaryKey(this.id);

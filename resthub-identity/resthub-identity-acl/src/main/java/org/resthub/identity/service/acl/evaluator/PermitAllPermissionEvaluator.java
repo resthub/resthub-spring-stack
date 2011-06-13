@@ -12,8 +12,9 @@ import org.springframework.security.core.Authentication;
  * evaluate permissions for a particular object. Similar in behaviour to
  * {@link org.springframework.security.acls.AclEntryVoter AclEntryVoter}.
  * 
- * A null PermissionEvaluator which permit all access. Can be used to globally disable persmission checks.
- *
+ * A null PermissionEvaluator which permit all access. Can be used to globally
+ * disable persmission checks.
+ * 
  * @author Tantchonta M'PO
  * @author vanackej
  */
@@ -25,7 +26,8 @@ public class PermitAllPermissionEvaluator implements PermissionEvaluator {
      * @return true always
      */
     public boolean hasPermission(Authentication authentication, Object target, Object permission) {
-        logger.warn("Permitting user " + authentication.getName() + " permission '" + permission + "' on object " + target);
+        logger.warn("Permitting user " + authentication.getName() + " permission '" + permission + "' on object "
+                + target);
         return true;
     }
 
@@ -33,9 +35,9 @@ public class PermitAllPermissionEvaluator implements PermissionEvaluator {
      * @return true always
      */
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
-                    Object permission) {
-        logger.warn("Permitting user " + authentication.getName() + " permission '" + permission + "' on object with Id '"
-                        + targetId);
+            Object permission) {
+        logger.warn("Permitting user " + authentication.getName() + " permission '" + permission
+                + "' on object with Id '" + targetId);
         return true;
     }
 

@@ -24,8 +24,8 @@ public class InitializeDatabaseBeanDefinitionParser extends AbstractBeanDefiniti
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(DataSourceInitializer.class);
         builder.addPropertyReference("dataSource", element.getAttribute("data-source"));
         builder.addPropertyValue("databasePopulator", createSelectiveDatabasePopulator(element));
-        
-        if(element.hasAttribute("enabled")) {
+
+        if (element.hasAttribute("enabled")) {
             builder.addPropertyValue("enabled", element.getAttribute("enabled"));
         } else {
             builder.addPropertyValue("enabled", true);

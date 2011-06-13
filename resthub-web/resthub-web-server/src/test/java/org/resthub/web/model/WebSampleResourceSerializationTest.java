@@ -13,17 +13,18 @@ import org.resthub.web.SerializationHelper;
 
 public class WebSampleResourceSerializationTest {
 
-	@Test
-	public void testWebSampleResourceJsonSerialization() throws JsonGenerationException, JsonProcessingException, IOException {
-		WebSampleResource resource = new WebSampleResource("testResource");
-		String output = SerializationHelper.jsonSerialize(resource);
-		Assert.assertTrue(output.contains("testResource"));
-	}
-	
-	@Test
-	public void testWebSampleResourceXmlSerialization() throws JAXBException {
-		WebSampleResource resource = new WebSampleResource("testResource");
-		String output = SerializationHelper.xmlSerialize(resource);
-		Assert.assertTrue(output.contains("testResource"));
-	}
+    @Test
+    public void testWebSampleResourceJsonSerialization() throws JsonGenerationException, JsonProcessingException,
+            IOException {
+        WebSampleResource resource = new WebSampleResource("testResource");
+        String output = SerializationHelper.jsonSerialize(resource);
+        Assert.assertTrue(output.contains("testResource"));
+    }
+
+    @Test
+    public void testWebSampleResourceXmlSerialization() throws JAXBException {
+        WebSampleResource resource = new WebSampleResource("testResource");
+        String output = SerializationHelper.xmlSerialize(resource);
+        Assert.assertTrue(output.contains("testResource"));
+    }
 }

@@ -17,13 +17,14 @@ import org.resthub.identity.model.Role;
 
 /**
  * Test class for <tt>RoleService</tt>.
- *
+ * 
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
 public class RoleServiceTest extends AbstractServiceTest<Role, Long, RoleService> {
 
     /**
      * Generate a random role name based on a string and a randomized number.
+     * 
      * @return A unique role name.
      */
     private String generateRandomRoleName() {
@@ -38,15 +39,15 @@ public class RoleServiceTest extends AbstractServiceTest<Role, Long, RoleService
     }
 
     @Override
-    public Role createTestRessource() {
+    public Role createTestEntity() {
         Role testRole = new Role(generateRandomRoleName());
         return testRole;
     }
 
     @Override
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         // Given a new role
-        Role testRole = this.createTestRessource();
+        Role testRole = this.createTestEntity();
         testRole = this.service.create(testRole);
 
         // When I update this role
@@ -61,7 +62,7 @@ public class RoleServiceTest extends AbstractServiceTest<Role, Long, RoleService
     @Test
     public void shouldFindByName() {
         // Given a new role
-        Role r = this.createTestRessource();
+        Role r = this.createTestEntity();
         r = this.service.create(r);
 
         // When I find it by name
@@ -75,7 +76,7 @@ public class RoleServiceTest extends AbstractServiceTest<Role, Long, RoleService
     @Test
     public void shouldNotFindRoleWithWeirdName() {
         // Given a new role
-        Role r = this.createTestRessource();
+        Role r = this.createTestEntity();
         r = this.service.create(r);
 
         // When I find it with a weird name
@@ -88,7 +89,7 @@ public class RoleServiceTest extends AbstractServiceTest<Role, Long, RoleService
     @Test
     public void shouldFindNameWithWildcard() {
         // Given a new role
-        Role r = this.createTestRessource();
+        Role r = this.createTestEntity();
         r = this.service.create(r);
 
         // When I search for a part of its name

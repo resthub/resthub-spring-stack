@@ -16,31 +16,29 @@ import org.springframework.util.Assert;
  * @author bmeurant <Baptiste Meurant>
  */
 @Named("bookingService")
-public class BookingServiceImpl extends
-		GenericServiceImpl<Booking, Long, BookingDao> implements
-		BookingService {
+public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, BookingDao> implements BookingService {
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Inject
-	@Named("bookingDao")
-	@Override
-	public void setDao(BookingDao bookingDao) {
-		this.dao = bookingDao;
-	}
-	
-	@Inject
-	@Named("userDao")
-	private UserDao userDao;
-	
-	/**
-	 * {@InheritDoc}
-	 */
-	public List<Booking> findByUserId(Long userId) {
-		Assert.notNull(userId, "User ID can't be null");
+    /**
+     * {@InheritDoc}
+     */
+    @Inject
+    @Named("bookingDao")
+    @Override
+    public void setDao(BookingDao bookingDao) {
+        this.dao = bookingDao;
+    }
 
-		return dao.findByUser(this.userDao.readByPrimaryKey(userId));
-	}
+    @Inject
+    @Named("userDao")
+    private UserDao userDao;
+
+    /**
+     * {@InheritDoc}
+     */
+    public List<Booking> findByUserId(Long userId) {
+        Assert.notNull(userId, "User ID can't be null");
+
+        return dao.findByUser(this.userDao.readByPrimaryKey(userId));
+    }
 
 }

@@ -13,33 +13,38 @@ import java.lang.annotation.Target;
  * 
  * @author vanackej
  */
-@Target( { ElementType.TYPE, ElementType.METHOD })
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 public @interface InjectDataSet {
 
-	/**
-	 * <p>
-	 * Name(s) of the DbUnit dataset(s) to inject.
-	 * </p>
-	 * 
-	 * <p>
-	 * Names are resolved to actual datasets using configured {@link DataSetResolver}
-	 * </p>
-	 */
-	String[] value();
+    /**
+     * <p>
+     * Name(s) of the DbUnit dataset(s) to inject.
+     * </p>
+     * 
+     * <p>
+     * Names are resolved to actual datasets using configured
+     * {@link DataSetResolver}
+     * </p>
+     */
+    String[] value();
 
-	/**
-	 * The database operation to perform. Default is
-	 * {@link DBOperation#CLEAN_INSERT}
-	 */
-	DBOperation dbOperation() default DBOperation.CLEAN_INSERT;
-	
-	/**
-	 * If used on test class, defines if injection is performed per test method or only once for test class.
-	 * default is <code>true</code> (once for the class)
-	 * <p>This parameter has no effect when the annotation is located on the test method</p>
-	 */
-	boolean onceForClass() default true;
+    /**
+     * The database operation to perform. Default is
+     * {@link DBOperation#CLEAN_INSERT}
+     */
+    DBOperation dbOperation() default DBOperation.CLEAN_INSERT;
+
+    /**
+     * If used on test class, defines if injection is performed per test method
+     * or only once for test class. default is <code>true</code> (once for the
+     * class)
+     * <p>
+     * This parameter has no effect when the annotation is located on the test
+     * method
+     * </p>
+     */
+    boolean onceForClass() default true;
 }

@@ -18,6 +18,7 @@ import org.synyx.hades.domain.PageRequest;
 
 /**
  * Poll controller.
+ * 
  * @author Nicolas Carlier
  */
 @Path("/poll")
@@ -33,15 +34,13 @@ public class PollController extends GenericControllerImpl<Poll, Long, PollServic
 
     @GET
     @Path("/search")
-    public Response getResources(
-            @QueryParam("q") String q,
-            @QueryParam("page") @DefaultValue("0") Integer page,
+    public Response getResources(@QueryParam("q") String q, @QueryParam("page") @DefaultValue("0") Integer page,
             @QueryParam("size") @DefaultValue("5") Integer size) {
 
         PageResponse<Poll> polls;
         try {
-            polls = new PageResponse<Poll>(
-                    this.service.find(q, new PageRequest(page, size, Order.DESCENDING, "creationDate")));
+            polls = new PageResponse<Poll>(this.service.find(q, new PageRequest(page, size, Order.DESCENDING,
+                    "creationDate")));
         } catch (ServiceException ex) {
             return Response.serverError().header("ServiceException", ex.getMessage()).build();
         }

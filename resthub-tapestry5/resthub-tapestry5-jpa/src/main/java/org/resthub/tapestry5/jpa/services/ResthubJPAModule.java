@@ -29,28 +29,22 @@ import org.tynamo.jpa.JPAModule;
  */
 @SubModule({ JPAModule.class, JPACoreModule.class })
 public class ResthubJPAModule {
-    public static void contributeServiceOverride(
-            MappedConfiguration<Class<?>, Object> configuration,
+    public static void contributeServiceOverride(MappedConfiguration<Class<?>, Object> configuration,
             @Local JPAEntityManagerSource directJPAEntityManagerSource) {
 
-        configuration.add(JPAEntityManagerSource.class,
-                directJPAEntityManagerSource);
+        configuration.add(JPAEntityManagerSource.class, directJPAEntityManagerSource);
     }
 
-    public static JPAEntityManagerSource buildDirectJPAEntityManagerSource(
-            Logger logger,
-            @Inject @Service("entityManagerFactory") EntityManagerFactory entityManagerFactory,
-            RegistryShutdownHub hub) {
-        DirectJPAEntityManagerSourceImpl hss = new DirectJPAEntityManagerSourceImpl(
-                entityManagerFactory);
+    public static JPAEntityManagerSource buildDirectJPAEntityManagerSource(Logger logger,
+            @Inject @Service("entityManagerFactory") EntityManagerFactory entityManagerFactory, RegistryShutdownHub hub) {
+        DirectJPAEntityManagerSourceImpl hss = new DirectJPAEntityManagerSourceImpl(entityManagerFactory);
 
         hub.addRegistryShutdownListener(hss);
 
         return hss;
     }
 
-    public static JPAEntityPackageManager buildJPAEntityPackageManager(
-            final Collection<String> packageNames) {
+    public static JPAEntityPackageManager buildJPAEntityPackageManager(final Collection<String> packageNames) {
         return new JPAEntityPackageManager() {
             public Collection<String> getPackageNames() {
                 return packageNames;

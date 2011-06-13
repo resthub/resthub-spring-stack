@@ -15,7 +15,7 @@ import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 
 /**
- *
+ * 
  * @author Guillaume Zurbach
  */
 public class UserDaoTest extends AbstractDaoTest<User, Long, UserDao> {
@@ -51,7 +51,7 @@ public class UserDaoTest extends AbstractDaoTest<User, Long, UserDao> {
     }
 
     @Override
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         User u1 = dao.readByPrimaryKey(this.id);
         u1.setEmail("test@plop.fr");
         dao.save(u1);
@@ -61,7 +61,7 @@ public class UserDaoTest extends AbstractDaoTest<User, Long, UserDao> {
 
     @Test
     public void testGetANDPermissions() {
-        //given a new user
+        // given a new user
         User u1 = new User();
         String login = "alexDao";
         String password = "alexDao-pass";
@@ -74,16 +74,16 @@ public class UserDaoTest extends AbstractDaoTest<User, Long, UserDao> {
 
         dao.save(u1);
 
-        //when we search  him by his login and password
+        // when we search him by his login and password
         List<User> l = dao.findEquals("Login", login);
         assertNotNull(l);
 
         u1 = l.get(0);
-        //we get the user as response
+        // we get the user as response
         assertNotNull(u1);
         assertEquals(login, u1.getLogin());
         assertEquals(u1.getPermissions().get(0), "ADMIN");
-        
+
         // TODO : remove this when we will use DBunit
         u1.getPermissions().clear();
     }

@@ -15,17 +15,14 @@ import org.apache.tapestry5.validator.ValidatorMacro;
  */
 public class ResthubComponentsModule {
 
-	public static void contributeComponentClassResolver(
-			Configuration<LibraryMapping> configuration) {
-		configuration.add(new LibraryMapping("resthub",
-				"org.resthub.tapestry5.components"));
-	}
+    public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {
+        configuration.add(new LibraryMapping("resthub", "org.resthub.tapestry5.components"));
+    }
 
-	@Contribute(ValidatorMacro.class)
-	public static void combineValidators(
-			MappedConfiguration<String, String> configuration) {
-		configuration.add("username", "required, minlength=3, maxlength=15");
-		configuration.add("password", "required, minlength=6, maxlength=12");
-	}
+    @Contribute(ValidatorMacro.class)
+    public static void combineValidators(MappedConfiguration<String, String> configuration) {
+        configuration.add("username", "required, minlength=3, maxlength=15");
+        configuration.add("password", "required, minlength=6, maxlength=12");
+    }
 
 }

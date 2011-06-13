@@ -6,7 +6,7 @@ import org.resthub.core.dao.GenericJpaDao;
 import org.resthub.identity.model.Role;
 
 /**
- *
+ * 
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
 @Named("roleDao")

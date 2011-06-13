@@ -11,12 +11,14 @@ import org.junit.Test;
 import org.resthub.core.test.service.AbstractServiceTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
+import org.resthub.roundtable.service.common.ServiceException;
 
- /**
+/**
  * Test of Poll services.
+ * 
  * @author Nicolas Carlier
  */
-public class PollServiceTest extends AbstractServiceTest<Poll,Long, PollService> {
+public class PollServiceTest extends AbstractServiceTest<Poll, Long, PollService> {
 
     @Inject
     @Named("pollService")
@@ -26,7 +28,7 @@ public class PollServiceTest extends AbstractServiceTest<Poll,Long, PollService>
     }
 
     @Override
-    protected Poll createTestRessource() {
+    protected Poll createTestEntity() {
         Poll poll = new Poll();
         poll.setAuthor("me");
         poll.setBody("test poll");
@@ -47,7 +49,7 @@ public class PollServiceTest extends AbstractServiceTest<Poll,Long, PollService>
 
     @Override
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         Poll poll = service.findById(this.id);
         poll.setAuthor("somebody");
         poll.getAnswers().remove(1);
@@ -58,7 +60,7 @@ public class PollServiceTest extends AbstractServiceTest<Poll,Long, PollService>
     }
 
     @Test
-    public void testFind() throws Exception {
+    public void testFind() throws ServiceException {
         service.rebuildIndex();
         List<Poll> polls = service.find("test", null).asList();
         Assert.assertEquals(1, polls.size());

@@ -10,11 +10,11 @@ import org.springframework.core.io.Resource;
  * @author vanackej
  * 
  */
-public class XMLDatabaseInitializer extends AbstractDataSetDatabaseInitializer  {
+public class XMLDatabaseInitializer extends AbstractDataSetDatabaseInitializer {
 
-	@Override
-	protected IDataSet loadDataSet(Resource resource) throws Exception  {
-		return new XmlDataSet(resource.getInputStream());
-	}
-	
+    @Override
+    protected IDataSet loadDataSet(Resource resource) throws Exception {
+        return new XmlDataSet(resource.getInputStream());
+    }
+
 }

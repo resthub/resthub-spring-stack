@@ -7,8 +7,8 @@ package org.resthub.booking.webapp.t5.pages;
  * @author ccordenier
  */
 public class Index {
-	
-	public Object onActivate() {
-		return Search.class;
-	}
+
+    public Object onActivate() {
+        return Search.class;
+    }
 }

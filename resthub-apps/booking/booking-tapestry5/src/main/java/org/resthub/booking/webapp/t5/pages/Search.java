@@ -26,118 +26,117 @@ import org.resthub.booking.service.HotelService;
  */
 public class Search {
 
-	@Inject
-	private BeanModelSource beanModelSource;
+    @Inject
+    private BeanModelSource beanModelSource;
 
-	@Inject
-	private Messages messages;
+    @Inject
+    private Messages messages;
 
-	@Inject
-	private Request request;
+    @Inject
+    private Request request;
 
-	@Inject
-	@Property
-	private Block hotelsGridBlock;
+    @Inject
+    @Property
+    private Block hotelsGridBlock;
 
-	@InjectComponent
-	private Zone result;
+    @InjectComponent
+    private Zone result;
 
-	@Inject
-	@Service("hotelService")
-	private HotelService hotelService;
+    @Inject
+    @Service("hotelService")
+    private HotelService hotelService;
 
-	@SuppressWarnings("unused")
-	@Property
-	private Hotel hotel;
+    @SuppressWarnings("unused")
+    @Property
+    private Hotel hotel;
 
-	@SuppressWarnings("unused")
-	@Property
-	@Persist
-	private List<Hotel> hotels;
+    @SuppressWarnings("unused")
+    @Property
+    @Persist
+    private List<Hotel> hotels;
 
-	@Property
-	private Integer searchSize;
+    @Property
+    private Integer searchSize;
 
-	@Property
-	private String searchValue;
+    @Property
+    private String searchValue;
 
-	public void onActivate() {
-		this.searchSize = 5;
-	}
+    public void onActivate() {
+        this.searchSize = 5;
+    }
 
-	public Boolean onActivate(Integer searchSize) {
-		this.searchSize = searchSize;
-		return true;
-	}
+    public Boolean onActivate(Integer searchSize) {
+        this.searchSize = searchSize;
+        return true;
+    }
 
-	public Integer onPassivate() {
-		return this.searchSize;
-	}
+    public Integer onPassivate() {
+        return this.searchSize;
+    }
 
-	/**
-	 * @return customized model for the datagrid
-	 */
-	public BeanModel<Hotel> getGridModel() {
-		BeanModel<Hotel> model = this.beanModelSource.createDisplayModel(
-				Hotel.class, this.messages);
-		model.add("cityState", null);
-		model.add("actions", null);
-		model.include("name", "address", "cityState", "zip", "actions");
-		return model;
-	}
+    /**
+     * @return customized model for the datagrid
+     */
+    public BeanModel<Hotel> getGridModel() {
+        BeanModel<Hotel> model = this.beanModelSource.createDisplayModel(Hotel.class, this.messages);
+        model.add("cityState", null);
+        model.add("actions", null);
+        model.include("name", "address", "cityState", "zip", "actions");
+        return model;
+    }
 
-	public Object onSuccess() {
-		this.hotelService.rebuildIndex();
-		this.prepareSearchValueForQuery();
-		this.hotels = this.hotelService.find(this.searchValue);
-		return this.hotelsGridBlock;
-	}
+    public Object onSuccess() {
+        this.hotelService.rebuildIndex();
+        this.prepareSearchValueForQuery();
+        this.hotels = this.hotelService.find(this.searchValue);
+        return this.hotelsGridBlock;
+    }
 
-	/**
-	 * @return re-formated query for searching
-	 */
-	private String prepareSearchValueForQuery() {
-		if (this.searchValue == null) {
-			this.searchValue = formatQueryForEmptySearch();
-		} else {
-			this.searchValue = addQueryWildcardsForPartialSearch();
-		}
-		return this.searchValue;
-	}
+    /**
+     * @return re-formated query for searching
+     */
+    private String prepareSearchValueForQuery() {
+        if (this.searchValue == null) {
+            this.searchValue = formatQueryForEmptySearch();
+        } else {
+            this.searchValue = addQueryWildcardsForPartialSearch();
+        }
+        return this.searchValue;
+    }
 
-	/**
-	 * @return re-formated empty query
-	 */
-	private String formatQueryForEmptySearch() {
-		if (this.searchValue == null) {
-			return "";
-		}
-		return this.searchValue;
-	}
+    /**
+     * @return re-formated empty query
+     */
+    private String formatQueryForEmptySearch() {
+        if (this.searchValue == null) {
+            return "";
+        }
+        return this.searchValue;
+    }
 
-	/**
-	 * @return re-formated query by adding wildcards
-	 */
-	private String addQueryWildcardsForPartialSearch() {
-		return this.searchValue + "*";
-	}
+    /**
+     * @return re-formated query by adding wildcards
+     */
+    private String addQueryWildcardsForPartialSearch() {
+        return this.searchValue + "*";
+    }
 
-	/**
-	 * Manage event on text serach in order to use with ZoneUpdater mixin
-	 * 
-	 * @return block to update
-	 */
-	public Object onSearchValueChanged() {
-		this.hotelService.rebuildIndex();
-		this.searchValue = request.getParameter("param");
+    /**
+     * Manage event on text serach in order to use with ZoneUpdater mixin
+     * 
+     * @return block to update
+     */
+    public Object onSearchValueChanged() {
+        this.hotelService.rebuildIndex();
+        this.searchValue = request.getParameter("param");
 
-		if (this.searchValue != null) {
-			this.prepareSearchValueForQuery();
-			this.hotels = new ArrayList<Hotel>();
-			this.hotels = this.hotelService.find(this.searchValue);
-			return this.result.getBody();
-		}
-		return null;
-	}
+        if (this.searchValue != null) {
+            this.prepareSearchValueForQuery();
+            this.hotels = new ArrayList<Hotel>();
+            this.hotels = this.hotelService.find(this.searchValue);
+            return this.result.getBody();
+        }
+        return null;
+    }
 
 }

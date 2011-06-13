@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class EmptySaltSourceImpl implements SaltSourceService {
 
-	public Object getSalt(UserDetails user) {
-		return null;
-	}
+    public Object getSalt(UserDetails user) {
+        return null;
+    }
 
 }

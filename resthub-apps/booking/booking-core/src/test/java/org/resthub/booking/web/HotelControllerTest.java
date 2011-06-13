@@ -15,33 +15,32 @@ import com.sun.jersey.api.client.WebResource;
 
 public class HotelControllerTest extends AbstractWebTest {
 
-    private static final Logger LOG = LoggerFactory
-    .getLogger(HotelControllerTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HotelControllerTest.class);
 
-	@Test
+    @Test
     @Ignore
     public void testCreateHotel() {
-		WebResource r = resource().path("hotel");
-		Hotel hotel = new Hotel();
-		hotel.setName("Westin Diplomat");
-		hotel.setAddress("3555 S. Ocean Drive");
-		hotel.setZip("33019");
-		hotel.setCity("Hollywood");
-		hotel.setState("FL");
-		hotel.setCountry("USA");
+        WebResource r = resource().path("hotel");
+        Hotel hotel = new Hotel();
+        hotel.setName("Westin Diplomat");
+        hotel.setAddress("3555 S. Ocean Drive");
+        hotel.setZip("33019");
+        hotel.setCity("Hollywood");
+        hotel.setState("FL");
+        hotel.setCountry("USA");
 
-		r.type(MediaType.APPLICATION_XML).post(String.class, hotel);
+        r.type(MediaType.APPLICATION_XML).post(String.class, hotel);
     }
 
-	@Test
-	@Ignore
+    @Test
+    @Ignore
     public void testFindAllHotels() {
 
-		WebResource r = resource().path("hotel");
-		
+        WebResource r = resource().path("hotel");
+
         String response = r.type(MediaType.APPLICATION_XML).get(String.class);
-		LOG.info(response + "\n");
-		
+        LOG.info(response + "\n");
+
         Assert.assertTrue(response.contains("<pageResponse>"));
         Assert.assertTrue(response.contains("<elements>"));
     }

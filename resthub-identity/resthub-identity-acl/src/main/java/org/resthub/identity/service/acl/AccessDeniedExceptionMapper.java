@@ -9,22 +9,22 @@ import javax.ws.rs.ext.Provider;
 import org.springframework.security.access.AccessDeniedException;
 
 /**
- * This provider is intended to translate Spring Security AccessDeniedExceptions to HTTP 403 FORBIDDEN
- * errors.
+ * This provider is intended to translate Spring Security AccessDeniedExceptions
+ * to HTTP 403 FORBIDDEN errors.
  */
 @Provider
 @Named("accessDeniedExceptionMapper")
 public class AccessDeniedExceptionMapper implements ExceptionMapper<AccessDeniedException> {
 
-	/**
-	 * {@inheritDoc}<br/>
-	 * <br/>
-	 * Returns an forbidden responses.
-	 */
-	@Override
-	public Response toResponse(AccessDeniedException exception) {
-		return Response.status(Status.FORBIDDEN).build();
-	} // toResponse().
-	
+    /**
+     * {@inheritDoc}<br/>
+     * <br/>
+     * Returns an forbidden responses.
+     */
+    @Override
+    public Response toResponse(AccessDeniedException exception) {
+        return Response.status(Status.FORBIDDEN).build();
+    } // toResponse().
+
 } // class AccessDeniedExceptionMapper.
 

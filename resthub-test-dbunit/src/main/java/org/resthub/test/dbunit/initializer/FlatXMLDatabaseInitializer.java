@@ -11,15 +11,15 @@ import org.springframework.core.io.Resource;
  * @author vanackej
  * 
  */
-public class FlatXMLDatabaseInitializer extends AbstractDataSetDatabaseInitializer  {
+public class FlatXMLDatabaseInitializer extends AbstractDataSetDatabaseInitializer {
 
-	@Override
-	protected IDataSet loadDataSet(Resource resource) throws Exception  {
-		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
-		builder.setCaseSensitiveTableNames(true);
-		builder.setColumnSensing(true);
-		builder.setDtdMetadata(true);
-		return builder.build(resource.getInputStream());
-	}
-	
+    @Override
+    protected IDataSet loadDataSet(Resource resource) throws Exception {
+        FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
+        builder.setCaseSensitiveTableNames(true);
+        builder.setColumnSensing(true);
+        builder.setDtdMetadata(true);
+        return builder.build(resource.getInputStream());
+    }
+
 }

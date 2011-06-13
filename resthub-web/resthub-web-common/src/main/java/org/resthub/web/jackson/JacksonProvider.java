@@ -17,62 +17,58 @@ import org.codehaus.jackson.map.SerializationConfig;
  * We use this one provided by Jackson instead of the one provided by Jersey
  * because it realy more flexible and match our need.
  * 
- * One key point is that, unlike Jersey default feature, it does not try to use a
- * JAXB XML oriented model o serialize objects. This one is real object to JSON implementation.
+ * One key point is that, unlike Jersey default feature, it does not try to use
+ * a JAXB XML oriented model o serialize objects. This one is real object to
+ * JSON implementation.
  * 
- * Jackson annotations only are used, combinaison with JAXB annotations introspector seem to be buggy
+ * Jackson annotations only are used, combinaison with JAXB annotations
+ * introspector seem to be buggy
  * 
  * @author sdeleuze
  */
 @Provider
 @Named("jacksonProvider")
-@Consumes({MediaType.APPLICATION_JSON, "text/json"})
-@Produces({MediaType.APPLICATION_JSON, "text/json"})
+@Consumes({ MediaType.APPLICATION_JSON, "text/json" })
+@Produces({ MediaType.APPLICATION_JSON, "text/json" })
 public class JacksonProvider extends JacksonJsonProvider {
     /**
      * Default annotation sets to use, if not explicitly defined during
      * construction: use JAXB annotations if found;
      */
-    public final static Annotations[] DEFAULT_ANNOTATIONS = {
-         Annotations.JACKSON
-    };
+    public final static Annotations[] DEFAULT_ANNOTATIONS = { Annotations.JACKSON };
 
     /**
      * Default constructor, usually used when provider is automatically
      * configured to be used with JAX-RS implementation.
      */
-    public JacksonProvider()
-    {
-    	this(null, DEFAULT_ANNOTATIONS);
+    public JacksonProvider() {
+        this(null, DEFAULT_ANNOTATIONS);
     }
 
     /**
-     * @param annotationsToUse Annotation set(s) to use for configuring
-     *    data binding
+     * @param annotationsToUse
+     *            Annotation set(s) to use for configuring data binding
      */
-    public JacksonProvider(Annotations... annotationsToUse)
-    {
+    public JacksonProvider(Annotations... annotationsToUse) {
         this(null, annotationsToUse);
     }
 
     /**
-     * Constructor to use when a custom mapper (usually components
-     * like serializer/deserializer factories that have been configured)
-     * is to be used.
+     * Constructor to use when a custom mapper (usually components like
+     * serializer/deserializer factories that have been configured) is to be
+     * used.
      */
-    public JacksonProvider(ObjectMapper mapper, Annotations[] annotationsToUse)
-    {
-    	super(mapper, annotationsToUse);
+    public JacksonProvider(ObjectMapper mapper, Annotations[] annotationsToUse) {
+        super(mapper, annotationsToUse);
 
-        
         _mapperConfig.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
-       
+
         _mapperConfig.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         _mapperConfig.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-        
+
         // Does not work for now ...
-    	//this._mapperConfig.getConfiguredMapper().setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
-        
+        // this._mapperConfig.getConfiguredMapper().setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
+
     }
 
 }

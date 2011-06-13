@@ -65,7 +65,8 @@ public class RoleServiceImpl extends AbstractTraceableServiceImpl<Role, RoleDao>
     @Transactional(readOnly = false)
     public void delete(Role role) {
         // Find the elements with this role
-        List<AbstractPermissionsOwner> withRole = abstractPermissionsOwnerDao.getWithRoles(Arrays.asList(role.getName()));
+        List<AbstractPermissionsOwner> withRole = abstractPermissionsOwnerDao
+                .getWithRoles(Arrays.asList(role.getName()));
 
         for (AbstractPermissionsOwner owner : withRole) {
             if (owner instanceof Group) {

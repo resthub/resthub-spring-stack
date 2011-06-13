@@ -10,17 +10,16 @@ import org.resthub.tapestry5.jpa.services.ResthubJPAModule;
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-@SubModule( { ResthubJPAModule.class })
+@SubModule({ ResthubJPAModule.class })
 public class BookingJPAModule {
 
-	/**
-	 * Configure packages where tapestry will find model objects to coerce
-	 * 
-	 * @param configuration
-	 */
-	public static void contributeJPAEntityPackageManager(
-			Configuration<String> configuration) {
-		configuration.add("org.resthub.booking.model");
-	}
+    /**
+     * Configure packages where tapestry will find model objects to coerce
+     * 
+     * @param configuration
+     */
+    public static void contributeJPAEntityPackageManager(Configuration<String> configuration) {
+        configuration.add("org.resthub.booking.model");
+    }
 
 }

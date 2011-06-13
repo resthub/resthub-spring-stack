@@ -9,15 +9,14 @@ import org.resthub.web.model.WebSampleResource;
 import org.resthub.web.service.WebSampleResourceService;
 
 @Named("webSampleResourceService")
-public class WebSampleResourceServiceImpl extends
-		GenericServiceImpl<WebSampleResource, Long, WebSampleResourceDao> implements
-		WebSampleResourceService {
+public class WebSampleResourceServiceImpl extends GenericServiceImpl<WebSampleResource, Long, WebSampleResourceDao>
+        implements WebSampleResourceService {
 
-	@Inject
-	@Named("webSampleResourceDao")
-	@Override
-	public void setDao(WebSampleResourceDao resourceDao) {
-		super.setDao(resourceDao);
-	}
+    @Inject
+    @Named("webSampleResourceDao")
+    @Override
+    public void setDao(WebSampleResourceDao resourceDao) {
+        super.setDao(resourceDao);
+    }
 
 }

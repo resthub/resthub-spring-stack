@@ -12,38 +12,38 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(locations = { "classpath:namespace/test-namespace-context.xml" })
 public class H2NamespaceTestCase extends AbstractDBUnitTestCase {
 
-	@Autowired
-	protected IDatabaseTester databaseTester;
-	
-	@Autowired
-	protected IDatabaseConnection databaseConnection;
-	
-	@Autowired
-	protected DbUnitConfiguration dbUnitConfiguration;
+    @Autowired
+    protected IDatabaseTester databaseTester;
 
-	@Test
-	public void configurationShouldBeNotNull() {
-		Assert.assertNotNull(dbUnitConfiguration);
-	}
-	
-	@Test
-	public void connectionShouldBeNotNull() {
-		Assert.assertNotNull(databaseConnection);
-	}
-	
-	@Test
-	public void testerShouldBeNotNull() {
-		Assert.assertNotNull(databaseTester);
-	}
+    @Autowired
+    protected IDatabaseConnection databaseConnection;
 
-	@Test
-	public void shouldHaveDatabaseConnection() {
-		Assert.assertNotNull(dbUnitConfiguration.getDatabaseConnection());
-	}
+    @Autowired
+    protected DbUnitConfiguration dbUnitConfiguration;
 
-	@Test
-	public void shouldHaveDatabaseTester() {
-		Assert.assertNotNull(dbUnitConfiguration.getDatabaseTester());
-	}
-	
+    @Test
+    public void configurationShouldBeNotNull() {
+        Assert.assertNotNull(dbUnitConfiguration);
+    }
+
+    @Test
+    public void connectionShouldBeNotNull() {
+        Assert.assertNotNull(databaseConnection);
+    }
+
+    @Test
+    public void testerShouldBeNotNull() {
+        Assert.assertNotNull(databaseTester);
+    }
+
+    @Test
+    public void shouldHaveDatabaseConnection() {
+        Assert.assertNotNull(dbUnitConfiguration.getDatabaseConnection());
+    }
+
+    @Test
+    public void shouldHaveDatabaseTester() {
+        Assert.assertNotNull(dbUnitConfiguration.getDatabaseTester());
+    }
+
 }

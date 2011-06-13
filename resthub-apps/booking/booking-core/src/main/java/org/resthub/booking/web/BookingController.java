@@ -20,35 +20,35 @@ import org.resthub.web.controller.GenericControllerImpl;
 @Named("bookingController")
 public class BookingController extends GenericControllerImpl<Booking, Long, BookingService> {
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Inject
-	@Named("bookingService")
-	@Override
-	public void setService(BookingService service) {
-		this.service = service;
-	}
+    /**
+     * {@InheritDoc}
+     */
+    @Inject
+    @Named("bookingService")
+    @Override
+    public void setService(BookingService service) {
+        this.service = service;
+    }
 
-	/**
-	 * @param userId
-	 * 
-	 * @return all bookings made by user identified by userId
-	 */
-	@GET
-	@Path("/user/{id}")
-	public List<Booking> getBookingsByUser(@PathParam("id") String userId) {
-		List<Booking> bookings = null;
-		
-		Long id = Long.valueOf(userId);
-		
-		if (id !=null) {
-			bookings = this.service.findByUserId(id);
-		}
-		if (bookings == null) {
-			bookings = new ArrayList<Booking>();
-		}
-		
-		return bookings;
-	}
+    /**
+     * @param userId
+     * 
+     * @return all bookings made by user identified by userId
+     */
+    @GET
+    @Path("/user/{id}")
+    public List<Booking> getBookingsByUser(@PathParam("id") String userId) {
+        List<Booking> bookings = null;
+
+        Long id = Long.valueOf(userId);
+
+        if (id != null) {
+            bookings = this.service.findByUserId(id);
+        }
+        if (bookings == null) {
+            bookings = new ArrayList<Booking>();
+        }
+
+        return bookings;
+    }
 }

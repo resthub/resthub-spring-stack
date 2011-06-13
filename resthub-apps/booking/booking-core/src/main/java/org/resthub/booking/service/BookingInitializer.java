@@ -16,15 +16,14 @@ public class BookingInitializer {
     @Inject
     @Named("hotelService")
     protected HotelService hotelService;
-    
-    
+
     @Inject
     @Named("userService")
     protected UserService userService;
-        
+
     @PostInitialize
     public void init() {
-        
+
         User u = new User("Demo Demo", "demo", "demo@example.com", "demo");
         userService.create(u);
         u = new User("Dan Allen", "dan", "dan@example.com", "laurel");
@@ -37,7 +36,7 @@ public class BookingInitializer {
         userService.create(u);
         u = new User("Gavin King", "gavin", "gavin@example.com", "mexico");
         userService.create(u);
-        
+
         Hotel h = new Hotel(129, 3, "Marriott Courtyard", "Tower Place, Buckhead", "Atlanta", "GA", "30305", "USA");
         hotelService.create(h);
         h = new Hotel(84, 4, "Doubletree Atlanta-Buckhead", "3342 Peachtree Road NE", "Atlanta", "GA", "30326", "USA");
@@ -56,11 +55,13 @@ public class BookingInitializer {
         hotelService.create(h);
         h = new Hotel(111, 4, "Grand Hyatt", "345 Stockton Street", "San Francisco", "CA", "94108", "USA");
         hotelService.create(h);
-        h = new Hotel(54, 1, "Super 8 Eau Claire Campus Area", "1151 W MacArthur Ave", "Eau Claire", "WI", "54701", "USA");
+        h = new Hotel(54, 1, "Super 8 Eau Claire Campus Area", "1151 W MacArthur Ave", "Eau Claire", "WI", "54701",
+                "USA");
         hotelService.create(h);
         h = new Hotel(199, 4, "San Francisco Marriott", "55 Fourth Street", "San Francisco", "CA", "94103", "USA");
         hotelService.create(h);
-        h = new Hotel(543, 4, "Hilton Diagonal Mar", "Passeig del Taulat 262-264", "Barcelona", "Catalunya", "08019", "ES");
+        h = new Hotel(543, 4, "Hilton Diagonal Mar", "Passeig del Taulat 262-264", "Barcelona", "Catalunya", "08019",
+                "ES");
         hotelService.create(h);
         h = new Hotel(335, 5, "Hilton Tel Aviv", "Independence Park", "Tel Aviv", null, "63405", "IL");
         hotelService.create(h);
@@ -82,11 +83,12 @@ public class BookingInitializer {
         hotelService.create(h);
         h = new Hotel(296, 5, "Caesars Palace", "3570 Las Vegas Blvd S", "Las Vegas", "NV", "89109", "USA");
         hotelService.create(h);
-        h = new Hotel(300, 4, "Mandalay Bay Resort & Casino", "3950 Las Vegas Blvd S", "Las Vegas", "NV", "89119", "USA");
+        h = new Hotel(300, 4, "Mandalay Bay Resort & Casino", "3950 Las Vegas Blvd S", "Las Vegas", "NV", "89119",
+                "USA");
         hotelService.create(h);
         h = new Hotel(100, 2, "Hotel Cammerpoorte", "Nationalestraat 38-40", "Antwerp", null, "2000", "BE");
         hotelService.create(h);
-        
+
     }
 
 }

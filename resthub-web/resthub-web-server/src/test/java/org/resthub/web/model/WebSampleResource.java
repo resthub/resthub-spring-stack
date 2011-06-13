@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 public class WebSampleResource {
-	
+
     private static final long serialVersionUID = -7178337784737750452L;
 
     private Long id;
@@ -22,7 +22,7 @@ public class WebSampleResource {
         super();
         this.name = name;
     }
-    
+
     @Id
     @GeneratedValue
     public Long getId() {
@@ -40,7 +40,7 @@ public class WebSampleResource {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -56,7 +56,7 @@ public class WebSampleResource {
         if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName())) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -67,8 +67,8 @@ public class WebSampleResource {
         return hash;
     }
 
-	@Override
-	public String toString() {
-		return "WebSampleResource[" + getId() + ","+ getName() + "]";
-	}
+    @Override
+    public String toString() {
+        return "WebSampleResource[" + getId() + "," + getName() + "]";
+    }
 }

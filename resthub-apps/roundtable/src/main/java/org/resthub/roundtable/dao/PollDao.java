@@ -6,17 +6,20 @@ import org.resthub.roundtable.model.Poll;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
 
-
 /**
  * Poll DAO.
+ * 
  * @author Nicolas Carlier
  */
-public interface PollDao extends GenericDao<Poll, Long>  {
+public interface PollDao extends GenericDao<Poll, Long> {
     /**
      * Find poll by fulltext search.
-     * @param query query
+     * 
+     * @param query
+     *            query
      * @return polls matching query
-     * @throws ParseException if bad query syntaxe
+     * @throws ParseException
+     *             if bad query syntaxe
      */
     Page<Poll> find(String query, Pageable pageable) throws ParseException;
 

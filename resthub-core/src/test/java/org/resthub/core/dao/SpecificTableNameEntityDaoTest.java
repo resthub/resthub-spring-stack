@@ -30,14 +30,14 @@ public class SpecificTableNameEntityDaoTest extends
     }
 
     @Override
-    protected SpecificTableNameEntity createTestEntity() throws Exception {
+    protected SpecificTableNameEntity createTestEntity() {
         SpecificTableNameEntity standaloneSpecificEntity = new SpecificTableNameEntity();
         standaloneSpecificEntity.setName(ENTITY_NAME);
         return standaloneSpecificEntity;
     }
 
     @Test
-    public void testFindEquals() throws Exception {
+    public void testFindEquals() {
         List<SpecificTableNameEntity> entities = this.dao.findEquals("name", ENTITY_NAME);
         assertNotNull("entities should not be null", entities);
         assertFalse("entities should not empty", entities.isEmpty());
@@ -46,7 +46,7 @@ public class SpecificTableNameEntityDaoTest extends
     }
 
     @Test
-    public void testFindLike() throws Exception {
+    public void testFindLike() {
         List<SpecificTableNameEntity> entities = this.dao.findLike("name", "t%st");
         assertNotNull("entities should not be null", entities);
         assertFalse("entities should not empty", entities.isEmpty());
@@ -56,7 +56,7 @@ public class SpecificTableNameEntityDaoTest extends
 
     @Override
     @Test(expected = UnsupportedOperationException.class)
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -34,97 +34,95 @@ import org.resthub.booking.webapp.t5.pages.Search;
  */
 public class HotelBook {
 
-	@Inject
-	private Messages messages;
+    @Inject
+    private Messages messages;
 
-	@Inject
-	@Service("userService")
-	private UserService userService;
+    @Inject
+    @Service("userService")
+    private UserService userService;
 
-	@Inject
-	@Service("bookingService")
-	private BookingService bookingService;
+    @Inject
+    @Service("bookingService")
+    private BookingService bookingService;
 
-	@Property
-	@PageActivationContext
-	private Hotel hotel;
+    @Property
+    @PageActivationContext
+    private Hotel hotel;
 
-	@Inject
-	private Block bookBlock;
+    @Inject
+    private Block bookBlock;
 
-	@Inject
-	private Block confirmBlock;
+    @Inject
+    private Block confirmBlock;
 
-	@Property
-	@Persist
-	private Booking booking;
+    @Property
+    @Persist
+    private Booking booking;
 
-	@InjectComponent
-	private Form bookForm;
+    @InjectComponent
+    private Form bookForm;
 
-	@Persist
-	private boolean confirm;
+    @Persist
+    private boolean confirm;
 
-	@SuppressWarnings("unused")
-	@Property
-	private SelectModel bedType = new BedType(this.messages);
+    @SuppressWarnings("unused")
+    @Property
+    private SelectModel bedType = new BedType(this.messages);
 
-	@SuppressWarnings("unused")
-	@Property
-	private SelectModel years = new Years();
+    @SuppressWarnings("unused")
+    @Property
+    private SelectModel years = new Years();
 
-	@SuppressWarnings("unused")
-	@Property
-	private SelectModel months = new Months(messages);
+    @SuppressWarnings("unused")
+    @Property
+    private SelectModel months = new Months(messages);
 
-	/**
-	 * Manage confirmation
-	 * 
-	 * @return confirmation block is we are in a confirmation phase, current
-	 *         block otherwise
-	 */
-	public Block getStep() {
-		return this.confirm ? this.confirmBlock : this.bookBlock;
-	}
+    /**
+     * Manage confirmation
+     * 
+     * @return confirmation block is we are in a confirmation phase, current
+     *         block otherwise
+     */
+    public Block getStep() {
+        return this.confirm ? this.confirmBlock : this.bookBlock;
+    }
 
-	public String getSecuredCardNumber() {
-		return this.booking.getCreditCardNumber().substring(12);
-	}
+    public String getSecuredCardNumber() {
+        return this.booking.getCreditCardNumber().substring(12);
+    }
 
-	public void onActivate() {
-		if (this.booking == null) {
-			List<User> users = this.userService.findAll();
-			this.booking = new Booking(hotel, users.get(0), 1, 1);
-		}
-	}
+    public void onActivate() {
+        if (this.booking == null) {
+            List<User> users = this.userService.findAll();
+            this.booking = new Booking(hotel, users.get(0), 1, 1);
+        }
+    }
 
-	public Object onSuccessFromConfirmForm() {
-		// Create
-		this.bookingService.create(this.booking);
+    public Object onSuccessFromConfirmForm() {
+        // Create
+        this.bookingService.create(this.booking);
 
-		// Return to search
-		return Search.class;
-	}
+        // Return to search
+        return Search.class;
+    }
 
-	@OnEvent(value = "cancelConfirm")
-	public void cancelConfirm() {
-		this.confirm = false;
-	}
+    @OnEvent(value = "cancelConfirm")
+    public void cancelConfirm() {
+        this.confirm = false;
+    }
 
-	public void onValidateFromBookForm() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_MONTH, -1);
-		if (this.booking.getCheckinDate().before(calendar.getTime())) {
-			this.bookForm
-					.recordError(this.messages.get("checkInNotFutureDate"));
-			return;
-		} else if (!this.booking.getCheckinDate().before(
-				this.booking.getCheckoutDate())) {
-			this.bookForm.recordError(messages.get("checkOutBeforeCheckIn"));
-			return;
-		}
+    public void onValidateFromBookForm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        if (this.booking.getCheckinDate().before(calendar.getTime())) {
+            this.bookForm.recordError(this.messages.get("checkInNotFutureDate"));
+            return;
+        } else if (!this.booking.getCheckinDate().before(this.booking.getCheckoutDate())) {
+            this.bookForm.recordError(messages.get("checkOutBeforeCheckIn"));
+            return;
+        }
 
-		this.confirm = true;
-	}
+        this.confirm = true;
+    }
 
 }

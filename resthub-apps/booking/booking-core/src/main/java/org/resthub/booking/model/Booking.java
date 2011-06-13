@@ -69,7 +69,7 @@ public class Booking implements Serializable {
         setReservationDates(daysFromNow, nights);
         creditCardExpiryMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
     }
-    
+
     @Id
     @GeneratedValue
     public Long getId() {
@@ -198,8 +198,7 @@ public class Booking implements Serializable {
     @Transient
     public String getDescription() {
         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        return hotel == null ? null : hotel.getName() + ", "
-                + df.format(getCheckinDate()) + " to "
+        return hotel == null ? null : hotel.getName() + ", " + df.format(getCheckinDate()) + " to "
                 + df.format(getCheckoutDate());
     }
 
@@ -210,8 +209,7 @@ public class Booking implements Serializable {
 
     @Transient
     public int getNights() {
-        return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000
-                / 60 / 60 / 24;
+        return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
     }
 
     /**
@@ -224,13 +222,13 @@ public class Booking implements Serializable {
      */
     public final void setReservationDates(int daysFromNow, int nights) {
         Calendar refDate = Calendar.getInstance();
-        refDate.set(refDate.get(Calendar.YEAR), refDate.get(Calendar.MONTH),
-                refDate.get(Calendar.DAY_OF_MONTH) + daysFromNow, 0, 0, 0);
+        refDate.set(refDate.get(Calendar.YEAR), refDate.get(Calendar.MONTH), refDate.get(Calendar.DAY_OF_MONTH)
+                + daysFromNow, 0, 0, 0);
         this.checkinDate = refDate.getTime();
         refDate.add(Calendar.DAY_OF_MONTH, nights);
         this.checkoutDate = refDate.getTime();
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -240,11 +238,11 @@ public class Booking implements Serializable {
             return false;
         }
         final Booking other = (Booking) obj;
-       
+
         if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
             return false;
         }
-        
+
         return true;
     }
 

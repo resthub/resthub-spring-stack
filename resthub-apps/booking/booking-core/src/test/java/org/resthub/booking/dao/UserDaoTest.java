@@ -15,38 +15,38 @@ import org.resthub.core.test.dao.AbstractDaoTest;
 
 public class UserDaoTest extends AbstractDaoTest<User, Long, UserDao> {
 
-	private static final String CHANGED_TEST_USER_EMAIL = "user"+new Random().nextInt(10000)+"@test.com";
-	private String testUsername;
+    private static final String CHANGED_TEST_USER_EMAIL = "user" + new Random().nextInt(10000) + "@test.com";
+    private String testUsername;
 
-	@Override
-	@Inject
-	@Named("userDao")
-	public void setDao(UserDao userDao) {
-		this.dao = userDao;
-	}
-	
-	@Override
-	protected User createTestEntity() throws Exception {
-		User user = new User ();
-		this.testUsername = "user"+new Random().nextInt(10000);
-		user.setUsername(testUsername);
-		user.setEmail(Calendar.getInstance().getTimeInMillis()+"test@booking.user");
-		user.setFullname("testBookingUserFullname");
-		user.setPassword("password");
-		return user;
-	}
+    @Override
+    @Inject
+    @Named("userDao")
+    public void setDao(UserDao userDao) {
+        this.dao = userDao;
+    }
 
-	@Override
-	@Test
-	public void testUpdate() throws Exception {
-		
-		List<User> users = this.dao.findEquals("username", this.testUsername);
-		assertEquals("users list should contain an unique result", 1, users.size());
-		
-		User user = users.get(0);
-		user.setEmail(CHANGED_TEST_USER_EMAIL);
-		user = this.dao.save(user);
-		assertEquals("user name should have been modified", CHANGED_TEST_USER_EMAIL, user.getEmail());
-	}
+    @Override
+    protected User createTestEntity() {
+        User user = new User();
+        this.testUsername = "user" + new Random().nextInt(10000);
+        user.setUsername(testUsername);
+        user.setEmail(Calendar.getInstance().getTimeInMillis() + "test@booking.user");
+        user.setFullname("testBookingUserFullname");
+        user.setPassword("password");
+        return user;
+    }
+
+    @Override
+    @Test
+    public void testUpdate() {
+
+        List<User> users = this.dao.findEquals("username", this.testUsername);
+        assertEquals("users list should contain an unique result", 1, users.size());
+
+        User user = users.get(0);
+        user.setEmail(CHANGED_TEST_USER_EMAIL);
+        user = this.dao.save(user);
+        assertEquals("user name should have been modified", CHANGED_TEST_USER_EMAIL, user.getEmail());
+    }
 
 }

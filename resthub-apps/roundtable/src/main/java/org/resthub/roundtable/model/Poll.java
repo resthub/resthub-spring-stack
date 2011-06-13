@@ -29,6 +29,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Poll.
+ * 
  * @author Nicolas Carlier
  */
 @Indexed
@@ -36,7 +37,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "poll")
 @XmlRootElement
 public class Poll {
-	
+
     private Long id;
     private String author;
     private String topic;
@@ -53,7 +54,7 @@ public class Poll {
     public Poll() {
         super();
     }
-    
+
     @Id
     @GeneratedValue
     public Long getId() {
@@ -64,7 +65,7 @@ public class Poll {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @IndexedEmbedded
     public List<Answer> getAnswers() {
         return answers;
@@ -75,7 +76,7 @@ public class Poll {
     }
 
     @NotEmpty
-    @Size(max=50)
+    @Size(max = 50)
     @Column(name = "author", nullable = false)
     @Field(index = Index.TOKENIZED, store = Store.NO)
     public String getAuthor() {
@@ -87,7 +88,7 @@ public class Poll {
     }
 
     @NotEmpty
-    @Size(max=1000)
+    @Size(max = 1000)
     @Column(name = "body", nullable = false)
     @Field(index = Index.TOKENIZED, store = Store.NO)
     public String getBody() {
@@ -121,15 +122,15 @@ public class Poll {
 
     @Column(name = "illustration")
     public String getIllustration() {
-    	return illustration;
+        return illustration;
     }
 
     public void setIllustration(String illustration) {
-	this.illustration = illustration;
+        this.illustration = illustration;
     }
 
     @NotEmpty
-    @Size(max=100)
+    @Size(max = 100)
     @Column(name = "topic", nullable = false)
     @Field(index = Index.TOKENIZED, store = Store.NO)
     public String getTopic() {
@@ -149,7 +150,9 @@ public class Poll {
         this.voters = voters;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

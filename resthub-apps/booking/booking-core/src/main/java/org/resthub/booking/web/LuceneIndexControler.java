@@ -21,24 +21,24 @@ import org.resthub.booking.service.HotelService;
 @Singleton
 public class LuceneIndexControler {
 
-	private HotelService hotelService;
+    private HotelService hotelService;
 
-	@Inject
-	@Named("hotelService")
-	public void setService(HotelService hotelService) {
-		this.hotelService = hotelService;
-	}
+    @Inject
+    @Named("hotelService")
+    public void setService(HotelService hotelService) {
+        this.hotelService = hotelService;
+    }
 
-	/**
-	 * rebuild the HibernateSearch index
-	 * 
-	 * @return ok response or error code
-	 */
-	@POST
-	@Path("/rebuild")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response rebuildIndex() {
-		this.hotelService.rebuildIndex();
-		return Response.ok("Search engine index rebuilded.").build();
-	}
+    /**
+     * rebuild the HibernateSearch index
+     * 
+     * @return ok response or error code
+     */
+    @POST
+    @Path("/rebuild")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response rebuildIndex() {
+        this.hotelService.rebuildIndex();
+        return Response.ok("Search engine index rebuilded.").build();
+    }
 }

@@ -9,13 +9,14 @@ import org.resthub.web.service.WebSampleResourceService;
 
 @Path("/resources")
 @Named("webSampleResourceController")
-public class WebSampleResourceController extends GenericControllerImpl<WebSampleResource, Long, WebSampleResourceService> {
-	
+public class WebSampleResourceController extends
+        GenericControllerImpl<WebSampleResource, Long, WebSampleResourceService> {
+
     @Inject
     @Named("webSampleResourceService")
     @Override
     public void setService(WebSampleResourceService service) {
         this.service = service;
     }
-	
+
 }

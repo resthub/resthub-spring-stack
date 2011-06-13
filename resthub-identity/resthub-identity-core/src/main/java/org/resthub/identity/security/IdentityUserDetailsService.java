@@ -25,55 +25,57 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class IdentityUserDetailsService implements UserDetailsService, ServiceListener {
 
-	@Inject
-	@Named("userService")
-	private UserService userService;
+    @Inject
+    @Named("userService")
+    private UserService userService;
 
-	@PostConstruct
-	public void init() {
-		userService.addListener(this);
-	}
+    @PostConstruct
+    public void init() {
+        userService.addListener(this);
+    }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-		IdentityUserDetailsAdapter userDetails = null;
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+        IdentityUserDetailsAdapter userDetails = null;
 
-		try {
-			User user = userService.findByLogin(username);
+        try {
+            User user = userService.findByLogin(username);
 
-			if (null != user) {
-				userDetails = new IdentityUserDetailsAdapter(user);
-				userDetails.setRoles(userService.getAllUserRoles(user.getLogin()));
-			}
-		} catch (Exception e) {
-			throw new UsernameNotFoundException(e.getMessage());
-		}
+            if (null != user) {
+                userDetails = new IdentityUserDetailsAdapter(user);
+                userDetails.setRoles(userService.getAllUserRoles(user.getLogin()));
+            }
+        } catch (Exception e) {
+            throw new UsernameNotFoundException(e.getMessage());
+        }
 
-		if (userDetails == null) {
-			throw new UsernameNotFoundException("Returned user is null");
-		}
-		return userDetails;
-	}
-	
-	@Override
-	public void onChange(String type, Object... arguments) {
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication auth = context.getAuthentication();
-		if(auth != null) {
-			IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter)auth.getPrincipal();
+        if (userDetails == null) {
+            throw new UsernameNotFoundException("Returned user is null");
+        }
+        return userDetails;
+    }
 
-			// Update roles for logged users
-			if(userDetails != null && (type.equals(RoleChange.ROLE_ADDED_TO_USER.name()) || type.equals(RoleChange.ROLE_REMOVED_FROM_USER.name()))) {
-			    User user = (User)arguments[1];
-			    if(userDetails.getUsername().equals(user.getLogin())) {
-				    List<Role> roles = new ArrayList<Role>();
-				    userService.getRolesFromRootElement(roles, user);
-				    userDetails.setRoles(roles);
-			    }
+    @Override
+    public void onChange(String type, Object... arguments) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        if (auth != null) {
+            IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter) auth.getPrincipal();
 
-				// TODO : test if update is necessary
-				// TODO : do the same for group or user update (permission)
-			}		
-		}
-	}
+            // Update roles for logged users
+            if (userDetails != null
+                    && (type.equals(RoleChange.ROLE_ADDED_TO_USER.name()) || type
+                            .equals(RoleChange.ROLE_REMOVED_FROM_USER.name()))) {
+                User user = (User) arguments[1];
+                if (userDetails.getUsername().equals(user.getLogin())) {
+                    List<Role> roles = new ArrayList<Role>();
+                    userService.getRolesFromRootElement(roles, user);
+                    userDetails.setRoles(roles);
+                }
+
+                // TODO : test if update is necessary
+                // TODO : do the same for group or user update (permission)
+            }
+        }
+    }
 }

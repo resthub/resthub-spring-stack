@@ -16,27 +16,27 @@ import org.resthub.identity.model.Group;
 
 @Path("/secured")
 @Named("securedGroupController")
-@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class SecuredGroupController {
-	
-	@Inject
-	protected SecuredGroupService groupService;
-	
-	@Inject
-	protected AclService aclService;
-	
-	@POST
-	public Response create(Group group, @HeaderParam("user_id") String userId) {
-		groupService.create(group);
-		// Adds acl
-		aclService.saveAcl(group, group.getId(), userId, "CUSTOM");
-		return Response.ok(group).build();
-	}
-	
-	@DELETE
-	@Path("/{id}")
-	public void delete(@PathParam("id") Long groupId) {
-		groupService.delete(groupService.getById(groupId));
-	}
+
+    @Inject
+    protected SecuredGroupService groupService;
+
+    @Inject
+    protected AclService aclService;
+
+    @POST
+    public Response create(Group group, @HeaderParam("user_id") String userId) {
+        groupService.create(group);
+        // Adds acl
+        aclService.saveAcl(group, group.getId(), userId, "CUSTOM");
+        return Response.ok(group).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") Long groupId) {
+        groupService.delete(groupService.getById(groupId));
+    }
 }

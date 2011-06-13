@@ -2,6 +2,7 @@ package org.resthub.roundtable.service.common;
 
 /**
  * Service exception.
+ * 
  * @author Nicolas Carlier
  */
 public class ServiceException extends Exception {
@@ -16,15 +17,18 @@ public class ServiceException extends Exception {
     }
 
     /**
-     * @param message message
-     * @param cause cause
+     * @param message
+     *            message
+     * @param cause
+     *            cause
      */
     public ServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param message message
+     * @param message
+     *            message
      */
     public ServiceException(String message) {
         super(message);

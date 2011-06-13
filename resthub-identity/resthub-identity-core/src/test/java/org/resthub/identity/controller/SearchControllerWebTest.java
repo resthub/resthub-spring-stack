@@ -52,8 +52,8 @@ public class SearchControllerWebTest {
     // -----------------------------------------------------------------------------------------------------------------
     // Test suite initialization and finalization
     /**
-     * Start an in-memory mock authorization server.
-     * To be used in test initialization.
+     * Start an in-memory mock authorization server. To be used in test
+     * initialization.
      */
     @BeforeClass
     public static void suiteSetUp() throws Exception {
@@ -67,8 +67,8 @@ public class SearchControllerWebTest {
 
         // Spring listener.
         context.addEventListener(new ContextLoaderListener());
-        context.getInitParams().put("contextConfigLocation", "classpath*:resthubContext.xml "
-                + "classpath*:applicationContext.xml");
+        context.getInitParams().put("contextConfigLocation",
+                "classpath*:resthubContext.xml " + "classpath*:applicationContext.xml");
         // JPA filter
         context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
         // Jersey Servlet.
@@ -146,7 +146,8 @@ public class SearchControllerWebTest {
         // Given a resource on the server
         WebResource server = resource();
         // When searching with an unmatching query
-        AbstractPermissionsOwner[] results = server.path("/api/search").queryParam("query", "toto").get(AbstractPermissionsOwner[].class);
+        AbstractPermissionsOwner[] results = server.path("/api/search").queryParam("query", "toto")
+                .get(AbstractPermissionsOwner[].class);
         // Then the result is empty.
         assertNotNull(results);
         assertEquals(0, results.length);
@@ -199,11 +200,13 @@ public class SearchControllerWebTest {
         user2.setPassword("pwd");
         user2 = server.path("/api/user/").post(User.class, user2);
 
-        ClientResponse response = server.path("/api/search").queryParam("query", "j").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        ClientResponse response = server.path("/api/search").queryParam("query", "j")
+                .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         System.out.println(response.getEntity(String.class));
 
         // When searching the created user in JSON
-        User[] results = server.path("/api/search").queryParam("query", "j").accept(MediaType.APPLICATION_JSON).get(User[].class);
+        User[] results = server.path("/api/search").queryParam("query", "j").accept(MediaType.APPLICATION_JSON)
+                .get(User[].class);
         // Then the result contains the user.
         assertNotNull(results);
         assertEquals(2, results.length);
@@ -226,7 +229,8 @@ public class SearchControllerWebTest {
         user = server.path("/api/user/").post(User.class, user);
 
         // When searching the created user without users
-        User[] results = server.path("/api/search").queryParam("query", "j").queryParam("users", "false").get(User[].class);
+        User[] results = server.path("/api/search").queryParam("query", "j").queryParam("users", "false")
+                .get(User[].class);
         // Then the result does not contains the user.
         assertNotNull(results);
         assertEquals(0, results.length);

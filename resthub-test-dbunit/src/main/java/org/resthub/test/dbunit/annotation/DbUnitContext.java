@@ -15,21 +15,22 @@ import java.lang.annotation.Target;
  * context, it will be picked by default, so no need to specify this annotation
  * in this case.
  * </p>
- *<p>
+ * <p>
  * This annotation can be inherited, so consider to put it on an abstract base
  * class for some of your tests.
  * </p>
+ * 
  * @author vanackej
  */
-@Target( { ElementType.TYPE })
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 public @interface DbUnitContext {
 
-	/**
-	 * The name of the configuration bean for DbUnit.
-	 */
-	String value();
+    /**
+     * The name of the configuration bean for DbUnit.
+     */
+    String value();
 
 }

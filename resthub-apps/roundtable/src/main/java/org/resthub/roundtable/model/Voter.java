@@ -1,6 +1,5 @@
 package org.resthub.roundtable.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,20 +23,21 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Vote Entity.
+ * 
  * @author Nicolas Carlier
  */
 @Entity
 @XmlRootElement
-@Table(name = "voter", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "poll_id"})})
+@Table(name = "voter", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "poll_id" }) })
 @NamedQueries({
-    @NamedQuery(name = "existsVoter", query = "select count(vr) from Voter as vr where name = :name and poll.id = :pid"),
-    @NamedQuery(name = "findVoterByNameAndPoll", query = "from Voter where name = :name and poll = :poll")
+        @NamedQuery(name = "existsVoter", query = "select count(vr) from Voter as vr where name = :name and poll.id = :pid"),
+        @NamedQuery(name = "findVoterByNameAndPoll", query = "from Voter where name = :name and poll = :poll")
 
 })
 public class Voter {
-	
-	private Long id;
-	private Poll poll;
+
+    private Long id;
+    private Poll poll;
     private String name;
     private List<Vote> votes = new ArrayList<Vote>();
 
@@ -47,7 +47,7 @@ public class Voter {
     public Voter() {
         super();
     }
-    
+
     @Id
     @GeneratedValue
     public Long getId() {

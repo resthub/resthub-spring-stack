@@ -5,25 +5,25 @@ import org.resthub.web.test.controller.AbstractControllerWebTest;
 
 public class WebSampleResourceControllerWebTest extends AbstractControllerWebTest<WebSampleResource, Long> {
 
-	@Override
-	protected String getResourcePath() {
-		return "/resources";
-	}
+    @Override
+    protected String getResourcePath() {
+        return "/resources";
+    }
 
-	@Override
-	protected WebSampleResource createTestResource() {
-		return new WebSampleResource("toto");
-	}
-	
-	@Override
-	protected WebSampleResource udpateTestResource(WebSampleResource r) {
-		r.setName("titi");
-		return r;
-	}
+    @Override
+    protected WebSampleResource createTestResource() {
+        return new WebSampleResource("toto");
+    }
 
-	@Override
-	protected Long getResourceId(WebSampleResource resource) {
-		return resource.getId();
-	}
+    @Override
+    protected WebSampleResource udpateTestResource(WebSampleResource r) {
+        r.setName("titi");
+        return r;
+    }
+
+    @Override
+    protected Long getResourceId(WebSampleResource resource) {
+        return resource.getId();
+    }
 
 }

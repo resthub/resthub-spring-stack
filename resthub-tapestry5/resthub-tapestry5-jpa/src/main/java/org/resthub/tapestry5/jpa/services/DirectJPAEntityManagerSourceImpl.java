@@ -17,12 +17,10 @@ import org.tynamo.jpa.JPAEntityManagerSource;
  * @author bmeurant <Baptiste Meurant>
  * 
  */
-public class DirectJPAEntityManagerSourceImpl implements
-        JPAEntityManagerSource, RegistryShutdownListener {
+public class DirectJPAEntityManagerSourceImpl implements JPAEntityManagerSource, RegistryShutdownListener {
     private final EntityManagerFactory entityManagerFactory;
 
-    public DirectJPAEntityManagerSourceImpl(
-            EntityManagerFactory entityManagerFactory) {
+    public DirectJPAEntityManagerSourceImpl(EntityManagerFactory entityManagerFactory) {
 
         this.entityManagerFactory = entityManagerFactory;
 

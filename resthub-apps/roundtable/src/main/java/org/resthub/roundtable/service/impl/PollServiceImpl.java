@@ -1,6 +1,5 @@
 package org.resthub.roundtable.service.impl;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,12 +25,13 @@ import org.synyx.hades.domain.Pageable;
 
 /**
  * Poll service implementation.
+ * 
  * @author Nicolas Carlier
  */
 @Named("pollService")
 public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollDao> implements PollService {
-    
-	private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
+
+    private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
 
     @Value("#{config['rt.data.dir']}")
     private String dataDirPath;
@@ -63,35 +63,31 @@ public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollDao> imp
             poll.getAnswers().add(answer);
         }
 
-	// Illustration
-	if (resource.getIllustration() != null && !"".equals(resource.getIllustration())) {
-	    poll.setIllustration(resource.getIllustration());
-	    String tmpdir = System.getProperty("java.io.tmpdir");
+        // Illustration
+        if (resource.getIllustration() != null && !"".equals(resource.getIllustration())) {
+            poll.setIllustration(resource.getIllustration());
+            String tmpdir = System.getProperty("java.io.tmpdir");
 
-	    String illustrationDir = new StringBuilder(dataDirPath).append(File.separator).append("illustration").toString();
-	    String illustrationLocation = new StringBuilder(illustrationDir)
-                    .append(File.separator).append(resource.getIllustration())
+            String illustrationDir = new StringBuilder(dataDirPath).append(File.separator).append("illustration")
                     .toString();
-	    
-	    String tmpFileLocation = new StringBuilder(tmpdir)
-                    .append(File.separator).append("rt_")
-                    .append(resource.getIllustration())
-                    .append(".attachement")
-                    .toString();
-	    try {
-		FileTools.copy(tmpFileLocation, illustrationLocation);
-		LOG.debug("{} saved.", illustrationLocation);
-	    } catch (IOException ex) {
-		LOG.error("Unable to copy temp upload file to file repository", ex);
-	    }
-	}
+            String illustrationLocation = new StringBuilder(illustrationDir).append(File.separator)
+                    .append(resource.getIllustration()).toString();
+
+            String tmpFileLocation = new StringBuilder(tmpdir).append(File.separator).append("rt_")
+                    .append(resource.getIllustration()).append(".attachement").toString();
+            try {
+                FileTools.copy(tmpFileLocation, illustrationLocation);
+                LOG.debug("{} saved.", illustrationLocation);
+            } catch (IOException ex) {
+                LOG.error("Unable to copy temp upload file to file repository", ex);
+            }
+        }
 
         // Set expiration date if null
         if (resource.getExpirationDate() == null) {
             date.add(Calendar.MONTH, 1);
             poll.setExpirationDate(date.getTime());
-        }
-        else {
+        } else {
             poll.setExpirationDate(resource.getExpirationDate());
         }
 

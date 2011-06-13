@@ -23,11 +23,11 @@ import org.resthub.web.controller.GenericControllerImpl;
 import com.sun.jersey.api.NotFoundException;
 
 /**
-Front controller for Group Management<br/>
-Only ADMINS can access to this API
+ * Front controller for Group Management<br/>
+ * Only ADMINS can access to this API
  */
 @Path("/group")
-@RolesAllowed({"IM-ADMIN"})
+@RolesAllowed({ "IM-ADMIN" })
 @Named("groupController")
 public class GroupController extends GenericControllerImpl<Group, Long, GroupService> {
 
@@ -38,7 +38,7 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * This should be a bean <br/>
      * This class need it to deal properly with user, eg to add a {@Link
      * User} to a {@Link Group}
-     *
+     * 
      * */
     UserService userService;
 
@@ -52,7 +52,7 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
     /**
      * Automatically called to inject the userService beans<br/>
      * This class need it to deal properly with user <br/>
-     *
+     * 
      * @param userService
      *            the userService bean
      * */
@@ -65,13 +65,13 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
     /**
      * Used to create or update a user - The differences come from the service
      * layer
-     *
+     * 
      * @param group
      *            the user to create/update
      * */
     @Override
     @POST
-    @RolesAllowed({"IM-ADMIN"})
+    @RolesAllowed({ "IM-ADMIN" })
     public Group create(Group group) {
         return super.create(group);
     }
@@ -81,15 +81,15 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      */
     @Override
     @PUT
-	@Path("/{id}")
-    @RolesAllowed({"IM-ADMIN"})
+    @Path("/{id}")
+    @RolesAllowed({ "IM-ADMIN" })
     public Group update(@PathParam("id") Long id, Group group) {
         return super.update(id, group);
     }
 
     /**
      * Find the group identified by the specified name.<br/>
-     *
+     * 
      * @param name
      *            the name of the group
      * @return the group, in XML or JSON if the group can be found otherwise
@@ -100,17 +100,17 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
     public Group getGroupByName(@PathParam("name") String name) {
         Group group = this.service.findByName(name);
         if (group == null) {
-			throw new NotFoundException();
-		}
+            throw new NotFoundException();
+        }
         return group;
     }
 
     /**
      * Gets the groups depending of the group
-     *
-     *@param name
+     * 
+     * @param name
      *            the name of the group to search insides groups
-     *
+     * 
      * @return a list of group, in XML or JSON if the group can be found
      *         otherwise HTTP Error 404
      */
@@ -119,14 +119,14 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
     public List<Group> getGroupsFromGroups(@PathParam("name") String name) {
         Group g = this.service.findByName(name);
         if (g == null) {
-			throw new NotFoundException();
-		}
+            throw new NotFoundException();
+        }
         return g.getGroups();
     }
 
     /**
      * Puts a group inside the groups lists of one other group
-     *
+     * 
      * @param name
      *            the name of the group in which we should add a group
      * @param group
@@ -134,14 +134,13 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      */
     @PUT
     @Path("/name/{name}/groups/{group}")
-    public void addGroupToUser(@PathParam("name") String name,
-            @PathParam("group") String group) {
+    public void addGroupToUser(@PathParam("name") String name, @PathParam("group") String group) {
         this.service.addGroupToGroup(name, group);
     }
 
     /**
      * Deletes a group from the groups lists of one other group
-     *
+     * 
      * @param name
      *            the name of the group in which we should remove a group
      * @param group
@@ -149,18 +148,17 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      */
     @DELETE
     @Path("/name/{name}/groups/{groups}")
-    public void removeGroupsForUser(@PathParam("name") String name,
-            @PathParam("groups") String groupName) {
+    public void removeGroupsForUser(@PathParam("name") String name, @PathParam("groups") String groupName) {
         this.service.removeGroupFromGroup(name, groupName);
     }
 
     /**
      * Gets the permissions of one group
-     *
-     *@param name
+     * 
+     * @param name
      *            the name of the group to search insides groups
-     *
-     *@return a list of permissions, in XML or JSON if the group can be found
+     * 
+     * @return a list of permissions, in XML or JSON if the group can be found
      *         otherwise HTTP Error 404
      */
     @GET
@@ -168,14 +166,14 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
     public List<String> getPermisionsFromGroup(@PathParam("name") String name) {
         List<String> permissions = this.service.getGroupDirectPermissions(name);
         if (permissions == null) {
-			throw new NotFoundException();
-		}
+            throw new NotFoundException();
+        }
         return permissions;
     }
 
     /**
      * Add a permission to a group
-     *
+     * 
      * @param name
      *            the name of the group in which we should add a group
      * @param permission
@@ -183,14 +181,13 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      */
     @PUT
     @Path("/name/{name}/permissions/{permission}")
-    public void addPermissionsToUser(@PathParam("name") String login,
-            @PathParam("permission") String permission) {
+    public void addPermissionsToUser(@PathParam("name") String login, @PathParam("permission") String permission) {
         this.service.addPermissionToGroup(login, permission);
     }
 
     /**
      * Remove a permission form one Group
-     *
+     * 
      * @param name
      *            the name of the group in which we should remove a permission
      * @param permisssion
@@ -198,8 +195,7 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      */
     @DELETE
     @Path("/name/{name}/permissions/{permission}")
-    public void deletePermissionsFromUser(@PathParam("name") String name,
-            @PathParam("permission") String permission) {
+    public void deletePermissionsFromUser(@PathParam("name") String name, @PathParam("permission") String permission) {
         this.service.removePermissionFromGroup(name, permission);
     }
 
@@ -208,8 +204,8 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
     public List<User> getUsersFromGroup(@PathParam("name") String name) {
         List<User> usersFromGroup = this.userService.getUsersFromGroup(name);
         if (usersFromGroup == null) {
-			throw new NotFoundException();
-		}
+            throw new NotFoundException();
+        }
         return usersFromGroup;
     }
 }

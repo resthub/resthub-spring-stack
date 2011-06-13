@@ -15,11 +15,11 @@ import org.resthub.web.controller.GenericControllerImpl;
 @Named("userController")
 public class UserController extends GenericControllerImpl<User, Long, UserService> {
 
-	@Inject
-	@Named("userService")
-	@Override
-	public void setService(UserService service) {
-		this.service = service;
-	}
-	
+    @Inject
+    @Named("userService")
+    @Override
+    public void setService(UserService service) {
+        this.service = service;
+    }
+
 }

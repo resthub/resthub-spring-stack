@@ -21,6 +21,7 @@ import org.resthub.roundtable.service.VoteService;
 
 /**
  * Vote controller.
+ * 
  * @author Nicolas Carlier
  */
 @Path("/vote")
@@ -41,11 +42,9 @@ public class VoteController {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response vote(
-            @FormParam(value="voter") String voter,
-            @FormParam(value="pid") Long pid,
-            @FormParam(value="values[]") List<String> values) {
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public Response vote(@FormParam(value = "voter") String voter, @FormParam(value = "pid") Long pid,
+            @FormParam(value = "values[]") List<String> values) {
 
         this.voteService.vote(voter, pid, values);
 

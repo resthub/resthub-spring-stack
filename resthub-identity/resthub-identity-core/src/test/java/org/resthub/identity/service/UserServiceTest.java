@@ -32,6 +32,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
     public void setService(UserService service) {
         super.setService(service);
     }
+
     @Inject
     @Named("groupService")
     private GroupService groupService;
@@ -40,7 +41,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
     private RoleService roleService;
 
     @Override
-    public User createTestRessource() {
+    public User createTestEntity() {
         String userLogin = "UserTestUserName" + Math.round(Math.random() * 100000);
         String userPassword = "UserTestUserPassword";
         User u = new User();
@@ -54,6 +55,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
         g.setName("TestGroup" + Math.round(Math.random() * 100000));
         return g;
     }
+
     /*
      * The UserService is needed because we have specific method for password
      * management
@@ -88,7 +90,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
     @Override
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         /* Given a new user */
         String firstName = "alexander";
         String firstNameAbr = "alex";
@@ -103,7 +105,8 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
         u.setLogin(login);
         u = this.service.create(u);
 
-        // when we try to change some info (firstName) about the user and that we give the good password
+        // when we try to change some info (firstName) about the user and that
+        // we give the good password
         Long uid = u.getId();
         u = new User(u);
         u.setId(uid);
@@ -181,9 +184,8 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
         u.setPassword(password);
         service.create(u);
         // userService.create(u);
-		/* When we search him providing a bad password */
-        User retrievedUser = service.authenticateUser(login,
-                badPassword);
+        /* When we search him providing a bad password */
+        User retrievedUser = service.authenticateUser(login, badPassword);
 
         /* Then the user is not retrieved */
         assertNull(retrievedUser);
@@ -204,8 +206,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
         service.create(u);
 
         /* When we search him providing a bad login */
-        User retrievedUser = service.authenticateUser(badLogin,
-                password);
+        User retrievedUser = service.authenticateUser(badLogin, password);
         /* Then the user is not retrieved */
 
         assertNull(retrievedUser);
@@ -361,7 +362,8 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
     @Test
     public void testRolesPermissions() {
-        // TODO: when roles are implemented, test that getUserPermissions also retrieve
+        // TODO: when roles are implemented, test that getUserPermissions also
+        // retrieve
         // the permissions set from roles.
     }
 
@@ -410,15 +412,15 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Given some new users
         // u1 with role1
-        User u1 = this.createTestRessource();
+        User u1 = this.createTestEntity();
         u1.getRoles().add(r1);
         // u2 without any role
-        User u2 = this.createTestRessource();
+        User u2 = this.createTestEntity();
         // u3 with role2
-        User u3 = this.createTestRessource();
+        User u3 = this.createTestEntity();
         u3.getRoles().add(r2);
         // u4 with both role1 and role2
-        User u4 = this.createTestRessource();
+        User u4 = this.createTestEntity();
         u4.getRoles().add(r1);
         u4.getRoles().add(r2);
 
@@ -462,16 +464,9 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
     }
 
     /**
-     * Here is a little scheme of the hierarchy that will be set in this test
-     * g1 (r1)
-     * |_g2 (r2)
-     * | |_g4 (r4)
-     * |   |_u1 (r1)
-     * |   |_u3
-     * |_g3 (r3)
-     *   |_u2
-     *   |_u3
-     *   |_u4 (r4)
+     * Here is a little scheme of the hierarchy that will be set in this test g1
+     * (r1) |_g2 (r2) | |_g4 (r4) | |_u1 (r1) | |_u3 |_g3 (r3) |_u2 |_u3 |_u4
+     * (r4)
      */
     @Test
     public void shouldGetUsersWithInheritedRoles() {
@@ -506,21 +501,21 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Given some new users
         // u1 with direct role1 and inside group4
-        User u1 = this.createTestRessource();
+        User u1 = this.createTestEntity();
         u1.getRoles().add(r1); // add role1 to u1
         u1.getGroups().add(g4); // add group4 as parent of u1
 
         // u2 without any role and inside group3
-        User u2 = this.createTestRessource();
+        User u2 = this.createTestEntity();
         u2.getGroups().add(g3);
 
         // u3 without any role and inside group3 and group4
-        User u3 = this.createTestRessource();
+        User u3 = this.createTestEntity();
         u3.getGroups().add(g3);
         u3.getGroups().add(g4);
 
         // u4 with role4 and inside group3
-        User u4 = this.createTestRessource();
+        User u4 = this.createTestEntity();
         u4.getRoles().add(r4);
         u4.getGroups().add(g3);
 
@@ -593,16 +588,9 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
     }
 
     /**
-     * Here is a little scheme of the hierarchy that will be set in this test
-     * g1 (r1)
-     * |_g2 (r2)
-     * | |_g4 (r4)
-     * |   |_u1 (r1)
-     * |   |_u3
-     * |_g3 (r3)
-     *   |_u2
-     *   |_u3
-     *   |_u4 (r4)
+     * Here is a little scheme of the hierarchy that will be set in this test g1
+     * (r1) |_g2 (r2) | |_g4 (r4) | |_u1 (r1) | |_u3 |_g3 (r3) |_u2 |_u3 |_u4
+     * (r4)
      */
     @Test
     public void shouldGetUserRoles() {
@@ -637,21 +625,21 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Given some new users
         // u1 with direct role1 and inside group4
-        User u1 = this.createTestRessource();
+        User u1 = this.createTestEntity();
         u1.getRoles().add(r1); // add role1 to u1
         u1.getGroups().add(g4); // add group4 as parent of u1
 
         // u2 without any role and inside group3
-        User u2 = this.createTestRessource();
+        User u2 = this.createTestEntity();
         u2.getGroups().add(g3);
 
         // u3 without any role and inside group3 and group4
-        User u3 = this.createTestRessource();
+        User u3 = this.createTestEntity();
         u3.getGroups().add(g3);
         u3.getGroups().add(g4);
 
         // u4 with role4 and inside group3
-        User u4 = this.createTestRessource();
+        User u4 = this.createTestEntity();
         u4.getRoles().add(r4);
         u4.getGroups().add(g3);
 
@@ -668,13 +656,16 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Then users should have the correct roles
         assertEquals("User1 should have 3 roles", 3, u1Roles.size());
-        assertTrue("User1 should have role1, role2 and role4", u1Roles.contains(r1) && u1Roles.contains(r2) && u1Roles.contains(r4));
+        assertTrue("User1 should have role1, role2 and role4",
+                u1Roles.contains(r1) && u1Roles.contains(r2) && u1Roles.contains(r4));
         assertEquals("User2 should have 2 roles", 2, u2Roles.size());
         assertTrue("User2 should have role1, role2 and role4", u2Roles.contains(r1) && u2Roles.contains(r3));
         assertEquals("User3 should have 4 roles", 4, u3Roles.size());
-        assertTrue("User3 should have role1, role2 and role4", u3Roles.contains(r1) && u3Roles.contains(r2) && u3Roles.contains(r3) && u3Roles.contains(r4));
+        assertTrue("User3 should have role1, role2 and role4",
+                u3Roles.contains(r1) && u3Roles.contains(r2) && u3Roles.contains(r3) && u3Roles.contains(r4));
         assertEquals("User4 should have 3 roles", 3, u4Roles.size());
-        assertTrue("User4 should have role1, role2 and role4", u4Roles.contains(r1) && u4Roles.contains(r3) && u4Roles.contains(r4));
+        assertTrue("User4 should have role1, role2 and role4",
+                u4Roles.contains(r1) && u4Roles.contains(r3) && u4Roles.contains(r4));
 
         // TODO : remove this when we will use DBunit
         u1.getRoles().clear();
@@ -709,7 +700,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
         r = this.roleService.create(r);
 
         // Given a new user
-        User u = this.createTestRessource();
+        User u = this.createTestEntity();
         u = this.service.create(u);
 
         // When I associate the user and the role
@@ -730,7 +721,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
         r = this.roleService.create(r);
 
         // Given a new user associated to the previous role
-        User u = this.createTestRessource();
+        User u = this.createTestEntity();
         u = this.service.create(u);
         this.service.addRoleToUser(u.getLogin(), r.getName());
 
@@ -759,7 +750,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Then a creation notification has been received
         assertEquals(UserServiceChange.USER_CREATION.name(), listener.lastType);
-        assertArrayEquals(new Object[]{u}, listener.lastArguments);
+        assertArrayEquals(new Object[] { u }, listener.lastArguments);
     } // shouldCreationBeNotified().
 
     @Test
@@ -778,7 +769,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Then a deletion notification has been received
         assertEquals(UserServiceChange.USER_DELETION.name(), listener.lastType);
-        assertArrayEquals(new Object[]{u}, listener.lastArguments);
+        assertArrayEquals(new Object[] { u }, listener.lastArguments);
     } // shouldDeletionBeNotifiedById().
 
     @Test
@@ -797,7 +788,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Then a deletion notification has been received
         assertEquals(UserServiceChange.USER_DELETION.name(), listener.lastType);
-        assertArrayEquals(new Object[]{u}, listener.lastArguments);
+        assertArrayEquals(new Object[] { u }, listener.lastArguments);
     } // shouldDeletionBeNotifiedByUser().
 
     @Test
@@ -821,7 +812,7 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Then a deletion notification has been received
         assertEquals(UserServiceChange.USER_ADDED_TO_GROUP.name(), listener.lastType);
-        assertArrayEquals(new Object[]{u, g}, listener.lastArguments);
+        assertArrayEquals(new Object[] { u, g }, listener.lastArguments);
 
         userService.removeGroupFromUser(u.getLogin(), g.getName());
 
@@ -849,6 +840,6 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
 
         // Then a deletion notification has been received
         assertEquals(UserServiceChange.USER_REMOVED_FROM_GROUP.name(), listener.lastType);
-        assertArrayEquals(new Object[]{u, g}, listener.lastArguments);
+        assertArrayEquals(new Object[] { u, g }, listener.lastArguments);
     } // shouldUserRemovalFromGroupBeNotified().
 }

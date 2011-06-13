@@ -1,6 +1,5 @@
 package org.resthub.roundtable.model;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,17 +18,16 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Vote Entity.
+ * 
  * @author Nicolas Carlier
  */
 @Entity
-@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"voter_id", "answer_id"})})
-@NamedQueries({
-    @NamedQuery(name = "existsVote", query = "select count(v) from Vote as v where voter.id = :vid and answer.id = :aid")
-})
+@Table(name = "vote", uniqueConstraints = { @UniqueConstraint(columnNames = { "voter_id", "answer_id" }) })
+@NamedQueries({ @NamedQuery(name = "existsVote", query = "select count(v) from Vote as v where voter.id = :vid and answer.id = :aid") })
 public class Vote {
 
-	private Long id;
-	private Answer answer;
+    private Long id;
+    private Answer answer;
     private Voter voter;
     private String value;
 
@@ -39,7 +37,7 @@ public class Vote {
     public Vote() {
         super();
     }
-    
+
     @Id
     @GeneratedValue
     public Long getId() {

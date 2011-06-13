@@ -14,40 +14,38 @@ import org.resthub.core.test.dao.AbstractDaoTest;
 
 public class HotelDaoTest extends AbstractDaoTest<Hotel, Long, HotelDao> {
 
-	private static final String CHANGED_TEST_HOTEL_STATE = "hotelState";
-	private static final String TEST_HOTEL_NAME = "testHotelName";
+    private static final String CHANGED_TEST_HOTEL_STATE = "hotelState";
+    private static final String TEST_HOTEL_NAME = "testHotelName";
 
-	@Override
-	@Inject
-	@Named("hotelDao")
-	public void setDao(HotelDao hotelDao) {
-		this.dao = hotelDao;
-	}
-	
-	@Override
-	protected Hotel createTestEntity() throws Exception {
-		Hotel hotel = new Hotel();
-		hotel.setName(TEST_HOTEL_NAME+new Random().nextInt(10000));
-		hotel.setAddress("testHotelAddress");
-		hotel.setCity("testHotelCity");
-		hotel.setZip("ZIP");
-		hotel.setCountry("testHotelCountry");
-		return hotel;
-	}
+    @Override
+    @Inject
+    @Named("hotelDao")
+    public void setDao(HotelDao hotelDao) {
+        this.dao = hotelDao;
+    }
 
-	@Override
-	@Test
-	public void testUpdate() throws Exception {
-		
-		List<Hotel> hotels = this.dao.findLike("name", TEST_HOTEL_NAME+"%");
-		assertEquals("hotels list should contain an unique result", 1, hotels.size());
-		
-		Hotel hotel = hotels.get(0);
-		hotel.setState(CHANGED_TEST_HOTEL_STATE);
-		hotel = this.dao.save(hotel);
-		assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_STATE, hotel.getState());
-	}
+    @Override
+    protected Hotel createTestEntity() {
+        Hotel hotel = new Hotel();
+        hotel.setName(TEST_HOTEL_NAME + new Random().nextInt(10000));
+        hotel.setAddress("testHotelAddress");
+        hotel.setCity("testHotelCity");
+        hotel.setZip("ZIP");
+        hotel.setCountry("testHotelCountry");
+        return hotel;
+    }
 
+    @Override
+    @Test
+    public void testUpdate() {
 
+        List<Hotel> hotels = this.dao.findLike("name", TEST_HOTEL_NAME + "%");
+        assertEquals("hotels list should contain an unique result", 1, hotels.size());
+
+        Hotel hotel = hotels.get(0);
+        hotel.setState(CHANGED_TEST_HOTEL_STATE);
+        hotel = this.dao.save(hotel);
+        assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_STATE, hotel.getState());
+    }
 
 }

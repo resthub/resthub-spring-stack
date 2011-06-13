@@ -17,56 +17,54 @@ import org.dbunit.operation.DatabaseOperation;
  */
 public enum DBOperation {
 
-	/**
-	 * @see DatabaseOperation#NONE
-	 */
-	NONE(DatabaseOperation.NONE),
+    /**
+     * @see DatabaseOperation#NONE
+     */
+    NONE(DatabaseOperation.NONE),
 
-	/**
-	 * @see DatabaseOperation#UPDATE
-	 */
-	UPDATE(DatabaseOperation.UPDATE),
+    /**
+     * @see DatabaseOperation#UPDATE
+     */
+    UPDATE(DatabaseOperation.UPDATE),
 
-	/**
-	 * @see DatabaseOperation#INSERT
-	 */
-	INSERT(DatabaseOperation.INSERT),
+    /**
+     * @see DatabaseOperation#INSERT
+     */
+    INSERT(DatabaseOperation.INSERT),
 
-	/**
-	 * @see DatabaseOperation#REFRESH
-	 */
-	REFRESH(DatabaseOperation.REFRESH),
+    /**
+     * @see DatabaseOperation#REFRESH
+     */
+    REFRESH(DatabaseOperation.REFRESH),
 
-	/**
-	 * @see DatabaseOperation#DELETE
-	 */
-	DELETE(DatabaseOperation.DELETE),
+    /**
+     * @see DatabaseOperation#DELETE
+     */
+    DELETE(DatabaseOperation.DELETE),
 
-	/**
-	 * @see DatabaseOperation#DELETE_ALL
-	 */
-	DELETE_ALL(DatabaseOperation.DELETE_ALL),
+    /**
+     * @see DatabaseOperation#DELETE_ALL
+     */
+    DELETE_ALL(DatabaseOperation.DELETE_ALL),
 
-	/**
-	 * @see DatabaseOperation#TRUNCATE_TABLE
-	 */
-	TRUNCATE_TABLE(DatabaseOperation.TRUNCATE_TABLE),
+    /**
+     * @see DatabaseOperation#TRUNCATE_TABLE
+     */
+    TRUNCATE_TABLE(DatabaseOperation.TRUNCATE_TABLE),
 
-	/**
-	 * @see DatabaseOperation#CLEAN_INSERT
-	 */
-	CLEAN_INSERT(DatabaseOperation.CLEAN_INSERT);
+    /**
+     * @see DatabaseOperation#CLEAN_INSERT
+     */
+    CLEAN_INSERT(DatabaseOperation.CLEAN_INSERT);
 
-	private DatabaseOperation databaseOperation;
+    private DatabaseOperation databaseOperation;
 
-	private DBOperation(DatabaseOperation databaseOperation) {
-		this.databaseOperation = DatabaseOperation
-				.CLOSE_CONNECTION(DatabaseOperation
-						.TRANSACTION(databaseOperation));
-	}
+    private DBOperation(DatabaseOperation databaseOperation) {
+        this.databaseOperation = DatabaseOperation.CLOSE_CONNECTION(DatabaseOperation.TRANSACTION(databaseOperation));
+    }
 
-	public DatabaseOperation getDbunitOperation() {
-		return databaseOperation;
-	}
+    public DatabaseOperation getDbunitOperation() {
+        return databaseOperation;
+    }
 
 }

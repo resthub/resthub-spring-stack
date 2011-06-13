@@ -13,25 +13,25 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Named("oauth2ProcessingFilterEntryPoint")
 public class OAuth2ProcessingFilterEntryPoint implements AuthenticationEntryPoint {
 
-	private String realmName;
+    private String realmName;
 
-	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-			throws IOException, ServletException {
-		StringBuilder headerValue = new StringBuilder("OAuth2");
-		if (realmName != null) {
-			headerValue.append(" realm=\"").append(realmName).append('"');
-		}
-		response.addHeader("WWW-Authenticate", headerValue.toString());
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-	}
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
+        StringBuilder headerValue = new StringBuilder("OAuth2");
+        if (realmName != null) {
+            headerValue.append(" realm=\"").append(realmName).append('"');
+        }
+        response.addHeader("WWW-Authenticate", headerValue.toString());
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+    }
 
-	public String getRealmName() {
-		return realmName;
-	}
+    public String getRealmName() {
+        return realmName;
+    }
 
-	public void setRealmName(String realmName) {
-		this.realmName = realmName;
-	}
+    public void setRealmName(String realmName) {
+        this.realmName = realmName;
+    }
 
 }

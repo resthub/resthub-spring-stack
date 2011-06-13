@@ -15,58 +15,58 @@ import org.dbunit.dataset.filter.IncludeTableFilter;
  */
 public class DbUnitConfiguration {
 
-	private IDatabaseConnection databaseConnection;
-	
-	private IDatabaseTester databaseTester;
+    private IDatabaseConnection databaseConnection;
 
-	private List<String> excludeTables;
+    private IDatabaseTester databaseTester;
 
-	private List<String> includeTables;
+    private List<String> excludeTables;
 
-	public IDatabaseConnection getDatabaseConnection() {
-		return databaseConnection;
-	}
+    private List<String> includeTables;
 
-	public void setDatabaseConnection(IDatabaseConnection databaseConnection) {
-		this.databaseConnection = databaseConnection;
-	}
+    public IDatabaseConnection getDatabaseConnection() {
+        return databaseConnection;
+    }
 
-	public IDatabaseTester getDatabaseTester() {
-		return databaseTester;
-	}
+    public void setDatabaseConnection(IDatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
 
-	public void setDatabaseTester(IDatabaseTester databaseTester) {
-		this.databaseTester = databaseTester;
-	}
+    public IDatabaseTester getDatabaseTester() {
+        return databaseTester;
+    }
 
-	public List<String> getExcludeTables() {
-		return excludeTables;
-	}
+    public void setDatabaseTester(IDatabaseTester databaseTester) {
+        this.databaseTester = databaseTester;
+    }
 
-	/**
-	 * Set the table list to exclude during dataset injection or extraction.
-	 * Accepted values are either a table name or a pattern including * and ?
-	 * characters.
-	 * 
-	 * @see ExcludeTableFilter
-	 */
-	public void setExcludeTables(List<String> excludeTables) {
-		this.excludeTables = excludeTables;
-	}
+    public List<String> getExcludeTables() {
+        return excludeTables;
+    }
 
-	public List<String> getIncludeTables() {
-		return includeTables;
-	}
+    /**
+     * Set the table list to exclude during dataset injection or extraction.
+     * Accepted values are either a table name or a pattern including * and ?
+     * characters.
+     * 
+     * @see ExcludeTableFilter
+     */
+    public void setExcludeTables(List<String> excludeTables) {
+        this.excludeTables = excludeTables;
+    }
 
-	/**
-	 * Set the table list to include during dataset injection or extraction.
-	 * Accepted values are either a table name or a pattern including * and ?
-	 * characters.
-	 * 
-	 * @see IncludeTableFilter
-	 */
-	public void setIncludeTables(List<String> includeTables) {
-		this.includeTables = includeTables;
-	}
+    public List<String> getIncludeTables() {
+        return includeTables;
+    }
+
+    /**
+     * Set the table list to include during dataset injection or extraction.
+     * Accepted values are either a table name or a pattern including * and ?
+     * characters.
+     * 
+     * @see IncludeTableFilter
+     */
+    public void setIncludeTables(List<String> includeTables) {
+        this.includeTables = includeTables;
+    }
 
 }

@@ -26,75 +26,67 @@ import org.synyx.hades.domain.Pageable;
  * @author Guillaume Zurbach
  */
 @Named("hotelDao")
-public class JpaHotelDao extends GenericJpaDao<Hotel, Long> implements
-		HotelDao {
+public class JpaHotelDao extends GenericJpaDao<Hotel, Long> implements HotelDao {
 
-	private static final int BATCH_SIZE = 10;
+    private static final int BATCH_SIZE = 10;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public Page<Hotel> find(final String query, final Pageable pageable) {
-		FullTextEntityManager fullTextEntityManager = Search
-				.getFullTextEntityManager(getEntityManager());
-		// create native Lucene query
-		String[] fields = new String[] { "name", "address", "city", "state",
-				"country" };
-		MultiFieldQueryParser parser = new MultiFieldQueryParser(
-				Version.LUCENE_31, fields, new StandardAnalyzer(
-						Version.LUCENE_31));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public Page<Hotel> find(final String query, final Pageable pageable) {
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
+        // create native Lucene query
+        String[] fields = new String[] { "name", "address", "city", "state", "country" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, new StandardAnalyzer(
+                Version.LUCENE_31));
 
-		Query q;
-		try {
-			q = parser.parse(query);
-		} catch (ParseException ex) {
-			return null;
-		}
+        Query q;
+        try {
+            q = parser.parse(query);
+        } catch (ParseException ex) {
+            return null;
+        }
 
-		FullTextQuery persistenceQuery = fullTextEntityManager
-				.createFullTextQuery(q, Hotel.class);
+        FullTextQuery persistenceQuery = fullTextEntityManager.createFullTextQuery(q, Hotel.class);
 
-		if (pageable == null) {
-		    return new PageImpl<Hotel>(persistenceQuery.getResultList());
-		} else {
-			persistenceQuery.setFirstResult(pageable.getFirstItem());
+        if (pageable == null) {
+            return new PageImpl<Hotel>(persistenceQuery.getResultList());
+        } else {
+            persistenceQuery.setFirstResult(pageable.getFirstItem());
             persistenceQuery.setMaxResults(pageable.getPageSize());
-            return new PageImpl<Hotel>(persistenceQuery.getResultList(),
-                    pageable, persistenceQuery.getResultSize());
-		}
-	}
+            return new PageImpl<Hotel>(persistenceQuery.getResultList(), pageable, persistenceQuery.getResultSize());
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void rebuildIndex() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void rebuildIndex() {
 
-		FullTextEntityManager fullTextEntityManager = Search
-				.getFullTextEntityManager(getEntityManager());
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 
-		Session session = (Session) fullTextEntityManager.getDelegate();
+        Session session = (Session) fullTextEntityManager.getDelegate();
 
-		FullTextSession fullTextSession = org.hibernate.search.Search
-				.getFullTextSession(session);
+        FullTextSession fullTextSession = org.hibernate.search.Search.getFullTextSession(session);
 
-		fullTextSession.setFlushMode(FlushMode.MANUAL);
-		fullTextSession.setCacheMode(CacheMode.IGNORE);
+        fullTextSession.setFlushMode(FlushMode.MANUAL);
+        fullTextSession.setCacheMode(CacheMode.IGNORE);
 
-		// Scrollable results will avoid loading too many objects in memory
-		ScrollableResults results = fullTextSession.createCriteria(Hotel.class)
-				.setFetchSize(BATCH_SIZE).scroll(ScrollMode.FORWARD_ONLY);
-		int index = 0;
-		while (results.next()) {
-			index++;
-			fullTextSession.index(results.get(0)); // index each element
-			if (index % BATCH_SIZE == 0) {
-				fullTextSession.flushToIndexes(); // apply changes to indexes
-				fullTextSession.clear(); // free memory since the queue is
-											// processed
-			}
-		}
-	}
+        // Scrollable results will avoid loading too many objects in memory
+        ScrollableResults results = fullTextSession.createCriteria(Hotel.class).setFetchSize(BATCH_SIZE)
+                .scroll(ScrollMode.FORWARD_ONLY);
+        int index = 0;
+        while (results.next()) {
+            index++;
+            fullTextSession.index(results.get(0)); // index each element
+            if (index % BATCH_SIZE == 0) {
+                fullTextSession.flushToIndexes(); // apply changes to indexes
+                fullTextSession.clear(); // free memory since the queue is
+                                         // processed
+            }
+        }
+    }
 }

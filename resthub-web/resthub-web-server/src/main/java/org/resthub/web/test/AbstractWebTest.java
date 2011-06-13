@@ -15,10 +15,13 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
- * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration.
- * Currently, a Jetty instance is launched for each tests in order to reset test conditions.
- * If you want to restart Jetty only once, you can extend it, override setUp() methods and use @BeforeClass instead of @Before annotations (don't forget to call super.setUp())
- * Ususally you will have to redefine @ContextConfiguration to specify your application context file in addition to resthub ones  
+ * Base class for your webservice tests, based on Jetty and with preconfigured
+ * Spring configuration. Currently, a Jetty instance is launched for each tests
+ * in order to reset test conditions. If you want to restart Jetty only once,
+ * you can extend it, override setUp() methods and use @BeforeClass instead of @Before
+ * annotations (don't forget to call super.setUp()) Ususally you will have to
+ * redefine @ContextConfiguration to specify your application context file in
+ * addition to resthub ones
  */
 @RunWith(JUnit4.class)
 public abstract class AbstractWebTest {
@@ -26,40 +29,40 @@ public abstract class AbstractWebTest {
     protected int port = 9797;
 
     protected Server server;
-    
+
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
     protected String contextClass = "org.resthub.core.context.ResthubXmlWebApplicationContext";
-    
+
     public int getPort() {
-		return this.port;
-	}
+        return this.port;
+    }
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+    public void setPort(int port) {
+        this.port = port;
+    }
 
-	public Server getServer() {
-		return this.server;
-	}
+    public Server getServer() {
+        return this.server;
+    }
 
-	public void setServer(Server server) {
-		this.server = server;
-	}
+    public void setServer(Server server) {
+        this.server = server;
+    }
 
-	public String getContextLocations() {
-		return contextLocations;
-	}
+    public String getContextLocations() {
+        return contextLocations;
+    }
 
-	public void setContextLocations(String contextLocations) {
-		this.contextLocations = contextLocations;
-	}
-	
-	/**
-	 * Allow you to customize context
-	 */
-	protected ServletContextHandler customizeContextHandler(ServletContextHandler context) {
-		return context;
-	}
+    public void setContextLocations(String contextLocations) {
+        this.contextLocations = contextLocations;
+    }
+
+    /**
+     * Allow you to customize context
+     */
+    protected ServletContextHandler customizeContextHandler(ServletContextHandler context) {
+        return context;
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -75,7 +78,7 @@ public abstract class AbstractWebTest {
         context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
         context.addServlet(SpringServlet.class, "/*");
         context.addEventListener(new ContextLoaderListener());
-        
+
         context = customizeContextHandler(context);
 
         server.setHandler(context);
@@ -91,7 +94,7 @@ public abstract class AbstractWebTest {
     }
 
     protected WebResource resource() {
-    	Client client = ClientFactory.create();
+        Client client = ClientFactory.create();
         return client.resource("http://localhost:" + port);
     }
 

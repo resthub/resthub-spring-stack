@@ -65,12 +65,12 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
 
     /**
      * add a group to a group
-     *
+     * 
      * @param groupName
      *            the name of the group to whom the subGroup should be added
      * @param subGroupName
      *            the name of the group which should be added
-     *
+     * 
      */
     @Override
     @Transactional
@@ -91,7 +91,7 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
 
     /**
      * add a permission to a group
-     *
+     * 
      * @param groupName
      *            the name of the group
      * @param permission
@@ -113,10 +113,10 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
 
     /**
      * Get the groups direct Permissions
-     *
+     * 
      * @param the
      *            name of the group to whom the permisisons are requested
-     *
+     * 
      * @return the list of permissions that the group has directly (non
      *         Inherited)
      * */
@@ -135,14 +135,14 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
 
     /**
      * remove a group from a group
-     *
+     * 
      * @param groupName
      *            the name of the group to which the subGroup should be remove
-     *
+     * 
      * @param subGroupName
      *            the name of the subGroup which should be removed from the
      *            other group list
-     *
+     * 
      */
     @Override
     public void removeGroupFromGroup(String groupName, String subGroupName) {
@@ -162,11 +162,11 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
 
     /**
      * Remove a permission from a group
-     *
+     * 
      * @param groupName
      *            the name of the group from which the permission should be
      *            removed
-     *
+     * 
      * @param permission
      *            the permission which should be removed
      * */
@@ -219,7 +219,8 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
     @Override
     @Transactional(readOnly = false)
     public Group update(Group group) throws AlreadyExistingEntityException {
-        // Check if there is an already existing group with this name with a different ID
+        // Check if there is an already existing group with this name with a
+        // different ID
         Group existingGroup = this.findByName(group.getName());
         if (existingGroup == null || existingGroup.getId() == group.getId()) {
             group = super.update(group);

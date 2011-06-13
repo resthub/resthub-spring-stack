@@ -29,120 +29,121 @@ import org.springframework.util.CollectionUtils;
  */
 public class DBUnitUtils {
 
-	private static final Logger logger = LoggerFactory.getLogger(DBUnitUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(DBUnitUtils.class);
 
-	/**
-	 * Resolver to use, not injected
-	 */
-	private DataSetResolver dataSetResolver;
+    /**
+     * Resolver to use, not injected
+     */
+    private DataSetResolver dataSetResolver;
 
-	public DBUnitUtils(DataSetResolver resolver) {
-		this(Arrays.asList(resolver));
-	}
+    public DBUnitUtils(DataSetResolver resolver) {
+        this(Arrays.asList(resolver));
+    }
 
-	public DBUnitUtils(DataSetResolver... resolvers) {
-		this(Arrays.asList(resolvers));
-	}
+    public DBUnitUtils(DataSetResolver... resolvers) {
+        this(Arrays.asList(resolvers));
+    }
 
-	public DBUnitUtils(List<DataSetResolver> resolvers) {
-		Assert.notEmpty(resolvers, "At least one resolver must be provided");
-		if (resolvers.size() == 1) {
-			dataSetResolver = resolvers.get(0);
-		} else {
-			dataSetResolver = new CompositeDataSetResolver(resolvers);
-		}
+    public DBUnitUtils(List<DataSetResolver> resolvers) {
+        Assert.notEmpty(resolvers, "At least one resolver must be provided");
+        if (resolvers.size() == 1) {
+            dataSetResolver = resolvers.get(0);
+        } else {
+            dataSetResolver = new CompositeDataSetResolver(resolvers);
+        }
 
-	}
+    }
 
-	/**
-	 * Performs a cleanup operation. If no tables filters are specified in
-	 * configuration, data from entire database will be cleanup. Otherwise, a
-	 * partial cleanup will be performed.
-	 * 
-	 * @throws Exception
-	 */
-	public void cleanup(DbUnitConfiguration configuration, CleanupDB cleanupDB) throws Exception {
-		IDataSet dataSet = filter(configuration.getDatabaseConnection().createDataSet(), configuration);
-		DBOperation.DELETE_ALL.getDbunitOperation().execute(configuration.getDatabaseConnection(), dataSet);
-		// configuration.getDatabaseConnection().close();
-		logger.info("Cleanup completed");
-	}
+    /**
+     * Performs a cleanup operation. If no tables filters are specified in
+     * configuration, data from entire database will be cleanup. Otherwise, a
+     * partial cleanup will be performed.
+     * 
+     * @throws Exception
+     */
+    public void cleanup(DbUnitConfiguration configuration, CleanupDB cleanupDB) throws Exception {
+        IDataSet dataSet = filter(configuration.getDatabaseConnection().createDataSet(), configuration);
+        DBOperation.DELETE_ALL.getDbunitOperation().execute(configuration.getDatabaseConnection(), dataSet);
+        // configuration.getDatabaseConnection().close();
+        logger.info("Cleanup completed");
+    }
 
-	/**
-	 * Performs a inject operation. If no tables filters are specified in
-	 * configuration, the whole dataset is injected. Otherwise, only a subset
-	 * will be injected.
-	 * 
-	 * @throws Exception
-	 */
-	public void inject(DbUnitConfiguration configuration, InjectDataSet injectDataSet) throws Exception {
+    /**
+     * Performs a inject operation. If no tables filters are specified in
+     * configuration, the whole dataset is injected. Otherwise, only a subset
+     * will be injected.
+     * 
+     * @throws Exception
+     */
+    public void inject(DbUnitConfiguration configuration, InjectDataSet injectDataSet) throws Exception {
 
-		if (injectDataSet.value() == null || injectDataSet.value().length == 0) {
-			// nothing to inject
-			return;
-		}
+        if (injectDataSet.value() == null || injectDataSet.value().length == 0) {
+            // nothing to inject
+            return;
+        }
 
-		IDataSet idataSet;
-		if (injectDataSet.value().length == 1) {
-			String datasetLocation = injectDataSet.value()[0];
-			logger.info("Inject dataset '" + datasetLocation + "'");
-			idataSet = createDataSet(datasetLocation, configuration);
-		} else {
-			List<IDataSet> datasets = new ArrayList<IDataSet>();
-			logger.info("Inject datasets : " + Arrays.toString(injectDataSet.value()));
-			for (String datasetLocation : injectDataSet.value()) {
-				datasets.add(createDataSet(datasetLocation, configuration));
-			}
-			idataSet = new CompositeDataSet(datasets.toArray(new IDataSet[datasets.size()]));
-		}
-		idataSet = filter(idataSet, configuration);
-		injectDataSet.dbOperation().getDbunitOperation().execute(configuration.getDatabaseConnection(), idataSet);
-		logger.info("Injection completed");
-	}
+        IDataSet idataSet;
+        if (injectDataSet.value().length == 1) {
+            String datasetLocation = injectDataSet.value()[0];
+            logger.info("Inject dataset '" + datasetLocation + "'");
+            idataSet = createDataSet(datasetLocation, configuration);
+        } else {
+            List<IDataSet> datasets = new ArrayList<IDataSet>();
+            logger.info("Inject datasets : " + Arrays.toString(injectDataSet.value()));
+            for (String datasetLocation : injectDataSet.value()) {
+                datasets.add(createDataSet(datasetLocation, configuration));
+            }
+            idataSet = new CompositeDataSet(datasets.toArray(new IDataSet[datasets.size()]));
+        }
+        idataSet = filter(idataSet, configuration);
+        injectDataSet.dbOperation().getDbunitOperation().execute(configuration.getDatabaseConnection(), idataSet);
+        logger.info("Injection completed");
+    }
 
-	private IDataSet createDataSet(String datasetName, DbUnitConfiguration configuration) throws Exception {
-		IDataSet dataSet = dataSetResolver.resolveDataSet(datasetName);
-		if (dataSet == null) {
-			throw new IllegalArgumentException("Unable to resolve dataset named : " + datasetName);
-		}
-		return dataSet;
-	}
+    private IDataSet createDataSet(String datasetName, DbUnitConfiguration configuration) throws Exception {
+        IDataSet dataSet = dataSetResolver.resolveDataSet(datasetName);
+        if (dataSet == null) {
+            throw new IllegalArgumentException("Unable to resolve dataset named : " + datasetName);
+        }
+        return dataSet;
+    }
 
-	/**
-	 * Filters the dataset according to includes and excludes in the configuration.
-	 * 
-	 * @param source
-	 * @param configuration
-	 * @return
-	 */
-	public static IDataSet filter(IDataSet source, DbUnitConfiguration configuration) {
-		List<String> excludeTables = configuration.getExcludeTables();
-		List<String> includeTables = configuration.getIncludeTables();
-		IDataSet dataSetToUse;
-		boolean hasExcludeTables = !CollectionUtils.isEmpty(excludeTables);
-		boolean hasIncludeTables = !CollectionUtils.isEmpty(includeTables);
-		if (hasExcludeTables || hasIncludeTables) {
-			ITableFilter tableFilter;
-			if (hasExcludeTables && hasIncludeTables) {
-				DefaultTableFilter defaultTableFilter = new DefaultTableFilter();
-				for (String table : includeTables) {
-					defaultTableFilter.includeTable(table);
-				}
-				for (String table : excludeTables) {
-					defaultTableFilter.excludeTable(table);
-				}
-				tableFilter = defaultTableFilter;
-			} else if (hasExcludeTables) {
-				tableFilter = new ExcludeTableFilter(excludeTables.toArray(new String[excludeTables.size()]));
-			} else {
-				tableFilter = new IncludeTableFilter(includeTables.toArray(new String[includeTables.size()]));
-			}
+    /**
+     * Filters the dataset according to includes and excludes in the
+     * configuration.
+     * 
+     * @param source
+     * @param configuration
+     * @return
+     */
+    public static IDataSet filter(IDataSet source, DbUnitConfiguration configuration) {
+        List<String> excludeTables = configuration.getExcludeTables();
+        List<String> includeTables = configuration.getIncludeTables();
+        IDataSet dataSetToUse;
+        boolean hasExcludeTables = !CollectionUtils.isEmpty(excludeTables);
+        boolean hasIncludeTables = !CollectionUtils.isEmpty(includeTables);
+        if (hasExcludeTables || hasIncludeTables) {
+            ITableFilter tableFilter;
+            if (hasExcludeTables && hasIncludeTables) {
+                DefaultTableFilter defaultTableFilter = new DefaultTableFilter();
+                for (String table : includeTables) {
+                    defaultTableFilter.includeTable(table);
+                }
+                for (String table : excludeTables) {
+                    defaultTableFilter.excludeTable(table);
+                }
+                tableFilter = defaultTableFilter;
+            } else if (hasExcludeTables) {
+                tableFilter = new ExcludeTableFilter(excludeTables.toArray(new String[excludeTables.size()]));
+            } else {
+                tableFilter = new IncludeTableFilter(includeTables.toArray(new String[includeTables.size()]));
+            }
 
-			dataSetToUse = new FilteredDataSet(tableFilter, source);
-		} else {
-			dataSetToUse = source;
-		}
-		return dataSetToUse;
-	}
+            dataSetToUse = new FilteredDataSet(tableFilter, source);
+        } else {
+            dataSetToUse = source;
+        }
+        return dataSetToUse;
+    }
 
 }

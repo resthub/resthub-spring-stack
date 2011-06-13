@@ -12,7 +12,6 @@ import org.resthub.identity.model.Group;
  * It is a bean whose name is "groupDao"
  * */
 @Named("groupDao")
-public class JpaGroupDao extends GenericJpaDao<Group, Long> implements
-		PermissionsOwnerDao<Group> {
+public class JpaGroupDao extends GenericJpaDao<Group, Long> implements PermissionsOwnerDao<Group> {
 
 }

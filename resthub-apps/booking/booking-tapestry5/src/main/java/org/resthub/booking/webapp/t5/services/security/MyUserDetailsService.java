@@ -20,34 +20,33 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class MyUserDetailsService implements UserDetailsService {
 
-	private final UserService userService;
-	
-	@SuppressWarnings("unused")
-	private final PasswordEncoder encoder;
+    private final UserService userService;
 
-	public MyUserDetailsService(UserService userService, PasswordEncoder encoder) {
-		super();
-		this.userService = userService;
-		this.encoder = encoder;
-	}
+    @SuppressWarnings("unused")
+    private final PasswordEncoder encoder;
 
-	/**
-	 * {@InheritDoc}
-	 */
-	public UserDetails loadUserByUsername(String name)
-			throws UsernameNotFoundException, DataAccessException {
+    public MyUserDetailsService(UserService userService, PasswordEncoder encoder) {
+        super();
+        this.userService = userService;
+        this.encoder = encoder;
+    }
 
-		User user = userService.findByUsername(name);
+    /**
+     * {@InheritDoc}
+     */
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException, DataAccessException {
 
-		if (null == user) {
-			throw new UsernameNotFoundException("user not found in database");
-		}
+        User user = userService.findByUsername(name);
 
-		MyUserDetailsImpl securedUser = new MyUserDetailsImpl(name);
-		securedUser.setPassword(user.getPassword());
-		securedUser.addAuthority(new GrantedAuthorityImpl("ROLE_AUTH"));
+        if (null == user) {
+            throw new UsernameNotFoundException("user not found in database");
+        }
 
-		return securedUser;
+        MyUserDetailsImpl securedUser = new MyUserDetailsImpl(name);
+        securedUser.setPassword(user.getPassword());
+        securedUser.addAuthority(new GrantedAuthorityImpl("ROLE_AUTH"));
 
-	}
+        return securedUser;
+
+    }
 }

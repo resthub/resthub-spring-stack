@@ -10,65 +10,64 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.Assert;
 
 /**
- * Factory bean for {@link IDatabaseConnection}. It creates an instance of {@link DelegateDatabaseDataSourceConnection}
- * to perform automatic configuration depending on the detected database.
+ * Factory bean for {@link IDatabaseConnection}. It creates an instance of
+ * {@link DelegateDatabaseDataSourceConnection} to perform automatic
+ * configuration depending on the detected database.
  * 
  * @author vanackej
- *
+ * 
  */
 public class DatabaseConnectionFactory implements FactoryBean<IDatabaseConnection> {
 
-	private Map<String, Object> dbUnitProperties;
-	
-	private DataSource dataSource;
-	
-	public DataSource getDataSource() {
-		return dataSource;
-	}
+    private Map<String, Object> dbUnitProperties;
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
-	
-	public Map<String, Object> getDbUnitProperties() {
-		return dbUnitProperties;
-	}
+    private DataSource dataSource;
 
-	/**
-	 * Optionaly set the DBUnit properties to use. see <a
-	 * href="http://www.dbunit.org/properties.html">dunit documentation</a> for
-	 * more information about valid properties.
-	 * 
-	 * @param dbUnitProperties
-	 */
-	public void setDbUnitProperties(Map<String, Object> dbUnitProperties) {
-		this.dbUnitProperties = dbUnitProperties;
-	}
-	
-	@Override
-	public IDatabaseConnection getObject() throws Exception {
-		Assert.notNull(dataSource, "dataSource is required");
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 
-		DelegateDatabaseDataSourceConnection databaseConnection = new DelegateDatabaseDataSourceConnection(
-				dataSource);
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-		if (dbUnitProperties != null && !dbUnitProperties.isEmpty()) {
-			for (Map.Entry<String, Object> entry : dbUnitProperties.entrySet()) {
-				databaseConnection.getConfig().setProperty(entry.getKey(),
-						entry.getValue());
-			}
-		}
-		return databaseConnection;
-	}
+    public Map<String, Object> getDbUnitProperties() {
+        return dbUnitProperties;
+    }
 
-	@Override
-	public Class<?> getObjectType() {
-		return IDatabaseConnection.class;
-	}
+    /**
+     * Optionaly set the DBUnit properties to use. see <a
+     * href="http://www.dbunit.org/properties.html">dunit documentation</a> for
+     * more information about valid properties.
+     * 
+     * @param dbUnitProperties
+     */
+    public void setDbUnitProperties(Map<String, Object> dbUnitProperties) {
+        this.dbUnitProperties = dbUnitProperties;
+    }
 
-	@Override
-	public boolean isSingleton() {
-		return true;
-	}
+    @Override
+    public IDatabaseConnection getObject() throws Exception {
+        Assert.notNull(dataSource, "dataSource is required");
+
+        DelegateDatabaseDataSourceConnection databaseConnection = new DelegateDatabaseDataSourceConnection(dataSource);
+
+        if (dbUnitProperties != null && !dbUnitProperties.isEmpty()) {
+            for (Map.Entry<String, Object> entry : dbUnitProperties.entrySet()) {
+                databaseConnection.getConfig().setProperty(entry.getKey(), entry.getValue());
+            }
+        }
+        return databaseConnection;
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return IDatabaseConnection.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return true;
+    }
 
 }

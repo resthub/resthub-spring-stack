@@ -10,11 +10,11 @@ import org.springframework.core.io.Resource;
  * @author vanackej
  * 
  */
-public class CsvDatabaseInitializer extends AbstractDataSetDatabaseInitializer  {
+public class CsvDatabaseInitializer extends AbstractDataSetDatabaseInitializer {
 
-	@Override
-	protected IDataSet loadDataSet(Resource resource) throws Exception  {
-		return new CsvDataSet(resource.getFile());
-	}
-	
+    @Override
+    protected IDataSet loadDataSet(Resource resource) throws Exception {
+        return new CsvDataSet(resource.getFile());
+    }
+
 }

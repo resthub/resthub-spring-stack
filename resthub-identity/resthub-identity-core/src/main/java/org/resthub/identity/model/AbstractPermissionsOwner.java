@@ -19,12 +19,14 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * <p>Describe a generic class for users and groups. It contains/manage mainly
+ * <p>
+ * Describe a generic class for users and groups. It contains/manage mainly
  * permissions. When possible you SHOULD use method form the class and not from
- * the permissions list</p>
+ * the permissions list
+ * </p>
  * 
- * Must be an entity to be references by permissions_owner_permissions and 
- * permissions_owner_groups 
+ * Must be an entity to be references by permissions_owner_permissions and
+ * permissions_owner_groups
  */
 @Entity
 @Table(name = "permissions_owner")
@@ -32,46 +34,46 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class AbstractPermissionsOwner {
 
-	private static final long serialVersionUID = 3248710006663061799L;
+    private static final long serialVersionUID = 3248710006663061799L;
 
-	private Long id;
-	
-	/**
-	 * the list of permissions
-	 * */
-	protected List<String> permissions = new ArrayList<String>();
+    private Long id;
 
-	/**
-	 * List of Permissions Owner (Group) in which the Permissions Owner is
-	 * */
-	protected List<Group> groups = new ArrayList<Group>();
-	
-	/**
-	 * List of roles the permission owner has.
-	 */
-	protected List<Role> roles = new ArrayList<Role>();
-	
-	/** Default constructor */
-	public AbstractPermissionsOwner() {
+    /**
+     * the list of permissions
+     * */
+    protected List<String> permissions = new ArrayList<String>();
 
-	}
+    /**
+     * List of Permissions Owner (Group) in which the Permissions Owner is
+     * */
+    protected List<Group> groups = new ArrayList<Group>();
 
-	public AbstractPermissionsOwner(AbstractPermissionsOwner i){
-		List<String> pPermissions=i.getPermissions();
-		permissions.addAll(pPermissions);
-	}
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param permissions
-	 *            list of permission to be assigned to the new Identity
-	 * */
-	public AbstractPermissionsOwner(List<String> permissions) {
-		this.permissions = permissions;
-	}
-	
-	@Id
+    /**
+     * List of roles the permission owner has.
+     */
+    protected List<Role> roles = new ArrayList<Role>();
+
+    /** Default constructor */
+    public AbstractPermissionsOwner() {
+
+    }
+
+    public AbstractPermissionsOwner(AbstractPermissionsOwner i) {
+        List<String> pPermissions = i.getPermissions();
+        permissions.addAll(pPermissions);
+    }
+
+    /**
+     * Constructor
+     * 
+     * @param permissions
+     *            list of permission to be assigned to the new Identity
+     * */
+    public AbstractPermissionsOwner(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    @Id
     @GeneratedValue
     public Long getId() {
         return id;
@@ -81,76 +83,69 @@ public abstract class AbstractPermissionsOwner {
         this.id = id;
     }
 
-	/**
-	 * Retrieve the permissions assigned to the identity
-	 * 
-	 * @return the permissions list if permissions have been assigned, otherwise
-	 *         null
-	 * */
-	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "permissions_owner_permissions",
-		joinColumns = @JoinColumn(name="id", referencedColumnName="id")
-	)
-	@XmlElementWrapper(name = "permissions")
-	@XmlElement(name = "permission")
-	public List<String> getPermissions() {
-		return permissions;
-	}
+    /**
+     * Retrieve the permissions assigned to the identity
+     * 
+     * @return the permissions list if permissions have been assigned, otherwise
+     *         null
+     * */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "permissions_owner_permissions", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
+    @XmlElementWrapper(name = "permissions")
+    @XmlElement(name = "permission")
+    public List<String> getPermissions() {
+        return permissions;
+    }
 
-	/**
-	 * <b>Only used by Hibernate</b> Please use getPermissions() instead.
-	 */
-	@SuppressWarnings("unused")
-	private void setPermissions(List<String> permissions) {
-		this.permissions = permissions;
-	}
-	
-	/**
-	 * Retrieve the roles assigned to the identity.
-	 * 
-	 * @return the list of roles assigned to the identity.
-	 */
-	@ManyToMany
-	@JoinTable(name = "permissions_owner_roles")
-	public List<Role> getRoles() {
-		return this.roles;
-	}
-	
-	/**
-	 * <b>Only used by Hibernate</b> Please use getRoles() instead.
-	 */
-	@SuppressWarnings("unused")
-	private void setRoles(List<Role> roles) {
-		this.roles = roles;		
-	}
-	
-	/**
-	 * gets the user's Groups
-	 * 
-	 * @return the list of groups in which the user is. The List could be null
-	 *         is the user is in no group
-	 * 
-	 */
-	@ManyToMany
-	@JoinTable(name = "permissions_owner_groups",
-		joinColumns=
-	        @JoinColumn(name="group_id", referencedColumnName="id"),
-	    inverseJoinColumns=
-	        @JoinColumn(name="permissions_owner", referencedColumnName="id")
-	)
-	public List<Group> getGroups() {
-		return groups;
-	}
+    /**
+     * <b>Only used by Hibernate</b> Please use getPermissions() instead.
+     */
+    @SuppressWarnings("unused")
+    private void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
 
-	/**
-	 * <b>Only used by Hibernate</b> Please use getGroups() instead.
-	 */
-	@SuppressWarnings("unused")
-	private void setGroups(List<Group> groups) {
-		this.groups = groups;
-	}
-	
-	@Override
+    /**
+     * Retrieve the roles assigned to the identity.
+     * 
+     * @return the list of roles assigned to the identity.
+     */
+    @ManyToMany
+    @JoinTable(name = "permissions_owner_roles")
+    public List<Role> getRoles() {
+        return this.roles;
+    }
+
+    /**
+     * <b>Only used by Hibernate</b> Please use getRoles() instead.
+     */
+    @SuppressWarnings("unused")
+    private void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    /**
+     * gets the user's Groups
+     * 
+     * @return the list of groups in which the user is. The List could be null
+     *         is the user is in no group
+     * 
+     */
+    @ManyToMany
+    @JoinTable(name = "permissions_owner_groups", joinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permissions_owner", referencedColumnName = "id"))
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    /**
+     * <b>Only used by Hibernate</b> Please use getGroups() instead.
+     */
+    @SuppressWarnings("unused")
+    private void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -159,11 +154,11 @@ public abstract class AbstractPermissionsOwner {
             return false;
         }
         final AbstractPermissionsOwner other = (AbstractPermissionsOwner) obj;
-       
+
         if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
             return false;
         }
-        
+
         return true;
     }
 

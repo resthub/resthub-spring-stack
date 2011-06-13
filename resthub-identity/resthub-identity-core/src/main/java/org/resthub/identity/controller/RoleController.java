@@ -19,11 +19,11 @@ import org.resthub.web.controller.GenericControllerImpl;
 import com.sun.jersey.api.NotFoundException;
 
 /**
- *
+ * 
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
 @Path("/role")
-@RolesAllowed({"IM-ADMIN"})
+@RolesAllowed({ "IM-ADMIN" })
 @Named("roleController")
 public class RoleController extends GenericControllerImpl<Role, Long, RoleService> {
 
@@ -40,17 +40,20 @@ public class RoleController extends GenericControllerImpl<Role, Long, RoleServic
 
     /**
      * Gets all the users that have a role, direct or inherited.
-     * @param filters A list of roles to look for.
-     * @return A list of users having at least one of the roles defined as parameter.
+     * 
+     * @param filters
+     *            A list of roles to look for.
+     * @return A list of users having at least one of the roles defined as
+     *         parameter.
      */
     @GET
     @Path("/{name}/users")
-    @RolesAllowed({"IM-ADMIN"})
+    @RolesAllowed({ "IM-ADMIN" })
     public List<User> findAllUsersWithRole(@PathParam("name") String name) {
         List<User> usersWithRoles = this.userService.findAllUsersWithRoles(Arrays.asList(name));
         if (usersWithRoles == null) {
-			throw new NotFoundException();
-		}
+            throw new NotFoundException();
+        }
         return usersWithRoles;
     }
 }

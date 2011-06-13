@@ -11,9 +11,9 @@ import org.resthub.core.service.GenericService;
  */
 public interface BookingService extends GenericService<Booking, Long> {
 
-	/**
-	 * @param userId
-	 * @return all bookings made by user identified by userId
-	 */
-	List<Booking> findByUserId(Long userId);
+    /**
+     * @param userId
+     * @return all bookings made by user identified by userId
+     */
+    List<Booking> findByUserId(Long userId);
 }

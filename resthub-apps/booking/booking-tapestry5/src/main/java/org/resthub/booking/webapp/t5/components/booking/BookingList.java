@@ -23,42 +23,42 @@ import org.resthub.booking.webapp.t5.pages.Search;
  */
 public class BookingList {
 
-	@Inject
-	@Service("bookingService")
-	private BookingService bookingService;
+    @Inject
+    @Service("bookingService")
+    private BookingService bookingService;
 
-	@Inject
-	@Service("userService")
-	private UserService userService;
+    @Inject
+    @Service("userService")
+    private UserService userService;
 
-	@SuppressWarnings("unused")
-	@Parameter(required = false, cache = false)
-	@Property
-	private Booking current;
+    @SuppressWarnings("unused")
+    @Parameter(required = false, cache = false)
+    @Property
+    private Booking current;
 
-	@Property
-	private List<Booking> bookings;
+    @Property
+    private List<Booking> bookings;
 
-	/**
-	 * Prepare the list of booking to display, extract all the booking
-	 * associated to the current user.
-	 * 
-	 * @return true if bookings found
-	 */
-	@SetupRender
-	public boolean listBookings() {
-		User user = userService.findAll().get(0);
-		bookings = bookingService.findByUserId(user.getId());
-		return !bookings.isEmpty();
-	}
+    /**
+     * Prepare the list of booking to display, extract all the booking
+     * associated to the current user.
+     * 
+     * @return true if bookings found
+     */
+    @SetupRender
+    public boolean listBookings() {
+        User user = userService.findAll().get(0);
+        bookings = bookingService.findByUserId(user.getId());
+        return !bookings.isEmpty();
+    }
 
-	/**
-	 * Simply cancel the booking and redirect to search page
-	 */
-	@OnEvent(component = "cancelBooking")
-	public Object cancelBooking(Long bookingId) {
-		bookingService.delete(bookingId);
-		return Search.class;
-	}
+    /**
+     * Simply cancel the booking and redirect to search page
+     */
+    @OnEvent(component = "cancelBooking")
+    public Object cancelBooking(Long bookingId) {
+        bookingService.delete(bookingId);
+        return Search.class;
+    }
 
 }

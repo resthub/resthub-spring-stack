@@ -26,60 +26,68 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/search")
 @Named("searchController")
-@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class SearchController {
 
-	// ----------------------------------------------------------------------------------------------------------------
-	// Protected attributes
-	
-	/**
-	 * Classe's logger
-	 */
-	protected final static Logger logger = LoggerFactory.getLogger(SearchController.class);
+    // ----------------------------------------------------------------------------------------------------------------
+    // Protected attributes
 
-	/**
-	 * Search service. Injected by Spring.
-	 */
-	@Inject
-	@Named("searchService")
-	protected SearchService searchService;
+    /**
+     * Classe's logger
+     */
+    protected final static Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-	// ----------------------------------------------------------------------------------------------------------------
-	// Public methods
+    /**
+     * Search service. Injected by Spring.
+     */
+    @Inject
+    @Named("searchService")
+    protected SearchService searchService;
 
-	/**
-	 * Performs a search.
-	 * 
-	 * @param query @QueryParam("query") Search query
-	 * @param withUsers @QueryParam("users")@DefaultValue("true") True to search on users
-	 * @param withGroups @QueryParam("groups")@DefaultValue("true") True to search on groups
-	 * @return An array of matching users, groups and roles.
-	 */
-	@GET
-	public Response search(@QueryParam("query") String query,
-			@QueryParam("users")@DefaultValue("true") Boolean withUsers,
-			@QueryParam("groups")@DefaultValue("true") Boolean withGroups) {
-		logger.debug("[search] Performs a search on " + query);
-		ResponseBuilder response = Response.serverError();
-		try {
-			List<AbstractPermissionsOwner> results = searchService.search(query, withUsers, withGroups);
-			// GenericEntity allows us to return a list of resource, tackling the type erasure problem.
-			GenericEntity<List<AbstractPermissionsOwner>> entity = new GenericEntity<List<AbstractPermissionsOwner>>(results) {};
-			response = Response.ok(entity);
-		} catch (Exception exc) {
-			response.entity(exc.getMessage());
-		}
-		return response.build();
-	} // search().
+    // ----------------------------------------------------------------------------------------------------------------
+    // Public methods
 
-	/**
-	 * Reset all search indexes
-	 */
-	@PUT
-	public void resetIndexes() {
-		logger.debug("[resetIndexes] Reset all indexes");
-		searchService.resetIndexes();
-	} // resetIndexes().
-	
+    /**
+     * Performs a search.
+     * 
+     * @param query
+     *            @QueryParam("query") Search query
+     * @param withUsers
+     *            @QueryParam("users")@DefaultValue("true") True to search on
+     *            users
+     * @param withGroups
+     *            @QueryParam("groups")@DefaultValue("true") True to search on
+     *            groups
+     * @return An array of matching users, groups and roles.
+     */
+    @GET
+    public Response search(@QueryParam("query") String query,
+            @QueryParam("users") @DefaultValue("true") Boolean withUsers,
+            @QueryParam("groups") @DefaultValue("true") Boolean withGroups) {
+        logger.debug("[search] Performs a search on " + query);
+        ResponseBuilder response = Response.serverError();
+        try {
+            List<AbstractPermissionsOwner> results = searchService.search(query, withUsers, withGroups);
+            // GenericEntity allows us to return a list of resource, tackling
+            // the type erasure problem.
+            GenericEntity<List<AbstractPermissionsOwner>> entity = new GenericEntity<List<AbstractPermissionsOwner>>(
+                    results) {
+            };
+            response = Response.ok(entity);
+        } catch (Exception exc) {
+            response.entity(exc.getMessage());
+        }
+        return response.build();
+    } // search().
+
+    /**
+     * Reset all search indexes
+     */
+    @PUT
+    public void resetIndexes() {
+        logger.debug("[resetIndexes] Reset all indexes");
+        searchService.resetIndexes();
+    } // resetIndexes().
+
 } // Class SearchController.

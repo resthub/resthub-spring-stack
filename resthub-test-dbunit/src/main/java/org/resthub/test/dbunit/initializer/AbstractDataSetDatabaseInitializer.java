@@ -16,57 +16,58 @@ import org.springframework.core.io.ResourceLoader;
  * Base class for DatabaseInitializer based on DBUnit {@link IDataSet}
  * 
  * @author vanackej
- *
+ * 
  */
-public abstract class AbstractDataSetDatabaseInitializer implements DatabaseInitializer, ResourceLoaderAware, InitializingBean {
+public abstract class AbstractDataSetDatabaseInitializer implements DatabaseInitializer, ResourceLoaderAware,
+        InitializingBean {
 
-	private Logger logger = LoggerFactory.getLogger(AbstractDataSetDatabaseInitializer.class);
+    private Logger logger = LoggerFactory.getLogger(AbstractDataSetDatabaseInitializer.class);
 
-	private ResourceLoader resourceLoader;
-	
-	private String location;
+    private ResourceLoader resourceLoader;
 
-	private IDataSet dataSet;
-	
-	@Autowired
-	private IDatabaseConnection connection;
+    private String location;
 
-	public void setResourceLoader(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
+    private IDataSet dataSet;
 
-	/**
-	 * Set the location if the the resource.
-	 * 
-	 * @param pattern
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    @Autowired
+    private IDatabaseConnection connection;
 
-	public IDatabaseConnection getConnection() {
-		return connection;
-	}
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
-	public void setConnection(IDatabaseConnection connection) {
-		this.connection = connection;
-	}
+    /**
+     * Set the location if the the resource.
+     * 
+     * @param pattern
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	@Override
-	public void initDatabase() throws Exception {
-		DBOperation.INSERT.getDbunitOperation().execute(connection, dataSet);
-	}
+    public IDatabaseConnection getConnection() {
+        return connection;
+    }
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		Resource resource = resourceLoader.getResource(location);
-		if (!resource.exists()) {
-			throw new BeanCreationException("No resource found at specified location : " + location);
-		}
-		logger.debug("Loading dataSet from resource : " + resource.toString());
-		this.dataSet = loadDataSet(resource);
-	}
+    public void setConnection(IDatabaseConnection connection) {
+        this.connection = connection;
+    }
 
-	protected abstract IDataSet loadDataSet(Resource resource) throws Exception;
-	
+    @Override
+    public void initDatabase() throws Exception {
+        DBOperation.INSERT.getDbunitOperation().execute(connection, dataSet);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Resource resource = resourceLoader.getResource(location);
+        if (!resource.exists()) {
+            throw new BeanCreationException("No resource found at specified location : " + location);
+        }
+        logger.debug("Loading dataSet from resource : " + resource.toString());
+        this.dataSet = loadDataSet(resource);
+    }
+
+    protected abstract IDataSet loadDataSet(Resource resource) throws Exception;
+
 }

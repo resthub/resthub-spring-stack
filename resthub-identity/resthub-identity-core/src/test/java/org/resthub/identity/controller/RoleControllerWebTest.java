@@ -15,7 +15,7 @@ import org.resthub.web.test.controller.AbstractControllerWebTest;
 
 /**
  * Test class for <tt>RoleController</tt>.
- *
+ * 
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
 public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long> {
@@ -24,40 +24,41 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
 
     /**
      * Generate a random role name based on a string and a randomized number.
+     * 
      * @return A unique role name.
      */
     private String generateRandomRoleName() {
         return "RoleName" + Math.round(Math.random() * 10000000);
     }
-    
+
     @Override
-	protected String getResourcePath() {
-		return "/role";
-	}
+    protected String getResourcePath() {
+        return "/role";
+    }
 
-	@Override
-	protected Role udpateTestResource(Role r) {
-		r.setName(generateRandomRoleName());
-		return r;
-	}
+    @Override
+    protected Role udpateTestResource(Role r) {
+        r.setName(generateRandomRoleName());
+        return r;
+    }
 
-	@Override
-	protected Long getResourceId(Role r) {
-		return r.getId();
-	}
+    @Override
+    protected Long getResourceId(Role r) {
+        return r.getId();
+    }
 
     @Override
     protected Role createTestResource() {
         Role testRole = new Role(generateRandomRoleName());
         return testRole;
     }
-    
+
     @Override
     @After
-	public void cleanAll() {
-    	resource().path("user/all").delete();
-    	resource().path(getResourcePath() + "/all").delete();
-	}
+    public void cleanAll() {
+        resource().path("user/all").delete();
+        resource().path(getResourcePath() + "/all").delete();
+    }
 
     protected User createTestUser() {
         logger.debug("UserControllerTest : createTestUser");
@@ -69,7 +70,7 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
         return u;
     }
 
-	@Test
+    @Test
     public void shouldGetUsersWithDirectRole() {
         // Given some new roles
         Role r1 = new Role("role1");
@@ -97,7 +98,8 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
         resource().path("user/name/" + u4.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_XML).put();
 
         // When I look for users with roles
-        String notExistingRoleUsers = resource().path("role/inventedRole/users").accept(MediaType.APPLICATION_JSON).get(String.class);
+        String notExistingRoleUsers = resource().path("role/inventedRole/users").accept(MediaType.APPLICATION_JSON)
+                .get(String.class);
         String role1Users = resource().path("role/role1/users").accept(MediaType.APPLICATION_JSON).get(String.class);
         String role2Users = resource().path("role/role2/users").accept(MediaType.APPLICATION_JSON).get(String.class);
 

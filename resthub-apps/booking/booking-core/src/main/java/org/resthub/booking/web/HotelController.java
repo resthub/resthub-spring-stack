@@ -20,32 +20,29 @@ import org.synyx.hades.domain.PageRequest;
 @Named("hotelController")
 public class HotelController extends GenericControllerImpl<Hotel, Long, HotelService> {
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Inject
-	@Named("hotelService")
-	@Override
-	public void setService(HotelService service) {
-		this.service = service;
-	}
+    /**
+     * {@InheritDoc}
+     */
+    @Inject
+    @Named("hotelService")
+    @Override
+    public void setService(HotelService service) {
+        this.service = service;
+    }
 
-	/**
-	 * @return all hotels containing the value given in parameter
-	 * If query string is empty, fetch all hotels in DB
-	 */
-	@GET
-	@Path("/search")
-	public PageResponse<Hotel> searchHotels(
-			@QueryParam("q") String query,
-			@QueryParam("page") @DefaultValue("0") Integer page,
-			@QueryParam("size") @DefaultValue("5") Integer size) {
-		
-		PageResponse<Hotel> hotels;
+    /**
+     * @return all hotels containing the value given in parameter If query
+     *         string is empty, fetch all hotels in DB
+     */
+    @GET
+    @Path("/search")
+    public PageResponse<Hotel> searchHotels(@QueryParam("q") String query,
+            @QueryParam("page") @DefaultValue("0") Integer page, @QueryParam("size") @DefaultValue("5") Integer size) {
 
-		hotels = new PageResponse<Hotel>(
-                    this.service.find(query, new PageRequest(page, size)));
+        PageResponse<Hotel> hotels;
 
-		return hotels;
-	}
+        hotels = new PageResponse<Hotel>(this.service.find(query, new PageRequest(page, size)));
+
+        return hotels;
+    }
 }

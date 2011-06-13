@@ -12,67 +12,68 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class IdentityUserDetailsAdapter implements UserDetails {
 
-	private static final long serialVersionUID = -624970668241079594L;
-	
-	private User user;
-	
-	public void setUser(User user) {
+    private static final long serialVersionUID = -624970668241079594L;
+
+    private User user;
+
+    public void setUser(User user) {
         this.user = user;
     }
 
     private List<Role> roles;
-	
-	public List<Role> getRoles() {
-		return roles;
-	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
+    public List<Role> getRoles() {
+        return roles;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
-	List<GrantedAuthority> grantedAuthorities;
-    
+    public User getUser() {
+        return user;
+    }
+
+    List<GrantedAuthority> grantedAuthorities;
+
     public IdentityUserDetailsAdapter(User user) {
-            this.user = user;
-            
-            // Initialized here in order to avoid a LazyException thrown bythe Group retreival
-            grantedAuthorities = new ArrayList<GrantedAuthority>();
-            for(String permission : PermissionsOwnerTools.getInheritedPermission(user)) {
-                    grantedAuthorities.add(new GrantedAuthorityImpl(permission));
-            }
+        this.user = user;
+
+        // Initialized here in order to avoid a LazyException thrown bythe Group
+        // retreival
+        grantedAuthorities = new ArrayList<GrantedAuthority>();
+        for (String permission : PermissionsOwnerTools.getInheritedPermission(user)) {
+            grantedAuthorities.add(new GrantedAuthorityImpl(permission));
+        }
 
     }
-    
+
     public List<GrantedAuthority> getAuthorities() {
-            return this.grantedAuthorities;
+        return this.grantedAuthorities;
     }
 
     public String getPassword() {
-            return user.getPassword();
+        return user.getPassword();
     }
 
     public String getUsername() {
-            return user.getLogin();
+        return user.getLogin();
     }
-    
+
     public boolean isAccountNonExpired() {
-            return true;
+        return true;
     }
 
     public boolean isAccountNonLocked() {
-            return true;
+        return true;
     }
 
     public boolean isCredentialsNonExpired() {
-            return true;
+        return true;
     }
 
     public boolean isEnabled() {
-            return true;
+        return true;
     }
 
 }

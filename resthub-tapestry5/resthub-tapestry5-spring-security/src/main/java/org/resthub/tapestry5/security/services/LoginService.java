@@ -21,7 +21,6 @@ public interface LoginService {
      * 
      * @return true if user successfully loggued, false otherwise
      */
-    Boolean executeLogin(String username, String password,
-            List<GrantedAuthority> authorities);
+    Boolean executeLogin(String username, String password, List<GrantedAuthority> authorities);
 
 }

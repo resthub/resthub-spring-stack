@@ -3,7 +3,8 @@ package org.resthub.core.tools;
 import java.util.List;
 
 /**
- * Interface of the service used to retreive the current Spring application context configuration
+ * Interface of the service used to retreive the current Spring application
+ * context configuration
  */
 public interface ToolingService {
 

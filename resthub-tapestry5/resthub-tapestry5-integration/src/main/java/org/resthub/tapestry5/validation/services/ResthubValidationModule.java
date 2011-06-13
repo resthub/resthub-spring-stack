@@ -11,11 +11,9 @@ import org.apache.tapestry5.ioc.OrderedConfiguration;
  */
 public class ResthubValidationModule {
 
-    public static void contributeBeanValidatorSource(
-            OrderedConfiguration<BeanValidatorConfigurer> configuration) {
+    public static void contributeBeanValidatorSource(OrderedConfiguration<BeanValidatorConfigurer> configuration) {
         configuration.add("resthubConfigurer", new BeanValidatorConfigurer() {
-            public void configure(
-                    javax.validation.Configuration<?> configuration) {
+            public void configure(javax.validation.Configuration<?> configuration) {
                 configuration.ignoreXmlConfiguration();
             }
         });

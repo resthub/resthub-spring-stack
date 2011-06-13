@@ -11,12 +11,12 @@ import org.resthub.core.dao.GenericDao;
  */
 public interface BookingDao extends GenericDao<Booking, Long> {
 
-	/**
-	 * @param user
-	 *            user to find
-	 * @return the list of booking for this user if it exists,
-	 *         empty list otherwise
-	 */
-	List<Booking> findByUser(User user);
+    /**
+     * @param user
+     *            user to find
+     * @return the list of booking for this user if it exists, empty list
+     *         otherwise
+     */
+    List<Booking> findByUser(User user);
 
 }

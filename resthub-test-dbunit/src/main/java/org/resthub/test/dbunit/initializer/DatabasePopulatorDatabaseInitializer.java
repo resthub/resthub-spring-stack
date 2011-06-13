@@ -16,45 +16,44 @@ import org.springframework.util.Assert;
  * @author vanackej
  * 
  */
-public class DatabasePopulatorDatabaseInitializer implements
-		DatabaseInitializer {
+public class DatabasePopulatorDatabaseInitializer implements DatabaseInitializer {
 
-	private DataSource dataSource;
+    private DataSource dataSource;
 
-	private DatabasePopulator databasePopulator;
+    private DatabasePopulator databasePopulator;
 
-	public DataSource getDataSource() {
-		return dataSource;
-	}
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-	public DatabasePopulator getDatabasePopulator() {
-		return databasePopulator;
-	}
+    public DatabasePopulator getDatabasePopulator() {
+        return databasePopulator;
+    }
 
-	public void setDatabasePopulator(DatabasePopulator databasePopulator) {
-		this.databasePopulator = databasePopulator;
-	}
+    public void setDatabasePopulator(DatabasePopulator databasePopulator) {
+        this.databasePopulator = databasePopulator;
+    }
 
-	@Override
-	public void initDatabase() throws Exception {
+    @Override
+    public void initDatabase() throws Exception {
 
-		Connection connection = DataSourceUtils.getConnection(dataSource);
-		try {
-			databasePopulator.populate(connection);
-		} finally {
-			DataSourceUtils.releaseConnection(connection, dataSource);
-		}
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try {
+            databasePopulator.populate(connection);
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
 
-	}
+    }
 
-	@PostConstruct
-	public void init() throws Exception {
-		Assert.notNull(dataSource, "A dataSource is required");
-		Assert.notNull(databasePopulator, "A databasePopulator is required");
-	}
+    @PostConstruct
+    public void init() throws Exception {
+        Assert.notNull(dataSource, "A dataSource is required");
+        Assert.notNull(databasePopulator, "A databasePopulator is required");
+    }
 
 }

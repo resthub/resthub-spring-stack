@@ -1,6 +1,5 @@
 package org.resthub.roundtable.web;
 
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -11,9 +10,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.resthub.roundtable.service.PollService;
 
-
 /**
  * Lucene Index controller.
+ * 
  * @author Nicolas Carlier
  */
 @Path("/lucene")

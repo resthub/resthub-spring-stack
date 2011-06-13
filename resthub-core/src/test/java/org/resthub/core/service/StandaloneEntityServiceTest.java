@@ -22,7 +22,7 @@ public class StandaloneEntityServiceTest extends AbstractServiceTest<StandaloneE
     }
 
     @Override
-    protected StandaloneEntity createTestRessource() {
+    protected StandaloneEntity createTestEntity() {
         StandaloneEntity standaloneEntity = new StandaloneEntity();
         standaloneEntity.setName("test");
         return standaloneEntity;
@@ -39,7 +39,7 @@ public class StandaloneEntityServiceTest extends AbstractServiceTest<StandaloneE
 
     @Override
     @Test(expected = UnsupportedOperationException.class)
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

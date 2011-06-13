@@ -21,10 +21,9 @@ public class JpaVoterDao extends GenericJpaDao<Voter, Long> implements VoterDao 
         query.setParameter("name", name);
         query.setParameter("poll", poll);
 
-        try{
+        try {
             return (Voter) query.getSingleResult();
-        }
-        catch (NoResultException e) {
+        } catch (NoResultException e) {
             return null;
         }
     }

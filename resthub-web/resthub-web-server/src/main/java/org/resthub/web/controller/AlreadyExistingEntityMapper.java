@@ -11,12 +11,10 @@ import org.resthub.core.exception.AlreadyExistingEntityException;
 @Named("alreadyExistingEntityMapper")
 public class AlreadyExistingEntityMapper implements ExceptionMapper<AlreadyExistingEntityException> {
 
-	@Override
-	public Response toResponse(AlreadyExistingEntityException exception) {
-		return Response.status(Response.Status.CONFLICT).build();
+    @Override
+    public Response toResponse(AlreadyExistingEntityException exception) {
+        return Response.status(Response.Status.CONFLICT).build();
 
-	}
+    }
 
 }
-
-

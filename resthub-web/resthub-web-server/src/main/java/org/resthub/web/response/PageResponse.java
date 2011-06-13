@@ -35,9 +35,9 @@ public class PageResponse<T> {
         elements = page.asList();
     }
 
-    //@XmlJavaTypeAdapter(value=GenericTypeAdapter.class)
-	@XmlElementWrapper(name = "elements")
-	@XmlElement(name = "element")
+    // @XmlJavaTypeAdapter(value=GenericTypeAdapter.class)
+    @XmlElementWrapper(name = "elements")
+    @XmlElement(name = "element")
     public List<T> getElements() {
         return elements;
     }

@@ -5,7 +5,8 @@ import org.resthub.roundtable.model.Answer;
 
 /**
  * Answer DAO.
+ * 
  * @author Nicolas Carlier
  */
-public interface AnswerDao extends GenericDao<Answer, Long>  {
+public interface AnswerDao extends GenericDao<Answer, Long> {
 }

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Thumbnail controller.
+ * 
  * @author Nicolas Carlier
  */
 @Path("/thumbnail")
@@ -31,55 +32,49 @@ public class ThumbnailControler {
 
     @Value("#{config['rt.data.dir']}")
     private String dataDirPath;
-    
+
     @PostConstruct
-	protected void init() {
-		String thumbnailLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("thumbnail").toString();
-		logger.debug("Thumbnail location : " + thumbnailLocation);
-		File dataDir = new File(thumbnailLocation);
-		if(!dataDir.exists())
-			dataDir.mkdirs();
-	}
-    
+    protected void init() {
+        String thumbnailLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("thumbnail")
+                .toString();
+        logger.debug("Thumbnail location : " + thumbnailLocation);
+        File dataDir = new File(thumbnailLocation);
+        if (!dataDir.exists())
+            dataDir.mkdirs();
+    }
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getThumbnail(
-            @PathParam("id") String id,
-            @QueryParam("tmp") @DefaultValue("false") Boolean tmp){
+    public Response getThumbnail(@PathParam("id") String id, @QueryParam("tmp") @DefaultValue("false") Boolean tmp) {
 
-	String thumbnailDir = new StringBuilder(dataDirPath)
-                .append(File.separator).append("thumbnail").toString();
-	String thumbnailLocation = new StringBuilder(thumbnailDir)
-                .append(File.separator).append(id).toString();
+        String thumbnailDir = new StringBuilder(dataDirPath).append(File.separator).append("thumbnail").toString();
+        String thumbnailLocation = new StringBuilder(thumbnailDir).append(File.separator).append(id).toString();
 
-	File file = new File(thumbnailLocation);
-	if (!file.exists()) {
-	    String illustrationLocation;
+        File file = new File(thumbnailLocation);
+        if (!file.exists()) {
+            String illustrationLocation;
             if (Boolean.TRUE.equals(tmp)) {
                 String tmpdir = System.getProperty("java.io.tmpdir");
-                illustrationLocation = new StringBuilder(tmpdir)
-                        .append(File.separator).append("rt_").append(id)
+                illustrationLocation = new StringBuilder(tmpdir).append(File.separator).append("rt_").append(id)
                         .append(".attachement").toString();
-            }
-            else {
-                illustrationLocation = new StringBuilder(dataDirPath)
-                        .append(File.separator).append("illustration")
+            } else {
+                illustrationLocation = new StringBuilder(dataDirPath).append(File.separator).append("illustration")
                         .append(File.separator).append(id).toString();
             }
 
-	    try {
-		ImageTools.createThumbnail(illustrationLocation, thumbnailLocation, 100);
-		file = new File(thumbnailLocation);
-	    } catch (IOException ex) {
-		return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
-	    } catch (InterruptedException ex) {
-		return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
-	    }
-	}
-	
-	String mt = new MimetypesFileTypeMap().getContentType(file);
-	return Response.ok(file, mt).build();
+            try {
+                ImageTools.createThumbnail(illustrationLocation, thumbnailLocation, 100);
+                file = new File(thumbnailLocation);
+            } catch (IOException ex) {
+                return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
+            } catch (InterruptedException ex) {
+                return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
+            }
+        }
+
+        String mt = new MimetypesFileTypeMap().getContentType(file);
+        return Response.ok(file, mt).build();
     }
 
 }

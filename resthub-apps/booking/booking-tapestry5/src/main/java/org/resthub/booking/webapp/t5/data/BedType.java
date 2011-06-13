@@ -21,22 +21,22 @@ import org.apache.tapestry5.util.AbstractSelectModel;
  * 
  */
 public class BedType extends AbstractSelectModel {
-	private List<OptionModel> options = new ArrayList<OptionModel>();
+    private List<OptionModel> options = new ArrayList<OptionModel>();
 
-	public BedType(Messages messages) {
-	    super();
-	    
-		options.add(new OptionModelImpl(messages.get("BedType.KING_SIZE"), 1));
-		options.add(new OptionModelImpl(messages.get("BedType.TWO_BEDS"), 2));
-		options.add(new OptionModelImpl(messages.get("BedType.THREE_BEDS"), 3));
-	}
+    public BedType(Messages messages) {
+        super();
 
-	public List<OptionGroupModel> getOptionGroups() {
-		return null;
-	}
+        options.add(new OptionModelImpl(messages.get("BedType.KING_SIZE"), 1));
+        options.add(new OptionModelImpl(messages.get("BedType.TWO_BEDS"), 2));
+        options.add(new OptionModelImpl(messages.get("BedType.THREE_BEDS"), 3));
+    }
 
-	public List<OptionModel> getOptions() {
-		return options;
-	}
+    public List<OptionGroupModel> getOptionGroups() {
+        return null;
+    }
+
+    public List<OptionModel> getOptions() {
+        return options;
+    }
 
 }

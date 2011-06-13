@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Illustration controller.
+ * 
  * @author Nicolas Carlier
  */
 @Path("/illustration")
@@ -40,102 +41,101 @@ import org.springframework.beans.factory.annotation.Value;
 @Singleton
 public class IllustrationControler {
     private static final Logger logger = LoggerFactory.getLogger(IllustrationControler.class);
-    
+
     @Value("#{config['rt.data.dir']}")
     private String dataDirPath;
 
     class UploadResponse {
-	private List<String> refs = new ArrayList<String>();
+        private List<String> refs = new ArrayList<String>();
 
-	protected void addUploadRef(String ref) {
-	    refs.add(ref);
-	}
+        protected void addUploadRef(String ref) {
+            refs.add(ref);
+        }
 
-	protected String build() {
-	    StringBuilder response = new StringBuilder("{\"success\" : \"true\", \"files\" : [");
-	    for (String ref : refs) {
-		response.append("\"").append(ref).append("\", ");
-	    }
-	    response.append("]}");
-	    return response.toString();
-	}
+        protected String build() {
+            StringBuilder response = new StringBuilder("{\"success\" : \"true\", \"files\" : [");
+            for (String ref : refs) {
+                response.append("\"").append(ref).append("\", ");
+            }
+            response.append("]}");
+            return response.toString();
+        }
     }
-    
+
     @PostConstruct
-	protected void init() {
-		String illustrationLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("illustration").toString();
-		logger.debug("Illustration location : " + illustrationLocation);
-		File dataDir = new File(illustrationLocation);
-		if(!dataDir.exists())
-			dataDir.mkdirs();
-	}
+    protected void init() {
+        String illustrationLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("illustration")
+                .toString();
+        logger.debug("Illustration location : " + illustrationLocation);
+        File dataDir = new File(illustrationLocation);
+        if (!dataDir.exists())
+            dataDir.mkdirs();
+    }
 
     @POST
     @Path("/upload")
     @Produces(MediaType.TEXT_HTML)
     public Response upload(@Context HttpServletRequest request) {
-	UploadResponse response = new UploadResponse();
-	if (ServletFileUpload.isMultipartContent(request)) {
-	    FileItemFactory factory = new DiskFileItemFactory();
-	    ServletFileUpload upload = new ServletFileUpload(factory);
-	    List<FileItem> items = null;
-	    try {
-		items = upload.parseRequest(request);
-	    } catch (FileUploadException ex) {
-		return Response.serverError().header("FileUploadException", ex.getMessage()).build();
-	    }
-	    if (items != null) {
-		Iterator<FileItem> iter = items.iterator();
-		while (iter.hasNext()) {
-		    FileItem item = iter.next();
-		    if (!item.isFormField() && item.getSize() > 0) {
-			String fileName = processFileName(item.getName());
-			logger.debug("Uploading file : {} ...", fileName);
-			File targetFile = null;
-			try {
-			    targetFile = File.createTempFile("rt_", ".attachement");
-			    targetFile.deleteOnExit();
-			    item.write(targetFile);
-			} catch (Exception ex) {
-			    return Response.serverError().header("FileUploadException", ex.getMessage()).build();
-			}
-			response.addUploadRef(getFileRef(targetFile.getAbsolutePath()));
-			logger.debug("File {} uploaded ({}).", fileName, targetFile.getAbsolutePath());
-		    }
-		}
-	    }
-	}
-	return Response.ok(response.build()).build();
+        UploadResponse response = new UploadResponse();
+        if (ServletFileUpload.isMultipartContent(request)) {
+            FileItemFactory factory = new DiskFileItemFactory();
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            List<FileItem> items = null;
+            try {
+                items = upload.parseRequest(request);
+            } catch (FileUploadException ex) {
+                return Response.serverError().header("FileUploadException", ex.getMessage()).build();
+            }
+            if (items != null) {
+                Iterator<FileItem> iter = items.iterator();
+                while (iter.hasNext()) {
+                    FileItem item = iter.next();
+                    if (!item.isFormField() && item.getSize() > 0) {
+                        String fileName = processFileName(item.getName());
+                        logger.debug("Uploading file : {} ...", fileName);
+                        File targetFile = null;
+                        try {
+                            targetFile = File.createTempFile("rt_", ".attachement");
+                            targetFile.deleteOnExit();
+                            item.write(targetFile);
+                        } catch (Exception ex) {
+                            return Response.serverError().header("FileUploadException", ex.getMessage()).build();
+                        }
+                        response.addUploadRef(getFileRef(targetFile.getAbsolutePath()));
+                        logger.debug("File {} uploaded ({}).", fileName, targetFile.getAbsolutePath());
+                    }
+                }
+            }
+        }
+        return Response.ok(response.build()).build();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getIllustration(@PathParam("id") String id){
-        String illustrationLocation = new StringBuilder(this.dataDirPath)
-                .append(File.separator).append("illustration")
+    public Response getIllustration(@PathParam("id") String id) {
+        String illustrationLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("illustration")
                 .append(File.separator).append(id).toString();
-       
+
         File file = new File(illustrationLocation);
         if (!file.exists()) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-	
-	String mt = new MimetypesFileTypeMap().getContentType(file);
-	return Response.ok(file, mt).build();
+
+        String mt = new MimetypesFileTypeMap().getContentType(file);
+        return Response.ok(file, mt).build();
     }
 
     private static String processFileName(String fileNameInput) {
-	String fileNameOutput = null;
-	fileNameOutput = fileNameInput.substring(
-		fileNameInput.lastIndexOf("\\") + 1, fileNameInput.length());
-	return fileNameOutput;
+        String fileNameOutput = null;
+        fileNameOutput = fileNameInput.substring(fileNameInput.lastIndexOf("\\") + 1, fileNameInput.length());
+        return fileNameOutput;
     }
 
     private static String getFileRef(String fileName) {
-	Pattern p = Pattern.compile("rt_([0-9]+)\\.attachement$");
-	Matcher m = p.matcher(fileName);
-	return (m.find()) ? m.group(1) : fileName;
+        Pattern p = Pattern.compile("rt_([0-9]+)\\.attachement$");
+        Matcher m = p.matcher(fileName);
+        return (m.find()) ? m.group(1) : fileName;
     }
 
 }

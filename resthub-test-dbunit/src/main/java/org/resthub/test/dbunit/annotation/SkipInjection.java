@@ -8,15 +8,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * this annotation can be used on a JUnit test method to
- * skip DbUnit dataset injection.
+ * this annotation can be used on a JUnit test method to skip DbUnit dataset
+ * injection.
  * 
  * @author vanackej
  */
-@Target( { ElementType.TYPE, ElementType.METHOD })
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 public @interface SkipInjection {
-	
+
 }

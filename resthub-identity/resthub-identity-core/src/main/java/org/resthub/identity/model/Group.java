@@ -20,52 +20,51 @@ import org.hibernate.search.annotations.Indexed;
 @Indexed
 public class Group extends AbstractPermissionsOwner {
 
-	private static final long serialVersionUID = 475935404179730841L;
-	/**
-	 * name of the group
-	 * */
-	protected String name = null;
+    private static final long serialVersionUID = 475935404179730841L;
+    /**
+     * name of the group
+     * */
+    protected String name = null;
 
+    /**
+     * Default Constructor
+     * */
+    public Group() {
 
-	/**
-	 * Default Constructor
-	 * */
-	public Group() {
+    }
 
-	}
+    /**
+     * getName
+     * 
+     * @return name of the group
+     * */
+    @Field
+    @Column(unique = true, nullable = false)
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * getName
-	 * 
-	 * @return name of the group
-	 * */
-	@Field
-	@Column(unique = true, nullable = false)
-	public String getName() {
-		return name;
-	}
+    /**
+     * setName
+     * 
+     * @param name
+     *            the name to be set for the group
+     * */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * setName
-	 * 
-	 * @param name
-	 *            the name to be set for the group
-	 * */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Display the representation of the group Display the ID and the Name of
-	 * the Group
-	 * */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Group[");
-		sb.append("Id: ").append(this.getId()).append(", ");
-		sb.append("Name: ").append(this.getName());
-		sb.append("]");
-		return sb.toString();
-	}
+    /**
+     * Display the representation of the group Display the ID and the Name of
+     * the Group
+     * */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Group[");
+        sb.append("Id: ").append(this.getId()).append(", ");
+        sb.append("Name: ").append(this.getName());
+        sb.append("]");
+        return sb.toString();
+    }
 }

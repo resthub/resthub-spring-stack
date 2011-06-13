@@ -10,18 +10,18 @@ import org.springframework.test.context.TestContextManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * Test runner that preconfigure test execution listeners for DBunit + Spring support
+ * Test runner that preconfigure test execution listeners for DBunit + Spring
+ * support
  */
 public class DbUnitSpringJUnit4ClassRunner extends SpringJUnit4ClassRunner {
-    
+
     public DbUnitSpringJUnit4ClassRunner(Class<?> clazz) throws InitializationError {
         super(clazz);
     }
-    
+
     @Override
     protected TestContextManager createTestContextManager(Class<?> clazz) {
         return new DbUnitTestContextManager(clazz, getDefaultContextLoaderClassName(clazz));
     }
-   
-    
+
 }

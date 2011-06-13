@@ -19,8 +19,8 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface CleanupDB {
 
-	String[] tables() default {};
+    String[] tables() default {};
 
-	Position position() default Position.BEFORE;
+    Position position() default Position.BEFORE;
 
 }

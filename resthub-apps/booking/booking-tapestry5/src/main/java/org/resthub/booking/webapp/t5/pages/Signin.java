@@ -13,28 +13,28 @@ import org.apache.tapestry5.services.Request;
  */
 public class Signin {
 
-	private static final String FAILED = "failed";
+    private static final String FAILED = "failed";
 
-	@Inject
-	@Value("${spring-security.check.url}")
-	private String checkUrl;
+    @Inject
+    @Value("${spring-security.check.url}")
+    private String checkUrl;
 
-	@Inject
-	private Request request;
+    @Inject
+    private Request request;
 
-	private boolean failed = false;
+    private boolean failed = false;
 
-	public boolean isFailed() {
-		return failed;
-	}
+    public boolean isFailed() {
+        return failed;
+    }
 
-	public String getLoginCheckUrl() {
-		return request.getContextPath() + checkUrl;
-	}
+    public String getLoginCheckUrl() {
+        return request.getContextPath() + checkUrl;
+    }
 
-	public void onActivate(String extra) {
-		if (extra.equals(FAILED)) {
-			failed = true;
-		}
-	}
+    public void onActivate(String extra) {
+        if (extra.equals(FAILED)) {
+            failed = true;
+        }
+    }
 }

@@ -19,72 +19,61 @@ import org.springframework.security.authentication.encoding.PlaintextPasswordEnc
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * Configuration for integration with tapestry-spring-security a library in order
- * to provide complete and integrated login components
+ * Configuration for integration with tapestry-spring-security a library in
+ * order to provide complete and integrated login components
  * 
  * @author bmeurant <Baptiste Meurant>
  */
-@SubModule( { ResthubSecurityModule.class })
+@SubModule({ ResthubSecurityModule.class })
 public class BookingSecurityModule {
 
-	private static final String ANONYMOUS_ROLE = "ROLE_ANONYMOUS";
+    private static final String ANONYMOUS_ROLE = "ROLE_ANONYMOUS";
     private static final String AUTHENTICATED_ROLE = "ROLE_AUTH";
 
     /**
-	 * Configure userDetailsService : service used to provide concrete
-	 * authentication
-	 * 
-	 * @param encoder
-	 * @param userService
-	 * @return built service
-	 */
-	public static UserDetailsService buildUserDetailsService(
-			@Inject PasswordEncoder encoder,
-			@InjectService("userService") UserService userService) {
+     * Configure userDetailsService : service used to provide concrete
+     * authentication
+     * 
+     * @param encoder
+     * @param userService
+     * @return built service
+     */
+    public static UserDetailsService buildUserDetailsService(@Inject PasswordEncoder encoder,
+            @InjectService("userService") UserService userService) {
 
-		return new MyUserDetailsService(userService, encoder);
-	}
+        return new MyUserDetailsService(userService, encoder);
+    }
 
-	/**
-	 * Configure spring-secuirty mappings
-	 * 
-	 * @param configuration
-	 */
-	public static void contributeFilterSecurityInterceptor(
-			Configuration<RequestInvocationDefinition> configuration) {
+    /**
+     * Configure spring-secuirty mappings
+     * 
+     * @param configuration
+     */
+    public static void contributeFilterSecurityInterceptor(Configuration<RequestInvocationDefinition> configuration) {
 
-		configuration.add(new RequestInvocationDefinition("/search/**",
-				AUTHENTICATED_ROLE));
-		configuration.add(new RequestInvocationDefinition("/hotel/**",
-				AUTHENTICATED_ROLE));
-		configuration.add(new RequestInvocationDefinition("/booking/**",
-				AUTHENTICATED_ROLE));
-		configuration.add(new RequestInvocationDefinition("/settings",
-				AUTHENTICATED_ROLE));
-		configuration.add(new RequestInvocationDefinition("/api/**",
-				ANONYMOUS_ROLE));
-	}
+        configuration.add(new RequestInvocationDefinition("/search/**", AUTHENTICATED_ROLE));
+        configuration.add(new RequestInvocationDefinition("/hotel/**", AUTHENTICATED_ROLE));
+        configuration.add(new RequestInvocationDefinition("/booking/**", AUTHENTICATED_ROLE));
+        configuration.add(new RequestInvocationDefinition("/settings", AUTHENTICATED_ROLE));
+        configuration.add(new RequestInvocationDefinition("/api/**", ANONYMOUS_ROLE));
+    }
 
-	public static void contributeProviderManager(
-			OrderedConfiguration<AuthenticationProvider> configuration,
-			@InjectService("DaoAuthenticationProvider") AuthenticationProvider daoAuthenticationProvider) {
+    public static void contributeProviderManager(OrderedConfiguration<AuthenticationProvider> configuration,
+            @InjectService("DaoAuthenticationProvider") AuthenticationProvider daoAuthenticationProvider) {
 
-		configuration.add("daoAuthenticationProvider",
-				daoAuthenticationProvider);
-	}
+        configuration.add("daoAuthenticationProvider", daoAuthenticationProvider);
+    }
 
-	/**
-	 * Override default salt service : no salt required in this sample
-	 * application
-	 * 
-	 * @param configuration
-	 */
-	public static void contributeServiceOverride(
-			MappedConfiguration<Class<?>, Object> configuration) {
+    /**
+     * Override default salt service : no salt required in this sample
+     * application
+     * 
+     * @param configuration
+     */
+    public static void contributeServiceOverride(MappedConfiguration<Class<?>, Object> configuration) {
 
-		configuration
-				.add(PasswordEncoder.class, new PlaintextPasswordEncoder());
-		configuration.add(SaltSourceService.class, new EmptySaltSourceImpl());
-	}
+        configuration.add(PasswordEncoder.class, new PlaintextPasswordEncoder());
+        configuration.add(SaltSourceService.class, new EmptySaltSourceImpl());
+    }
 
 }

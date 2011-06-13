@@ -13,15 +13,16 @@ import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 
- /**
+/**
  * Test of Poll services.
+ * 
  * @author Nicolas Carlier
  */
 public class VoteServiceTest extends AbstractTransactionAwareTest {
     protected VoteService voteService;
-    
+
     protected PollService pollService;
-    
+
     protected Long pollId;
 
     @Inject
@@ -29,7 +30,7 @@ public class VoteServiceTest extends AbstractTransactionAwareTest {
     public void setVoteService(VoteService voteService) {
         this.voteService = voteService;
     }
-    
+
     @Inject
     @Named("pollService")
     public void setPollService(PollService pollService) {
@@ -39,7 +40,7 @@ public class VoteServiceTest extends AbstractTransactionAwareTest {
     @Before
     @Override
     public void setUp() {
-    	super.setUp();
+        super.setUp();
         Poll poll = new Poll();
         poll.setAuthor("me");
         poll.setBody("Test poll");
@@ -57,14 +58,14 @@ public class VoteServiceTest extends AbstractTransactionAwareTest {
         this.pollId = poll.getId();
 
     }
-    
+
     @Test
     public void testVote() throws Exception {
         List<String> values = new ArrayList<String>();
         values.add("oui");
         values.add("non");
         values.add("oui");
-        
+
         this.voteService.vote("JUNIT", this.pollId, values);
 
         Poll poll = this.pollService.findById(this.pollId);

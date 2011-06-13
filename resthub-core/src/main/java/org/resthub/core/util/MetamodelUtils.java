@@ -10,7 +10,8 @@ import javax.persistence.metamodel.SingularAttribute;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Reflection based helpers, used for example to retreive or set the id of generic classes.
+ * Reflection based helpers, used for example to retreive or set the id of
+ * generic classes.
  */
 public class MetamodelUtils<T, PK extends Serializable> {
 

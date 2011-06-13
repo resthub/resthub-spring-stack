@@ -51,8 +51,8 @@ public class Hotel implements Serializable {
         super();
     }
 
-    public Hotel(final String name, final String address, final String city,
-            final String state, final String zip, final String country) {
+    public Hotel(final String name, final String address, final String city, final String state, final String zip,
+            final String country) {
         super();
         this.name = name;
         this.address = address;
@@ -62,9 +62,8 @@ public class Hotel implements Serializable {
         this.country = country;
     }
 
-    public Hotel(final int price, final int stars, final String name,
-            final String address, final String city, final String state,
-            final String zip, final String country) {
+    public Hotel(final int price, final int stars, final String name, final String address, final String city,
+            final String state, final String zip, final String country) {
         super();
         this.price = new BigDecimal(price);
         this.stars = stars;
@@ -75,7 +74,7 @@ public class Hotel implements Serializable {
         this.zip = zip;
         this.country = country;
     }
-    
+
     @Id
     @GeneratedValue
     public Long getId() {
@@ -175,7 +174,7 @@ public class Hotel implements Serializable {
     public String getLocation() {
         return city + ", " + state + ", " + country;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -185,11 +184,11 @@ public class Hotel implements Serializable {
             return false;
         }
         final Hotel other = (Hotel) obj;
-       
+
         if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
             return false;
         }
-        
+
         return true;
     }
 

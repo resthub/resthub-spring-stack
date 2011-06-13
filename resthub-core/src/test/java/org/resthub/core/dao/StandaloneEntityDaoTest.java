@@ -25,7 +25,7 @@ public class StandaloneEntityDaoTest extends AbstractDaoTest<StandaloneEntity, L
 
     @Override
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         StandaloneEntity entity = new StandaloneEntity();
         entity.setName("Name");
         dao.saveAndFlush(entity);

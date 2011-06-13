@@ -1,6 +1,5 @@
 package org.resthub.roundtable.dao.jpa;
 
-
 import javax.inject.Named;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -32,12 +31,13 @@ public class JpaPollDao extends GenericJpaDao<Poll, Long> implements PollDao {
 
     @Override
     public Page<Poll> find(final String query, final Pageable pageable) throws ParseException {
-        FullTextEntityManager fullTextEntityManager =
-                org.hibernate.search.jpa.Search.getFullTextEntityManager(getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getEntityManager());
 
         // create native Lucene query
-        String[] fields = new String[]{"author", "topic", "body"};
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, new StandardAnalyzer(Version.LUCENE_29));
+        String[] fields = new String[] { "author", "topic", "body" };
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_31, fields, new StandardAnalyzer(
+                Version.LUCENE_29));
         org.apache.lucene.search.Query q = parser.parse(query);
 
         FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(q, Poll.class);
@@ -45,16 +45,15 @@ public class JpaPollDao extends GenericJpaDao<Poll, Long> implements PollDao {
             fullTextQuery.setFirstResult(pageable.getFirstItem());
             fullTextQuery.setMaxResults(pageable.getPageSize());
             return new PageImpl<Poll>(fullTextQuery.getResultList(), pageable, fullTextQuery.getResultSize());
-        }
-        else {
+        } else {
             return new PageImpl<Poll>(fullTextQuery.getResultList());
         }
     }
 
     @Override
     public void rebuildIndex() {
-        FullTextEntityManager fullTextEntityManager =
-                org.hibernate.search.jpa.Search.getFullTextEntityManager(getEntityManager());
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
+                .getFullTextEntityManager(getEntityManager());
 
         Session session = (Session) fullTextEntityManager.getDelegate();
 
@@ -62,20 +61,19 @@ public class JpaPollDao extends GenericJpaDao<Poll, Long> implements PollDao {
 
         fullTextSession.setFlushMode(FlushMode.MANUAL);
         fullTextSession.setCacheMode(CacheMode.IGNORE);
-        //Scrollable results will avoid loading too many objects in memory
-        ScrollableResults results = fullTextSession.createCriteria(Poll.class)
-            .setFetchSize(BATCH_SIZE)
-            .scroll(ScrollMode.FORWARD_ONLY);
+        // Scrollable results will avoid loading too many objects in memory
+        ScrollableResults results = fullTextSession.createCriteria(Poll.class).setFetchSize(BATCH_SIZE)
+                .scroll(ScrollMode.FORWARD_ONLY);
         int index = 0;
-        while( results.next() ) {
+        while (results.next()) {
             index++;
-            fullTextSession.index(results.get(0)); //index each element
+            fullTextSession.index(results.get(0)); // index each element
             if (index % BATCH_SIZE == 0) {
-                fullTextSession.flushToIndexes(); //apply changes to indexes
-                fullTextSession.clear(); //free memory since the queue is processed
+                fullTextSession.flushToIndexes(); // apply changes to indexes
+                fullTextSession.clear(); // free memory since the queue is
+                                         // processed
             }
         }
     }
-
 
 }

@@ -13,21 +13,20 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author bmeurant <Baptiste Meurant>
  * @author ccordenier
  */
-@Import(stylesheet = { "context:static/css/booking.css",
-		"context:static/css/t5-booking.css" })
+@Import(stylesheet = { "context:static/css/booking.css", "context:static/css/t5-booking.css" })
 public class Layout {
-	@Inject
-	private Authenticator authenticator;
+    @Inject
+    private Authenticator authenticator;
 
-	public UserDetails getUser() {
-		return this.authenticator.getLoggedUser();
-	}
+    public UserDetails getUser() {
+        return this.authenticator.getLoggedUser();
+    }
 
-	public Boolean isLoggedIn() {
-		return authenticator.isLoggedIn();
-	}
+    public Boolean isLoggedIn() {
+        return authenticator.isLoggedIn();
+    }
 
-	public void onActionFromLogout() {
-		this.authenticator.logout();
-	}
+    public void onActionFromLogout() {
+        this.authenticator.logout();
+    }
 }

@@ -26,7 +26,7 @@
         <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.8.2</junit.version>
         <jetty.version>7.3.1.v20110307</jetty.version>
-        <hibernate-search-version>3.4.0.Final</hibernate-search-version>
+        <hibernate.search.version>3.4.0.Final</hibernate.search.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <ehcache.version>2.3.2</ehcache.version>
     </properties>
@@ -271,7 +271,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-search</artifactId>
-                <version>${hibernate-search-version}</version>
+                <version>${hibernate.search.version}</version>
             </dependency>
 
             <dependency>

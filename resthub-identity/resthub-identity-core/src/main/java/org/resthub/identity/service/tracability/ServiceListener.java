@@ -6,12 +6,15 @@ package org.resthub.identity.service.tracability;
  */
 public interface ServiceListener {
 
-	/**
-	 * Notification method, invoked by the service when something noticeable happens.
-	 * 
-	 * @param type Notification type.
-	 * @param arguments Arguments, specific on each notifications. 
-	 */
-	void onChange(String type, Object ... arguments);
-	
+    /**
+     * Notification method, invoked by the service when something noticeable
+     * happens.
+     * 
+     * @param type
+     *            Notification type.
+     * @param arguments
+     *            Arguments, specific on each notifications.
+     */
+    void onChange(String type, Object... arguments);
+
 } // interface ServiceListener

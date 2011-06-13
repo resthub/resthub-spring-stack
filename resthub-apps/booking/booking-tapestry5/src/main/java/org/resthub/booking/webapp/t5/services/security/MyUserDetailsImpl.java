@@ -15,93 +15,93 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class MyUserDetailsImpl implements UserDetails {
 
-	private static final long serialVersionUID = -492528595540877572L;
+    private static final long serialVersionUID = -492528595540877572L;
 
-	private final List<GrantedAuthority> authorities = CollectionFactory.newList();
+    private final List<GrantedAuthority> authorities = CollectionFactory.newList();
 
-	private String password;
-	private String username;
+    private String password;
+    private String username;
 
-	public MyUserDetailsImpl(String username) {
+    public MyUserDetailsImpl(String username) {
 
-		this.username = username;
-	}
+        this.username = username;
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public List<GrantedAuthority> getAuthorities() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public List<GrantedAuthority> getAuthorities() {
 
-		return Collections.unmodifiableList(this.authorities);
-	}
+        return Collections.unmodifiableList(this.authorities);
+    }
 
-	public void addAuthority(GrantedAuthority authority) {
+    public void addAuthority(GrantedAuthority authority) {
 
-		this.authorities.add(authority);
-	}
+        this.authorities.add(authority);
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public String getPassword() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public String getPassword() {
 
-		return password;
-	}
+        return password;
+    }
 
-	public void setPassword(String password) {
+    public void setPassword(String password) {
 
-		this.password = password;
-	}
+        this.password = password;
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public String getUsername() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public String getUsername() {
 
-		return username;
-	}
+        return username;
+    }
 
-	public void setUsername(String username) {
+    public void setUsername(String username) {
 
-		this.username = username;
-	}
+        this.username = username;
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public boolean isAccountNonExpired() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public boolean isAccountNonExpired() {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public boolean isAccountNonLocked() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public boolean isAccountNonLocked() {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public boolean isCredentialsNonExpired() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public boolean isEnabled() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public boolean isEnabled() {
 
-		return true;
-	}
+        return true;
+    }
 }

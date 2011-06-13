@@ -23,6 +23,7 @@ import org.hibernate.search.annotations.Store;
 
 /**
  * Answer.
+ * 
  * @author Nicolas Carlier
  */
 @Entity
@@ -42,7 +43,7 @@ public class Answer {
     public Answer() {
         super();
     }
-    
+
     @Id
     @GeneratedValue
     public Long getId() {
@@ -94,5 +95,5 @@ public class Answer {
     public void setVotes(Set<Vote> votes) {
         this.votes = votes;
     }
-    
+
 }

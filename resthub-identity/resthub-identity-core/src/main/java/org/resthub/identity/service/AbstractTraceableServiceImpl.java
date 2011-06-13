@@ -12,10 +12,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Base class to put common stuff for service traceability.
- *
+ * 
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
-public abstract class AbstractTraceableServiceImpl<TEntity, TDao extends GenericDao<TEntity, Long>> extends GenericServiceImpl<TEntity, Long, TDao> implements TracableService {
+public abstract class AbstractTraceableServiceImpl<TEntity, TDao extends GenericDao<TEntity, Long>> extends
+        GenericServiceImpl<TEntity, Long, TDao> implements TracableService {
 
     /**
      * Set of registered listeners
@@ -49,11 +50,13 @@ public abstract class AbstractTraceableServiceImpl<TEntity, TDao extends Generic
     }
 
     /**
-     * Sends a notification to every listernes registered.
-     * Do not fail if a user thrown an exception (report exception in logs).
-     *
-     * @param type Type of notification.
-     * @param arguments Notification arguments.
+     * Sends a notification to every listernes registered. Do not fail if a user
+     * thrown an exception (report exception in logs).
+     * 
+     * @param type
+     *            Type of notification.
+     * @param arguments
+     *            Notification arguments.
      */
     protected void publishChange(String type, Object... arguments) {
         for (ServiceListener listener : listeners) {

@@ -25,14 +25,12 @@ public class LoginServiceImpl implements LoginService {
      * {@inheritDoc}
      */
     @Override
-    public Boolean executeLogin(String username, String password,
-            List<GrantedAuthority> authorities) {
+    public Boolean executeLogin(String username, String password, List<GrantedAuthority> authorities) {
         if (authenticationManager == null) {
             return false;
         }
 
-        Authentication request = new UsernamePasswordAuthenticationToken(
-                username, password, authorities);
+        Authentication request = new UsernamePasswordAuthenticationToken(username, password, authorities);
         Authentication result = authenticationManager.authenticate(request);
         SecurityContextHolder.getContext().setAuthentication(result);
 

@@ -1,6 +1,5 @@
 package org.resthub.roundtable.service.impl;
 
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,13 +18,14 @@ import org.springframework.util.Assert;
 
 /**
  * Vote service implementation.
+ * 
  * @author Nicolas Carlier
  */
 @Named("voteService")
 public class VoteServiceImpl implements VoteService {
 
     private PollService pollService;
-    
+
     private VoteDao voteDao;
 
     private VoterDao voterDao;
@@ -35,7 +35,7 @@ public class VoteServiceImpl implements VoteService {
     public void setPollService(PollService pollService) {
         this.pollService = pollService;
     }
-    
+
     @Inject
     @Named("voteDao")
     public void setVoteDao(VoteDao voteDao) {
