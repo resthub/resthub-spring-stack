@@ -8,7 +8,7 @@ RESThub |release| Documentation
 	:numbered:
 	
 	introduction
-	structure
+	gettingstarted
 	functionnalities
 	guidelines
 	oauth2

@@ -22,5 +22,13 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+    
+    <repositories>
+		<!-- Contains all RESThub artifacts and transitive dependencies -->		
+		<repository>
+			<id>resthub</id>
+			<url>http://resthub.org/nexus/content/groups/resthub</url>
+		</repository>
+	</repositories>
 
 </project>

@@ -55,9 +55,9 @@ The easiest way to start is to use RESThub archetypes to create your first RESTh
 
 You will have to choose between 3 RESThub archetypes :
 
-* **resthub-js-webapp-archetype** : simple HTML5/Javascript web application
-* **resthub-tapestry5-webapp-archetype** : simple RESThub based Tapestry 5 web application
-* **resthub-middle-archetype** : a JAR module for inclusion in your multi modules project
+* **resthub-archetype-js-webapp** : simple HTML5/Javascript web application
+* **resthub-archetype-tapestry5-webapp** : simple RESThub based Tapestry 5 web application
+* **resthub-archetype-jar-module** : a JAR module for inclusion in your multi modules project
  
 You can run your webapps thanks to builtin mvn jetty:run support.
 

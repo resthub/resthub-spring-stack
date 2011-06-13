@@ -1,6 +1,6 @@
-=================
-Project structure
-=================
+===============
+Getting started
+===============
 
 Let's go to see what looks like a typical RESThub based application ...
 
@@ -21,79 +21,40 @@ pom.xml
 	<?xml version="1.0" encoding="UTF-8"?>
 	<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 		<modelVersion>4.0.0</modelVersion>
+      
+      <parent>
+        <artifactId>resthub-parent</artifactId>
+        <groupId>org.resthub</groupId>
+        <version>1.1</version>
+      </parent>
+    
 		<groupId>org.mydomain</groupId>
 		<artifactId>myproject</artifactId>
 		<packaging>war</packaging>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 
 		<dependencies>
 			<!-- We use RESThub core classes and dependencies built around Spring 3 -->
 			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-core</artifactId>
-				<version>1.1-SNAPSHOT</version>
+				<version>1.1</version>
 			</dependency>
 			<!-- We use RESThub web classes and dependencies built around Jersey -->
 			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-web-server</artifactId>
-				<version>1.1-SNAPSHOT</version>
+				<version>1.1</version>
 			</dependency>
 			<!-- We use RESThub JS stack built around jQuery -->
 			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-js</artifactId>
-				<version>1.1-SNAPSHOT</version>
+				<version>1.1</version>
 				<type>war</type>
 			</dependency>
 		</dependencies>
 
-		<build>
-        	<pluginManagement>
-				<plugins>
-					<!-- Set default compilation to Java 6 and UTF-8 for encoding -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<encoding>UTF-8</encoding>
-							<source>1.6</source>
-							<target>1.6</target>
-						</configuration>
-					</plugin>
-					<!-- It is recommanded to define resource encoding to avoid charset issues -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>2.5</version>
-						<configuration>
-							<encoding>UTF-8</encoding>
-						</configuration>
-					</plugin>
-				</plugins>
-			</pluginManagement>
-			<plugins>
-				<!-- In order to run easily your webapp -->
-				<plugin>
-					<groupId>org.mortbay.jetty</groupId>
-					<artifactId>jetty-maven-plugin</artifactId>
-					<version>7.1.3.v20100526</version>
-					<configuration>
-						<!-- We use non NIO connector in order to avoid read only static files under windows -->
-						<connectors>
-							<connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
-								<port>8080</port>
-								<maxIdleTime>60000</maxIdleTime>
-							</connector>
-						</connectors>
-						<webAppConfig>
-							<contextPath>/</contextPath>
-						</webAppConfig>
-					</configuration>
-				</plugin>
-			</plugins>
-		</build>
 		<repositories>
 			<!-- Contains all RESThub artifacts and transitive dependencies -->		
 			<repository>
@@ -108,14 +69,11 @@ applicationContext.xml
 
 .. code-block:: xml
 
-	<beans 	xmlns="http://www.springframework.org/schema/beans"
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-			xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-			xmlns:p="http://www.springframework.org/schema/p" xmlns:resthub="http://www.resthub.org/schema/context"
-			xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-			http://www.resthub.org/schema/context http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
+   <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context" xmlns:resthub="http://www.resthub.org/schema/context"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.resthub.org/schema/context http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
 			
 		<!-- Enable bean declaration by annotations, update base package according to your project -->
 		<context:annotation-config/>
@@ -125,7 +83,7 @@ applicationContext.xml
 		<resthub:include-entities base-package="org.mydomain.myproject.model" />
 		
 		<!-- Scan your model classes intended to be serialized/unserialized by Jersey -->
-		resthub:include-jaxb-elements base-package="org.mydomain.myproject.model" />
+		<resthub:include-jaxb-elements base-package="org.mydomain.myproject.model" />
 	</beans>
 
 web.xml
@@ -140,6 +98,12 @@ web.xml
 			 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 			 
 		<display-name>My project</display-name>
+      
+      <!--  In order to disable application context XSD validation -->
+      <context-param>
+         <param-name>contextClass</param-name>
+         <param-value>org.resthub.core.context.ResthubXmlWebApplicationContext</param-value>
+      </context-param>
 		
 		<!-- Configure application context scanning in all dependencies -->
 		<context-param>
@@ -187,8 +151,6 @@ Instead, you can use the following template class to create your own.
 	@Entity
 	@XmlRootElement
 	public class SampleResource {
-	
-		private static final long serialVersionUID = -7178337784737750452L;
 
 		private Long id;
 		private String name;
@@ -220,30 +182,4 @@ Instead, you can use the following template class to create your own.
 			this.name = name;
 		}
 		
-		@Override
-		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (getClass() != obj.getClass()) {
-				return false;
-			}
-			final Resource other = (Resource) obj;
-			if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
-				return false;
-			}
-			return true;
-		}
-		
-		@Override
-		public int hashCode() {
-			int hash = 3;
-			hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
-			return hash;
-		}
-		
-		@Override
-		public String toString() {
-			return "WebSampleResource[" + getId() + ","+ getName() + "]";
-		}
 	}
