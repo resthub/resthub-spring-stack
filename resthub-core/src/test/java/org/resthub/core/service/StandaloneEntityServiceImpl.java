@@ -9,34 +9,30 @@ import org.resthub.core.dao.StandaloneEntityDao;
 import org.resthub.core.model.StandaloneEntity;
 
 /**
- * @author bmeurant <baptiste.meurant@gmail.com>
+ * Dedicated interface to provide specific methods implementations for
+ * {@link StandaloneEntity} class.
  * 
- *         Test dedicated interface to provide specific methods implementations
- *         for {@link StandaloneEntity} class.
- * 
- *         This allows to validate that Resthub Generic Service manages well non
- *         resource derived entities
- * 
+ * This allows to validate that Resthub Generic Service manages well non
+ * resource derived entities
  */
 @Named("standaloneEntityService")
-public class StandaloneEntityServiceImpl extends
-		GenericServiceImpl<StandaloneEntity, Long, StandaloneEntityDao>
-		implements StandaloneEntityService {
+public class StandaloneEntityServiceImpl extends GenericServiceImpl<StandaloneEntity, Long, StandaloneEntityDao>
+        implements StandaloneEntityService {
 
-	@Inject
-	@Named("standaloneEntityDao")
-	@Override
-	public void setDao(StandaloneEntityDao resourceDao) {
-		// TODO Auto-generated method stub
-		super.setDao(resourceDao);
-	}
+    @Inject
+    @Named("standaloneEntityDao")
+    @Override
+    public void setDao(StandaloneEntityDao resourceDao) {
+        // TODO Auto-generated method stub
+        super.setDao(resourceDao);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<StandaloneEntity> findByName(String name) {
-		return this.dao.findByName(name);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<StandaloneEntity> findByName(String name) {
+        return this.dao.findByName(name);
+    }
 
 }

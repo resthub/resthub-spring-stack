@@ -7,6 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ConfigResourceThree extends ConfigAbstractResource {
 
-	private static final long serialVersionUID = -6397995008582106415L;
+    private static final long serialVersionUID = -6397995008582106415L;
 
 }

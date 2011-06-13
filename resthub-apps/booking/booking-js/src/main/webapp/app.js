@@ -21,11 +21,7 @@ define([ 'lib/resthub',
 		$.storage.set('search-page', 0);
 		
 		$.route('#/', function() {
-			if ($.storage.get('user') != null) {
-				$.route('#/home');
-			} else {
-				$('#content').user_login();
-			}
+			$('#content').user_login();
 		});
 		
 		$.route('#/home', function() {

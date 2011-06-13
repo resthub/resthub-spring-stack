@@ -9,19 +9,15 @@ import org.resthub.core.test.AbstractTest;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.test.context.ContextConfiguration;
 
-/**
- *
- * @author Loïc Frering <loic.frering@gmail.com>
- */
-@ContextConfiguration(locations={"classpath:org/resthub/core/config/database/applicationContext.xml"})
+@ContextConfiguration(locations = { "classpath:org/resthub/core/config/database/applicationContext.xml" })
 public class CustomDatabaseConfigurationTest extends AbstractTest {
-    
+
     @Inject
     BasicDataSource dataSource;
-    
+
     @Inject
     LocalContainerEntityManagerFactoryBean entityManagerFactory;
-    
+
     @Test
     public void testDataSource() {
         Assert.assertEquals("com.mysql.jdbc.Driver", dataSource.getDriverClassName());
@@ -32,7 +28,7 @@ public class CustomDatabaseConfigurationTest extends AbstractTest {
         Assert.assertEquals("resthub", dataSource.getUsername());
         Assert.assertEquals("resthub-pass", dataSource.getPassword());
     }
-    
+
     @Test
     public void testEntityManagerFactory() {
         Map<String, Object> jpaProperties = entityManagerFactory.getJpaPropertyMap();

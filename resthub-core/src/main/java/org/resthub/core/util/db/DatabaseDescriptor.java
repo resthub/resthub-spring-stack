@@ -15,9 +15,6 @@ import org.springframework.util.Assert;
 /**
  * Stores information related to a database and the jdbc driver used to access
  * the database.
- * 
- * @author vanackej
- * 
  */
 public class DatabaseDescriptor {
 
@@ -56,10 +53,8 @@ public class DatabaseDescriptor {
     private void init(Connection connection) throws SQLException {
         Assert.notNull(connection, "connection is required");
         DatabaseMetaData metaData = connection.getMetaData();
-        this.productName = metaData.getDatabaseProductName().toLowerCase()
-                .trim();
-        this.productVersion = metaData.getDatabaseProductVersion().toLowerCase()
-                .trim();
+        this.productName = metaData.getDatabaseProductName().toLowerCase().trim();
+        this.productVersion = metaData.getDatabaseProductVersion().toLowerCase().trim();
         this.majorVersion = metaData.getDatabaseMajorVersion();
         this.minorVersion = metaData.getDatabaseMinorVersion();
         this.driverName = metaData.getDriverName().trim();
@@ -69,8 +64,7 @@ public class DatabaseDescriptor {
 
         this.tables = new LinkedHashSet<String>();
 
-        ResultSet results = metaData.getTables(null, null, "%",
-                new String[] { "TABLE" });
+        ResultSet results = metaData.getTables(null, null, "%", new String[] { "TABLE" });
         while (results.next()) {
             tables.add(results.getString(3));
         }
@@ -146,11 +140,9 @@ public class DatabaseDescriptor {
 
     @Override
     public String toString() {
-        return "DatabaseDescriptor [productName=" + productName
-                + ", productVersion=" + productVersion + ", majorVersion="
-                + majorVersion + ", minorVersion=" + minorVersion
-                + ", driverName=" + driverName + ", driverVersion="
-                + driverVersion + ", driverMajorVersion=" + driverMajorVersion
+        return "DatabaseDescriptor [productName=" + productName + ", productVersion=" + productVersion
+                + ", majorVersion=" + majorVersion + ", minorVersion=" + minorVersion + ", driverName=" + driverName
+                + ", driverVersion=" + driverVersion + ", driverMajorVersion=" + driverMajorVersion
                 + ", driverMinorVersion=" + driverMinorVersion + "]";
     }
 

@@ -23,7 +23,7 @@ public class GroupDaoTest extends AbstractDaoTest<Group, Long, PermissionsOwnerD
 	
 	@Override
     protected Group createTestEntity() {
-		String groupName="GroupTestGroupName"+Math.round(Math.random()*1000);
+		String groupName="GroupTestGroupName"+Math.round(Math.random()*100000);
 		Group g =new Group();
 		g.setName(groupName);
         return g;

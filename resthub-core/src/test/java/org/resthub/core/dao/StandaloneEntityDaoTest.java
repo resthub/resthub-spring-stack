@@ -10,37 +10,30 @@ import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.test.dao.AbstractDaoTest;
 
 /**
- * @author bmeurant <baptiste.meurant@gmail.com>
- * @author Loïc Frering <loic.frering@gmail.com>
- * 
- *         This Test Suite performs tests on {@link StandaloneEntity} class in
- *         order to validate generic daos and services behaviours with a non
- *         resource dervied entity
- * 
+ * This Test Suite performs tests on {@link StandaloneEntity} class in order to
+ * validate generic daos and services behaviours with a non resource dervied
+ * entity
  */
-public class StandaloneEntityDaoTest
-		extends
-		AbstractDaoTest<StandaloneEntity, Long, StandaloneEntityDao> {
+public class StandaloneEntityDaoTest extends AbstractDaoTest<StandaloneEntity, Long, StandaloneEntityDao> {
 
-	@Inject
+    @Inject
     @Named("standaloneEntityDao")
     @Override
     public void setDao(StandaloneEntityDao dao) {
         this.dao = dao;
     }
 
-	@Override
-	@Test
-	public void testUpdate() throws Exception {
-		StandaloneEntity entity = new StandaloneEntity();
-		entity.setName("Name");
-		dao.saveAndFlush(entity);
+    @Override
+    @Test
+    public void testUpdate() throws Exception {
+        StandaloneEntity entity = new StandaloneEntity();
+        entity.setName("Name");
+        dao.saveAndFlush(entity);
 
-		entity.setName("New name");
-		dao.saveAndFlush(entity);
+        entity.setName("New name");
+        dao.saveAndFlush(entity);
 
-		StandaloneEntity updatedEntity = dao.readByPrimaryKey(entity.getId());
-		assertEquals("Entity name should have been modified", "New name",
-				updatedEntity.getName());
-	}
+        StandaloneEntity updatedEntity = dao.readByPrimaryKey(entity.getId());
+        assertEquals("Entity name should have been modified", "New name", updatedEntity.getName());
+    }
 }

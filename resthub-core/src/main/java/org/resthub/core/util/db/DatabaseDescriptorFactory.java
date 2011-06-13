@@ -17,21 +17,17 @@ import org.springframework.beans.factory.FactoryBean;
  * 
  * <pre>
  * {@code
- * <bean id="databaseDescriptor" class="net.awl.spring.db.utils.DatabaseDescriptorFactory">
+ * <bean id="databaseDescriptor" class="org.resthub.core.util.db.DatabaseDescriptorFactory">
  *   <property name="dataSource" ref="dataSource" />
  * </bean>
  * }
  * </pre>
  * 
  * <p>
- * Or with resthub namespace support :
+ * Or with resthub namespace support
  * </p>
- * 
- * @author Johann Vanackere
- * 
  */
-public class DatabaseDescriptorFactory implements
-        FactoryBean<DatabaseDescriptor> {
+public class DatabaseDescriptorFactory implements FactoryBean<DatabaseDescriptor> {
 
     private DataSource dataSource;
 

@@ -14,10 +14,8 @@
   <description>Security layer for RESThub service with OAuth v2</description>
   
   <modules>
-  	<module>resthub-oauth2-common</module>
-  	<module>resthub-oauth2-spring-security</module>
-  	<module>resthub-oauth2-filter-validators</module>
   	<module>resthub-oauth2-client</module>
+  	<module>resthub-oauth2-spring-security</module>
   </modules>
   
 </project>

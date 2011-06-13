@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>Resthub Tapestry 5 HotelBooking Application</display-name>
+
+	<!-- The only significant configuration for Tapestry 5, this informs
+		 Tapestry of where to look for pages, components and mixins. -->
 	<context-param>
-		<!--
-			The only significant configuration for Tapestry 5, this informs
-			Tapestry of where to look for pages, components and mixins.
-		-->
 		<param-name>tapestry.app-package</param-name>
 		<param-value>org.resthub.booking.webapp.t5</param-value>
 	</context-param>
+	
+	<!--  In order to disable application context XSD validation -->
+	<context-param>
+       <param-name>contextClass</param-name>
+       <param-value>org.resthub.core.context.ResthubXmlWebApplicationContext</param-value>
+  	</context-param>
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

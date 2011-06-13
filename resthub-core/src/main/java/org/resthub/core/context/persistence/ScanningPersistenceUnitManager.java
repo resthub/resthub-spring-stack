@@ -47,15 +47,10 @@ import org.springframework.util.StringUtils;
  * 
  * in case where no classpathPatterns is provided, this scanner search for
  * entities in PersistenceContext filled during Spring loading of context files
- * 
- * @author bmeurant <Baptiste Meurant>
- * 
  */
-public class ScanningPersistenceUnitManager extends
-        DefaultPersistenceUnitManager {
+public class ScanningPersistenceUnitManager extends DefaultPersistenceUnitManager {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ScanningPersistenceUnitManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ScanningPersistenceUnitManager.class);
 
     private String classpathPatterns = null;
 
@@ -95,8 +90,7 @@ public class ScanningPersistenceUnitManager extends
         this.classpathPatterns = classpathPatterns;
     }
 
-    public void setEntityListContextBean(
-            EntityListContextBean entityListContextBean) {
+    public void setEntityListContextBean(EntityListContextBean entityListContextBean) {
         this.entityListContextBean = entityListContextBean;
     }
 
@@ -119,8 +113,7 @@ public class ScanningPersistenceUnitManager extends
 
         if (this.classpathPatterns == null) {
 
-            entities = getMatchingEntitiesFromContext(pui,
-                    pui.getPersistenceUnitName());
+            entities = getMatchingEntitiesFromContext(pui, pui.getPersistenceUnitName());
 
         } else {
 
@@ -135,8 +128,7 @@ public class ScanningPersistenceUnitManager extends
         super.postProcessPersistenceUnitInfo(pui);
     }
 
-    protected void addEntitiesToPersistenceUnit(MutablePersistenceUnitInfo pui,
-            Set<String> entities) {
+    protected void addEntitiesToPersistenceUnit(MutablePersistenceUnitInfo pui, Set<String> entities) {
         for (String entityName : entities) {
 
             if (!pui.getManagedClassNames().contains(entityName)) {
@@ -148,18 +140,15 @@ public class ScanningPersistenceUnitManager extends
         }
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("persistenceUnit " + pui.getPersistenceUnitName()
-                    + " successfully scanned : " + entities.size()
+            LOG.info("persistenceUnit " + pui.getPersistenceUnitName() + " successfully scanned : " + entities.size()
                     + " entities found.");
         }
 
     }
 
-    protected Set<String> getMatchingEntitiesFromContext(
-            MutablePersistenceUnitInfo pui, String persistenceUnitName) {
+    protected Set<String> getMatchingEntitiesFromContext(MutablePersistenceUnitInfo pui, String persistenceUnitName) {
 
-        Set<String> entities = entityListContextBean
-                .getEntities(persistenceUnitName);
+        Set<String> entities = entityListContextBean.getEntities(persistenceUnitName);
 
         return entities;
     }
@@ -178,15 +167,14 @@ public class ScanningPersistenceUnitManager extends
     }
 
     private String[] extractBasePackages() {
-        String[] basePackages = StringUtils.tokenizeToStringArray(
-                this.classpathPatterns,
+        String[] basePackages = StringUtils.tokenizeToStringArray(this.classpathPatterns,
                 ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
         return basePackages;
     }
 
     protected Set<String> findMatchingEntitiesFromPackage(String basePackage) {
-        ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(
-                Thread.currentThread().getContextClassLoader());
+        ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver(Thread.currentThread()
+                .getContextClassLoader());
 
         String entityName;
         Resource[] resources = new Resource[0];
@@ -204,12 +192,10 @@ public class ScanningPersistenceUnitManager extends
             }
 
         } catch (IOException e) {
-            LOG.warn("Error during scanning entities : cannot scan "
-                    + basePackage + ".", e);
+            LOG.warn("Error during scanning entities : cannot scan " + basePackage + ".", e);
         }
         if (LOG.isInfoEnabled()) {
-            LOG.info(basePackage + " successfully scanned : "
-                    + resources.length + " entities found.");
+            LOG.info(basePackage + " successfully scanned : " + resources.length + " entities found.");
         }
         return entities;
     }

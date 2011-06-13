@@ -8,18 +8,14 @@ import org.junit.Test;
 import org.resthub.core.test.AbstractTest;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-/**
- *
- * @author Loïc Frering <loic.frering@gmail.com>
- */
 public class DefaultDatabaseConfigurationTest extends AbstractTest {
-    
+
     @Inject
     BasicDataSource dataSource;
-    
+
     @Inject
     LocalContainerEntityManagerFactoryBean entityManagerFactory;
-    
+
     @Test
     public void testDataSource() {
         Assert.assertEquals("org.h2.Driver", dataSource.getDriverClassName());
@@ -30,7 +26,7 @@ public class DefaultDatabaseConfigurationTest extends AbstractTest {
         Assert.assertEquals("sa", dataSource.getUsername());
         Assert.assertTrue(dataSource.getPassword().isEmpty());
     }
-    
+
     @Test
     public void testEntityManagerFactory() {
         Map<String, Object> jpaProperties = entityManagerFactory.getJpaPropertyMap();
@@ -38,6 +34,7 @@ public class DefaultDatabaseConfigurationTest extends AbstractTest {
         Assert.assertEquals("true", jpaProperties.get("hibernate.format_sql"));
         Assert.assertEquals("update", jpaProperties.get("hibernate.hbm2ddl.auto"));
         Assert.assertEquals("true", jpaProperties.get("hibernate.cache.use_second_level_cache"));
-        Assert.assertEquals("net.sf.ehcache.hibernate.SingletonEhCacheProvider", jpaProperties.get("hibernate.cache.provider_class"));
+        Assert.assertEquals("net.sf.ehcache.hibernate.SingletonEhCacheProvider",
+                jpaProperties.get("hibernate.cache.provider_class"));
     }
 }

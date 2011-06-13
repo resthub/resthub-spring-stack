@@ -15,19 +15,19 @@ import org.resthub.core.util.ClassUtils;
  * "http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/org/synyx/hades/dao/orm/GenericJpaDao.html"
  * >Hades GenericJpaDao</a>.
  * 
- * @see <a
- *      href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/"
- *      target="_blank">Hades 2.0 Javadoc</a>
+ * In RESThub, we usually use generic DAO with a normal Interface/Implementation way, without the magic behaviour
+ * provided by Hades that allow to dynamically generate implementation from interface only. But you can use it if you
+ * want by adding the <hades:dao-config /> element to your application context. 
+ * 
+ * @see <a href="http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/" target="_blank">Hades 2.0 Javadoc</a>
  */
-public abstract class GenericJpaDao<T, ID extends Serializable> extends
-        org.synyx.hades.dao.orm.GenericJpaDao<T, ID> implements
-        GenericDao<T, ID> {
+public abstract class GenericJpaDao<T, ID extends Serializable> extends org.synyx.hades.dao.orm.GenericJpaDao<T, ID>
+        implements GenericDao<T, ID> {
 
     @SuppressWarnings("unchecked")
     public GenericJpaDao() {
         super();
-        this.setDomainClass((Class<T>) ClassUtils.getGenericType(this
-                .getClass()));
+        this.setDomainClass((Class<T>) ClassUtils.getGenericType(this.getClass()));
     }
 
     @Override
@@ -41,16 +41,15 @@ public abstract class GenericJpaDao<T, ID extends Serializable> extends
         CriteriaQuery<T> query = cb.createQuery(this.getDomainClass());
         query.from(this.getDomainClass());
 
-        return this.getEntityManager().createQuery(query)
-                .setFirstResult(offset * limit).setMaxResults(limit)
+        return this.getEntityManager().createQuery(query).setFirstResult(offset * limit).setMaxResults(limit)
                 .getResultList();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<T> findLike(String propertyName, String propertyValue) {
-        String queryString = "from " + this.getDomainClass().getName()
-                + " where " + propertyName + " like :propertyValue";
+        String queryString = "from " + this.getDomainClass().getName() + " where " + propertyName
+                + " like :propertyValue";
         Query q = this.getEntityManager().createQuery(queryString);
         q.setParameter("propertyValue", propertyValue);
         return (List<T>) q.getResultList();
@@ -59,8 +58,7 @@ public abstract class GenericJpaDao<T, ID extends Serializable> extends
     @SuppressWarnings("unchecked")
     @Override
     public List<T> findEquals(String propertyName, String propertyValue) {
-        String queryString = "from " + this.getDomainClass().getName()
-                + " where " + propertyName + " = :propertyValue";
+        String queryString = "from " + this.getDomainClass().getName() + " where " + propertyName + " = :propertyValue";
         Query q = this.getEntityManager().createQuery(queryString);
         q.setParameter("propertyValue", propertyValue);
         return (List<T>) q.getResultList();

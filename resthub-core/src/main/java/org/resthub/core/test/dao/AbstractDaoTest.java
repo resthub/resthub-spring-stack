@@ -19,109 +19,119 @@ import org.resthub.core.test.AbstractTransactionalTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 
-public abstract class AbstractDaoTest<T, ID extends Serializable, D extends GenericDao<T, ID>>
-		extends AbstractTransactionalTest {
+/**
+ * Dao test base class in order to test your DAO extending GenericDao<T, ID>  
+ * This can be usefull to do a quick check that everything is fine for basic CRUD functionnalities.
+ * 
+ * Best practices are to separate these kind of automatic tests from your custom tests, that may use RESThub
+ * DbUnit integration, and that should implement the tests you will write.
+ *
+ * @param <T> The model class managed by the generic DAO
+ * @param <ID> The ID class of the model class managed by the generic DAO 
+ * @param <D> Your generic DAO class
+ */
+public abstract class AbstractDaoTest<T, ID extends Serializable, D extends GenericDao<T, ID>> extends
+        AbstractTransactionalTest {
 
-	/**
-	 * The tested DAO
-	 */
-	protected D dao;
-	/**
-	 * Id of the tested POJO
-	 */
-	protected ID id;
+    /**
+     * The tested DAO
+     */
+    protected D dao;
+    
+    /**
+     * Id of the tested POJO
+     */
+    protected ID id;
 
-	@PersistenceContext
-	private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-	/**
-	 * Injection of DAO.
-	 */
-	public void setDao(D dao) {
-		this.dao = dao;
-	}
+    /**
+     * Injection of DAO.
+     */
+    public void setDao(D dao) {
+        this.dao = dao;
+    }
 
-	/**
-	 * Automatically retrieve ID from entity instance.
-	 * 
-	 * @param obj
-	 *            The object from whom we need primary key
-	 * @return The corresponding primary key.
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected ID getIdFromEntity(T obj) {
-		MetamodelUtils utils = new MetamodelUtils<T, ID>(
-				(Class<T>) ClassUtils.getGenericTypeFromBean(this.dao),
-				em.getMetamodel());
-		return (ID) utils.getIdFromEntity(obj);
-	}
+    /**
+     * Automatically retrieve ID from entity instance.
+     * 
+     * @param obj
+     *            The object from whom we need primary key
+     * @return The corresponding primary key.
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected ID getIdFromEntity(T obj) {
+        MetamodelUtils utils = new MetamodelUtils<T, ID>((Class<T>) ClassUtils.getGenericTypeFromBean(this.dao),
+                em.getMetamodel());
+        return (ID) utils.getIdFromEntity(obj);
+    }
 
-	@SuppressWarnings("unchecked")
-	protected T createTestEntity() throws Exception {
-		return (T) ClassUtils.getGenericTypeFromBean(this.dao).newInstance();
-	}
+    @SuppressWarnings("unchecked")
+    protected T createTestEntity() throws Exception {
+        return (T) ClassUtils.getGenericTypeFromBean(this.dao).newInstance();
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		T resource = this.createTestEntity();
-		resource = dao.save(resource);
-		this.id = getIdFromEntity(resource);
-	}
+    @Before
+    public void setUp() throws Exception {
+        T resource = this.createTestEntity();
+        resource = dao.save(resource);
+        this.id = getIdFromEntity(resource);
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		// Don't use deleteAll because it does not acheive cascade delete
-		for (T resource : dao.readAll()) {
-			dao.delete(resource);
-		}
-	}
+    @After
+    public void tearDown() throws Exception {
+        // Don't use deleteAll because it does not acheive cascade delete
+        for (T resource : dao.readAll()) {
+            dao.delete(resource);
+        }
+    }
 
-	@Test
-	public abstract void testUpdate() throws Exception;
+    @Test
+    public abstract void testUpdate() throws Exception;
 
-	@Test
-	public void testSave() throws Exception {
-		T resource = this.createTestEntity();
-		resource = dao.save(resource);
+    @Test
+    public void testSave() throws Exception {
+        T resource = this.createTestEntity();
+        resource = dao.save(resource);
 
-		T foundResource = dao.readByPrimaryKey(getIdFromEntity(resource));
-		assertNotNull("Resource not found!", foundResource);
-	}
+        T foundResource = dao.readByPrimaryKey(getIdFromEntity(resource));
+        assertNotNull("Resource not found!", foundResource);
+    }
 
-	@Test
-	public void testDelete() throws Exception {
-		T resource = dao.readByPrimaryKey(this.id);
-		dao.delete(resource);
+    @Test
+    public void testDelete() throws Exception {
+        T resource = dao.readByPrimaryKey(this.id);
+        dao.delete(resource);
 
-		T foundResource = dao.readByPrimaryKey(this.id);
-		assertNull("Resource not deleted!", foundResource);
-	}
+        T foundResource = dao.readByPrimaryKey(this.id);
+        assertNull("Resource not deleted!", foundResource);
+    }
 
-	@Test
-	public void testDeleteById() throws Exception {
-		dao.delete(this.id);
+    @Test
+    public void testDeleteById() throws Exception {
+        dao.delete(this.id);
 
-		T foundResource = dao.readByPrimaryKey(this.id);
-		assertNull("Resource not deleted!", foundResource);
-	}
+        T foundResource = dao.readByPrimaryKey(this.id);
+        assertNull("Resource not deleted!", foundResource);
+    }
 
-	@Test
-	public void testFindAll() throws Exception {
-		List<T> resourceList = dao.readAll();
-		assertTrue("No resources found!", resourceList.size() >= 1);
-	}
+    @Test
+    public void testFindAll() throws Exception {
+        List<T> resourceList = dao.readAll();
+        assertTrue("No resources found!", resourceList.size() >= 1);
+    }
 
-	@Test
-	public void testCount() throws Exception {
-		Long nb = dao.count();
-		assertTrue("No resources found!", nb >= 1);
-	}
+    @Test
+    public void testCount() throws Exception {
+        Long nb = dao.count();
+        assertTrue("No resources found!", nb >= 1);
+    }
 
-	@Test
-	public void testReadByPrimaryKey() throws Exception {
-		T foundResource = dao.readByPrimaryKey(this.id);
-		assertNotNull("Resource not found!", foundResource);
-		assertEquals("Resource does not contain the correct Id!", this.id,
-				getIdFromEntity(foundResource));
-	}
+    @Test
+    public void testReadByPrimaryKey() throws Exception {
+        T foundResource = dao.readByPrimaryKey(this.id);
+        assertNotNull("Resource not found!", foundResource);
+        assertEquals("Resource does not contain the correct Id!", this.id, getIdFromEntity(foundResource));
+    }
 }

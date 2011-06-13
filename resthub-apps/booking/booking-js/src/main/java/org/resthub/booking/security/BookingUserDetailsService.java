@@ -39,7 +39,7 @@ public class BookingUserDetailsService implements UserDetailsService {
 		this.userService = userService;
 		this.encoder = encoder;
 	}
-
+	
 	/**
 	 * {@InheritDoc}
 	 */

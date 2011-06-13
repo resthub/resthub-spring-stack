@@ -28,6 +28,7 @@ public abstract class AbstractWebTest {
     protected Server server;
     
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
+    protected String contextClass = "org.resthub.core.context.ResthubXmlWebApplicationContext";
     
     public int getPort() {
 		return this.port;
@@ -52,21 +53,30 @@ public abstract class AbstractWebTest {
 	public void setContextLocations(String contextLocations) {
 		this.contextLocations = contextLocations;
 	}
+	
+	/**
+	 * Allow you to customize context
+	 */
+	protected ServletContextHandler customizeContextHandler(ServletContextHandler context) {
+		return context;
+	}
 
     @Before
     public void setUp() throws Exception {
         server = new Server(port);
 
-        // On lance le serveur Jetty
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         context.setDisplayName("resthub test webapp");
         context.setContextPath("/");
 
         context.getInitParams().put("contextConfigLocation", contextLocations);
+        context.getInitParams().put("contextClass", contextClass);
         context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
         context.addServlet(SpringServlet.class, "/*");
         context.addEventListener(new ContextLoaderListener());
+        
+        context = customizeContextHandler(context);
 
         server.setHandler(context);
         server.start();

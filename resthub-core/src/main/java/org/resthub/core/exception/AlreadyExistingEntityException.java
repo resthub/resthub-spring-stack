@@ -18,9 +18,7 @@
 package org.resthub.core.exception;
 
 /**
- * Base class for all custom exception thrown in Resthub 
- * 
- * @author sdeleuze
+ * Base class for all custom exception thrown in Resthub
  */
 public class AlreadyExistingEntityException extends ResthubException {
 
@@ -30,22 +28,23 @@ public class AlreadyExistingEntityException extends ResthubException {
     private static final long serialVersionUID = 2010307013874058143L;
 
     /**
-     * Default constructor 
+     * Default constructor
      */
     public AlreadyExistingEntityException() {
         super();
     }
 
-    
     /**
-     * Create a new AlreadyExistingEntityException from a message which explain the nature of the Exception
+     * Create a new AlreadyExistingEntityException from a message which explain
+     * the nature of the Exception
      */
     public AlreadyExistingEntityException(String message) {
         super(message);
     }
 
     /**
-     * Create a new AlreadyExistingEntityException from a message and a base throwable exception 
+     * Create a new AlreadyExistingEntityException from a message and a base
+     * throwable exception
      */
     public AlreadyExistingEntityException(String message, Throwable throwable) {
         super(message, throwable);

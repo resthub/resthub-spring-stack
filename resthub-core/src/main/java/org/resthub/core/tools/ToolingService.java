@@ -2,20 +2,19 @@ package org.resthub.core.tools;
 
 import java.util.List;
 
-
 /**
- * @author bmeurant <Baptiste Meurant>
+ * Interface of the service used to retreive the current Spring application context configuration
  */
 public interface ToolingService {
-	
-	/**
-	 * @return the list of all bean names loaded in application context
-	 */
-	List<String> getBeanNames ();
-	
-	/**
-	 * @return the list of bean details for load beans
-	 */
-	List<BeanDetail> getBeanDetails ();
+
+    /**
+     * @return the list of all bean names loaded in application context
+     */
+    List<String> getBeanNames();
+
+    /**
+     * @return the list of bean details for load beans
+     */
+    List<BeanDetail> getBeanDetails();
 
 }

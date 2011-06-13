@@ -1,5 +1,5 @@
 /**
- * Provides helpers to scan annotations to add them in RESThub context
+ * Provides RESThub application context related functionnalities
  */
 package org.resthub.core.context;
 

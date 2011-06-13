@@ -18,34 +18,33 @@
 package org.resthub.core.exception;
 
 /**
- * Base class for all custom exception thrown in Resthub 
- * 
- * @author sdeleuze
+ * Base class for all custom exception thrown in Resthub
  */
 public class ResthubException extends RuntimeException {
 
     /**
      * uid used for serialization
      */
-	private static final long serialVersionUID = -4733781039606827044L;
+    private static final long serialVersionUID = -4733781039606827044L;
 
     /**
-     * Default constructor 
+     * Default constructor
      */
     public ResthubException() {
         super();
     }
 
-    
     /**
-     * Create a new ResthubException from a message which explain the nature of the Exception
+     * Create a new ResthubException from a message which explain the nature of
+     * the Exception
      */
     public ResthubException(String message) {
         super(message);
     }
 
     /**
-     * Create a new ResthubException from a message and a base throwable exception 
+     * Create a new ResthubException from a message and a base throwable
+     * exception
      */
     public ResthubException(String message, Throwable throwable) {
         super(message, throwable);

@@ -8,33 +8,32 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 /**
- * This class is a simple Bean definition parser for {@link DatabaseDescriptor} initialization.
- * 
- * @author a131199
- *
+ * This class is a simple Bean definition parser for {@link DatabaseDescriptor}
+ * initialization.
  */
-public class DatabaseDescriptorDefinitionParser extends AbstractSingleBeanDefinitionParser implements ResthubBeanDefinitionParser {
+public class DatabaseDescriptorDefinitionParser extends AbstractSingleBeanDefinitionParser implements
+        ResthubBeanDefinitionParser {
 
-	public static final String DATASOURCE_ATTRIBUTE = "data-source";
-	
-	@Override
-	protected String getBeanClassName(Element element) {
-		return DatabaseDescriptorFactory.class.getCanonicalName();
-	}
+    public static final String DATASOURCE_ATTRIBUTE = "data-source";
 
-	@Override
-	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-		builder.addPropertyReference("dataSource", element.getAttribute(DATASOURCE_ATTRIBUTE));
-	}
+    @Override
+    protected String getBeanClassName(Element element) {
+        return DatabaseDescriptorFactory.class.getCanonicalName();
+    }
 
-	@Override
-	protected boolean shouldGenerateIdAsFallback() {
-		return true;
-	}
+    @Override
+    protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
+        builder.addPropertyReference("dataSource", element.getAttribute(DATASOURCE_ATTRIBUTE));
+    }
 
-	@Override
-	public String getElementName() {
-		return "db-descriptor";
-	}
-	
+    @Override
+    protected boolean shouldGenerateIdAsFallback() {
+        return true;
+    }
+
+    @Override
+    public String getElementName() {
+        return "db-descriptor";
+    }
+
 }

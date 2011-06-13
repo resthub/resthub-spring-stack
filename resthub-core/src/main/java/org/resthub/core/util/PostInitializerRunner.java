@@ -21,10 +21,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * 
  * @author AlphaCSP
  */
+@SuppressWarnings("rawtypes")
 @Named("postInitializerRunner")
 public class PostInitializerRunner implements ApplicationListener {
     private static final Logger LOG = Logger.getLogger(PostInitializerRunner.class);
-    
+
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof ContextRefreshedEvent) {
@@ -45,7 +46,8 @@ public class PostInitializerRunner implements ApplicationListener {
                             int order = getAnnotation(method, PostInitialize.class).order();
                             postInitializingMethods.add(new PostInitializingMethod(method, bean, order, beanName));
                         } else {
-                            LOG.warn("Post Initializer method can't have any arguments. " + method.toGenericString() + " in bean " + beanName + " won't be invoked");
+                            LOG.warn("Post Initializer method can't have any arguments. " + method.toGenericString()
+                                    + " in bean " + beanName + " won't be invoked");
                         }
                     }
                 }
@@ -53,48 +55,47 @@ public class PostInitializerRunner implements ApplicationListener {
             Collections.sort(postInitializingMethods);
             long endTime = System.currentTimeMillis();
             if (LOG.isDebugEnabled())
-                LOG.debug("Application Context scan completed, took " + (endTime - startTime) + " ms, " + postInitializingMethods.size() + " post initializers found. Invoking now.");
+                LOG.debug("Application Context scan completed, took " + (endTime - startTime) + " ms, "
+                        + postInitializingMethods.size() + " post initializers found. Invoking now.");
             for (PostInitializingMethod postInitializingMethod : postInitializingMethods) {
                 Method method = postInitializingMethod.getMethod();
                 try {
                     method.invoke(postInitializingMethod.getBeanInstance());
                 } catch (Throwable e) {
-                    throw new BeanCreationException("Post Initialization of bean " + postInitializingMethod.getBeanName() + " failed.", e);
+                    throw new BeanCreationException("Post Initialization of bean "
+                            + postInitializingMethod.getBeanName() + " failed.", e);
                 }
             }
         }
     }
 
     private <T extends Annotation> T getAnnotation(Method method, Class<T> annotationClass) {
-    	do {
-	    	if(method.isAnnotationPresent(annotationClass)) {
-	    		return method.getAnnotation(annotationClass);
-	    	}
-    	}
-    	while ((method = getSuperMethod(method)) != null);
-    	return null;
-	}
-
-    private Method getSuperMethod(Method method) {
-    	Class declaring = method.getDeclaringClass();
-    	if (declaring.getSuperclass() != null) {
-    		Class superClass = declaring.getSuperclass();
-    		try {
-				Method superMethod = superClass.getMethod(method.getName(), method.getParameterTypes());
-				if(superMethod != null) {
-					return superMethod;
-				}
-			} 
-    		catch (Exception e) {
-				return null;
-			} 
-		}
-    	return null;
+        do {
+            if (method.isAnnotationPresent(annotationClass)) {
+                return method.getAnnotation(annotationClass);
+            }
+        } while ((method = getSuperMethod(method)) != null);
+        return null;
     }
-    
-    
 
-	private class PostInitializingMethod implements Comparable<PostInitializingMethod> {
+    @SuppressWarnings("unchecked")
+    private Method getSuperMethod(Method method) {
+        Class declaring = method.getDeclaringClass();
+        if (declaring.getSuperclass() != null) {
+            Class superClass = declaring.getSuperclass();
+            try {
+                Method superMethod = superClass.getMethod(method.getName(), method.getParameterTypes());
+                if (superMethod != null) {
+                    return superMethod;
+                }
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    private class PostInitializingMethod implements Comparable<PostInitializingMethod> {
         private Method method;
         private Object beanInstance;
         private int order;
@@ -128,12 +129,15 @@ public class PostInitializerRunner implements ApplicationListener {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
 
             PostInitializingMethod that = (PostInitializingMethod) o;
 
-            return order == that.order && !(beanName != null ? !beanName.equals(that.beanName) : that.beanName != null) && !(method != null ? !method.equals(that.method) : that.method != null);
+            return order == that.order && !(beanName != null ? !beanName.equals(that.beanName) : that.beanName != null)
+                    && !(method != null ? !method.equals(that.method) : that.method != null);
 
         }
 

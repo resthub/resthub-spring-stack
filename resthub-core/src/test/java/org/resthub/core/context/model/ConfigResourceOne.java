@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 public class ConfigResourceOne {
-	
-	private static final long serialVersionUID = -6397995008582106415L;
-	private Long id;
-	
-	@Id
+
+    private static final long serialVersionUID = -6397995008582106415L;
+    private Long id;
+
+    @Id
     @GeneratedValue
     public Long getId() {
         return id;

@@ -15,102 +15,95 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * @author bmeurant <Baptiste Meurant>
+ * Implementation of the service used to retreive the current Spring application context configuration
  */
 @Named("toolingService")
-public class SpringToolingService implements ToolingService,
-		ApplicationContextAware {
+public class SpringToolingService implements ToolingService, ApplicationContextAware {
 
-	private ApplicationContext ctx;
-	private ConfigurableListableBeanFactory configurablebeanFactory;
-	private List<BeanDetail> allBeans = null;
+    private ApplicationContext ctx;
+    private ConfigurableListableBeanFactory configurablebeanFactory;
+    private List<BeanDetail> allBeans = null;
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.ctx = applicationContext;
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.ctx = applicationContext;
 
-		// Check that the current ApplicationContext is,
-		// actually a ConfigurableApplicationContext.
-		// In this case, get the configurableListablebeanFactory to be able to
-		// get bean definitions
-		if (this.ctx instanceof ConfigurableApplicationContext) {
-			this.configurablebeanFactory = ((ConfigurableApplicationContext) this.ctx)
-					.getBeanFactory();
-		}
-	}
+        // Check that the current ApplicationContext is,
+        // actually a ConfigurableApplicationContext.
+        // In this case, get the configurableListablebeanFactory to be able to
+        // get bean definitions
+        if (this.ctx instanceof ConfigurableApplicationContext) {
+            this.configurablebeanFactory = ((ConfigurableApplicationContext) this.ctx).getBeanFactory();
+        }
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public List<String> getBeanNames() {
-		return Arrays.asList(this.ctx.getBeanDefinitionNames());
-	}
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public List<String> getBeanNames() {
+        return Arrays.asList(this.ctx.getBeanDefinitionNames());
+    }
 
-	/**
-	 * {@InheritDoc}
-	 */
-	@Override
-	public List<BeanDetail> getBeanDetails() {
+    /**
+     * {@InheritDoc}
+     */
+    @Override
+    public List<BeanDetail> getBeanDetails() {
 
-		if (this.allBeans == null) {
+        if (this.allBeans == null) {
 
-			// initialize BeanDetail list
-			List<BeanDetail> beans = new ArrayList<BeanDetail>();
-			BeanDetail springBeanDetail;
+            // initialize BeanDetail list
+            List<BeanDetail> beans = new ArrayList<BeanDetail>();
+            BeanDetail springBeanDetail;
 
-			// get the list of bean names
-			List<String> names = this.getBeanNames();
+            // get the list of bean names
+            List<String> names = this.getBeanNames();
 
-			for (String beanName : names) {
-				springBeanDetail = new BeanDetail();
-				springBeanDetail.setBeanName(beanName);
+            for (String beanName : names) {
+                springBeanDetail = new BeanDetail();
+                springBeanDetail.setBeanName(beanName);
 
-				Object bean;
-				String beanType;
+                Object bean;
+                String beanType;
 
-				springBeanDetail.setAliases(Arrays.asList(this.ctx
-						.getAliases(beanName)));
-				bean = this.ctx.getBean(beanName);
-				beanType = bean.getClass().getName();
+                springBeanDetail.setAliases(Arrays.asList(this.ctx.getAliases(beanName)));
+                bean = this.ctx.getBean(beanName);
+                beanType = bean.getClass().getName();
 
-				// Manage proxied beans
-				// If the bean is proxied then its type is modiified. We
-				// detect
-				// it and get the correct target type
-				if (AopUtils.isAopProxy(bean)) {
-					beanType = AopUtils.getTargetClass(bean).getName();
-					springBeanDetail.setProxied(true);
-				}
+                // Manage proxied beans
+                // If the bean is proxied then its type is modiified. We
+                // detect
+                // it and get the correct target type
+                if (AopUtils.isAopProxy(bean)) {
+                    beanType = AopUtils.getTargetClass(bean).getName();
+                    springBeanDetail.setProxied(true);
+                }
 
-				springBeanDetail.setBeanType(beanType);
-				springBeanDetail.setPrototype(this.ctx
-						.isPrototype(beanName));
-				springBeanDetail.setSingleton(this.ctx
-						.isSingleton(beanName));
-				springBeanDetail.setBean(this.ctx.getBean(beanName));
-				
-				if (this.configurablebeanFactory != null) {
+                springBeanDetail.setBeanType(beanType);
+                springBeanDetail.setPrototype(this.ctx.isPrototype(beanName));
+                springBeanDetail.setSingleton(this.ctx.isSingleton(beanName));
+                springBeanDetail.setBean(this.ctx.getBean(beanName));
 
-					BeanDefinition beanDefinition = this.configurablebeanFactory
-							.getBeanDefinition(beanName);
-					springBeanDetail.setBeanType(beanDefinition.getBeanClassName());
-					springBeanDetail.setDescription(beanDefinition.getDescription());
-					springBeanDetail.setScope(beanDefinition.getScope());
-					springBeanDetail.setLazyInit(beanDefinition.isLazyInit());
-					springBeanDetail.setAbstract(beanDefinition.isAbstract());
+                if (this.configurablebeanFactory != null) {
 
-				} 
-				beans.add(springBeanDetail);
-			}
-			this.allBeans = beans;
-		}
+                    BeanDefinition beanDefinition = this.configurablebeanFactory.getBeanDefinition(beanName);
+                    springBeanDetail.setBeanType(beanDefinition.getBeanClassName());
+                    springBeanDetail.setDescription(beanDefinition.getDescription());
+                    springBeanDetail.setScope(beanDefinition.getScope());
+                    springBeanDetail.setLazyInit(beanDefinition.isLazyInit());
+                    springBeanDetail.setAbstract(beanDefinition.isAbstract());
 
-		return this.allBeans;
-	}
+                }
+                beans.add(springBeanDetail);
+            }
+            this.allBeans = beans;
+        }
+
+        return this.allBeans;
+    }
 
 }

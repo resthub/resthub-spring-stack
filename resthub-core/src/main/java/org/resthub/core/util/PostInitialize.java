@@ -7,9 +7,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 
 /**
- * Similar to @PostConstruct Spring annoatation, but exectuted later in applicatin lefecycle, in order to get
- * transaction management ready.
- *   
+ * Similar to @PostConstruct Spring annotation, but exectuted later in
+ * applicatin lefecycle, in order to get transaction management ready.
+ * 
  * Found on http://forum.springsource.org/showthread.php?p=252616#post252616
  * 
  * @author AlphaCSP

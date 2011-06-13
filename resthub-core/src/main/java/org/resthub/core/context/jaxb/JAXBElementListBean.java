@@ -5,13 +5,13 @@ import java.util.List;
 
 public class JAXBElementListBean {
 
-	private List<String> elements = new ArrayList<String>();
+    private List<String> elements = new ArrayList<String>();
 
-	public List<String> getElements() {
-		return elements;
-	}
+    public List<String> getElements() {
+        return elements;
+    }
 
-	public void setElements(List<String> elements) {
-		this.elements = elements;
-	}
+    public void setElements(List<String> elements) {
+        this.elements = elements;
+    }
 }

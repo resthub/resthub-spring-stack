@@ -11,9 +11,6 @@ import org.springframework.util.Assert;
 /**
  * Delegates to the appropriate {@link DatabasePopulator} depending on the
  * database product name. (e.g. "hsql", "h2", "mysql", ...)
- * 
- * @author vanackej
- * 
  */
 public class SelectiveDatabasePopulator implements DatabasePopulator {
 
@@ -42,15 +39,12 @@ public class SelectiveDatabasePopulator implements DatabasePopulator {
 
     @Override
     public void populate(final Connection connection) throws SQLException {
-        Assert.state(this.databasePopulator != null,
-                "DatabasePopulator must be provided");
+        Assert.state(this.databasePopulator != null, "DatabasePopulator must be provided");
         DatabasePopulator actualDatabasePopulator = this.databasePopulator;
         if (exceptions != null) {
-            final DatabaseDescriptor descriptor = new DatabaseDescriptor(
-                    connection);
+            final DatabaseDescriptor descriptor = new DatabaseDescriptor(connection);
             if (exceptions.containsKey(descriptor.getProductName())) {
-                actualDatabasePopulator = exceptions.get(descriptor
-                        .getProductName());
+                actualDatabasePopulator = exceptions.get(descriptor.getProductName());
             }
         }
 

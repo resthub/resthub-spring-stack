@@ -21,10 +21,6 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="org.resthub.booking.security" />
-
-	<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
-		<jdbc:script location="classpath:import-booking.sql" />
-	</jdbc:initialize-database>
 	
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="bookingUserDetailsService"/>
