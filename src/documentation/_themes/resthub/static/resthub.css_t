@@ -19,7 +19,7 @@
  
 body {
     font-family: {{ font_family }};
-    font-size: 17px;
+    font-size: 16px;
     background-color: white;
     color: #000;
     margin: 0;

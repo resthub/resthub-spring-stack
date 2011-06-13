@@ -36,7 +36,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'RESThub'
-copyright = '2010, Atos Worldline'
+copyright = '2011, pullrequest.org'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

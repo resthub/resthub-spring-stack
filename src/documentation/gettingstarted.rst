@@ -136,7 +136,7 @@ web.xml
 	</web-app>
 
 Model
-=====
+-----
 
 We don't provide base resource classe because too much inheritance cause much performance trouble with JPA.
 Instead, you can use the following template class to create your own.
@@ -150,16 +150,16 @@ Instead, you can use the following template class to create your own.
 
 	@Entity
 	@XmlRootElement
-	public class SampleResource {
+	public class Sample {
 
 		private Long id;
 		private String name;
 
-		public WebSampleResource() {
+		public Sample() {
 			super();
 		}
 
-		public WebSampleResource(String name) {
+		public Sample(String name) {
 			super();
 			this.name = name;
 		}

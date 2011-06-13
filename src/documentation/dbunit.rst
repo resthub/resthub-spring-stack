@@ -18,19 +18,10 @@ The first step is to use an embedded memory database. Thus, the database is crea
 
 At this point, you may think : "Just enclose your test in a transaction and rollback it after the test". Proceeding this way, you are sure to preserve the database state. But you will also miss all errors that are discovered at commit or flush time. Indeed, JPA providers like Hibernate can cache the SQL instructions they are supposed to send to the database, often until you actually commit the transaction.
 
-You definitively need a way to restore the database state before each test. That's exactly what DBUnit is made for.
-
-DBUnit
-------
-
-// TODO : Quick presentation of dbunit
-
-See http://dbunit.sourceforge.net/
+You definitively need a way to restore the database state before each test. That's exactly what `DBUnit <http://dbunit.sourceforge.net/>`_ is made for.
 
 Integrating DBUnit and Spring Test
 ==================================
-
-// TODO : describe boilerplate code, configuration problems depending on the underlying database and how we avoid it
 
 Configuration
 -------------
