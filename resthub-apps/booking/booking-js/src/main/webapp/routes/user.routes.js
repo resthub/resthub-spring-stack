@@ -1,4 +1,4 @@
-define([ 'user/login', 'user/register', 'user/edit' ], function() {
+define([ 'lib/oauth2client', 'user/login', 'user/register', 'user/edit' ], function( OAuth2Client ) {
 
 	/* BEGIN EVENTS */
 	
@@ -26,8 +26,8 @@ define([ 'user/login', 'user/register', 'user/edit' ], function() {
 
 	$.subscribe('user-logged-out', function() {
 		$.pnotify('See ya !');
+		OAuth2Client.logout();
 		$.storage.set('user', null);
-		$.storage.set(OAuth2Controller.storageKey, null);
 		$.route('#');
 	});
 

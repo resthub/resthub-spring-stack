@@ -1,12 +1,12 @@
 define([ 
         'i18n!nls/labels',
-        'lib/oauth2controller',
+        'lib/controller',
         'repositories/group.repository',
         'lib/jqueryui/button',
         'controller/utils',
         'lib/jqueryui/dialog',
         'lib/jquery/jquery.sprintf'
-    ], function(i18n, OAuth2Controller, GroupRepository) {
+    ], function(i18n, Controller, GroupRepository) {
 	
 	/**
 	 * Class GroupManageController
@@ -14,7 +14,7 @@ define([
 	 * This controller is able to manage groups: create, remove and list them (with pagination).
 	 * Performs groups edition, and permissions management at groups level.
 	 */
-	return OAuth2Controller.extend("GroupManageController", {
+	return Controller.extend("GroupManageController", {
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Public attributes
@@ -380,5 +380,5 @@ define([
 			$.subscribe('delete-group', $.proxy(this, '_removeButtonHandler'));				
 		} // init().
 		
-	}); // Class GroupManageController
+	});
 });

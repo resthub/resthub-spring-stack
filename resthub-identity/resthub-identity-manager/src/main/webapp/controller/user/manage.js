@@ -1,12 +1,12 @@
 define([ 
         'i18n!nls/labels',
-        'lib/oauth2controller',
+        'lib/controller',
         'repositories/user.repository',
         'lib/jqueryui/button',
         'controller/utils',
         'lib/jqueryui/dialog',
         'lib/jquery/jquery.sprintf'
-    ], function(i18n, OAuth2Controller, UserRepository) {
+    ], function(i18n, Controller, UserRepository) {
 	
 	/**
 	 * Class UserManageController
@@ -14,7 +14,7 @@ define([
 	 * This controller is able to manage users: create, remove and list them (with pagination).
 	 * Performs user edition, and permissions management at user level.
 	 */
-	return OAuth2Controller.extend("UserManageController", {
+	return Controller.extend("UserManageController", {
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Public attributes

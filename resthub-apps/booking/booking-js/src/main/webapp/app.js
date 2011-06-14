@@ -4,17 +4,17 @@
 define([ 'lib/resthub',
          'routes/user.routes',
          'routes/booking.routes',
-		'routes/hotel.routes',
-		'lib/jquery/jquery.pnotify',
-		'lib/oauth2controller',
-		'home' ],
-		function($, UserRoutes, BookingRoutes, HotelRoutes, Controller) {
+		 'routes/hotel.routes',
+		 'lib/oauth2client',
+		 'lib/jquery/jquery.pnotify',
+		 'home' ],
+		 function($, UserRoutes, BookingRoutes, HotelRoutes, OAuth2Client) {
 
 	$(document).ready(function() {
 		
-		OAuth2Controller.clientId = "booking";
-		OAuth2Controller.clientSecret = "";
-		OAuth2Controller.tokenEndPoint = "oauth/authorize";
+		OAuth2Client.clientId = "booking";
+		OAuth2Client.clientSecret = "";
+		OAuth2Client.tokenEndPoint = "oauth/authorize";
 		
 		// Store default values
 		$.storage.set('search-size', 5);

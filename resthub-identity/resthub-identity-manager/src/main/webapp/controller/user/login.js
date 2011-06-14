@@ -1,16 +1,17 @@
 define([
         'i18n!nls/labels',
-        'lib/oauth2controller',
+        'lib/controller',
         'repositories/user.repository',
+        'oauth2client',
         'lib/jqueryui/button'
-    ], function(i18n, OAuth2Controller, UserRepository) {
+    ], function(i18n, Controller, OAuth2Client, UserRepository) {
 
 	/**
 	 * Class LoginController
 	 * 
 	 * Display a login forms, and redirect to home on success.
 	 */
-	return OAuth2Controller.extend('LoginController', {
+	return Controller.extend('LoginController', {
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Public attributes
@@ -42,11 +43,11 @@ define([
 		 * this._authenticateErrorHandler() is the error callback, 
 		 */
 		_submitButtonHandler: function(token) {
-			$.storage.remove('oauthToken');
+			OAuth2Client.logout();
 			// Try to authenticate
 			this._login = $('input[name="username"]').val();
 			$.loading(true);
-			this.getOAuth2token(
+			OAuth2Client.login(
 					this._login,
 					$('input[name="password"]').val(),
 					$.proxy(this, '_authenticateHandler'),

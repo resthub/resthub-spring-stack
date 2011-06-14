@@ -1,11 +1,11 @@
 define([
         'i18n!nls/labels',
-        'lib/oauth2controller',
+        'lib/controller',
         'repositories/user.repository',
         'controller/utils',
         'lib/jqueryui/button',
         'lib/jquery/jquery.sprintf'
-   ], function(i18n, OAuth2Controller, UserRepository) {
+   ], function(i18n, Controller, UserRepository) {
 
 	/**
 	 * Class HomeController
@@ -13,7 +13,7 @@ define([
 	 * Display user home page, consisting of a password edition form, and administrative links
 	 * for admins.
 	 */
-	return OAuth2Controller.extend('HomeController', {
+	return Controller.extend('HomeController', {
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Public attributes

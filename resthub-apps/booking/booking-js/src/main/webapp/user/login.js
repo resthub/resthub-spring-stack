@@ -1,6 +1,6 @@
-define([ 'lib/oauth2controller', 'repositories/user.repository',  ], function(OAuth2Controller, UserRepository) {
+define([ 'lib/controller', 'lib/oauth2client', 'repositories/user.repository',  ], function(Controller, OAuth2Client, UserRepository) {
 
-	return OAuth2Controller.extend("UserLoginController", {
+	return Controller.extend("UserLoginController", {
 		template: 'user/login.html',
 		user: {},
 		
@@ -11,11 +11,12 @@ define([ 'lib/oauth2controller', 'repositories/user.repository',  ], function(OA
 			$('#formLogin').submit(function() {
 				$.storage.remove('user');
 				document.title = 'Login';
+				
 				self.user = {
 					username : $('input[name="username"]').val(),
 					password : $('input[name="password"]').val()
 				}; 
-				self.getOAuth2token(
+				OAuth2Client.login(
 						self.user.username,
 						self.user.password,
 						$.proxy(self, '_authenticateHandler'),
