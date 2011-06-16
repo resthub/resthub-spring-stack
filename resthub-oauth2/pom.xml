@@ -3,12 +3,12 @@
   <parent>
     <artifactId>resthub</artifactId>
     <groupId>org.resthub</groupId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-rc12</version>
   </parent>
   
   <groupId>org.resthub</groupId>
   <artifactId>resthub-oauth2</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1-rc12</version>
   <packaging>pom</packaging>
   <name>RESThub OAuth2 support</name>
   <description>Security layer for RESThub service with OAuth v2</description>
