@@ -14,7 +14,7 @@ define(['i18n!nls/labels', 'lib/jquery'], function (i18n) {
 	 * 
 	 * If no current user is to be found, redirect to login.
 	 */
-	$.redirectIfNotLogged = function() {	
+	$.redirectIfNotLogged = function() {
 		var user = $.storage.get(Constants.USER_KEY);
 		$('#navbar-content *').remove();
 		if (user == null) {

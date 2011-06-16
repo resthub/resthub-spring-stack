@@ -96,7 +96,7 @@
    </security:global-method-security>
    
    <resthub:db-descriptor id="dbDescriptor" data-source="dataSource"/>
-   <resthub:db-initialize data-source="dataSource" ignore-failures="NONE" enabled="#{!dbDescriptor.tables.contains('ACL_SID')}">
+   <resthub:db-initialize data-source="dataSource" ignore-failures="ALL" enabled="#{!dbDescriptor.tables.contains('ACL_SID')}">
    		<resthub:script location="classpath:createAclSchema.sql"/>
    		<resthub:exception product="postgresql">
    			<resthub:script location="classpath:createAclSchemaPostgres.sql"/>

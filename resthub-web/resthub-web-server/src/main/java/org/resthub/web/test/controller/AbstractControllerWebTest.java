@@ -45,8 +45,10 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
      * Cleans all persisted objects to simulate transactionnal tests
      */
     @After
-    public void cleanAll() {
+    @Override
+    public void tearDown() {
         resource().path(getResourcePath() + "/all").delete();
+        super.tearDown();
     }
 
     // -------------------------------------------------------------------------

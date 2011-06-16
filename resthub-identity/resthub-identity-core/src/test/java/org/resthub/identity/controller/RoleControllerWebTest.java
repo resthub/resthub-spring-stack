@@ -55,9 +55,10 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
 
     @Override
     @After
-    public void cleanAll() {
+    public void tearDown() {
         resource().path("user/all").delete();
         resource().path(getResourcePath() + "/all").delete();
+        super.tearDown();
     }
 
     protected User createTestUser() {

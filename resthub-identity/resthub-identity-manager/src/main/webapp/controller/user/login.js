@@ -2,9 +2,9 @@ define([
         'i18n!nls/labels',
         'lib/controller',
         'repositories/user.repository',
-        'oauth2client',
+        'lib/oauth2client',
         'lib/jqueryui/button'
-    ], function(i18n, Controller, OAuth2Client, UserRepository) {
+    ], function(i18n, Controller, UserRepository, OAuth2Client) {
 
 	/**
 	 * Class LoginController

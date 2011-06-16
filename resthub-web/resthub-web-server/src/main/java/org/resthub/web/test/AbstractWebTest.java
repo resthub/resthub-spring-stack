@@ -1,5 +1,6 @@
 package org.resthub.web.test;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.junit.After;
@@ -32,6 +33,8 @@ public abstract class AbstractWebTest {
 
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
     protected String contextClass = "org.resthub.core.context.ResthubXmlWebApplicationContext";
+    
+    protected static final Logger logger = Logger.getLogger(AbstractWebTest.class);
 
     public int getPort() {
         return this.port;
@@ -87,9 +90,13 @@ public abstract class AbstractWebTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         if (server != null) {
-            server.stop();
+            try {
+                server.stop();
+            } catch (Exception e) {
+                logger.error("Error while trying to stop embedded Jetty : " + e);
+            }
         }
     }
 
