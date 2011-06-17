@@ -30,35 +30,6 @@
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <ehcache.version>2.3.2</ehcache.version>
     </properties>
-    
-    <profiles>
-        <profile>
-            <id>env-local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>env</name>
-                    <value>local</value>
-                </property>
-            </activation>
-            <properties>
-                <deploy.host>resthub.org</deploy.host>
-            </properties>
-        </profile>
-        <profile>
-            <id>env-dev</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>dev</value>
-                </property>
-            </activation>
-            <properties>
-                <deploy.host>localhost</deploy.host>
-            </properties>
-        </profile>
-    </profiles>
-
 
     <issueManagement>
         <system>RESThub issue tracker</system>

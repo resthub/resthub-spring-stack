@@ -33,11 +33,11 @@
     <distributionManagement>
         <repository>
             <id>resthub-repo</id>
-            <url>http://${deploy.host}/nexus/content/repositories/releases</url>
+            <url>http://resthub.org/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>resthub-repo-snapshot</id>
-            <url>http://${deploy.host}/nexus/content/repositories/snapshots</url>
+            <url>http://resthub.org/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
