@@ -32,9 +32,11 @@ define([ 'lib/controller', 'lib/oauth2client', 'repositories/user.repository',  
 			$.pnotify({pnotify_type:'error', pnotify_text: i18n.notifications.wrongCredentials});
 		},
 		_authenticateHandler: function() {
-			$.storage.set('user', this.user);
-			$.route('#/home');
-			$.publish('user-logged-in');
+			UserRepository.findByUsername(function(data) {
+				$.storage.set('user', data);
+				$.route('#/home');
+				$.publish('user-logged-in');
+			}, this.user.username);
 		}
 	});
 

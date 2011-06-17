@@ -4,8 +4,8 @@ define([ 'lib/oauth2repository' ], function(OAuth2Repository) {
 
 		root : 'api/user/',
 
-		check : function(callback, data) {
-			this._post(this.root + 'check/', callback, data);
+		findByUsername : function(callback, username) {
+			this._get(this.root + 'username/' + username, callback);
 		}
 
 	}, {});
