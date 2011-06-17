@@ -11,14 +11,6 @@ public interface UserService extends GenericService<User, Long> {
 
     /**
      * @param username
-     * @param password
-     * 
-     * @return the user if credentials are correct, else return null
-     */
-    User checkCredentials(String username, String password);
-
-    /**
-     * @param username
      * 
      * @return the user with this username if it exists, else return null
      * 

@@ -27,19 +27,6 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDao> imp
     }
 
     /**
-     * Naive implementation of checkLogin Real life implementation should store
-     * and compare encrypted passwords
-     **/
-    public User checkCredentials(String username, String password) {
-        List<User> users = this.dao.findEquals("username", username);
-
-        if ((users != null) && (users.size() == 1) && users.get(0).getPassword().equals(password)) {
-            return users.get(0);
-        }
-        return null;
-    }
-
-    /**
      * {@InheritDoc}
      */
     public User findByUsername(String username) {
