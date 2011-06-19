@@ -85,7 +85,7 @@ The *dbunit* namespace avoid complicated DBUnit configuration. The configuration
          http://www.springframework.org/schema/beans 
          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
          http://www.resthub.org/schema/dbunit 
-         http://www.resthub.org/schema/dbunit/resthub-dbunit-1.0.xsd">
+         http://www.resthub.org/schema/dbunit/resthub-dbunit-1.1.xsd">
 
       <dbunit:configuration data-source="dataSource"/>
    

@@ -21,7 +21,7 @@
     http://www.springframework.org/schema/util 
     http://www.springframework.org/schema/util/spring-util-3.0.xsd
     http://www.resthub.org/schema/context
-    http://www.resthub.org/schema/context/resthub-context-1.0.xsd" >
+    http://www.resthub.org/schema/context/resthub-context-1.1.xsd" >
 	
 	<!-- ========= ACL SERVICE DEFINITIONS ========= -->
 	<bean id="aclCache"
