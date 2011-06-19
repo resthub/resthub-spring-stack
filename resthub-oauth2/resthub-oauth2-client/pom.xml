@@ -3,11 +3,11 @@
 	<parent>
 		<artifactId>resthub-oauth2</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.resthub</groupId>
 	<artifactId>resthub-oauth2-client</artifactId>
-	<version>1.1</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<name>RESThub OAuth2 client</name>
 	<description>Java OAuth v2 client for accessing protected resources</description>
 
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-client</artifactId>
-			<version>1.1</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-spring-security</artifactId>
-			<version>1.1</version>
+			<version>1.1.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
