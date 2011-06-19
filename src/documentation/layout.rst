@@ -96,7 +96,7 @@ applicationContext.xml
       xmlns:context="http://www.springframework.org/schema/context" xmlns:resthub="http://www.resthub.org/schema/context"
       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-      http://www.resthub.org/schema/context http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
+      http://www.resthub.org/schema/context http://www.resthub.org/schema/context/resthub-context-1.1.xsd">
 			
 		<!-- Enable bean declaration by annotations, update base package according to your project -->
 		<context:annotation-config/>

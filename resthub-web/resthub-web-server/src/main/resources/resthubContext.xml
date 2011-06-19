@@ -9,7 +9,7 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     http://www.resthub.org/schema/context
-    http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
+    http://www.resthub.org/schema/context/resthub-context-1.1.xsd">
 
 
 	<context:annotation-config />
