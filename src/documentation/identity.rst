@@ -33,13 +33,17 @@ Identity Manager is a full autonomous RESTHub applications, with its 3 layers :
 CRUD functionnalities are provided to allow user/group/roles management, and permissions attributions.
 The REST Controller layer is itself protected.
 
-Packaging
----------
+Modules
+-------
 
 Identity Manager is a maven multi module project, containing:
-- resthub-identitymanager-core: 3 layered SOA service, with model
-- resthub-identitymanager-webapp: depends on the core, add web.xml for deployement in Server Container, and an Javascript RIA application for administration purposes.
-- resthub-identitymanager-acl: depends on the core, provide integration with SpringSecurity 3's ACL mecanism.
+- resthub-identity-core: 3 layered SOA service, with model
+- resthub-identity-manager: depends on the core, add web.xml for deployement in Server Container, and an Javascript RIA application for administration purposes.
+- resthub-identity-acl: depends on the core, provide integration with SpringSecurity 3's ACL mecanism.
+
+Identity manager test users are :
+ - admin / 4dm|n
+ - test / test
 
 Security
 --------
@@ -50,4 +54,4 @@ Its means that, in a SOA application, Identity Manager centralizes identities, a
 As said before, the REST api are protected.
 That means that you'll need OAuth2 tokens to access it, token that could be provided by the application itself.
 
-Thus, IdentityManager acts as an OAuth2 provider AND an OAuth2 secured resources.
+Thus, Identity Manager acts as an OAuth2 provider AND an OAuth2 secured resources.

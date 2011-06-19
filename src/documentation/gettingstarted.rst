@@ -2,184 +2,64 @@
 Getting started
 ===============
 
-Let's go to see what looks like a typical RESThub based application ...
+RESThub can be used with any MVC framwork, but is designed to provide th perfect backend for `RESThub JS <http://resthub.org/javascript/>`_, a Javascript framework designed to build lightweight HTML5 applications.
 
-RESThub is a framework that is intended to allow you to develop efficiently webapp projects. It has Maven the following directory layout :
+We also provide a `Tapestry 5 <http://tapestry.apache.org/>`_ integration for those who prefer serverside MVC frameworks.  
 
- * /pom.xml : the Maven configuration file, it defines dependencies, plugins, etc.
- * /src/main/java : your java classes go there
- * /src/main/resources : your xml and properties files go there
- * /src/main/resources/applicationContext.xml : this is your application Spring configuration file. Since we mainly use annotation based configuration, this file will usually be short
- * /src/main/webapp : your HTML, CSS and javascripts files go there
- * /src/main/webapp/WEB-INF/web.xml : java webapplication configuration file, mainly used to configure Spring and Jersey servlet and filters
- 
-pom.xml
--------
+.. image:: _static/blocks.png
+	:width: 848 px
+	:height: 504 px
+	:scale: 75 %
+	:alt: RESThub functionalities
+	:align: center
 
-.. code-block:: xml
+Requirements
+============
 
-	<?xml version="1.0" encoding="UTF-8"?>
-	<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-		<modelVersion>4.0.0</modelVersion>
-      
-      <parent>
-        <artifactId>resthub-parent</artifactId>
-        <groupId>org.resthub</groupId>
-        <version>1.1</version>
-      </parent>
-    
-		<groupId>org.mydomain</groupId>
-		<artifactId>myproject</artifactId>
-		<packaging>war</packaging>
-		<version>1.0-SNAPSHOT</version>
+Before coding, you should download and install following development tools if needed : 
+ * `Java 6 <http://java.sun.com/javase/downloads/index.jsp>`_
+ * `Maven 3 <http://maven.apache.org/>`_
+ * A java IDE like `Eclipse <http://www.eclipse.org/>`_ or `Netbeans <http://netbeans.org/>`_ is recommanded
 
-		<dependencies>
-			<!-- We use RESThub core classes and dependencies built around Spring 3 -->
-			<dependency>
-				<groupId>org.resthub</groupId>
-				<artifactId>resthub-core</artifactId>
-				<version>1.1</version>
-			</dependency>
-			<!-- We use RESThub web classes and dependencies built around Jersey -->
-			<dependency>
-				<groupId>org.resthub</groupId>
-				<artifactId>resthub-web-server</artifactId>
-				<version>1.1</version>
-			</dependency>
-			<!-- We use RESThub JS stack built around jQuery -->
-			<dependency>
-				<groupId>org.resthub</groupId>
-				<artifactId>resthub-js</artifactId>
-				<version>1.1</version>
-				<type>war</type>
-			</dependency>
-		</dependencies>
+Documentation
+=============
 
-		<repositories>
-			<!-- Contains all RESThub artifacts and transitive dependencies -->		
-			<repository>
-				<id>resthub</id>
-				<url>http://resthub.org/nexus/content/groups/resthub</url>
-			</repository>
-		</repositories>
-	</project>
+In addition to this reference documentation, RESThub Javadoc is available `here <http://resthub.org/javadoc/1.1>`_.
 
-applicationContext.xml
-----------------------
+Framework documentation included in RESThub may also be useful :
+ * `Maven complete reference <http://www.sonatype.com/books/mvnex-book/reference/public-book.html|Maven by example]], [[http://www.sonatype.com/books/mvnref-book/reference/public-book.html>`_
+ * `Spring 3 reference manual <http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html|html]], [[http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/pdf/spring-framework-reference.pdf>`_
+ * `Spring 3 javadoc <http://static.springsource.org/spring/docs/3.0.x/javadoc-api/>`_
+ * `Hibernate documentation <http://www.hibernate.org/docs.html>`_
+ * `Hades <http://hades.synyx.org/static/2.x/site/org.synyx.hades/apidocs/>`_
+ * `H2 embedded database <http://www.h2database.com/html/main.html>`_
 
-.. code-block:: xml
+Sample applications
+===================
 
-   <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:context="http://www.springframework.org/schema/context" xmlns:resthub="http://www.resthub.org/schema/context"
-      xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-      http://www.resthub.org/schema/context http://www.resthub.org/schema/context/resthub-context-1.0.xsd">
-			
-		<!-- Enable bean declaration by annotations, update base package according to your project -->
-		<context:annotation-config/>
-		<context:component-scan base-package="org.mydomain.myproject" />
+Check these sample applications to learn how to design your RESThub based web application :
+ * `Roundtable <https://github.com/pullrequest/resthub/tree/resthub-1.1/resthub-apps/roundtable>`_ : a doodle like clone developed with RESThub JS.
+ * `Booking JS <https://github.com/pullrequest/resthub/tree/resthub-1.1/resthub-apps/booking/booking-js/>`_ : booking demo application, implemented with RESThub JS.
+ * `Booking Tapestry 5 <https://github.com/pullrequest/resthub/tree/resthub-1.1/resthub-apps/booking/booking-tapestry5/>`_ : booking demo application, implemented with Tapestry 5 integration.
 
-		<!-- Scan your JPA entites to make them manage by EntityManager, even if dispatched in various packages -->
-		<resthub:include-entities base-package="org.mydomain.myproject.model" />
-		
-		<!-- Scan your model classes intended to be serialized/unserialized by Jersey -->
-		<resthub:include-jaxb-elements base-package="org.mydomain.myproject.model" />
-	</beans>
+In order to test and run one of these applications :
+ * Download RESThub sources from https://github.com/pullrequest/resthub/tree/resthub-1.1
+ * Open command line, and go to one of
+	* resthub/resthub-apps/booking/booking/booking-tapestry5
+	* resthub/resthub-apps/booking/booking/booking-js
+	* resthub/resthub-apps/roundtable
+ * Run mvn jetty:run
+ * Open your browser and go to http://localhost:8080
 
-web.xml
--------
+Debugging web application
+=========================
 
-.. code-block:: xml
-
-	<?xml version="1.0" encoding="UTF-8"?>
-	<web-app version="2.5"
-			 xmlns="http://java.sun.com/xml/ns/javaee"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-			 
-		<display-name>My project</display-name>
-      
-      <!--  In order to disable application context XSD validation -->
-      <context-param>
-         <param-name>contextClass</param-name>
-         <param-value>org.resthub.core.context.ResthubXmlWebApplicationContext</param-value>
-      </context-param>
-		
-		<!-- Configure application context scanning in all dependencies -->
-		<context-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath*:resthubContext.xml classpath*:applicationContext.xml</param-value>
-		</context-param>
-		
-		<filter>
-			<filter-name>JpaFilter</filter-name>
-			<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
-		</filter>
-		<filter-mapping>
-			<filter-name>JpaFilter</filter-name>
-			<url-pattern>/*</url-pattern>
-		</filter-mapping>
-		
-		<listener>
-			<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-		</listener>
-		
-		<servlet>
-			<servlet-name>Jersey Web Application</servlet-name>
-			<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
-		</servlet>
-		<servlet-mapping>
-			<servlet-name>Jersey Web Application</servlet-name>
-			<url-pattern>/api/*</url-pattern>
-		</servlet-mapping>
-		
-	</web-app>
-
-Model
------
-
-We don't provide base resource classe because too much inheritance cause much performance trouble with JPA.
-Instead, you can use the following template class to create your own.
-
-.. code-block:: java
-	
-	import javax.persistence.Entity;
-	import javax.persistence.GeneratedValue;
-	import javax.persistence.Id;
-	import javax.xml.bind.annotation.XmlRootElement;
-
-	@Entity
-	@XmlRootElement
-	public class Sample {
-
-		private Long id;
-		private String name;
-
-		public Sample() {
-			super();
-		}
-
-		public Sample(String name) {
-			super();
-			this.name = name;
-		}
-		
-		@Id
-		@GeneratedValue
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public String getName() {
-			return name;
-		}
-		
-		public void setName(String name) {
-			this.name = name;
-		}
-		
-	}
+Run/Debug RESThub in Eclipse :
+ * Right click on kazan-portal module -> Debug As -> Maven Build ...
+ * Name : Debug myproject
+ * Goal : mvn -Denv=local jetty:run
+ * Click on Apply, then Run
+ * Open your browser with following URL : `http://localhost:8080/ <http://localhost:8080/>`_
+ * Go to Debug Perspective
+ * Right click on the Debug window -> Edit source lookup
+ * Add -> Java project -> Select all -> OK -> OK

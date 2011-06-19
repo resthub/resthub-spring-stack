@@ -9,7 +9,7 @@
 	<!-- In order to disable application context XSD validation -->
 	<context-param>
 		<param-name>contextClass</param-name>
-		<param-value>org.resthub.core.context.ResthubXmlWebApplicationContext</param-value>
+		<param-value>org.resthub.web.context.ResthubXmlWebApplicationContext</param-value>
 	</context-param>
 
 	<context-param>

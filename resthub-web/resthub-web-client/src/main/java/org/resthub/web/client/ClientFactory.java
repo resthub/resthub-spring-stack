@@ -1,4 +1,4 @@
-package org.resthub.client;
+package org.resthub.web.client;
 
 import org.resthub.web.jackson.JacksonProvider;
 

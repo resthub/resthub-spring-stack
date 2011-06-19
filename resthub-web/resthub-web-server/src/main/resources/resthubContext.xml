@@ -16,13 +16,13 @@
 	<context:component-scan base-package="org.resthub.web" />
 
 	<resthub:include-jaxb-elements
-		base-package="org.resthub.**.model" />
+		base-package="org.resthub.web.model" />
 	<resthub:include-jaxb-elements
 		base-package="org.resthub.web.response" />
 
 	<!-- Specific JAXB resolver. -->
 	<bean id="specificJAXBResolver" scope="singleton"
-		class="org.resthub.core.context.jaxb.JAXBContextResolver" init-method="init">
+		class="org.resthub.web.context.jaxb.JAXBContextResolver" init-method="init">
 		<property name="jaxbElementListContextBean" ref="JAXBElementListContext" />
 	</bean>
 

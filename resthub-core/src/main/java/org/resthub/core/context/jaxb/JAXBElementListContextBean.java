@@ -17,10 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * This singleton can be used by post processor to manipulate found xml elements
  * and bound them.
  * 
- * For safety reasons, it is only accessible from its own package
  */
 @Named("JAXBElementListContext")
-class JAXBElementListContextBean {
+public class JAXBElementListContextBean {
 
     @Autowired(required = false)
     private List<JAXBElementListIncluderBean> includerBeans;

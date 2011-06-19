@@ -8,9 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
-import org.resthub.client.ClientFactory;
 import org.resthub.oauth2.common.front.model.TokenResponse;
-import org.resthub.web.jackson.JacksonProvider;
+import org.resthub.web.client.ClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +17,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.api.representation.Form;
-import com.sun.jersey.client.apache4.ApacheHttpClient4;
-import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 
 /**
  * Token repository is a light OAuth2 client which
@@ -263,7 +260,7 @@ public class TokenRepository {
     } // consult().
 
     /**
-     * Enrich a Jersy client HTTP request with the corresponding token.<br/>
+     * Enrich a Jersey client HTTP request with the corresponding token.<br/>
      * Accordingly to the path, sets the suitable token.<br/>
      * <br/>
      * 

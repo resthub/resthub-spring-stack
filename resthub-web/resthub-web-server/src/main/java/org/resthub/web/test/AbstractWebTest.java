@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.resthub.client.ClientFactory;
+import org.resthub.web.client.ClientFactory;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 
@@ -32,7 +32,7 @@ public abstract class AbstractWebTest {
     protected Server server;
 
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
-    protected String contextClass = "org.resthub.core.context.ResthubXmlWebApplicationContext";
+    protected String contextClass = "org.resthub.web.context.ResthubXmlWebApplicationContext";
     
     protected static final Logger logger = Logger.getLogger(AbstractWebTest.class);
 

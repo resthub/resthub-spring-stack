@@ -28,8 +28,7 @@ define([ 'lib/controller', 'lib/oauth2client', 'repositories/user.repository',  
 			
 		},
 		_authenticateErrorHandler: function(error, details) {
-			$.loading(false);
-			$.pnotify({pnotify_type:'error', pnotify_text: i18n.notifications.wrongCredentials});
+			$.pnotify({pnotify_type:'error', pnotify_text: "Bad credentials"});
 		},
 		_authenticateHandler: function() {
 			UserRepository.findByUsername(function(data) {

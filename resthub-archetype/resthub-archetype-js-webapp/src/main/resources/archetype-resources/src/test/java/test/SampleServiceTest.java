@@ -21,7 +21,7 @@ public class SampleServiceTest extends AbstractServiceTest<Sample, Long, SampleS
     }
 
     @Override
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         // Not implemented yet
     }
    

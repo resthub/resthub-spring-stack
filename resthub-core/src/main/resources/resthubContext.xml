@@ -21,10 +21,6 @@
     
 	<resthub:include-entities base-package="org.resthub.**.model" />
 	
-    <!--
-    PropertyPlaceholderConfigurer order priority default to Integer.MAX_VALUE
-    Use a lower order to override this default PropertyPlaceholderConfigurer.
-    -->
     <context:property-placeholder 
         location="classpath*:database.properties"
         properties-ref="databaseProperties"
