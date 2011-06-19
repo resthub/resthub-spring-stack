@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>resthub-apps</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -13,7 +13,7 @@
 	<artifactId>roundtable</artifactId>
 	<packaging>war</packaging>
 	<name>RESThub Round Table app</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<description>
 		Poll application based on RESThub
 	</description>
