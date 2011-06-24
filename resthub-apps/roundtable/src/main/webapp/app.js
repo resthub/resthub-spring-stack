@@ -1,8 +1,5 @@
-/**
- * Main APP
- */
-define([ 'lib/resthub', 'routes/poll.routes', 'lib/jquery/jquery.pnotify' ],
-    function($, PollRoutes, Controller) {
+define([ 'routes/poll.routes', 'lib/jquery/jquery.pnotify', 'lib/resthub' ],
+    function() {
         $(document).ready(function() {
 		
             $.route('#/', function() {
