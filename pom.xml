@@ -31,6 +31,68 @@
     <properties>
         <resthub.js.version>1.1.1-SNAPSHOT</resthub.js.version>
     </properties>
+    
+    <issueManagement>
+        <system>RESThub issue tracker</system>
+        <url>https://github.com/pullrequest/resthub/issues</url>
+    </issueManagement>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+    <inceptionYear>2009</inceptionYear>
+    <mailingLists>
+        <mailingList>
+            <name>Resthub developer group</name>
+            <subscribe>resthub-dev@googlegroups.com</subscribe>
+            <unsubscribe>resthub-dev-unsubscribe@googlegroups.com</unsubscribe>
+            <post>resthub-dev@googlegroups.com</post>
+            <archive>http://groups.google.com/group/resthub-dev</archive>
+        </mailingList>
+    </mailingLists>
+    <developers>
+        <developer>
+            <id>sdeleuze</id>
+            <name>Sebastien Deleuze</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>pouic</id>
+            <name>Nicolas Carlier</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>bmeurant</id>
+            <name>Baptiste Meurant</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>feugy</id>
+            <name>Damien Feugas</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>loicfrering</id>
+            <name>Loic Frering</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>dst17</id>
+            <name>Johan Poirier</name>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>vanackej</id>
+            <name>Johann Vanackere</name>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://github.com/pullrequest/resthub.git</connection>
+        <url>https://github.com/pullrequest/resthub/</url>
+    </scm>
 
     <distributionManagement>
         <repository>
