@@ -1,20 +1,15 @@
-define(["lib/route"], function() {
-
-    $(document).ready(function(){
+define(['lib/resthub', 'sample/list.js'], function() {
         
-        // Define routes
-        $.route('#', function() {
-
-            $('#main').html('<span>Home</span>');
-        });
-                
-        $.route('#/test', function() {
-            $('#main').html('<span>Hello you</span>');
-        });
-        
-        // Run current route
-        $.route(location.hash);
-                
+    // Define routes
+    $.route('#', function() {
+        $('#main').html('<span>Home</span>');
     });
+            
+    $.route('#/sample', function() {
+        $('#main').list_samples();
+    });
+    
+    // Run current route
+    $.route(location.hash);
 
 });
