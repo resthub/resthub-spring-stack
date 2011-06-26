@@ -12,7 +12,6 @@
     </description>
 
    <properties>
-        <env>local</env>
         <jersey.version>1.7</jersey.version>
         <jackson.version>1.7.7</jackson.version>
         <hibernate.version>3.6.4.Final</hibernate.version>
@@ -25,6 +24,7 @@
         <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.8.2</junit.version>
         <jetty.version>7.3.1.v20110307</jetty.version>
+        <jetty.port>8080</jetty.port>
         <hibernate.search.version>3.4.0.Final</hibernate.search.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <ehcache.version>2.3.2</ehcache.version>
@@ -314,7 +314,7 @@
                   	<!-- We use non NIO connector in order to avoid read only static files under windows -->
                         <connectors>
                             <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
-                                <port>8080</port>
+                                <port>${jetty.port}</port>
                                 <maxIdleTime>60000</maxIdleTime>
                             </connector>
                         </connectors>

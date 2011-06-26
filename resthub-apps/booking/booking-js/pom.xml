@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -10,17 +11,11 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.resthub</groupId>
 	<artifactId>booking-js</artifactId>
 	<packaging>war</packaging>
-	<version>1.1.1-SNAPSHOT</version>
 	<name>RESThub Booking app based on RESThub JS</name>
 	<description>RESThub javascript stack version of the booking sample webapplication
 	</description>
-
-	<properties>
-		<netbeans.hint.deploy.server>Tomcat70</netbeans.hint.deploy.server>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -32,17 +27,17 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-server</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>booking-core</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-spring-security</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>

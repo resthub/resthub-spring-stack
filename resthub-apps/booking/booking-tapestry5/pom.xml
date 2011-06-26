@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>booking</artifactId>
@@ -8,10 +9,8 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.resthub</groupId>
 	<artifactId>booking-tapestry5</artifactId>
 	<packaging>war</packaging>
-	<version>1.1.1-SNAPSHOT</version>
 	<name>RESThub Booking app based on Tapestry5</name>
 
 	<properties>
@@ -23,27 +22,23 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>booking-core</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
-		<!--
-			We use RESThub core classes and dependencies built around Spring 3
-		-->
+		<!-- We use RESThub core classes and dependencies built around Spring 3 -->
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-integration</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-tapestry5-spring-security</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
-		<!-- 
-			Tapx Core : include kaptcha component
-		-->
+		<!-- Tapx Core : include kaptcha component -->
 		<dependency>
 			<groupId>com.howardlewisship</groupId>
 			<artifactId>tapx-core</artifactId>

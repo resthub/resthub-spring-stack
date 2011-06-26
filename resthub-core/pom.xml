@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.resthub</groupId>
 		<artifactId>resthub</artifactId>
@@ -7,14 +9,10 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.resthub</groupId>
 	<artifactId>resthub-core</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>RESThub Core</name>
-	<description>
-		RESThub core include Embeded datasource, Generic DAO and Generic CRUD services	
-	</description>
+	<description>RESThub core include Embeded datasource, Generic DAO and Generic CRUD services</description>
 
 	<dependencies>
 		<dependency>
@@ -58,12 +56,12 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-        </dependency>
 		<dependency>
-        	<groupId>net.sf.ehcache</groupId>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
 		<dependency>
@@ -99,7 +97,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.synyx.hades</groupId>
 			<artifactId>org.synyx.hades</artifactId>

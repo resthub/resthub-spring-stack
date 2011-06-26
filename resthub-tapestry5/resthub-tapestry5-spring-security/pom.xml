@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>resthub-tapestry5</artifactId>
@@ -6,9 +7,7 @@
 		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.resthub</groupId>
 	<artifactId>resthub-tapestry5-spring-security</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
 	<name>RESThub Tapestry5 Spring Security integration</name>
 	<description>Provide Integration of SpringSecurity in Tapestry</description>
 
@@ -40,30 +39,29 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
-				<groupId>org.apache.tapestry</groupId>
-				<artifactId>tapestry-core</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.tapestry</groupId>
-				<artifactId>tapestry-ioc</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.tapestry</groupId>
-				<artifactId>tapestry-beanvalidator</artifactId>
-			</dependency>
-		
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-ioc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tapestry</groupId>
+			<artifactId>tapestry-beanvalidator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-core</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
 		</dependency>
 	</dependencies>
 

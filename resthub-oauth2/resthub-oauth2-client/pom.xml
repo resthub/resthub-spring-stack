@@ -1,13 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>resthub-oauth2</artifactId>
 		<groupId>org.resthub</groupId>
 		<version>1.1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.resthub</groupId>
 	<artifactId>resthub-oauth2-client</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
 	<name>RESThub OAuth2 client</name>
 	<description>Java OAuth v2 client for accessing protected resources</description>
 
@@ -15,17 +14,16 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-client</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
-		 <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -34,7 +32,7 @@
 		<dependency>
 			<groupId>org.resthub</groupId>
 			<artifactId>resthub-oauth2-spring-security</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

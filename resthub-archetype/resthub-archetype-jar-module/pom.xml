@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
 		<artifactId>resthub-archetype</artifactId>
 		<groupId>org.resthub</groupId>
 		<version>1.1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-  <groupId>org.resthub</groupId>
-  <artifactId>resthub-archetype-jar-module</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
-  <packaging>maven-archetype</packaging>
+	<artifactId>resthub-archetype-jar-module</artifactId>
+	<packaging>maven-archetype</packaging>
 
-  <name>RESThub JAR module archetype</name>
+	<name>RESThub JAR module archetype</name>
 
-  <build>
-  	<plugins>
-  		<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <escapeString>£</escapeString>
-        </configuration>
-      </plugin>
-  	</plugins>
-  	<resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-  
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.archetype</groupId>
-        <artifactId>archetype-packaging</artifactId>
-        <version>2.0</version>
-      </extension>
-    </extensions>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<escapeString>£</escapeString>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-		  <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-archetype-plugin</artifactId>
-          <extensions>true</extensions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.archetype</groupId>
+				<artifactId>archetype-packaging</artifactId>
+				<version>2.0</version>
+			</extension>
+		</extensions>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-archetype-plugin</artifactId>
+					<extensions>true</extensions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
