@@ -49,7 +49,7 @@ span.error {
 #header {
 	height: 200px;
 	position: relative;
-	background: #fff url(../images/hotel.jpg) 0px -90px no-repeat;
+	background: #fff url(images/hotel.jpg) 0px -90px no-repeat;
 }
 
 #header h1 {
