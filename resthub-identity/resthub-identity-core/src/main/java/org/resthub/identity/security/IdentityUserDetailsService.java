@@ -59,8 +59,10 @@ public class IdentityUserDetailsService implements UserDetailsService, ServiceLi
     public void onChange(String type, Object... arguments) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
-        if (auth != null) {
-            IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter) auth.getPrincipal();
+        IdentityUserDetailsAdapter userDetails = null;
+        
+        if (auth != null && (auth.getPrincipal() instanceof IdentityUserDetailsAdapter)) {
+            userDetails = (IdentityUserDetailsAdapter) auth.getPrincipal();
 
             // Update roles for logged users
             if (userDetails != null
