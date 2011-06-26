@@ -19,6 +19,29 @@ RESThub provides generic classes in order to make testing easiers.
    * `AbstractControllerTest <http://resthub.org/javadoc/1.1/org/resthub/web/test/controller/AbstractControllerTest.html>`_: generic controller unit test (direct java testing)
    * `AbstractControllerWebTest <http://resthub.org/javadoc/1.1/org/resthub/web/test/controller/AbstractControllerWebTest.html>`_: generic controller unit test (via a webapplication running  in Jetty embedded)
 
+Serialization
+=============
+
+RESThub includes a `SerializationHelper <http://resthub.org/javadoc/1.1/org/resthub/web/SerializationHelper.html>`_ class that could be used to test Serialialization and Deserialization of your model classes. For example :
+
+.. code-block:: java
+
+   public class WebSampleResourceSerializationTest {
+      @Test
+      public void testWebSampleResourceJsonSerialization() {
+         WebSampleResource resource = new WebSampleResource("testResource");
+         String output = SerializationHelper.jsonSerialize(resource);
+         Assert.assertTrue(output.contains("testResource"));
+      }
+
+      @Test
+      public void testWebSampleResourceXmlSerialization() {
+         WebSampleResource resource = new WebSampleResource("testResource");
+         String output = SerializationHelper.xmlSerialize(resource);
+         Assert.assertTrue(output.contains("testResource"));
+      }
+   }
+
 DBUnit integration
 ==================
 
