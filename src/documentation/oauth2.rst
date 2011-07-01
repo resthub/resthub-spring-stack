@@ -63,8 +63,24 @@ And here is a sample configuration to be added in your applicationContext.xml :
 		
 	<oauth2:client-details-service id="clientDetails" >
 		<oauth2:client clientId="myClientID" authorizedGrantTypes="password" />
-	</oauth2:client-details-service>	
+	</oauth2:client-details-service>
+	
+You will also have to add theses lines to your web.xml, bellow the contextConfigLocation context-param block :
 
+.. code-block:: xml
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> 
+	<filter>
+		<filter-name>JpaFilter</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
 
 You can have look to Booking or Identity manager sample application to see how it works.
 
