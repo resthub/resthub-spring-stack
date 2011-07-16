@@ -90,6 +90,11 @@
 			<name>Johann Vanackere</name>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<id>jvillanti</id>
+			<name>Julien Villanti</name>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/pullrequest/resthub.git</connection>
