@@ -13,34 +13,50 @@ import org.junit.Test;
 import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.test.service.AbstractServiceTest;
 
+/**
+ * This Test Suite performs tests on {@link StandaloneEntity} class in order to
+ * validate services behaviours with an entity
+ */
 public class StandaloneEntityServiceTest extends AbstractServiceTest<StandaloneEntity, Long, StandaloneEntityService> {
 
-    @Inject
-    @Named("standaloneEntityService")
-    public void setResourceService(StandaloneEntityService service) {
-        super.setService(service);
-    }
+	private static final String ENTITY_NAME = "Name";
+	private static final String ENTITY_NEW_NAME = "New name";
 
-    @Override
-    protected StandaloneEntity createTestEntity() {
-        StandaloneEntity standaloneEntity = new StandaloneEntity();
-        standaloneEntity.setName("test");
-        return standaloneEntity;
-    }
+	/**
+	 * Test entity
+	 */
+	private StandaloneEntity standaloneEntity;
 
-    @Test
-    public void testFindByName() throws Exception {
-        List<StandaloneEntity> entities = this.service.findByName("test");
-        assertNotNull("entities should not be null", entities);
-        assertFalse("entities should not empty", entities.isEmpty());
-        assertEquals("entities size should be exactly 1", 1, entities.size());
-        assertEquals("entitie name should be 'test'", "test", entities.get(0).getName());
-    }
+	@Inject
+	@Named("standaloneEntityService")
+	public void setResourceService(StandaloneEntityService service) {
+		super.setService(service);
+	}
 
-    @Override
-    @Test(expected = UnsupportedOperationException.class)
-    public void testUpdate() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	protected StandaloneEntity createTestEntity() {
+		standaloneEntity = new StandaloneEntity();
+		standaloneEntity.setName(ENTITY_NAME);
+		return standaloneEntity;
+	}
 
+	@Test
+	public void testFindByName() throws Exception {
+		List<StandaloneEntity> entities = this.service.findByName(ENTITY_NAME);
+		assertNotNull("entities should not be null", entities);
+		assertFalse("entities should not empty", entities.isEmpty());
+		assertEquals("entities size should be exactly 1", 1, entities.size());
+		assertEquals("entitie name should be " + ENTITY_NAME, ENTITY_NAME, entities.get(0).getName());
+	}
+
+	@Override
+	@Test
+	public void testUpdate() {
+		StandaloneEntity testStandaloneEntity = service.findById(standaloneEntity.getId());
+		testStandaloneEntity.setName(ENTITY_NEW_NAME);
+		service.update(testStandaloneEntity);
+
+		StandaloneEntity updatedEntity = service.findById(standaloneEntity.getId());
+		assertEquals("Entity name should have been modified", ENTITY_NEW_NAME, updatedEntity.getName());
+	}
 }
