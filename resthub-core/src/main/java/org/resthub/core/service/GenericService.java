@@ -3,9 +3,6 @@ package org.resthub.core.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.synyx.hades.domain.Page;
-import org.synyx.hades.domain.Pageable;
-
 /**
  * Generic Service interface.
  * 
@@ -16,93 +13,92 @@ import org.synyx.hades.domain.Pageable;
  */
 public interface GenericService<T, ID extends Serializable> {
 
-    /**
-     * Create new resource.
-     * 
-     * @param resource
-     *            Resource to create
-     * @return new resource
-     */
-    T create(T resource);
+	/**
+	 * Create new resource.
+	 * 
+	 * @param resource
+	 *            Resource to create
+	 * @return new resource
+	 */
+	T create(T resource);
 
-    /**
-     * Update existing resource.
-     * 
-     * @param resource
-     *            Resource to update
-     * @return resource updated
-     */
-    T update(T resource);
+	/**
+	 * Update existing resource.
+	 * 
+	 * @param resource
+	 *            Resource to update
+	 * @return resource updated
+	 */
+	T update(T resource);
 
-    /**
-     * Delete existing resource.
-     * 
-     * @param resource
-     *            Resource to delete
-     */
-    void delete(T resource);
+	/**
+	 * Delete existing resource.
+	 * 
+	 * @param resource
+	 *            Resource to delete
+	 */
+	void delete(T resource);
 
-    /**
-     * Delete existing resource.
-     * 
-     * @param id
-     *            Resource id
-     */
-    void delete(ID id);
+	/**
+	 * Delete existing resource.
+	 * 
+	 * @param id
+	 *            Resource id
+	 */
+	void delete(ID id);
 
-    /**
-     * Delete all existing resource. Do not use cascade remove (not a choice ->
-     * JPA specs)
-     */
-    void deleteAll();
+	/**
+	 * Delete all existing resource. Do not use cascade remove (not a choice ->
+	 * JPA specs)
+	 */
+	void deleteAll();
 
-    /**
-     * Delete all existing resource, including linked entities with cascade
-     * delete
-     */
-    void deleteAllWithCascade();
+	/**
+	 * Delete all existing resource, including linked entities with cascade
+	 * delete
+	 */
+	void deleteAllWithCascade();
 
-    /**
-     * Find resource by id.
-     * 
-     * @param id
-     *            Resource id
-     * @return resource
-     */
-    T findById(ID id);
+	/**
+	 * Find resource by id.
+	 * 
+	 * @param id
+	 *            Resource id
+	 * @return resource
+	 */
+	T findById(ID id);
 
-    /**
-     * Find all resources.
-     * 
-     * @param offset
-     *            offset (default 0)
-     * @param limit
-     *            limit (default 100)
-     * @return resources.
-     */
-    List<T> findAll(Integer offset, Integer limit);
+	/**
+	 * Find all resources.
+	 * 
+	 * @return a list of all resources.
+	 */
+	List<T> findAll();
 
-    /**
-     * Find all resources.
-     * 
-     * @return a list of all resources.
-     */
-    List<T> findAll();
+	/**
+	 * Count all resources.
+	 * 
+	 * @return number of resources
+	 */
+	Long count();
 
-    /**
-     * Find all resources (pageable).
-     * 
-     * @param pageRequest
-     *            page request
-     * @return resources
-     */
-    Page<T> findAll(Pageable pageRequest);
+//	/**
+//	 * Find all resources.
+//	 * 
+//	 * @param offset
+//	 *            offset (default 0)
+//	 * @param limit
+//	 *            limit (default 100)
+//	 * @return resources.
+//	 */
+//	List<T> findAll(Integer offset, Integer limit);
 
-    /**
-     * Count all resources.
-     * 
-     * @return number of resources
-     */
-    Long count();
-
+//	/**
+//	 * Find all resources (pageable).
+//	 * 
+//	 * @param pageRequest
+//	 *            page request
+//	 * @return resources
+//	 */
+//	 Page<T> findAll(Pageable pageRequest);
 }
