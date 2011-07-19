@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,15 +26,17 @@ import org.resthub.core.util.MetamodelUtils;
  * tests you will write.
  * 
  * @param <T>
- *            The model class managed by the generic DAO
+ *            The model class managed by the service
  * @param <ID>
- *            The ID class of the model class managed by the generic DAO
+ *            The ID class of the model class managed by the generic service
  * @param <S>
  *            Your generic service class
  */
 public abstract class AbstractServiceTest<T, ID extends Serializable, S extends GenericService<T, ID>> extends
         AbstractTransactionAwareTest {
 
+	protected static final Logger LOGGER = Logger.getLogger(AbstractServiceTest.class);
+	
     /**
      * The tested Service
      */
@@ -43,15 +46,16 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
 
     @PersistenceContext
     private EntityManager em;
-
+    
     /**
-     * Injection of Service.
+     * Injection of Service
+     * @param service the service to set
      */
-    public void setService(S service) {
-        this.service = service;
-    }
+	public void setService(S service) {
+		this.service = service;
+	}
 
-    /**
+	/**
      * Automatically retrieve ID from entity instance.
      * 
      * @param obj
@@ -70,7 +74,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
         try {
             return (T) ClassUtils.getGenericTypeFromBean(this.service).newInstance();
         } catch (Exception e) {
-            e.printStackTrace();
+        	LOGGER.error("Error when creating the test entity : " + e);
             return null;
         }
     }
@@ -91,7 +95,6 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
         for (T resource : service.findAll()) {
             service.delete(resource);
         }
-
     }
 
     @Test
@@ -130,7 +133,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
 
     @Test
     public void testFindAll() {
-        List<T> resourceList = service.findAll(null).asList();
+        List<T> resourceList = service.findAll();
         Assert.assertTrue("No resources found!", resourceList.size() >= 1);
     }
 
