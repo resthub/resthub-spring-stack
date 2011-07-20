@@ -18,12 +18,12 @@ import org.junit.Test;
 import org.resthub.core.test.AbstractTransactionalTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * Repository test base class in order to test your Repository extending
- * CrudRepository<T, ID> This can be usefull to do a quick check that everything
- * is fine for basic CRUD functionnalities.
+ * Pa<T, ID> This can be usefull to do a quick check that everything
+ * is fine for basic CRUD functionnalities (+ Pagination)
  * 
  * Best practices are to separate these kind of automatic tests from your custom
  * tests, that may use RESThub DbUnit integration, and that should implement the
@@ -36,7 +36,7 @@ import org.springframework.data.repository.CrudRepository;
  * @param <D>
  *            Your repository class
  */
-public abstract class AbstractRepositoryTest<T, ID extends Serializable, D extends CrudRepository<T, ID>> extends
+public abstract class AbstractRepositoryTest<T, ID extends Serializable, D extends PagingAndSortingRepository<T, ID>> extends
 		AbstractTransactionalTest {
 
 	protected static final Logger LOGGER = Logger.getLogger(AbstractRepositoryTest.class);
