@@ -91,10 +91,6 @@
        <property name="permissionFactory" ref="configurablePermissionFactory"/>
    </bean>
    
-   <security:global-method-security pre-post-annotations="enabled">
-       <security:expression-handler ref="expressionHandler"/>
-   </security:global-method-security>
-   
    <resthub:db-descriptor id="dbDescriptor" data-source="dataSource"/>
    <resthub:db-initialize data-source="dataSource" ignore-failures="ALL" enabled="#{!dbDescriptor.tables.contains('ACL_SID')}">
    		<resthub:script location="classpath:createAclSchema.sql"/>
