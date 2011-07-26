@@ -39,7 +39,7 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
-	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint">
+	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint" create-session="never">
 		<security:access-denied-handler ref="oauth2AccessDeniedHandler" />
 		<security:intercept-url pattern="api/**"/>
 	</security:http>

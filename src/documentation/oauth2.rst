@@ -49,7 +49,7 @@ And here is a sample configuration to be added in your applicationContext.xml :
 		<security:authentication-provider user-service-ref="myUserDetailsService" />
 	</security:authentication-manager>
 	
-	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint">
+	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint" create-session="never">
 		<security:access-denied-handler ref="oauth2AccessDeniedHandler" />
 		<security:intercept-url pattern="api/**"/>
 	</security:http>
