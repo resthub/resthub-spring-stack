@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>booking</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1.2-SNAPSHOT</version>
+		<version>1.1.2-beta1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
