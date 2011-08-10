@@ -14,8 +14,8 @@ import org.resthub.core.model.StandaloneEntity;
 import org.resthub.core.test.repository.AbstractRepositoryTest;
 
 /**
- * This Test Suite performs tests on {@link StandaloneEntity} class in order to
- * validate repositories behaviours with an entity
+ * This Test Suite performs tests on {@link StandaloneEntity} class in order to validate repositories behaviours with an
+ * entity
  */
 public class StandaloneEntityRepositoryTest extends
 		AbstractRepositoryTest<StandaloneEntity, Long, StandaloneEntityRepository> {
@@ -33,8 +33,8 @@ public class StandaloneEntityRepositoryTest extends
 	 */
 	@Inject
 	@Named("standaloneEntityRepository")
-	public void setRepository(StandaloneEntityRepository repository) {
-		super.repository = repository;
+	public void setRepository(StandaloneEntityRepository standaloneEntityRepository) {
+		super.repository = standaloneEntityRepository;
 	}
 
 	@Override

@@ -28,8 +28,8 @@ public class SpecificTableNameEntityRepositoryTest extends
 
 	@Inject
 	@Named("specificTableNameEntityRepository")
-	public void setRepository(SpecificTableNameEntityRepository repository) {
-		super.repository = repository;
+	public void setRepository(SpecificTableNameEntityRepository specificTableNameEntityRepository) {
+		super.repository = specificTableNameEntityRepository;
 	}
 
 	@Override
