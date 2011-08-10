@@ -7,7 +7,7 @@
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
-	xmlns:tub="http://resthub.org/schema/conf" 
+	xmlns:resthub="http://www.resthub.org/schema/context" 
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/context
@@ -19,7 +19,9 @@
                         http://www.springframework.org/schema/security
     					http://www.springframework.org/schema/security/spring-security-3.0.xsd
                         http://www.springframework.org/schema/security/oauth2
-    					http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+    					http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+    					http://www.resthub.org/schema/context
+    					http://www.resthub.org/schema/context/resthub-context-1.1.xsd">
 
 	<context:annotation-config />
 	<context:component-scan base-package="org.resthub.oauth2.client" />
@@ -33,7 +35,7 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
-	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint">
+	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint" create-session="never">
 		<security:intercept-url pattern="/api/resource/ping" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/api/resource/hello" access="ROLE_USER"/>
 		<security:intercept-url pattern="/api/resource/goodbye" access="ROLE_ADMIN"/>
