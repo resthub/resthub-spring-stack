@@ -13,8 +13,8 @@ import org.resthub.roundtable.service.PollService;
 import org.resthub.roundtable.service.common.ServiceException;
 import org.resthub.web.controller.GenericControllerImpl;
 import org.resthub.web.response.PageResponse;
-import org.synyx.hades.domain.Order;
-import org.synyx.hades.domain.PageRequest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 
 /**
  * Poll controller.
@@ -25,26 +25,26 @@ import org.synyx.hades.domain.PageRequest;
 @Named("pollController")
 public class PollController extends GenericControllerImpl<Poll, Long, PollService> {
 
-    @Inject
-    @Named("pollService")
-    @Override
-    public void setService(PollService service) {
-        this.service = service;
-    }
+	@Inject
+	@Named("pollService")
+	@Override
+	public void setService(PollService service) {
+		this.service = service;
+	}
 
-    @GET
-    @Path("/search")
-    public Response getResources(@QueryParam("q") String q, @QueryParam("page") @DefaultValue("0") Integer page,
-            @QueryParam("size") @DefaultValue("5") Integer size) {
+	@GET
+	@Path("/search")
+	public Response getResources(@QueryParam("q") String q, @QueryParam("page") @DefaultValue("0") Integer page,
+			@QueryParam("size") @DefaultValue("5") Integer size) {
 
-        PageResponse<Poll> polls;
-        try {
-            polls = new PageResponse<Poll>(this.service.find(q, new PageRequest(page, size, Order.DESCENDING,
-                    "creationDate")));
-        } catch (ServiceException ex) {
-            return Response.serverError().header("ServiceException", ex.getMessage()).build();
-        }
+		PageResponse<Poll> polls;
+		try {
+			polls = new PageResponse<Poll>(this.service.find(q, new PageRequest(page, size, Direction.DESC,
+					"creationDate")));
+		} catch (ServiceException ex) {
+			return Response.serverError().header("ServiceException", ex.getMessage()).build();
+		}
 
-        return Response.ok(polls).build();
-    }
+		return Response.ok(polls).build();
+	}
 }
