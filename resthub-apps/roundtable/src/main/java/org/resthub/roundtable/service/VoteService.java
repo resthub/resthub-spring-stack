@@ -20,5 +20,4 @@ public interface VoteService {
      *            values of each answers (ordered)
      */
     void vote(String voterName, Long pid, List<String> values);
-
 }
