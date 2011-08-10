@@ -62,7 +62,7 @@ public class PollServiceTest extends AbstractServiceTest<Poll, Long, PollService
     @Test
     public void testFind() throws ServiceException {
         service.rebuildIndex();
-        List<Poll> polls = service.find("test", null).asList();
+        List<Poll> polls = service.find("test", null).getContent();
         Assert.assertEquals(1, polls.size());
     }
 }
