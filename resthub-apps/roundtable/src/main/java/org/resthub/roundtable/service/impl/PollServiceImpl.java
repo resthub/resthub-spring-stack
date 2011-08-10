@@ -10,7 +10,7 @@ import javax.inject.Named;
 
 import org.apache.lucene.queryParser.ParseException;
 import org.resthub.core.service.GenericServiceImpl;
-import org.resthub.roundtable.dao.PollDao;
+import org.resthub.roundtable.repository.PollRepository;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.service.PollService;
@@ -19,9 +19,9 @@ import org.resthub.roundtable.toolkit.FileTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import org.synyx.hades.domain.Page;
-import org.synyx.hades.domain.Pageable;
 
 /**
  * Poll service implementation.
@@ -29,7 +29,7 @@ import org.synyx.hades.domain.Pageable;
  * @author Nicolas Carlier
  */
 @Named("pollService")
-public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollDao> implements PollService {
+public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollRepository> implements PollService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PollServiceImpl.class);
 
@@ -37,10 +37,10 @@ public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollDao> imp
     private String dataDirPath;
 
     @Inject
-    @Named("pollDao")
+    @Named("pollRepository")
     @Override
-    public void setDao(PollDao pollDao) {
-        this.dao = pollDao;
+    public void setRepository(PollRepository pollRepository) {
+        this.repository = pollRepository;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollDao> imp
             return this.findAll(pageable);
         }
         try {
-            return this.dao.find(query, pageable);
+            return this.repository.find(query, pageable);
         } catch (ParseException ex) {
             throw new ServiceException(ex.getMessage(), ex);
         }
@@ -108,6 +108,6 @@ public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollDao> imp
 
     @Override
     public void rebuildIndex() {
-        this.dao.rebuildIndex();
+        this.repository.rebuildIndex();
     }
 }

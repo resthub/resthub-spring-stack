@@ -5,8 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.roundtable.dao.VoteDao;
-import org.resthub.roundtable.dao.VoterDao;
+import org.resthub.roundtable.repository.VoteRepository;
+import org.resthub.roundtable.repository.VoterRepository;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.model.Vote;
@@ -26,9 +26,9 @@ public class VoteServiceImpl implements VoteService {
 
     private PollService pollService;
 
-    private VoteDao voteDao;
+    private VoteRepository voteRepository;
 
-    private VoterDao voterDao;
+    private VoterRepository voterRepository;
 
     @Inject
     @Named("pollService")
@@ -37,15 +37,15 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Inject
-    @Named("voteDao")
-    public void setVoteDao(VoteDao voteDao) {
-        this.voteDao = voteDao;
+    @Named("voteRepository")
+    public void setVoteRepository(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
     }
 
     @Inject
-    @Named("voterDao")
-    public void setVoterDao(VoterDao voterDao) {
-        this.voterDao = voterDao;
+    @Named("voterRepository")
+    public void setVoterRepository(VoterRepository voterRepository) {
+        this.voterRepository = voterRepository;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class VoteServiceImpl implements VoteService {
         Assert.notNull(poll, "Poll not found");
         Assert.isTrue(values.size() == poll.getAnswers().size(), "Votes doesn't matches with answers");
 
-        Voter voter = this.voterDao.findByNameAndPoll(voterName, poll);
+        Voter voter = this.voterRepository.findByNameAndPoll(voterName, poll);
         if (voter == null) {
             // create voter
             voter = new Voter();
@@ -64,7 +64,7 @@ public class VoteServiceImpl implements VoteService {
             voter.setPoll(poll);
             poll.getVoters().add(voter);
 
-            voter = this.voterDao.saveAndFlush(voter);
+            voter = this.voterRepository.saveAndFlush(voter);
         }
 
         for (Answer answer : voter.getPoll().getAnswers()) {
@@ -73,8 +73,7 @@ public class VoteServiceImpl implements VoteService {
             vote.setVoter(voter);
             vote.setValue(values.get(answer.getOrder() - 1));
 
-            this.voteDao.saveAndFlush(vote);
+            this.voteRepository.saveAndFlush(vote);
         }
     }
-
 }
