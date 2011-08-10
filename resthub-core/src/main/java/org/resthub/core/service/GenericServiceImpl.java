@@ -3,7 +3,9 @@ package org.resthub.core.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -17,8 +19,8 @@ import org.springframework.util.Assert;
  * 
  */
 @Transactional(readOnly = true)
-public abstract class GenericServiceImpl<T, ID extends Serializable, D extends CrudRepository<T, ID>> implements
-		GenericService<T, ID> {
+public abstract class GenericServiceImpl<T, ID extends Serializable, D extends PagingAndSortingRepository<T, ID>>
+		implements GenericService<T, ID> {
 
 	protected D repository;
 
@@ -100,6 +102,25 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends C
 		return (List<T>) repository.findAll();
 	}
 
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	@Override
+//	 public List<T> findAll(Integer offset, Integer limit) {
+//		Integer o = (offset == null || offset < 0) ? 0 : offset;
+//		Integer l = (limit == null || limit < 0) ? 100 : limit;
+//	 	
+//		return repository.findAll((o, l);
+//	 }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Page<T> findAll(Pageable pageRequest) {
+		return repository.findAll(pageRequest);
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -107,22 +128,4 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends C
 	public Long count() {
 		return repository.count();
 	}
-
-	// /**
-	// * {@inheritDoc}
-	// */
-	// @Override
-	// public List<T> findAll(Integer offset, Integer limit) {
-	// Integer o = (offset == null || offset < 0) ? 0 : offset;
-	// Integer l = (limit == null || limit < 0) ? 100 : limit;
-	// return repository.readAll(o, l);
-	// }
-
-	// /**
-	// * {@inheritDoc}
-	// */
-	// @Override
-	// public Page<T> findAll(Pageable pageRequest) {
-	// return repository.readAll(pageRequest);
-	// }
 }
