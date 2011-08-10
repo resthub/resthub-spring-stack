@@ -3,6 +3,9 @@ package org.resthub.core.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 /**
  * Generic Service interface.
  * 
@@ -75,13 +78,6 @@ public interface GenericService<T, ID extends Serializable> {
 	 */
 	List<T> findAll();
 
-	/**
-	 * Count all resources.
-	 * 
-	 * @return number of resources
-	 */
-	Long count();
-
 //	/**
 //	 * Find all resources.
 //	 * 
@@ -93,12 +89,19 @@ public interface GenericService<T, ID extends Serializable> {
 //	 */
 //	List<T> findAll(Integer offset, Integer limit);
 
-//	/**
-//	 * Find all resources (pageable).
-//	 * 
-//	 * @param pageRequest
-//	 *            page request
-//	 * @return resources
-//	 */
-//	 Page<T> findAll(Pageable pageRequest);
+	/**
+	 * Find all resources (pageable).
+	 * 
+	 * @param pageRequest
+	 *            page request
+	 * @return resources
+	 */
+	Page<T> findAll(Pageable pageRequest);
+
+	/**
+	 * Count all resources.
+	 * 
+	 * @return number of resources
+	 */
+	Long count();
 }
