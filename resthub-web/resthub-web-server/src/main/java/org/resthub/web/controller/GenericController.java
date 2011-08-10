@@ -15,8 +15,7 @@ import org.resthub.web.response.PageResponse;
  * </p>
  * 
  * <p>
- * It provides following generic web services, all usable with XML or JSON
- * serialization :
+ * It provides following generic web services, all usable with XML or JSON serialization :
  * <ul>
  * <li>GET on / : returns paged response of entities managed by this controller
  * <li>GET on /unpaged return all entities managed by this controller</li>
@@ -37,19 +36,18 @@ import org.resthub.web.response.PageResponse;
  */
 public interface GenericController<T, ID extends Serializable> {
 
-    T create(T entity);
+	T create(T entity);
 
-    T update(@PathParam("id") ID id, T entity);
+	T update(@PathParam("id") ID id, T entity);
 
-    List<T> findAll();
+	List<T> findAll();
 
-    PageResponse<T> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
-            @QueryParam("size") @DefaultValue("5") Integer size);
+	PageResponse<T> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
+							@QueryParam("size") @DefaultValue("5") Integer size);
 
-    T findById(@PathParam("id") ID id);
+	T findById(@PathParam("id") ID id);
 
-    void delete();
+	void delete();
 
-    void delete(@PathParam("id") ID id);
-
+	void delete(@PathParam("id") ID id);
 }
