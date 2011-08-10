@@ -4,19 +4,18 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.core.service.GenericServiceImpl;
-import org.resthub.web.dao.WebSampleResourceDao;
 import org.resthub.web.model.WebSampleResource;
+import org.resthub.web.repository.WebSampleResourceRepository;
 import org.resthub.web.service.WebSampleResourceService;
 
 @Named("webSampleResourceService")
-public class WebSampleResourceServiceImpl extends GenericServiceImpl<WebSampleResource, Long, WebSampleResourceDao>
+public class WebSampleResourceServiceImpl extends GenericServiceImpl<WebSampleResource, Long, WebSampleResourceRepository>
         implements WebSampleResourceService {
 
     @Inject
-    @Named("webSampleResourceDao")
+    @Named("webSampleResourceRepository")
     @Override
-    public void setDao(WebSampleResourceDao resourceDao) {
-        super.setDao(resourceDao);
+    public void setRepository(WebSampleResourceRepository webSampleResourceRepository) {
+        super.setRepository(webSampleResourceRepository);
     }
-
 }
