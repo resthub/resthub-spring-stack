@@ -11,7 +11,7 @@ import org.resthub.booking.model.Hotel;
 import org.resthub.booking.service.HotelService;
 import org.resthub.web.controller.GenericControllerImpl;
 import org.resthub.web.response.PageResponse;
-import org.synyx.hades.domain.PageRequest;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author Guillaume Zurbach
@@ -37,11 +37,10 @@ public class HotelController extends GenericControllerImpl<Hotel, Long, HotelSer
     @GET
     @Path("/search")
     public PageResponse<Hotel> searchHotels(@QueryParam("q") String query,
-            @QueryParam("page") @DefaultValue("0") Integer page, @QueryParam("size") @DefaultValue("5") Integer size) {
+            								@QueryParam("page") @DefaultValue("0") Integer page, 
+            								@QueryParam("size") @DefaultValue("5") Integer size) {
 
-        PageResponse<Hotel> hotels;
-
-        hotels = new PageResponse<Hotel>(this.service.find(query, new PageRequest(page, size)));
+        PageResponse<Hotel> hotels = new PageResponse<Hotel>(this.service.find(query, new PageRequest(page, size)));
 
         return hotels;
     }

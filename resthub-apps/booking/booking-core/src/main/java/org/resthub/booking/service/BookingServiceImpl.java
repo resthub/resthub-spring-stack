@@ -5,9 +5,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.booking.dao.BookingDao;
-import org.resthub.booking.dao.UserDao;
 import org.resthub.booking.model.Booking;
+import org.resthub.booking.repository.BookingRepository;
+import org.resthub.booking.repository.UserRepository;
 import org.resthub.core.service.GenericServiceImpl;
 import org.springframework.util.Assert;
 
@@ -16,21 +16,21 @@ import org.springframework.util.Assert;
  * @author bmeurant <Baptiste Meurant>
  */
 @Named("bookingService")
-public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, BookingDao> implements BookingService {
+public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, BookingRepository> implements BookingService {
 
     /**
      * {@InheritDoc}
      */
     @Inject
-    @Named("bookingDao")
+    @Named("bookingRepository")
     @Override
-    public void setDao(BookingDao bookingDao) {
-        this.dao = bookingDao;
+    public void setRepository(BookingRepository bookingRepository) {
+        this.repository = bookingRepository;
     }
 
     @Inject
-    @Named("userDao")
-    private UserDao userDao;
+    @Named("userRepository")
+    private UserRepository userRepository;
 
     /**
      * {@InheritDoc}
@@ -38,7 +38,6 @@ public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, Bookin
     public List<Booking> findByUserId(Long userId) {
         Assert.notNull(userId, "User ID can't be null");
 
-        return dao.findByUser(this.userDao.readByPrimaryKey(userId));
+        return repository.findByUser(this.userRepository.findOne(userId));
     }
-
 }
