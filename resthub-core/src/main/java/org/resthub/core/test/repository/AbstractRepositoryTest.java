@@ -22,7 +22,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * Repository test base class in order to test your Repository extending
- * Pa<T, ID> This can be usefull to do a quick check that everything
+ * PagingAndSortingRepository<T, ID> This can be usefull to do a quick check that everything
  * is fine for basic CRUD functionnalities (+ Pagination)
  * 
  * Best practices are to separate these kind of automatic tests from your custom
