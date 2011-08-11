@@ -11,6 +11,4 @@ public class OAuth2SchemeFactory implements AuthSchemeFactory {
     public AuthScheme newInstance(final HttpParams params) {
         return new OAuth2Scheme();
     }
-
-
 }

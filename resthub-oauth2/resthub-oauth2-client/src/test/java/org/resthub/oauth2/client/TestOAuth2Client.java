@@ -1,6 +1,7 @@
 package org.resthub.oauth2.client;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 
@@ -11,7 +12,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.resthub.core.context.ResthubXmlContextLoader;
 import org.resthub.oauth2.httpclient.OAuth2Credentials;
 import org.resthub.web.client.ClientFactory;
 import org.springframework.web.context.ContextLoaderListener;
@@ -71,7 +71,7 @@ public class TestOAuth2Client {
         server.setHandler(context);
 
         server.start();
-        
+
     }
 
     /**
@@ -86,18 +86,64 @@ public class TestOAuth2Client {
 
     @Test
     public void testOAuth2SuccessfulRequest() throws ClientProtocolException, IOException {
-
-
-    	Client client = OAuth2ClientFactory.create(new OAuth2Credentials(AUTHENTICATION_ENDPOINT, CLIENT_ID, CLIENT_SECRET, "test", "t3st"));
-    	String result = client.resource(BASE_URL + "/api/resource/hello").get(String.class);
-    	assertEquals("Hello", result);
+        Client client = OAuth2ClientFactory.create(new OAuth2Credentials(AUTHENTICATION_ENDPOINT, CLIENT_ID,
+                CLIENT_SECRET, "test", "t3st"));
+        String result = client.resource(BASE_URL + "/api/resource/hello").get(String.class);
+        assertEquals("Hello", result);
     }
-    
-    @Test(expected=UniformInterfaceException.class)
+
+    @Test(expected = UniformInterfaceException.class)
     public void testUnauthorizeRequest() throws ClientProtocolException, IOException {
-    	Client client = ClientFactory.create();
-    	client.resource(BASE_URL + "/api/resource/hello").get(String.class);
+        Client client = ClientFactory.create();
+        client.resource(BASE_URL + "/api/resource/hello").get(String.class);
     }
 
+    /**
+     * This test will send authenticate with the server, change its token to
+     * simulate the fact that the token has forgotten about it, and try another
+     * call to check if negotiation happens again.
+     */
+    @Test
+    public void testUnrecognizedToken() {
+        // Given an authenticated service.
+        final OAuth2Credentials credentials = new OAuth2Credentials(AUTHENTICATION_ENDPOINT, CLIENT_ID, CLIENT_SECRET,
+                "test", "t3st");
+        final Client client = OAuth2ClientFactory.create(credentials);
+        final String serviceUrl = BASE_URL + "/api/resource/hello";
+        String result = client.resource(serviceUrl).get(String.class);
 
+        // When I change the access token with something the server can't
+        // recognize, and I access the same service again.
+        final String previousToken = credentials.getTokenResponse().accessToken;
+        credentials.getTokenResponse().accessToken = previousToken + "RandomStringThatShouldMakeTheNextAuthFail";
+        result = client.resource(serviceUrl).get(String.class);
+        final String followingToken = credentials.getTokenResponse().accessToken;
+
+        // Then we should have succeeded in our request, and the tokens should
+        // be different.
+        assertFalse("The token after renegotiation should be different", followingToken.equals(previousToken));
+        assertEquals("Hello", result);
+    }
+
+    /**
+     * This test will make sure that 2 calls in a row to the server keeps the
+     * originating token.
+     */
+    @Test
+    public void testMultipleCallsTokenPersistence() {
+        // Given a call to a service.
+        final OAuth2Credentials credentials = new OAuth2Credentials(AUTHENTICATION_ENDPOINT, CLIENT_ID, CLIENT_SECRET,
+                "test", "t3st");
+        final Client client = OAuth2ClientFactory.create(credentials);
+        final String serviceUrl = BASE_URL + "/api/resource/hello";
+        String result = client.resource(serviceUrl).get(String.class);
+        String previousToken = credentials.getTokenResponse().accessToken;
+
+        // When I call it again
+        result = client.resource(serviceUrl).get(String.class);
+        final String followingToken = credentials.getTokenResponse().accessToken;
+
+        // Then the token should be identical
+        assertEquals("The token shouldn't have changed", previousToken, followingToken);
+    }
 }
