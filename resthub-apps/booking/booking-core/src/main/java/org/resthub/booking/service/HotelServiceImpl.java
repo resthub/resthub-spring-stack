@@ -62,7 +62,7 @@ public class HotelServiceImpl extends GenericServiceImpl<Hotel, Long, HotelRepos
             if (resultList == null) {
                 return new ArrayList<Hotel>();
             } 
-            return (List<Hotel>) resultList;
+            return resultList.getContent();
         }
     }
 
