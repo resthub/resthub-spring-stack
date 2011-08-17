@@ -33,7 +33,7 @@ public class PostInitializerRunner implements ApplicationListener {
             long startTime = System.currentTimeMillis();
             ContextRefreshedEvent contextRefreshedEvent = (ContextRefreshedEvent) event;
             ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();
-            Map beans = applicationContext.getBeansOfType(Object.class);
+            Map beans = applicationContext.getBeansOfType(Object.class, false, false);
             List<PostInitializingMethod> postInitializingMethods = new LinkedList<PostInitializingMethod>();
             for (Object beanNameObject : beans.keySet()) {
                 String beanName = (String) beanNameObject;
