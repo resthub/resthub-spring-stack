@@ -17,7 +17,7 @@ import org.hibernate.search.annotations.Indexed;
  * Describe a user account.<br/>
  * A User has some attributes such as login, password, email, ... TODO there is
  * * some fields which have in comments "Nullable=false" , this cannot be remove
- * from comments without refactoring the abstractTestDao class
+ * from comments without refactoring the abstractTestRepository class
  */
 @Entity
 @Table(name = "idm_users")
