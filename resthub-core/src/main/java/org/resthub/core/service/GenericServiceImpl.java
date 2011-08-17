@@ -102,17 +102,6 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends P
 		return (List<T>) repository.findAll();
 	}
 
-//	/**
-//	 * {@inheritDoc}
-//	 */
-//	@Override
-//	 public List<T> findAll(Integer offset, Integer limit) {
-//		Integer o = (offset == null || offset < 0) ? 0 : offset;
-//		Integer l = (limit == null || limit < 0) ? 100 : limit;
-//	 	
-//		return repository.findAll((o, l);
-//	 }
-
 	/**
 	 * {@inheritDoc}
 	 */
