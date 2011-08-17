@@ -35,9 +35,13 @@ public abstract class AbstractControllerTest<T, ID extends Serializable, C exten
 
     protected ID id;
 
-    @PersistenceContext
     private EntityManager em;
 
+    @PersistenceContext
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
+    
     /**
      * Injection of controller.
      */

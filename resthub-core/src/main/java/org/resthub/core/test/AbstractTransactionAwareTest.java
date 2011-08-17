@@ -30,8 +30,12 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @TransactionConfiguration(defaultRollback = false)
 public abstract class AbstractTransactionAwareTest {
 
-    @PersistenceUnit
     protected EntityManagerFactory emf;
+
+    @PersistenceUnit
+    public void setEntityManagerFactory(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
     @Before
     public void setUp() {

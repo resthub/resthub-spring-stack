@@ -38,9 +38,13 @@ public class HibernateSearchDao implements SearchDao {
     /**
      * JPA persistence context, injected by Spring.
      */
-    @PersistenceContext
     protected EntityManager entityManager;
 
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
     /**
      * Inihibition flag. No query should be realized while re-indexing
      * resources.

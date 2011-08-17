@@ -39,8 +39,12 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, S extend
 
     protected S service;
 
-    @PersistenceContext
     private EntityManager em;
+    
+    @PersistenceContext
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
 
     public GenericControllerImpl() {
 

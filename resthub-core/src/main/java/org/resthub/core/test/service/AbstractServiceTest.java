@@ -41,8 +41,12 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
 
     protected ID id;
 
-    @PersistenceContext
     private EntityManager em;
+    
+    @PersistenceContext
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
 
     /**
      * Injection of Service.

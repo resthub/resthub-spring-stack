@@ -50,8 +50,12 @@ public abstract class AbstractDaoTest<T, ID extends Serializable, D extends Gene
      */
     protected ID id;
 
-    @PersistenceContext
     private EntityManager em;
+    
+    @PersistenceContext
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
 
     /**
      * Injection of DAO.

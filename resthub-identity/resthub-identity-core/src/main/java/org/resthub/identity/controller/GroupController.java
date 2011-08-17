@@ -31,8 +31,6 @@ import com.sun.jersey.api.NotFoundException;
 @Named("groupController")
 public class GroupController extends GenericControllerImpl<Group, Long, GroupService> {
 
-    @PersistenceContext
-    protected EntityManager em;
     /**
      * The userService <br/>
      * This should be a bean <br/>
