@@ -69,7 +69,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      *            User login
      * @return the user or null if more than one user is found
      */
-    public User findByLogin(String login);
+    User findByLogin(String login);
 
     /**
      * Update the password for the given user
@@ -77,7 +77,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      * @param user
      *            the user to with the new password
      */
-    public User updatePassword(User user);
+    User updatePassword(User user);
 
     /**
      * Authenticate the user with Login and password
@@ -87,7 +87,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      * @return the authenticated user or null if no user found with such login
      *         and password
      */
-    public User authenticateUser(String login, String password);
+    User authenticateUser(String login, String password);
 
     /**
      * Remove a group from one user's groups
@@ -97,7 +97,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      * @param groupeName
      *            the name of the group to remove from the user's group list
      */
-    public void removeGroupFromUser(String userLogin, String groupName);
+    void removeGroupFromUser(String userLogin, String groupName);
 
     /**
      * gets the User's inherited Permissions
@@ -108,7 +108,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      *         permissions from group to which the user belong are taken into
      *         accounts
      */
-    public List<String> getUserPermissions(String login);
+    List<String> getUserPermissions(String login);
 
     /**
      * gets the User's direct Permissions
@@ -117,7 +117,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      *            the login of the user
      * @return permissions of the user.
      */
-    public List<String> getUserDirectPermissions(String login);
+    List<String> getUserDirectPermissions(String login);
 
     /**
      * Add a permission to an user
@@ -127,7 +127,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      * @param permission
      *            the permission to be added
      */
-    public void addPermissionToUser(String userLogin, String permission);
+    void addPermissionToUser(String userLogin, String permission);
 
     /**
      * Remove the permission for the given user
@@ -137,7 +137,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      * @param permission
      *            the permission to delete
      */
-    public void removePermissionFromUser(String userLogin, String permission);
+    void removePermissionFromUser(String userLogin, String permission);
 
     /**
      * Add a group from one user's groups
@@ -148,7 +148,7 @@ public interface UserService extends GenericService<User, Long>, TracableService
      *            the name of the group to add from the user's group list
      */
     @Transactional
-    public void addGroupToUser(String userLogin, String groupName);
+    void addGroupToUser(String userLogin, String groupName);
 
     /**
      * Gets the user of a group.
