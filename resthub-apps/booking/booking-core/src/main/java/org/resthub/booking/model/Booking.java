@@ -34,7 +34,6 @@ import javax.validation.constraints.Size;
  * @author Dan Allen
  */
 @Entity
-@NamedQueries({ @NamedQuery(name = Booking.BY_USERNAME, query = "Select b from Booking b where b.user.username = :username") })
 @Table(name = "bookings")
 public class Booking implements Serializable {
 
