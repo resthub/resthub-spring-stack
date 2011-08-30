@@ -153,10 +153,66 @@ Please find bellow the properties keys and default values of database.properties
 
 Please notice that the new Hibernate id generator is used, as `recommanded in Hibernate documentation <http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html_single/#ann-setup-properties>`_. It allows much more better performances (no need of a select request before an insert request).
 
+Extend JPA properties
+---------------------
+
+RESThub provide some core jpa properties to configure entityManagerFactory in resthubContext.xml (real values are provided thanks to placholders - cf. database.properties configuration behind) : 
+
+.. code-block:: xml
+
+   <util:map id="resthubCoreJpaProperties">
+		<entry key="hibernate.dialect" value="${hibernate.dialect}" />
+		<entry key="hibernate.format_sql" value="${hibernate.format_sql}" />
+		<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+		<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}" />
+		<entry key="hibernate.cache.provider_class" value="${hibernate.cache.provider_class}" />
+		<!-- New ID generator is now recommanded to true for all projects. It provides 
+			betters performances and better generation behaviour than default one. More 
+			details on http://docs.jboss.org/hibernate/core/3.6/reference/en-US/html/mapping.html#mapping-declaration-id-enhanced -->
+		<entry key="hibernate.id.new_generator_mappings" value="${hibernate.id.new_generator_mappings}" />
+	</util:map>
+
+In order to allow to add extended and additional JPA or Hibernate configuration properties in your own project using RESThub, we provide a dedicated extension point thanks to spring maps and its merge capacity.
+
+Indeed, resthub entityManagerFacory includes an larger map of properties with an external bean reference :
+
+.. code-block:: xml
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		
+      ...
+		
+      <property name="jpaProperties" ref="jpaProperties" />
+	</bean>
+   
+  	<bean id="jpaProperties" parent="resthubCoreJpaProperties">
+		<property name="sourceMap">
+			<map merge="true"/>
+		</property>
+	</bean>
+   
+By default the map contains only core resthub jpa properties but if you need to add JPA or Hibernate properties, you only have to override the jpaProperties bean with your own configuration. 
+Provided properties will be added to resthub core properties.
+
+Just add in you applicationContext :
+
+.. code-block:: xml
+
+   	<bean id="jpaProperties" parent="resthubCoreJpaProperties">
+		<property name="sourceMap">
+			<map merge="true">
+				<entry key="my.key"
+					value="my.value" />
+			</map>
+		</property>
+	</bean>
+   
+   
 Entity scan
 -----------
 
-RESthub allow to scan entities in different modules using the same Persitence Unit, which is not possible with default Spring/Hibernate.
+RESThub allow to scan entities in different modules using the same Persitence Unit, which is not possible with default Spring/Hibernate.
 
 By default, the ScanningPersistenceUnitManager searches entities with the pattern.
 To indicates differents packages, you'll have to override the bean definition in your own Spring configuration file.
