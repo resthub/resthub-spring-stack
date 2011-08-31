@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns="http://www.resthub.org/schema/context"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tool="http://www.springframework.org/schema/tool"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	targetNamespace="http://www.resthub.org/schema/context"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"
+		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" />
+	<xsd:import namespace="http://www.springframework.org/schema/jdbc"
+		schemaLocation="http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd" />
+	<xsd:import namespace="http://www.springframework.org/schema/tool" />
+	<xsd:import namespace="http://www.springframework.org/schema/context"
+		schemaLocation="http://www.springframework.org/schema/context/spring-context.xsd" />
+
+	<xsd:annotation>
+		<xsd:documentation><![CDATA[
+	Defines the configuration elements for the Resthub Framework's persistence unit
+	context support.
+		]]></xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="include-entities">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	Scans the classpath for annotated persistence entities that will be included in a shared context. 
+	By default, the JPA-provided @MappedSuperclass and @Entity stereotypes will be detected.
+
+	This component is widely base on Spring component-scan element. All options available here (but persistenceUnitName)
+	are those defined by Spring. Please report Spring context xsd documentation for information about these options.
+	Some original options are not repeated here because of their useless in a persistence context implementation.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="include-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to include for persistence entities scanning.
+							]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="exclude-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to exclude for persistence entities scanning.
+						]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="base-package" type="xsd:string"
+				use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	The comma-separated list of packages to scan for annotated persistence entities.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="persistence-unit-name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+Specifies the persistence unit name in which entities should be included.
+				]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="use-default-filters" type="xsd:boolean"
+				default="true">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	Indicates whether automatic detection of classes annotated with @MappedSuperclass 
+	or @Entity should be enabled. Default is "true".
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="exclude-entities">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	Scans the classpath for annotated persistence entities that will be excluded from the shared context. 
+	By default, the JPA-provided @MappedSuperclass and @Entity stereotypes will be detected.
+
+	This component is widely base on Spring component-scan element. All options available here (but persistenceUnitName)
+	are those defined by Spring. Please report Spring context xsd documentation for information about these options.
+	Some original options are not repeated here because of their useless in a persistence context implementation.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="include-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to include for persistence entities scanning.
+							]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="exclude-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to exclude for persistence entities scanning.
+						]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="base-package" type="xsd:string"
+				use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	The comma-separated list of packages to scan for annotated persistence entities.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="persistence-unit-name" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+Specifies the persistence unit name in which entities should be included.
+				]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="use-default-filters" type="xsd:boolean"
+				default="true">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	Indicates whether automatic detection of classes annotated with @MappedSuperclass 
+	or @Entity should be enabled. Default is "true".
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="include-jaxb-elements">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	Scans the classpath for annotated jaxb elementsthat will be included in a shared context. 
+	By default, the @XmlRootElement stereotype will be detected.
+
+	This component is widely base on Spring component-scan element. All options available here 
+	are those defined by Spring. Please report Spring context xsd documentation for information about these options.
+	Some original options are not repeated here because of their useless in a persistence context implementation.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="include-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to include for jaxb elements scanning.
+							]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="exclude-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to exclude for jaxb elements scanning.
+						]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="base-package" type="xsd:string"
+				use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	The comma-separated list of packages to scan for annotated jaxb elements.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="use-default-filters" type="xsd:boolean"
+				default="true">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	Indicates whether automatic detection of classes annotated with @XmlRootElement should be enabled. Default is "true".
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="exclude-jaxb-elements">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	Scans the classpath for annotated jaxb elements that will be excluded from the shared context. 
+	By default, the @XmlRootElement stereotype will be detected.
+
+	This component is widely base on Spring component-scan element. All options available here 
+	are those defined by Spring. Please report Spring context xsd documentation for information about these options.
+	Some original options are not repeated here because of their useless in a persistence context implementation.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="include-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to include for persistence entities scanning.
+							]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="exclude-filter" type="context:filterType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which eligible types to exclude for persistence entities scanning.
+						]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="base-package" type="xsd:string"
+				use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	The comma-separated list of packages to scan for annotated persistence entities.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="use-default-filters" type="xsd:boolean"
+				default="true">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	Indicates whether automatic detection of classes annotated with @XmlRootElement should be enabled. Default is "true".
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="db-descriptor">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	Create a DatabaseDescriptor from the given dataSource.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	The required bean id
+				]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="data-source" type="xsd:string"
+				default="dataSource">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	Datasource bean name. Defaults to "datasource".
+				]]></xsd:documentation>
+					<xsd:appinfo>
+						<tool:annotation kind="ref" />
+						<tool:expected-type type="javax.sql.DataSource" />
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="db-initialize">
+		<xsd:annotation>
+			<xsd:documentation
+				source="java:org.springframework.jdbc.embedded.DataSourceInitializer"><![CDATA[
+	Initializes a database instance with SQL scripts provided in nested <script/> elements.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="script" type="jdbc:scriptType" minOccurs="1"
+					maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+			A SQL script to execute during database initialization.
+								]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="exception" type="exceptionType"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+			A list of exceptions. Default scripts won't be used for these exceptions.				
+								]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="data-source" type="xsd:string"
+				default="dataSource">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+			A reference to a data source that should be initialized.  Defaults to "dataSource".
+							]]></xsd:documentation>
+					<xsd:appinfo>
+						<tool:annotation kind="ref" />
+						<tool:expected-type type="javax.sql.DataSource" />
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="enabled" type="xsd:string" use="optional"
+				default="true">
+				<xsd:annotation>
+					<xsd:documentation>
+						Is this bean "enabled", meaning the scripts will
+						be executed?
+						Defaults to true, but can be used to switch on and off
+						the initialization depending on the environment.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="ignore-failures" use="optional"
+				default="NONE">
+				<xsd:annotation>
+					<xsd:documentation>
+						Should failed SQL statements be ignored during
+						initialization?
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="NONE">
+							<xsd:annotation>
+								<xsd:documentation><![CDATA[
+						Do not ignore failures (the default)
+								]]></xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="DROPS">
+							<xsd:annotation>
+								<xsd:documentation><![CDATA[
+						Ignore failed DROP statements
+								]]></xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="ALL">
+							<xsd:annotation>
+								<xsd:documentation><![CDATA[
+						Ignore all failures
+								]]></xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- <xsd:complexType name="scriptType">
+		<xsd:attribute name="location" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+	The resource location of an SQL script to execute. Can be a single script location or a pattern (e.g. classpath:/com/foo/sql/*-data.sql).
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType> -->
+
+	<xsd:complexType name="exceptionType">
+		<xsd:sequence>
+			<xsd:element name="script" type="jdbc:scriptType" minOccurs="1"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+			A SQL script to execute during database initialization.
+								]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="product" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+			The name of the database product
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+
+
+</xsd:schema>

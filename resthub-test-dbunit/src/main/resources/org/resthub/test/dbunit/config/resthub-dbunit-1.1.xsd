@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns="http://www.resthub.org/schema/dbunit"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tool="http://www.springframework.org/schema/tool"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	targetNamespace="http://www.resthub.org/schema/dbunit"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/tool" />
+	<xsd:import namespace="http://www.springframework.org/schema/context"
+		schemaLocation="http://www.springframework.org/schema/context/spring-context.xsd" />
+	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+	<xsd:annotation>
+		<xsd:documentation><![CDATA[
+	Defines the configuration elements for the Resthub Test DBUnit Framework.
+		]]></xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="configuration">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+	
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="include-table" type="xsd:string"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which tables should be included. Patterns with * are allowed. By default, every tables are included.
+							]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="exclude-table" type="xsd:string"
+					minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+	Controls which tables should be excluded. Patterns with * are allowed. By default, no table is excluded.
+						]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+Optional bean id. Can be used to allow configuration overrides.
+				]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="data-source" type="xsd:string" default="datasource">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+Name of the datasource to use. Default is "datasource".
+				]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<!-- xsd:attribute name="autodetect-database-type" type="xsd:boolean" default="true">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+Indicates whether automatic detection of the database type should be enabled. Default is "true". 
+				]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="database-type" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	Force database type using specified value (h2, oracle, mysql, hsql, ...)
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute-->
+		</xsd:complexType>
+	</xsd:element>
+	
+</xsd:schema>
