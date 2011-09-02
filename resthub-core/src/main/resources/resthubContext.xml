@@ -1,9 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:resthub="http://www.resthub.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:resthub="http://www.resthub.org/schema/context"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -18,43 +16,43 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="org.resthub.core" />
-    
+
 	<resthub:include-entities base-package="org.resthub.**.model" />
-	
-    <context:property-placeholder 
-        location="classpath*:database.properties"
-        properties-ref="databaseProperties"
-        ignore-resource-not-found="true"
-        ignore-unresolvable="true" />
-    
-    <util:properties id="databaseProperties" >
-        <prop key="dataSource.driverClassName">org.h2.Driver</prop>
-        <prop key="dataSource.url">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1</prop>
-        <prop key="dataSource.maxActive">50</prop>
-        <prop key="dataSource.maxWait">1000</prop>
-        <prop key="dataSource.poolPreparedStatements">true</prop>
-        <prop key="dataSource.username">sa</prop>
-        <prop key="dataSource.password"></prop>
-        
-        <prop key="hibernate.show_sql">false</prop>
-        <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
-        <prop key="hibernate.format_sql">true</prop>
-        <prop key="hibernate.hbm2ddl.auto">update</prop>
-        <prop key="hibernate.cache.use_second_level_cache">true</prop>
-        <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop>
-        <prop key="hibernate.id.new_generator_mappings">true</prop>
-    </util:properties>
-        
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${dataSource.driverClassName}"/>
-        <property name="url" value="${dataSource.url}"/>
-        <property name="maxActive" value="${dataSource.maxActive}"/>
-        <property name="maxWait" value="${dataSource.maxWait}"/>
-        <property name="poolPreparedStatements" value="${dataSource.poolPreparedStatements}"/>
-        <property name="username" value="${dataSource.username}" />
+
+	<context:property-placeholder location="classpath*:database.properties"
+		properties-ref="databaseProperties" ignore-resource-not-found="true"
+		ignore-unresolvable="true" />
+
+	<util:properties id="databaseProperties">
+		<prop key="dataSource.driverClassName">org.h2.Driver</prop>
+		<prop key="dataSource.url">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1</prop>
+		<prop key="dataSource.maxActive">50</prop>
+		<prop key="dataSource.maxWait">1000</prop>
+		<prop key="dataSource.poolPreparedStatements">true</prop>
+		<prop key="dataSource.username">sa</prop>
+		<prop key="dataSource.password"></prop>
+
+		<prop key="hibernate.show_sql">false</prop>
+		<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+		<prop key="hibernate.format_sql">true</prop>
+		<prop key="hibernate.hbm2ddl.auto">update</prop>
+		<prop key="hibernate.cache.use_second_level_cache">true</prop>
+		<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider
+		</prop>
+		<prop key="hibernate.id.new_generator_mappings">true</prop>
+	</util:properties>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${dataSource.driverClassName}" />
+		<property name="url" value="${dataSource.url}" />
+		<property name="maxActive" value="${dataSource.maxActive}" />
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		<property name="poolPreparedStatements" value="${dataSource.poolPreparedStatements}" />
+		<property name="username" value="${dataSource.username}" />
 		<property name="password" value="${dataSource.password}" />
-    </bean>
-	
+	</bean>
+
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="resthub" />
@@ -68,19 +66,24 @@
 				<property name="showSql" value="${hibernate.show_sql}" />
 			</bean>
 		</property>
-		<property name="jpaProperties">
-			<map>
-				<entry key="hibernate.dialect" value="${hibernate.dialect}" />
-				<entry key="hibernate.format_sql" value="${hibernate.format_sql}" />
-				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
-				<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}"/>
-				<entry key="hibernate.cache.provider_class" value="${hibernate.cache.provider_class}"/>
-                <!-- New ID generator is now recommanded to true for all projects. It provides betters performances and
-                better generation behaviour than default one. More details on 
-                http://docs.jboss.org/hibernate/core/3.6/reference/en-US/html/mapping.html#mapping-declaration-id-enhanced
-                -->
-                <entry key="hibernate.id.new_generator_mappings" value="${hibernate.id.new_generator_mappings}" />
-			</map>
+		<property name="jpaProperties" ref="jpaProperties" />
+	</bean>
+
+	<util:map id="resthubCoreJpaProperties">
+		<entry key="hibernate.dialect" value="${hibernate.dialect}" />
+		<entry key="hibernate.format_sql" value="${hibernate.format_sql}" />
+		<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+		<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}" />
+		<entry key="hibernate.cache.provider_class" value="${hibernate.cache.provider_class}" />
+		<!-- New ID generator is now recommanded to true for all projects. It provides 
+			betters performances and better generation behaviour than default one. More 
+			details on http://docs.jboss.org/hibernate/core/3.6/reference/en-US/html/mapping.html#mapping-declaration-id-enhanced -->
+		<entry key="hibernate.id.new_generator_mappings" value="${hibernate.id.new_generator_mappings}" />
+	</util:map>
+
+	<bean id="jpaProperties" parent="resthubCoreJpaProperties">
+		<property name="sourceMap">
+			<map merge="true"/>
 		</property>
 	</bean>
 
@@ -88,11 +91,12 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-    <tx:annotation-driven />
+	<tx:annotation-driven />
 
-	<bean id="scanningPersistenceUnitManager" class="org.resthub.core.context.persistence.ScanningPersistenceUnitManager">
+	<bean id="scanningPersistenceUnitManager"
+		class="org.resthub.core.context.persistence.ScanningPersistenceUnitManager">
 		<property name="defaultDataSource" ref="dataSource" />
-		<property name="entityListContextBean" ref="entityListContextBean"/>
+		<property name="entityListContextBean" ref="entityListContextBean" />
 	</bean>
-	
+
 </beans>
