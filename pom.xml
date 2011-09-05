@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>resthub-parent</module>
+		<module>resthub-contract</module>
 		<module>resthub-core</module>
 		<module>resthub-web</module>
 		<module>resthub-apps</module>
