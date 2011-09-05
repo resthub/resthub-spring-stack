@@ -99,11 +99,11 @@
 
 	<distributionManagement>
 		<repository>
-			<id>resthub-repo</id>
-			<url>http://resthub.org/nexus/content/repositories/releases</url>
+			<id>pullrequest-releases</id>
+			<url>http://nexus.pullrequest.org/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>resthub-repo-snapshot</id>
+			<id>pullrequest-snapshots</id>
 			<url>http://resthub.org/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
