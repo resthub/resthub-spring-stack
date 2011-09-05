@@ -104,7 +104,7 @@
 		</repository>
 		<snapshotRepository>
 			<id>pullrequest-snapshots</id>
-			<url>http://resthub.org/nexus/content/repositories/snapshots</url>
+			<url>http://nexus.pullrequest.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
