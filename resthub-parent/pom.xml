@@ -386,7 +386,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-archetype-plugin</artifactId>
-                    <version>2.0</version>
+                    <version>2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -490,7 +490,7 @@
 		<!-- Contains all RESThub artifacts and transitive dependencies -->
         <repository>
             <id>resthub</id>
-            <url>http://resthub.org/nexus/content/groups/resthub</url>
+            <url>http://nexus.pullrequest.org/content/groups/resthub</url>
         </repository>
     </repositories>
 
@@ -498,7 +498,7 @@
 		<!-- Contains all RESThub artifacts and transitive dependencies -->
         <pluginRepository>
             <id>resthub</id>
-            <url>http://resthub.org/nexus/content/groups/resthub</url>
+            <url>http://nexus.pullrequest.org/content/groups/resthub</url>
         </pluginRepository>
     </pluginRepositories>
 

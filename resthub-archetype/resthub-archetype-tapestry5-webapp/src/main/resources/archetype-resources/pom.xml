@@ -39,7 +39,7 @@
 		<!-- Contains all RESThub artifacts and transitive dependencies -->		
 		<repository>
 			<id>resthub</id>
-			<url>http://resthub.org/nexus/content/groups/resthub</url>
+			<url>http://nexus.pullrequest.org/content/groups/resthub</url>
 		</repository>
 	</repositories>
 	
