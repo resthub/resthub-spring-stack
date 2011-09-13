@@ -61,9 +61,9 @@ There is various way to configure your environment specific properties in your a
 
 Maven filtering (search and replace variables) is not recommanded because it is done at compile time (not runtime) and make usually your JAR/WAR specific to an specific environnement. The only case they are interesting is to define your target path (${project.build.directory}) in for your src/test/applicationContext.xml for testing purpose.
 
-Spring properties placeholders allow you to reference in your application context files some values defined in external properties. This is useful in order to keep your application context generic (located in src/main/resources or src/test/resources), and put all values that depends on the environnement (local, dev, staging, production) in external properties. These dynamic properties values are resolved durin application startup.
+Spring properties placeholders allow you to reference in your application context files some values defined in external properties. This is useful in order to keep your application context generic (located in src/main/resources or src/test/resources), and put all values that depends on the environnement (local, dev, staging, production) in external properties. These dynamic properties values are resolved during application startup.
 
-In order to improve testabilty and extensibility of your modules, it is a good idea to set default values taken in account if no properties in found in the classpath, and override these default values if the propeties is found. It is acheived by declaring the following lines in your applicationContext.xml :
+In order to improve testabilty and extensibility of your modules, it is a good idea to set default values taken in account if no properties is found in the classpath, and override these default values if the propeties is found. It is acheived by declaring the following lines in your applicationContext.xml :
 
 .. code-block:: xml
 
@@ -77,7 +77,7 @@ In order to improve testabilty and extensibility of your modules, it is a good i
       <prop key="param2">param2Value</prop>
    </util:properties>
 
-You should now be able to inject dynamic values like in your beans :
+You should now be able to inject dynamic values in your beans :
 
 .. code-block:: xml
 
@@ -90,14 +90,14 @@ You can also inject direcly this values in your Java classes thanks to the @Valu
 
 .. code-block:: java
 
-   @Value("#{mymoduleProperties.param1}")
+   @Value("${param1}")
    protected String property1;
 
 Or :
 
 .. code-block:: java
 
-   @Value("#{mymoduleProperties.param1}")
+   @Value("${param1}")
    protected void setProperty1(String property1) {
       this.property1 = property1;
    }
