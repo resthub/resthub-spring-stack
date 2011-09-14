@@ -1,4 +1,5 @@
-define([ 
+define([
+        'text!controller/user/manage.html',
         'i18n!nls/labels',
         'lib/controller',
         'repositories/user.repository',
@@ -6,7 +7,7 @@ define([
         'controller/utils',
         'lib/jqueryui/dialog',
         'lib/jquery/jquery.sprintf'
-    ], function(i18n, Controller, UserRepository) {
+    ], function(tmpl, i18n, Controller, UserRepository) {
 	
 	/**
 	 * Class UserManageController
@@ -22,7 +23,7 @@ define([
 		/**
 		 * Controller's template
 		 */
-		template : 'controller/user/manage.html',
+		template : tmpl,
 
 		// -------------------------------------------------------------------------------------------------------------
 		// Private attributes

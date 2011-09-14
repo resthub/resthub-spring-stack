@@ -1,6 +1,6 @@
-define([ 'lib/controller', 'repositories/hotel.repository' ], function(Controller, HotelRepository) {
+define([ 'text!hotel/list.html', 'lib/controller', 'repositories/hotel.repository' ], function(tmpl, Controller, HotelRepository) {
 	return Controller.extend("ListHotelsController", {
-		template : 'hotel/list.html',
+		template : tmpl,
 		lastSearchedVal: '',
 		hotelSearchHandle: {},
 		

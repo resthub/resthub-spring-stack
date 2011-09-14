@@ -1,6 +1,6 @@
-define([ 'lib/controller', 'repositories/sample.repository' ], function(Controller, SampleRepository) {
+define([ 'text!sample/list.html', 'lib/controller', 'repositories/sample.repository' ], function(tmpl, Controller, SampleRepository) {
 	return Controller.extend("ListSamplesController", {
-		template : 'sample/list.html',
+		template : tmpl,
 		
 		init : function() {
 			SampleRepository.listAll($.proxy(this, '_displaySamples'));

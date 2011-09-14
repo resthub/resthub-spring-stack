@@ -1,7 +1,7 @@
-define([ 'lib/controller', 'repositories/hotel.repository' ], function(Controller, HotelRepository) {
+define([ 'text!hotel/view.html', 'lib/controller', 'repositories/hotel.repository' ], function(tmpl, Controller, HotelRepository) {
 	Controller.extend("ViewHotelController", {
 		id : null,
-		template : 'hotel/view.html',
+		template : tmpl,
 		only_data : false,
 		
 		init : function() {

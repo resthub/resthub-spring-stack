@@ -1,7 +1,7 @@
-define([ 'lib/controller', 'lib/oauth2client', 'repositories/user.repository',  ], function(Controller, OAuth2Client, UserRepository) {
+define([ 'text!user/login.html', 'lib/controller', 'lib/oauth2client', 'repositories/user.repository',  ], function(tmpl, Controller, OAuth2Client, UserRepository) {
 
 	return Controller.extend("UserLoginController", {
-		template: 'user/login.html',
+		template: tmpl,
 		user: {},
 		
 		init : function() {

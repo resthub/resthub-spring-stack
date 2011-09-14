@@ -1,6 +1,6 @@
-define([ 'lib/controller', 'repositories/user.repository' ], function(Controller, UserRepository) {
+define([ 'text!user/register.html', 'lib/controller', 'repositories/user.repository' ], function(tmpl, Controller, UserRepository) {
 		Controller.extend("UserRegisterController", {
-			template : 'user/register.html',
+			template : tmpl,
 			init : function() {
 
 				document.title = 'Register';

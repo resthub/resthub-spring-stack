@@ -1,11 +1,12 @@
 define([
+        'text!controller/user/home.html',
         'i18n!nls/labels',
         'lib/controller',
         'repositories/user.repository',
         'controller/utils',
         'lib/jqueryui/button',
         'lib/jquery/jquery.sprintf'
-   ], function(i18n, Controller, UserRepository) {
+   ], function(tmpl, i18n, Controller, UserRepository) {
 
 	/**
 	 * Class HomeController
@@ -21,7 +22,7 @@ define([
 		/**
 		 * Controller's template
 		 */
-		template: 'controller/user/home.html',
+		template: tmpl,
 				
 		/**
 		 * Current user.

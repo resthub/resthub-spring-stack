@@ -1,7 +1,7 @@
-define([ 'lib/controller', 'repositories/poll.repository' ], function(Controller, PollRepository) {
+define([ 'text!poll/list.html', 'lib/controller', 'repositories/poll.repository' ], function(tmpl, Controller, PollRepository) {
 
     return Controller.extend("ListPollController", {
-        template : 'poll/list.html',
+        template : tmpl,
         query: '',
         page: 0,
 
