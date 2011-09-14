@@ -100,9 +100,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
 
     @Test
     public void testCreate() {
-        T resource = service.create(this.createTestEntity());
-
-        T foundResource = service.findById(getIdFromEntity(resource));
+        T foundResource = service.findById(this.id);
         Assert.assertNotNull("Resource not created!", foundResource);
     }
 

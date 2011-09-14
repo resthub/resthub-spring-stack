@@ -110,10 +110,7 @@ public abstract class AbstractDaoTest<T, ID extends Serializable, D extends Gene
 
     @Test
     public void testSave() {
-        T resource = this.createTestEntity();
-        resource = dao.save(resource);
-
-        T foundResource = dao.readByPrimaryKey(getIdFromEntity(resource));
+        T foundResource = dao.readByPrimaryKey(this.id);
         assertNotNull("Resource not found!", foundResource);
     }
 

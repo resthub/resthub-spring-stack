@@ -92,9 +92,7 @@ public abstract class AbstractControllerTest<T, ID extends Serializable, C exten
 
     @Test
     public void testCreate() {
-        T resource = controller.create(this.createTestResource());
-
-        T foundResource = controller.findById(getIdFromEntity(resource));
+        T foundResource = controller.findById(this.id);
         Assert.assertNotNull("Resource not created!", foundResource);
     }
 
