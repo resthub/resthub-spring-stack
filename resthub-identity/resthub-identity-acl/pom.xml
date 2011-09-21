@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>resthub-identity</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1.2.1</version>
+		<version>1.1.2.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>resthub-identity-acl</artifactId>
 	<name>RESThub identity ACL support</name>
