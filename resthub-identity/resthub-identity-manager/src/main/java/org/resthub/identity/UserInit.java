@@ -28,8 +28,6 @@ public class UserInit {
             u.setEmail("test@resthub.org");
             u.setPassword("t3st");
             u = userService.create(u);
-            userService.addPermissionToUser(u.getLogin(), "IM-USER");
-            userService.addPermissionToUser(u.getLogin(), "CREATE");
         }
 
         if (userService.findByLogin("admin") == null) {
@@ -40,7 +38,10 @@ public class UserInit {
             u.setEmail("user1@resthub.org");
             u.setPassword("4dm|n");
             u = userService.create(u);
-            userService.addPermissionToUser(u.getLogin(), "IM-ADMIN");
+            userService.addPermissionToUser(u.getLogin(), "IM_USER_ADMIN");
+            userService.addPermissionToUser(u.getLogin(), "IM_GROUP_ADMIN");
+            userService.addPermissionToUser(u.getLogin(), "IM_ROLE_ADMIN");
+            userService.addPermissionToUser(u.getLogin(), "IM_SEARCH");
         }
     }
 

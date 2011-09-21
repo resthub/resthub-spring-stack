@@ -2,6 +2,7 @@ package org.resthub.identity.controller;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/search")
 @Named("searchController")
+@RolesAllowed({ "IM_SEARCH" })
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class SearchController {

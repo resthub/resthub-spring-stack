@@ -2,7 +2,6 @@ package org.resthub.identity.controller;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.DELETE;
@@ -11,9 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
@@ -26,6 +23,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.sun.jersey.api.NotFoundException;
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.DefaultValue;
+import org.resthub.web.response.PageResponse;
 
 @Path("/user")
 /**
@@ -46,16 +46,66 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
         this.service = service;
     }
 
-    /**
-     * Return a list of all users
-     * 
-     * @return a list of users, in XML or JSON if users can be found otherwise
-     *         HTTP Error 404
-     */
+    /** Override this methods in order to secure it **/
     @Override
-    @RolesAllowed({ "IM-ADMIN" })
+    @POST
+    @RolesAllowed({ "IM_USER_ADMIN" })
+    public User create(User user) {
+        return super.create(user);
+    }
+
+    /** Override this methods in order to secure it **/
+    @Override
+    @PUT
+    @Path("/{id}")
+    @RolesAllowed({ "IM_USER_ADMIN" })
+    public User update(@PathParam("id") Long id, User user) {
+        return super.update(id, user);
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @GET
+    @Path("/all")
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
     public List<User> findAll() {
         return super.findAll();
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @GET
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
+    public PageResponse<User> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
+            @QueryParam("size") @DefaultValue("5") Integer size) {
+        return super.findAll(page, size);
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
+    public User findById(@PathParam("id") Long id) {
+        return super.findById(id);
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @DELETE
+    @Path("/all")
+    @RolesAllowed({ "IM_USER_ADMIN" })
+    public void delete() {
+        super.delete();
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed({ "IM_USER_ADMIN" })
+    public void delete(@PathParam(value = "id") Long id) {
+        super.delete(id);
     }
 
     /**
@@ -67,7 +117,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @GET
     @Path("/login/{login}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
     public User getUserByLogin(@PathParam("login") String login) {
         User user = this.service.findByLogin(login);
         if (user == null) {
@@ -94,7 +144,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * */
     @GET
     @Path("/me")
-    @RolesAllowed({ "IM-USER", "IM-ADMIN" })
+    @RolesAllowed({ "IS_AUTHENTICATED_FULLY" })
     public User currentUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter) securityContext.getAuthentication()
@@ -120,7 +170,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * */
     @POST
     @Path("/password")
-    @RolesAllowed({ "IM-USER", "IM-ADMIN" })
+    @RolesAllowed({ "IS_AUTHENTICATED_FULLY", "IM_USER_READ" })
     public User changePassword(User u, @QueryParam("password") String password) {
         u.setPassword(password);
         User updatedUser = this.service.updatePassword(u);
@@ -140,8 +190,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @GET
     @Path("/name/{login}/groups")
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
     public List<Group> getGroupsFromUser(@PathParam("login") String login) {
         User user = this.service.findByLogin(login);
         if (user == null) {
@@ -165,7 +214,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @PUT
     @Path("/name/{login}/groups/{group}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN" })
     public void addGroupToUser(@PathParam("login") String login, @PathParam("group") String group) {
         this.service.addGroupToUser(login, group);
     }
@@ -178,7 +227,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @DELETE
     @Path("/name/{login}/groups/{groups}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN" })
     public void removeGroupsForUser(@PathParam("login") String userLogin, @PathParam("groups") String groupName) {
         this.service.removeGroupFromUser(userLogin, groupName);
     }
@@ -193,7 +242,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @GET
     @Path("/name/{login}/permissions")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
     public List<String> getPermissionsFromUser(@PathParam("login") String login) {
         List<String> permissions = this.service.getUserPermissions(login);
         if (permissions == null) {
@@ -210,7 +259,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @PUT
     @Path("/name/{login}/permissions/{permission}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN" })
     public void addPermissionsToUser(@PathParam("login") String login, @PathParam("permission") String permission) {
         this.service.addPermissionToUser(login, permission);
     }
@@ -223,38 +272,9 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @DELETE
     @Path("/name/{login}/permissions/{permission}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN" })
     public void deletePermissionsFromUser(@PathParam("login") String login, @PathParam("permission") String permission) {
         this.service.removePermissionFromUser(login, permission);
-    }
-
-    /**
-     * Used to create or update a user - The differences come from the service
-     * layer
-     * 
-     * @param user
-     *            the user to create/update
-     * */
-    @Override
-    @POST
-    @RolesAllowed({ "IM-ADMIN" })
-    public User create(User user) {
-        return super.create(user);
-    }
-
-    /**
-     * Used to create or update a user - The differences come from the service
-     * layer
-     * 
-     * @param user
-     *            the user to create/update
-     * */
-    @Override
-    @PUT
-    @Path("/{id}")
-    @RolesAllowed({ "IM-ADMIN" })
-    public User update(@PathParam("id") Long id, User user) {
-        return super.update(id, user);
     }
 
     /**
@@ -262,7 +282,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @PUT
     @Path("/name/{login}/roles/{role}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN" })
     public void addRoleToUser(@PathParam("login") String login, @PathParam("role") String role) {
         this.service.addRoleToUser(login, role);
     }
@@ -272,7 +292,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @DELETE
     @Path("/name/{login}/roles/{role}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN" })
     public void removeRoleFromUser(@PathParam("login") String login, @PathParam("role") String role) {
         this.service.removeRoleFromUser(login, role);
     }
@@ -286,7 +306,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @GET
     @Path("/name/{login}/roles")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
     public List<Role> getAllUserRoles(@PathParam("login") String login) {
         return this.service.getAllUserRoles(login);
     }
@@ -303,7 +323,6 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      */
     @POST
     @Path("/checkuser")
-    // TODO: protect the method later with a technical role
     public void authenticateUser(@QueryParam("user") String username, @QueryParam("password") String password) {
         User user = this.service.authenticateUser(username, password);
         if (user == null) {

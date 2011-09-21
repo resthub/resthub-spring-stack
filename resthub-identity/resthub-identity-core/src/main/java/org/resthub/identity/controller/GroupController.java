@@ -5,8 +5,6 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,13 +19,15 @@ import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericControllerImpl;
 
 import com.sun.jersey.api.NotFoundException;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.QueryParam;
+import org.resthub.web.response.PageResponse;
 
 /**
  * Front controller for Group Management<br/>
  * Only ADMINS can access to this API
  */
 @Path("/group")
-@RolesAllowed({ "IM-ADMIN" })
 @Named("groupController")
 public class GroupController extends GenericControllerImpl<Group, Long, GroupService> {
 
@@ -60,29 +60,66 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
         this.userService = userService;
     }
 
-    /**
-     * Used to create or update a user - The differences come from the service
-     * layer
-     * 
-     * @param group
-     *            the user to create/update
-     * */
+    /** Override this methods in order to secure it **/
     @Override
     @POST
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_GROUP_ADMIN" })
     public Group create(Group group) {
         return super.create(group);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** Override this methods in order to secure it **/
     @Override
     @PUT
     @Path("/{id}")
-    @RolesAllowed({ "IM-ADMIN" })
+    @RolesAllowed({ "IM_GROUP_ADMIN" })
     public Group update(@PathParam("id") Long id, Group group) {
         return super.update(id, group);
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @GET
+    @Path("/all")
+    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" })
+    public List<Group> findAll() {
+        return super.findAll();
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @GET
+    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" })
+    public PageResponse<Group> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
+            @QueryParam("size") @DefaultValue("5") Integer size) {
+        return super.findAll(page, size);
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" })
+    public Group findById(@PathParam("id") Long id) {
+        return super.findById(id);
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @DELETE
+    @Path("/all")
+    @RolesAllowed({ "IM_GROUP_ADMIN" })
+    public void delete() {
+        super.delete();
+    }
+    
+    /** Override this methods in order to secure it **/
+    @Override
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed({ "IM_GROUP_ADMIN" })
+    public void delete(@PathParam(value = "id") Long id) {
+        super.delete(id);
     }
 
     /**
