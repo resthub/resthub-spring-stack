@@ -31,7 +31,7 @@
 
 	<properties>
 		<env>local</env>
-		<resthub.js.version>2.0.0-alpha1</resthub.js.version>
+		<resthub.js.version>1.1.1</resthub.js.version>
 	</properties>
 
 	<issueManagement>
