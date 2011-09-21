@@ -72,5 +72,5 @@ Indicates whether automatic detection of the database type should be enabled. De
 			</xsd:attribute-->
 		</xsd:complexType>
 	</xsd:element>
-	
+
 </xsd:schema>
