@@ -6,7 +6,7 @@
     <artifactId>resthub-parent</artifactId>
     <packaging>pom</packaging>
     <name>RESThub parent pom</name>
-    <version>1.1.1</version>
+    <version>2.0.0-alpha1</version>
     <url>http://resthub.org</url>
     <description>Parent pom designed to be used in any RESThub based application. Mainly defined plugin and environments configuration.
     </description>
@@ -305,7 +305,7 @@
             <dependency>
                 <groupId>javax.ws.rs</groupId>
                 <artifactId>jsr311-api</artifactId>
-                <version>1.1.1</version>
+                <version>2.0.0-alpha1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
