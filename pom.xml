@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>resthub</artifactId>
-    <version>1.1.2.1-SNAPSHOT</version>
+    <version>1.1.2.1</version>
     <packaging>pom</packaging>
     <name>RESThub</name>
     <url>http://resthub.org</url>
@@ -32,7 +32,7 @@
 
     <properties>
         <env>local</env>
-        <resthub.js.version>1.1.2</resthub.js.version>
+        <resthub.js.version>1.1.2.1</resthub.js.version>
     </properties>
 
     <issueManagement>
