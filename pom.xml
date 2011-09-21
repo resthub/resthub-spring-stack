@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.resthub</groupId>
         <artifactId>resthub-parent</artifactId>
-        <version>1.1.2</version>
+        <version>1.1.2.1</version>
         <relativePath>resthub-parent/pom.xml</relativePath>
     </parent>
 
