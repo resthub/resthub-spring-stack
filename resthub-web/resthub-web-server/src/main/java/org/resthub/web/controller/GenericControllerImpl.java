@@ -3,7 +3,6 @@ package org.resthub.web.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -28,10 +27,7 @@ import org.springframework.util.Assert;
 import org.synyx.hades.domain.PageRequest;
 
 import com.sun.jersey.api.NotFoundException;
-import com.sun.jersey.api.view.ImplicitProduces;
 
-@Singleton
-@ImplicitProduces("text/html;qs=5")
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public abstract class GenericControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>> implements

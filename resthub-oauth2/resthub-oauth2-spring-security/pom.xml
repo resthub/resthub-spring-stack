@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>resthub-oauth2</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1.2.2-SNAPSHOT</version>
+		<version>1.1.2.2</version>
 	</parent>
 	<artifactId>resthub-oauth2-spring-security</artifactId>
 	<name>RESThub OAuth2 support based on Spring Security</name>

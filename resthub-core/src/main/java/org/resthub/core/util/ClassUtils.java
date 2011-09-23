@@ -3,7 +3,9 @@ package org.resthub.core.util;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.util.Assert;
 
 /**
  * Utility class to work with classes.

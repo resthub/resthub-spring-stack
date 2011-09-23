@@ -30,10 +30,15 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, Permis
      * The userDao<br/>
      * This class need it in order to be able to deal with users
      */
+    protected UserDao userDao;
+    
+    protected RoleService roleService;
+    
     @Inject
     @Named("userDao")
-    protected UserDao userDao;
-    protected RoleService roleService;
+    protected void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Inject
     @Named("roleService")
