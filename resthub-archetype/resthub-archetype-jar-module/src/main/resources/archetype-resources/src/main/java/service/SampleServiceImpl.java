@@ -7,17 +7,16 @@ import javax.inject.Named;
 import javax.inject.Inject;
 
 import org.resthub.core.service.GenericServiceImpl;
-import ${package}.dao.SampleDao;
+import ${package}.repository.SampleRepository;
 import ${package}.model.Sample;
 
 @Named("sampleService")
-public class SampleServiceImpl extends GenericServiceImpl<Sample, Long, SampleDao> implements SampleService {
+public class SampleServiceImpl extends GenericServiceImpl<Sample, Long, SampleRepository> implements SampleService {
 
     @Inject
-    @Named("sampleDao")
+    @Named("sampleRepository")
     @Override
-    public void setDao(SampleDao dao) {
-        this.dao = dao;
+    public void setRepository(SampleRepository sampleRepository) {
+        this.repository = sampleRepository;
     }
-
 }
