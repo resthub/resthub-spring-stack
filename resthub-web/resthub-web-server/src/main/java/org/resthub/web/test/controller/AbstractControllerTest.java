@@ -35,9 +35,13 @@ public abstract class AbstractControllerTest<T, ID extends Serializable, C exten
 
     protected ID id;
 
-    @PersistenceContext
     private EntityManager em;
 
+    @PersistenceContext
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
+    
     /**
      * Injection of controller.
      */
@@ -88,9 +92,7 @@ public abstract class AbstractControllerTest<T, ID extends Serializable, C exten
 
     @Test
     public void testCreate() {
-        T resource = controller.create(this.createTestResource());
-
-        T foundResource = controller.findById(getIdFromEntity(resource));
+        T foundResource = controller.findById(this.id);
         Assert.assertNotNull("Resource not created!", foundResource);
     }
 

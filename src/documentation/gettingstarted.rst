@@ -21,6 +21,23 @@ Before coding, you should download and install following development tools if ne
  * `Maven 3 <http://maven.apache.org/>`_
  * A java IDE like `Eclipse <http://www.eclipse.org/>`_ or `Netbeans <http://netbeans.org/>`_ is recommanded
 
+Project templates 
+=================
+
+The easiest way to start is to use RESThub archetypes to create your first RESThub based application. Just open a command line terminal, and type :
+
+.. code-block:: bash
+
+	mvn archetype:generate -DarchetypeCatalog=http://resthub.org/nexus/content/repositories/releases/
+
+You will have to choose between 3 RESThub archetypes :
+
+* **resthub-archetype-js-webapp** : simple HTML5/Javascript web application
+* **resthub-archetype-tapestry5-webapp** : simple RESThub based Tapestry 5 web application
+* **resthub-archetype-jar-module** : a JAR module for inclusion in your multi modules project
+ 
+You can run your webapps thanks to builtin mvn jetty:run support.  
+
 Documentation
 =============
 

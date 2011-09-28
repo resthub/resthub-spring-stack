@@ -1,7 +1,9 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans  
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:security="http://www.springframework.org/schema/security"
   	xmlns:resthub="http://www.resthub.org/schema/context"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -10,8 +12,10 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-3.0.xsd
     http://www.springframework.org/schema/data/jpa
-	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
     http://www.resthub.org/schema/context
     http://www.resthub.org/schema/context/resthub-context-1.1.xsd">
 

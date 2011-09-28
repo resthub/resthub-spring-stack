@@ -44,9 +44,13 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
 
     protected ID id;
 
-    @PersistenceContext
     private EntityManager em;
     
+    @PersistenceContext
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
+
     /**
      * Injection of Service
      * @param service the service to set
@@ -99,9 +103,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
 
     @Test
     public void testCreate() {
-        T resource = service.create(this.createTestEntity());
-
-        T foundResource = service.findById(getIdFromEntity(resource));
+        T foundResource = service.findById(this.id);
         Assert.assertNotNull("Resource not created!", foundResource);
     }
 

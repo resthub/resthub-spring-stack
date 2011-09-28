@@ -1,9 +1,9 @@
-define(['lib/controller', 'lib/jqueryui/datepicker','lib/jquery/jquery.validate'], function(Controller) {
+define(['text!booking/edit.html', 'lib/controller', 'lib/jqueryui/datepicker','lib/jquery/jquery.validate'], function(tmpl, Controller) {
 
 
 return Controller.extend("EditBookingController", {
 	booking: {},
-	template: 'booking/edit.html',
+	template: tmpl,
 	
 	init: function() {
 		this._displayBookingForm();

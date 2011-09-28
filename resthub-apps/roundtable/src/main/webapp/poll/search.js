@@ -1,7 +1,7 @@
-define([ 'lib/controller'], function(Controller) {
+define([ 'text!poll/search.html', 'lib/controller'], function(tmpl, Controller) {
 
     return Controller.extend("SearchPollController", {
-        template : 'poll/search.html',
+        template : tmpl,
 
         init : function() {
             var self = this;

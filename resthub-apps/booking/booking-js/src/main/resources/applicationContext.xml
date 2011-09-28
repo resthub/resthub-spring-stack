@@ -26,9 +26,10 @@
 		<security:authentication-provider user-service-ref="bookingUserDetailsService"/>
 	</security:authentication-manager>
 	
-	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint">
+	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint" create-session="never">
 		<security:intercept-url pattern="/api/lucene/rebuild" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<security:intercept-url pattern="/api/**" access="ROLE_AUTH" />
+		<security:intercept-url pattern="/api/user/**" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+                <security:intercept-url pattern="/api/**" access="ROLE_AUTH" />
 		<security:access-denied-handler ref="oauth2AccessDeniedHandler" />
 	</security:http>
 	

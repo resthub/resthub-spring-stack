@@ -16,6 +16,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.resthub</groupId>
+			<artifactId>resthub-contract</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 		</dependency>
@@ -52,7 +58,6 @@
 			<artifactId>spring-test</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -65,7 +70,6 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
@@ -95,7 +99,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -105,11 +108,7 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.synyx.hades</groupId>
-			<artifactId>org.synyx.hades</artifactId>
-		</dependency>
+
 	</dependencies>
 	
 	<build>

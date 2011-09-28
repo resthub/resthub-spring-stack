@@ -18,9 +18,9 @@ define(['i18n!nls/labels', 'lib/jquery'], function (i18n) {
 		var user = $.storage.get(Constants.USER_KEY);
 		$('#navbar-content *').remove();
 		if (user == null) {
-			$.route("#/login");
+			//$.route("#/login");
 		} else {
-			if (user.permissions.indexOf('IM-ADMIN') != -1) {
+			if (user.permissions.indexOf('IM_USER_ADMIN') != -1) {
 				$('#navbar-content').append('<li><a href="#/home">'+i18n.labels.home+'</a></li>'+
 						'<li><a href="#/manage-users">'+i18n.labels.usersManagement+'</a></li>'+
 						'<li><a href="#/manage-groups">'+i18n.labels.groupsManagement+'</a></li>');
@@ -43,6 +43,7 @@ define(['i18n!nls/labels', 'lib/jquery'], function (i18n) {
 	$.logout = function() {
 		$.loading(false);
 		$.storage.remove(Constants.USER_KEY);
+                $.storage.remove(Oauth2client.storageKey);
 		// Reload entierly the application to avoid reuse of past data.
 		$.route('');
 	}; // logout().

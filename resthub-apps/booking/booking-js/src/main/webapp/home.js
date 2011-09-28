@@ -1,7 +1,7 @@
-define([ 'lib/controller', 'booking/list', 'hotel/search' ], function(Controller) {
+define([ 'text!home.html', 'lib/controller', 'booking/list', 'hotel/search' ], function(tmpl, Controller) {
 
 	return Controller.extend("HomeController", {
-		template : 'home.html',
+		template : tmpl,
 
 		init : function() {
 			document.title = 'Home';

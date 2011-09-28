@@ -1,12 +1,10 @@
-define([ 'lib/oauth2client', 'user/login', 'user/register', 'user/edit' ], function( OAuth2Client ) {
+define([ 'text!header.html', 'lib/oauth2client', 'user/login', 'user/register', 'user/edit' ], function( tmpl, OAuth2Client ) {
 
 	/* BEGIN EVENTS */
 	
 	$.subscribe('route-run', function() {
-		var user = $.storage.get('user');
-		$('#header').render('header.html', {
-			user : user
-		});
+		var user = $.storage.get('user');		
+                $('#header').empty().append($.tmpl(tmpl, {user : user}));
 	});
 
 	$.subscribe('user-registered', function(user) {

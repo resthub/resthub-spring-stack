@@ -3,7 +3,8 @@
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:resthub="http://www.resthub.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -12,7 +13,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
         http://www.springframework.org/schema/data/jpa
-		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.resthub.org/schema/context
         http://www.resthub.org/schema/context/resthub-context-1.1.xsd">
 
@@ -70,18 +71,24 @@
 				<property name="showSql" value="${hibernate.show_sql}" />
 			</bean>
 		</property>
-		<property name="jpaProperties">
-			<map>
-				<entry key="hibernate.dialect" value="${hibernate.dialect}" />
-				<entry key="hibernate.format_sql" value="${hibernate.format_sql}" />
-				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
-				<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}" />
-				<entry key="hibernate.cache.provider_class" value="${hibernate.cache.provider_class}" />
-				<!-- New ID generator is now recommanded to true for all projects. It 
-					provides betters performances and better generation behaviour than default 
-					one. More details on http://docs.jboss.org/hibernate/core/3.6/reference/en-US/html/mapping.html#mapping-declaration-id-enhanced -->
-				<entry key="hibernate.id.new_generator_mappings" value="${hibernate.id.new_generator_mappings}" />
-			</map>
+		<property name="jpaProperties" ref="jpaProperties" />
+	</bean>
+
+	<util:map id="resthubCoreJpaProperties">
+		<entry key="hibernate.dialect" value="${hibernate.dialect}" />
+		<entry key="hibernate.format_sql" value="${hibernate.format_sql}" />
+		<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+		<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}" />
+		<entry key="hibernate.cache.provider_class" value="${hibernate.cache.provider_class}" />
+		<!-- New ID generator is now recommanded to true for all projects. It provides 
+			betters performances and better generation behaviour than default one. More 
+			details on http://docs.jboss.org/hibernate/core/3.6/reference/en-US/html/mapping.html#mapping-declaration-id-enhanced -->
+		<entry key="hibernate.id.new_generator_mappings" value="${hibernate.id.new_generator_mappings}" />
+	</util:map>
+
+	<bean id="jpaProperties" parent="resthubCoreJpaProperties">
+		<property name="sourceMap">
+			<map merge="true"/>
 		</property>
 	</bean>
 
@@ -96,4 +103,5 @@
 		<property name="defaultDataSource" ref="dataSource" />
 		<property name="entityListContextBean" ref="entityListContextBean" />
 	</bean>
+
 </beans>

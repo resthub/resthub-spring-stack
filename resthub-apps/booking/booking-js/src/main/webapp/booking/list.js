@@ -1,7 +1,7 @@
-define([ 'lib/controller', 'repositories/booking.repository' ], function(Controller, BookingRepository) {
+define([ 'text!booking/list.html', 'lib/controller', 'repositories/booking.repository' ], function(tmpl, Controller, BookingRepository) {
 
 	return Controller.extend("ListBookingsController", {
-		template : 'booking/list.html',
+		template : tmpl,
 		
 		init : function() {
 			var user = $.storage.get('user');

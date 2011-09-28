@@ -25,13 +25,6 @@
 	
 	<!-- proxy-target-class set to true in order to get cglib proxy and not jdk dynamic proxy (Jersey compatible with only cglib proxies)-->
 	<security:global-method-security jsr250-annotations="enabled" proxy-target-class="true"/>
-
-	<bean id="dataSource" class="${hibernate-class}">
-		<property name="driverClassName" value="${hibernate-driver}" />
-		<property name="url" value="${hibernate-url}" />
-		<property name="username" value="${hibernate-username}"/>
-		<property name="password" value="${hibernate-password}" />
-	</bean>	
 	
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="identityUserDetailsService">
@@ -39,7 +32,7 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
-	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint">
+	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint" create-session="never">
 		<security:access-denied-handler ref="oauth2AccessDeniedHandler" />
 		<security:intercept-url pattern="api/**"/>
 	</security:http>

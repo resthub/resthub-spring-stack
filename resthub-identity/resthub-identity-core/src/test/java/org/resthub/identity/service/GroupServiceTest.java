@@ -27,9 +27,6 @@ public class GroupServiceTest extends AbstractServiceTest<Group, Long, GroupServ
     @Named("userService")
     private UserService userService;
 
-    @PersistenceContext
-    protected EntityManager em;
-
     @Override
     public Group createTestEntity() {
         String groupName = "GroupTestGroupName" + Math.round(Math.random() * 100000);

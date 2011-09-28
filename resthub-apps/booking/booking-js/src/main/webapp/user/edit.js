@@ -1,8 +1,8 @@
-define([ 'lib/controller','repositories/user.repository' ], function(Controller, UserRepository) {
+define([ 'text!user/edit.html', 'lib/controller','repositories/user.repository' ], function(tmpl, Controller, UserRepository) {
 	Controller.extend("EditUserController", {
 		
 		user : null,
-		template : 'user/edit.html',
+		template : tmpl,
 		
 		init : function() {
 			document.title = 'Settings';

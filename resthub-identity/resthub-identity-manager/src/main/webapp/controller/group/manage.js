@@ -1,4 +1,5 @@
-define([ 
+define([
+        'text!controller/group/manage.html',
         'i18n!nls/labels',
         'lib/controller',
         'repositories/group.repository',
@@ -6,7 +7,7 @@ define([
         'controller/utils',
         'lib/jqueryui/dialog',
         'lib/jquery/jquery.sprintf'
-    ], function(i18n, Controller, GroupRepository) {
+    ], function(tmpl, i18n, Controller, GroupRepository) {
 	
 	/**
 	 * Class GroupManageController
@@ -22,7 +23,7 @@ define([
 		/**
 		 * Controller's template
 		 */
-		template : 'controller/group/manage.html',
+		template : tmpl,
 
 		// -------------------------------------------------------------------------------------------------------------
 		// Private attributes

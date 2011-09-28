@@ -1,8 +1,8 @@
-define([ 'lib/controller',
-         'repositories/poll.repository'], function(Controller, PollRepository) {
+define([ 'text!poll/view.html', 'lib/controller',
+         'repositories/poll.repository'], function(tmpl, Controller, PollRepository) {
 
     return Controller.extend("ViewPollController", {
-        template : 'poll/view.html',
+        template : tmpl,
         poll: {},
 
         init : function() {

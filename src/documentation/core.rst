@@ -61,9 +61,9 @@ There is various way to configure your environment specific properties in your a
 
 Maven filtering (search and replace variables) is not recommanded because it is done at compile time (not runtime) and make usually your JAR/WAR specific to an specific environnement. The only case they are interesting is to define your target path (${project.build.directory}) in for your src/test/applicationContext.xml for testing purpose.
 
-Spring properties placeholders allow you to reference in your application context files some values defined in external properties. This is useful in order to keep your application context generic (located in src/main/resources or src/test/resources), and put all values that depends on the environnement (local, dev, staging, production) in external properties. These dynamic properties values are resolved durin application startup.
+Spring properties placeholders allow you to reference in your application context files some values defined in external properties. This is useful in order to keep your application context generic (located in src/main/resources or src/test/resources), and put all values that depends on the environnement (local, dev, staging, production) in external properties. These dynamic properties values are resolved during application startup.
 
-In order to improve testabilty and extensibility of your modules, it is a good idea to set default values taken in account if no properties in found in the classpath, and override these default values if the propeties is found. It is acheived by declaring the following lines in your applicationContext.xml :
+In order to improve testabilty and extensibility of your modules, it is a good idea to set default values taken in account if no properties is found in the classpath, and override these default values if the propeties is found. It is acheived by declaring the following lines in your applicationContext.xml :
 
 .. code-block:: xml
 
@@ -77,7 +77,7 @@ In order to improve testabilty and extensibility of your modules, it is a good i
       <prop key="param2">param2Value</prop>
    </util:properties>
 
-You should now be able to inject dynamic values like in your beans :
+You should now be able to inject dynamic values in your beans :
 
 .. code-block:: xml
 
@@ -90,14 +90,14 @@ You can also inject direcly this values in your Java classes thanks to the @Valu
 
 .. code-block:: java
 
-   @Value("#{mymoduleProperties.param1}")
+   @Value("${param1}")
    protected String property1;
 
 Or :
 
 .. code-block:: java
 
-   @Value("#{mymoduleProperties.param1}")
+   @Value("${param1}")
    protected void setProperty1(String property1) {
       this.property1 = property1;
    }
@@ -153,10 +153,66 @@ Please find bellow the properties keys and default values of database.properties
 
 Please notice that the new Hibernate id generator is used, as `recommanded in Hibernate documentation <http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html_single/#ann-setup-properties>`_. It allows much more better performances (no need of a select request before an insert request).
 
+Extend JPA properties
+---------------------
+
+RESThub provide some core jpa properties to configure entityManagerFactory in resthubContext.xml (real values are provided thanks to placholders - cf. database.properties configuration behind) : 
+
+.. code-block:: xml
+
+   <util:map id="resthubCoreJpaProperties">
+		<entry key="hibernate.dialect" value="${hibernate.dialect}" />
+		<entry key="hibernate.format_sql" value="${hibernate.format_sql}" />
+		<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+		<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}" />
+		<entry key="hibernate.cache.provider_class" value="${hibernate.cache.provider_class}" />
+		<!-- New ID generator is now recommanded to true for all projects. It provides 
+			betters performances and better generation behaviour than default one. More 
+			details on http://docs.jboss.org/hibernate/core/3.6/reference/en-US/html/mapping.html#mapping-declaration-id-enhanced -->
+		<entry key="hibernate.id.new_generator_mappings" value="${hibernate.id.new_generator_mappings}" />
+	</util:map>
+
+In order to allow to add extended and additional JPA or Hibernate configuration properties in your own project using RESThub, we provide a dedicated extension point thanks to spring maps and its merge capacity.
+
+Indeed, resthub entityManagerFacory includes an larger map of properties with an external bean reference :
+
+.. code-block:: xml
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		
+      ...
+		
+      <property name="jpaProperties" ref="jpaProperties" />
+	</bean>
+   
+  	<bean id="jpaProperties" parent="resthubCoreJpaProperties">
+		<property name="sourceMap">
+			<map merge="true"/>
+		</property>
+	</bean>
+   
+By default the map contains only core resthub jpa properties but if you need to add JPA or Hibernate properties, you only have to override the jpaProperties bean with your own configuration. 
+Provided properties will be added to resthub core properties.
+
+Just add in you applicationContext :
+
+.. code-block:: xml
+
+   	<bean id="jpaProperties" parent="resthubCoreJpaProperties">
+		<property name="sourceMap">
+			<map merge="true">
+				<entry key="my.key"
+					value="my.value" />
+			</map>
+		</property>
+	</bean>
+   
+   
 Entity scan
 -----------
 
-RESthub allow to scan entities in different modules using the same Persitence Unit, which is not possible with default Spring/Hibernate.
+RESThub allow to scan entities in different modules using the same Persitence Unit, which is not possible with default Spring/Hibernate.
 
 By default, the ScanningPersistenceUnitManager searches entities with the pattern.
 To indicates differents packages, you'll have to override the bean definition in your own Spring configuration file.

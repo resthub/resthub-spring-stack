@@ -1,9 +1,9 @@
-define([ 'lib/controller', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function(Controller, HotelRepository) {
+define([ 'text!booking/book.html', 'lib/controller', 'repositories/hotel.repository', 'booking/view', 'booking/edit' ], function(tmpl, Controller, HotelRepository) {
 	Controller.extend("BookBookingController", {
 		
 		hotelId : null,
 		booking : {},
-		template : 'booking/book.html',
+		template : tmpl,
 		mode : 'edit',
 		
 		init : function() {

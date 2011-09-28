@@ -1,10 +1,11 @@
 define([
+        'text!controller/user/login.html',
         'i18n!nls/labels',
         'lib/controller',
         'repositories/user.repository',
         'lib/oauth2client',
         'lib/jqueryui/button'
-    ], function(i18n, Controller, UserRepository, OAuth2Client) {
+    ], function(tmpl, i18n, Controller, UserRepository, OAuth2Client) {
 
 	/**
 	 * Class LoginController
@@ -19,7 +20,7 @@ define([
 		/**
 		 * Controller's template
 		 */
-		template: 'controller/user/login.html',
+		template: tmpl,
 		
 		// -------------------------------------------------------------------------------------------------------------
 		// Private attributes

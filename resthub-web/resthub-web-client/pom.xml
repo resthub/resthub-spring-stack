@@ -21,7 +21,6 @@
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-apache-client4</artifactId>
-			<version>1.8-ea03</version>
 		</dependency>
 	</dependencies>
 </project>

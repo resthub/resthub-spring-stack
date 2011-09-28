@@ -1,4 +1,5 @@
 define([
+    'text!poll/edit.html',
     'lib/controller',
     'repositories/poll.repository',
     'lib/fileuploader',
@@ -6,10 +7,10 @@ define([
     'lib/jquery/jquery.validate',
     'lib/jqueryui/sortable',
     'lib/resthub'
-], function(Controller, PollRepository) {
+], function(tmpl, Controller, PollRepository) {
 
     return Controller.extend("EditPollController", {
-        template : 'poll/edit.html',
+        template: tmpl,
         answerTemplate : '<li>' +
                 '<div><input type="checkbox" name="answers" value="${answer}"></div>' +
                 '<span>${answer}</span>' +

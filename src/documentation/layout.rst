@@ -13,31 +13,12 @@ RESThub is a framework that is intended to allow you to develop efficiently weba
  * /src/main/webapp : your HTML, CSS and javascripts files go there
  * /src/main/webapp/WEB-INF/web.xml : java webapplication configuration file, mainly used to configure Spring and Jersey servlet and filters
 
+In bigger projects, we usually have several JAR modules, one by functionnality (customer management, product management ...), and one WAR module with dependencies to the JAR modules and the JS application in /src/main/webapp.  
 
-Archteypes
-==========
-
-The easiest way to start is to use RESThub archetypes to create your first RESThub based application. Just open a command line terminal, and type :
-
-.. code-block:: bash
-
-	mvn archetype:generate -DarchetypeCatalog=http://resthub.org/nexus/content/repositories/releases/
-
-You will have to choose between 3 RESThub archetypes :
-
-* **resthub-archetype-js-webapp** : simple HTML5/Javascript web application
-* **resthub-archetype-tapestry5-webapp** : simple RESThub based Tapestry 5 web application
-* **resthub-archetype-jar-module** : a JAR module for inclusion in your multi modules project
- 
-You can run your webapps thanks to builtin mvn jetty:run support.
-
-Configuration files
-===================
-
-Optional but useful : you should use RESthub parent pom, as show bellow with the resthub-parent artifact, in order to define Maven plugin configuration and dependencies version.
+Optional but useful : you should use RESThub parent pom, as show bellow with the resthub-parent artifact, in order to define Maven plugin configuration and dependencies version.
  
 pom.xml
--------
+=======
 
 .. code-block:: xml
 
@@ -48,7 +29,7 @@ pom.xml
       <parent>
         <artifactId>resthub-parent</artifactId>
         <groupId>org.resthub</groupId>
-        <version>1.1</version>
+        <version>1.x</version>
       </parent>
     
 		<groupId>org.mydomain</groupId>
@@ -61,19 +42,19 @@ pom.xml
 			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-core</artifactId>
-				<version>1.1</version>
+				<version>1.x</version>
 			</dependency>
 			<!-- We use RESThub web classes and dependencies built around Jersey -->
 			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-web-server</artifactId>
-				<version>1.1</version>
+				<version>1.x</version>
 			</dependency>
 			<!-- We use RESThub JS stack built around jQuery -->
 			<dependency>
 				<groupId>org.resthub</groupId>
 				<artifactId>resthub-js</artifactId>
-				<version>1.1</version>
+				<version>1.x</version>
 				<type>war</type>
 			</dependency>
 		</dependencies>
@@ -88,7 +69,7 @@ pom.xml
 	</project>
 
 applicationContext.xml
-----------------------
+======================
 
 .. code-block:: xml
 
@@ -110,7 +91,7 @@ applicationContext.xml
 	</beans>
 
 web.xml
--------
+=======
 
 .. code-block:: xml
 
@@ -159,7 +140,7 @@ web.xml
 	</web-app>
 
 Model
------
+=====
 
 We don't provide base resource classe because too much inheritance cause much performance trouble with JPA.
 Instead, you can use the following template class to create your own.

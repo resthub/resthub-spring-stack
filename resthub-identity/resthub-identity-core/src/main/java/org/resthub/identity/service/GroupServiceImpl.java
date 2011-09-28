@@ -29,6 +29,7 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, GroupR
 	 * This class need it in order to be able to deal with users
 	 */
 	protected UserRepository userRepository;
+    
 	protected RoleService roleService;
 
 	@Inject

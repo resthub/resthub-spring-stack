@@ -1,7 +1,7 @@
-define([ 'lib/controller', 'hotel/list' ], function(Controller) {
+define([ 'text!hotel/search.html', 'lib/controller', 'hotel/list' ], function(tmpl, Controller) {
 	Controller.extend("SearchHotelsController", {
 		
-		template : 'hotel/search.html',
+		template : tmpl,
 		delay : 1000,
 		searching : null,
 
