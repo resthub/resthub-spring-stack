@@ -2,9 +2,9 @@
 Getting started
 ===============
 
-RESThub can be used with any MVC framwork, but is designed to provide th perfect backend for `RESThub JS <http://resthub.org/javascript/>`_, a Javascript framework designed to build lightweight HTML5 applications.
+RESThub can be used with any MVC framwork, but is designed to provide the perfect backend for `RESThub JS <http://resthub.org/javascript/>`_, a Javascript framework designed to build lightweight HTML5 applications.
 
-We also provide a `Tapestry 5 <http://tapestry.apache.org/>`_ integration for those who prefer serverside MVC frameworks.  
+We also provide a `Tapestry 5 <http://tapestry.apache.org/>`_ integration for those who prefer server-side MVC frameworks.  
 
 .. image:: _static/blocks.png
 	:width: 848 px
@@ -16,10 +16,10 @@ We also provide a `Tapestry 5 <http://tapestry.apache.org/>`_ integration for th
 Requirements
 ============
 
-Before coding, you should download and install following development tools if needed : 
+Before coding, you should download and install the following development tools if needed : 
  * `Java 6 <http://java.sun.com/javase/downloads/index.jsp>`_
  * `Maven 3 <http://maven.apache.org/>`_
- * A java IDE like `Eclipse <http://www.eclipse.org/>`_ or `Netbeans <http://netbeans.org/>`_ is recommanded
+ * A java IDE like `Eclipse <http://www.eclipse.org/>`_ or `Netbeans <http://netbeans.org/>`_ is recommended
 
 Project templates 
 =================
@@ -36,7 +36,7 @@ You will have to choose between 3 RESThub archetypes :
 * **resthub-archetype-tapestry5-webapp** : simple RESThub based Tapestry 5 web application
 * **resthub-archetype-jar-module** : a JAR module for inclusion in your multi modules project
  
-You can run your webapps thanks to builtin mvn jetty:run support.  
+You can run your webapps thanks to built-in mvn jetty:run support.  
 
 Documentation
 =============
@@ -61,22 +61,22 @@ Check these sample applications to learn how to design your RESThub based web ap
 
 In order to test and run one of these applications :
  * Download RESThub sources from https://github.com/pullrequest/resthub/tree/resthub-1.1
- * Open command line, and go to one of
+ * Open a command prompt, and go to one of
 	* resthub/resthub-apps/booking/booking/booking-tapestry5
 	* resthub/resthub-apps/booking/booking/booking-js
 	* resthub/resthub-apps/roundtable
  * Run mvn jetty:run
- * Open your browser and go to http://localhost:8080
+ * Open your browser and browse http://localhost:8080
 
-Debugging web application
-=========================
+Debugging your web application
+==============================
 
 Run/Debug RESThub in Eclipse :
- * Right click on kazan-portal module -> Debug As -> Maven Build ...
+ * Right click on myproject -> Debug As -> Maven Build ...
  * Name : Debug myproject
  * Goal : mvn -Denv=local jetty:run
  * Click on Apply, then Run
- * Open your browser with following URL : `http://localhost:8080/ <http://localhost:8080/>`_
- * Go to Debug Perspective
+ * Browse the following URL : `http://localhost:8080/ <http://localhost:8080/>`_
+ * Open the Debug Perspective
  * Right click on the Debug window -> Edit source lookup
  * Add -> Java project -> Select all -> OK -> OK
