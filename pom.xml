@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.resthub</groupId>
         <artifactId>resthub-parent</artifactId>
-        <version>1.1.3-SNAPSHOT</version>
+        <version>1.1.2.3</version>
         <relativePath>resthub-parent/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>resthub</artifactId>
-    <version>1.1.3-SNAPSHOT</version>
+    <version>1.1.2.3</version>
     <packaging>pom</packaging>
     <name>RESThub</name>
     <url>http://resthub.org</url>
@@ -115,5 +115,23 @@
             <url>http://nexus.pullrequest.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
+    
+    <build>
+				<plugins>
+						<plugin>
+            		<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                		<execution>
+                    		<id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                        		<goal>jar-no-fork</goal>
+												</goals>
+										</execution>
+								</executions>
+						</plugin>
+				</plugins>
+		</build>
+		
 </project>
