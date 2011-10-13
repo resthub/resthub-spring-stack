@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.resthub</groupId>
 		<artifactId>resthub</artifactId>
-		<version>1.1.3-SNAPSHOT</version>
+		<version>1.1.2.4</version>
 	</parent>
 	<artifactId>resthub-test-dbunit</artifactId>
 	<packaging>jar</packaging>
