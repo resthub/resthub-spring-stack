@@ -13,7 +13,7 @@ RESThub is a framework that is intended to allow you to develop efficiently weba
  * /src/main/webapp : your HTML, CSS and javascript files go there
  * /src/main/webapp/WEB-INF/web.xml : java webapplication configuration file, mainly used to configure Spring and Jersey servlets and filters
 
-In bigger projects, functionnalities are divided in several JAR modules we usually have several JAR modules (customer management, product management ...). Those modules are included as dependencies in a WAR module (implementing, for example, a RESThub-JS web application in /src/main/webapp).  
+In bigger projects, functionalities are divided in several JAR modules we usually have several JAR modules (customer management, product management ...). Those modules are included as dependencies in a WAR module (implementing, for example, a RESThub-JS web application in /src/main/webapp).  
 
 Optional but useful : you should use RESThub parent pom, as shown below with the resthub-parent artifact, so as to define Maven plugin configuration and dependencies version.
  

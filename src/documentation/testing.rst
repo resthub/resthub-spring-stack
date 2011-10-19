@@ -5,19 +5,19 @@ Testing
 Base class for your tests
 =========================
 
-RESThub provides generic classes in order to make testing easiers.
+RESThub provides generic classes in order to make testing easier.
 
 * **Generic test classes** : 
    * `AbstractTest <http://resthub.org/javadoc/1.1/org/resthub/core/test/AbstractTest.html>`_: base class for your non transactional Spring aware unit tests
    * `AbstractTransactionalTest <http://resthub.org/javadoc/1.1/org/resthub/core/test/AbstractTransactionalTest.html>`_ : base class for your transactional unit tests, preconfigure Spring test framework
    * `AbstractTransactionAwareTest <http://resthub.org/javadoc/1.1/org/resthub/core/test/AbstractTransactionAwareTest.html>`_: base class for your transaction aware unit tests
-   * `AbstractTransactionAwareTest <http://resthub.org/javadoc/1.1/org/resthub/web/test/AbstractWebTest.html>`_ : base class for your unit test that need to run and embeded servlet container
+   * `AbstractWebTest <http://resthub.org/javadoc/1.1/org/resthub/web/test/AbstractWebTest.html>`_ : base class for your unit test that need to run and embedded servlet container
 
 * **CRUD testing of generic DAO, Service or Controller class**
    * `AbstractDaoTest <http://resthub.org/javadoc/1.1/org/resthub/core/test/dao/AbstractDaoTest.html>`_: generic DAO unit test
    * `AbstractServiceTest <http://resthub.org/javadoc/1.1/org/resthub/core/test/dao/AbstractServiceTest.html>`_: generic service unit test
    * `AbstractControllerTest <http://resthub.org/javadoc/1.1/org/resthub/web/test/controller/AbstractControllerTest.html>`_: generic controller unit test (direct java testing)
-   * `AbstractControllerWebTest <http://resthub.org/javadoc/1.1/org/resthub/web/test/controller/AbstractControllerWebTest.html>`_: generic controller unit test (via a webapplication running  in Jetty embedded)
+   * `AbstractControllerWebTest <http://resthub.org/javadoc/1.1/org/resthub/web/test/controller/AbstractControllerWebTest.html>`_: generic controller unit test (via a webapplication running in Jetty embedded)
 
 Serialization
 =============
@@ -50,7 +50,7 @@ Introduction
 
 When designing unit tests with a database, you need to manage the state of the database in order to have repeatable tests.
 
-Through RESThub, we propose a simple way to deal with these concerns. but first just make some clarification.
+Through RESThub, we offer a simple way to deal with these concerns. But first, let's just make some clarifications.
 
 Why an embedded database is not enough
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,7 +118,7 @@ That's it : DBUnit is configured and ready to use in your unit tests.
 
 **Including/Excluding tables**
 
-Sometimes, you may need to exclude some tables. // TODO give some use cases
+Sometimes, you may need to exclude some tables.
 Tables inclusion/exclusion is available through the namespace configuration :
 
 .. code-block:: xml
@@ -184,9 +184,9 @@ Lets explore these options.
 
 **DBUnit flat XML file**
 
-DBUnit has its own XML dataSet file format. You can find more information about this format here: http://dbunit.sourceforge.net/apidocs/org/dbunit/dataset/xml/FlatXmlDataSet.html
+DBUnit has its own XML dataSet file format. You can find more information about this format in `DBUnit documentation <http://dbunit.sourceforge.net/apidocs/org/dbunit/dataset/xml/FlatXmlDataSet.html>`_.
 
-You can declare an XML dataSet using plain Spring bean declaration :
+You can declare an XML dataSet using a plain Spring bean declaration :
 
 .. code-block:: xml
 
@@ -204,7 +204,7 @@ If you use the namespace, the following configuration is equivalent:
 
 **Custom Spring bean**
 
-The custom Spring bean is the most powerfull solution. You can initialize the database with any Java code, including using JPA , and let the framework create the dataSet by taking a snapshot of the database after your code has been executed.
+The custom Spring bean is the most powerful solution. You can initialize the database with any Java code, including JPA , and let the framework create the dataSet by taking a snapshot of the database after your code has been executed.
 
 Here is a simple DatabaseInitializer implementation:
 
@@ -235,5 +235,5 @@ Best practices
 ~~~~~~~~~~~~~~
 
 * Consider declaring DBUnit and Spring Test annotations on an abstract parent class, and make all your tests inherit from this parent.
-* Use constants when initializing you dataset with Java code, and reference these constants in your unit tests. Doing so, you will improve the maintenability of your tests 
+* Use constants when initializing you dataset with Java code, and reference these constants in your unit tests. Doing so, you will improve the maintenability of your tests. 
    
