@@ -7,6 +7,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.resthub.test.dbunit.config.DbUnitConfiguration;
+
 /**
  * This annotation allows to specify the name of the {@link DbUnitConfiguration}
  * bean to use.

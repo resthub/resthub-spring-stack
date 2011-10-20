@@ -17,7 +17,7 @@ import org.resthub.core.service.GenericServiceImpl;
 public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDao> implements UserService {
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Inject
     @Named("userDao")
@@ -27,7 +27,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDao> imp
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public User findByUsername(String username) {
 
@@ -45,7 +45,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDao> imp
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public User findByEmail(String email) {
 

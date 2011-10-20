@@ -375,7 +375,6 @@
                         <docencoding>UTF-8</docencoding>
                         <charset>UTF-8</charset>
                         <encoding>UTF-8</encoding>
-                        <excludePackageNames>org.resthub.booking.*:org.resthub.roundtable.*:org.resthub.identity.*</excludePackageNames>
                     </configuration>
                 </plugin>
                 <plugin>

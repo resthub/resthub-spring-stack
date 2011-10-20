@@ -7,6 +7,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.resthub.test.dbunit.resolver.DataSetResolver;
+
 /**
  * this annotation can be used on a JUnit test class or method in order to
  * inject a DbUnit dataset.

@@ -9,10 +9,8 @@ import org.synyx.hades.domain.Pageable;
 /**
  * Generic Service interface.
  * 
- * @param <T>
- *            Domain model class managed, must be an Entity
- * @param <PK>
- *            Primary key class of T
+ * @param <T> Domain model class managed, must be an Entity
+ * @param <ID> Primary key class of T
  */
 public interface GenericService<T, ID extends Serializable> {
 

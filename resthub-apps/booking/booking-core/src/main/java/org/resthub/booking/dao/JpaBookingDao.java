@@ -16,7 +16,7 @@ import org.resthub.core.dao.GenericJpaDao;
 public class JpaBookingDao extends GenericJpaDao<Booking, Long> implements BookingDao {
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
     @Override

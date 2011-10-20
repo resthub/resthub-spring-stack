@@ -20,7 +20,7 @@ import org.synyx.hades.domain.Pageable;
 public class HotelServiceImpl extends GenericServiceImpl<Hotel, Long, HotelDao> implements HotelService {
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Inject
     @Named("hotelDao")

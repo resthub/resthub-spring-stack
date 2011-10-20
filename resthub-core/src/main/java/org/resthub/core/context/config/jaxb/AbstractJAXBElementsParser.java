@@ -17,7 +17,7 @@ public abstract class AbstractJAXBElementsParser extends AbstractParser {
     protected abstract Class<? extends JAXBElementListBean> getBeanClass();
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     protected AbstractClassPathScanner createScanner(XmlReaderContext readerContext, boolean useDefaultFilters,
             Element element) {

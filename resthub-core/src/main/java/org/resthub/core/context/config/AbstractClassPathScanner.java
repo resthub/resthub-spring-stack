@@ -27,13 +27,13 @@ public abstract class AbstractClassPathScanner extends ClassPathBeanDefinitionSc
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     protected abstract void registerDefaultFilters();
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      * 
      */
     protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
@@ -63,9 +63,9 @@ public abstract class AbstractClassPathScanner extends ClassPathBeanDefinitionSc
     protected abstract BeanDefinition createBeanDefinition(Set<String> entities);
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      * 
-     * Whe are no managing beans here : we deactivate initial check from
+     * We are no managing beans here : we deactivate initial check from
      * inherited class by always returning true
      */
     @Override

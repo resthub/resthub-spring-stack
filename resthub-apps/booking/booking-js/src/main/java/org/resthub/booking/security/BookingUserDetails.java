@@ -27,7 +27,7 @@ public class BookingUserDetails implements UserDetails {
 	}
 
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public List<GrantedAuthority> getAuthorities() {
 		return Collections.unmodifiableList(this.authorities);
@@ -38,7 +38,7 @@ public class BookingUserDetails implements UserDetails {
 	}
 
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public String getPassword() {
 		return password;
@@ -49,7 +49,7 @@ public class BookingUserDetails implements UserDetails {
 	}
 
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public String getUsername() {
 		return username;
@@ -60,28 +60,28 @@ public class BookingUserDetails implements UserDetails {
 	}
 
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public boolean isEnabled() {
 		return true;

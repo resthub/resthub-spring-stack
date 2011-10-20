@@ -33,7 +33,7 @@ public class SpringSecurityAuthenticator implements Authenticator {
     private LogoutService logoutService;
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public void login(String username, String password) throws AuthenticationException {
 
@@ -48,7 +48,7 @@ public class SpringSecurityAuthenticator implements Authenticator {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public boolean isLoggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,7 +63,7 @@ public class SpringSecurityAuthenticator implements Authenticator {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public void logout() {
         requestGlobals.getRequest().getSession(false).invalidate();
@@ -71,7 +71,7 @@ public class SpringSecurityAuthenticator implements Authenticator {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public UserDetails getLoggedUser() {
         UserDetails userDetails = null;

@@ -26,7 +26,7 @@ public class SpringToolingService implements ToolingService, ApplicationContextA
     private List<BeanDetail> allBeans = null;
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -42,7 +42,7 @@ public class SpringToolingService implements ToolingService, ApplicationContextA
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public List<String> getBeanNames() {
@@ -50,7 +50,7 @@ public class SpringToolingService implements ToolingService, ApplicationContextA
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public List<BeanDetail> getBeanDetails() {
