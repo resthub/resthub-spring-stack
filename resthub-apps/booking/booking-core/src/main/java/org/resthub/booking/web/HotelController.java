@@ -21,7 +21,7 @@ import org.springframework.data.domain.PageRequest;
 public class HotelController extends GenericControllerImpl<Hotel, Long, HotelService> {
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Inject
     @Named("hotelService")

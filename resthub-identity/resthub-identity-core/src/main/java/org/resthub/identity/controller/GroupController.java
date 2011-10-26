@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.UserService;
@@ -243,4 +244,25 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
         }
         return usersFromGroup;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @PUT
+    @Path("/name/{name}/roles/{role}")
+    @RolesAllowed({ "IM_GROUP_ADMIN" })
+    public void addRoleToGroup(@PathParam("name") String name, @PathParam("role") String role) {
+        this.service.addRoleToGroup(name, role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @DELETE
+    @Path("/name/{name}/roles/{role}")
+    @RolesAllowed({ "IM_GROUP_ADMIN" })
+    public void removeRoleFromGroup(@PathParam("name") String name, @PathParam("role") String role) {
+        this.service.removeRoleFromGroup(name, role);
+    }
+
 }

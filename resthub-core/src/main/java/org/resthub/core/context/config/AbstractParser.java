@@ -21,7 +21,7 @@ public abstract class AbstractParser extends ComponentScanBeanDefinitionParser i
     private static final String USE_DEFAULT_FILTERS_ATTRIBUTE = "use-default-filters";
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public BeanDefinition parse(Element element, ParserContext parserContext) {
         String[] basePackages = StringUtils.tokenizeToStringArray(element.getAttribute(BASE_PACKAGE_ATTRIBUTE),
@@ -36,7 +36,7 @@ public abstract class AbstractParser extends ComponentScanBeanDefinitionParser i
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     protected AbstractClassPathScanner configureScanner(ParserContext parserContext, Element element) {
         XmlReaderContext readerContext = parserContext.getReaderContext();
@@ -68,7 +68,7 @@ public abstract class AbstractParser extends ComponentScanBeanDefinitionParser i
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     protected abstract AbstractClassPathScanner createScanner(XmlReaderContext readerContext,
             boolean useDefaultFilters, Element element);

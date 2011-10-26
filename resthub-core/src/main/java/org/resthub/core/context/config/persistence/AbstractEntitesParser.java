@@ -38,7 +38,7 @@ public abstract class AbstractEntitesParser extends AbstractParser {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     protected ClassPathEntityScanner createScanner(XmlReaderContext readerContext, boolean useDefaultFilters,
             Element element) {

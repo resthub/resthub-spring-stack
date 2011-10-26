@@ -20,7 +20,7 @@ import org.springframework.data.domain.Page;
 public class HotelServiceImpl extends GenericServiceImpl<Hotel, Long, HotelRepository> implements HotelService {
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Inject
     @Named("hotelRepository")

@@ -95,7 +95,7 @@ public class ScanningPersistenceUnitManager extends DefaultPersistenceUnitManage
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      * 
      * This implementation scan the provided classpath to add resources matching
      * with defined filters (or defaults). If no classpath pattern is defined,

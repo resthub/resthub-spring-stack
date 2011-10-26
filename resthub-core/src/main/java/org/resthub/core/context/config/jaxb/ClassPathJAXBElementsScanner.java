@@ -36,7 +36,7 @@ public class ClassPathJAXBElementsScanner extends AbstractClassPathScanner {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
     @Override

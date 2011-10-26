@@ -19,7 +19,7 @@ import org.springframework.util.Assert;
 public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, BookingRepository> implements BookingService {
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Inject
     @Named("bookingRepository")
@@ -33,7 +33,7 @@ public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, Bookin
     private UserRepository userRepository;
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     public List<Booking> findByUserId(Long userId) {
         Assert.notNull(userId, "User ID can't be null");

@@ -120,5 +120,34 @@
             <url>http://nexus.pullrequest.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
+    
+    <build>
+				<plugins>
+						<plugin>
+            		<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                		<execution>
+                    		<id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                        		<goal>jar-no-fork</goal>
+												</goals>
+										</execution>
+								</executions>
+						</plugin>
+						<plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <quiet>true</quiet>
+                        <docencoding>UTF-8</docencoding>
+                        <charset>UTF-8</charset>
+                        <encoding>UTF-8</encoding>
+                        <excludePackageNames>org.resthub.booking.*:org.resthub.roundtable.*:org.resthub.identity.UserInit</excludePackageNames>
+                    </configuration>
+                </plugin>
+				</plugins>
+		</build>
+		
 </project>

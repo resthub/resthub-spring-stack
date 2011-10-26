@@ -41,7 +41,7 @@ public class BookingUserDetailsService implements UserDetailsService {
 	}
 	
 	/**
-	 * {@InheritDoc}
+	 * {@inheritDoc}
 	 */
 	public UserDetails loadUserByUsername(String name)
 			throws UsernameNotFoundException, DataAccessException {

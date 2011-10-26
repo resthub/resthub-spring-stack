@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.Group;
+import org.resthub.identity.model.Role;
 
 /**
  * An Helper class to deals with permissions
@@ -32,11 +33,32 @@ public class PermissionsOwnerTools {
                 }
             }
         }
+        for(Role userRole : owner.getRoles()) {
+        	tmpPermissions = userRole.getPermissions();
+            if (tmpPermissions != null) {
+                for (String permission : tmpPermissions) {
+                    if (!result.contains(permission)) {
+                        result.add(permission);
+                    }
+                }
+            }
+        }
+        
         List<Group> groups = owner.getGroups();
         if (groups != null) {
             for (Group group : groups) {
                 if (group != null) {
                     tmpPermissions = getInheritedPermission(group);
+                    if (tmpPermissions != null) {
+                        for (String permission : tmpPermissions) {
+                            if (!result.contains(permission)) {
+                                result.add(permission);
+                            }
+                        }
+                    }
+                }
+                for(Role groupRole : group.getRoles()) {
+                	tmpPermissions = groupRole.getPermissions();
                     if (tmpPermissions != null) {
                         for (String permission : tmpPermissions) {
                             if (!result.contains(permission)) {

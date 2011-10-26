@@ -39,7 +39,7 @@ public class ClassPathEntityScanner extends AbstractClassPathScanner {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
     @Override

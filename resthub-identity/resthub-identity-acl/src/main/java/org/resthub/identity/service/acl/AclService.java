@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.resthub.identity.service.tracability.TracableService;
 import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.transaction.annotation.Transactional;

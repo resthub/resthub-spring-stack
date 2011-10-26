@@ -168,12 +168,10 @@ public class AclServiceImpl implements AclService {
         // Remove all permissions associated with this particular recipient
         // (string equality to KISS)
         List<AccessControlEntry> entries = acl.getEntries();
-        int i = 0;
-        for (AccessControlEntry entry : entries) {
-            if (entry.getSid().equals(owner) && entry.getPermission().equals(effectivePerm)) {
+        for (int i = entries.size() -1 ; i >= 0 ; i--) {
+            if (entries.get(i).getSid().equals(owner) && entries.get(i).getPermission().equals(effectivePerm)) {
                 acl.deleteAce(i);
             }
-            i++;
         }
 
         // Update the acl for this user on this model object.
@@ -297,7 +295,7 @@ public class AclServiceImpl implements AclService {
 
         List<AccessControlEntry> entries = acl.getEntries();
         if (entries.size() > 1) {
-            for (int i = 0; i < entries.size(); i++) {
+        	for (int i = entries.size() -1 ; i >= 0 ; i--) {
                 if (entries.get(i).getSid().equals(recipient) && entries.get(i).getPermission().equals(permission)) {
                     acl.deleteAce(i);
                 }

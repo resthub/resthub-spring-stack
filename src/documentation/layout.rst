@@ -2,20 +2,20 @@
 Project layout 
 ==============
 
-Let's go to see what looks like a typical RESThub based application ...
+Let's take a look at a typical RESThub based application...
 
-RESThub is a framework that is intended to allow you to develop efficiently webapp projects. It has Maven the following directory layout :
+RESThub is a framework that is intended to allow you to develop efficiently webapp projects. RESThub projects follow the "maven standard" project layout :
 
  * /pom.xml : the Maven configuration file, it defines dependencies, plugins, etc.
  * /src/main/java : your java classes go there
  * /src/main/resources : your xml and properties files go there
  * /src/main/resources/applicationContext.xml : this is your application Spring configuration file. Since we mainly use annotation based configuration, this file will usually be short
- * /src/main/webapp : your HTML, CSS and javascripts files go there
- * /src/main/webapp/WEB-INF/web.xml : java webapplication configuration file, mainly used to configure Spring and Jersey servlet and filters
+ * /src/main/webapp : your HTML, CSS and javascript files go there
+ * /src/main/webapp/WEB-INF/web.xml : java webapplication configuration file, mainly used to configure Spring and Jersey servlets and filters
 
-In bigger projects, we usually have several JAR modules, one by functionnality (customer management, product management ...), and one WAR module with dependencies to the JAR modules and the JS application in /src/main/webapp.  
+In bigger projects, functionalities are divided in several JAR modules we usually have several JAR modules (customer management, product management ...). Those modules are included as dependencies in a WAR module (implementing, for example, a RESThub-JS web application in /src/main/webapp).  
 
-Optional but useful : you should use RESThub parent pom, as show bellow with the resthub-parent artifact, in order to define Maven plugin configuration and dependencies version.
+Optional but useful : you should use RESThub parent pom, as shown below with the resthub-parent artifact, so as to define Maven plugin configuration and dependencies version.
  
 pom.xml
 =======

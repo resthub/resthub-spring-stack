@@ -21,7 +21,7 @@ import org.resthub.web.controller.GenericControllerImpl;
 public class BookingController extends GenericControllerImpl<Booking, Long, BookingService> {
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Inject
     @Named("bookingService")

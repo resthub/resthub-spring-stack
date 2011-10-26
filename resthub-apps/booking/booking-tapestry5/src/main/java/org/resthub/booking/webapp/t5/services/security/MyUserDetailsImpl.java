@@ -28,7 +28,7 @@ public class MyUserDetailsImpl implements UserDetails {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public List<GrantedAuthority> getAuthorities() {
@@ -42,7 +42,7 @@ public class MyUserDetailsImpl implements UserDetails {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public String getPassword() {
@@ -56,7 +56,7 @@ public class MyUserDetailsImpl implements UserDetails {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public String getUsername() {
@@ -70,7 +70,7 @@ public class MyUserDetailsImpl implements UserDetails {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean isAccountNonExpired() {
@@ -79,7 +79,7 @@ public class MyUserDetailsImpl implements UserDetails {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean isAccountNonLocked() {
@@ -88,7 +88,7 @@ public class MyUserDetailsImpl implements UserDetails {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean isCredentialsNonExpired() {
@@ -97,7 +97,7 @@ public class MyUserDetailsImpl implements UserDetails {
     }
 
     /**
-     * {@InheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean isEnabled() {

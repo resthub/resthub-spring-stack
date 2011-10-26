@@ -2,9 +2,9 @@
 Core functionnalities
 =====================
 
-RESThub core has been designed to give your a cohenrent stack and some functionnalities in order to help you rto build your applications faster.
+RESThub core has been designed to give your a coherent technology stack and additional functionalities, thus helping you to build your application faster.
 
-You should import the following module in your application in order to be able to use RESThub in your applications :
+You should import the following module in your application to be able to use RESThub in your application :
 
 .. code-block:: xml
 
@@ -14,19 +14,19 @@ You should import the following module in your application in order to be able t
       <version>1.1</version>
    </dependency>
 
-Functionnalities available from the core are described bellow.
+Functionalities available from the core are described below.
 
 Application context
 ===================
 
-Since RESThub application context functionnalities extends Spring 3 ones, you should carefully read `Spring 3 reference manual <http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html>`_.
+Since RESThub application context functionalities extend Spring 3 ones, you should carefully read `Spring 3 reference manual <http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html>`_.
 
 Application context scanning
 ----------------------------
 
-RESThub default configuration scan all resthubContext.xml and applicationContext.xml files from your classpath. This naming convention and scanning process allow you to build easily a simple plugin like system when your functionalities are automatically discovered if they are in the classpath.
+RESThub default configuration scan all resthubContext.xml and applicationContext.xml files from your classpath. This naming convention and scanning process allows you to build easily a simple plugin-like system, when your functionalities are automatically discovered within the classpath.
 
-You can provide a applicationContext.xml file by module to configure your application.
+You can provide an applicationContext.xml file by module to configure your application.
 
 Beans declaration and injection
 -------------------------------
@@ -59,11 +59,11 @@ Environment specific properties
 
 There is various way to configure your environment specific properties in your application, the one described bellow is the more simple and flexible one we have found.
 
-Maven filtering (search and replace variables) is not recommanded because it is done at compile time (not runtime) and make usually your JAR/WAR specific to an specific environnement. The only case they are interesting is to define your target path (${project.build.directory}) in for your src/test/applicationContext.xml for testing purpose.
+Maven filtering (search and replace variables) is not recommended because it is done at compile time (not runtime) and makes usually your JAR/WAR specific to an environment. This feature can be useful when defining your target path (${project.build.directory}) in your src/test/applicationContext.xml for testing purpose.
 
-Spring properties placeholders allow you to reference in your application context files some values defined in external properties. This is useful in order to keep your application context generic (located in src/main/resources or src/test/resources), and put all values that depends on the environnement (local, dev, staging, production) in external properties. These dynamic properties values are resolved during application startup.
+Spring properties placeholders allow you to reference in your application context files some values defined in external properties. This is useful in order to keep your application context generic (located in src/main/resources or src/test/resources), and put all values that depends on the environment (local, dev, staging, production) in external properties. These dynamic properties values are resolved during application startup.
 
-In order to improve testabilty and extensibility of your modules, it is a good idea to set default values taken in account if no properties is found in the classpath, and override these default values if the propeties is found. It is acheived by declaring the following lines in your applicationContext.xml :
+In order to improve testabilty and extensibility of your modules, you should set default values in case no properties are found in the classpath - if properties are found, then default values are obviously overriden. It is acheived by declaring the following lines in your applicationContext.xml :
 
 .. code-block:: xml
 
@@ -86,7 +86,7 @@ You should now be able to inject dynamic values in your beans :
       <property name="property2" value="${param2}"/>
    </bean>
 
-You can also inject direcly this values in your Java classes thanks to the @Value annotation :
+You can also inject direcly these values in your Java classes thanks to the @Value annotation :
 
 .. code-block:: java
 
@@ -106,7 +106,7 @@ Or :
 Disable XSD validation
 ----------------------
 
-By default, Spring 3 validation XML schema declared in your application context. This validation could prevent you to use protperties placeholder decribed previously, because you will put a value like ${paramStatus} in boolean attribute that can take only true or false value.
+By default, Spring 3 validation XML schema is declared in your application context. This validation could prevent you to use properties placeholder decribed previously, because you will put a value like ${paramStatus} in a boolean attribute that can take only true or false value.
 
 Since there is no way to fix that in vanilla Spring 3, RESThub provides a way to disable application context XSD validations.
 
@@ -131,7 +131,7 @@ Persistence
 Default configuration
 ---------------------
 
-RESThub comes with a preconfigured Spring/Hibernate stack, with connection H2 embedded databse, pooling and cache. Every configured bean could be customized by defefining the bean in your applicationContext.xml files, or more easily by putting a database.properties in your project resources.
+RESThub comes with a preconfigured Spring/Hibernate stack, with a connection to an H2 embedded databse, pooling and cache. Every configured bean could be customized by redefining the bean in your applicationContext.xml files, or more easily by putting a database.properties in your project resources.
 
 Please find bellow the properties keys and default values of database.properties ::
         
@@ -143,7 +143,7 @@ Please find bellow the properties keys and default values of database.properties
    dataSource.username = sa
    dataSource.password = 
 
-   hibernate.show_sql" = false
+   hibernate.show_sql = false
    hibernate.dialect = org.hibernate.dialect.H2Dialect
    hibernate.format_sql = true
    hibernate.hbm2ddl.auto = update
@@ -151,12 +151,12 @@ Please find bellow the properties keys and default values of database.properties
    hibernate.cache.provider_class = net.sf.ehcache.hibernate.SingletonEhCacheProvider
    hibernate.id.new_generator_mappings = true
 
-Please notice that the new Hibernate id generator is used, as `recommanded in Hibernate documentation <http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html_single/#ann-setup-properties>`_. It allows much more better performances (no need of a select request before an insert request).
+Please notice that the new Hibernate id generator is used, as `recommended in Hibernate documentation <http://docs.jboss.org/hibernate/annotations/3.5/reference/en/html_single/#ann-setup-properties>`_. It allows much better performance (there's no need of a SELECT request before an INSERT request).
 
 Extend JPA properties
 ---------------------
 
-RESThub provide some core jpa properties to configure entityManagerFactory in resthubContext.xml (real values are provided thanks to placholders - cf. database.properties configuration behind) : 
+RESThub provides some core jpa properties to configure entityManagerFactory in resthubContext.xml (real values are provided thanks to placholders - cf. database.properties configuration) : 
 
 .. code-block:: xml
 
@@ -212,16 +212,16 @@ Just add in you applicationContext :
 Entity scan
 -----------
 
-RESThub allow to scan entities in different modules using the same Persitence Unit, which is not possible with default Spring/Hibernate.
+RESThub allows to scan entities in different modules using the same PersitenceUnit, which is not possible with default Spring/Hibernate.
 
-By default, the ScanningPersistenceUnitManager searches entities with the pattern.
-To indicates differents packages, you'll have to override the bean definition in your own Spring configuration file.
+By default, the ScanningPersistenceUnitManager searches entities with the pattern "org.resthub.\*\*.model".
+To indicates different packages, you'll have to override the bean definition in your own Spring configuration file.
 
 .. code-block:: xml
 
    <resthub:include-entities base-package="net.myProject.**.model" />
 
-Now, entities from the net/myProject/\*\*/model packages will be recognized.
+Now, entities within the net/myProject/\*\*/model packages will be scanned.
 
 **Beware !** You have to be careful with the loading order of your spring configuration files.
 Reference the RESTHub file first (and don't forget the * behind "classpath"), and then your files.
@@ -229,9 +229,9 @@ Reference the RESTHub file first (and don't forget the * behind "classpath"), an
 Interface only DAO
 ------------------
 
-Hades is a really powerful Generic DAO framework, included by default in RESthub, which allow to write your DAO with only an interface (no implmentation needed).
+Hades is a really powerful Generic DAO framework, included by default in RESThub, which allows to write your DAO with only an interface (no implmentation needed).
 
-Hades ability to generate DAO from interfaces is not activated by default in RESThub application, but could be easily by addid the following line in your applicationContext.xml.
+Hades' ability to generate DAO from interfaces is not activated by default in RESThub application, but could be with the following line in your applicationContext.xml.
 
 .. code-block:: xml
 
@@ -240,7 +240,7 @@ Hades ability to generate DAO from interfaces is not activated by default in RES
 Generic CRUD classes
 ====================
 
-RESThub provides some generic classes in order to quicly implement CRUD functionalities :
+RESThub provides some generic classes in order to quickly implement CRUD functionalities :
 
 Provides some generic classes and interfaces for default DAO, service or controller.
 
