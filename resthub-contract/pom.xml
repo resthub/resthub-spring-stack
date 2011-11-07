@@ -17,8 +17,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-		</dependency>
+			<artifactId>spring-data-commons-core</artifactId>
+            </dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
