@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import org.resthub.booking.dao.HotelDao;
 import org.resthub.booking.model.Hotel;
+import org.resthub.core.monitoring.Monitored;
 import org.resthub.core.service.GenericServiceImpl;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
@@ -16,6 +17,7 @@ import org.synyx.hades.domain.Pageable;
  * @author Guillaume Zurbach
  * @author bmeurant <Baptiste Meurant>
  */
+@Monitored
 @Named("hotelService")
 public class HotelServiceImpl extends GenericServiceImpl<Hotel, Long, HotelDao> implements HotelService {
 

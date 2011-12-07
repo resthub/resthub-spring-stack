@@ -7,12 +7,14 @@ import javax.inject.Named;
 
 import org.resthub.booking.dao.UserDao;
 import org.resthub.booking.model.User;
+import org.resthub.core.monitoring.Monitored;
 import org.resthub.core.service.GenericServiceImpl;
 
 /**
  * @author Guillaume Zurbach
  * @author bmeurant <Baptiste Meurant>
  */
+@Monitored
 @Named("userService")
 public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDao> implements UserService {
 

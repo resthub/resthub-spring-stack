@@ -109,6 +109,11 @@
 			<artifactId>org.synyx.hades</artifactId>
 		</dependency>
 
+		<!-- Monitoring with JAMON -->
+		<dependency>
+			<groupId>com.jamonapi</groupId>
+			<artifactId>jamon</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
