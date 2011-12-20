@@ -23,6 +23,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.sun.jersey.api.NotFoundException;
+import com.sun.jersey.api.uri.UriComponent;
+
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.DefaultValue;
 import org.resthub.web.response.PageResponse;
@@ -324,7 +326,15 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     @POST
     @Path("/checkuser")
     public void authenticateUser(@QueryParam("user") String username, @QueryParam("password") String password) {
-        User user = this.service.authenticateUser(username, password);
+        
+    	// We decode manually parameters since they are not decoded automatically
+    	// Perhaps it comes from the fact we are using a POST and not a GET request, not sure ...
+    	// Related issue : http://java.net/jira/browse/JERSEY-739
+    	
+    	username = UriComponent.decode(username, UriComponent.Type.QUERY_PARAM);
+    	password = UriComponent.decode(password, UriComponent.Type.QUERY_PARAM);
+    	
+    	User user = this.service.authenticateUser(username, password);
         if (user == null) {
             throw new NotFoundException();
         }
