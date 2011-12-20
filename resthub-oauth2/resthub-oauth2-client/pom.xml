@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>resthub-oauth2</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1.2.6-SNAPSHOT</version>
+		<version>1.1.2.6</version>
 	</parent>
 	<artifactId>resthub-oauth2-client</artifactId>
 	<name>RESThub OAuth2 client</name>
