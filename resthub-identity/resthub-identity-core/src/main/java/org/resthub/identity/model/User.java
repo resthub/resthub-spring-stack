@@ -52,6 +52,8 @@ public class User extends AbstractPermissionsOwner {
         login = (s == null) ? new String() : new String(s);
         s = u.getEmail();
         email = (s == null) ? new String() : new String(s);
+        s = u.getPassword();
+        password = (s == null) ? new String() : new String(s);
         List<Group> l = u.getGroups();
         groups = (l == null) ? new ArrayList<Group>() : new ArrayList<Group>(u.getGroups());
     }

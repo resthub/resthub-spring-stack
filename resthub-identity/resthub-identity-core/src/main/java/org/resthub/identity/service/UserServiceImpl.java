@@ -79,10 +79,12 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserDao>
         // Check if there is an already existing user with this login with a
         // different ID
         User existingUser = this.findById(user.getId());
-        if (existingUser != null) {
-            // Update the user without changing the password
-            user.setPassword(existingUser.getPassword());
+        if(user.getPassword() == null) {
+        	user.setPassword(existingUser.getPassword());
+        } else if(!user.getPassword().equals(existingUser.getPassword())) {
+        	user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
         }
+       
         return super.update(user);
     }
 
