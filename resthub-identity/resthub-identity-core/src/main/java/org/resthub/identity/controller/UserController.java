@@ -2,9 +2,11 @@ package org.resthub.identity.controller;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -15,17 +17,17 @@ import javax.ws.rs.QueryParam;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
-import org.resthub.identity.security.IdentityUserDetailsAdapter;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.resthub.web.controller.GenericControllerImpl;
+import org.resthub.web.response.PageResponse;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 import com.sun.jersey.api.NotFoundException;
-import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.DefaultValue;
-import org.resthub.web.response.PageResponse;
+import com.sun.jersey.api.uri.UriComponent;
 
 @Path("/user")
 /**
@@ -147,9 +149,9 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     @RolesAllowed({ "IS_AUTHENTICATED_FULLY" })
     public User currentUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        IdentityUserDetailsAdapter userDetails = (IdentityUserDetailsAdapter) securityContext.getAuthentication()
-                .getPrincipal();
-
+        UserDetails userDetails = (UserDetails) securityContext.getAuthentication().getPrincipal();
+        Assert.notNull(userDetails);
+        
         User user = this.service.findByLogin(userDetails.getUsername());
         if (user == null) {
             throw new NotFoundException();
@@ -161,23 +163,25 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
         }
         return user;
     }
+    
+    /** Update the current user **/
+    @PUT
+    @Path("/me")
+    @RolesAllowed({ "IS_AUTHENTICATED_FULLY" })
+    public User updateMe(User user) {
+    	SecurityContext securityContext = SecurityContextHolder.getContext();
+        UserDetails userDetails = (UserDetails) securityContext.getAuthentication().getPrincipal();
+    	Assert.notNull(userDetails);
+    	Assert.isTrue(userDetails.getUsername().equals(user.getLogin()));
+    	User retreivedUser = this.service.findByLogin(userDetails.getUsername());
 
-    /**
-     * Change the password of the user
-     * 
-     * @param user
-     *            the user with the new password inside
-     * */
-    @POST
-    @Path("/password")
-    @RolesAllowed({ "IS_AUTHENTICATED_FULLY", "IM_USER_READ" })
-    public User changePassword(User u, @QueryParam("password") String password) {
-        u.setPassword(password);
-        User updatedUser = this.service.updatePassword(u);
-        if (updatedUser == null) {
+        if (retreivedUser == null) {
             throw new NotFoundException();
         }
-        return updatedUser;
+        
+        retreivedUser = super.update(retreivedUser.getId(), user);
+        
+        return retreivedUser;
     }
 
     /**
@@ -324,7 +328,15 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     @POST
     @Path("/checkuser")
     public void authenticateUser(@QueryParam("user") String username, @QueryParam("password") String password) {
-        User user = this.service.authenticateUser(username, password);
+        
+    	// We decode manually parameters since they are not decoded automatically
+    	// Perhaps it comes from the fact we are using a POST and not a GET request, not sure ...
+    	// Related issue : http://java.net/jira/browse/JERSEY-739
+    	
+    	username = UriComponent.decode(username, UriComponent.Type.QUERY_PARAM);
+    	password = UriComponent.decode(password, UriComponent.Type.QUERY_PARAM);
+    	
+    	User user = this.service.authenticateUser(username, password);
         if (user == null) {
             throw new NotFoundException();
         }

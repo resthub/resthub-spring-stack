@@ -109,7 +109,11 @@ define([
 		 */
 		removePermission: function(callback, user, permission) {
 			this._delete(this.root + 'name/'+user.login+'/permissions/'+permission, callback);			
-		} // removePermission().
+		}, // removePermission().
+		
+		updateMe : function(callback, data, errorCallback, settings) {
+			return this._put(this.root + 'me', callback, data, errorCallback, settings);
+		}
 		
 	}, {}); // Class UserRepository
 });

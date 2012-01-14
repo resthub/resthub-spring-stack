@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
+import org.resthub.identity.model.UserWithPassword;
 import org.resthub.web.test.controller.AbstractControllerWebTest;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -154,15 +155,14 @@ public class UserControllerWebTest extends AbstractControllerWebTest<User, Long>
     @Test
     public void shouldManageToCheckUserIdentity() {
         // Given a created user
-        User u = this.createTestResource();
+    	UserWithPassword u = new UserWithPassword(this.createTestResource());
         String password = u.getPassword();
-        u = resource().path("user").type(MediaType.APPLICATION_XML).post(User.class, u);
-        resource().path("user/password").queryParam("password", password).type(MediaType.APPLICATION_XML).post(u);
+        User user = resource().path("user").type(MediaType.APPLICATION_JSON).post(User.class, u);
 
         // When I check his identity
-        ClientResponse postAnswerCorrectPass = resource().path("user/checkuser").queryParam("user", u.getLogin())
+        ClientResponse postAnswerCorrectPass = resource().path("user/checkuser").queryParam("user", user.getLogin())
                 .queryParam("password", password).post(ClientResponse.class);
-        ClientResponse postAnswerWrongPass = resource().path("user/checkuser").queryParam("user", u.getLogin())
+        ClientResponse postAnswerWrongPass = resource().path("user/checkuser").queryParam("user", user.getLogin())
                 .queryParam("password", "wrongpassword").post(ClientResponse.class);
 
         assertEquals("The identity check should be successful", Status.NO_CONTENT,
