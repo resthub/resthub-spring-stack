@@ -17,7 +17,6 @@
 	<modules>
 		<module>resthub-archetype-js-webapp</module>
 		<module>resthub-archetype-jar-module</module>
-		<module>resthub-archetype-tapestry5-webapp</module>
 	</modules>
 
 </project>

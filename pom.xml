@@ -26,7 +26,6 @@
         <module>resthub-archetype</module>
         <module>resthub-oauth2</module>
         <module>resthub-identity</module>
-        <module>resthub-tapestry5</module>
         <module>resthub-test-dbunit</module>
     </modules>
 
