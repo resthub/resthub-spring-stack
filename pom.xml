@@ -5,17 +5,17 @@
     <parent>
         <groupId>org.resthub</groupId>
         <artifactId>resthub-parent</artifactId>
-        <version>2.0.0-alpha1</version>
+        <version>2.0-SNAPSHOT</version>
         <relativePath>resthub-parent/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>resthub</artifactId>
-    <version>2.0.0-alpha1</version>
+    <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>RESThub</name>
     <url>http://resthub.org</url>
-    <description>RESThub is an Open Source framework designed to allow you to build web applications following KISS (Keep It Simple, Stupid), DRY (Don’t Repeat Yourself) and REST principles.</description>
+    <description>RESThub is an Open Source framework designed to allow you to build web applications following KISS (Keep It Simple, Stupid), DRY (Don�t Repeat Yourself) and REST principles.</description>
 
     <modules>
         <module>resthub-parent</module>
