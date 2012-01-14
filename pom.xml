@@ -5,13 +5,12 @@
     <parent>
         <groupId>org.resthub</groupId>
         <artifactId>resthub-parent</artifactId>
-        <version>1.1.2.9</version>
+        <version>1.1.2.10-SNAPSHOT</version>
         <relativePath>resthub-parent/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>resthub</artifactId>
-    <version>1.1.2.10-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>RESThub</name>
     <url>http://resthub.org</url>
