@@ -83,7 +83,7 @@ define([
 			this.user.password = $('#passwordChange input[name=password]').val();
 			// Server call.
 			$.loading(true);
-			UserRepository.changePassword($.proxy(this, '_passwordChangedHandler'), $.toJSON(this.user));
+			UserRepository.updateMe($.proxy(this, '_passwordChangedHandler'), $.toJSON(this.user));
 		}, // _changePasswordButtonHandler().
 		
 			// ---------------------------------------------------------------------------------------------------------
