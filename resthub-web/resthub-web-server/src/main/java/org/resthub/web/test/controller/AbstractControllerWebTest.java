@@ -74,17 +74,6 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     }
 
     @Test
-    public void testFindAllResourcesXml() {
-        WebResource wr = resource().path(getResourcePath());
-        wr.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
-        wr.type(MediaType.APPLICATION_XML).post(String.class, createTestResource());
-        String response = wr.accept(MediaType.APPLICATION_XML).get(String.class);
-
-        Assert.assertTrue("Unable to find all resources or bad-formed XML",
-                response.contains("<totalElements>2</totalElements>"));
-    }
-
-    @Test
     @SuppressWarnings("unchecked")
     public void testDeleteResource() {
         WebResource wr = resource().path(getResourcePath());

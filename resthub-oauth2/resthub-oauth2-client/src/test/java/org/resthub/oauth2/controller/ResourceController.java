@@ -1,33 +1,27 @@
 package org.resthub.oauth2.controller;
 
-import javax.inject.Named;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Simple protected resource.
  */
-@Path("/resource")
-@Named("resourceController")
-@Produces(MediaType.APPLICATION_JSON)
+@Controller @RequestMapping("/api/resource")
 public class ResourceController {
 
-    @GET
-    @Path("/ping")
+    @RequestMapping(value= "ping", method = RequestMethod.GET, produces = "application/json") @ResponseBody
     public String sayPing() {
         return "Ping";
     }
 
-    @GET
-    @Path("/hello")
+    @RequestMapping(value= "hello", method = RequestMethod.GET, produces = "application/json") @ResponseBody
     public String sayHello() {
         return "Hello";
     }
 
-    @GET
-    @Path("/goodbye")
+    @RequestMapping(value= "goodbye", method = RequestMethod.GET, produces = "application/json") @ResponseBody
     public String sayGoodbye() {
         return "Goodbye";
     }

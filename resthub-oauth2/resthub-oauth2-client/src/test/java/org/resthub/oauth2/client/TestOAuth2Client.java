@@ -9,6 +9,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.resthub.oauth2.httpclient.OAuth2Credentials;
 import org.resthub.web.client.ClientFactory;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -38,7 +40,7 @@ public class TestOAuth2Client {
     public static final String CLIENT_SECRET = "";
     public static final int PORT = 9796;
     public static final String BASE_URL = "http://localhost:" + PORT;
-    public static final String AUTHENTICATION_ENDPOINT = BASE_URL + "/api/oauth/authorize";
+    public static final String AUTHENTICATION_ENDPOINT = BASE_URL + "/oauth/token";
     public static final String contextClass = "org.resthub.web.context.ResthubXmlWebApplicationContext";
 
     /**
@@ -58,20 +60,22 @@ public class TestOAuth2Client {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.getInitParams().put("contextClass", contextClass);
         context.setDisplayName("resthub test webapp");
-
-        context.getInitParams().put("contextConfigLocation",
-                "classpath*:resthubContext.xml classpath*:applicationContext.xml");
+                
         FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
         filterDef.setName("springSecurityFilterChain");
+        filterDef.setInitParameter("contextAttribute", "org.springframework.web.servlet.FrameworkServlet.CONTEXT.spring");
         context.addFilter(filterDef, "/*", 0);
-        context.addEventListener(new ContextLoaderListener());
-        context.addServlet(SpringServlet.class, "/api/*");
+                
+        ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
+        servletHolder.setName("spring");
+        servletHolder.setInitOrder(1);
+        servletHolder.setInitParameter("contextConfigLocation", "classpath*:resthubContext.xml classpath*:applicationContext.xml");
+        context.addServlet(servletHolder, "/");
 
         // Starts the server.
         server.setHandler(context);
 
         server.start();
-
     }
 
     /**

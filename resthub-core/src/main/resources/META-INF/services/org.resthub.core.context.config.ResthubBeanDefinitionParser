@@ -1,6 +1,0 @@
-org.resthub.core.context.config.db.DatabaseDescriptorDefinitionParser
-org.resthub.core.context.config.db.InitializeDatabaseBeanDefinitionParser
-org.resthub.core.context.config.persistence.IncludeEntitiesParser
-org.resthub.core.context.config.persistence.ExcludeEntitiesParser
-org.resthub.core.context.config.jaxb.IncludeJAXBElementsParser
-org.resthub.core.context.config.jaxb.ExcludeJAXBElementsParser
