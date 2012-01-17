@@ -18,11 +18,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
-
-import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
  * Tests the the TokenFactory utility class. Launches an in-memory jetty server

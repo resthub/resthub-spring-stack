@@ -64,7 +64,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     }
 
     @Test
-    public void testFindAllResourcesJson() {
+    public void testFindAllResources() {
         WebResource wr = resource().path(getResourcePath());
         wr.type(MediaType.APPLICATION_JSON).post(String.class, createTestResource());
         wr.type(MediaType.APPLICATION_JSON).post(String.class, createTestResource());
@@ -79,13 +79,13 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         WebResource wr = resource().path(getResourcePath());
         T r = createTestResource();
 
-        T res = (T) wr.type(MediaType.APPLICATION_XML).accept(MediaType.APPLICATION_XML).post(r.getClass(), r);
+        T res = (T) wr.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(r.getClass(), r);
         Assert.assertNotNull("Resource not created", res);
 
         wr = resource().path(getResourcePath() + "/" + getResourceId(res));
         ClientResponse response = wr.delete(ClientResponse.class);
         Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        response = wr.accept(MediaType.APPLICATION_XML).get(ClientResponse.class);
+        response = wr.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
@@ -94,7 +94,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     public void testFindResource() {
         WebResource wr = resource().path(getResourcePath());
         T r = createTestResource();
-        T res = (T) wr.type(MediaType.APPLICATION_XML).post(r.getClass(), r);
+        T res = (T) wr.type(MediaType.APPLICATION_JSON).post(r.getClass(), r);
         Assert.assertNotNull("Resource not created", res);
 
         wr = resource().path(getResourcePath() + "/" + getResourceId(res));
@@ -106,11 +106,11 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     @Test
     public void testUpdate() {
         T r1 = createTestResource();
-        r1 = (T) resource().path(getResourcePath()).type(MediaType.APPLICATION_XML).post(r1.getClass(), r1);
+        r1 = (T) resource().path(getResourcePath()).type(MediaType.APPLICATION_JSON).post(r1.getClass(), r1);
         WebResource wr = resource().path(getResourcePath() + "/" + this.getResourceId(r1));
         String response1 = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
         T r2 = udpateTestResource(r1);
-        r2 = (T) wr.type(MediaType.APPLICATION_XML).put(r2.getClass(), r2);
+        r2 = (T) wr.type(MediaType.APPLICATION_JSON).put(r2.getClass(), r2);
         String response2 = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
         Assert.assertFalse(response1.equals(response2));
     }

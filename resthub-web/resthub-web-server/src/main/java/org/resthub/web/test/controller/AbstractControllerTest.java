@@ -15,8 +15,7 @@ import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
 import org.resthub.web.controller.GenericController;
-
-import com.sun.jersey.api.NotFoundException;
+import org.resthub.web.exception.NotFoundException;
 
 /**
  * The class is intended to test your controller by directly calling its Java

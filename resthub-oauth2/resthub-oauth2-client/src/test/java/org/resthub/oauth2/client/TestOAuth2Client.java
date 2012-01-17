@@ -15,13 +15,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.resthub.oauth2.httpclient.OAuth2Credentials;
 import org.resthub.web.client.ClientFactory;
-import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
  * Tests the the TokenFactory utility class. Launches an in-memory jetty server

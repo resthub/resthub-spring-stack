@@ -5,31 +5,24 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.resthub.core.service.GenericService;
 import org.resthub.core.util.ClassUtils;
 import org.resthub.core.util.MetamodelUtils;
+import org.resthub.web.exception.BadRequestException;
+import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.response.PageResponse;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.sun.jersey.api.NotFoundException;
-
-@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public abstract class GenericControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>> implements
         GenericController<T, ID> {
 
@@ -54,37 +47,29 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, S extend
         return this.service;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.resthub.web.controller.GenericController#create(T)
-     */
     @Override
-    @POST
-    public T create(T entity) {
+    @RequestMapping(method = RequestMethod.POST) @ResponseStatus(HttpStatus.CREATED) @ResponseBody
+    public T create(@RequestBody T entity) {
         return this.service.create(entity);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.resthub.web.controller.GenericController#update(ID, T)
-     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    @PUT
-    @Path("/{id}")
-    public T update(@PathParam("id") ID id, T entity) {
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT) @ResponseStatus(HttpStatus.OK)
+    public T update(@PathVariable( "id" ) ID id, @RequestBody T entity) {
         Assert.notNull(id, "id cannot be null");
         T retreivedEntity = this.service.findById(id);
-        if (retreivedEntity == null) {
-            throw new NotFoundException();
-        }
+        
+        if( retreivedEntity == null ){
+			throw new NotFoundException();
+		}
+        
         MetamodelUtils utils = new MetamodelUtils<T, ID>((Class<T>) ClassUtils.getGenericTypeFromBean(this.service),
                 em.getMetamodel());
         Serializable entityId = utils.getIdFromEntity(entity);
+        
         if ((entityId != null) && !id.equals(this.getIdFromEntity(retreivedEntity))) {
-            throw new WebApplicationException(Response.Status.CONFLICT);
+            throw new BadRequestException();
         }
         if (null == entityId) {
             utils.setIdForEntity(entity, id);
@@ -92,68 +77,42 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, S extend
         return this.service.update(entity);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.resthub.web.controller.GenericController#getEntities()
-     */
     @Override
-    @GET
-    @Path("/all")
+    @RequestMapping(value = "all", method = RequestMethod.GET) @ResponseBody
     public List<T> findAll() {
         return this.service.findAll();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.resthub.web.controller.GenericController#findAll(java.lang.Integer, java.lang.Integer)
-     */
     @Override
-    @GET
-    public PageResponse<T> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
-            @QueryParam("size") @DefaultValue("5") Integer size) {
+    @RequestMapping(method = RequestMethod.GET) @ResponseBody
+    public PageResponse<T> findAll(@RequestParam( "page" ) Integer page, @RequestParam( "size" ) Integer size) {
+    	
+    	page = (page == null) ? 0 : page;
+    	size = (size == null) ? 5 : size;
+    	
         return new PageResponse<T>(this.service.findAll(new PageRequest(page, size)));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.resthub.web.controller.GenericController#getResource(ID)
-     */
     @Override
-    @GET
-    @Path("/{id}")
-    public T findById(@PathParam("id") ID id) {
+    @RequestMapping(value = "{id}",method = RequestMethod.GET ) @ResponseBody
+    public T findById(@PathVariable("id") ID id) {
         T entity = this.service.findById(id);
         if (entity == null) {
-            throw new NotFoundException();
+        	throw new NotFoundException();
         }
 
         return entity;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.resthub.web.controller.GenericController#delete()
-     */
     @Override
-    @DELETE
-    @Path("/all")
+    @RequestMapping(value = "all", method = RequestMethod.DELETE) @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete() {
         this.service.deleteAllWithCascade();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.resthub.web.controller.GenericController#delete(ID)
-     */
     @Override
-    @DELETE
-    @Path("/{id}")
-    public void delete(@PathParam("id") ID id) {
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE) @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") ID id) {
         this.service.delete(id);
     }
 
