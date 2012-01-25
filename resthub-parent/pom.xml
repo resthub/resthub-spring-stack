@@ -11,7 +11,7 @@
     <description>Parent pom designed to be used in any RESThub based application. Mainly defined plugin and environments configuration.
     </description>
 
-   <properties>
+    <properties>
         <jersey.version>1.8</jersey.version>
         <jackson.version>1.9.2</jackson.version>
         <hibernate.version>3.6.4.Final</hibernate.version>
@@ -20,7 +20,7 @@
         <spring.version>3.1.0.RELEASE</spring.version>
         <spring.security.version>3.1.0.RELEASE</spring.security.version>
         <spring.data.commons.core.version>1.1.0.RELEASE</spring.data.commons.core.version>
-        <spring.data.jpa.version>1.0.1.RELEASE</spring.data.jpa.version>
+        <spring.data.jpa.version>1.0.2.RELEASE</spring.data.jpa.version>
         <log4j.version>1.2.16</log4j.version>
         <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.8.2</junit.version>
@@ -30,7 +30,7 @@
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <ehcache.version>2.3.2</ehcache.version>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -115,18 +115,17 @@
                 <artifactId>spring-security-web</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons-core</artifactId>
                 <version>${spring.data.commons.core.version}</version>
             </dependency>
-           
-			<dependency>
-				<groupId>org.springframework.data</groupId>
-				<artifactId>spring-data-jpa</artifactId>
-				<version>${spring.data.jpa.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${spring.data.jpa.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -207,7 +206,7 @@
                 <version>${junit.version}</version>
                 <scope>compile</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>javax.annotation</groupId>
                 <artifactId>jsr250-api</artifactId>
@@ -273,14 +272,14 @@
                         <artifactId>spring-aop</artifactId>
                     </exclusion>
                     <exclusion>
-		   				<groupId>com.sun.jersey</groupId>
-		   				<artifactId>jersey-grizzly2</artifactId>
-					</exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-grizzly2</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.sun.jersey.contribs</groupId>
-  				<artifactId>jersey-apache-client4</artifactId>
+                <artifactId>jersey-apache-client4</artifactId>
                 <version>${jersey.version}</version>
             </dependency>
             <dependency>
@@ -306,8 +305,8 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
-     <build>
+
+    <build>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -315,7 +314,7 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>${jetty.version}</version>
                     <configuration>
-                  	<!-- We use non NIO connector in order to avoid read only static files under windows -->
+                        <!-- We use non NIO connector in order to avoid read only static files under windows -->
                         <connectors>
                             <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
                                 <port>${jetty.port}</port>
@@ -427,6 +426,6 @@
                 <version>2.9</version>
             </plugin>
         </plugins>
-    </reporting>  
+    </reporting>
 
 </project>
