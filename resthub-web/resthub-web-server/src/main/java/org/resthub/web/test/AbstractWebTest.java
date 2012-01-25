@@ -3,17 +3,16 @@ package org.resthub.web.test;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.resthub.web.client.ClientFactory;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
-import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 /**
  * Base class for your webservice tests, based on Jetty and with preconfigured
@@ -71,20 +70,20 @@ public abstract class AbstractWebTest {
     public void setUp() throws Exception {
         server = new Server(port);
 
+     // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-
-        context.setDisplayName("resthub test webapp");
-        context.setContextPath("/");
-
-        context.getInitParams().put("contextConfigLocation", contextLocations);
         context.getInitParams().put("contextClass", contextClass);
-        context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
-        context.addServlet(SpringServlet.class, "/*");
-        context.addEventListener(new ContextLoaderListener());
+        context.setDisplayName("resthub test webapp");
+                
+        ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
+        servletHolder.setName("spring");
+        servletHolder.setInitOrder(1);
+        servletHolder.setInitParameter("contextConfigLocation", "classpath*:resthubContext.xml classpath*:applicationContext.xml");
+        context.addServlet(servletHolder, "/");
 
-        context = customizeContextHandler(context);
-
+        // Starts the server.
         server.setHandler(context);
+
         server.start();
 
     }

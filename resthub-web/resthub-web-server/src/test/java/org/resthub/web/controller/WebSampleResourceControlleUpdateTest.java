@@ -6,9 +6,8 @@ import javax.ws.rs.WebApplicationException;
 
 import org.junit.Test;
 import org.resthub.core.test.AbstractTransactionAwareTest;
+import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.model.WebSampleResource;
-
-import com.sun.jersey.api.NotFoundException;
 
 public class WebSampleResourceControlleUpdateTest extends AbstractTransactionAwareTest {
 

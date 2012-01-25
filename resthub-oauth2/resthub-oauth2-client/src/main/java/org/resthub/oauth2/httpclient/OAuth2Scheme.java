@@ -122,7 +122,6 @@ public class OAuth2Scheme extends RFC2617Scheme {
             parameters.add(new BasicNameValuePair(USERNAME_PARAMETER_NAME, oauth2Credentials.getUserPrincipal()
                     .getName()));
             parameters.add(new BasicNameValuePair(PASSWORD_PARAMETER_NAME, oauth2Credentials.getPassword()));
-            parameters.add(new BasicNameValuePair(SCOPE_PARAMETER_NAME, oauth2Credentials.getScope()));
 
             try {
                 UrlEncodedFormEntity sentEntity = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
