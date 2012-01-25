@@ -18,4 +18,9 @@ public class WebSampleResourceServiceImpl extends GenericServiceImpl<WebSampleRe
     public void setRepository(WebSampleResourceRepository webSampleResourceRepository) {
         super.setRepository(webSampleResourceRepository);
     }
+
+    @Override
+    public Long getIdFromEntity(WebSampleResource resource) {
+        return resource.getId();
+    }
 }
