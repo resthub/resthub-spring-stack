@@ -3,11 +3,9 @@ package org.resthub.web.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-
 import org.resthub.web.response.PageResponse;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * <p>
@@ -38,16 +36,15 @@ public interface GenericController<T, ID extends Serializable> {
 
 	T create(T entity);
 
-	T update(@PathParam("id") ID id, T entity);
+	T update(ID id, T entity);
 
 	List<T> findAll();
 
-	PageResponse<T> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
-							@QueryParam("size") @DefaultValue("5") Integer size);
+	PageResponse<T> findAll(Integer page, Integer size);
 
-	T findById(@PathParam("id") ID id);
+	T findById(ID id);
 
 	void delete();
 
-	void delete(@PathParam("id") ID id);
+	void delete(ID id);
 }
