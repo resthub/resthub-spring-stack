@@ -9,10 +9,21 @@ import org.springframework.data.domain.Pageable;
 /**
  * Generic Service interface.
  * 
- * @param <T> Domain model class managed, must be an Entity
- * @param <ID> Primary key class of T
+ * @param <T>
+ *            Domain model class managed, must be an Entity
+ * @param <ID>
+ *            Primary key class of T
  */
 public interface GenericService<T, ID extends Serializable> {
+
+    /**
+     * Retrieve ID from entity instance.
+     * 
+     * @param resource
+     *            the resource from whom we need primary key
+     * @return The corresponding primary key.
+     */
+    ID getIdFromEntity(T resource);
 
     /**
      * Create new resource.
@@ -49,14 +60,12 @@ public interface GenericService<T, ID extends Serializable> {
     void delete(ID id);
 
     /**
-     * Delete all existing resource. Do not use cascade remove (not a choice ->
-     * JPA specs)
+     * Delete all existing resource. Do not use cascade remove (not a choice -> JPA specs)
      */
     void deleteAll();
 
     /**
-     * Delete all existing resource, including linked entities with cascade
-     * delete
+     * Delete all existing resource, including linked entities with cascade delete
      */
     void deleteAllWithCascade();
 

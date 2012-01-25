@@ -18,49 +18,54 @@ import org.resthub.core.test.repository.AbstractRepositoryTest;
  * entity
  */
 public class StandaloneEntityRepositoryTest extends
-		AbstractRepositoryTest<StandaloneEntity, Long, StandaloneEntityRepository> {
+        AbstractRepositoryTest<StandaloneEntity, Long, StandaloneEntityRepository> {
 
-	private static final String ENTITY_NAME = "Name";
-	private static final String ENTITY_NEW_NAME = "New name";
+    private static final String ENTITY_NAME = "Name";
+    private static final String ENTITY_NEW_NAME = "New name";
 
-	/**
-	 * Test entity
-	 */
-	private StandaloneEntity standaloneEntity;
+    /**
+     * Test entity
+     */
+    private StandaloneEntity standaloneEntity;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Inject
-	@Named("standaloneEntityRepository")
-	public void setRepository(StandaloneEntityRepository standaloneEntityRepository) {
-		super.repository = standaloneEntityRepository;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Inject
+    @Named("standaloneEntityRepository")
+    public void setRepository(StandaloneEntityRepository standaloneEntityRepository) {
+        super.repository = standaloneEntityRepository;
+    }
 
-	@Override
-	protected StandaloneEntity createTestEntity() {
-		standaloneEntity = new StandaloneEntity();
-		standaloneEntity.setName(ENTITY_NAME);
+    @Override
+    public Long getIdFromEntity(StandaloneEntity standaloneEntity) {
+        return standaloneEntity.getId();
+    }
 
-		return standaloneEntity;
-	}
+    @Override
+    protected StandaloneEntity createTestEntity() {
+        standaloneEntity = new StandaloneEntity();
+        standaloneEntity.setName(ENTITY_NAME);
 
-	@Override
-	@Test
-	public void testUpdate() {
-		StandaloneEntity testStandaloneEntity = repository.findOne(standaloneEntity.getId());
-		testStandaloneEntity.setName(ENTITY_NEW_NAME);
-		repository.saveAndFlush(testStandaloneEntity);
+        return standaloneEntity;
+    }
 
-		StandaloneEntity updatedEntity = repository.findOne(standaloneEntity.getId());
-		assertEquals("Entity name should have been modified", ENTITY_NEW_NAME, updatedEntity.getName());
-	}
+    @Override
+    @Test
+    public void testUpdate() {
+        StandaloneEntity testStandaloneEntity = repository.findOne(standaloneEntity.getId());
+        testStandaloneEntity.setName(ENTITY_NEW_NAME);
+        repository.saveAndFlush(testStandaloneEntity);
 
-	@Test
-	public void testFindByName() {
-		List<StandaloneEntity> entities = repository.findByName(ENTITY_NAME);
+        StandaloneEntity updatedEntity = repository.findOne(standaloneEntity.getId());
+        assertEquals("Entity name should have been modified", ENTITY_NEW_NAME, updatedEntity.getName());
+    }
 
-		assertNotNull("Entities should not be null", entities);
-		assertFalse("Entities should not empty", entities.isEmpty());
-	}
+    @Test
+    public void testFindByName() {
+        List<StandaloneEntity> entities = repository.findByName(ENTITY_NAME);
+
+        assertNotNull("Entities should not be null", entities);
+        assertFalse("Entities should not empty", entities.isEmpty());
+    }
 }
