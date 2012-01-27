@@ -18,5 +18,6 @@
     <modules>
         <module>resthub-core-commons</module>
         <module>resthub-core-jpa</module>
+        <module>resthub-core-mongodb</module>
     </modules>
 </project>
