@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.resthub.core.service.GenericService;
-import org.resthub.core.test.AbstractTransactionAwareTest;
+import org.resthub.core.test.AbstractTransactionalTest;
 import org.resthub.core.util.ClassUtils;
 
 /**
@@ -27,7 +27,7 @@ import org.resthub.core.util.ClassUtils;
  *            Your generic service class
  */
 public abstract class AbstractServiceTest<T, ID extends Serializable, S extends GenericService<T, ID>> extends
-        AbstractTransactionAwareTest {
+    AbstractTransactionalTest {
 
     protected static final Logger LOGGER = Logger.getLogger(AbstractServiceTest.class);
 
@@ -62,17 +62,13 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
     }
 
     @Before
-    @Override
     public void setUp() {
-        super.setUp();
         T resource = service.create(this.createTestEntity());
         this.id = service.getIdFromEntity(resource);
     }
 
     @After
-    @Override
     public void tearDown() {
-        super.tearDown();
         // Don't use deleteAll because it does not acheive cascade delete
         for (T resource : service.findAll()) {
             service.delete(resource);
