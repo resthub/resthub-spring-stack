@@ -3,9 +3,6 @@ package org.resthub.core.test.service;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
@@ -14,16 +11,13 @@ import org.junit.Test;
 import org.resthub.core.service.GenericService;
 import org.resthub.core.test.AbstractTransactionAwareTest;
 import org.resthub.core.util.ClassUtils;
-import org.resthub.core.util.MetamodelUtils;
 
 /**
- * Service test base class in order to test your service extending
- * GenericService<T, ID> This can be usefull to do a quick check that everything
- * is fine for basic CRUD functionnalities.
+ * Service test base class in order to test your service extending GenericService<T, ID> This can be usefull to do a
+ * quick check that everything is fine for basic CRUD functionnalities.
  * 
- * Best practices are to separate these kind of automatic tests from your custom
- * tests, that may use RESThub DbUnit integration, and that should implement the
- * tests you will write.
+ * Best practices are to separate these kind of automatic tests from your custom tests, that may use RESThub DbUnit
+ * integration, and that should implement the tests you will write.
  * 
  * @param <T>
  *            The model class managed by the service
@@ -35,42 +29,26 @@ import org.resthub.core.util.MetamodelUtils;
 public abstract class AbstractServiceTest<T, ID extends Serializable, S extends GenericService<T, ID>> extends
         AbstractTransactionAwareTest {
 
-	protected static final Logger LOGGER = Logger.getLogger(AbstractServiceTest.class);
-	
+    protected static final Logger LOGGER = Logger.getLogger(AbstractServiceTest.class);
+
     /**
      * The tested Service
      */
     protected S service;
 
+    /**
+     * The ID class of the model class managed by the generic service
+     */
     protected ID id;
-
-    private EntityManager em;
-    
-    @PersistenceContext
-    public void setEntityManager(EntityManager em) {
-        this.em = em;
-    }
 
     /**
      * Injection of Service
-     * @param service the service to set
-     */
-	public void setService(S service) {
-		this.service = service;
-	}
-
-	/**
-     * Automatically retrieve ID from entity instance.
      * 
-     * @param obj
-     *            The object from whom we need primary key
-     * @return The corresponding primary key.
+     * @param service
+     *            the service to set
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected ID getIdFromEntity(T obj) {
-        MetamodelUtils utils = new MetamodelUtils<T, ID>((Class<T>) ClassUtils.getGenericTypeFromBean(this.service),
-                em.getMetamodel());
-        return (ID) utils.getIdFromEntity(obj);
+    public void setService(S service) {
+        this.service = service;
     }
 
     @SuppressWarnings("unchecked")
@@ -78,7 +56,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
         try {
             return (T) ClassUtils.getGenericTypeFromBean(this.service).newInstance();
         } catch (Exception e) {
-        	LOGGER.error("Error when creating the test entity : " + e);
+            LOGGER.error("Error when creating the test entity : " + e);
             return null;
         }
     }
@@ -88,7 +66,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
     public void setUp() {
         super.setUp();
         T resource = service.create(this.createTestEntity());
-        this.id = getIdFromEntity(resource);
+        this.id = service.getIdFromEntity(resource);
     }
 
     @After
@@ -130,7 +108,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
     public void testFindById() {
         T resource = service.findById(this.id);
         Assert.assertNotNull("Resource should not be null!", resource);
-        Assert.assertEquals("Resource id and resourceId should be equals!", this.id, this.getIdFromEntity(resource));
+        Assert.assertEquals("Resource id and resourceId should be equals!", this.id, service.getIdFromEntity(resource));
     }
 
     @Test

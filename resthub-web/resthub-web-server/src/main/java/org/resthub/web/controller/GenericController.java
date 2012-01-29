@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.resthub.web.response.PageResponse;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * <p>
@@ -34,17 +32,17 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public interface GenericController<T, ID extends Serializable> {
 
-	T create(T entity);
+    T create(T entity);
 
-	T update(ID id, T entity);
+    T update(ID id, T entity);
 
-	List<T> findAll();
+    List<T> findAll();
 
-	PageResponse<T> findAll(Integer page, Integer size);
+    PageResponse<T> findAll(Integer page, Integer size);
 
-	T findById(ID id);
+    T findById(ID id);
 
-	void delete();
+    void delete();
 
-	void delete(ID id);
+    void delete(ID id);
 }
