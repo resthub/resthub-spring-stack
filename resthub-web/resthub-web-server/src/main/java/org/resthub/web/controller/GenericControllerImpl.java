@@ -46,15 +46,16 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, S extend
     @ResponseStatus(HttpStatus.OK)
     public T update(@PathVariable("id") ID id, @RequestBody T entity) {
         Assert.notNull(id, "id cannot be null");
-        T retreivedEntity = this.service.findById(id);
-
-        if (retreivedEntity == null) {
-            throw new NotFoundException();
-        }
+        
 
         Serializable entityId = this.service.getIdFromEntity(entity);
         if ((entityId == null) || (!id.equals(entityId))) {
             throw new BadRequestException();
+        }
+        
+        T retreivedEntity = this.service.findById(id);
+        if (retreivedEntity == null) {
+            throw new NotFoundException();
         }
 
         return this.service.update(entity);
@@ -76,7 +77,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, S extend
     @Override
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public PageResponse<T> findAll(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+    public PageResponse<T> findAll(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size) {
         page = (page == null) ? 0 : page;
         size = (size == null) ? 5 : size;
 

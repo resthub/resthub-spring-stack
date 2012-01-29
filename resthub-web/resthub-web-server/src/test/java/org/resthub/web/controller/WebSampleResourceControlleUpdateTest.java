@@ -2,10 +2,10 @@ package org.resthub.web.controller;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.WebApplicationException;
 
 import org.junit.Test;
 import org.resthub.core.test.AbstractTransactionAwareTest;
+import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.model.WebSampleResource;
 
@@ -22,7 +22,7 @@ public class WebSampleResourceControlleUpdateTest extends AbstractTransactionAwa
         webSampleResourceController.update(null, resource);
     }
 
-    @Test(expected = WebApplicationException.class)
+    @Test(expected = BadRequestException.class)
     public void testUpdateWithDifferentIds() {
         WebSampleResource resource = new WebSampleResource();
         resource.setId(2L);
@@ -35,6 +35,7 @@ public class WebSampleResourceControlleUpdateTest extends AbstractTransactionAwa
     public void testUpdate() {
         WebSampleResource resource = new WebSampleResource();
         resource.setName("test");
+        resource.setId(1L);
 
         webSampleResourceController.update(1L, resource);
 
