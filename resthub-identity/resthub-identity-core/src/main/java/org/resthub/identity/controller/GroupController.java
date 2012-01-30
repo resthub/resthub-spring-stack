@@ -4,32 +4,29 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
 import org.resthub.identity.model.Group;
-import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.service.GroupService;
 import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericControllerImpl;
-
-import com.sun.jersey.api.NotFoundException;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.QueryParam;
+import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.response.PageResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Front controller for Group Management<br/>
  * Only ADMINS can access to this API
  */
-@Path("/group")
-@Named("groupController")
+@Controller @RequestMapping("/api/group")
 public class GroupController extends GenericControllerImpl<Group, Long, GroupService> {
 
     /**
@@ -41,9 +38,7 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * */
     UserService userService;
 
-    @Inject
-    @Named("groupService")
-    @Override
+    @Inject @Override      
     public void setService(GroupService service) {
         this.service = service;
     }
@@ -56,70 +51,53 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      *            the userService bean
      * */
     @Inject
-    @Named("userService")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     /** Override this methods in order to secure it **/
-    @Override
-    @POST
-    @RolesAllowed({ "IM_GROUP_ADMIN" })
-    public Group create(Group group) {
+    
+    
+    @RolesAllowed({ "IM_GROUP_ADMIN" }) @Override
+    public Group create(@RequestBody Group group) {
         return super.create(group);
     }
 
     /** Override this methods in order to secure it **/
-    @Override
-    @PUT
-    @Path("/{id}")
-    @RolesAllowed({ "IM_GROUP_ADMIN" })
-    public Group update(@PathParam("id") Long id, Group group) {
+    
+    
+    @RolesAllowed({ "IM_GROUP_ADMIN" }) @Override 
+    public Group update(@PathVariable("id") Long id, @RequestBody Group group) {
         return super.update(id, group);
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @GET
-    @Path("/all")
-    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" })
+    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" }) @Override
     public List<Group> findAll() {
         return super.findAll();
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @GET
-    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" })
-    public PageResponse<Group> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
-            @QueryParam("size") @DefaultValue("5") Integer size) {
+    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" }) @Override
+    public PageResponse<Group> findAll(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false)  Integer size) {
         return super.findAll(page, size);
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @GET
-    @Path("/{id}")
-    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" })
-    public Group findById(@PathParam("id") Long id) {
+    @RolesAllowed({ "IM_GROUP_ADMIN", "IM_GROUP_READ" }) @Override
+    public Group findById(@PathVariable("id") Long id) {
         return super.findById(id);
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @DELETE
-    @Path("/all")
-    @RolesAllowed({ "IM_GROUP_ADMIN" })
+    @RolesAllowed({ "IM_GROUP_ADMIN" }) @Override
     public void delete() {
         super.delete();
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @DELETE
-    @Path("/{id}")
-    @RolesAllowed({ "IM_GROUP_ADMIN" })
-    public void delete(@PathParam(value = "id") Long id) {
+    @RolesAllowed({ "IM_GROUP_ADMIN" }) @Override
+    public void delete(@PathVariable(value = "id") Long id) {
         super.delete(id);
     }
 
@@ -131,9 +109,8 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * @return the group, in XML or JSON if the group can be found otherwise
      *         HTTP Error 404
      */
-    @GET
-    @Path("/name/{name}")
-    public Group getGroupByName(@PathParam("name") String name) {
+    @RequestMapping(method = RequestMethod.GET, value = "name/{name}") @ResponseBody
+    public Group getGroupByName(@PathVariable("name") String name) {
         Group group = this.service.findByName(name);
         if (group == null) {
             throw new NotFoundException();
@@ -150,9 +127,8 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * @return a list of group, in XML or JSON if the group can be found
      *         otherwise HTTP Error 404
      */
-    @GET
-    @Path("/name/{name}/groups")
-    public List<Group> getGroupsFromGroups(@PathParam("name") String name) {
+    @RequestMapping(method = RequestMethod.GET, value = "name/{name}/groups") @ResponseBody
+    public List<Group> getGroupsFromGroups(@PathVariable("name") String name) {
         Group g = this.service.findByName(name);
         if (g == null) {
             throw new NotFoundException();
@@ -168,9 +144,8 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * @param group
      *            the name of the group the be added
      */
-    @PUT
-    @Path("/name/{name}/groups/{group}")
-    public void addGroupToUser(@PathParam("name") String name, @PathParam("group") String group) {
+    @RequestMapping(method = RequestMethod.PUT, value = "name/{name}/groups/{group}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addGroupToUser(@PathVariable("name") String name, @PathVariable("group") String group) {
         this.service.addGroupToGroup(name, group);
     }
 
@@ -181,10 +156,9 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      *            the name of the group in which we should remove a group
      * @param group
      *            the name of the gorup the be removed
-     */
-    @DELETE
-    @Path("/name/{name}/groups/{groups}")
-    public void removeGroupsForUser(@PathParam("name") String name, @PathParam("groups") String groupName) {
+     */    
+    @RequestMapping(method = RequestMethod.DELETE, value = "name/{name}/groups/{groups}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeGroupsForUser(@PathVariable("name") String name, @PathVariable("groups") String groupName) {
         this.service.removeGroupFromGroup(name, groupName);
     }
 
@@ -197,9 +171,8 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * @return a list of permissions, in XML or JSON if the group can be found
      *         otherwise HTTP Error 404
      */
-    @GET
-    @Path("/name/{name}/permissions")
-    public List<String> getPermisionsFromGroup(@PathParam("name") String name) {
+    @RequestMapping(method = RequestMethod.GET, value = "/name/{name}/permissions") @ResponseBody
+    public List<String> getPermisionsFromGroup(@PathVariable("name") String name) {
         List<String> permissions = this.service.getGroupDirectPermissions(name);
         if (permissions == null) {
             throw new NotFoundException();
@@ -215,9 +188,8 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * @param permission
      *            the permission to be added
      */
-    @PUT
-    @Path("/name/{name}/permissions/{permission}")
-    public void addPermissionsToUser(@PathParam("name") String login, @PathParam("permission") String permission) {
+    @RequestMapping(method = RequestMethod.PUT, value = "name/{name}/permissions/{permission}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addPermissionsToUser(@PathVariable("name") String login, @PathVariable("permission") String permission) {
         this.service.addPermissionToGroup(login, permission);
     }
 
@@ -229,15 +201,13 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
      * @param permisssion
      *            the permission to be removed
      */
-    @DELETE
-    @Path("/name/{name}/permissions/{permission}")
-    public void deletePermissionsFromUser(@PathParam("name") String name, @PathParam("permission") String permission) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "name/{name}/permissions/{permission}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePermissionsFromUser(@PathVariable("name") String name, @PathVariable("permission") String permission) {
         this.service.removePermissionFromGroup(name, permission);
     }
 
-    @GET
-    @Path("/name/{name}/users")
-    public List<User> getUsersFromGroup(@PathParam("name") String name) {
+    @RequestMapping(method = RequestMethod.GET, value = "name/{name}/users") @ResponseBody
+    public List<User> getUsersFromGroup(@PathVariable("name") String name) {
         List<User> usersFromGroup = this.userService.getUsersFromGroup(name);
         if (usersFromGroup == null) {
             throw new NotFoundException();
@@ -245,23 +215,13 @@ public class GroupController extends GenericControllerImpl<Group, Long, GroupSer
         return usersFromGroup;
     }
     
-    /**
-     * {@inheritDoc}
-     */
-    @PUT
-    @Path("/name/{name}/roles/{role}")
-    @RolesAllowed({ "IM_GROUP_ADMIN" })
-    public void addRoleToGroup(@PathParam("name") String name, @PathParam("role") String role) {
+    @RolesAllowed({ "IM_GROUP_ADMIN" }) @RequestMapping(method = RequestMethod.PUT, value = "name/{name}/roles/{role}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addRoleToGroup(@PathVariable("name") String name, @PathVariable("role") String role) {
         this.service.addRoleToGroup(name, role);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @DELETE
-    @Path("/name/{name}/roles/{role}")
-    @RolesAllowed({ "IM_GROUP_ADMIN" })
-    public void removeRoleFromGroup(@PathParam("name") String name, @PathParam("role") String role) {
+    @RolesAllowed({ "IM_GROUP_ADMIN" }) @RequestMapping(method = RequestMethod.DELETE, value = "name/{name}/roles/{role}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeRoleFromGroup(@PathVariable("name") String name, @PathVariable("role") String role) {
         this.service.removeRoleFromGroup(name, role);
     }
 

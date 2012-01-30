@@ -59,7 +59,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     public void testCreateResource() {
         WebResource wr = resource().path(getResourcePath());
         T r = createTestResource();
-        T res = (T) wr.type(MediaType.APPLICATION_XML).post(r.getClass(), r);
+        T res = (T) wr.type(MediaType.APPLICATION_JSON).post(r.getClass(), r);
         Assert.assertNotNull("Resource not created", res);
     }
 
@@ -70,7 +70,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         wr.type(MediaType.APPLICATION_JSON).post(String.class, createTestResource());
         String response = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
 
-        Assert.assertTrue("Unable to find all resources or bad-formed JSON", response.contains("\"totalElements\" : 2"));
+        Assert.assertTrue("Unable to find all resources or bad-formed JSON", response.contains("\"totalElements\":2"));
     }
 
     @Test
@@ -108,9 +108,9 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         T r1 = createTestResource();
         r1 = (T) resource().path(getResourcePath()).type(MediaType.APPLICATION_JSON).post(r1.getClass(), r1);
         WebResource wr = resource().path(getResourcePath() + "/" + this.getResourceId(r1));
-        String response1 = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
+        String response1 = wr.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(String.class);
         T r2 = udpateTestResource(r1);
-        r2 = (T) wr.type(MediaType.APPLICATION_JSON).put(r2.getClass(), r2);
+        r2 = (T) wr.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).put(r2.getClass(), r2);
         String response2 = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
         Assert.assertFalse(response1.equals(response2));
     }

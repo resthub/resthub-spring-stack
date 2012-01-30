@@ -85,7 +85,8 @@ public class OAuth2Scheme extends RFC2617Scheme {
         }
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public Header authenticate(Credentials credentials, HttpRequest httpRequest) throws AuthenticationException {
         if (credentials == null) {
             throw new AuthenticationException("Credentials should not be null !");

@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * <p>
@@ -30,11 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "permissions_owner")
-@XmlRootElement
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class AbstractPermissionsOwner {
-
-    private static final long serialVersionUID = 3248710006663061799L;
 
     private Long id;
 

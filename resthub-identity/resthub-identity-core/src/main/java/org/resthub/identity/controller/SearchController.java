@@ -2,34 +2,25 @@ package org.resthub.identity.controller;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Front controller for performing searches.
  */
-@Path("/search")
-@Named("searchController")
-@RolesAllowed({ "IM_SEARCH" })
-@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Controller @RequestMapping("/api/search")
 public class SearchController {
 
     // ----------------------------------------------------------------------------------------------------------------
@@ -47,9 +38,6 @@ public class SearchController {
     @Named("searchService")
     protected SearchService searchService;
 
-    // ----------------------------------------------------------------------------------------------------------------
-    // Public methods
-
     /**
      * Performs a search.
      * 
@@ -63,33 +51,27 @@ public class SearchController {
      *            groups
      * @return An array of matching users, groups and roles.
      */
-    @GET
-    public Response search(@QueryParam("query") String query,
-            @QueryParam("users") @DefaultValue("true") Boolean withUsers,
-            @QueryParam("groups") @DefaultValue("true") Boolean withGroups) {
+    @RequestMapping(method = RequestMethod.GET) @ResponseBody
+    public List<AbstractPermissionsOwner> search(@RequestParam("query") String query,
+    		@RequestParam(value = "users", required = false) Boolean withUsers,
+    		@RequestParam(value = "groups", required = false) Boolean withGroups) {
         logger.debug("[search] Performs a search on " + query);
-        ResponseBuilder response = Response.serverError();
-        try {
-            List<AbstractPermissionsOwner> results = searchService.search(query, withUsers, withGroups);
-            // GenericEntity allows us to return a list of resource, tackling
-            // the type erasure problem.
-            GenericEntity<List<AbstractPermissionsOwner>> entity = new GenericEntity<List<AbstractPermissionsOwner>>(
-                    results) {
-            };
-            response = Response.ok(entity);
-        } catch (Exception exc) {
-            response.entity(exc.getMessage());
-        }
-        return response.build();
-    } // search().
+        
+        withUsers = (withUsers == null) ? true : withUsers;
+        withGroups = (withGroups == null) ? true : withGroups;
+        
+        List<AbstractPermissionsOwner> results = searchService.search(query, withUsers, withGroups);
+        
+        return results;
+    }
 
     /**
      * Reset all search indexes
      */
-    @PUT
+    @RequestMapping(method = RequestMethod.PUT) @ResponseStatus(HttpStatus.NO_CONTENT)
     public void resetIndexes() {
         logger.debug("[resetIndexes] Reset all indexes");
         searchService.resetIndexes();
-    } // resetIndexes().
+    }
 
-} // Class SearchController.
+}

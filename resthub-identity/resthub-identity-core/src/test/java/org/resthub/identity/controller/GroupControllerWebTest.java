@@ -14,8 +14,15 @@ import org.resthub.web.test.controller.AbstractControllerWebTest;
  * @author Guillaume Zurbach
  */
 public class GroupControllerWebTest extends AbstractControllerWebTest<Group, Long> {
+	
 
-    private String generateRandomGroupName() {
+    @Override
+	public void setUp() throws Exception {
+		this.useOpenEntityManagerInViewFilter = true;
+		super.setUp();
+	}
+
+	private String generateRandomGroupName() {
         return "GroupName" + Math.round(Math.random() * 10000000);
     }
 
@@ -29,7 +36,7 @@ public class GroupControllerWebTest extends AbstractControllerWebTest<Group, Lon
 
     @Override
     protected String getResourcePath() {
-        return "/group";
+        return "/api/group";
     }
 
     @Override
@@ -50,7 +57,7 @@ public class GroupControllerWebTest extends AbstractControllerWebTest<Group, Lon
         Group g = new Group();
         g.setName(groupName);
 
-        g = resource().path("group").type(MediaType.APPLICATION_XML).post(Group.class, g);
+        g = resource().path("/api/group").type(MediaType.APPLICATION_JSON).post(Group.class, g);
 
         /* Given a new user */
         String firstName = "first";
@@ -63,23 +70,22 @@ public class GroupControllerWebTest extends AbstractControllerWebTest<Group, Lon
         u.setLastName(lastName);
         u.setPassword(password);
         u.setLogin(login);
-        u = resource().path("user").type(MediaType.APPLICATION_XML).post(User.class, u);
+        u = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u);
 
         /* Given a link between this user and the group */
-        resource().path("user").path("name").path(u.getLogin()).path("groups").path(g.getName())
-                .type(MediaType.APPLICATION_XML).put();
+        resource().path("/api/user").path("name").path(u.getLogin()).path("groups").path(g.getName())
+                .type(MediaType.APPLICATION_JSON).put();
 
         /* When I get the users of the group */
-        String usersFromGroup = resource().path("group").path("name").path(g.getName()).path("users")
+        String usersFromGroup = resource().path("/api/group").path("name").path(g.getName()).path("users")
                 .accept(MediaType.APPLICATION_JSON).get(String.class);
 
         /* Then the list of users contains our user */
         assertTrue("The list of users should contain our just added user", usersFromGroup.contains(u.getLogin()));
 
         /* Cleanup */
-        resource().path("user").path("name").path(u.getLogin()).path("groups").path(g.getName())
-                .type(MediaType.APPLICATION_XML).delete();
-        resource().path("user").path(u.getId().toString()).type(MediaType.APPLICATION_XML).delete();
-        resource().path("group").path(g.getId().toString()).type(MediaType.APPLICATION_XML).delete();
+        resource().path("/api/group").path(g.getId().toString()).type(MediaType.APPLICATION_JSON).delete();
+        resource().path("/api/user").path("name").path(u.getLogin()).path("groups").path(g.getName()).type(MediaType.APPLICATION_JSON).delete();
+        resource().path("/api/user").path(u.getId().toString()).type(MediaType.APPLICATION_JSON).delete();
     }
 }

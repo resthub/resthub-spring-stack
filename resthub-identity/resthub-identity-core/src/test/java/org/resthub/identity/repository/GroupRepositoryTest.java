@@ -44,4 +44,9 @@ public class GroupRepositoryTest extends AbstractRepositoryTest<Group, Long, Gro
 		Group group2 = repository.findOne(this.id);
 		assertEquals("Group not updated!", group2.getName(), NEW_GROUP_NAME);
 	}
+
+	@Override
+	public Long getIdFromEntity(Group group) {
+		return group.getId();
+	}
 }

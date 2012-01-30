@@ -53,7 +53,8 @@ public class SerializationHelper {
         }
     }
 
-    protected static ObjectMapper getJsonObjectMapper() {
+    @SuppressWarnings("deprecation")
+	protected static ObjectMapper getJsonObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
 
