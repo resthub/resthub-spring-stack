@@ -3,8 +3,10 @@ package org.resthub.web.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import org.resthub.core.exception.AlreadyExistingEntityException;
 import org.resthub.core.service.GenericService;
 import org.resthub.web.exception.BadRequestException;
+import org.resthub.web.exception.ConflictException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.response.PageResponse;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@RequestMapping(consumes = "application/json", produces = "application/json")
 public abstract class GenericControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>> implements
         GenericController<T, ID> {
 
@@ -35,7 +38,11 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, S extend
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public T create(@RequestBody T entity) {
-        return this.service.create(entity);
+    	try {
+    		return this.service.create(entity);
+    	} catch (AlreadyExistingEntityException aee) {
+    		throw new ConflictException(aee);
+    	}
     }
 
     /**

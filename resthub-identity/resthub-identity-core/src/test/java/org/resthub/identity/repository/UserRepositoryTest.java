@@ -105,4 +105,10 @@ public class UserRepositoryTest extends AbstractRepositoryTest<User, Long, UserR
 		assertNotNull("Users should not be null", users);
 		assertFalse("Users should not empty", users.isEmpty());
 	}
+	
+	@Override
+	public Long getIdFromEntity(User user) {
+		return user.getId();
+	}
+	
 }

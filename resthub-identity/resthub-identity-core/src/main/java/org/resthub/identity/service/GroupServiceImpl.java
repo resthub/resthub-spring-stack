@@ -261,4 +261,9 @@ public class GroupServiceImpl extends AbstractTraceableServiceImpl<Group, GroupR
 			}
 		}
 	}
+
+	@Override
+	public Long getIdFromEntity(Group group) {
+		return group.getId();
+	}
 }
