@@ -21,6 +21,12 @@ import org.resthub.web.test.controller.AbstractControllerWebTest;
 public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long> {
 
     protected Logger logger = Logger.getLogger(UserControllerWebTest.class);
+    
+    @Override
+	public void setUp() throws Exception {
+		this.useOpenEntityManagerInViewFilter = true;
+		super.setUp();
+	}
 
     /**
      * Generate a random role name based on a string and a randomized number.
@@ -33,7 +39,7 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
 
     @Override
     protected String getResourcePath() {
-        return "/role";
+        return "/api/role";
     }
 
     @Override
@@ -56,7 +62,7 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
     @Override
     @After
     public void tearDown() {
-        resource().path("user/all").delete();
+        resource().path("/api/user/all").delete();
         resource().path(getResourcePath() + "/all").delete();
         super.tearDown();
     }
@@ -76,36 +82,36 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
         // Given some new roles
         Role r1 = new Role("role1");
         Role r2 = new Role("role2");
-        r1 = resource().path("role").type(MediaType.APPLICATION_XML).post(Role.class, r1);
-        r2 = resource().path("role").type(MediaType.APPLICATION_XML).post(Role.class, r2);
+        r1 = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r1);
+        r2 = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r2);
 
         // Given some new users
         User u1 = this.createTestUser();
         User u2 = this.createTestUser();
         User u3 = this.createTestUser();
         User u4 = this.createTestUser();
-        u1 = resource().path("user").type(MediaType.APPLICATION_XML).post(User.class, u1);
-        u2 = resource().path("user").type(MediaType.APPLICATION_XML).post(User.class, u2);
-        u3 = resource().path("user").type(MediaType.APPLICATION_XML).post(User.class, u3);
-        u4 = resource().path("user").type(MediaType.APPLICATION_XML).post(User.class, u4);
+        u1 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u1);
+        u2 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u2);
+        u3 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u3);
+        u4 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u4);
 
         // Given the association of the users with the roles
         // u1 with role1
-        resource().path("user/name/" + u1.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_XML).put();
+        resource().path("/api/user/name/" + u1.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_JSON).put();
         // u3 with role2
-        resource().path("user/name/" + u3.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_XML).put();
+        resource().path("/api/user/name/" + u3.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_JSON).put();
         // u4 with both role1 and role2
-        resource().path("user/name/" + u4.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_XML).put();
-        resource().path("user/name/" + u4.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_XML).put();
+        resource().path("/api/user/name/" + u4.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_JSON).put();
+        resource().path("/api/user/name/" + u4.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_JSON).put();
 
         // When I look for users with roles
-        String notExistingRoleUsers = resource().path("role/inventedRole/users").accept(MediaType.APPLICATION_JSON)
+        String notExistingRoleUsers = resource().path("/api/role/inventedRole/users").accept(MediaType.APPLICATION_JSON)
                 .get(String.class);
-        String role1Users = resource().path("role/role1/users").accept(MediaType.APPLICATION_JSON).get(String.class);
-        String role2Users = resource().path("role/role2/users").accept(MediaType.APPLICATION_JSON).get(String.class);
+        String role1Users = resource().path("/api/role/role1/users").accept(MediaType.APPLICATION_JSON).get(String.class);
+        String role2Users = resource().path("/api/role/role2/users").accept(MediaType.APPLICATION_JSON).get(String.class);
 
         // Then the lists should only contain what I asked for
-        assertEquals("A search with an unknown role shouldn't bring anything", "[ ]", notExistingRoleUsers);
+        assertEquals("A search with an unknown role shouldn't bring anything", "[]", notExistingRoleUsers);
 
         assertTrue("The list of users with role1 should contain user1", role1Users.contains(u1.getLogin()));
         assertFalse("The list of users with role1 shouldn't contain user2", role1Users.contains(u2.getLogin()));

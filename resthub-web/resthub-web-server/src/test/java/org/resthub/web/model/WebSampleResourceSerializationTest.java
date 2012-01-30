@@ -14,10 +14,4 @@ public class WebSampleResourceSerializationTest {
         Assert.assertTrue(output.contains("testResource"));
     }
 
-    @Test
-    public void testWebSampleResourceXmlSerialization() {
-        WebSampleResource resource = new WebSampleResource("testResource");
-        String output = SerializationHelper.xmlSerialize(resource);
-        Assert.assertTrue(output.contains("testResource"));
-    }
 }

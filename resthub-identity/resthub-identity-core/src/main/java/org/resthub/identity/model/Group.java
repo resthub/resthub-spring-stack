@@ -3,7 +3,6 @@ package org.resthub.identity.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -14,13 +13,11 @@ import org.hibernate.search.annotations.Indexed;
  * Group and some permissions
  */
 @Entity
-@Table(name = "idm_groups")
 /* "Group" conflicts with SQL keyword */
-@XmlRootElement
+@Table(name = "idm_groups")
 @Indexed
 public class Group extends AbstractPermissionsOwner {
 
-    private static final long serialVersionUID = 475935404179730841L;
     /**
      * name of the group
      * */

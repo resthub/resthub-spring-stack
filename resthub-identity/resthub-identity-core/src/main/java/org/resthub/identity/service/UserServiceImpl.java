@@ -398,4 +398,9 @@ public class UserServiceImpl extends AbstractTraceableServiceImpl<User, UserRepo
 		}
 		return null;
 	}
+
+	@Override
+	public Long getIdFromEntity(User user) {
+		return user.getId();
+	}
 }

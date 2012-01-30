@@ -6,10 +6,9 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -21,12 +20,10 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Table(name = "idm_users")
-@XmlRootElement
 @Indexed
 public class User extends AbstractPermissionsOwner {
 
-    private static final long serialVersionUID = -7139715798005612136L;
-    /**
+	/**
      * List of attributes for a user
      * */
     protected String firstName = null;
@@ -85,8 +82,7 @@ public class User extends AbstractPermissionsOwner {
      * 
      * @return user's password
      * */
-    @Column(nullable = false)
-    @XmlTransient
+    @Column(nullable = false)   
     @JsonIgnore
     public String getPassword() {
         return password;
@@ -98,6 +94,7 @@ public class User extends AbstractPermissionsOwner {
      * @param password
      *            ,the password to be set to the user
      * */
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }

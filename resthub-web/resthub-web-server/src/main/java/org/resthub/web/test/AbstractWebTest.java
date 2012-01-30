@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.resthub.web.client.ClientFactory;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.sun.jersey.api.client.Client;
@@ -32,6 +34,8 @@ public abstract class AbstractWebTest {
 
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
     protected String contextClass = "org.resthub.web.context.ResthubXmlWebApplicationContext";
+    protected Boolean useOpenEntityManagerInViewFilter = false;
+    protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
     
     protected static final Logger logger = Logger.getLogger(AbstractWebTest.class);
 
@@ -70,16 +74,23 @@ public abstract class AbstractWebTest {
     public void setUp() throws Exception {
         server = new Server(port);
 
-     // Add a context for authorization service
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        // Add a context for authorization service
+        ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
         context.getInitParams().put("contextClass", contextClass);
+        context.getInitParams().put("contextConfigLocation", contextLocations);
         context.setDisplayName("resthub test webapp");
-                
+                        
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
         servletHolder.setName("spring");
         servletHolder.setInitOrder(1);
-        servletHolder.setInitParameter("contextConfigLocation", "classpath*:resthubContext.xml classpath*:applicationContext.xml");
+        // Reuse beans detected by ContextLoaderListener so we configure an empty contextConfigLocation
+        servletHolder.setInitParameter("contextConfigLocation", "");
         context.addServlet(servletHolder, "/");
+        context.addEventListener(new ContextLoaderListener());
+        
+        if(useOpenEntityManagerInViewFilter) {
+        	context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
+        }
 
         // Starts the server.
         server.setHandler(context);

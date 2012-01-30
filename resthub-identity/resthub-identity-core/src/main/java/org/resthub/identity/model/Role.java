@@ -13,17 +13,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
 @Entity
 @Table(name = "idm_roles")
-@XmlRootElement
 @Indexed
 public class Role {
-    private static final long serialVersionUID = 4727979823727123519L;
 
     protected Long id;
     protected String name;
