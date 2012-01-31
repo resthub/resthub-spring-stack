@@ -24,7 +24,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.resthub.web.SerializationHelper;
+import org.resthub.web.JsonHelper;
 
 public class OAuth2Scheme extends RFC2617Scheme {
 
@@ -129,7 +129,7 @@ public class OAuth2Scheme extends RFC2617Scheme {
                 authenticateRequest.setEntity(sentEntity);
                 HttpResponse response = httpClient.execute(authenticateRequest);
                 String responseEntity = EntityUtils.toString(response.getEntity());
-                OAuth2TokenResponse tokenResponse = (OAuth2TokenResponse) SerializationHelper.jsonDeserialize(
+                OAuth2TokenResponse tokenResponse = (OAuth2TokenResponse) JsonHelper.jsonDeserialize(
                         responseEntity, OAuth2TokenResponse.class);
                 if (tokenResponse == null) {
                     throw new AuthenticationException("Unable to parse token reponse !");

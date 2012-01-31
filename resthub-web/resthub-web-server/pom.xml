@@ -19,22 +19,17 @@
 		</dependency>
 		<dependency>
 			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.resthub</groupId>
 			<artifactId>resthub-web-client</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
+			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-xc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
