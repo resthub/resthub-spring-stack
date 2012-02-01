@@ -5,8 +5,6 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.QueryParam;
 
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.Role;
@@ -63,8 +61,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     
     /** Override this methods in order to secure it **/
     @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @RequestMapping(method = RequestMethod.GET) @Override
-    public PageResponse<User> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
-            @QueryParam("size") @DefaultValue("5") Integer size) {
+    public PageResponse<User> findAll(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size) {
         return super.findAll(page, size);
     }
     

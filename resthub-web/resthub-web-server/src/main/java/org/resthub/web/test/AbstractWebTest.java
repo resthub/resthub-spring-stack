@@ -8,13 +8,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.resthub.web.client.ClientFactory;
+import org.resthub.web.Http;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 
 /**
  * Base class for your webservice tests, based on Jetty and with preconfigured
@@ -110,9 +110,36 @@ public abstract class AbstractWebTest {
         }
     }
 
-    protected WebResource resource() {
-        Client client = ClientFactory.create();
-        return client.resource("http://localhost:" + port);
+    protected BoundRequestBuilder prepareGet(String path) {
+        return new AsyncHttpClient().prepareGet("http://localhost:" + port + path).addHeader(Http.ACCEPT, Http.JSON); 
+    }
+    
+    protected BoundRequestBuilder preparePost(String path) {
+        return new AsyncHttpClient().preparePost("http://localhost:" + port + path).addHeader(Http.ACCEPT, Http.JSON).addHeader(Http.CONTENT_TYPE, Http.JSON); 
+    }
+    
+    protected BoundRequestBuilder preparePut(String path) {
+        return new AsyncHttpClient().preparePut("http://localhost:" + port + path).addHeader(Http.ACCEPT, Http.JSON).addHeader(Http.CONTENT_TYPE, Http.JSON); 
+    }
+    
+    protected BoundRequestBuilder prepareDelete(String path) {
+        return new AsyncHttpClient().prepareDelete("http://localhost:" + port + path).addHeader(Http.CONTENT_TYPE, Http.JSON); 
+    }
+    
+    protected BoundRequestBuilder prepareGet() {
+        return this.prepareGet(""); 
+    }
+    
+    protected BoundRequestBuilder preparePost() {
+    	return this.preparePost("");  
+    }
+    
+    protected BoundRequestBuilder preparePut() {
+    	return this.preparePut(""); 
+    }
+    
+    protected BoundRequestBuilder prepareDelete() {
+    	return this.prepareDelete(""); 
     }
 
 }

@@ -4,16 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.resthub.identity.model.AbstractPermissionsOwner;
 import org.resthub.identity.model.User;
+import org.resthub.web.Http;
+import org.resthub.web.JsonHelper;
 import org.resthub.web.test.AbstractWebTest;
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import com.ning.http.client.Response;
 
 /**
  */
@@ -30,72 +32,63 @@ public class SearchControllerWebTest extends AbstractWebTest {
 		super.setUp();
 	}
 
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // Tests
     @Test
-    public void shouldIndexesBeReseted() {
-        // Given a resource on the server
-        WebResource server = resource();
-        // When reseting indexes
-        ClientResponse response = server.path("/api/search").put(ClientResponse.class);
+    public void shouldIndexesBeReseted() throws InterruptedException, ExecutionException, IOException {
+        
+        Response response = preparePut("/api/search").execute().get();
         // Then the operation is processed
-        assertEquals(204, response.getClientResponseStatus().getStatusCode());
-    } // shouldIndexesBeReseted().
+        assertEquals(Http.NO_CONTENT, response.getStatusCode());
+    }
 
     @Test
-    public void shouldNullQueryFailed() {
-        // Given a resource on the server
-        WebResource server = resource();
+    public void shouldNullQueryFailed() throws InterruptedException, ExecutionException, IOException {
         // When searching without parameter
-        ClientResponse response = server.path("/api/search").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        Response response = prepareGet("/api/search").execute().get();
         // Then the result is an error.
-        assertEquals(400, response.getClientResponseStatus().getStatusCode());
-    } // shouldEmptyEmptyQueryReturnNothing().
+        assertEquals(Http.BAD_REQUEST, response.getStatusCode());
+    }
 
     @Test
-    public void shouldEmptyQueryFailed() {
-        // Given a resource on the server
-        WebResource server = resource();
+    public void shouldEmptyQueryFailed() throws InterruptedException, ExecutionException, IOException {
         // When searching with empty query
-        ClientResponse response = server.path("/api/search").queryParam("query", "").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        Response response = prepareGet("/api/search?query=").execute().get();
         // Then the result is empty.
-        assertEquals(500, response.getClientResponseStatus().getStatusCode());
-        String responseStr = response.getEntity(String.class);
-        assertTrue(responseStr.contains("Misformatted queryString"));
-    } // shouldEmptyQueryFailed().
+        assertEquals(Http.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertTrue(response.getResponseBody().contains("Misformatted queryString"));
+    }
 
     @Test
-    public void shouldUnmatchingQueryReturnsEmptyResults() {
-        // Given a resource on the server
-        WebResource server = resource();
+    public void shouldUnmatchingQueryReturnsEmptyResults() throws InterruptedException, ExecutionException, IOException {
         // When searching with an unmatching query
-        AbstractPermissionsOwner[] results = server.path("/api/search").queryParam("query", "toto").accept(MediaType.APPLICATION_JSON)
-                .get(AbstractPermissionsOwner[].class);
-        // Then the result is empty.
+    	Response response = prepareGet("/api/search?query=toto").execute().get();
+    	AbstractPermissionsOwner[] results = JsonHelper.deserialize(response.getResponseBody(), AbstractPermissionsOwner[].class); 
+
+    	// Then the result is empty.
         assertNotNull(results);
         assertEquals(0, results.length);
-    } // shouldUnmatchingQueryReturnsEmptyResults().
+    }
 
     @Test
-    public void shouldQueryReturnsUsers() {
-        // Given a resource on the server
-        WebResource server = resource();
+    public void shouldQueryReturnsUsers() throws InterruptedException, ExecutionException, IOException {
         // Given a user with jdujardin as login
         User user = new User();
         user.setLogin("jdujardin");
         user.setPassword("pwd");
-        user = server.path("/api/user/").type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(User.class, user);
+        
+        Response response = preparePost("/api/user/").setBody(JsonHelper.serialize(user)).execute().get();
+        user = JsonHelper.deserialize(response.getResponseBody(), User.class); 
 
         // Given a user with jean as name
         User user2 = new User();
         user2.setLogin("user2");
         user2.setLastName("jean");
         user2.setPassword("pwd");
-        user2 = server.path("/api/user/").type(MediaType.APPLICATION_JSON).post(User.class, user2);
+        response = preparePost("/api/user/").setBody(JsonHelper.serialize(user2)).execute().get();
+        user2 = JsonHelper.deserialize(response.getResponseBody(), User.class);
 
         // When searching the created user
-        User[] results = server.path("/api/search").queryParam("query", "j").accept(MediaType.APPLICATION_JSON).get(User[].class);
+        response= prepareGet("/api/search?query=j").execute().get();
+        User[] results = JsonHelper.deserialize(response.getResponseBody(), User[].class);
         // Then the result contains the user.
         assertNotNull(results);
         assertEquals(2, results.length);
@@ -103,34 +96,30 @@ public class SearchControllerWebTest extends AbstractWebTest {
         assertEquals(user2, results[1]);
 
         // Cleanup after work
-        server.path("/api/user/" + user.getId()).type(MediaType.APPLICATION_JSON).delete();
-        server.path("/api/user/" + user2.getId()).type(MediaType.APPLICATION_JSON).delete();
-    } // shouldQueryReturnsUsers().
+        prepareDelete("/api/user/" + user.getId()).execute().get();
+        prepareDelete("/api/user/" + user2.getId()).execute().get();
+    }
 
     @Test
-    public void shouldQueryReturnsUsersInJson() {
-        // Given a resource on the server
-        WebResource server = resource();
+    public void shouldQueryReturnsUsersInJson() throws InterruptedException, ExecutionException, IOException {
         // Given a user with jdujardin as login
         User user = new User();
         user.setLogin("jdujardin");
         user.setPassword("pwd");
-        user = server.path("/api/user/").type(MediaType.APPLICATION_JSON).post(User.class, user);
+        Response response = preparePost("/api/user/").setBody(JsonHelper.serialize(user)).execute().get();
+        user = JsonHelper.deserialize(response.getResponseBody(), User.class); 
 
         // Given a user with jean as name
         User user2 = new User();
         user2.setLogin("user2");
         user2.setLastName("jean");
         user2.setPassword("pwd");
-        user2 = server.path("/api/user/").type(MediaType.APPLICATION_JSON).post(User.class, user2);
+        response = preparePost("/api/user/").setBody(JsonHelper.serialize(user2)).execute().get();
+        user2 = JsonHelper.deserialize(response.getResponseBody(), User.class);
 
-        ClientResponse response = server.path("/api/search").queryParam("query", "j")
-                .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-        System.out.println(response.getEntity(String.class));
+        response = prepareGet("/api/search?query=j").execute().get();
+        User[] results = JsonHelper.deserialize(response.getResponseBody(), User[].class);
 
-        // When searching the created user in JSON
-        User[] results = server.path("/api/search").queryParam("query", "j").accept(MediaType.APPLICATION_JSON)
-                .get(User[].class);
         // Then the result contains the user.
         assertNotNull(results);
         assertEquals(2, results.length);
@@ -138,28 +127,28 @@ public class SearchControllerWebTest extends AbstractWebTest {
         assertEquals(user2, results[1]);
 
         // Cleanup after work
-        server.path("/api/user/" + user.getId()).type(MediaType.APPLICATION_JSON).delete();
-        server.path("/api/user/" + user2.getId()).type(MediaType.APPLICATION_JSON).delete();
-    } // shouldQueryReturnsUsersInJson().
+        prepareDelete("/api/user/" + user.getId()).execute().get();
+        prepareDelete("/api/user/" + user2.getId()).execute().get();
+    }
 
     @Test
-    public void shouldQueryWithoutUsersNotReturnsUsers() {
-        // Given a resource on the server
-        WebResource server = resource();
+    public void shouldQueryWithoutUsersNotReturnsUsers() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+
         // Given a user
         User user = new User();
         user.setLogin("jdujardin");
         user.setPassword("pwd");
-        user = server.path("/api/user/").type(MediaType.APPLICATION_JSON).post(User.class, user);
+        Response response = preparePost("/api/user/").setBody(JsonHelper.serialize(user)).execute().get(); 
+        user = JsonHelper.deserialize(response.getResponseBody(), User.class);
 
         // When searching the created user without users
-        User[] results = server.path("/api/search").queryParam("query", "j").queryParam("users", "false")
-        		.accept(MediaType.APPLICATION_JSON).get(User[].class);
+        response = prepareGet("/api/search?query=j&users=false").execute().get();
+        User[] results = JsonHelper.deserialize(response.getResponseBody(), User[].class);
         // Then the result does not contains the user.
         assertNotNull(results);
         assertEquals(0, results.length);
 
         // Cleanup after work
-        server.path("/api/user/" + user.getId()).type(MediaType.APPLICATION_JSON).delete();
-    } // shouldQueryReturnsUsers().
-} // Class SearchControllerTest.
+        prepareDelete("/api/user/" + user.getId()).execute().get();
+    }
+}

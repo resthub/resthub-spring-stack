@@ -11,7 +11,7 @@
 	<artifactId>resthub-web-common</artifactId>
 	<name>RESThub webservices common</name>
 	<packaging>jar</packaging>
-	<description>Extends Jersey with default JSON support provided by Jackson</description>
+	<description>Common classes for both client and server RESThub modules</description>
 
 	<dependencies>
 		<dependency>
@@ -19,28 +19,9 @@
 			<artifactId>jackson-xc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
