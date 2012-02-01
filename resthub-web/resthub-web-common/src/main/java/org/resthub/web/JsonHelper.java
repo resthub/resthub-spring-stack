@@ -11,40 +11,44 @@ import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 import org.resthub.web.exception.SerializationException;
 
 public class JsonHelper {
-	
-	@SuppressWarnings("deprecation")
-   	protected static ObjectMapper getJsonObjectMapper() {
-		
-           ObjectMapper mapper = new ObjectMapper();
-           AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
 
-           mapper.getSerializationConfig().disable(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS);
-           mapper.getDeserializationConfig().disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
-           mapper.getSerializationConfig().enable(SerializationConfig.Feature.INDENT_OUTPUT);
+    @SuppressWarnings("deprecation")
+    protected static ObjectMapper getJsonObjectMapper() {
 
-           mapper.getDeserializationConfig().setAnnotationIntrospector(introspector);
-           mapper.getSerializationConfig().setAnnotationIntrospector(introspector);
+        ObjectMapper mapper = new ObjectMapper();
+        AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
 
-           return mapper;
-       }
+        SerializationConfig sc = mapper.getSerializationConfig()
+                .without(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS)
+                .with((SerializationConfig.Feature.INDENT_OUTPUT))
+                .withAnnotationIntrospector(introspector);
+        mapper.setSerializationConfig(sc);
 
-       public static String serialize(Object o) {
-           ObjectMapper mapper = getJsonObjectMapper();
-           OutputStream baOutputStream = new ByteArrayOutputStream();
-           try {
-               mapper.writeValue(baOutputStream, o);
-           } catch (Exception e) {
-               throw new SerializationException(e);
-           }
-           return baOutputStream.toString();
-       }
+        DeserializationConfig dc = mapper.getDeserializationConfig()
+                .without(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .withAnnotationIntrospector(introspector);
+        mapper.setDeserializationConfig(dc);
 
-       public static <T> T deserialize(String content, Class<T> type) {
-           ObjectMapper mapper = getJsonObjectMapper();
-           try {
-               return type.cast(mapper.readValue(content, type));
-           } catch (Exception e) {
-        	   throw new SerializationException(e);
-           }
-       }
+        return mapper;
+    }
+
+    public static String serialize(Object o) {
+        ObjectMapper mapper = getJsonObjectMapper();
+        OutputStream baOutputStream = new ByteArrayOutputStream();
+        try {
+            mapper.writeValue(baOutputStream, o);
+        } catch (Exception e) {
+            throw new SerializationException(e);
+        }
+        return baOutputStream.toString();
+    }
+
+    public static <T> T deserialize(String content, Class<T> type) {
+        ObjectMapper mapper = getJsonObjectMapper();
+        try {
+            return type.cast(mapper.readValue(content, type));
+        } catch (Exception e) {
+            throw new SerializationException(e);
+        }
+    }
 }
