@@ -4,17 +4,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
 import org.resthub.identity.model.UserWithPassword;
+import org.resthub.web.Http;
+import org.resthub.web.JsonHelper;
 import org.resthub.web.test.controller.AbstractControllerWebTest;
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.ClientResponse.Status;
+import com.ning.http.client.Response;
 
 /**
  * 
@@ -65,18 +67,19 @@ public class UserControllerWebTest extends AbstractControllerWebTest<User, Long>
     public void shouldAddRoleToUser() throws Exception {
         // Given a new role
         Role r = new Role("Role" + Math.round(Math.random() * 100000));
-        r = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r);
+        Response response = preparePost("/api/role").setBody(JsonHelper.serialize(r)).execute().get();
+        r = JsonHelper.deserialize(response.getResponseBody(), Role.class);
 
         // Given a new user
         User u = this.createTestResource();
-        u = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u);
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u)).execute().get();
+        u = JsonHelper.deserialize(response.getResponseBody(), User.class);
 
         // When I associate the user and the role
-        resource().path("/api/user/name/" + u.getLogin() + "/roles/" + r.getName()).type(MediaType.APPLICATION_JSON).put();
+        preparePut("/api/user/name/" + u.getLogin() + "/roles/" + r.getName()).execute().get();
 
         // Then I get the user with this role
-        String userWithRole = resource().path("/api/user/login/" + u.getLogin()).accept(MediaType.APPLICATION_JSON)
-                .get(String.class);
+        String userWithRole = prepareGet("/api/user/login/" + u.getLogin()).execute().get().getResponseBody();
         assertTrue("The user should contain the role", userWithRole.contains(r.getName()));
     }
 
@@ -84,19 +87,19 @@ public class UserControllerWebTest extends AbstractControllerWebTest<User, Long>
     public void shouldRemoveRoleFromUser() throws Exception {
         // Given a new role
         Role r = new Role("Role" + Math.round(Math.random() * 100000));
-        r = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r);
+        Response response = preparePost("/api/role").setBody(JsonHelper.serialize(r)).execute().get();
+        r = JsonHelper.deserialize(response.getResponseBody(), Role.class);
 
         // Given a new user
         User u = this.createTestResource();
-        u = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u);
-        resource().path("/api/user/name/" + u.getLogin() + "/roles/" + r.getName()).type(MediaType.APPLICATION_JSON).put();
-
-        // When I associate the user and the role
-        resource().path("/api/user/name/" + u.getLogin() + "/roles/" + r.getName()).type(MediaType.APPLICATION_JSON).delete();
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u)).execute().get();
+        u = JsonHelper.deserialize(response.getResponseBody(), User.class);
+                
+        preparePut("/api/user/name/" + u.getLogin() + "/roles/" + r.getName()).execute().get();
+        prepareDelete("/api/user/name/" + u.getLogin() + "/roles/" + r.getName()).execute().get();
 
         // Then I get the user with this role
-        String userWithRole = resource().path("/api/user/login/" + u.getLogin()).accept(MediaType.APPLICATION_JSON)
-                .get(String.class);
+        String userWithRole = prepareGet("/api/user/login/" + u.getLogin()).execute().get().getResponseBody();
         assertFalse("The user shouldn't contain the role", userWithRole.contains(r.getName()));
     }
 
@@ -105,44 +108,45 @@ public class UserControllerWebTest extends AbstractControllerWebTest<User, Long>
         // Given some new roles
         Role r1 = new Role("role1");
         Role r2 = new Role("role2");
-        r1 = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r1);
-        r2 = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r2);
-
+        Response response = preparePost("/api/role").setBody(JsonHelper.serialize(r1)).execute().get();
+        r1 = JsonHelper.deserialize(response.getResponseBody(), Role.class);
+        response = preparePost("/api/role").setBody(JsonHelper.serialize(r2)).execute().get();
+        r2 = JsonHelper.deserialize(response.getResponseBody(), Role.class);
+        
         // Given some new users
         User u1 = this.createTestResource();
         User u2 = this.createTestResource();
         User u3 = this.createTestResource();
         User u4 = this.createTestResource();
-        u1 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u1);
-        u2 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u2);
-        u3 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u3);
-        u4 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u4);
-
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u1)).execute().get();
+        u1 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u2)).execute().get();
+        u2 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u3)).execute().get();
+        u3 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u4)).execute().get();
+        u4 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        
         // Given the association of the users with the roles
         // u1 with role1
-        resource().path("/api/user/name/" + u1.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_JSON).put();
+        preparePut("/api/user/name/" + u1.getLogin() + "/roles/" + r1.getName()).execute().get();
         // u3 with role2
-        resource().path("/api/user/name/" + u3.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_JSON).put();
+        preparePut("/api/user/name/" + u3.getLogin() + "/roles/" + r2.getName()).execute().get();
         // u4 with both role1 and role2
-        resource().path("/api/user/name/" + u4.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_JSON).put();
-        resource().path("/api/user/name/" + u4.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_JSON).put();
+        preparePut("/api/user/name/" + u4.getLogin() + "/roles/" + r1.getName()).execute().get();
+        preparePut("/api/user/name/" + u4.getLogin() + "/roles/" + r2.getName()).execute().get();
 
         // When I look for users with roles
-        String user1Roles = resource().path("/api/user/name/" + u1.getLogin() + "/roles").accept(MediaType.APPLICATION_JSON)
-                .get(String.class);
-        String user2Roles = resource().path("/api/user/name/" + u2.getLogin() + "/roles").accept(MediaType.APPLICATION_JSON)
-                .get(String.class);
-        String user3Roles = resource().path("/api/user/name/" + u3.getLogin() + "/roles").accept(MediaType.APPLICATION_JSON)
-                .get(String.class);
-        String user4Roles = resource().path("/api/user/name/" + u4.getLogin() + "/roles").accept(MediaType.APPLICATION_JSON)
-                .get(String.class);
+        String user1Roles = prepareGet("/api/user/name/" + u1.getLogin() + "/roles").execute().get().getResponseBody();
+        String user2Roles = prepareGet("/api/user/name/" + u2.getLogin() + "/roles").execute().get().getResponseBody();
+        String user3Roles = prepareGet("/api/user/name/" + u3.getLogin() + "/roles").execute().get().getResponseBody();
+        String user4Roles = prepareGet("/api/user/name/" + u4.getLogin() + "/roles").execute().get().getResponseBody();
 
         // Then the lists should only contain what I asked for
         assertTrue("The list of roles for user1 should contain role1", user1Roles.contains(r1.getName()));
         assertEquals("The list of roles for user2 should be empty", "[]", user2Roles);
         assertTrue("The list of roles for user3 should contain role2", user3Roles.contains(r2.getName()));
-        assertTrue("The list of roles for user4 should contain role1 and role2", user4Roles.contains(r1.getName())
-                && user4Roles.contains(r2.getName()));
+        assertTrue("The list of roles for user4 should contain role1 and role2", user4Roles.contains(r1.getName()) && user4Roles.contains(r2.getName()));
     }
 
     @Test
@@ -151,30 +155,28 @@ public class UserControllerWebTest extends AbstractControllerWebTest<User, Long>
         User u = this.createTestResource();
 
         // When I create it twice
-        resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(u);
-        ClientResponse response = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(ClientResponse.class, u);
+        preparePost("/api/user").setBody(JsonHelper.serialize(u)).execute().get();
+        Response response = preparePost("/api/user").setBody(JsonHelper.serialize(u)).execute().get();
 
         // Then the response should be a 409 error
-        assertEquals(Status.CONFLICT, response.getClientResponseStatus());
+        assertEquals(Http.CONFLICT, response.getStatusCode());
     }
 
     @Test
-    public void shouldManageToCheckUserIdentity() {
+    public void shouldManageToCheckUserIdentity() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
         // Given a created user
     	UserWithPassword u = new UserWithPassword(this.createTestResource());
         String password = u.getPassword();
-        User user = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u);
+        Response response = preparePost("/api/user").setBody(JsonHelper.serialize(u)).execute().get();
+        User user = JsonHelper.deserialize(response.getResponseBody(), User.class);
 
         // When I check his identity
-        ClientResponse postAnswerCorrectPass = resource().path("/api/user/checkuser").queryParam("user", user.getLogin())
-                .queryParam("password", password).post(ClientResponse.class);
-        ClientResponse postAnswerWrongPass = resource().path("/api/user/checkuser").queryParam("user", user.getLogin())
-                .queryParam("password", "wrongpassword").post(ClientResponse.class);
+        Response postAnswerCorrectPass = preparePost("/api/user/checkuser?user=" + user.getLogin() + "&password=" + password).execute().get();
+        Response postAnswerWrongPass = preparePost("/api/user/checkuser?user=" + user.getLogin() + "&password=wrongpassword").execute().get();
 
-        assertEquals("The identity check should be successful", Status.NO_CONTENT,
-                postAnswerCorrectPass.getClientResponseStatus());
-        assertEquals("The identity check should fail", Status.NOT_FOUND, postAnswerWrongPass.getClientResponseStatus());
+        assertEquals("The identity check should be successful", Http.NO_CONTENT, postAnswerCorrectPass.getStatusCode());
+        assertEquals("The identity check should fail", Http.NOT_FOUND, postAnswerWrongPass.getStatusCode());
         
-        String response = resource().path("/api/user").accept(MediaType.APPLICATION_JSON).get(String.class);
+        response = prepareGet("/api/user").execute().get();
     }
 }

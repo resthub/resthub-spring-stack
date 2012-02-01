@@ -18,7 +18,7 @@ public class OAuth2ProcessingFilterEntryPoint implements AuthenticationEntryPoin
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        StringBuilder headerValue = new StringBuilder("OAuth2");
+        StringBuilder headerValue = new StringBuilder("Bearer");
         if (realmName != null) {
             headerValue.append(" realm=\"").append(realmName).append('"');
         }

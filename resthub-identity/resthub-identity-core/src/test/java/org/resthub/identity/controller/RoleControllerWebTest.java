@@ -4,14 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Test;
 import org.resthub.identity.model.Role;
 import org.resthub.identity.model.User;
+import org.resthub.web.JsonHelper;
 import org.resthub.web.test.controller.AbstractControllerWebTest;
+
+import com.ning.http.client.Response;
 
 /**
  * Test class for <tt>RoleController</tt>.
@@ -62,8 +66,13 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
     @Override
     @After
     public void tearDown() {
-        resource().path("/api/user/all").delete();
-        resource().path(getResourcePath() + "/all").delete();
+    	try {
+			prepareDelete("/api/user/all").execute().get();
+			prepareDelete(getResourcePath() + "/all").execute().get();
+		} catch (InterruptedException | ExecutionException | IOException e) {
+			e.printStackTrace();
+		}
+    	
         super.tearDown();
     }
 
@@ -78,37 +87,45 @@ public class RoleControllerWebTest extends AbstractControllerWebTest<Role, Long>
     }
 
     @Test
-    public void shouldGetUsersWithDirectRole() {
+    public void shouldGetUsersWithDirectRole() throws IOException, InterruptedException, ExecutionException {
         // Given some new roles
         Role r1 = new Role("role1");
         Role r2 = new Role("role2");
-        r1 = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r1);
-        r2 = resource().path("/api/role").type(MediaType.APPLICATION_JSON).post(Role.class, r2);
-
+        
+        Response response = preparePost("/api/role").setBody(JsonHelper.serialize(r1)).execute().get();
+        r1 = JsonHelper.deserialize(response.getResponseBody(), Role.class); 
+        
+        response = preparePost("/api/role").setBody(JsonHelper.serialize(r2)).execute().get();
+        r2 = JsonHelper.deserialize(response.getResponseBody(), Role.class);
+        
         // Given some new users
         User u1 = this.createTestUser();
         User u2 = this.createTestUser();
         User u3 = this.createTestUser();
         User u4 = this.createTestUser();
-        u1 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u1);
-        u2 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u2);
-        u3 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u3);
-        u4 = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u4);
-
+        
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u1)).execute().get();
+        u1 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u2)).execute().get();
+        u2 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u3)).execute().get();
+        u3 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u4)).execute().get();
+        u4 = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        
         // Given the association of the users with the roles
         // u1 with role1
-        resource().path("/api/user/name/" + u1.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_JSON).put();
+        preparePut("/api/user/name/" + u1.getLogin() + "/roles/" + r1.getName()).execute().get();
         // u3 with role2
-        resource().path("/api/user/name/" + u3.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_JSON).put();
+        preparePut("/api/user/name/" + u3.getLogin() + "/roles/" + r2.getName()).execute().get();
         // u4 with both role1 and role2
-        resource().path("/api/user/name/" + u4.getLogin() + "/roles/" + r1.getName()).type(MediaType.APPLICATION_JSON).put();
-        resource().path("/api/user/name/" + u4.getLogin() + "/roles/" + r2.getName()).type(MediaType.APPLICATION_JSON).put();
+        preparePut("/api/user/name/" + u4.getLogin() + "/roles/" + r1.getName()).execute().get();
+        preparePut("/api/user/name/" + u4.getLogin() + "/roles/" + r2.getName()).execute().get();
 
         // When I look for users with roles
-        String notExistingRoleUsers = resource().path("/api/role/inventedRole/users").accept(MediaType.APPLICATION_JSON)
-                .get(String.class);
-        String role1Users = resource().path("/api/role/role1/users").accept(MediaType.APPLICATION_JSON).get(String.class);
-        String role2Users = resource().path("/api/role/role2/users").accept(MediaType.APPLICATION_JSON).get(String.class);
+        String notExistingRoleUsers = prepareGet("/api/role/inventedRole/users").execute().get().getResponseBody();
+        String role1Users = prepareGet("/api/role/role1/users").execute().get().getResponseBody();
+        String role2Users = prepareGet("/api/role/role2/users").execute().get().getResponseBody();
 
         // Then the lists should only contain what I asked for
         assertEquals("A search with an unknown role shouldn't bring anything", "[]", notExistingRoleUsers);
