@@ -30,15 +30,15 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Illustration controller.
  * 
  * @author Nicolas Carlier
  */
-@Path("/illustration")
-@Named("illustrationController")
-@Singleton
+@Controller @RequestMapping("/api/illustration")
 public class IllustrationControler {
     private static final Logger logger = LoggerFactory.getLogger(IllustrationControler.class);
 

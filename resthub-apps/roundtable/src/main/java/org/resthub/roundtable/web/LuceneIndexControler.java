@@ -9,15 +9,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.resthub.roundtable.service.PollService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Lucene Index controller.
  * 
  * @author Nicolas Carlier
  */
-@Path("/lucene")
-@Named("luceneIndexController")
-@Singleton
+@Controller @RequestMapping("/api/lucene")
 public class LuceneIndexControler {
 
     protected PollService pollService;

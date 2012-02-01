@@ -18,15 +18,15 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.resthub.roundtable.service.VoteService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Vote controller.
  * 
  * @author Nicolas Carlier
  */
-@Path("/vote")
-@Named("voteController")
-@Singleton
+@Controller @RequestMapping("/api/vote")
 public class VoteController {
 
     protected VoteService voteService;

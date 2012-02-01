@@ -40,4 +40,9 @@ public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, Bookin
 
         return repository.findByUser(this.userRepository.findOne(userId));
     }
+
+	@Override
+	public Long getIdFromEntity(Booking booking) {
+		return booking.getId();
+	}
 }

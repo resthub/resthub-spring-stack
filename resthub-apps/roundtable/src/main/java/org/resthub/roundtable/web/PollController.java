@@ -15,14 +15,15 @@ import org.resthub.web.controller.GenericControllerImpl;
 import org.resthub.web.response.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Poll controller.
  * 
  * @author Nicolas Carlier
  */
-@Path("/poll")
-@Named("pollController")
+@Controller @RequestMapping("/api/poll")
 public class PollController extends GenericControllerImpl<Poll, Long, PollService> {
 
 	@Inject

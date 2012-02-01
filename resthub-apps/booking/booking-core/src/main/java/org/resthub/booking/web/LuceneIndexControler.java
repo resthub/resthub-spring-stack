@@ -2,23 +2,21 @@ package org.resthub.booking.web;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.resthub.booking.service.HotelService;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Provide access to indexation functions from HibernateSearch
  * 
  * @author Nicolas Carlier
  */
-@Path("/lucene")
-@Named("luceneIndexController")
-@Singleton
+@Controller @RequestMapping("/api/lucene")
 public class LuceneIndexControler {
 
     private HotelService hotelService;
@@ -34,11 +32,9 @@ public class LuceneIndexControler {
      * 
      * @return ok response or error code
      */
-    @POST
-    @Path("/rebuild")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response rebuildIndex() {
+
+    @RequestMapping(method = RequestMethod.POST, value = "rebuild") @ResponseStatus(HttpStatus.OK) @ResponseBody
+    public void rebuildIndex() {
         this.hotelService.rebuildIndex();
-        return Response.ok("Search engine index rebuilded.").build();
     }
 }

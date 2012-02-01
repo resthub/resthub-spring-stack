@@ -9,8 +9,8 @@ import javax.inject.Named;
 import org.resthub.booking.model.Hotel;
 import org.resthub.booking.repository.HotelRepository;
 import org.resthub.core.service.GenericServiceImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author Guillaume Zurbach
@@ -73,4 +73,9 @@ public class HotelServiceImpl extends GenericServiceImpl<Hotel, Long, HotelRepos
     public void rebuildIndex() {
         this.repository.rebuildIndex();
     }
+
+	@Override
+	public Long getIdFromEntity(Hotel hotel) {
+		return hotel.getId();
+	}
 }

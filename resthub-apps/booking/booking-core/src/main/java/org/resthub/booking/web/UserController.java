@@ -2,19 +2,20 @@ package org.resthub.booking.web;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
 import org.resthub.booking.model.User;
 import org.resthub.booking.service.UserService;
 import org.resthub.web.controller.GenericControllerImpl;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Guillaume Zurbach
  */
-@Path("/user")
-@Named("userController")
+@Controller @RequestMapping("/api/user")
 public class UserController extends GenericControllerImpl<User, Long, UserService> {
 
     @Inject
@@ -24,9 +25,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
         this.service = service;
     }
     
-    @GET
-    @Path("/username/{username}")
-    public User findByUsername(@PathParam("username")String username) {
+    @RequestMapping(method = RequestMethod.GET, value = "username/{username}") @ResponseBody
+    public User findByUsername(@PathVariable("username")String username) {
         return service.findByUsername(username);
     }
 

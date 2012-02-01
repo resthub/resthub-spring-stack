@@ -7,4 +7,5 @@
 	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<jpa:repositories base-package="org.resthub.booking.repository" />
+	
 </beans>

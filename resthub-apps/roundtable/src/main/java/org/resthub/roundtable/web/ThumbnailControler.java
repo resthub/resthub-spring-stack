@@ -18,15 +18,15 @@ import org.resthub.roundtable.toolkit.ImageTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Thumbnail controller.
  * 
  * @author Nicolas Carlier
  */
-@Path("/thumbnail")
-@Named("thumbnailController")
-@Singleton
+@Controller @RequestMapping("/api/thumbnail")
 public class ThumbnailControler {
     private static final Logger logger = LoggerFactory.getLogger(ThumbnailControler.class);
 
