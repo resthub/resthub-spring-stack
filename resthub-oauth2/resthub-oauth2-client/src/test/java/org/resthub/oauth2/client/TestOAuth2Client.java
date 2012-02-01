@@ -138,11 +138,11 @@ public class TestOAuth2Client {
                 "test", "t3st");
         final Client client = OAuth2ClientFactory.create(credentials);
         final String serviceUrl = BASE_URL + "/api/resource/hello";
-        String result = client.resource(serviceUrl).get(String.class);
+        client.resource(serviceUrl).get(String.class);
         String previousToken = credentials.getTokenResponse().accessToken;
 
         // When I call it again
-        result = client.resource(serviceUrl).get(String.class);
+        client.resource(serviceUrl).get(String.class);
         final String followingToken = credentials.getTokenResponse().accessToken;
 
         // Then the token should be identical

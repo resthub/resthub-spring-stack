@@ -5,13 +5,7 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 import org.resthub.identity.model.Group;
@@ -20,93 +14,75 @@ import org.resthub.identity.model.User;
 import org.resthub.identity.service.UserService;
 import org.resthub.identity.tools.PermissionsOwnerTools;
 import org.resthub.web.controller.GenericControllerImpl;
+import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.response.PageResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.sun.jersey.api.NotFoundException;
-import com.sun.jersey.api.uri.UriComponent;
-
-@Path("/user")
 /**
  Front controller for User Management<br/>
  Only ADMINS can access to the globality of this API<br/>
  Specific permissions are given when useful
  */
-@Named("userController")
+@Controller @RequestMapping("/api/user")
 public class UserController extends GenericControllerImpl<User, Long, UserService> {
 
-    @Inject
-    @Named("userService")
-    @Override
-    /**
-     * {@inheritDoc}
-     * */
+    @Inject @Named("userService") @Override
     public void setService(UserService service) {
         this.service = service;
     }
 
     /** Override this methods in order to secure it **/
-    @Override
-    @POST
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public User create(User user) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @Override
+    public User create(@RequestBody User user) {
         return super.create(user);
     }
 
     /** Override this methods in order to secure it **/
-    @Override
-    @PUT
-    @Path("/{id}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public User update(@PathParam("id") Long id, User user) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @Override
+    public User update(@PathVariable("id") Long id, @RequestBody User user) {
         return super.update(id, user);
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @GET
-    @Path("/all")
-    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @Override
     public List<User> findAll() {
         return super.findAll();
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @GET
-    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @RequestMapping(method = RequestMethod.GET) @Override
     public PageResponse<User> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
             @QueryParam("size") @DefaultValue("5") Integer size) {
         return super.findAll(page, size);
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @GET
-    @Path("/{id}")
-    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
-    public User findById(@PathParam("id") Long id) {
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @Override
+    public User findById(@PathVariable("id") Long id) {
         return super.findById(id);
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @DELETE
-    @Path("/all")
-    @RolesAllowed({ "IM_USER_ADMIN" })
+    @RolesAllowed({ "IM_USER_ADMIN" }) @Override
     public void delete() {
         super.delete();
     }
     
     /** Override this methods in order to secure it **/
-    @Override
-    @DELETE
-    @Path("/{id}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public void delete(@PathParam(value = "id") Long id) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @Override
+    public void delete(@PathVariable(value = "id") Long id) {
         super.delete(id);
     }
 
@@ -117,10 +93,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @return the user, in XML or JSON if the user can be found otherwise HTTP
      *         Error 404
      */
-    @GET
-    @Path("/login/{login}")
-    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
-    public User getUserByLogin(@PathParam("login") String login) {
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @RequestMapping(method = RequestMethod.GET, value = "login/{login}") @ResponseBody
+    public User getUserByLogin(@PathVariable("login") String login) {
         User user = this.service.findByLogin(login);
         if (user == null) {
             throw new NotFoundException();
@@ -144,9 +118,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @return the Logged User Object, in XMl or JSON type if everything OK,
      *         otherwise (It shouldn't append) an HTTP error 404
      * */
-    @GET
-    @Path("/me")
-    @RolesAllowed({ "IS_AUTHENTICATED_FULLY" })
+    @RolesAllowed({ "IS_AUTHENTICATED_FULLY" }) @RequestMapping(method = RequestMethod.GET, value = "me") @ResponseBody
     public User currentUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         UserDetails userDetails = (UserDetails) securityContext.getAuthentication().getPrincipal();
@@ -165,9 +137,7 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     }
     
     /** Update the current user **/
-    @PUT
-    @Path("/me")
-    @RolesAllowed({ "IS_AUTHENTICATED_FULLY" })
+    @RolesAllowed({ "IS_AUTHENTICATED_FULLY" }) @RequestMapping(method = RequestMethod.PUT, value = "me") @ResponseBody
     public User updateMe(User user) {
     	SecurityContext securityContext = SecurityContextHolder.getContext();
         UserDetails userDetails = (UserDetails) securityContext.getAuthentication().getPrincipal();
@@ -192,10 +162,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @return a list of group, in XML or JSON if the group can be found
      *         otherwise HTTP Error 404
      */
-    @GET
-    @Path("/name/{login}/groups")
-    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
-    public List<Group> getGroupsFromUser(@PathParam("login") String login) {
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @RequestMapping(method = RequestMethod.GET, value = "name/{login}/groups") @ResponseBody
+    public List<Group> getGroupsFromUser(@PathVariable("login") String login) {
         User user = this.service.findByLogin(login);
         if (user == null) {
             throw new NotFoundException();
@@ -216,10 +184,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @Param login the login of the user for which we should add a group
      * @Param group the name of the group the be added
      */
-    @PUT
-    @Path("/name/{login}/groups/{group}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public void addGroupToUser(@PathParam("login") String login, @PathParam("group") String group) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @RequestMapping(method = RequestMethod.PUT, value = "name/{login}/groups/{group}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addGroupToUser(@PathVariable("login") String login, @PathVariable("group") String group) {
         this.service.addGroupToUser(login, group);
     }
 
@@ -229,10 +195,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @Param login the login of the user for which we should remove a group
      * @Param group the name of the group the be removed
      */
-    @DELETE
-    @Path("/name/{login}/groups/{groups}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public void removeGroupsForUser(@PathParam("login") String userLogin, @PathParam("groups") String groupName) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @RequestMapping(method = RequestMethod.DELETE, value = "name/{login}/groups/{groups}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeGroupsForUser(@PathVariable("login") String userLogin, @PathVariable("groups") String groupName) {
         this.service.removeGroupFromUser(userLogin, groupName);
     }
 
@@ -244,10 +208,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @return a list of permissions, in XML or JSON if the group can be found
      *         otherwise HTTP Error 404
      */
-    @GET
-    @Path("/name/{login}/permissions")
-    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
-    public List<String> getPermissionsFromUser(@PathParam("login") String login) {
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @RequestMapping(method = RequestMethod.GET, value = "name/{login}/permissions") @ResponseBody
+    public List<String> getPermissionsFromUser(@PathVariable("login") String login) {
         List<String> permissions = this.service.getUserPermissions(login);
         if (permissions == null) {
             throw new NotFoundException();
@@ -261,10 +223,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @Param login the login of the user in which we should add a group
      * @Param permission the permission to be added
      */
-    @PUT
-    @Path("/name/{login}/permissions/{permission}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public void addPermissionsToUser(@PathParam("login") String login, @PathParam("permission") String permission) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @RequestMapping(method = RequestMethod.PUT, value = "name/{login}/permissions/{permission}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addPermissionsToUser(@PathVariable("login") String login, @PathVariable("permission") String permission) {
         this.service.addPermissionToUser(login, permission);
     }
 
@@ -274,30 +234,21 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @Param login the login of the user in which we should remove a permission
      * @Param permisssion the permisssion to be removed
      */
-    @DELETE
-    @Path("/name/{login}/permissions/{permission}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public void deletePermissionsFromUser(@PathParam("login") String login, @PathParam("permission") String permission) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @RequestMapping(method = RequestMethod.DELETE, value = "name/{login}/permissions/{permission}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePermissionsFromUser(@PathVariable("login") String login, @PathVariable("permission") String permission) {
         this.service.removePermissionFromUser(login, permission);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @PUT
-    @Path("/name/{login}/roles/{role}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public void addRoleToUser(@PathParam("login") String login, @PathParam("role") String role) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @RequestMapping(method = RequestMethod.PUT, value = "name/{login}/roles/{role}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addRoleToUser(@PathVariable("login") String login, @PathVariable("role") String role) {
         this.service.addRoleToUser(login, role);
     }
 
     /**
      * {@inheritDoc}
      */
-    @DELETE
-    @Path("/name/{login}/roles/{role}")
-    @RolesAllowed({ "IM_USER_ADMIN" })
-    public void removeRoleFromUser(@PathParam("login") String login, @PathParam("role") String role) {
+    @RolesAllowed({ "IM_USER_ADMIN" }) @RequestMapping(method = RequestMethod.DELETE, value = "name/{login}/roles/{role}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeRoleFromUser(@PathVariable("login") String login, @PathVariable("role") String role) {
         this.service.removeRoleFromUser(login, role);
     }
 
@@ -308,10 +259,8 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      *            Login to check.
      * @return A list of roles the given user has.
      */
-    @GET
-    @Path("/name/{login}/roles")
-    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" })
-    public List<Role> getAllUserRoles(@PathParam("login") String login) {
+    @RolesAllowed({ "IM_USER_ADMIN", "IM_USER_READ" }) @RequestMapping(method = RequestMethod.GET, value = "name/{login}/roles") @ResponseBody 
+    public List<Role> getAllUserRoles(@PathVariable("login") String login) {
         return this.service.getAllUserRoles(login);
     }
 
@@ -325,17 +274,9 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
      * @return True of false whether the user provided a correct identity or
      *         not.
      */
-    @POST
-    @Path("/checkuser")
-    public void authenticateUser(@QueryParam("user") String username, @QueryParam("password") String password) {
-        
-    	// We decode manually parameters since they are not decoded automatically
-    	// Perhaps it comes from the fact we are using a POST and not a GET request, not sure ...
-    	// Related issue : http://java.net/jira/browse/JERSEY-739
-    	
-    	username = UriComponent.decode(username, UriComponent.Type.QUERY_PARAM);
-    	password = UriComponent.decode(password, UriComponent.Type.QUERY_PARAM);
-    	
+    @RequestMapping(method = RequestMethod.POST, value = "checkuser") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void authenticateUser(@RequestParam("user") String username, @RequestParam("password") String password) {
+           	
     	User user = this.service.authenticateUser(username, password);
         if (user == null) {
             throw new NotFoundException();

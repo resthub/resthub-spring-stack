@@ -43,4 +43,9 @@ public class RoleRepositoryTest extends AbstractRepositoryTest<Role, Long, RoleR
 		Role role2 = repository.findOne(this.id);
 		assertEquals("Role not updated!", role2.getName(), NEW_ROLE_NAME);
 	}
+	
+	@Override
+	public Long getIdFromEntity(Role role) {
+		return role.getId();
+	}
 }

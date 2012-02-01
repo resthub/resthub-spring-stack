@@ -120,4 +120,9 @@ public class RoleServiceImpl extends AbstractTraceableServiceImpl<Role, RoleRepo
 		this.publishChange(RoleChange.ROLE_CREATION.name(), createdRole);
 		return createdRole;
 	}
+
+	@Override
+	public Long getIdFromEntity(Role role) {
+		return role.getId();
+	}
 }

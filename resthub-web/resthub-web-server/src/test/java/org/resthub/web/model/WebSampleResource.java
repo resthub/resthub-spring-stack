@@ -3,13 +3,9 @@ package org.resthub.web.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
 public class WebSampleResource {
-
-    private static final long serialVersionUID = -7178337784737750452L;
 
     private Long id;
     private String name;
