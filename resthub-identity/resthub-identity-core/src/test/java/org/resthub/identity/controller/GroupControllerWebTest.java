@@ -2,12 +2,11 @@ package org.resthub.identity.controller;
 
 import static org.junit.Assert.assertTrue;
 
-import javax.ws.rs.core.MediaType;
-
 import org.junit.Test;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
 import org.resthub.web.test.controller.AbstractControllerWebTest;
+import org.springframework.http.MediaType;
 
 /**
  * 

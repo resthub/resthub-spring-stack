@@ -1,16 +1,12 @@
-package org.resthub.oauth2.httpclient;
+package org.resthub.oauth2.client;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import junit.framework.Assert;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -18,8 +14,16 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.resthub.web.Http;
+import org.resthub.web.oauth2.OAuth2RequestFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
+
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClientConfig;
+import com.ning.http.client.AsyncHttpClientConfig.Builder;
+import com.ning.http.client.Realm;
+import com.ning.http.client.Response;
 
 /**
  * Tests the the TokenFactory utility class. Launches an in-memory jetty server
@@ -29,7 +33,7 @@ import org.springframework.web.servlet.DispatcherServlet;
  * <li>a resource service protected with resthub-oauth2-filter.</li>
  * </ol>
  */
-public class TestOAuth2HttpClient {
+public class TestOAuth2Client {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Static private attributes
@@ -38,13 +42,14 @@ public class TestOAuth2HttpClient {
     public static final String CLIENT_SECRET = "";
     public static final int PORT = 9796;
     public static final String BASE_URL = "http://localhost:" + PORT;
-    public static final String AUTHENTICATION_ENDPOINT = BASE_URL + "/oauth/token";
+    public static final String ACCESS_TOKEN_ENDPOINT = BASE_URL + "/oauth/token";
     public static final String contextClass = "org.resthub.web.context.ResthubXmlWebApplicationContext";
 
     /**
      * Jetty memory server instance.
      */
     protected static Server server;
+    protected static Builder builder; 
 
     /**
      * Before the test suite, launches a Jetty in memory server.
@@ -72,12 +77,15 @@ public class TestOAuth2HttpClient {
 
         // Starts the server.
         server.setHandler(context);
-
         server.start();
+
+        // Initialize OAuth2 authenticator
+        builder = new AsyncHttpClientConfig.Builder();
+        builder.addRequestFilter(new OAuth2RequestFilter(ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET));
     }
 
     /**
-     * After the test suite, stops the Jetty inmemory server.
+     * After the test suite, stops the Jetty in memory server.
      */
     @AfterClass
     public static void suiteTearDown() throws Exception {
@@ -87,29 +95,19 @@ public class TestOAuth2HttpClient {
     }
 
     @Test
-    public void testOAuth2SuccessfulRequest() throws ClientProtocolException, IOException {
-
-        // Initialize the credentials
-    	DefaultHttpClient client = new DefaultHttpClient();
-        client.getAuthSchemes().register(OAuth2SchemeFactory.SCHEME_NAME, new OAuth2SchemeFactory());
-    	OAuth2Credentials credentials = new OAuth2Credentials(AUTHENTICATION_ENDPOINT, CLIENT_ID, CLIENT_SECRET, "test", "t3st");
-    	client.getCredentialsProvider().setCredentials(new AuthScope("localhost", PORT), credentials);
-    	client.addRequestInterceptor(new OAuth2Interceptor(credentials), 0);
+    public void testOAuth2SuccessfulRequest() throws IOException, InterruptedException, ExecutionException {
     	
-    	HttpGet helloRequest = new HttpGet(BASE_URL + "/api/resource/hello");
-    	HttpResponse response = client.execute(helloRequest);
-    	String resultEntity = EntityUtils.toString(response.getEntity());
-    	assertEquals("Hello", resultEntity);
+    	AsyncHttpClient client = new AsyncHttpClient(builder.build());
+    	
+        String result = client.prepareGet(BASE_URL + "/api/resource/hello").setRealm(new Realm.RealmBuilder().setPrincipal("test").setPassword("t3st").build()).execute().get().getResponseBody();
+        assertEquals("Hello", result);
     }
-    
+
     @Test
-    public void testUnauthorizeRequest() throws ClientProtocolException, IOException {
-    	// Initialize the credentials
-    	DefaultHttpClient client = new DefaultHttpClient();
-    	HttpGet helloRequest = new HttpGet(BASE_URL + "/api/resource/hello");
-    	HttpResponse response = client.execute(helloRequest);
-    	String resultEntity = EntityUtils.toString(response.getEntity());
-    	assertFalse("Hello".equals(resultEntity));
+    public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
+    	AsyncHttpClient client = new AsyncHttpClient();
+    	Response response = client.prepareGet(BASE_URL + "/api/resource/hello").execute().get();
+    	Assert.assertEquals(Http.UNAUTHORIZED, response.getStatusCode());
     }
-    
+
 }
