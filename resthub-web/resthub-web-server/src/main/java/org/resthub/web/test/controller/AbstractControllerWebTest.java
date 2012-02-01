@@ -53,7 +53,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     @Override
     public void tearDown() {
     	try {
-			prepareDelete("/all").execute().get();
+    		prepareDelete(getResourcePath() + "/all").execute().get();
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			e.printStackTrace();
 		}
@@ -63,69 +63,50 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     @Test
     public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
         T r = createTestResource();
-        Response response = preparePost().setBody(JsonHelper.serialize(r)).execute().get();
+        Response response = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get();
         r = (T)JsonHelper.deserialize(response.getResponseBody(), r.getClass());
         Assert.assertNotNull("Resource not created", r);
     }
 
     @Test
     public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
-    	preparePost().setBody(JsonHelper.serialize(createTestResource())).execute().get();
-    	preparePost().setBody(JsonHelper.serialize(createTestResource())).execute().get();
-    	String responseBody = prepareGet().execute().get().getResponseBody();
+    	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
+    	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
+    	String responseBody = prepareGet(getResourcePath()).execute().get().getResponseBody();
         Assert.assertTrue("Unable to find all resources or bad-formed JSON", responseBody.contains("\"totalElements\":2"));
     }
 
     @Test
     public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
     	T r = createTestResource();
-    	String responseBody = preparePost().setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
+    	String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
     	r = (T)JsonHelper.deserialize(responseBody, r.getClass());
         Assert.assertNotNull("Resource not created", r);
 
-        Response response = prepareDelete("/" + getResourceId(r)).execute().get();
+        Response response = prepareDelete(getResourcePath() + "/" + getResourceId(r)).execute().get();
         Assert.assertEquals(Http.NO_CONTENT, response.getStatusCode());
         
-        response = prepareGet("/" + getResourceId(r)).execute().get();
+        response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
         Assert.assertEquals(Http.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
     public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         T r = createTestResource();
-        String responseBody = preparePost().setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
+        String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
         r = (T)JsonHelper.deserialize(responseBody, r.getClass());
         
-        Response response = prepareGet("/" + getResourceId(r)).execute().get();
+        Response response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
         Assert.assertEquals("Unable to find resource", Http.OK, response.getStatusCode());
     }
 
     @Test
     public void testUpdate() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         T r1 = createTestResource();
-        String responseBody1 = preparePost().setBody(JsonHelper.serialize(r1)).execute().get().getResponseBody();
+        String responseBody1 = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r1)).execute().get().getResponseBody();
         T r2 = udpateTestResource(r1);
-        String responseBody2 = preparePut().setBody(JsonHelper.serialize(r2)).execute().get().getResponseBody();
+        String responseBody2 = preparePut(getResourcePath()).setBody(JsonHelper.serialize(r2)).execute().get().getResponseBody();
         Assert.assertFalse(responseBody1.equals(responseBody2));
     }
 
-	@Override
-	protected BoundRequestBuilder prepareGet(String path) {
-		return super.prepareGet(getResourcePath() + path);
 	}
-
-	@Override
-	protected BoundRequestBuilder preparePost(String path) {
-		return super.preparePost(getResourcePath() + path);
-	}
-
-	@Override
-	protected BoundRequestBuilder preparePut(String path) {
-		return super.preparePut(getResourcePath() + path);
-	}
-
-	@Override
-	protected BoundRequestBuilder prepareDelete(String path) {
-		return super.prepareDelete(getResourcePath() + path);
-	}
-}

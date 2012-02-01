@@ -22,5 +22,7 @@ public class Http {
 	public final static int NOT_FOUND = 404;
 	public final static int NOT_ACCEPTABLE = 406;
 	public final static int CONFLICT = 409;
+	public final static int INTERNAL_SERVER_ERROR = 500;
+	
 
 }
