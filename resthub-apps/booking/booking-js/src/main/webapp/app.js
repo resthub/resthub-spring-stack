@@ -13,6 +13,7 @@ define([ 'lib/resthub',
 		
 		OAuth2Client.clientId = "booking";
 		OAuth2Client.clientSecret = "";
+		OAuth2Client.tokenEndPoint = 'oauth/token';
 		
 		// Store default values
 		$.storage.set('search-size', 5);

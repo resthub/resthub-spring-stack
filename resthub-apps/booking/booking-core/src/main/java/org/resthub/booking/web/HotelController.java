@@ -35,9 +35,9 @@ public class HotelController extends GenericControllerImpl<Hotel, Long, HotelSer
      *         string is empty, fetch all hotels in DB
      */
     @RequestMapping(method = RequestMethod.GET, value = "search") @ResponseBody
-    public PageResponse<Hotel> searchHotels(@RequestParam("q") String query,
-            								@RequestParam("page") Integer page, 
-            								@RequestParam("size") Integer size) {
+    public PageResponse<Hotel> searchHotels(@RequestParam(value="q", required=false) String query,
+            								@RequestParam(value="page", required=false) Integer page, 
+            								@RequestParam(value="size", required=false) Integer size) {
     	
     	page = (page == null) ? 0 : page;
         size = (size == null) ? 5 : size;
