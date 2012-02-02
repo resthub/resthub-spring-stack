@@ -1,6 +1,5 @@
 package org.resthub.booking.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -13,8 +12,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -32,10 +31,8 @@ import org.hibernate.search.annotations.Store;
 @Indexed
 @Entity
 @Table(name = "hotel")
-@XmlRootElement
-public class Hotel implements Serializable {
-
-    private static final long serialVersionUID = -9200804524025548138L;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Hotel {
 
     private Long id;
     private String name;

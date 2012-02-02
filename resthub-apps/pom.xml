@@ -15,7 +15,7 @@
 	<description>Sample web applications provided to help you to build your own RESThub based application</description>
 
 	<modules>
-		<module>roundtable</module>
+<!-- 		<module>roundtable</module> -->
 		<module>booking</module>
 	</modules>
         

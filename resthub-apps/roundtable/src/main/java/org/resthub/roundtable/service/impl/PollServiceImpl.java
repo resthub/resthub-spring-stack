@@ -110,4 +110,9 @@ public class PollServiceImpl extends GenericServiceImpl<Poll, Long, PollReposito
     public void rebuildIndex() {
         this.repository.rebuildIndex();
     }
+
+	@Override
+	public Long getIdFromEntity(Poll poll) {
+		return poll.getId();
+	}
 }

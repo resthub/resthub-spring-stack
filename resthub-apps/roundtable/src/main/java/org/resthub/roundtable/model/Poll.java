@@ -18,7 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -35,7 +34,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Indexed
 @Entity
 @Table(name = "poll")
-@XmlRootElement
 public class Poll {
 
     private Long id;

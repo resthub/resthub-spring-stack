@@ -46,4 +46,9 @@ public class UserRepositoryTest extends AbstractRepositoryTest<User, Long, UserR
     	updatedUser = this.repository.save(updatedUser);
         assertEquals("user name should have been modified", CHANGED_TEST_USER_EMAIL, updatedUser.getEmail());
     }
+
+	@Override
+	public Long getIdFromEntity(User user) {
+		return user.getId();
+	}
 }

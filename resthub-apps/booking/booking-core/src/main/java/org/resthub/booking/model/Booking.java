@@ -2,7 +2,6 @@ package org.resthub.booking.model;
 
 import static javax.persistence.TemporalType.DATE;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -14,8 +13,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,9 +32,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "bookings")
-public class Booking implements Serializable {
-
-    private static final long serialVersionUID = -6176295317720795275L;
+public class Booking {
 
     public static final String BY_USERNAME = "Booking.byUsername";
 

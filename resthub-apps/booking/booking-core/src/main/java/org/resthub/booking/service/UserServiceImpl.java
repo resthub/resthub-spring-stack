@@ -57,4 +57,9 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserReposito
 
         return users.get(0);
     }
+
+	@Override
+	public Long getIdFromEntity(User user) {
+		return user.getId();
+	}
 }

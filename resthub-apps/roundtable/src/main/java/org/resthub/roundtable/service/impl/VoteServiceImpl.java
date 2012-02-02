@@ -5,12 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.roundtable.repository.VoteRepository;
-import org.resthub.roundtable.repository.VoterRepository;
 import org.resthub.roundtable.model.Answer;
 import org.resthub.roundtable.model.Poll;
 import org.resthub.roundtable.model.Vote;
 import org.resthub.roundtable.model.Voter;
+import org.resthub.roundtable.repository.VoteRepository;
+import org.resthub.roundtable.repository.VoterRepository;
 import org.resthub.roundtable.service.PollService;
 import org.resthub.roundtable.service.VoteService;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,4 +76,5 @@ public class VoteServiceImpl implements VoteService {
             this.voteRepository.saveAndFlush(vote);
         }
     }
+    
 }

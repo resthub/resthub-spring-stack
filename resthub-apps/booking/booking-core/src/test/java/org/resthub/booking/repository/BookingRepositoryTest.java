@@ -84,4 +84,9 @@ public class BookingRepositoryTest extends AbstractRepositoryTest<Booking, Long,
         assertEquals("bookings list should contain an unique result", 1, bookings.size());
         assertEquals("credit card names should be equals", TEST_CARD_NAME, bookings.get(0).getCreditCardName());
     }
+
+	@Override
+	public Long getIdFromEntity(Booking booking) {
+		return booking.getId();
+	}
 }
