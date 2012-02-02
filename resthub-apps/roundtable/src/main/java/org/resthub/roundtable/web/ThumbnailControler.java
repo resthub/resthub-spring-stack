@@ -2,31 +2,29 @@ package org.resthub.roundtable.web;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 import org.resthub.roundtable.toolkit.ImageTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Thumbnail controller.
  * 
  * @author Nicolas Carlier
  */
-@Path("/thumbnail")
-@Named("thumbnailController")
-@Singleton
+@Controller @RequestMapping("/api/thumbnail")
 public class ThumbnailControler {
     private static final Logger logger = LoggerFactory.getLogger(ThumbnailControler.class);
 
@@ -43,11 +41,12 @@ public class ThumbnailControler {
             dataDir.mkdirs();
     }
 
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getThumbnail(@PathParam("id") String id, @QueryParam("tmp") @DefaultValue("false") Boolean tmp) {
+    
+    @RequestMapping(method=RequestMethod.GET, value= "{id}")
+    public ResponseEntity<File> getThumbnail(@RequestParam("id") String id, @RequestParam(value="tmp", required=false) Boolean tmp) {
 
+    	tmp = (tmp== null) ? false : tmp;
+    	
         String thumbnailDir = new StringBuilder(dataDirPath).append(File.separator).append("thumbnail").toString();
         String thumbnailLocation = new StringBuilder(thumbnailDir).append(File.separator).append(id).toString();
 
@@ -62,19 +61,26 @@ public class ThumbnailControler {
                 illustrationLocation = new StringBuilder(dataDirPath).append(File.separator).append("illustration")
                         .append(File.separator).append(id).toString();
             }
-
+           
             try {
-                ImageTools.createThumbnail(illustrationLocation, thumbnailLocation, 100);
-                file = new File(thumbnailLocation);
-            } catch (IOException ex) {
-                return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
-            } catch (InterruptedException ex) {
-                return Response.serverError().header("Unable to create thumbnail", ex.getMessage()).build();
-            }
+				ImageTools.createThumbnail(illustrationLocation, thumbnailLocation, 100);
+			} catch (IOException | InterruptedException e) {
+				return new ResponseEntity<File>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+            
+            file = new File(thumbnailLocation);
+            
+            
+        
         }
 
         String mt = new MimetypesFileTypeMap().getContentType(file);
-        return Response.ok(file, mt).build();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        
+        responseHeaders.setContentType(MediaType.parseMediaTypes(mt).get(0));
+        
+        return new ResponseEntity<File>(file, responseHeaders, HttpStatus.CREATED);
+
     }
 
 }

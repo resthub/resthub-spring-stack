@@ -37,11 +37,6 @@ public class UserServiceTest extends AbstractServiceTest<User, Long, UserService
     }
 
     @Override
-    public Long getIdFromEntity(User user) {
-        return user.getId();
-    }
-
-    @Override
     @Test
     public void testUpdate() {
 

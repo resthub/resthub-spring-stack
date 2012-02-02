@@ -45,4 +45,9 @@ public class HotelRepositoryTest extends AbstractRepositoryTest<Hotel, Long, Hot
         updatedHotel = this.repository.save(testHotel);
         assertEquals("hotel name should have been modified", CHANGED_TEST_HOTEL_STATE, updatedHotel.getState());
     }
+
+	@Override
+	public Long getIdFromEntity(Hotel hotel) {
+		return hotel.getId();
+	}
 }

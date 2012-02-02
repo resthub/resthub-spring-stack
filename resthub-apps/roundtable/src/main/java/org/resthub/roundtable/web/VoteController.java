@@ -1,38 +1,29 @@
 package org.resthub.roundtable.web;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 
 import org.resthub.roundtable.service.VoteService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Vote controller.
  * 
  * @author Nicolas Carlier
  */
-@Path("/vote")
-@Named("voteController")
-@Singleton
+@Controller @RequestMapping("/api/vote")
 public class VoteController {
 
     protected VoteService voteService;
-
-    @Context
-    private UriInfo uriInfo;
 
     @Inject
     @Named("voteService")
@@ -40,17 +31,12 @@ public class VoteController {
         this.voteService = voteService;
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Response vote(@FormParam(value = "voter") String voter, @FormParam(value = "pid") Long pid,
-            @FormParam(value = "values[]") List<String> values) {
+    @RequestMapping(method = RequestMethod.POST, consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody   
+    public void vote(@RequestParam(value = "voter") String voter, @RequestParam(value = "pid") Long pid,
+    		@RequestParam(value = "values[]") List<String> values) {
 
         this.voteService.vote(voter, pid, values);
-
-        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-        URI uri = uriBuilder.path(pid.toString()).build();
-
-        return Response.created(uri).entity(pid.toString()).build();
     }
 }
