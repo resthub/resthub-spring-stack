@@ -24,7 +24,7 @@
         <log4j.version>1.2.16</log4j.version>
         <slf4j.version>1.6.0</slf4j.version>
         <junit.version>4.8.2</junit.version>
-        <jetty.version>7.5.1.v20110908</jetty.version>
+        <jetty.version>8.1.0.v20120127</jetty.version>
         <jetty.port>8080</jetty.port>
         <hibernate.search.version>3.4.0.Final</hibernate.search.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>

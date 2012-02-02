@@ -3,7 +3,10 @@ package org.resthub.oauth2.client;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.concurrent.ExecutionException;
+
+import javax.servlet.DispatcherType;
 
 import junit.framework.Assert;
 
@@ -67,7 +70,7 @@ public class TestOAuth2Client {
         FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
         filterDef.setName("springSecurityFilterChain");
         filterDef.setInitParameter("contextAttribute", "org.springframework.web.servlet.FrameworkServlet.CONTEXT.spring");
-        context.addFilter(filterDef, "/*", 0);
+        context.addFilter(filterDef, "/*", EnumSet.of (DispatcherType.REQUEST));
                 
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
         servletHolder.setName("spring");

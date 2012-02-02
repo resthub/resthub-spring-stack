@@ -1,5 +1,9 @@
 package org.resthub.web.test;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -89,7 +93,7 @@ public abstract class AbstractWebTest {
         context.addEventListener(new ContextLoaderListener());
         
         if(useOpenEntityManagerInViewFilter) {
-        	context.addFilter(OpenEntityManagerInViewFilter.class, "/*", 1);
+        	context.addFilter(OpenEntityManagerInViewFilter.class, "/*", EnumSet.of (DispatcherType.REQUEST));
         }
 
         // Starts the server.

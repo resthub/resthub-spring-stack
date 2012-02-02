@@ -16,7 +16,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -27,7 +26,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author Nicolas Carlier
  */
 @Entity
-@XmlRootElement
 @Table(name = "voter", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "poll_id" }) })
 @NamedQueries({
         @NamedQuery(name = "existsVoter", query = "select count(vr) from Voter as vr where name = :name and poll.id = :pid"),

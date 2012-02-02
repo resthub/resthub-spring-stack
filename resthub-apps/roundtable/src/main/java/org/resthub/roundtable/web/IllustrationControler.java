@@ -1,37 +1,30 @@
 package org.resthub.roundtable.web;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.resthub.web.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Illustration controller.
@@ -72,58 +65,58 @@ public class IllustrationControler {
             dataDir.mkdirs();
     }
 
-    @POST
-    @Path("/upload")
-    @Produces(MediaType.TEXT_HTML)
-    public Response upload(@Context HttpServletRequest request) {
-        UploadResponse response = new UploadResponse();
-        if (ServletFileUpload.isMultipartContent(request)) {
-            FileItemFactory factory = new DiskFileItemFactory();
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            List<FileItem> items = null;
-            try {
-                items = upload.parseRequest(request);
-            } catch (FileUploadException ex) {
-                return Response.serverError().header("FileUploadException", ex.getMessage()).build();
-            }
-            if (items != null) {
-                Iterator<FileItem> iter = items.iterator();
-                while (iter.hasNext()) {
-                    FileItem item = iter.next();
-                    if (!item.isFormField() && item.getSize() > 0) {
-                        String fileName = processFileName(item.getName());
-                        logger.debug("Uploading file : {} ...", fileName);
-                        File targetFile = null;
-                        try {
-                            targetFile = File.createTempFile("rt_", ".attachement");
-                            targetFile.deleteOnExit();
-                            item.write(targetFile);
-                        } catch (Exception ex) {
-                            return Response.serverError().header("FileUploadException", ex.getMessage()).build();
-                        }
-                        response.addUploadRef(getFileRef(targetFile.getAbsolutePath()));
-                        logger.debug("File {} uploaded ({}).", fileName, targetFile.getAbsolutePath());
-                    }
-                }
-            }
-        }
-        return Response.ok(response.build()).build();
+
+    @RequestMapping(method = RequestMethod.POST, value = "upload") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void upload(@RequestParam("file") MultipartFile file) throws IOException {
+        
+    	InputStream in = file.getInputStream();
+    	
+//    	UploadResponse response = new UploadResponse();
+//        if (ServletFileUpload.isMultipartContent(request)) {
+//            FileItemFactory factory = new DiskFileItemFactory();
+//            ServletFileUpload upload = new ServletFileUpload(factory);
+//            List<FileItem> items = null;
+//           
+//                items = upload.parseRequest(request);
+//            
+//            if (items != null) {
+//                Iterator<FileItem> iter = items.iterator();
+//                while (iter.hasNext()) {
+//                    FileItem item = iter.next();
+//                    if (!item.isFormField() && item.getSize() > 0) {
+//                        String fileName = processFileName(item.getName());
+//                        logger.debug("Uploading file : {} ...", fileName);
+//                        File targetFile = null;
+//                        try {
+//                            targetFile = File.createTempFile("rt_", ".attachement");
+//                            targetFile.deleteOnExit();
+//                            item.write(targetFile);
+//                        } catch (Exception ex) {
+//                            return Response.serverError().header("FileUploadException", ex.getMessage()).build();
+//                        }
+//                        response.addUploadRef(getFileRef(targetFile.getAbsolutePath()));
+//                        logger.debug("File {} uploaded ({}).", fileName, targetFile.getAbsolutePath());
+//                    }
+//                }
+//            }
+//        }
+//        return Response.ok(response.build()).build();
     }
 
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getIllustration(@PathParam("id") String id) {
+
+    
+    @RequestMapping(method = RequestMethod.GET, value = "{id}") @ResponseBody
+    public ResponseEntity<File> getIllustration(@PathVariable("id") String id) {
         String illustrationLocation = new StringBuilder(this.dataDirPath).append(File.separator).append("illustration")
                 .append(File.separator).append(id).toString();
 
         File file = new File(illustrationLocation);
         if (!file.exists()) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new NotFoundException();
         }
 
         String mt = new MimetypesFileTypeMap().getContentType(file);
-        return Response.ok(file, mt).build();
+        return new ResponseEntity<File>(file, HttpStatus.OK);
     }
 
     private static String processFileName(String fileNameInput) {
