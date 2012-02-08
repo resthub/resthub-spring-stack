@@ -20,6 +20,8 @@
         <module>resthub-parent</module>
         <module>resthub-contract</module>
         <module>resthub-core</module>
+        <module>resthub-core-jpa</module>
+        <module>resthub-core-mongodb</module>
         <module>resthub-web</module>
         <module>resthub-apps</module>
         <module>resthub-archetype</module>
@@ -105,6 +107,11 @@
         <repository>
             <id>resthub</id>
             <url>http://nexus.pullrequest.org/content/groups/resthub</url>
+        </repository>
+        <repository>
+            <id>spring-snapshot</id>
+            <name>Spring Maven SNAPSHOT Repository</name>
+            <url>http://s3.amazonaws.com/maven.springframework.org/snapshot</url>
         </repository>
     </repositories>
 

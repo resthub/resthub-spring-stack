@@ -12,7 +12,6 @@ import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
 import org.resthub.web.test.AbstractWebTest;
 
-import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.Response;
 
 /**
