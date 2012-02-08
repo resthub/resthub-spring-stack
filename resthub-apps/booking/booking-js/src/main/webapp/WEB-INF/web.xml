@@ -39,13 +39,17 @@
 	</listener>
 	
 	<servlet>
-		<servlet-name>api</servlet-name>
-		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value></param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>api</servlet-name>
-		<url-pattern>/api/*</url-pattern>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>h2console</servlet-name>
@@ -54,7 +58,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>h2console</servlet-name>
-		<url-pattern>/console/database/*</url-pattern>
+		<url-pattern>/console/database/</url-pattern>
 	</servlet-mapping>
 	
 </web-app>

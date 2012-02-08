@@ -5,19 +5,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
 import org.resthub.booking.model.Booking;
 import org.resthub.booking.service.BookingService;
 import org.resthub.web.controller.GenericControllerImpl;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Guillaume Zurbach
  */
-@Path("/booking")
-@Named("bookingController")
+@Controller @RequestMapping("/api/booking")
 public class BookingController extends GenericControllerImpl<Booking, Long, BookingService> {
 
     /**
@@ -35,9 +36,8 @@ public class BookingController extends GenericControllerImpl<Booking, Long, Book
      * 
      * @return all bookings made by user identified by userId
      */
-    @GET
-    @Path("/user/{id}")
-    public List<Booking> getBookingsByUser(@PathParam("id") String userId) {
+    @RequestMapping(method = RequestMethod.GET, value = "user/{id}") @ResponseBody
+    public List<Booking> getBookingsByUser(@PathVariable("id") String userId) {
         List<Booking> bookings = null;
 
         Long id = Long.valueOf(userId);

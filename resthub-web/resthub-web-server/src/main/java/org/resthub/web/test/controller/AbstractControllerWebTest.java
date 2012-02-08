@@ -1,23 +1,25 @@
 package org.resthub.web.test.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status;
+import java.util.concurrent.ExecutionException;
 
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Test;
+import org.resthub.web.Http;
+import org.resthub.web.JsonHelper;
 import org.resthub.web.test.AbstractWebTest;
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
+import com.ning.http.client.Response;
 
 /**
  * Base class for your generic controller integration tests Run an embeded
  * servlet container in order to test your controller
  */
+@SuppressWarnings("unchecked")
 public abstract class AbstractControllerWebTest<T, ID extends Serializable> extends AbstractWebTest {
 
     /**
@@ -43,75 +45,68 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
 
     /**
      * Cleans all persisted objects to simulate transactionnal tests
+     * @throws IOException 
+     * @throws ExecutionException 
+     * @throws InterruptedException 
      */
     @After
     @Override
     public void tearDown() {
-        resource().path(getResourcePath() + "/all").delete();
+    	try {
+    		prepareDelete(getResourcePath() + "/all").execute().get();
+		} catch (InterruptedException | ExecutionException | IOException e) {
+			e.printStackTrace();
+		}
         super.tearDown();
     }
 
-    // -------------------------------------------------------------------------
-    // Tests methods
-
     @Test
-    @SuppressWarnings("unchecked")
-    public void testCreateResource() {
-        WebResource wr = resource().path(getResourcePath());
+    public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
         T r = createTestResource();
-        T res = (T) wr.type(MediaType.APPLICATION_JSON).post(r.getClass(), r);
-        Assert.assertNotNull("Resource not created", res);
+        Response response = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get();
+        r = (T)JsonHelper.deserialize(response.getResponseBody(), r.getClass());
+        Assert.assertNotNull("Resource not created", r);
     }
 
     @Test
-    public void testFindAllResources() {
-        WebResource wr = resource().path(getResourcePath());
-        wr.type(MediaType.APPLICATION_JSON).post(String.class, createTestResource());
-        wr.type(MediaType.APPLICATION_JSON).post(String.class, createTestResource());
-        String response = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
-
-        Assert.assertTrue("Unable to find all resources or bad-formed JSON", response.contains("\"totalElements\":2"));
+    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
+    	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
+    	String responseBody = prepareGet(getResourcePath()).execute().get().getResponseBody();
+        Assert.assertTrue("Unable to find all resources or bad-formed JSON", responseBody.contains("\"totalElements\":2"));
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testDeleteResource() {
-        WebResource wr = resource().path(getResourcePath());
+    public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
+    	T r = createTestResource();
+    	String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
+    	r = (T)JsonHelper.deserialize(responseBody, r.getClass());
+        Assert.assertNotNull("Resource not created", r);
+
+        Response response = prepareDelete(getResourcePath() + "/" + getResourceId(r)).execute().get();
+        Assert.assertEquals(Http.NO_CONTENT, response.getStatusCode());
+        
+        response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
+        Assert.assertEquals(Http.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         T r = createTestResource();
-
-        T res = (T) wr.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(r.getClass(), r);
-        Assert.assertNotNull("Resource not created", res);
-
-        wr = resource().path(getResourcePath() + "/" + getResourceId(res));
-        ClientResponse response = wr.delete(ClientResponse.class);
-        Assert.assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        response = wr.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-        Assert.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+        String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
+        r = (T)JsonHelper.deserialize(responseBody, r.getClass());
+        
+        Response response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
+        Assert.assertEquals("Unable to find resource", Http.OK, response.getStatusCode());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testFindResource() {
-        WebResource wr = resource().path(getResourcePath());
-        T r = createTestResource();
-        T res = (T) wr.type(MediaType.APPLICATION_JSON).post(r.getClass(), r);
-        Assert.assertNotNull("Resource not created", res);
-
-        wr = resource().path(getResourcePath() + "/" + getResourceId(res));
-        ClientResponse cr = wr.get(ClientResponse.class);
-        Assert.assertEquals("Unable to find resource", Status.OK.getStatusCode(), cr.getStatus());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testUpdate() {
+    public void testUpdate() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         T r1 = createTestResource();
-        r1 = (T) resource().path(getResourcePath()).type(MediaType.APPLICATION_JSON).post(r1.getClass(), r1);
-        WebResource wr = resource().path(getResourcePath() + "/" + this.getResourceId(r1));
-        String response1 = wr.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(String.class);
+        String responseBody1 = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r1)).execute().get().getResponseBody();
         T r2 = udpateTestResource(r1);
-        r2 = (T) wr.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).put(r2.getClass(), r2);
-        String response2 = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
-        Assert.assertFalse(response1.equals(response2));
+        String responseBody2 = preparePut(getResourcePath()).setBody(JsonHelper.serialize(r2)).execute().get().getResponseBody();
+        Assert.assertFalse(responseBody1.equals(responseBody2));
     }
-}
+
+	}

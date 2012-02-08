@@ -1,17 +1,12 @@
 package org.resthub.booking.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Email;
@@ -23,13 +18,11 @@ import org.hibernate.validator.constraints.Email;
  */
 @Entity
 @Table(name = "customer")
-@XmlRootElement
-public class User implements Serializable {
+public class User {
 
     public static final String ALL = "User.all";
     public static final String BY_USERNAME_OR_EMAIL = "User.byUserNameOrEmail";
     public static final String BY_CREDENTIALS = "User.byCredentials";
-    private static final long serialVersionUID = 4060967693790504175L;
 
     private Long id;
     private String username;

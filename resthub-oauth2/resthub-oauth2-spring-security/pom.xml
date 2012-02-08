@@ -11,11 +11,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web-server</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>1.0.0.BUILD-SNAPSHOT</version>
@@ -87,6 +82,15 @@
 		<dependency>
 			<artifactId>spring-security-web</artifactId>
 			<groupId>org.springframework.security</groupId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -28,7 +27,6 @@ import org.hibernate.search.annotations.Store;
  */
 @Entity
 @Table(name = "answer")
-@XmlRootElement
 public class Answer {
 
     private Long id;

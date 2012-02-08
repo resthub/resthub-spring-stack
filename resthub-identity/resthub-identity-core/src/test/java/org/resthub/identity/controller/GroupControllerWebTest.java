@@ -2,12 +2,16 @@ package org.resthub.identity.controller;
 
 import static org.junit.Assert.assertTrue;
 
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.Test;
 import org.resthub.identity.model.Group;
 import org.resthub.identity.model.User;
+import org.resthub.web.JsonHelper;
 import org.resthub.web.test.controller.AbstractControllerWebTest;
+
+import com.ning.http.client.Response;
 
 /**
  * 
@@ -51,14 +55,14 @@ public class GroupControllerWebTest extends AbstractControllerWebTest<Group, Lon
     }
 
     @Test
-    public void testShouldGetUsersFromGroup() {
+    public void testShouldGetUsersFromGroup() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
         /* Given a new group */
         String groupName = "testGroup";
         Group g = new Group();
         g.setName(groupName);
 
-        g = resource().path("/api/group").type(MediaType.APPLICATION_JSON).post(Group.class, g);
-
+        Response response = preparePost(getResourcePath()).setBody(JsonHelper.serialize(g)).execute().get();
+        
         /* Given a new user */
         String firstName = "first";
         String lastName = "last";
@@ -70,22 +74,23 @@ public class GroupControllerWebTest extends AbstractControllerWebTest<Group, Lon
         u.setLastName(lastName);
         u.setPassword(password);
         u.setLogin(login);
-        u = resource().path("/api/user").type(MediaType.APPLICATION_JSON).post(User.class, u);
-
+        response = preparePost("/api/user").setBody(JsonHelper.serialize(u)).execute().get();
+        u = JsonHelper.deserialize(response.getResponseBody(), User.class);
+        
         /* Given a link between this user and the group */
-        resource().path("/api/user").path("name").path(u.getLogin()).path("groups").path(g.getName())
-                .type(MediaType.APPLICATION_JSON).put();
-
+        preparePut("/api/user/name/" + u.getLogin() + "/groups/" + g.getName()).execute().get();
+        
         /* When I get the users of the group */
-        String usersFromGroup = resource().path("/api/group").path("name").path(g.getName()).path("users")
-                .accept(MediaType.APPLICATION_JSON).get(String.class);
+        Response responce = prepareGet(getResourcePath() + "/name/" + g.getName() + "/users").execute().get(); 
+        String usersFromGroup = responce.getResponseBody();		
 
         /* Then the list of users contains our user */
         assertTrue("The list of users should contain our just added user", usersFromGroup.contains(u.getLogin()));
 
         /* Cleanup */
-        resource().path("/api/group").path(g.getId().toString()).type(MediaType.APPLICATION_JSON).delete();
-        resource().path("/api/user").path("name").path(u.getLogin()).path("groups").path(g.getName()).type(MediaType.APPLICATION_JSON).delete();
-        resource().path("/api/user").path(u.getId().toString()).type(MediaType.APPLICATION_JSON).delete();
+        prepareDelete(getResourcePath() + g.getId()).execute().get();
+        prepareDelete("/api/user/name/" + u.getLogin() + "/groups/" + g.getName()).execute().get();
+        prepareDelete("/api/user/" + u.getId()).execute().get();
+        
     }
 }
