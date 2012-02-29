@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.resthub.core.exception.AlreadyExistingEntityException;
+import org.resthub.core.service.GenericService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.ConflictException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.response.PageResponse;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,24 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RequestMapping(consumes = "application/json", produces = "application/json")
-public abstract class GenericControllerImpl<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>> implements
+public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>> implements
         GenericController<T, ID> {
 
-    protected R repository;
+    protected S service;
 
-    public void setRepository(R repository) {
-        this.repository = repository;
+    public void setService(S service) {
+        this.service = service;
     }
 
-    /**
-     * Retrieve ID from entity instance.
-     * 
-     * @param resource
-     *            the resource from whom we need primary key
-     * @return The corresponding primary key.
-     */
-    public abstract ID getIdFromEntity(T resource);
-    
     /**
      * {@inheritDoc}
      */
@@ -48,7 +39,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
     @ResponseBody
     public T create(@RequestBody T entity) {
     	try {
-    		return this.repository.save(entity);
+    		return this.service.create(entity);
     	} catch (AlreadyExistingEntityException aee) {
     		throw new ConflictException(aee);
     	}
@@ -63,17 +54,18 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
     public T update(@PathVariable("id") ID id, @RequestBody T entity) {
         Assert.notNull(id, "id cannot be null");
         
-        Serializable entityId = this.getIdFromEntity(entity);
+
+        Serializable entityId = this.service.getIdFromEntity(entity);
         if ((entityId == null) || (!id.equals(entityId))) {
             throw new BadRequestException();
         }
         
-        T retreivedEntity = this.repository.findOne(id);
+        T retreivedEntity = this.service.findById(id);
         if (retreivedEntity == null) {
             throw new NotFoundException();
         }
 
-        return this.repository.save(entity);
+        return this.service.update(entity);
     }
 
     /**
@@ -83,7 +75,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
     @RequestMapping(value = "all", method = RequestMethod.GET)
     @ResponseBody
     public List<T> findAll() {
-        return  (List<T>) this.repository.findAll();
+        return this.service.findAll();
     }
 
     /**
@@ -96,7 +88,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
         page = (page == null) ? 0 : page;
         size = (size == null) ? 5 : size;
 
-        return new PageResponse<T>(this.repository.findAll(new PageRequest(page, size)));
+        return new PageResponse<T>(this.service.findAll(new PageRequest(page, size)));
     }
 
     /**
@@ -106,7 +98,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
     public T findById(@PathVariable("id") ID id) {
-        T entity = this.repository.findOne(id);
+        T entity = this.service.findById(id);
         if (entity == null) {
             throw new NotFoundException();
         }
@@ -121,10 +113,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
     @RequestMapping(value = "all", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete() {
-        Iterable<T> list = repository.findAll();
-        for (T entity : list) {
-            repository.delete(entity);
-        }
+        this.service.deleteAllWithCascade();
     }
 
     /**
@@ -134,6 +123,6 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") ID id) {
-        this.repository.delete(id);
+        this.service.delete(id);
     }
 }
