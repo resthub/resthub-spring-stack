@@ -23,16 +23,13 @@
         <module>resthub-core-jpa</module>
         <module>resthub-core-mongodb</module>
         <module>resthub-web</module>
-        <module>resthub-apps</module>
         <module>resthub-archetype</module>
         <module>resthub-oauth2</module>
-        <module>resthub-identity</module>
         <module>resthub-test-dbunit</module>
     </modules>
 
     <properties>
         <env>local</env>
-        <resthub.js.version>1.1.2.1</resthub.js.version>
     </properties>
 
     <issueManagement>
@@ -101,7 +98,7 @@
         <connection>scm:git:https://github.com/pullrequest/resthub.git</connection>
         <url>https://github.com/pullrequest/resthub/</url>
     </scm>
-        
+
     <repositories>
         <!-- Contains all RESThub artifacts and transitive dependencies -->
         <repository>
@@ -125,34 +122,33 @@
             <url>http://nexus.pullrequest.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-    
+
     <build>
-		<plugins>
-			<plugin>
-            	<groupId>org.apache.maven.plugins</groupId>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
-                	<execution>
-                    		<id>attach-sources</id>
+                    <execution>
+                        <id>attach-sources</id>
                         <phase>package</phase>
                         <goals>
-                        	<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-						</plugin>
-						<plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                        <quiet>true</quiet>
-                        <docencoding>UTF-8</docencoding>
-                        <charset>UTF-8</charset>
-                        <encoding>UTF-8</encoding>
-                        <excludePackageNames>org.resthub.booking.*:org.resthub.roundtable.*:org.resthub.identity.UserInit</excludePackageNames>
-                    </configuration>
-                </plugin>
-				</plugins>
-		</build>
-		
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <quiet>true</quiet>
+                    <docencoding>UTF-8</docencoding>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <excludePackageNames>org.resthub.booking.*:org.resthub.roundtable.*:org.resthub.identity.UserInit</excludePackageNames>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
