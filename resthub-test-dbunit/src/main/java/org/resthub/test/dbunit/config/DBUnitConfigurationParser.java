@@ -48,7 +48,7 @@ public class DBUnitConfigurationParser extends AbstractSingleBeanDefinitionParse
         if (includeElements.size() > 0) {
             List<String> includes = new ArrayList<String>();
             for (Element includeElement : includeElements) {
-                includes.add(includeElement.getNodeValue());
+                includes.add(DomUtils.getTextValue(includeElement));
             }
             builder.addPropertyValue("includeTables", includes);
         }
@@ -57,7 +57,7 @@ public class DBUnitConfigurationParser extends AbstractSingleBeanDefinitionParse
         if (excludeElements.size() > 0) {
             List<String> excludes = new ArrayList<String>();
             for (Element excludeElement : excludeElements) {
-                excludes.add(excludeElement.getNodeValue());
+                excludes.add(DomUtils.getTextValue(excludeElement));
             }
             builder.addPropertyValue("excludeTables", excludes);
         }
