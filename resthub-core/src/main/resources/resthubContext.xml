@@ -31,6 +31,9 @@
 		<prop key="dataSource.poolPreparedStatements">true</prop>
 		<prop key="dataSource.username">sa</prop>
 		<prop key="dataSource.password"></prop>
+                <prop key="dataSource.validationQuery">SELECT 1</prop>
+                <prop key="dataSource.testOnBorrow">true</prop>
+                <prop key="dataSource.testWhileIdle">true</prop>
 
 		<prop key="hibernate.show_sql">false</prop>
 		<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
@@ -51,6 +54,9 @@
 		<property name="poolPreparedStatements" value="${dataSource.poolPreparedStatements}" />
 		<property name="username" value="${dataSource.username}" />
 		<property name="password" value="${dataSource.password}" />
+                <property name="validationQuery" value="${dataSource.validationQuery}" />
+                <property name="testOnBorrow" value="${dataSource.testOnBorrow}" />
+                <property name="testWhileIdle" value="${dataSource.testWhileIdle}" />
 	</bean>
 
 	<bean id="entityManagerFactory"
