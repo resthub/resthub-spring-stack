@@ -16,7 +16,6 @@
 	</security:authentication-manager>
 	
 	
-	
 	<security:http pattern="/oauth/token" create-session="never" authentication-manager-ref="clientAuthenticationManager">
 		<security:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
 		<security:anonymous enabled="false" />
