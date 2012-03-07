@@ -10,6 +10,6 @@ More details on `http://resthub.org <http://resthub.org>`_.
 
 Build status on Travis CI:
 
-.. image:: https://secure.travis-ci.org/pullrequest/resthub.png
+.. image:: https://secure.travis-ci.org/pullrequest/resthub.png?branch=master
    :alt: Build Status
    :target: http://travis-ci.org/pullrequest/resthub
