@@ -27,7 +27,7 @@ import org.resthub.core.util.ClassUtils;
  *            Your generic service class
  */
 public abstract class AbstractServiceTest<T, ID extends Serializable, S extends GenericService<T, ID>> extends
-    AbstractTransactionalTest {
+        AbstractTransactionalTest {
 
     protected static final Logger LOGGER = Logger.getLogger(AbstractServiceTest.class);
 
@@ -51,6 +51,15 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
         this.service = service;
     }
 
+    /**
+     * Retrieve ID from entity instance.
+     * 
+     * @param resource
+     *            the resource from whom we need primary key
+     * @return The corresponding primary key.
+     */
+    public abstract ID getIdFromEntity(T resource);
+
     @SuppressWarnings("unchecked")
     protected T createTestEntity() {
         try {
@@ -64,7 +73,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
     @Before
     public void setUp() {
         T resource = service.create(this.createTestEntity());
-        this.id = service.getIdFromEntity(resource);
+        this.id = this.getIdFromEntity(resource);
     }
 
     @After
@@ -104,7 +113,7 @@ public abstract class AbstractServiceTest<T, ID extends Serializable, S extends 
     public void testFindById() {
         T resource = service.findById(this.id);
         Assert.assertNotNull("Resource should not be null!", resource);
-        Assert.assertEquals("Resource id and resourceId should be equals!", this.id, service.getIdFromEntity(resource));
+        Assert.assertEquals("Resource id and resourceId should be equals!", this.id, this.getIdFromEntity(resource));
     }
 
     @Test

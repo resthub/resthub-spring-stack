@@ -21,14 +21,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RequestMapping(consumes = "application/json", produces = "application/json")
-public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>> implements
-        GenericController<T, ID> {
+public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>>
+        implements GenericController<T, ID> {
 
     protected S service;
 
     public void setService(S service) {
         this.service = service;
     }
+
+    /**
+     * Retrieve ID from entity instance.
+     * 
+     * @param resource
+     *            the resource from whom we need primary key
+     * @return The corresponding primary key.
+     */
+    public abstract ID getIdFromEntity(T resource);
 
     /**
      * {@inheritDoc}
@@ -38,11 +47,11 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public T create(@RequestBody T entity) {
-    	try {
-    		return this.service.create(entity);
-    	} catch (AlreadyExistingEntityException aee) {
-    		throw new ConflictException(aee);
-    	}
+        try {
+            return this.service.create(entity);
+        } catch (AlreadyExistingEntityException aee) {
+            throw new ConflictException(aee);
+        }
     }
 
     /**
@@ -53,13 +62,12 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
     @ResponseStatus(HttpStatus.OK)
     public T update(@PathVariable("id") ID id, @RequestBody T entity) {
         Assert.notNull(id, "id cannot be null");
-        
 
-        Serializable entityId = this.service.getIdFromEntity(entity);
+        Serializable entityId = this.getIdFromEntity(entity);
         if ((entityId == null) || (!id.equals(entityId))) {
             throw new BadRequestException();
         }
-        
+
         T retreivedEntity = this.service.findById(id);
         if (retreivedEntity == null) {
             throw new NotFoundException();
@@ -84,7 +92,8 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
     @Override
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public PageResponse<T> findAll(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size) {
+    public PageResponse<T> findAll(@RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size) {
         page = (page == null) ? 0 : page;
         size = (size == null) ? 5 : size;
 

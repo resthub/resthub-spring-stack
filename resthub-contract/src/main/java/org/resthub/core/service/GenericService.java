@@ -17,15 +17,6 @@ import org.springframework.data.domain.Pageable;
 public interface GenericService<T, ID extends Serializable> {
 
     /**
-     * Retrieve ID from entity instance.
-     * 
-     * @param resource
-     *            the resource from whom we need primary key
-     * @return The corresponding primary key.
-     */
-    ID getIdFromEntity(T resource);
-
-    /**
      * Create new resource.
      * 
      * @param resource
