@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -18,7 +17,6 @@ import org.springframework.util.Assert;
  *            Repository class
  * 
  */
-@Transactional(readOnly = true)
 public abstract class GenericServiceImpl<T, ID extends Serializable, D extends PagingAndSortingRepository<T, ID>>
         implements GenericService<T, ID> {
 
@@ -36,7 +34,6 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends P
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
     public T create(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         return repository.save(resource);
@@ -46,7 +43,6 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends P
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
     public T update(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         return repository.save(resource);
@@ -56,7 +52,6 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends P
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
     public void delete(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         repository.delete(resource);
@@ -66,7 +61,6 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends P
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
     public void delete(ID id) {
         Assert.notNull(id, "Resource ID can't be null");
         repository.delete(id);
@@ -76,7 +70,6 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends P
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
     public void deleteAll() {
         repository.deleteAll();
     }
@@ -85,7 +78,6 @@ public abstract class GenericServiceImpl<T, ID extends Serializable, D extends P
      * {@inheritDoc}
      */
     @Override
-    @Transactional(readOnly = false)
     public void deleteAllWithCascade() {
         Iterable<T> list = repository.findAll();
         for (T entity : list) {
