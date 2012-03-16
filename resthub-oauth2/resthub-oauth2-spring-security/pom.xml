@@ -88,6 +88,10 @@
 			<artifactId>spring-security-web</artifactId>
 			<groupId>org.springframework.security</groupId>
 		</dependency>
+		<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
 	</dependencies>
 
 	<repositories>

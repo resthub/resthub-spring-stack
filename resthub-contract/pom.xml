@@ -18,29 +18,18 @@
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.0-api</artifactId>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>1.0.0.GA</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
-                    <groupId>org.synyx.hades</groupId>
-                    <artifactId>org.synyx.hades</artifactId>
-                  <exclusions>
-                        <exclusion>
-                              <artifactId>aspectjrt</artifactId>
-                              <groupId>org.aspectj</groupId>
-                        </exclusion>
-                        <exclusion>
-                              <artifactId>slf4j-api</artifactId>
-                              <groupId>org.slf4j</groupId>
-                        </exclusion>
-                        <exclusion>
-                              <artifactId>jcl-over-slf4j</artifactId>
-                              <groupId>org.slf4j</groupId>
-                        </exclusion>
-                  </exclusions>
+                <groupId>org.synyx.hades</groupId>
+                <artifactId>org.synyx.hades</artifactId>
+                <optional>true</optional>
             </dependency>
         </dependencies>
 </project>
