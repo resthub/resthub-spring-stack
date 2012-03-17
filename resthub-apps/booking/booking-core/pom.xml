@@ -35,6 +35,11 @@
 			<artifactId>hibernate-search</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.jamonapi</groupId>
+			<artifactId>jamon</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

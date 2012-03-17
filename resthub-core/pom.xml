@@ -115,6 +115,7 @@
 		<dependency>
 			<groupId>com.jamonapi</groupId>
 			<artifactId>jamon</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 	<build>
