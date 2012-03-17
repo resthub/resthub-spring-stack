@@ -259,5 +259,45 @@ For example, to define a CRUD interface for Booking class :
    
    }
 
+Monitoring
+==========
 
+RESThub provides some helpers to monitor your application.
+The monitoring service is based on JAMon (http://jamonapi.sourceforge.net/).
 
+To monitor all methods of a Bean, add annotaion @Monitored upon the service's implementation.
+
+.. code-block:: java
+
+   @Monitored
+   @Named("beanName")
+   public class SampleClass {
+   
+   }
+
+Note: You can exclude some methods by annotated this methods by @NotMonitored.
+
+To activate this annotation add this bean post processor declaration into the application context:
+
+.. code-block:: xml
+
+   <bean class="org.resthub.core.monitoring.MonitoringBeanPostProcessor" />
+
+As soon this processor declared, all methods of the bean are logged in DEBUG output and compute to JAMon metrics.
+
+JAMon metrics are accessible via the MonitorFactory.
+
+.. code-block:: java
+
+   for (Iterator<?> it = MonitorFactory.getFactory().iterator(); it.hasNext();) {			
+      System.out.println(it.next().toString());
+   }
+
+See more way to view metrics at JAMon site.
+
+Another cool feature is that you can monitor SQL orders. To do that edit database.properties
+and change the JDBC Driver by JAMon one:
+
+.. code-block::
+   dataSource.driverClassName=com.jamonapi.proxy.JAMonDriver
+   dataSource.url=jdbc:jamon:h2:mem:resthub:DBjamonrealdriver=org.h2.Driver
