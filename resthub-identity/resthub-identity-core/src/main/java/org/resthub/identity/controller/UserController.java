@@ -28,6 +28,7 @@ import org.springframework.util.Assert;
 
 import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.api.uri.UriComponent;
+import org.resthub.identity.model.UserWithPassword;
 
 @Path("/user")
 /**
@@ -54,6 +55,13 @@ public class UserController extends GenericControllerImpl<User, Long, UserServic
     @RolesAllowed({ "IM_USER_ADMIN" })
     public User create(User user) {
         return super.create(user);
+    }
+  
+    @POST
+    @Path("/with-password")
+    @RolesAllowed({ "IM_USER_ADMIN" })
+    public User create(UserWithPassword userWithPassword) {
+        return super.create(userWithPassword.toUser());
     }
 
     /** Override this methods in order to secure it **/

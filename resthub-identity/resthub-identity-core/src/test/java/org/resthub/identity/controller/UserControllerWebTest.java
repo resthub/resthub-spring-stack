@@ -157,7 +157,7 @@ public class UserControllerWebTest extends AbstractControllerWebTest<User, Long>
         // Given a created user
     	UserWithPassword u = new UserWithPassword(this.createTestResource());
         String password = u.getPassword();
-        User user = resource().path("user").type(MediaType.APPLICATION_JSON).post(User.class, u);
+        User user = resource().path("user/with-password").type(MediaType.APPLICATION_JSON).post(User.class, u);
 
         // When I check his identity
         ClientResponse postAnswerCorrectPass = resource().path("user/checkuser").queryParam("user", user.getLogin())

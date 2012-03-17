@@ -12,18 +12,18 @@
     </description>
 
    <properties>
-        <jersey.version>1.8</jersey.version>
-        <jackson.version>1.7.8</jackson.version>
-        <hibernate.version>3.6.4.Final</hibernate.version>
-        <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
-        <h2.version>1.3.154</h2.version>
+        <jersey.version>1.12</jersey.version>
+        <jackson.version>1.9.5</jackson.version>
+        <hibernate.version>3.6.9.Final</hibernate.version>
+        <hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
+        <h2.version>1.3.164</h2.version>
         <hades.version>2.0.3.RELEASE</hades.version>
-        <spring.version>3.0.5.RELEASE</spring.version>
-        <spring.security.version>3.0.5.RELEASE</spring.security.version>
+        <spring.version>3.0.7.RELEASE</spring.version>
+        <spring.security.version>3.0.7.RELEASE</spring.security.version>
         <log4j.version>1.2.16</log4j.version>
-        <slf4j.version>1.6.0</slf4j.version>
-        <junit.version>4.8.2</junit.version>
-        <jetty.version>7.5.1.v20110908</jetty.version>
+        <slf4j.version>1.6.4</slf4j.version>
+        <junit.version>4.10</junit.version>
+        <jetty.version>7.6.2.v20120308</jetty.version>
         <jetty.port>8080</jetty.port>
         <hibernate.search.version>3.4.0.Final</hibernate.search.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
