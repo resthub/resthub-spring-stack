@@ -8,6 +8,7 @@ import javax.inject.Named;
 import org.resthub.booking.dao.BookingDao;
 import org.resthub.booking.dao.UserDao;
 import org.resthub.booking.model.Booking;
+import org.resthub.core.monitoring.Monitored;
 import org.resthub.core.service.GenericServiceImpl;
 import org.springframework.util.Assert;
 
@@ -15,6 +16,7 @@ import org.springframework.util.Assert;
  * @author Guillaume Zurbach
  * @author bmeurant <Baptiste Meurant>
  */
+@Monitored
 @Named("bookingService")
 public class BookingServiceImpl extends GenericServiceImpl<Booking, Long, BookingDao> implements BookingService {
 

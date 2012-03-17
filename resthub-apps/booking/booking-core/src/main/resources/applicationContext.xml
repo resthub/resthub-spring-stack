@@ -17,5 +17,7 @@
     
     <resthub:include-entities base-package="org.resthub.booking.model" />
     <resthub:include-jaxb-elements base-package="org.resthub.booking.model" />
+	
+	<bean class="org.resthub.core.monitoring.MonitoringBeanPostProcessor" />
 
 </beans>
