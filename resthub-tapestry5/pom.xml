@@ -14,8 +14,8 @@
 	<description>Tapestry5 contributions to integrate to the stack </description>
 
 	<properties>
-		<tapestry.version>5.2.5</tapestry.version>
-		<tapestry.spring.version>5.2.5</tapestry.spring.version>
+		<tapestry.version>5.2.6</tapestry.version>
+		<tapestry.spring.version>${tapestry.version}</tapestry.spring.version>
 		<tapestry.spring.security.version>3.0.0</tapestry.spring.security.version>
 		<tapestry.jpa.version>2.0.2</tapestry.jpa.version>
 	</properties>
