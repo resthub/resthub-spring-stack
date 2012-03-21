@@ -28,14 +28,18 @@ import org.springframework.util.Assert;
 
 import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.api.uri.UriComponent;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.resthub.identity.model.UserWithPassword;
 
-@Path("/user")
 /**
  Front controller for User Management<br/>
  Only ADMINS can access to the globality of this API<br/>
  Specific permissions are given when useful
  */
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Path("/user")
 @Named("userController")
 public class UserController extends GenericControllerImpl<User, Long, UserService> {
 

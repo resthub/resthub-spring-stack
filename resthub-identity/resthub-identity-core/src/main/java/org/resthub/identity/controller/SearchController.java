@@ -25,11 +25,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Front controller for performing searches.
  */
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Path("/search")
 @Named("searchController")
 @RolesAllowed({ "IM_SEARCH" })
-@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class SearchController {
 
     // ----------------------------------------------------------------------------------------------------------------

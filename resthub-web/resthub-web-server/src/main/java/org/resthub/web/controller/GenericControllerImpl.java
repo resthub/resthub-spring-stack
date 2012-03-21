@@ -28,8 +28,8 @@ import org.synyx.hades.domain.PageRequest;
 
 import com.sun.jersey.api.NotFoundException;
 
-@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Consumes({ MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_JSON })
 public abstract class GenericControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>> implements
         GenericController<T, ID> {
 

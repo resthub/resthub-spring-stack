@@ -15,7 +15,7 @@ import org.resthub.web.response.PageResponse;
  * </p>
  * 
  * <p>
- * It provides following generic web services, all usable with XML or JSON
+ * It provides following generic web services with JSON
  * serialization :
  * <ul>
  * <li>GET on / : returns paged response of entities managed by this controller

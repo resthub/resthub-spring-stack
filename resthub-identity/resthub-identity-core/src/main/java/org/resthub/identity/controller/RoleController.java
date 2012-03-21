@@ -17,17 +17,16 @@ import org.resthub.web.controller.GenericControllerImpl;
 
 import com.sun.jersey.api.NotFoundException;
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.resthub.web.response.PageResponse;
 
 /**
  * 
  * @author "Nicolas Morel <nicolas.morel@atosorigin.com>"
  */
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Path("/role")
 @Named("roleController")
 public class RoleController extends GenericControllerImpl<Role, Long, RoleService> {

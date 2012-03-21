@@ -17,7 +17,7 @@ You should import the following module in your application :
 Generic controllers
 ===================
 
-RESThub comes with a Generic REST controller that allows to setup a CRUD webservice in a few lines : `GenericControllerImpl <http://resthub.org/javadoc/1.1/org/resthub/web/controller/GenericControllerImpl.html>`_.
+RESThub comes with a Generic REST controller that allows to setup a JSON CRUD webservice in a few lines : `GenericControllerImpl <http://resthub.org/javadoc/1.1/org/resthub/web/controller/GenericControllerImpl.html>`_.
 
 For example :
 
@@ -47,14 +47,13 @@ Serialization
 Default configuration
 ---------------------
 
-RESThub comes with built-in XML and JSON support for serialization.
+RESThub comes with built-in JSON and XML support for serialization.
 
-XML serialization/deserialization is based on default JAXB Jersey support.
-
-JSON serialization/deserialization is based on `Jackson framework <http://jackson.codehaus.org/>`_, wich is much more powerful and flexible than default Jersey JSON support. Please read `Jackson annotation guide <http://wiki.fasterxml.com/JacksonAnnotations>`_ for details about configuration capabilities.
+JSON serialization/deserialization is enabled by default on GenericController and based on `Jackson framework <http://jackson.codehaus.org/>`_, wich is much more powerful and flexible than default Jersey JSON support. Please read `Jackson annotation guide <http://wiki.fasterxml.com/JacksonAnnotations>`_ for details about configuration capabilities.
 
 Jackson support for JAXB annotations is disabled by default, because they cause a lot of confusion between XML/JSON serialization/deserialization.
 
+XML serialization/deserialization is based on default JAXB Jersey support, and is not activated by default on GenericControler. You can easily activate it with the @Produces and @Consumes annotations on your controller classes.
 
 Include JAXB elements
 ---------------------

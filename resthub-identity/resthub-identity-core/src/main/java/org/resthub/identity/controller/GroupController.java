@@ -20,14 +20,16 @@ import org.resthub.identity.service.UserService;
 import org.resthub.web.controller.GenericControllerImpl;
 
 import com.sun.jersey.api.NotFoundException;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.resthub.web.response.PageResponse;
 
 /**
  * Front controller for Group Management<br/>
  * Only ADMINS can access to this API
  */
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Path("/group")
 @Named("groupController")
 public class GroupController extends GenericControllerImpl<Group, Long, GroupService> {
