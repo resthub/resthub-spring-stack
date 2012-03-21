@@ -21,6 +21,16 @@
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-apache-client4</artifactId>
+                        <exclusions>
+                            <exclusion>
+                                <artifactId>httpclient</artifactId>
+                                <groupId>org.apache.httpcomponents</groupId>
+                            </exclusion>
+                        </exclusions>
+                </dependency>
+                <dependency>
+			<artifactId>httpclient</artifactId>
+                        <groupId>org.apache.httpcomponents</groupId>
 		</dependency>
 	</dependencies>
 </project>
