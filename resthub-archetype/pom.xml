@@ -5,12 +5,12 @@
 	<parent>
 		<artifactId>resthub</artifactId>
 		<groupId>org.resthub</groupId>
-		<version>1.1.4-SNAPSHOT</version>
+		<version>1.1.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>resthub-archetype</artifactId>
-	<version>1.1.4-SNAPSHOT</version>
+	<version>1.1.3</version>
 	<name>RESThub archetypes</name>
 	<packaging>pom</packaging>
 	<description>Archetypes provided to allow quick start for your RESThub based projects</description>
