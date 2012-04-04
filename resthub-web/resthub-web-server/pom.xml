@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.resthub</groupId>
-            <artifactId>resthub-core</artifactId>
+            <artifactId>resthub-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>org.resthub</groupId>
-            <artifactId>resthub-core-jpa</artifactId>
+            <artifactId>resthub-jpa</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

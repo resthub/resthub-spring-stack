@@ -3,7 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.service;
 
-import org.resthub.core.service.GenericService;
+import org.resthub.common.service.GenericService;
 import ${package}.model.Sample;
 
 public interface SampleService extends GenericService<Sample, Long> {

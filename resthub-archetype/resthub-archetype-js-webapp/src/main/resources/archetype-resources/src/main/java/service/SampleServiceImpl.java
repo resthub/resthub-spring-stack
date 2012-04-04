@@ -6,7 +6,7 @@ package ${package}.service;
 import javax.inject.Named;
 import javax.inject.Inject;
 
-import org.resthub.core.service.GenericServiceImpl;
+import org.resthub.common.service.GenericServiceImpl;
 import ${package}.repository.SampleRepository;
 import ${package}.model.Sample;
 

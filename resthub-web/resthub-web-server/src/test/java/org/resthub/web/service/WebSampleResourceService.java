@@ -1,6 +1,6 @@
 package org.resthub.web.service;
 
-import org.resthub.core.service.GenericService;
+import org.resthub.common.service.GenericService;
 import org.resthub.web.model.WebSampleResource;
 
 /**

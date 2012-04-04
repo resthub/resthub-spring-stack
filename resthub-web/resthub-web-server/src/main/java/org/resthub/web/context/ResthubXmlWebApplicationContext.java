@@ -15,7 +15,7 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
  * <param-value>org.kazansource
  * .core.context.KazanXmlWebApplicationContext</param-value> </context-param>
  * 
- * @see org.resthub.core.context.ResthubXmlContextLoader
+ * @see org.resthub.common.context.ResthubXmlContextLoader
  */
 public class ResthubXmlWebApplicationContext extends XmlWebApplicationContext {
 

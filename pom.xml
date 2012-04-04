@@ -19,9 +19,9 @@
     <modules>
         <module>resthub-parent</module>
         <module>resthub-contract</module>
-        <module>resthub-core</module>
-        <module>resthub-core-jpa</module>
-        <module>resthub-core-mongodb</module>
+        <module>resthub-common</module>
+        <module>resthub-jpa</module>
+        <module>resthub-mongodb</module>
         <module>resthub-web</module>
         <module>resthub-archetype</module>
         <module>resthub-oauth2</module>

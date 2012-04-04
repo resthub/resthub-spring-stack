@@ -19,7 +19,7 @@
         <!-- We use RESThub core classes and dependencies built around Spring 3 -->
         <dependency>
             <groupId>org.resthub</groupId>
-            <artifactId>resthub-core-jpa</artifactId>
+            <artifactId>resthub-jpa</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

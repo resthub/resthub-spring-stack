@@ -5,7 +5,7 @@ package ${package}.service;
 
 import javax.inject.Named;
 import javax.inject.Inject;
-import org.resthub.core.util.PostInitialize;
+import org.resthub.common.util.PostInitialize;
 import ${package}.model.Sample;
 
 @Named("sampleInit")

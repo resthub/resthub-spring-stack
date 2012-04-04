@@ -7,7 +7,7 @@ package ${package}.test;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.resthub.core.test.service.AbstractServiceTest;
+import org.resthub.common.test.service.AbstractServiceTest;
 import ${package}.model.Sample;
 import ${package}.service.SampleService;
 

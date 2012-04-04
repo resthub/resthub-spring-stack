@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.resthub" />
+
+    <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
+        ignore-resource-not-found="true" ignore-unresolvable="true" />
+
+    <util:properties id="databaseProperties">
+        <prop key="database.dbname">resthub</prop>
+        <prop key="database.host">localhost</prop>
+        <prop key="database.port">27017</prop>
+
+        <prop key="database.connectionsPerHost">10</prop>
+        <prop key="database.threadsAllowedToBlockForConnectionMultiplier">5</prop>
+        <prop key="database.connectTimeout">0</prop>
+        <prop key="database.maxWaitTime">120000</prop>
+        <prop key="database.autoConnectRetry">false</prop>
+        <prop key="database.socketKeepAlive">false</prop>
+        <prop key="database.socketTimeout">0</prop>
+        <prop key="database.slaveOk">false</prop>
+        <prop key="database.writeNumber">0</prop>
+        <prop key="database.writeTimeout">0</prop>
+        <prop key="database.writeFsync">false</prop>
+    </util:properties>
+
+    <mongo:mongo host="${database.host}" port="${database.port}">
+        <mongo:options connections-per-host="${database.connectionsPerHost}"
+                       threads-allowed-to-block-for-connection-multiplier="${database.threadsAllowedToBlockForConnectionMultiplier}"
+                       connect-timeout="${database.connectTimeout}" 
+                       max-wait-time="${database.maxWaitTime}" 
+                       auto-connect-retry="${database.autoConnectRetry}"
+                       socket-keep-alive="${database.socketKeepAlive}" 
+                       socket-timeout="${database.socketTimeout}" 
+                       slave-ok="${database.slaveOk}"
+                       write-number="${database.writeNumber}" 
+                       write-timeout="${database.writeTimeout}" 
+                       write-fsync="${database.writeFsync}" />
+    </mongo:mongo>
+
+    <mongo:db-factory id="mongoDbFactory" dbname="${database.dbname}" mongo-ref="mongo" />
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongoDbFactory" />
+    </bean>
+</beans>

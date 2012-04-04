@@ -3,7 +3,7 @@ package org.resthub.web.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import org.resthub.core.exception.AlreadyExistingEntityException;
+import org.resthub.common.exception.AlreadyExistingEntityException;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.ConflictException;
 import org.resthub.web.exception.NotFoundException;

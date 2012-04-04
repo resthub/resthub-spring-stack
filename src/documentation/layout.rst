@@ -1,5 +1,5 @@
 ==============
-Project layout 
+Project layout
 ==============
 
 Let's take a look at a typical RESThub based application...
@@ -106,7 +106,7 @@ web.xml
       <!--  In order to disable application context XSD validation -->
       <context-param>
          <param-name>contextClass</param-name>
-         <param-value>org.resthub.core.context.ResthubXmlWebApplicationContext</param-value>
+         <param-value>org.resthub.common.context.ResthubXmlWebApplicationContext</param-value>
       </context-param>
 		
 		<!-- Configure application context scanning in all dependencies -->
