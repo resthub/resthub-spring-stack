@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>resthub-jpa</artifactId>
-    <name>RESThub Jpa</name>
+    <name>RESThub JPA</name>
 
     <dependencies>
         <dependency>
