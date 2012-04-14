@@ -70,6 +70,10 @@
             <groupId>org.springframework</groupId>
         </dependency>
         <dependency>
+            <artifactId>spring-jdbc</artifactId>
+            <groupId>org.springframework</groupId>
+        </dependency>
+        <dependency>
             <artifactId>spring-security-core</artifactId>
             <groupId>org.springframework.security</groupId>
             <exclusions>
@@ -91,6 +95,10 @@
                     <artifactId>spring-web</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>spring-jdbc</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -100,7 +108,7 @@
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
     </dependencies>
 
