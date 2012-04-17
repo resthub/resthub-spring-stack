@@ -1,5 +1,5 @@
 /**
  * Reusable base web test classes for generic controllers
  */
-package org.resthub.web.test.controller;
+package org.resthub.test.controller;
 

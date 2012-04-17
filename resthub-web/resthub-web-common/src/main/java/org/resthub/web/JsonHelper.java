@@ -12,9 +12,7 @@ import org.resthub.web.exception.SerializationException;
 
 public class JsonHelper {
 
-    @SuppressWarnings("deprecation")
     protected static ObjectMapper getJsonObjectMapper() {
-
         ObjectMapper mapper = new ObjectMapper();
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
 

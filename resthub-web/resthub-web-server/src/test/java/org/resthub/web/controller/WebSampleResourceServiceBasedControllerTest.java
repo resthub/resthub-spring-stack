@@ -1,7 +1,7 @@
 package org.resthub.web.controller;
 
+import org.resthub.test.controller.AbstractControllerWebTest;
 import org.resthub.web.model.WebSampleResource;
-import org.resthub.web.test.controller.AbstractControllerWebTest;
 
 public class WebSampleResourceServiceBasedControllerTest extends AbstractControllerWebTest<WebSampleResource, Long> {
 

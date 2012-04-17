@@ -1,54 +1,93 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>resthub-oauth2</artifactId>
         <groupId>org.resthub</groupId>
         <version>2.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>resthub-oauth2-spring-security</artifactId>
     <name>RESThub OAuth2 support based on Spring Security</name>
+
+    <properties>
+        <spring.security.version>3.1.0.RELEASE</spring.security.version>
+        <spring.security.oauth2.version>1.0.0.M6</spring.security.oauth2.version>        
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
-            <version>1.0.0.M6</version>
+            <version>${spring.security.oauth2.version}</version>
             <exclusions>
                 <exclusion>
+                    <groupId>org.springframework</groupId>
                     <artifactId>spring-beans</artifactId>
-                    <groupId>org.springframework</groupId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.springframework</groupId>
                     <artifactId>spring-core</artifactId>
-                    <groupId>org.springframework</groupId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.springframework</groupId>
                     <artifactId>spring-web</artifactId>
-                    <groupId>org.springframework</groupId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.springframework</groupId>
                     <artifactId>spring-context</artifactId>
-                    <groupId>org.springframework</groupId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.springframework</groupId>
                     <artifactId>spring-aop</artifactId>
-                    <groupId>org.springframework</groupId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
-                    <groupId>org.springframework.security</groupId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-config</artifactId>
-                    <groupId>org.springframework.security</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>spring-security-web</artifactId>
                     <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-web</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring.security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <dependency>
             <artifactId>spring-beans</artifactId>
             <groupId>org.springframework</groupId>
@@ -73,34 +112,6 @@
             <artifactId>spring-jdbc</artifactId>
             <groupId>org.springframework</groupId>
         </dependency>
-        <dependency>
-            <artifactId>spring-security-core</artifactId>
-            <groupId>org.springframework.security</groupId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-tx</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <artifactId>spring-security-config</artifactId>
-            <groupId>org.springframework.security</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>spring-security-web</artifactId>
-            <groupId>org.springframework.security</groupId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-web</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-jdbc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <dependency>
             <groupId>javax.inject</groupId>
@@ -111,19 +122,4 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>spring-milestone</id>
-            <name>Spring Framework Milestone Repository</name>
-            <url>http://s3.amazonaws.com/maven.springframework.org/milestone</url>
-        </repository>
-        <repository>
-            <id>spring-snapshot</id>
-            <url>http://maven.springframework.org/snapshot</url>
-        </repository>
-
-
-    </repositories>
-
 </project>

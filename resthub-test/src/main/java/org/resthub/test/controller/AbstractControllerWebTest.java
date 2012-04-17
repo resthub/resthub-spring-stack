@@ -1,4 +1,4 @@
-package org.resthub.web.test.controller;
+package org.resthub.test.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -8,9 +8,9 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Test;
+import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
-import org.resthub.web.test.AbstractWebTest;
 
 import com.ning.http.client.Response;
 

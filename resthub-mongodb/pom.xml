@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.resthub</groupId>
@@ -9,9 +10,13 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>resthub-mongodb</artifactId>
     <name>RESThub Mongodb</name>
+
+    <properties>
+        <spring.data.mongodb.version>1.0.1.RELEASE</spring.data.mongodb.version>
+        <mongo.version>2.7.1</mongo.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -23,11 +28,22 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring.data.mongodb.version}</version>
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

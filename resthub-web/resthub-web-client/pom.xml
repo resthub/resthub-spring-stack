@@ -1,48 +1,48 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>resthub-web</artifactId>
-		<groupId>org.resthub</groupId>
-		<version>2.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
-	<artifactId>resthub-web-client</artifactId>
-	<name>RESThub webservices client</name>
-	<packaging>jar</packaging>
-	<description>RESThub webservice client for requesting REST webservices with JSON support bundled</description>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-web-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-             <groupId>com.ning</groupId>
-             <artifactId>async-http-client</artifactId>
-             <version>1.7.3</version>
-         </dependency>
-         <dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>test-jetty-servlet</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.resthub</groupId>
-			<artifactId>resthub-oauth2-spring-security</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <parent>
+        <artifactId>resthub-web</artifactId>
+        <groupId>org.resthub</groupId>
+        <version>2.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>resthub-web-client</artifactId>
+    <name>RESThub webservices client</name>
+    <description>RESThub webservice client for requesting REST webservices with JSON support bundled</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.resthub</groupId>
+            <artifactId>resthub-web-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ning</groupId>
+            <artifactId>async-http-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>test-jetty-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.resthub</groupId>
+            <artifactId>resthub-oauth2-spring-security</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

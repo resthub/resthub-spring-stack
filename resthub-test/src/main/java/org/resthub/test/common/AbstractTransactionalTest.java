@@ -1,4 +1,4 @@
-package org.resthub.common.test;
+package org.resthub.test.common;
 
 import org.junit.runner.RunWith;
 import org.resthub.common.context.ResthubXmlContextLoader;

@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import junit.framework.Assert;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.Test;
-import org.resthub.common.test.AbstractTest;
+import org.resthub.test.common.AbstractTest;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 public class DefaultDatabaseConfigurationTest extends AbstractTest {
@@ -34,7 +34,6 @@ public class DefaultDatabaseConfigurationTest extends AbstractTest {
         Assert.assertEquals("true", jpaProperties.get("hibernate.format_sql"));
         Assert.assertEquals("update", jpaProperties.get("hibernate.hbm2ddl.auto"));
         Assert.assertEquals("true", jpaProperties.get("hibernate.cache.use_second_level_cache"));
-        Assert.assertEquals("net.sf.ehcache.hibernate.SingletonEhCacheProvider",
-                jpaProperties.get("hibernate.cache.provider_class"));
+        Assert.assertEquals("net.sf.ehcache.hibernate.SingletonEhCacheProvider", jpaProperties.get("hibernate.cache.provider_class"));
     }
 }
