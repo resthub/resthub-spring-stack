@@ -7,3 +7,9 @@ It offers modular sets of functionalities :
 
 Javadoc is available `here <http://resthub.org/javadoc/1.1>`_.
 More details on `http://resthub.org <http://resthub.org>`_. 
+
+Build status on Travis CI:
+
+.. image:: https://secure.travis-ci.org/pullrequest/resthub.png?branch=resthub2
+   :alt: Build Status
+   :target: http://travis-ci.org/pullrequest/resthub
