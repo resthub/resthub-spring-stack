@@ -1,4 +1,4 @@
-package org.resthub.common.context;
+package org.resthub.test.context;
 
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -17,7 +17,7 @@ import org.springframework.test.context.support.GenericXmlContextLoader;
  * 
  * @ContextConfiguration(loader=ResthubXmlContextLoader.class)
  * 
- * @see org.resthub.common.context.ResthubXmlWebApplicationContext
+ * @see org.resthub.test.context.ResthubXmlWebApplicationContext
  */
 public class ResthubXmlContextLoader extends GenericXmlContextLoader {
 

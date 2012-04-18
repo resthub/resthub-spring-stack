@@ -13,10 +13,10 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
  * In order to use it, add the following lines to your web.xml file :
  * <context-param> 
  * <param-name>contextClass</param-name>
- * <param-value>org.kazansource.core.context.KazanXmlWebApplicationContext</param-value> 
+ * <param-value>org.resthub.web.context.ResthubXmlWebApplicationContext</param-value> 
  * </context-param>
  * 
- * @see org.resthub.common.context.ResthubXmlContextLoader
+ * @see org.resthub.common.context.ResthubXmlWebApplicationContext
  */
 public class ResthubXmlWebApplicationContext extends XmlWebApplicationContext {
 
