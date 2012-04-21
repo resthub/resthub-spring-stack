@@ -2,11 +2,11 @@ package org.resthub.jpa.config.database;
 
 import java.util.Map;
 import javax.inject.Inject;
-import junit.framework.Assert;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.junit.Test;
 import org.resthub.test.common.AbstractTest;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class DefaultDatabaseConfigurationTest extends AbstractTest {
 

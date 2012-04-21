@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>resthub-archetype</artifactId>
-	<name>RESThub archetypes</name>
+	<name>RESThub Archetypes</name>
 	<packaging>pom</packaging>
 	<description>Archetypes provided to allow quick start for your RESThub based projects</description>
 

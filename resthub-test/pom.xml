@@ -11,7 +11,7 @@
 
     <artifactId>resthub-test</artifactId>
     <name>RESThub Test</name>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.resthub</groupId>
@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>org.resthub</groupId>
-            <artifactId>resthub-web-common</artifactId>
+            <artifactId>resthub-web-client</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -31,11 +31,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ning</groupId>
-            <artifactId>async-http-client</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
@@ -44,8 +40,19 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>  
+            <version>1.9.0</version> 
             <scope>compile</scope>
         </dependency>
         <dependency>

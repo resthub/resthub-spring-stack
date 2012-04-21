@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>resthub-web-server</artifactId>
-    <name>RESThub webservices server</name>
+    <name>RESThub Webservice Server</name>
     <packaging>jar</packaging>
     <description>RESThub support for Generic JAX-RS server</description>
 
@@ -25,34 +25,24 @@
             <artifactId>resthub-web-client</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- <dependency> -->
-        <!-- <groupId>org.springframework</groupId> -->
-        <!-- <artifactId>spring-orm</artifactId> -->
-        <!-- </dependency> -->
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-xc</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
+        
         <dependency>
             <groupId>org.resthub</groupId>
             <artifactId>resthub-test</artifactId>

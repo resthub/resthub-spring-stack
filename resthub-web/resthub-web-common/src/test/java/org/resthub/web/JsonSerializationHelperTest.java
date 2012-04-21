@@ -1,10 +1,9 @@
 package org.resthub.web;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
 import org.resthub.web.exception.SerializationException;
 import org.resthub.web.model.SampleResource;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class JsonSerializationHelperTest {
 
@@ -30,7 +29,7 @@ public class JsonSerializationHelperTest {
         Assert.assertTrue(r.getDescription().equals("desc"));
     }
     
-    @Test(expected=SerializationException.class)
+    @Test(expectedExceptions=SerializationException.class)
     public void testInvalidDeserialization() {
         JsonHelper.deserialize("Invalid content", SampleResource.class);
     }

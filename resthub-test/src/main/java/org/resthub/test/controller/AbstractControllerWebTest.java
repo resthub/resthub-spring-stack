@@ -1,18 +1,17 @@
 package org.resthub.test.controller;
 
+import com.ning.http.client.Response;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
-
-import junit.framework.Assert;
-
-import org.junit.After;
-import org.junit.Test;
 import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
-
-import com.ning.http.client.Response;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  * Base class for your generic controller integration tests Run an embeded
@@ -48,15 +47,13 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
      * @throws ExecutionException 
      * @throws InterruptedException 
      */
-    @After
-    @Override
+    @AfterTest
     public void tearDown() {
     	try {
     		prepareDelete(getResourcePath() + "/all").execute().get();
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			e.printStackTrace();
 		}
-        super.tearDown();
     }
 
     @Test
@@ -64,7 +61,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         T r = createTestResource();
         Response response = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get();
         r = (T)JsonHelper.deserialize(response.getResponseBody(), r.getClass());
-        Assert.assertNotNull("Resource not created", r);
+        Assert.assertNotNull(r, "Resource not created");
     }
 
     @Test
@@ -72,7 +69,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
     	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
     	String responseBody = prepareGet(getResourcePath()).execute().get().getResponseBody();
-        Assert.assertTrue("Unable to find all resources or bad-formed JSON", responseBody.contains("\"totalElements\":2"));
+        assertThat(responseBody, containsString("\"totalElements\":2"));
     }
 
     @Test
@@ -80,7 +77,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     	T r = createTestResource();
     	String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
     	r = (T)JsonHelper.deserialize(responseBody, r.getClass());
-        Assert.assertNotNull("Resource not created", r);
+        Assert.assertNotNull(r, "Resource not created");
 
         Response response = prepareDelete(getResourcePath() + "/" + getResourceId(r)).execute().get();
         Assert.assertEquals(Http.NO_CONTENT, response.getStatusCode());
@@ -96,7 +93,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         r = (T)JsonHelper.deserialize(responseBody, r.getClass());
         
         Response response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
-        Assert.assertEquals("Unable to find resource", Http.OK, response.getStatusCode());
+        Assert.assertEquals(Http.OK, response.getStatusCode(), "Unable to find resource");
     }
 
     @Test

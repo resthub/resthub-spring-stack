@@ -2,7 +2,6 @@ package org.resthub.web;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;

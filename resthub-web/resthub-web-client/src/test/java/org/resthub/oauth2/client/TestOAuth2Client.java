@@ -1,32 +1,28 @@
 package org.resthub.oauth2.client;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.EnumSet;
-import java.util.concurrent.ExecutionException;
-
-import javax.servlet.DispatcherType;
-
-import junit.framework.Assert;
-
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.resthub.web.Http;
-import org.resthub.web.oauth2.OAuth2RequestFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.servlet.DispatcherServlet;
-
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm;
 import com.ning.http.client.Response;
+import java.io.IOException;
+import java.util.EnumSet;
+import java.util.concurrent.ExecutionException;
+import javax.servlet.DispatcherType;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import org.resthub.web.Http;
+import org.resthub.web.oauth2.OAuth2RequestFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 /**
  * Tests the the TokenFactory utility class. Launches an in-memory jetty server
@@ -46,7 +42,6 @@ public class TestOAuth2Client {
     public static final int PORT = 9796;
     public static final String BASE_URL = "http://localhost:" + PORT;
     public static final String ACCESS_TOKEN_ENDPOINT = BASE_URL + "/oauth/token";
-    public static final String contextClass = "org.resthub.web.context.ResthubXmlWebApplicationContext";
 
     /**
      * Jetty memory server instance.
@@ -57,14 +52,13 @@ public class TestOAuth2Client {
     /**
      * Before the test suite, launches a Jetty in memory server.
      */
-    @BeforeClass
-    public static void suiteSetUp() throws Exception {
+    @BeforeTest
+    public void beforeClass() throws Exception {
         // Creates a Jetty server.
         server = new Server(PORT);
 
         // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.getInitParams().put("contextClass", contextClass);
         context.setDisplayName("resthub test webapp");
                 
         FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
@@ -90,8 +84,8 @@ public class TestOAuth2Client {
     /**
      * After the test suite, stops the Jetty in memory server.
      */
-    @AfterClass
-    public static void suiteTearDown() throws Exception {
+    @AfterTest
+    public void afterClass() throws Exception {
         if (server != null) {
             server.stop();
         }
@@ -103,7 +97,7 @@ public class TestOAuth2Client {
     	AsyncHttpClient client = new AsyncHttpClient(builder.build());
     	
         String result = client.prepareGet(BASE_URL + "/api/resource/hello").setRealm(new Realm.RealmBuilder().setPrincipal("test").setPassword("t3st").build()).execute().get().getResponseBody();
-        assertEquals("Hello", result);
+        assertThat(result, equalTo("Hello"));
     }
 
     @Test

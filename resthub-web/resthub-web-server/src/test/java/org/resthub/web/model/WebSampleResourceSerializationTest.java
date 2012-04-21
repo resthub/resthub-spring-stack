@@ -1,9 +1,8 @@
 package org.resthub.web.model;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
 import org.resthub.web.JsonHelper;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class WebSampleResourceSerializationTest {
 

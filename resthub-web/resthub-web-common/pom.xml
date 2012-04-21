@@ -10,18 +10,23 @@
     </parent>
 
     <artifactId>resthub-web-common</artifactId>
-    <name>RESThub webservices common</name>
+    <name>RESThub Webservice Common</name>
     <description>Common classes for both client and server RESThub modules</description>
+    
+    <properties>
+        <jackson.version>1.9.6</jackson.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-xc</artifactId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 </project>

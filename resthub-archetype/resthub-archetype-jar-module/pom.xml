@@ -12,7 +12,7 @@
 	<artifactId>resthub-archetype-jar-module</artifactId>
 	<packaging>maven-archetype</packaging>
 
-	<name>RESThub JAR module archetype</name>
+	<name>RESThub JAR archetype</name>
 
 	<build>
 		<plugins>

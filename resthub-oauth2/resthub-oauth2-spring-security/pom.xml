@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>resthub-oauth2-spring-security</artifactId>
-    <name>RESThub OAuth2 support based on Spring Security</name>
+    <name>RESThub OAuth2</name>
 
     <properties>
         <spring.security.version>3.1.0.RELEASE</spring.security.version>
@@ -107,10 +107,12 @@
         <dependency>
             <artifactId>spring-tx</artifactId>
             <groupId>org.springframework</groupId>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <artifactId>spring-jdbc</artifactId>
             <groupId>org.springframework</groupId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>

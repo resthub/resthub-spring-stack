@@ -12,7 +12,7 @@
 
     <artifactId>resthub-contract</artifactId>
     <packaging>jar</packaging>
-    <name>RESThub contract</name>
+    <name>RESThub Contract</name>
     <description>Contains interface, exception and model classes without carrying all transitive dependencies</description>
 
     <dependencies>

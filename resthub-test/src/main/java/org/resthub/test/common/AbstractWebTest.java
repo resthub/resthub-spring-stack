@@ -1,24 +1,20 @@
 package org.resthub.test.common;
 
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import java.util.EnumSet;
-
 import javax.servlet.DispatcherType;
-
-import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.resthub.web.Http;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.servlet.DispatcherServlet;
-
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 /**
  * Base class for your webservice tests, based on Jetty and with preconfigured
@@ -29,7 +25,6 @@ import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
  * redefine @ContextConfiguration to specify your application context file in
  * addition to resthub ones
  */
-@RunWith(JUnit4.class)
 public abstract class AbstractWebTest {
 
     protected int port = 9797;
@@ -41,7 +36,7 @@ public abstract class AbstractWebTest {
     protected Boolean useOpenEntityManagerInViewFilter = false;
     protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
     
-    protected static final Logger logger = Logger.getLogger(AbstractWebTest.class);
+    protected static final Logger logger = LoggerFactory.getLogger(AbstractWebTest.class);
 
     public int getPort() {
         return this.port;
@@ -74,8 +69,8 @@ public abstract class AbstractWebTest {
         return context;
     }
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public void beforeClass() throws Exception {
         server = new Server(port);
 
         // Add a context for authorization service
@@ -103,8 +98,8 @@ public abstract class AbstractWebTest {
 
     }
 
-    @After
-    public void tearDown() {
+    @AfterClass
+    public void afterClass() {
         if (server != null) {
             try {
                 server.stop();

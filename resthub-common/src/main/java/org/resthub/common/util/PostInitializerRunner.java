@@ -1,15 +1,15 @@
 package org.resthub.common.util;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import javax.inject.Named;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
@@ -24,17 +24,17 @@ import org.springframework.context.event.ContextRefreshedEvent;
 @SuppressWarnings("rawtypes")
 @Named("postInitializerRunner")
 public class PostInitializerRunner implements ApplicationListener {
-    private static final Logger LOG = Logger.getLogger(PostInitializerRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(PostInitializerRunner.class);
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof ContextRefreshedEvent) {
-            LOG.info("Scanning for Post Initializers...");
+            logger.debug("Scanning for Post Initializers...");
             long startTime = System.currentTimeMillis();
             ContextRefreshedEvent contextRefreshedEvent = (ContextRefreshedEvent) event;
             ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();
             Map beans = applicationContext.getBeansOfType(Object.class, false, false);
-            List<PostInitializingMethod> postInitializingMethods = new LinkedList<PostInitializingMethod>();
+            List<PostInitializingMethod> postInitializingMethods = new LinkedList<>();
             for (Object beanNameObject : beans.keySet()) {
                 String beanName = (String) beanNameObject;
                 Object bean = beans.get(beanNameObject);
@@ -46,22 +46,20 @@ public class PostInitializerRunner implements ApplicationListener {
                             int order = getAnnotation(method, PostInitialize.class).order();
                             postInitializingMethods.add(new PostInitializingMethod(method, bean, order, beanName));
                         } else {
-                            LOG.warn("Post Initializer method can't have any arguments. " + method.toGenericString()
-                                    + " in bean " + beanName + " won't be invoked");
+                            logger.warn("Post Initializer method can't have any arguments. {} in bean {} won't be invoked", method.toGenericString(), beanName);
                         }
                     }
                 }
             }
             Collections.sort(postInitializingMethods);
             long endTime = System.currentTimeMillis();
-            if (LOG.isDebugEnabled())
-                LOG.debug("Application Context scan completed, took " + (endTime - startTime) + " ms, "
-                        + postInitializingMethods.size() + " post initializers found. Invoking now.");
+            
+                logger.debug("Application Context scan completed, took {} ms, {} post initializers found. Invoking now.", endTime - startTime, postInitializingMethods.size());
             for (PostInitializingMethod postInitializingMethod : postInitializingMethods) {
                 Method method = postInitializingMethod.getMethod();
                 try {
                     method.invoke(postInitializingMethod.getBeanInstance());
-                } catch (Throwable e) {
+                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                     throw new BeanCreationException("Post Initialization of bean "
                             + postInitializingMethod.getBeanName() + " failed.", e);
                 }
@@ -88,7 +86,7 @@ public class PostInitializerRunner implements ApplicationListener {
                 if (superMethod != null) {
                     return superMethod;
                 }
-            } catch (Exception e) {
+            } catch (NoSuchMethodException | SecurityException e) {
                 return null;
             }
         }

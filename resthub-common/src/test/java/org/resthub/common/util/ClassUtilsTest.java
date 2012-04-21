@@ -1,10 +1,8 @@
 package org.resthub.common.util;
 
 import java.util.ArrayList;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class ClassUtilsTest {
 
@@ -18,8 +16,8 @@ public class ClassUtilsTest {
     public void testGetGenericTypeFromBean() {
         Assert.assertNull(ClassUtils.getGenericTypeFromBean(new Object()));
         Assert.assertNull(ClassUtils.getGenericTypeFromBean(new SampleResource()));
-        Assert.assertEquals("Base class generic type", SampleResource.class,
-                ClassUtils.getGenericTypeFromBean(new SampleResourceArrayList()));
+        Assert.assertEquals(SampleResource.class,
+                ClassUtils.getGenericTypeFromBean(new SampleResourceArrayList()), "Base class generic type");
     }
 
     private static class SampleResource {
