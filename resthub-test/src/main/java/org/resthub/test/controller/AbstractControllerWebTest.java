@@ -4,14 +4,12 @@ import com.ning.http.client.Response;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
+import org.fest.assertions.api.Assertions;
 import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 
 /**
  * Base class for your generic controller integration tests Run an embeded
@@ -50,10 +48,10 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     @AfterTest
     public void tearDown() {
     	try {
-    		prepareDelete(getResourcePath() + "/all").execute().get();
-		} catch (InterruptedException | ExecutionException | IOException e) {
-			e.printStackTrace();
-		}
+            prepareDelete(getResourcePath() + "/all").execute().get();
+            } catch (InterruptedException | ExecutionException | IOException e) {
+                Assertions.fail("Exception during delete all request", e);
+            }
     }
 
     @Test
@@ -61,7 +59,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         T r = createTestResource();
         Response response = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get();
         r = (T)JsonHelper.deserialize(response.getResponseBody(), r.getClass());
-        Assert.assertNotNull(r, "Resource not created");
+        Assertions.assertThat(r).isNotNull();
     }
 
     @Test
@@ -69,7 +67,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
     	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
     	String responseBody = prepareGet(getResourcePath()).execute().get().getResponseBody();
-        assertThat(responseBody, containsString("\"totalElements\":2"));
+        Assertions.assertThat(responseBody).contains("\"totalElements\":2");
     }
 
     @Test
@@ -77,13 +75,13 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     	T r = createTestResource();
     	String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
     	r = (T)JsonHelper.deserialize(responseBody, r.getClass());
-        Assert.assertNotNull(r, "Resource not created");
+        Assertions.assertThat(r).isNotNull();
 
         Response response = prepareDelete(getResourcePath() + "/" + getResourceId(r)).execute().get();
-        Assert.assertEquals(Http.NO_CONTENT, response.getStatusCode());
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.NO_CONTENT);
         
         response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
-        Assert.assertEquals(Http.NOT_FOUND, response.getStatusCode());
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.NOT_FOUND);
     }
 
     @Test
@@ -93,7 +91,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         r = (T)JsonHelper.deserialize(responseBody, r.getClass());
         
         Response response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
-        Assert.assertEquals(Http.OK, response.getStatusCode(), "Unable to find resource");
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.OK);
     }
 
     @Test
@@ -102,7 +100,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
         String responseBody1 = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r1)).execute().get().getResponseBody();
         T r2 = udpateTestResource(r1);
         String responseBody2 = preparePut(getResourcePath()).setBody(JsonHelper.serialize(r2)).execute().get().getResponseBody();
-        Assert.assertFalse(responseBody1.equals(responseBody2));
+        Assertions.assertThat(responseBody1).isNotEqualTo(responseBody2);
     }
 
-	}
+}

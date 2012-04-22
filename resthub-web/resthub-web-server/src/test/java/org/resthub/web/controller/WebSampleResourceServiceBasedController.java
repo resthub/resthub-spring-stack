@@ -8,8 +8,7 @@ import org.resthub.web.service.WebSampleResourceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-@RequestMapping("/resources2")
+@Controller @RequestMapping("/resources2")
 public class WebSampleResourceServiceBasedController extends
         GenericServiceBasedControllerImpl<WebSampleResource, Long, WebSampleResourceService> {
 

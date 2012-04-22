@@ -1,8 +1,8 @@
 package org.resthub.web;
 
+import org.fest.assertions.api.Assertions;
 import org.resthub.web.exception.SerializationException;
 import org.resthub.web.model.SampleResource;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class XmlSerializationHelperTest {
@@ -16,17 +16,17 @@ public class XmlSerializationHelperTest {
         r.setName("Albert");
         r.setDescription("desc");
         String result = XmlHelper.serialize(r);
-        Assert.assertTrue(result.contains("<id>123</id>"));
-        Assert.assertTrue(result.contains("<name>Albert</name>"));
-        Assert.assertTrue(result.contains("<description>desc</description>"));
+        Assertions.assertThat(result).contains("<id>123</id>");
+        Assertions.assertThat(result).contains("<name>Albert</name>");
+        Assertions.assertThat(result).contains("<description>desc</description>");
     }
 
     @Test
     public void testDeserialization() {
         SampleResource r = (SampleResource) XmlHelper.deserialize(xml, SampleResource.class);
-        Assert.assertEquals(new Long(123).longValue(), r.getId().longValue());
-        Assert.assertTrue(r.getName().equals("Albert"));
-        Assert.assertTrue(r.getDescription().equals("desc"));
+        Assertions.assertThat(r.getId()).isEqualTo(123);
+        Assertions.assertThat(r.getName()).isEqualTo("Albert");
+        Assertions.assertThat(r.getDescription()).isEqualTo("desc");
     }
 
     @Test(expectedExceptions=SerializationException.class)

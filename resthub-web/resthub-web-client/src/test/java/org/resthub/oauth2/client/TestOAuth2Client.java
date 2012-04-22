@@ -13,13 +13,11 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.fest.assertions.api.Assertions;
 import org.resthub.web.Http;
 import org.resthub.web.oauth2.OAuth2RequestFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -97,14 +95,14 @@ public class TestOAuth2Client {
     	AsyncHttpClient client = new AsyncHttpClient(builder.build());
     	
         String result = client.prepareGet(BASE_URL + "/api/resource/hello").setRealm(new Realm.RealmBuilder().setPrincipal("test").setPassword("t3st").build()).execute().get().getResponseBody();
-        assertThat(result, equalTo("Hello"));
+        Assertions.assertThat(result).isEqualTo("Hello");
     }
 
     @Test
     public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
     	AsyncHttpClient client = new AsyncHttpClient();
     	Response response = client.prepareGet(BASE_URL + "/api/resource/hello").execute().get();
-    	Assert.assertEquals(Http.UNAUTHORIZED, response.getStatusCode());
+    	Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.UNAUTHORIZED);
     }
 
 }

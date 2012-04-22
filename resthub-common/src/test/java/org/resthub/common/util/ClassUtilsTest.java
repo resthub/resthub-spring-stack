@@ -1,23 +1,22 @@
 package org.resthub.common.util;
 
 import java.util.ArrayList;
-import org.testng.Assert;
+import org.fest.assertions.api.Assertions;
 import org.testng.annotations.Test;
 
 public class ClassUtilsTest {
 
     @Test
     public void testGetGenericType() {
-        Assert.assertNull(ClassUtils.getGenericType(Object.class));
-        Assert.assertNull(ClassUtils.getGenericType(SampleResource.class));
+        Assertions.assertThat(ClassUtils.getGenericType(Object.class)).isNull();
+        Assertions.assertThat(ClassUtils.getGenericType(SampleResource.class)).isNull();
     }
 
     @Test
     public void testGetGenericTypeFromBean() {
-        Assert.assertNull(ClassUtils.getGenericTypeFromBean(new Object()));
-        Assert.assertNull(ClassUtils.getGenericTypeFromBean(new SampleResource()));
-        Assert.assertEquals(SampleResource.class,
-                ClassUtils.getGenericTypeFromBean(new SampleResourceArrayList()), "Base class generic type");
+        Assertions.assertThat(ClassUtils.getGenericTypeFromBean(new Object())).isNull();
+        Assertions.assertThat(ClassUtils.getGenericTypeFromBean(new SampleResource())).isNull();
+        Assertions.assertThat(ClassUtils.getGenericTypeFromBean(new SampleResourceArrayList())).isEqualTo(SampleResource.class);
     }
 
     private static class SampleResource {

@@ -45,8 +45,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert-core</artifactId>
+            <version>${fest.assert.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

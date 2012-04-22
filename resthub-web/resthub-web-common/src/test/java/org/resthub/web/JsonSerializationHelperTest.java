@@ -1,8 +1,8 @@
 package org.resthub.web;
 
+import org.fest.assertions.api.Assertions;
 import org.resthub.web.exception.SerializationException;
 import org.resthub.web.model.SampleResource;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class JsonSerializationHelperTest {
@@ -16,17 +16,17 @@ public class JsonSerializationHelperTest {
         r.setName("Albert");
         r.setDescription("desc");
         String result = JsonHelper.serialize(r);
-        Assert.assertTrue(result.contains("123"));
-        Assert.assertTrue(result.contains("Albert"));
-        Assert.assertTrue(result.contains("desc"));
+        Assertions.assertThat(result).contains("123");
+        Assertions.assertThat(result).contains("Albert");
+        Assertions.assertThat(result).contains("desc");
     }
 
     @Test
     public void testDeserialization() {
         SampleResource r = (SampleResource) JsonHelper.deserialize(json, SampleResource.class);
-        Assert.assertEquals(new Long(123).longValue(), r.getId().longValue());
-        Assert.assertTrue(r.getName().equals("Albert"));
-        Assert.assertTrue(r.getDescription().equals("desc"));
+        Assertions.assertThat(r.getId()).isEqualTo(123);
+        Assertions.assertThat(r.getName()).isEqualTo("Albert");
+        Assertions.assertThat(r.getDescription()).isEqualTo("desc");
     }
     
     @Test(expectedExceptions=SerializationException.class)
