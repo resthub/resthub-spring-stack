@@ -47,7 +47,6 @@
         <dependency>
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert-core</artifactId>
-            <version>${fest.assert.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

@@ -31,7 +31,6 @@
     <modules>
         <module>resthub-archetype</module>
         <module>resthub-common</module>
-        <module>resthub-contract</module>
         <module>resthub-jpa</module>
         <module>resthub-mongodb</module>
         <module>resthub-oauth2</module>

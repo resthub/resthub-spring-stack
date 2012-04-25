@@ -3,9 +3,7 @@ package org.resthub.web.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import org.resthub.common.exception.AlreadyExistingEntityException;
 import org.resthub.web.exception.BadRequestException;
-import org.resthub.web.exception.ConflictException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.response.PageResponse;
 import org.springframework.data.domain.PageRequest;
@@ -47,11 +45,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public T create(@RequestBody T entity) {
-    	try {
-    		return this.repository.save(entity);
-    	} catch (AlreadyExistingEntityException aee) {
-    		throw new ConflictException(aee);
-    	}
+        return this.repository.save(entity);
     }
 
     /**
