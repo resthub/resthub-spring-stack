@@ -11,8 +11,7 @@
 
     <artifactId>resthub-web</artifactId>
     <packaging>pom</packaging>
-    <name>RESThub webservices support</name>
-    <description>REST webservices support</description>
+    <name>RESThub Webservice</name>
 
     <modules>
         <module>resthub-web-common</module>
