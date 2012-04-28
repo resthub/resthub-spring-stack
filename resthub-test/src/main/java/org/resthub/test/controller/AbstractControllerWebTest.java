@@ -1,11 +1,12 @@
 package org.resthub.test.controller;
 
-import com.ning.http.client.Response;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.common.AbstractWebTest;
+import org.resthub.web.Client;
+import org.resthub.web.Client.Response;
 import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
 import org.testng.annotations.AfterTest;
@@ -48,58 +49,56 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     @AfterTest
     public void tearDown() {
     	try {
-            prepareDelete(getResourcePath() + "/all").execute().get();
-            } catch (InterruptedException | ExecutionException | IOException e) {
-                Assertions.fail("Exception during delete all request", e);
-            }
+            Client.url("http://localhost:" + port + getResourcePath() + "/all").delete().get();
+        } catch (InterruptedException | ExecutionException e) {
+            Assertions.fail("Exception during delete all request", e);
+        }
     }
 
     @Test
     public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
         T r = createTestResource();
-        Response response = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get();
-        r = (T)JsonHelper.deserialize(response.getResponseBody(), r.getClass());
+        Response response = Client.url("http://localhost:" + port + getResourcePath()).jsonPost(r).get();
+        r = (T)response.jsonDeserialize(r.getClass());
         Assertions.assertThat(r).isNotNull();
     }
 
     @Test
     public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
-    	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
-    	preparePost(getResourcePath()).setBody(JsonHelper.serialize(createTestResource())).execute().get();
-    	String responseBody = prepareGet(getResourcePath()).execute().get().getResponseBody();
+    	Client.url("http://localhost:" + port + getResourcePath()).jsonPost(createTestResource()).get();
+        Client.url("http://localhost:" + port + getResourcePath()).jsonPost(createTestResource()).get();
+    	String responseBody = Client.url("http://localhost:" + port + getResourcePath()).getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
     }
 
     @Test
     public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
     	T r = createTestResource();
-    	String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
-    	r = (T)JsonHelper.deserialize(responseBody, r.getClass());
+        r = (T)Client.url("http://localhost:" + port + getResourcePath()).jsonPost(r).get().jsonDeserialize(r.getClass());
         Assertions.assertThat(r).isNotNull();
 
-        Response response = prepareDelete(getResourcePath() + "/" + getResourceId(r)).execute().get();
-        Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.NO_CONTENT);
+        Response response = Client.url("http://localhost:" + port + getResourcePath() + "/" + getResourceId(r)).delete().get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.NO_CONTENT);
         
-        response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
-        Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.NOT_FOUND);
+        response = Client.url("http://localhost:" + port + getResourcePath() + "/" + getResourceId(r)).get().get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.NOT_FOUND);
     }
 
     @Test
     public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         T r = createTestResource();
-        String responseBody = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r)).execute().get().getResponseBody();
-        r = (T)JsonHelper.deserialize(responseBody, r.getClass());
+        r = (T)Client.url("http://localhost:" + port + getResourcePath()).jsonPost(r).get().jsonDeserialize(r.getClass());
         
-        Response response = prepareGet(getResourcePath() + "/" + getResourceId(r)).execute().get();
-        Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.OK);
+        Response response = Client.url("http://localhost:" + port + getResourcePath() + "/" + getResourceId(r)).get().get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
     }
 
     @Test
     public void testUpdate() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         T r1 = createTestResource();
-        String responseBody1 = preparePost(getResourcePath()).setBody(JsonHelper.serialize(r1)).execute().get().getResponseBody();
+        String responseBody1 = Client.url("http://localhost:" + port + getResourcePath()).jsonPost(r1).get().getBody();
         T r2 = udpateTestResource(r1);
-        String responseBody2 = preparePut(getResourcePath()).setBody(JsonHelper.serialize(r2)).execute().get().getResponseBody();
+        String responseBody2 = Client.url("http://localhost:" + port + getResourcePath()).jsonPut(r2).get().getBody();
         Assertions.assertThat(responseBody1).isNotEqualTo(responseBody2);
     }
 

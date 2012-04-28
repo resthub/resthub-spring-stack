@@ -4,7 +4,6 @@ import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm;
-import com.ning.http.client.Response;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.concurrent.ExecutionException;
@@ -15,6 +14,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.Http;
+import org.resthub.web.Client;
+import org.resthub.web.Client.Response;
 import org.resthub.web.oauth2.OAuth2RequestFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -74,9 +75,6 @@ public class TestOAuth2Client {
         server.setHandler(context);
         server.start();
 
-        // Initialize OAuth2 authenticator
-        builder = new AsyncHttpClientConfig.Builder();
-        builder.addRequestFilter(new OAuth2RequestFilter(ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET));
     }
 
     /**
@@ -91,18 +89,15 @@ public class TestOAuth2Client {
 
     @Test
     public void testOAuth2SuccessfulRequest() throws IOException, InterruptedException, ExecutionException {
-    	
-    	AsyncHttpClient client = new AsyncHttpClient(builder.build());
-    	
-        String result = client.prepareGet(BASE_URL + "/api/resource/hello").setRealm(new Realm.RealmBuilder().setPrincipal("test").setPassword("t3st").build()).execute().get().getResponseBody();
+    	   	
+        String result = Client.url(BASE_URL + "/api/resource/hello").setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET).get().get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
     }
 
     @Test
     public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
-    	AsyncHttpClient client = new AsyncHttpClient();
-    	Response response = client.prepareGet(BASE_URL + "/api/resource/hello").execute().get();
-    	Assertions.assertThat(response.getStatusCode()).isEqualTo(Http.UNAUTHORIZED);
+    	Response response = Client.url(BASE_URL + "/api/resource/hello").getJson().get();
+    	Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
     }
 
 }

@@ -109,36 +109,4 @@ public abstract class AbstractWebTest {
         }
     }
 
-    protected BoundRequestBuilder prepareGet(String path) {
-        return new AsyncHttpClient().prepareGet("http://localhost:" + port + path).addHeader(Http.ACCEPT, Http.JSON); 
-    }
-    
-    protected BoundRequestBuilder preparePost(String path) {
-        return new AsyncHttpClient().preparePost("http://localhost:" + port + path).addHeader(Http.ACCEPT, Http.JSON).addHeader(Http.CONTENT_TYPE, Http.JSON); 
-    }
-    
-    protected BoundRequestBuilder preparePut(String path) {
-        return new AsyncHttpClient().preparePut("http://localhost:" + port + path).addHeader(Http.ACCEPT, Http.JSON).addHeader(Http.CONTENT_TYPE, Http.JSON); 
-    }
-    
-    protected BoundRequestBuilder prepareDelete(String path) {
-        return new AsyncHttpClient().prepareDelete("http://localhost:" + port + path).addHeader(Http.CONTENT_TYPE, Http.JSON); 
-    }
-    
-    protected BoundRequestBuilder prepareGet() {
-        return this.prepareGet(""); 
-    }
-    
-    protected BoundRequestBuilder preparePost() {
-    	return this.preparePost("");  
-    }
-    
-    protected BoundRequestBuilder preparePut() {
-    	return this.preparePut(""); 
-    }
-    
-    protected BoundRequestBuilder prepareDelete() {
-    	return this.prepareDelete(""); 
-    }
-
 }
