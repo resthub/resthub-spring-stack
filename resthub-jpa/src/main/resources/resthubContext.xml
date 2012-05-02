@@ -31,9 +31,10 @@
         <prop key="hibernate.format_sql">true</prop>
         <prop key="hibernate.hbm2ddl.auto">update</prop>
         <prop key="hibernate.cache.use_second_level_cache">true</prop>
-        <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider
-        </prop>
+        <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop>
         <prop key="hibernate.id.new_generator_mappings">true</prop>
+
+        <prop key="persistenceUnit.packagesToScan"></prop>
     </util:properties>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -55,7 +56,7 @@
                 <property name="showSql" value="${hibernate.show_sql}" />
             </bean>
         </property>
-        <property name="packagesToScan" value="org.resthub" />
+        <property name="packagesToScan" value="${persistenceUnit.packagesToScan}" />
         <property name="jpaProperties" ref="jpaProperties" />
         <property name="dataSource" ref="dataSource" />
     </bean>
