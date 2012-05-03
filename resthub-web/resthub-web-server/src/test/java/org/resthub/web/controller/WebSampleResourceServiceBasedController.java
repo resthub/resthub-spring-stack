@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller @RequestMapping("/resources2")
 public class WebSampleResourceServiceBasedController extends
-        GenericServiceBasedControllerImpl<WebSampleResource, Long, WebSampleResourceService> {
+        ServiceBasedRestController<WebSampleResource, Long, WebSampleResourceService> {
 
     @Inject
     @Named("webSampleResourceService")
@@ -20,7 +20,7 @@ public class WebSampleResourceServiceBasedController extends
     }
 
     @Override
-    public Long getIdFromEntity(WebSampleResource webSampleResource) {
+    public Long getIdFromResource(WebSampleResource webSampleResource) {
         return webSampleResource.getId();
     }
 }

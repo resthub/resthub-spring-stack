@@ -2,48 +2,49 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
-
 import org.resthub.common.service.GenericService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.response.PageResponse;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>>
-        implements GenericController<T, ID> {
+/**
+ * Service based REST controller implementation
+ * You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
+ * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController
+ * 
+ * @see RepositoryBasedRestController
+ **/
+public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends GenericService<T, ID>>
+        implements RestController<T, ID> {
 
     protected S service;
 
+    /**
+     * You should override this setter in order to inject your service with @Inject annotation
+     * @param service The service to be injected
+     */
     public void setService(S service) {
         this.service = service;
     }
 
     /**
-     * Retrieve ID from entity instance.
+     * You should implement this method if order to return the identifier of a resource instance
      * 
-     * @param resource
-     *            the resource from whom we need primary key
-     * @return The corresponding primary key.
+     * @param resource The resource from whom we need the identifier
+     * @return The resource identifier.
      */
-    public abstract ID getIdFromEntity(T resource);
+    public abstract ID getIdFromResource(T resource);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
-    public T create(@RequestBody T entity) {
+    public T create(T entity) {
         return this.service.create(entity);
     }
 
@@ -51,12 +52,10 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
-    public T update(@PathVariable("id") ID id, @RequestBody T entity) {
+    public T update(@PathVariable("id") ID id, @RequestBody T resource) {
         Assert.notNull(id, "id cannot be null");
 
-        Serializable entityId = this.getIdFromEntity(entity);
+        Serializable entityId = this.getIdFromResource(resource);
         if ((entityId == null) || (!id.equals(entityId))) {
             throw new BadRequestException();
         }
@@ -66,15 +65,13 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
             throw new NotFoundException();
         }
 
-        return this.service.update(entity);
+        return this.service.update(resource);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "all", method = RequestMethod.GET)
-    @ResponseBody
     public List<T> findAll() {
         return this.service.findAll();
     }
@@ -83,10 +80,7 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseBody
-    public PageResponse<T> findAll(@RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size) {
+    public PageResponse<T> findAll(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) {
         page = (page == null) ? 0 : page;
         size = (size == null) ? 5 : size;
 
@@ -96,9 +90,6 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
     /**
      * {@inheritDoc}
      */
-    @Override
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    @ResponseBody
     public T findById(@PathVariable("id") ID id) {
         T entity = this.service.findById(id);
         if (entity == null) {
@@ -112,8 +103,6 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "all", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete() {
         this.service.deleteAllWithCascade();
     }
@@ -122,8 +111,6 @@ public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializab
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") ID id) {
         this.service.delete(id);
     }
