@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping(consumes = "application/json", produces = "application/json")
 public abstract class GenericControllerImpl<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>> implements
         GenericController<T, ID> {
 
@@ -112,7 +111,7 @@ public abstract class GenericControllerImpl<T, ID extends Serializable, R extend
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "all", method = RequestMethod.DELETE)
+    @RequestMapping(value="all", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete() {
         Iterable<T> list = repository.findAll();

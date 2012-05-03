@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping(consumes = "application/json", produces = "application/json")
 public abstract class GenericServiceBasedControllerImpl<T, ID extends Serializable, S extends GenericService<T, ID>>
         implements GenericController<T, ID> {
 

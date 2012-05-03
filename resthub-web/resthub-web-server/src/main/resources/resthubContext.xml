@@ -4,22 +4,6 @@
 							http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 							
 	
-	<bean id="contentViewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="mediaTypes">
-			<map>
-				<entry key="json" value="application/json" />
-			</map>
-		</property>
-		<property name="viewResolvers">
-    		<list>
-      			<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
-     		</list>
-  		</property>
-		<property name="defaultViews">
-			<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
-		</property>
-	</bean>
-	
 	<mvc:annotation-driven />
 	
 </beans>

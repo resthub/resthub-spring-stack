@@ -9,6 +9,7 @@ import org.resthub.web.Client;
 import org.resthub.web.Client.Response;
 import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
@@ -46,7 +47,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
      * @throws ExecutionException 
      * @throws InterruptedException 
      */
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
     	try {
             Client.url("http://localhost:" + port + getResourcePath() + "/all").delete().get();
@@ -65,7 +66,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
 
     @Test
     public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
-    	Client.url("http://localhost:" + port + getResourcePath()).jsonPost(createTestResource()).get();
+    	Client.url("http://localhost:" + port + getResourcePath()).jsonPost(createTestResource()). get();
         Client.url("http://localhost:" + port + getResourcePath()).jsonPost(createTestResource()).get();
     	String responseBody = Client.url("http://localhost:" + port + getResourcePath()).getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
