@@ -5,7 +5,7 @@ import java.util.List;
 import org.resthub.common.service.GenericService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.response.PageResponse;
+import org.resthub.web.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Service based REST controller implementation
- * You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
- * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController
+ * Abtract REST controller using a service implementation
+ * 
+ * <p>You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
+ * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController</p>
  * 
  * @see RepositoryBasedRestController
  **/

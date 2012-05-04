@@ -2,13 +2,13 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
+import org.resthub.web.PageResponse;
 import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.response.PageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Generic REST controller interface
+ * REST controller interface
  *
  * @param <T> Your resource POJO to manage, maybe an entity or DTO classed
  * @param <ID> Resource id type, usually Long or String

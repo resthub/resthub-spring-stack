@@ -1,4 +1,4 @@
 /**
- * Customized RESThub XmlWebApplicationContext classes
+ * Customized XmlWebApplicationContext classes
  */
 package org.resthub.web.context;

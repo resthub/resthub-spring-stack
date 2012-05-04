@@ -1,4 +1,4 @@
-package org.resthub.web.response;
+package org.resthub.web;
 
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.springframework.data.domain.Page;
 
 /**
- * Wrapper for paged responses
+ * Wrapper for Spring Data paged responses, builtin support for XML and JSON serialization
  */
 @XmlRootElement
 public class PageResponse<T> {

@@ -1,5 +1,5 @@
 /**
- * Generic REST controllers
+ * Abstract REST controllers
  */
 package org.resthub.web.controller;
 

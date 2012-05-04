@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.response.PageResponse;
+import org.resthub.web.PageResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Repository based REST controller implementation
- * You should extend this class when you want to use a 2 layers pattern : Repository and Controller.
+ * Abtract REST controller using a repository implementation
+ * 
+ * <p>You should extend this class when you want to use a 2 layers pattern : Repository and Controller.
  * This is the default controler implementation to use if you have no service (also called business) layer.
- * You will be able to transform it to a ServiceBasedRestController later easily if needed.
+ * You will be able to transform it to a ServiceBasedRestController later easily if needed.</p>
  * 
  * @see ServiceBasedRestController
  **/
