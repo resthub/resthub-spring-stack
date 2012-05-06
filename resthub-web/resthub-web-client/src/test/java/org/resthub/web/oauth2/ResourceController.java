@@ -1,4 +1,4 @@
-package org.resthub.oauth2.controller;
+package org.resthub.web.oauth2;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller @RequestMapping("/api/resource")
 public class ResourceController {
 
-    @RequestMapping(value= "ping", method = RequestMethod.GET, produces = "application/json") @ResponseBody
+    @RequestMapping(value= "ping", method = RequestMethod.GET) @ResponseBody
     public String sayPing() {
         return "Ping";
     }
 
-    @RequestMapping(value= "hello", method = RequestMethod.GET, produces = "application/json") @ResponseBody
+    @RequestMapping(value= "hello", method = RequestMethod.GET) @ResponseBody
     public String sayHello() {
         return "Hello";
     }
 
-    @RequestMapping(value= "goodbye", method = RequestMethod.GET, produces = "application/json") @ResponseBody
+    @RequestMapping(value= "goodbye", method = RequestMethod.GET) @ResponseBody
     public String sayGoodbye() {
         return "Goodbye";
     }
