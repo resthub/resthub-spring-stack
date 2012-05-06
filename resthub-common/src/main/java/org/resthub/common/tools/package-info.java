@@ -1,6 +1,5 @@
 /**
- * Development tooling intended to improve efficiency. Tooling services
- * are usually used thanks to a debug/development console. 
+ * Development tooling
  */
 package org.resthub.common.tools;
 

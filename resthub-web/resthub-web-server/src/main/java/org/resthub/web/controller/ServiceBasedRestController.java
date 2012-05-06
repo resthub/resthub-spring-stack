@@ -2,7 +2,7 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
-import org.resthub.common.service.GenericService;
+import org.resthub.common.service.RestService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.PageResponse;
@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Abtract REST controller using a service implementation
+ * Abstract REST controller using a service implementation
  * 
  * <p>You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
  * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController</p>
+ *
+ * @param <T> Your resource class to manage, maybe an entity or DTO class
+ * @param <ID> Resource id type, usually Long or String
+ * @param <S> The service class
  * 
  * @see RepositoryBasedRestController
  **/
-public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends GenericService<T, ID>>
+public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends RestService<T, ID>>
         implements RestController<T, ID> {
 
     protected S service;

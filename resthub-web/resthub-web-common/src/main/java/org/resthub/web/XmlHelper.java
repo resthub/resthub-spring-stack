@@ -9,8 +9,16 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import org.resthub.web.exception.SerializationException;
 
+/**
+ * Helper for XML serialization and deserialization
+ */
 public class XmlHelper {
 
+    /**
+     * Serialize and object to an XML String representation
+     * @param o The object to serialize
+     * @return The XML String representation
+     */
     public static String serialize(Object o) {
         JAXBContext jaxbContext;
         try {
@@ -25,6 +33,12 @@ public class XmlHelper {
         }
     }
 
+    /**
+     * Deserialize a XML string
+     * @param content The XML String object representation
+     * @param type The type of the deserialized object instance
+     * @return The deserialized object instance
+     */
     public static <T> T deserialize(String content, Class<T> type) {
         JAXBContext jaxbContext;
         try {

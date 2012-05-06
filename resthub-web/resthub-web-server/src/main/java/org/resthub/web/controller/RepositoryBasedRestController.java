@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Abtract REST controller using a repository implementation
+ * Abstract REST controller using a repository implementation
  * 
  * <p>You should extend this class when you want to use a 2 layers pattern : Repository and Controller.
- * This is the default controler implementation to use if you have no service (also called business) layer.
+ * This is the default controller implementation to use if you have no service (also called business) layer.
  * You will be able to transform it to a ServiceBasedRestController later easily if needed.</p>
+ *
+ * @param <T> Your resource class to manage, maybe an entity or DTO class
+ * @param <ID> Resource id type, usually Long or String
+ * @param <R> The repository class
  * 
  * @see ServiceBasedRestController
  **/

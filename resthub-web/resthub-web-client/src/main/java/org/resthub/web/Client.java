@@ -151,7 +151,6 @@ public class Client {
          * @param accessTokenEndpoint
          * @param clientId
          * @param clientSecret
-         * @param scheme authentication scheme
          */
         public RequestHolder setOAuth2(String username, String password, String accessTokenEndpoint, String clientId, String clientSecret) {
             this.username = username;

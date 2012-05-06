@@ -1,4 +1,4 @@
 /**
- * OAuth2 support for AsyncHttpClient
+ * OAuth2 support
  */
 package org.resthub.web.oauth2;

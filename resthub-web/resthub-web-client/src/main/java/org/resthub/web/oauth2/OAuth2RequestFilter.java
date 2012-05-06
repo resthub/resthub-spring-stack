@@ -1,18 +1,17 @@
 package org.resthub.web.oauth2;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
-import org.resthub.web.Http;
-import org.resthub.web.JsonHelper;
-import org.resthub.web.exception.HttpClientException;
-
 import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.Response;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
+import com.ning.http.client.Response;
 import com.ning.http.client.filter.FilterContext;
 import com.ning.http.client.filter.FilterException;
 import com.ning.http.client.filter.RequestFilter;
+import org.resthub.web.Http;
+import org.resthub.web.JsonHelper;
+import org.resthub.web.exception.SerializationException;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 /**
  * TODO : add a OAuth2ResponseFilter that will try to reauthenticate in cas of FORBIDDEN HTTP status code one time
@@ -80,7 +79,7 @@ public class OAuth2RequestFilter implements RequestFilter {
 			response = request.execute().get();
 			token = JsonHelper.deserialize(response.getResponseBody("UTF-8"), OAuth2Token.class);
 		} catch (InterruptedException | ExecutionException | IOException e) {
-			throw new HttpClientException(e);
+			throw new SerializationException(e);
 		}
 		
 		return token;

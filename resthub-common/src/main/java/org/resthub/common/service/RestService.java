@@ -7,14 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Generic Service interface.
- * 
- * @param <T>
- *            Domain model class managed, must be an Entity
- * @param <ID>
- *            Primary key class of T
+ * Rest Service interface.
+ *
+ * @param <T> Your resource POJO to manage, maybe an entity or DTO class
+ * @param <ID> Resource id type, usually Long or String
  */
-public interface GenericService<T, ID extends Serializable> {
+public interface RestService<T, ID extends Serializable> {
 
     /**
      * Create new resource.
