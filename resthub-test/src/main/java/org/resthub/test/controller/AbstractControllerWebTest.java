@@ -68,7 +68,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
     	Client.url("http://localhost:" + port + getResourcePath()).jsonPost(createTestResource()). get();
         Client.url("http://localhost:" + port + getResourcePath()).jsonPost(createTestResource()).get();
-    	String responseBody = Client.url("http://localhost:" + port + getResourcePath()).getJson().get().getBody();
+    	String responseBody = Client.url("http://localhost:" + port + getResourcePath() + "/paged").getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
     }
 

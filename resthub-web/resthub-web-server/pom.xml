@@ -12,7 +12,7 @@
     <artifactId>resthub-web-server</artifactId>
     <name>RESThub Webservice Server</name>
     <packaging>jar</packaging>
-    <description>RESThub support for Generic JAX-RS server</description>
+    <description>RESThub support for REST webservices based on Spring MVC</description>
 
     <dependencies>
         <dependency>
@@ -36,7 +36,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>javax.servlet</groupId>

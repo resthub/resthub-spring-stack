@@ -25,7 +25,7 @@ public interface RestController<T, ID extends Serializable> {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    T create(T resource);
+    T create(@RequestBody T resource);
 
    /**
      * Update an existing resource<br/>
@@ -46,7 +46,7 @@ public interface RestController<T, ID extends Serializable> {
      *
      * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
      */
-    @RequestMapping(value = "all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     List<T> findAll();
 
@@ -58,9 +58,9 @@ public interface RestController<T, ID extends Serializable> {
      * @param size Number of resources by pages
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value="paged", method = RequestMethod.GET)
     @ResponseBody
-    PageResponse<T> findAll(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size);
+    PageResponse<T> findAll(@RequestParam(value = "page", required = true) Integer page, @RequestParam(value = "size", required = false) Integer size);
 
      /**
      * Find a resource by its identifier<br/>

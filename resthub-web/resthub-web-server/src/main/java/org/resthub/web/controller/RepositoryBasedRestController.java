@@ -50,7 +50,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public T create(T resource) {
+    public T create(@RequestBody T resource) {
         return this.repository.save(resource);
     }
 

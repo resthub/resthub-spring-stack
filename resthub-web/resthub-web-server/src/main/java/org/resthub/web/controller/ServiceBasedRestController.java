@@ -49,7 +49,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public T create(T entity) {
+    public T create(@RequestBody T entity) {
         return this.service.create(entity);
     }
 
