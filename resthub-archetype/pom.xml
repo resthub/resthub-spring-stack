@@ -17,6 +17,7 @@
 	<modules>
 		<module>resthub-archetype-js-webapp</module>
 		<module>resthub-archetype-jar-module</module>
+		<module>resthub-archetype-spring-jpa-webservice</module>
 	</modules>
 
 </project>
