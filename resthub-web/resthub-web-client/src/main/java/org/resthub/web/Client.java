@@ -1,16 +1,25 @@
 package org.resthub.web;
 
-import com.ning.http.client.AsyncHttpClientConfig.Builder;
-import com.ning.http.client.Realm.AuthScheme;
-import com.ning.http.client.Realm.RealmBuilder;
-import com.ning.http.client.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
-import org.resthub.web.Client.Request;
+
 import org.resthub.web.oauth2.OAuth2RequestFilter;
+
+import com.ning.http.client.AsyncCompletionHandler;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClientConfig.Builder;
+import com.ning.http.client.FluentStringsMap;
+import com.ning.http.client.Realm;
+import com.ning.http.client.Realm.AuthScheme;
+import com.ning.http.client.Realm.RealmBuilder;
+import com.ning.http.client.RequestBuilderBase;
 
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play Framework 2 one
