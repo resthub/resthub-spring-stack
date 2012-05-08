@@ -37,7 +37,7 @@ public interface RestController<T, ID extends Serializable> {
      * @throws NotFoundException, BadRequestException
      */
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     T update(@PathVariable("id") ID id, @RequestBody T resource);
 
     /**
