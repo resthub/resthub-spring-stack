@@ -87,12 +87,6 @@
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
-                    <webAppConfig>
-                        <!-- We specify an empty web.xml in Maven Jetty configuration in order to override webdefault.xml, 
-                            as it conflicts with Spring MVC 3.1 dispatcher -->
-                        <defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>
-                        <contextPath>/</contextPath>
-                    </webAppConfig>
                 </configuration>
             </plugin>
         </plugins>
