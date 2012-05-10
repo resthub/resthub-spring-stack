@@ -52,15 +52,15 @@ public interface RestController<T, ID extends Serializable> {
 
     /**
      * Find all resources, and return a paginated collection<br/>
-     * REST webservice published : GET /paged
+     * REST webservice published : GET /page?number=X&size=Y
      *
      * @param page Page number starting from 0
      * @param size Number of resources by pages
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
-    @RequestMapping(value="paged", method = RequestMethod.GET)
+    @RequestMapping(value="page", method = RequestMethod.GET)
     @ResponseBody
-    PageResponse<T> findAll(@RequestParam(value = "page", required = true) Integer page, @RequestParam(value = "size", required = false) Integer size);
+    PageResponse<T> findAll(@RequestParam(value = "number", required = true) Integer page, @RequestParam(value = "size", required = false) Integer size);
 
      /**
      * Find a resource by its identifier<br/>

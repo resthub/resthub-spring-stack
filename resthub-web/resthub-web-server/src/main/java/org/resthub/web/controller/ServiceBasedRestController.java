@@ -85,7 +85,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public PageResponse<T> findAll(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) {
+    public PageResponse<T> findAll(@RequestParam(value = "number", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) {
         page = (page == null) ? 0 : page;
         size = (size == null) ? 5 : size;
 
