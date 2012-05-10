@@ -10,12 +10,12 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.resthub</groupId>
-    <artifactId>resthub</artifactId>
+    <artifactId>resthub-spring-stack</artifactId>
     <version>2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>RESThub</name>
+    <name>RESThub Spring stack</name>
     <url>http://resthub.org</url>
-    <description>RESThub is an Open Source framework designed to allow you to build web applications following KISS (Keep It Simple, Stupid), DRY (Don't Repeat Yourself) and REST principles.</description>
+    <description>RESThub Spring stack is an designed to allow you to build web applications following KISS (Keep It Simple, Stupid), DRY (Don't Repeat Yourself) and REST principles.</description>
 
     <properties>
         <env>local</env>
@@ -35,7 +35,6 @@
     </properties>
 
     <modules>
-        <module>resthub-archetype</module>
         <module>resthub-common</module>
         <module>resthub-jpa</module>
         <module>resthub-mongodb</module>
@@ -107,8 +106,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/pullrequest/resthub.git</connection>
-        <url>https://github.com/pullrequest/resthub/</url>
+        <connection>scm:git:https://github.com/resthub/resthub-spring-stack.git</connection>
+        <url>https://github.com/resthub/resthub-spring-stack/</url>
     </scm>
 
     <repositories>
@@ -116,11 +115,6 @@
         <repository>
             <id>resthub</id>
             <url>http://nexus.pullrequest.org/content/groups/resthub</url>
-        </repository>
-        <repository>
-            <id>spring-snapshot</id>
-            <name>Spring Maven SNAPSHOT Repository</name>
-            <url>http://s3.amazonaws.com/maven.springframework.org/snapshot</url>
         </repository>
     </repositories>
 
