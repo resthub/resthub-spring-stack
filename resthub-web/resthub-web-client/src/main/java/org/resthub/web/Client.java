@@ -23,6 +23,9 @@ import com.ning.http.client.RequestBuilderBase;
 
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play Framework 2 one
+ * 
+ * Sample usage : User user = Client.url("http://localhost:8080/api/user".jsonPost(user).get().jsonDeserialize(User.class);
+ *
  **/
 public class Client {
 

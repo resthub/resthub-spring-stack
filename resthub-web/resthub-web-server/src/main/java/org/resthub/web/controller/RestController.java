@@ -42,7 +42,7 @@ public interface RestController<T, ID extends Serializable> {
 
     /**
      * Find all resources, and return the full collection<br/>
-     * REST webservice published : GET /all
+     * REST webservice published : GET /
      *
      * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
      */
@@ -52,7 +52,7 @@ public interface RestController<T, ID extends Serializable> {
 
     /**
      * Find all resources, and return a paginated collection<br/>
-     * REST webservice published : GET /
+     * REST webservice published : GET /paged
      *
      * @param page Page number starting from 0
      * @param size Number of resources by pages
