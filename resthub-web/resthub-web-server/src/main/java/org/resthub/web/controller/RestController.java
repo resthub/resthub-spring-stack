@@ -51,16 +51,27 @@ public interface RestController<T, ID extends Serializable> {
     List<T> findAll();
 
     /**
+     * Find all resources, and return a paginated collection with default size<br/>
+     * REST webservice published : GET /page/0
+     *
+     * @param page Page number starting from 0
+     * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
+     */
+    @RequestMapping(value="page/{page}", method = RequestMethod.GET)
+    @ResponseBody
+    PageResponse<T> findAll(@PathVariable Integer page);
+
+    /**
      * Find all resources, and return a paginated collection<br/>
-     * REST webservice published : GET /page?number=X&size=Y
+     * REST webservice published : GET /page/0/size/20
      *
      * @param page Page number starting from 0
      * @param size Number of resources by pages
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
-    @RequestMapping(value="page", method = RequestMethod.GET)
+    @RequestMapping(value="page/{page}/size/{size}", method = RequestMethod.GET)
     @ResponseBody
-    PageResponse<T> findAll(@RequestParam(value = "number", required = true) Integer page, @RequestParam(value = "size", required = false) Integer size);
+    PageResponse<T> findAll(@PathVariable Integer page, @PathVariable Integer size);
 
      /**
      * Find a resource by its identifier<br/>

@@ -86,10 +86,15 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public PageResponse<T> findAll(@RequestParam(value = "number", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) {
-        page = (page == null) ? 0 : page;
-        size = (size == null) ? 5 : size;
+    public PageResponse<T> findAll(@PathVariable Integer page) {
+        return new PageResponse<T>(this.repository.findAll(new PageRequest(page, 10)));
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PageResponse<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
         return new PageResponse<T>(this.repository.findAll(new PageRequest(page, size)));
     }
 
