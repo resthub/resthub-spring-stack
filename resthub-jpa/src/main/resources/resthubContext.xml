@@ -11,9 +11,6 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
-    <context:annotation-config />
-    <context:component-scan base-package="org.resthub" />
-
     <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
         ignore-resource-not-found="true" ignore-unresolvable="true" />
 

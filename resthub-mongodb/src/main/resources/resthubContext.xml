@@ -11,9 +11,6 @@
         http://www.springframework.org/schema/data/mongo
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
-    <context:annotation-config />
-    <context:component-scan base-package="org.resthub" />
-
     <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
         ignore-resource-not-found="true" ignore-unresolvable="true" />
 
