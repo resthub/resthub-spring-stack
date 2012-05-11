@@ -57,7 +57,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public T update(@PathVariable("id") ID id, @RequestBody T resource) {
+    public T update(@PathVariable ID id, @RequestBody T resource) {
         Assert.notNull(id, "id cannot be null");
 
         Serializable entityId = this.getIdFromResource(resource);
@@ -95,7 +95,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
     /**
      * {@inheritDoc}
      */
-    public T findById(@PathVariable("id") ID id) {
+    public T findById(@PathVariable ID id) {
         T entity = this.service.findById(id);
         if (entity == null) {
             throw new NotFoundException();
@@ -116,7 +116,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public void delete(@PathVariable("id") ID id) {
+    public void delete(@PathVariable ID id) {
         this.service.delete(id);
     }
 }

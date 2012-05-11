@@ -50,7 +50,7 @@ public abstract class AbstractControllerWebTest<T, ID extends Serializable> exte
     @AfterMethod
     public void tearDown() {
     	try {
-            Client.url("http://localhost:" + port + getResourcePath() + "/all").delete().get();
+            Client.url("http://localhost:" + port + getResourcePath()).delete().get();
         } catch (InterruptedException | ExecutionException e) {
             Assertions.fail("Exception during delete all request", e);
         }

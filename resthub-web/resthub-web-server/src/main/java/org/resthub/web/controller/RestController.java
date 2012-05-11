@@ -38,7 +38,7 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     @ResponseBody
-    T update(@PathVariable("id") ID id, @RequestBody T resource);
+    T update(@PathVariable ID id, @RequestBody T resource);
 
     /**
      * Find all resources, and return the full collection<br/>
@@ -72,14 +72,14 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
-    T findById(@PathVariable("id") ID id);
+    T findById(@PathVariable ID id);
 
      /**
      * Delete all resources<br/>
-     * REST webservice published : DELETE /all<br/>
+     * REST webservice published : DELETE /<br/>
      * Return No Content http status code if the request has been correctly processed
      */
-    @RequestMapping(value = "all", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete();
 
@@ -93,5 +93,5 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void delete(@PathVariable("id") ID id);
+    void delete(@PathVariable ID id);
 }

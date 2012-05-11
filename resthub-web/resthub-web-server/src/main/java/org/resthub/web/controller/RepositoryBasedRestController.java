@@ -58,7 +58,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public T update(@PathVariable("id") ID id, @RequestBody T resource) {
+    public T update(@PathVariable ID id, @RequestBody T resource) {
         Assert.notNull(id, "id cannot be null");
 
         Serializable entityId = this.getIdFromResource(resource);
@@ -97,7 +97,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public T findById(@PathVariable("id") ID id) {
+    public T findById(@PathVariable ID id) {
         T entity = this.repository.findOne(id);
         if (entity == null) {
             throw new NotFoundException();
@@ -121,7 +121,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public void delete(@PathVariable("id") ID id) {
+    public void delete(@PathVariable ID id) {
         this.repository.delete(id);
     }
 }
