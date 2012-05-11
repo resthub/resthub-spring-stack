@@ -9,14 +9,15 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
 
 /**
- * Abstract REST service using a repository implementation
+ * Crud service that uses a repository implementation
+ * You should extend it and inject your Repository bean by overriding setRepository
  *
  * @param <T> Your resource class to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
  * @param <R> The repository class
  */
-public abstract class RepositoryBasedRestService<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>>
-        implements RestService<T, ID> {
+public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>>
+        implements CrudService<T, ID> {
 
     protected R repository;
 

@@ -2,7 +2,7 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
-import org.resthub.common.service.RestService;
+import org.resthub.common.service.CrudService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.PageResponse;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 
  * @see RepositoryBasedRestController
  **/
-public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends RestService<T, ID>>
+public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends CrudService<T, ID>>
         implements RestController<T, ID> {
 
     protected S service;

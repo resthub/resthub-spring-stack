@@ -7,12 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Rest Service interface.
+ * Crud Service interface.
  *
  * @param <T> Your resource POJO to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
  */
-public interface RestService<T, ID extends Serializable> {
+public interface CrudService<T, ID extends Serializable> {
 
     /**
      * Create new resource.
