@@ -15,10 +15,6 @@
     <name>RESThub Common</name>
     <description>RESThub core include Embeded datasource, Generic Repository and Generic CRUD services</description>
 
-    <properties>
-        <ehcache.version>2.3.2</ehcache.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -45,12 +41,6 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
-            <version>${ehcache.version}</version>
         </dependency>
 
         <dependency>
