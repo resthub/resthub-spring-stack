@@ -11,7 +11,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
  * transactional ContextConfiguration is preconfigured to scan your
  * applicationContext.xml files from classpath
  */
-@ContextConfiguration(loader = ResthubXmlContextLoader.class, locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" })
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" })
 @TransactionConfiguration(defaultRollback = false)
 public abstract class AbstractTransactionalTest extends AbstractTransactionalTestNGSpringContextTests {
 

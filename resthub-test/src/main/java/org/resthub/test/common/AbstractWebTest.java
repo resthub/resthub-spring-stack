@@ -32,7 +32,6 @@ public abstract class AbstractWebTest {
     protected Server server;
 
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
-    protected String contextClass = "org.resthub.web.context.ResthubXmlWebApplicationContext";
     protected Boolean useOpenEntityManagerInViewFilter = false;
     protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
     
@@ -75,9 +74,7 @@ public abstract class AbstractWebTest {
 
         // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
-        context.getInitParams().put("contextClass", contextClass);
         context.getInitParams().put("contextConfigLocation", contextLocations);
-        context.setDisplayName("resthub test webapp");
                         
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
         servletHolder.setName("spring");

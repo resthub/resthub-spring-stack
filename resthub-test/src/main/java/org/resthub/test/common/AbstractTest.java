@@ -10,7 +10,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
  * files from classpath
  */
 
-@ContextConfiguration(loader = ResthubXmlContextLoader.class, locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" })
+@ContextConfiguration(locations = { "classpath*:resthubContext.xml", "classpath*:applicationContext.xml" })
 public abstract class AbstractTest extends AbstractTestNGSpringContextTests {
 
 }
