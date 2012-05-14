@@ -1,16 +1,18 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.PageResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Abstract REST controller using a repository implementation
@@ -29,6 +31,8 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
         RestController<T, ID> {
 
     protected R repository;
+    
+    protected Logger logger = LoggerFactory.getLogger(RepositoryBasedRestController.class);
 
     /**
      * You should override this setter in order to inject your repository with @Inject annotation
@@ -78,24 +82,25 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public List<T> findAll() {
-        return (List<T>) this.repository.findAll();
+    public ArrayList findAll() {
+        return (ArrayList) this.repository.findAll();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PageResponse<T> findAll(@PathVariable Integer page) {
-        return new PageResponse<T>(this.repository.findAll(new PageRequest(page, 10)));
+    public PageResponse findAll(@PathVariable Integer page) {
+        logger.error("totototto");
+        return new PageResponse(this.repository.findAll(new PageRequest(page, 10)));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PageResponse<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
-        return new PageResponse<T>(this.repository.findAll(new PageRequest(page, size)));
+    public PageResponse findAll(@PathVariable Integer page, @PathVariable Integer size) {
+        return new PageResponse(this.repository.findAll(new PageRequest(page, size)));
     }
 
     /**

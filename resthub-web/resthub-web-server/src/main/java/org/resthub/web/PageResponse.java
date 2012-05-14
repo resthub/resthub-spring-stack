@@ -10,19 +10,19 @@ import org.springframework.data.domain.Page;
  * Wrapper for Spring Data paged responses, builtin support for XML and JSON serialization
  */
 @XmlRootElement
-public class PageResponse<T> {
+public class PageResponse {
 	protected int number;
 	protected int size;
 	protected int totalPages;
 	protected int numberOfElements;
 	protected long totalElements;
-	protected List<T> elements;
+	protected List<?> elements;
 
 	protected PageResponse() {
 		super();
 	}
 
-	public PageResponse(Page<T> page) {
+	public PageResponse(Page<?> page) {
 		number = page.getNumber();
 		size = page.getSize();
 		totalPages = page.getTotalPages();
@@ -33,11 +33,11 @@ public class PageResponse<T> {
 
 	@XmlElementWrapper(name = "elements")
 	@XmlElement(name = "element")
-	public List<T> getElements() {
+	public List<?> getElements() {
 		return elements;
 	}
 
-	public void setElements(List<T> elements) {
+	public void setElements(List<?> elements) {
 		this.elements = elements;
 	}
 

@@ -1,9 +1,38 @@
 <beans 	xmlns="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-        xmlns:mvc="http://www.springframework.org/schema/mvc">
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:oxm="http://www.springframework.org/schema/oxm"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/data/jpa
+        http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+        http://www.springframework.org/schema/oxm
+        http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd">
 	
-        <mvc:annotation-driven />
+        
+      <bean id="jaxbMarshaller" class="org.resthub.web.context.ClasspathScanningJaxb2Marshaller">
+            <property name="basePackages">
+                <list>
+                    <value>org.resthub.web</value>
+                </list>
+            </property>
+        </bean>
+        
+        <mvc:annotation-driven>
+           <mvc:message-converters register-defaults="false">
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                    <property name="marshaller" ref="jaxbMarshaller" />
+                    <property name="unmarshaller" ref="jaxbMarshaller" />
+                </bean>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+           </mvc:message-converters>
+        </mvc:annotation-driven>
+
         
         <jpa:repositories base-package="org.resthub.web.repository" />
 	

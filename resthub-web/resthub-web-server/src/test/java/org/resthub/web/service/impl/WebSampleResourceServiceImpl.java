@@ -4,12 +4,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.resthub.common.service.CrudServiceImpl;
-import org.resthub.web.model.WebSampleResource;
+import org.resthub.web.model.Sample;
 import org.resthub.web.repository.WebSampleResourceRepository;
 import org.resthub.web.service.WebSampleResourceService;
 
 @Named("webSampleResourceService")
-public class WebSampleResourceServiceImpl extends CrudServiceImpl<WebSampleResource, Long, WebSampleResourceRepository>
+public class WebSampleResourceServiceImpl extends CrudServiceImpl<Sample, Long, WebSampleResourceRepository>
         implements WebSampleResourceService {
 
     @Inject

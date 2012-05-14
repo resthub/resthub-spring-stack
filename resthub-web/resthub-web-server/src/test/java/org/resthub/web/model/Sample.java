@@ -3,20 +3,29 @@ package org.resthub.web.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
+
+@XmlRootElement
 @Entity
-public class WebSampleResource {
+public class Sample {
 
     private Long id;
     private String name;
 
-    public WebSampleResource() {
+    public Sample() {
         super();
     }
 
-    public WebSampleResource(String name) {
+    public Sample(String name) {
         super();
         this.name = name;
+    }
+    
+    public Sample(Sample webSampleResource) {
+        super();
+        this.id = webSampleResource.getId();
+        this.name = webSampleResource.getName();
     }
 
     @Id
@@ -45,7 +54,7 @@ public class WebSampleResource {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final WebSampleResource other = (WebSampleResource) obj;
+        final Sample other = (Sample) obj;
         if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
             return false;
         }
