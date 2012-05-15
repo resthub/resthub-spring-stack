@@ -1,12 +1,10 @@
 package org.resthub.web;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-import org.codehaus.jackson.map.AnnotationIntrospector;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 import org.resthub.web.exception.SerializationException;
 
 /**
@@ -17,17 +15,10 @@ public class JsonHelper {
     protected static ObjectMapper getJsonObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
-
-        SerializationConfig sc = mapper.getSerializationConfig()
-                .without(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS)
-                .with((SerializationConfig.Feature.INDENT_OUTPUT))
-                .withAnnotationIntrospector(introspector);
-        mapper.setSerializationConfig(sc);
-
-        DeserializationConfig dc = mapper.getDeserializationConfig()
-                .without(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .withAnnotationIntrospector(introspector);
-        mapper.setDeserializationConfig(dc);
+        mapper.setAnnotationIntrospector(introspector);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);       
 
         return mapper;
     }

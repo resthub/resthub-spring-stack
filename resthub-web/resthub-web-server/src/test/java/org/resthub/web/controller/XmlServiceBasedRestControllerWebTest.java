@@ -34,14 +34,13 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
 
-//    TODO : decomment when we will be able to serialize List<T> retrurn type
-//    @Test
-//    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
-//    	Client.url(rootUrl()).xmlPost(new Sample("toto")). get();
-//        Client.url(rootUrl()).xmlPost(new Sample("toto")).get();
-//    	String responseBody = Client.url(rootUrl()).getXml().get().getBody();
-//        Assertions.assertThat(responseBody).contains("toto");
-//    }
+    @Test
+    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    	Client.url(rootUrl()).xmlPost(new Sample("toto")). get();
+        Client.url(rootUrl()).xmlPost(new Sample("toto")).get();
+    	String responseBody = Client.url(rootUrl()).getXml().get().getBody();
+        Assertions.assertThat(responseBody).contains("toto");
+    }
     
     @Test
     public void testPagingFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {

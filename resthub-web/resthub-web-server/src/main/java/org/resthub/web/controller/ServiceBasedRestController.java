@@ -1,11 +1,11 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import org.resthub.common.service.CrudService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.PageResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,24 +76,24 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public ArrayList findAll() {
-        return (ArrayList)this.service.findAll();
+    public List<T> findAll() {
+        return (List<T>)this.service.findAll();
     }
 
         /**
      * {@inheritDoc}
      */
     @Override
-    public PageResponse findAll(@PathVariable Integer page) {
-        return new PageResponse(this.service.findAll(new PageRequest(page, 10)));
+    public Page<T> findAll(@PathVariable Integer page) {
+        return this.service.findAll(new PageRequest(page, 10));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PageResponse findAll(@PathVariable Integer page, @PathVariable Integer size) {
-        return new PageResponse(this.service.findAll(new PageRequest(page, size)));
+    public Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
+        return this.service.findAll(new PageRequest(page, size));
     }
 
     /**

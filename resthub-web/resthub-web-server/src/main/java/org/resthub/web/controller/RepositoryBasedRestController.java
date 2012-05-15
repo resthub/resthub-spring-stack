@@ -1,13 +1,12 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.PageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
@@ -82,25 +81,24 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public ArrayList findAll() {
-        return (ArrayList) this.repository.findAll();
+    public List<T> findAll() {
+        return (List<T>)this.repository.findAll();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PageResponse findAll(@PathVariable Integer page) {
-        logger.error("totototto");
-        return new PageResponse(this.repository.findAll(new PageRequest(page, 10)));
+    public Page<T> findAll(@PathVariable Integer page) {
+        return this.repository.findAll(new PageRequest(page, 10));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PageResponse findAll(@PathVariable Integer page, @PathVariable Integer size) {
-        return new PageResponse(this.repository.findAll(new PageRequest(page, size)));
+    public Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
+        return this.repository.findAll(new PageRequest(page, size));
     }
 
     /**

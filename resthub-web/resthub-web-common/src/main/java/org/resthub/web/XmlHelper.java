@@ -1,18 +1,26 @@
 package org.resthub.web;
 
-import java.io.ByteArrayInputStream;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import org.resthub.web.exception.SerializationException;
 
 /**
  * Helper for XML serialization and deserialization
  */
 public class XmlHelper {
+    
+    protected static ObjectMapper getXmlObjectMapper() {
+        ObjectMapper mapper = new XmlMapper();
+        AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
+        mapper.setAnnotationIntrospector(introspector);
+        return mapper;
+    }
 
     /**
      * Serialize and object to an XML String representation
@@ -20,17 +28,14 @@ public class XmlHelper {
      * @return The XML String representation
      */
     public static String serialize(Object o) {
-        JAXBContext jaxbContext;
+        ObjectMapper mapper = getXmlObjectMapper();
+        OutputStream baOutputStream = new ByteArrayOutputStream();
         try {
-            jaxbContext = JAXBContext.newInstance(o.getClass());
-            OutputStream baOutputStream = new ByteArrayOutputStream();
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(o, baOutputStream);
-            return baOutputStream.toString();
-        } catch (JAXBException e) {
+            mapper.writeValue(baOutputStream, o);
+        } catch (Exception e) {
             throw new SerializationException(e);
         }
+        return baOutputStream.toString();
     }
 
     /**
@@ -40,14 +45,11 @@ public class XmlHelper {
      * @return The deserialized object instance
      */
     public static <T> T deserialize(String content, Class<T> type) {
-        JAXBContext jaxbContext;
+        ObjectMapper mapper = getXmlObjectMapper();
         try {
-            jaxbContext = JAXBContext.newInstance(type);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
-            return type.cast(unmarshaller.unmarshal(input));
-        } catch (JAXBException e) {
-        	 throw new SerializationException(e);
+            return type.cast(mapper.readValue(content, type));
+        } catch (Exception e) {
+            throw new SerializationException(e);
         }
     }
 

@@ -77,7 +77,7 @@ public abstract class AbstractWebTest {
         context.getInitParams().put("contextConfigLocation", contextLocations);
                         
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
-        servletHolder.setName("spring");
+        servletHolder.setName("dispatcher");
         servletHolder.setInitOrder(1);
         // Reuse beans detected by ContextLoaderListener so we configure an empty contextConfigLocation
         servletHolder.setInitParameter("contextConfigLocation", "");

@@ -1,9 +1,9 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import org.resthub.web.PageResponse;
+import java.util.List;
 import org.resthub.web.exception.NotFoundException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +48,7 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    ArrayList findAll();
+    List<T> findAll();
 
     /**
      * Find all resources, and return a paginated collection with default size<br/>
@@ -59,7 +59,7 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(value="page/{page}", method = RequestMethod.GET)
     @ResponseBody
-    PageResponse findAll(@PathVariable Integer page);
+    Page<T> findAll(@PathVariable Integer page);
 
     /**
      * Find all resources, and return a paginated collection<br/>
@@ -71,7 +71,7 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(value="page/{page}/size/{size}", method = RequestMethod.GET)
     @ResponseBody
-    PageResponse findAll(@PathVariable Integer page, @PathVariable Integer size);
+    Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size);
 
      /**
      * Find a resource by its identifier<br/>
