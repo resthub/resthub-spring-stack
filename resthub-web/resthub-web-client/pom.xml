@@ -47,9 +47,9 @@
             <artifactId>test-jetty-servlet</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.resthub</groupId>
-            <artifactId>resthub-oauth2</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>1.0.0.M6</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

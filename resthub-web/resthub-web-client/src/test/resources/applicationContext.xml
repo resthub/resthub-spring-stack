@@ -14,6 +14,9 @@
     					http://www.springframework.org/schema/security/spring-security-3.1.xsd
                         http://www.springframework.org/schema/security/oauth2
     					http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+                                            
+       <context:annotation-config/>
+        <context:component-scan base-package="org.resthub.web.oauth2" />
 
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider>
@@ -38,8 +41,12 @@
 	</bean>
 	
 	<mvc:annotation-driven />
+        
+        <bean id="entryPoint" class="org.springframework.security.oauth2.provider.error.MediaTypeAwareAuthenticationEntryPoint">
+            <property name="realmName" value="test" />
+        </bean>
 	
-	<security:http entry-point-ref="oauth2ProcessingFilterEntryPoint" create-session="never">
+	<security:http entry-point-ref="entryPoint" create-session="never">
 		<security:intercept-url pattern="/api/resource/ping" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/api/resource/hello" access="ROLE_USER"/>
 		<security:intercept-url pattern="/api/resource/goodbye" access="ROLE_ADMIN"/>
