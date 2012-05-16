@@ -1,27 +1,26 @@
 package org.resthub.web.oauth2;
 
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.AsyncHttpClientConfig;
-import com.ning.http.client.AsyncHttpClientConfig.Builder;
-import com.ning.http.client.Realm;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.concurrent.ExecutionException;
+
 import javax.servlet.DispatcherType;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.fest.assertions.api.Assertions;
-import org.resthub.web.Http;
 import org.resthub.web.Client;
 import org.resthub.web.Client.Response;
-import org.resthub.web.oauth2.OAuth2RequestFilter;
+import org.resthub.web.Http;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import com.ning.http.client.AsyncHttpClientConfig.Builder;
 
 /**
  * Tests the the TokenFactory utility class. Launches an in-memory jetty server

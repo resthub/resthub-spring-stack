@@ -1,13 +1,12 @@
 package org.resthub.test.common;
 
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import java.util.EnumSet;
+
 import javax.servlet.DispatcherType;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.resthub.web.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;

@@ -1,6 +1,5 @@
 package org.resthub.test.common;
 
-import org.resthub.test.context.ResthubXmlContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 

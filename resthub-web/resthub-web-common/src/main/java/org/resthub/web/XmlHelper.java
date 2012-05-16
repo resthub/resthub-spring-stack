@@ -1,14 +1,14 @@
 package org.resthub.web;
 
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+
 import org.resthub.web.exception.SerializationException;
+
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
  * Helper for XML serialization and deserialization
