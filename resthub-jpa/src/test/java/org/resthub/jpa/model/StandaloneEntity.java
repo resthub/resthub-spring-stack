@@ -5,50 +5,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * This is a test entity to validate that we are able to manipulate resource
- * entities with repositories & services
+ * This is a test entity to validate that we are able to manipulate resource entities with repositories
  */
 @Entity
 public class StandaloneEntity {
 
-	private Long id;
-	private String name;
+    private Long id;
+    private String name;
 
-	/**
-	 * Get the id
-	 * 
-	 * @return id
-	 */
-	@Id
-	@GeneratedValue
-	public Long getId() {
-		return id;
-	}
+    public StandaloneEntity() {
+        super();
+    }
 
-	/**
-	 * Set the id
-	 * 
-	 * @param id
-	 *            id
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public StandaloneEntity(String name) {
+        super();
+        this.name = name;
+    }
 
-	/**
-	 * @return the entity name
-	 */
-	public String getName() {
-		return name;
-	}
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
 
-	/**
-	 * Set the entity name
-	 * 
-	 * @param name
-	 *            name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "StandaloneEntity[" + getId() + "," + getName() + "]";
+    }
 }
