@@ -15,6 +15,7 @@
 
     <properties>
         <spring.data.mongodb.version>1.0.1.RELEASE</spring.data.mongodb.version>
+        <spring.data.commons.core.version>1.2.1.RELEASE</spring.data.commons.core.version>
         <mongo.version>2.7.1</mongo.version>
     </properties>
 
@@ -29,7 +30,7 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>${spring.data.mongodb.version}</version>
-             <exclusions>
+            <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-aop</artifactId>
@@ -58,14 +59,29 @@
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-expression</artifactId>
                 </exclusion>
-            </exclusions>   
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons-core</artifactId>
+            <version>${spring.data.commons.core.version}</version><!--$NO-MVN-MAN-VER$ -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
