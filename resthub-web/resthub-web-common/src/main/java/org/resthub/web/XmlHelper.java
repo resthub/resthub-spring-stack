@@ -11,15 +11,28 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
- * Helper for XML serialization and deserialization
+ * Helper for XML serialization and deserialization.
  */
 public class XmlHelper {
     
-    protected static ObjectMapper getXmlObjectMapper() {
-        ObjectMapper mapper = new XmlMapper();
+    /**
+     * Jackson Object Mapper used to serialization/deserialization
+     */
+    protected static ObjectMapper objectMapper;
+    
+    protected static void initialize() {
+        objectMapper = new XmlMapper();
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
-        mapper.setAnnotationIntrospector(introspector);
-        return mapper;
+        objectMapper.setAnnotationIntrospector(introspector);
+    }
+    
+    /**
+     * Return the objectMapper. It can be used to customize serialization/deserialization configuration.
+     * @return 
+     */
+    public ObjectMapper getObjectMapper() {
+        if(objectMapper == null) initialize();
+        return objectMapper;
     }
 
     /**
@@ -28,10 +41,10 @@ public class XmlHelper {
      * @return The XML String representation
      */
     public static String serialize(Object o) {
-        ObjectMapper mapper = getXmlObjectMapper();
+        if(objectMapper == null) initialize();
         OutputStream baOutputStream = new ByteArrayOutputStream();
         try {
-            mapper.writeValue(baOutputStream, o);
+            objectMapper.writeValue(baOutputStream, o);
         } catch (Exception e) {
             throw new SerializationException(e);
         }
@@ -45,14 +58,12 @@ public class XmlHelper {
      * @return The deserialized object instance
      */
     public static <T> T deserialize(String content, Class<T> type) {
-        ObjectMapper mapper = getXmlObjectMapper();
+        if(objectMapper == null) initialize();
         try {
-            return type.cast(mapper.readValue(content, type));
+            return type.cast(objectMapper.readValue(content, type));
         } catch (Exception e) {
             throw new SerializationException(e);
         }
-    }
-
-   
+    }  
 
 }

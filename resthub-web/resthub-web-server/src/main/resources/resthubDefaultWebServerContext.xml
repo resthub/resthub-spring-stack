@@ -9,7 +9,7 @@
 	        
         <mvc:annotation-driven>
            <mvc:message-converters register-defaults="false">
-                <bean class="org.resthub.web.converter.MappingJackson2HttpMessageConverter" />
+                <bean class="org.resthub.web.converter.MappingJackson2JsonHttpMessageConverter" />
                 <bean class="org.resthub.web.converter.MappingJackson2XmlHttpMessageConverter" />
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
            </mvc:message-converters>

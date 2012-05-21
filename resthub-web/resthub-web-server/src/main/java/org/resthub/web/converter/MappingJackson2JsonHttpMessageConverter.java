@@ -50,7 +50,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  * @since 3.2
  * @see org.springframework.web.servlet.view.json.MappingJackson2JsonView
  */
-public class MappingJackson2HttpMessageConverter extends AbstractHttpMessageConverter<Object> {
+public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 
 	public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
@@ -65,7 +65,7 @@ public class MappingJackson2HttpMessageConverter extends AbstractHttpMessageConv
 	/**
 	 * Construct a new {@code BindingJacksonHttpMessageConverter}.
 	 */
-	public MappingJackson2HttpMessageConverter() {
+	public MappingJackson2JsonHttpMessageConverter() {
 		super(new MediaType("application", "json", DEFAULT_CHARSET));
 	}
 

@@ -1,7 +1,6 @@
 package org.resthub.web.controller;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.resthub.web.model.Sample;
 import org.resthub.web.repository.WebSampleResourceRepository;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SampleRepositoryBasedRestController extends
         RepositoryBasedRestController<Sample, Long, WebSampleResourceRepository> {
 
-    @Inject
-    @Named("webSampleResourceRepository")
-    @Override
+    @Override @Inject
     public void setRepository(WebSampleResourceRepository repository) {
         this.repository = repository;
     }

@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Client;
+import org.resthub.web.Client.Response;
 import org.resthub.web.Http;
 import org.resthub.web.model.Sample;
 import org.testng.annotations.AfterMethod;
@@ -28,7 +29,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
     @Test
     public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
         Sample r = new Sample("toto");
-        Client.Response response = Client.url(rootUrl()).jsonPost(r).get();
+        Response response = Client.url(rootUrl()).jsonPost(r).get();
         r = (Sample)response.jsonDeserialize(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");

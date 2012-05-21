@@ -1,7 +1,6 @@
 package org.resthub.web.controller;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.resthub.web.model.Sample;
 import org.resthub.web.service.WebSampleResourceService;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SampleServiceBasedRestController extends
         ServiceBasedRestController<Sample, Long, WebSampleResourceService> {
 
-    @Inject
-    @Named("webSampleResourceService")
-    @Override
+    @Override @Inject
     public void setService(WebSampleResourceService service) {
         this.service = service;
     }

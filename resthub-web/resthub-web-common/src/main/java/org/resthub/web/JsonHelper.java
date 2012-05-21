@@ -15,28 +15,40 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
  * Helper for JSON serialization and deserialization
  */
 public class JsonHelper {
+    
+    /**
+     * Jackson Object Mapper used to serialization/deserialization
+     */
+    protected static ObjectMapper objectMapper;
 
-    protected static ObjectMapper getJsonObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
+    protected static void initialize() {
+        objectMapper = new ObjectMapper();
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
-        mapper.setAnnotationIntrospector(introspector);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);       
-
-        return mapper;
+        objectMapper.setAnnotationIntrospector(introspector);
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
-
+    
+    /**
+     * Return the ObjectMapper. It can be used to customize serialization/deserialization configuration.
+     * @return 
+     */
+    public ObjectMapper getObjectMapper() {
+        if(objectMapper == null) initialize();
+        return objectMapper;
+    }
+    
     /**
      * Serialize and object to a JSON String representation
      * @param o The object to serialize
      * @return The JSON String representation
      */
     public static String serialize(Object o) {
-        ObjectMapper mapper = getJsonObjectMapper();
+        if(objectMapper == null) initialize();
         OutputStream baOutputStream = new ByteArrayOutputStream();
         try {
-            mapper.writeValue(baOutputStream, o);
+            objectMapper.writeValue(baOutputStream, o);
         } catch (Exception e) {
             throw new SerializationException(e);
         }
@@ -50,9 +62,9 @@ public class JsonHelper {
      * @return The deserialized object instance
      */
     public static <T> T deserialize(String content, Class<T> type) {
-        ObjectMapper mapper = getJsonObjectMapper();
+        if(objectMapper == null) initialize();
         try {
-            return type.cast(mapper.readValue(content, type));
+            return type.cast(objectMapper.readValue(content, type));
         } catch (Exception e) {
             throw new SerializationException(e);
         }
