@@ -1,5 +1,6 @@
 package org.resthub.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
@@ -64,7 +65,22 @@ public class JsonHelper {
     public static <T> T deserialize(String content, Class<T> type) {
         if(objectMapper == null) initialize();
         try {
-            return type.cast(objectMapper.readValue(content, type));
+            return objectMapper.readValue(content, type);
+        } catch (Exception e) {
+            throw new SerializationException(e);
+        }
+    }
+    
+    /**
+     * Deserialize a JSON string
+     * @param content The JSON String object representation
+     * @param valueTypeRef The typeReference containing the type of the deserialized object instance
+     * @return The deserialized object instance
+     */
+    public static <T> T deserialize(String content, TypeReference valueTypeRef) {
+        if(objectMapper == null) initialize();
+        try {
+            return objectMapper.readValue(content, valueTypeRef);
         } catch (Exception e) {
             throw new SerializationException(e);
         }
