@@ -88,14 +88,14 @@ public class TestOAuth2Client {
 
     @Test
     public void testOAuth2SuccessfulRequest() throws IOException, InterruptedException, ExecutionException {
-    	   	
-        String result = Client.url(BASE_URL + "/api/resource/hello").setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET).get().get().getBody();
+    	Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET);   	
+        String result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
     }
 
     @Test
     public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
-    	Response response = Client.url(BASE_URL + "/api/resource/hello").getJson().get();
+    	Response response = new Client().url(BASE_URL + "/api/resource/hello").getJson().get();
     	Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
     }
 
