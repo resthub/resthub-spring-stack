@@ -25,5 +25,4 @@ public class ResourceController {
     public String sayGoodbye() {
         return "Goodbye";
     }
-
 }

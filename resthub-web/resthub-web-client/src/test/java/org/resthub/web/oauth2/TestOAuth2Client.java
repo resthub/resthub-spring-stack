@@ -23,17 +23,13 @@ import org.testng.annotations.Test;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 
 /**
- * Tests the the TokenFactory utility class. Launches an in-memory jetty server
- * with two contexts:
+ * Tests the the TokenFactory utility class. Launches an in-memory jetty server with two contexts:
  * <ol>
  * <li>an authorization service build upon resthub-oauth2-provider.</li>
  * <li>a resource service protected with resthub-oauth2-filter.</li>
  * </ol>
  */
 public class TestOAuth2Client {
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // Static private attributes
 
     public static final String CLIENT_ID = "test";
     public static final String CLIENT_SECRET = "";
@@ -45,7 +41,7 @@ public class TestOAuth2Client {
      * Jetty memory server instance.
      */
     protected static Server server;
-    protected static Builder builder; 
+    protected static Builder builder;
 
     /**
      * Before the test suite, launches a Jetty in memory server.
@@ -58,12 +54,12 @@ public class TestOAuth2Client {
         // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setDisplayName("resthub test webapp");
-                
+
         FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
         filterDef.setName("springSecurityFilterChain");
         filterDef.setInitParameter("contextAttribute", "org.springframework.web.servlet.FrameworkServlet.CONTEXT.spring");
-        context.addFilter(filterDef, "/*", EnumSet.of (DispatcherType.REQUEST));
-                
+        context.addFilter(filterDef, "/*", EnumSet.of(DispatcherType.REQUEST));
+
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
         servletHolder.setName("spring");
         servletHolder.setInitOrder(1);
@@ -73,7 +69,6 @@ public class TestOAuth2Client {
         // Starts the server.
         server.setHandler(context);
         server.start();
-
     }
 
     /**
@@ -88,15 +83,13 @@ public class TestOAuth2Client {
 
     @Test
     public void testOAuth2SuccessfulRequest() throws IOException, InterruptedException, ExecutionException {
-    	   	
         String result = Client.url(BASE_URL + "/api/resource/hello").setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET).get().get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
     }
 
     @Test
     public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
-    	Response response = Client.url(BASE_URL + "/api/resource/hello").getJson().get();
-    	Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
+        Response response = Client.url(BASE_URL + "/api/resource/hello").getJson().get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
     }
-
 }

@@ -27,5 +27,4 @@ public class ResthubXmlContextLoader extends GenericXmlContextLoader {
         reader.setValidating(false);
         return reader;
     }
-
 }

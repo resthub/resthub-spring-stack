@@ -16,12 +16,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 /**
- * Base class for your webservice tests, based on Jetty and with preconfigured
- * Spring configuration. Currently, a Jetty instance is launched for each tests
- * in order to reset test conditions. If you want to restart Jetty only once,
- * you can extend it, override setUp() methods and use @BeforeClass instead of @Before
- * annotations (don't forget to call super.setUp()) Ususally you will have to
- * redefine @ContextConfiguration to specify your application context file in
+ * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration. Currently, a Jetty
+ * instance is launched for each tests in order to reset test conditions. If you want to restart Jetty only once, you
+ * can extend it, override setUp() methods and use @BeforeClass instead of @Before annotations (don't forget to call
+ * super.setUp()) Ususally you will have to redefine @ContextConfiguration to specify your application context file in
  * addition to resthub ones
  */
 public abstract class AbstractWebTest {
@@ -33,7 +31,7 @@ public abstract class AbstractWebTest {
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
     protected Boolean useOpenEntityManagerInViewFilter = false;
     protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
-    
+
     protected static final Logger logger = LoggerFactory.getLogger(AbstractWebTest.class);
 
     public int getPort() {
@@ -74,7 +72,7 @@ public abstract class AbstractWebTest {
         // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
         context.getInitParams().put("contextConfigLocation", contextLocations);
-                        
+
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
         servletHolder.setName("dispatcher");
         servletHolder.setInitOrder(1);
@@ -82,16 +80,15 @@ public abstract class AbstractWebTest {
         servletHolder.setInitParameter("contextConfigLocation", "");
         context.addServlet(servletHolder, "/");
         context.addEventListener(new ContextLoaderListener());
-        
-        if(useOpenEntityManagerInViewFilter) {
-        	context.addFilter(OpenEntityManagerInViewFilter.class, "/*", EnumSet.of (DispatcherType.REQUEST));
+
+        if (useOpenEntityManagerInViewFilter) {
+            context.addFilter(OpenEntityManagerInViewFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         }
 
         // Starts the server.
         server.setHandler(context);
 
         server.start();
-
     }
 
     @AfterClass
@@ -104,5 +101,4 @@ public abstract class AbstractWebTest {
             }
         }
     }
-
 }

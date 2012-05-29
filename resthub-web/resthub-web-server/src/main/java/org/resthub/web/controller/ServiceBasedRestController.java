@@ -80,7 +80,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
         return (List<T>)this.service.findAll();
     }
 
-        /**
+    /**
      * {@inheritDoc}
      */
     @Override

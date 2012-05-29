@@ -67,6 +67,8 @@ public class OAuth2Token {
      */
     @Override
     public String toString() {
-        return new StringBuilder("[Token] access token: ").append(accessToken).append(" expires in: ").append(expiresIn).append(" refresh token: ").append(refreshToken).append(" scope: ").append(scope).toString();
+        return new StringBuilder("[Token] access token: ").append(accessToken).append(" expires in: ")
+                .append(expiresIn).append(" refresh token: ").append(refreshToken).append(" scope: ").append(scope)
+                .toString();
     }
 }

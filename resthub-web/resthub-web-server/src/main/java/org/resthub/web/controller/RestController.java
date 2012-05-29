@@ -57,7 +57,7 @@ public interface RestController<T, ID extends Serializable> {
      * @param page Page number starting from 0
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
-    @RequestMapping(value="page/{page}", method = RequestMethod.GET)
+    @RequestMapping(value = "page/{page}", method = RequestMethod.GET)
     @ResponseBody
     Page<T> findAll(@PathVariable Integer page);
 
@@ -69,7 +69,7 @@ public interface RestController<T, ID extends Serializable> {
      * @param size Number of resources by pages
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
-    @RequestMapping(value="page/{page}/size/{size}", method = RequestMethod.GET)
+    @RequestMapping(value = "page/{page}/size/{size}", method = RequestMethod.GET)
     @ResponseBody
     Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size);
 

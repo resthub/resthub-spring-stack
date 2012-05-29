@@ -7,20 +7,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Exception mapped to Internal Server Error HTTP status code (404)
  */
 @SuppressWarnings("serial")
-@ResponseStatus( value = HttpStatus.NOT_FOUND )
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class NotFoundException extends RuntimeException {
 
-	public NotFoundException(){
-		super();
-	}
-	public NotFoundException( final String message, final Throwable cause ){
-		super( message + " -> " + cause.getMessage(), cause );
-	}
-	public NotFoundException( final String message ){
-		super( message );
-	}
-	public NotFoundException( final Throwable cause ){
-		super( cause );
-	}
-	
+    public NotFoundException() {
+        super();
+    }
+
+    public NotFoundException(final String message, final Throwable cause) {
+        super(message + " -> " + cause.getMessage(), cause);
+    }
+
+    public NotFoundException(final String message) {
+        super(message);
+    }
+
+    public NotFoundException(final Throwable cause) {
+        super(cause);
+    }
 }

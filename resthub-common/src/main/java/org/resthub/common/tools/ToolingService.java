@@ -3,8 +3,7 @@ package org.resthub.common.tools;
 import java.util.List;
 
 /**
- * Interface of the service used to retreive the current Spring application
- * context configuration
+ * Interface of the service used to retreive the current Spring application context configuration
  */
 public interface ToolingService {
 
@@ -17,5 +16,4 @@ public interface ToolingService {
      * @return the list of bean details for load beans
      */
     List<BeanDetail> getBeanDetails();
-
 }

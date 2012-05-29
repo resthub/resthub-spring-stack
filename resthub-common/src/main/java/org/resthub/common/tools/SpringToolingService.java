@@ -15,8 +15,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * Implementation of the service used to retreive the current Spring application
- * context configuration
+ * Implementation of the service used to retreive the current Spring application context configuration
  */
 @Named("toolingService")
 public class SpringToolingService implements ToolingService, ApplicationContextAware {

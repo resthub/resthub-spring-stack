@@ -33,5 +33,4 @@ public class XmlSerializationHelperTest {
     public void testInvalidDeserialization() {
         XmlHelper.deserialize("Invalid content", SampleResource.class);
     }
-
 }

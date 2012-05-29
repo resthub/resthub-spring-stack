@@ -32,8 +32,8 @@ public abstract class ClassUtils {
     }
 
     /**
-     * Returns the generic type with the given index from the given
-     * {@link Class}. Scan all base classes until finding a generic type.
+     * Returns the generic type with the given index from the given {@link Class}. Scan all base classes until finding a
+     * generic type.
      * 
      * @param clazz
      *            Class where seeking the generic type

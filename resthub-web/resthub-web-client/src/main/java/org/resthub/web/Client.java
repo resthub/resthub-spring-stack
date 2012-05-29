@@ -58,7 +58,7 @@ public class Client {
                 .build());
             return this;
         }
-        
+
         public void setBuilder(Builder builder) {
             this.builder = builder;
         }
@@ -82,7 +82,7 @@ public class Client {
             return future;
         }
     }
-    
+
     /**
      * provides the User facing API for building WS request.
      */
@@ -154,7 +154,7 @@ public class Client {
             this.scheme = scheme;
             return this;
         }
-        
+
         /**
          * Sets the OAuth2 authentication header for the current request.
          *
@@ -199,7 +199,7 @@ public class Client {
         public Future<Response> post(String body) {
             return executeString("POST", body);
         }
-        
+
         public Future<Response> post() {
             return executeString("POST", this.body);
         }
@@ -212,19 +212,18 @@ public class Client {
         public Future<Response> put(String body) {
             return executeString("PUT", body);
         }
-        
+
         public Future<Response> jsonPut(Object o) {
             this.setHeader(Http.ACCEPT, Http.JSON);
             this.setHeader(Http.CONTENT_TYPE, Http.JSON);
             return executeString("PUT", JsonHelper.serialize(o));
         }
-        
+
         public Future<Response> xmlPut(Object o) {
             this.setHeader(Http.ACCEPT, Http.XML);
             this.setHeader(Http.CONTENT_TYPE, Http.XML);
             return executeString("PUT", XmlHelper.serialize(o));
         }
-
 
         /**
          * Perform a POST on the request asynchronously.
@@ -234,7 +233,7 @@ public class Client {
         public Future<Response> post(InputStream body) {
             return executeIS("POST", body);
         }
-        
+
         public Future<Response> jsonPost(Object o) {
             this.setHeader(Http.ACCEPT, Http.JSON);
             this.setHeader(Http.CONTENT_TYPE, Http.JSON);
@@ -280,7 +279,7 @@ public class Client {
         public Future<Response> delete() {
             return execute("DELETE");
         }
-                
+
         /**
          * Perform a HEAD on the request asynchronously.
          */
@@ -335,10 +334,8 @@ public class Client {
                 req.auth(this.username, this.password, this.scheme);
             return req.execute();
         }
-
-
     }
-    
+
     /**
      * A WS response.
      */
@@ -395,8 +392,6 @@ public class Client {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }       
-
+        }
     }
-
 }

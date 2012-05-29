@@ -24,12 +24,12 @@ import org.springframework.context.event.ContextRefreshedEvent;
 @SuppressWarnings("rawtypes")
 @Named("postInitializerRunner")
 public class PostInitializerRunner implements ApplicationListener {
-    private static final Logger logger = LoggerFactory.getLogger(PostInitializerRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostInitializerRunner.class);
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof ContextRefreshedEvent) {
-            logger.debug("Scanning for Post Initializers...");
+            LOGGER.debug("Scanning for Post Initializers...");
             long startTime = System.currentTimeMillis();
             ContextRefreshedEvent contextRefreshedEvent = (ContextRefreshedEvent) event;
             ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();
@@ -46,15 +46,15 @@ public class PostInitializerRunner implements ApplicationListener {
                             int order = getAnnotation(method, PostInitialize.class).order();
                             postInitializingMethods.add(new PostInitializingMethod(method, bean, order, beanName));
                         } else {
-                            logger.warn("Post Initializer method can't have any arguments. {} in bean {} won't be invoked", method.toGenericString(), beanName);
+                            LOGGER.warn("Post Initializer method can't have any arguments. {} in bean {} won't be invoked", method.toGenericString(), beanName);
                         }
                     }
                 }
             }
             Collections.sort(postInitializingMethods);
             long endTime = System.currentTimeMillis();
-            
-                logger.debug("Application Context scan completed, took {} ms, {} post initializers found. Invoking now.", endTime - startTime, postInitializingMethods.size());
+
+            LOGGER.debug("Application Context scan completed, took {} ms, {} post initializers found. Invoking now.", endTime - startTime, postInitializingMethods.size());
             for (PostInitializingMethod postInitializingMethod : postInitializingMethods) {
                 Method method = postInitializingMethod.getMethod();
                 try {
@@ -127,16 +127,18 @@ public class PostInitializerRunner implements ApplicationListener {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o)
+            if (this == o) {
                 return true;
-            if (o == null || getClass() != o.getClass())
+            }
+
+            if (o == null || getClass() != o.getClass()) {
                 return false;
+            }
 
             PostInitializingMethod that = (PostInitializingMethod) o;
 
             return order == that.order && !(beanName != null ? !beanName.equals(that.beanName) : that.beanName != null)
                     && !(method != null ? !method.equals(that.method) : that.method != null);
-
         }
 
         @Override

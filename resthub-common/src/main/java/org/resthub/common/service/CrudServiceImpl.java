@@ -16,8 +16,8 @@ import org.springframework.util.Assert;
  * @param <ID> Resource id type, usually Long or String
  * @param <R> The repository class
  */
-public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>>
-        implements CrudService<T, ID> {
+public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>> implements
+        CrudService<T, ID> {
 
     protected R repository;
 

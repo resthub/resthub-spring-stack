@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 public class JsonSerializationHelperTest {
 
     private String json = "{\"id\": 123, \"name\": \"Albert\", \"description\": \"desc\"}";
-   
+
     @Test
     public void testSerialization() {
         SampleResource r = new SampleResource();
@@ -28,10 +28,9 @@ public class JsonSerializationHelperTest {
         Assertions.assertThat(r.getName()).isEqualTo("Albert");
         Assertions.assertThat(r.getDescription()).isEqualTo("desc");
     }
-    
-    @Test(expectedExceptions=SerializationException.class)
+
+    @Test(expectedExceptions = SerializationException.class)
     public void testInvalidDeserialization() {
         JsonHelper.deserialize("Invalid content", SampleResource.class);
     }
-
 }
