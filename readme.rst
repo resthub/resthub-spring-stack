@@ -4,6 +4,6 @@ Javadoc is available `here <http://jenkins.pullrequest.org/job/resthub-spring-st
 
 Build status on Travis CI:
 
-.. image:: https://secure.travis-ci.org/pullrequest/resthub.png?branch=resthub2
+.. image:: https://secure.travis-ci.org/resthub/resthub-spring-stack.png?branch=resthub2
    :alt: Build Status
-   :target: http://travis-ci.org/pullrequest/resthub
+   :target: http://travis-ci.org/resthub/resthub-spring-stack
