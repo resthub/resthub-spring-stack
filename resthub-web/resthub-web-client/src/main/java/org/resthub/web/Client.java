@@ -1,6 +1,5 @@
 package org.resthub.web;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm.AuthScheme;
 import com.ning.http.client.Realm.RealmBuilder;
@@ -12,12 +11,13 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.Future;
 import org.resthub.web.oauth2.OAuth2RequestFilter;
+import org.resthub.web.support.*;
 
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play Framework 2 one
  *
  * Sample usage : User user =
- * Client.url("http://localhost:8080/api/user".jsonPost(user).get().jsonDeserialize(User.class);
+ * Client.url("http://localhost:8080/api/user".jsonPost(user).get().getEntity(User.class);
  *
  *
  */
@@ -25,6 +25,8 @@ public class Client implements Closeable {
 
     protected AsyncHttpClient client;
     protected Builder builder;
+    protected List<BodyReader> bodyReaders = new ArrayList<>();
+    protected List<BodyWriter> bodyWriters = new ArrayList<>();
     private String username = null;
     private String password = null;
     private String clientId = null;
@@ -42,6 +44,16 @@ public class Client implements Closeable {
 
     public Client setProxy(String host, int port) {
         this.builder.setProxyServer(new ProxyServer(host, port));
+        return this;
+    }
+
+    public Client addBodyReader(BodyReader br) {
+        this.bodyReaders.add(br);
+        return this;
+    }
+
+    public Client addBodyWriter(BodyWriter bw) {
+        this.bodyWriters.add(bw);
         return this;
     }
 
@@ -87,6 +99,12 @@ public class Client implements Closeable {
         if (this.client == null) {
             this.client = new AsyncHttpClient(builder.build());
         }
+
+        this.bodyReaders.add(new JsonBodyReader());
+        this.bodyReaders.add(new XmlBodyReader());
+        this.bodyWriters.add(new JsonBodyWriter());
+        this.bodyWriters.add(new XmlBodyWriter());
+
         return new RequestHolder(url);
     }
 
@@ -113,14 +131,11 @@ public class Client implements Closeable {
 
         private Future<Response> execute() {
             Future<Response> future = null;
-            try {
-                future = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            AsyncEntityHandler handler = new AsyncEntityHandler();
+            handler.setBodyReaders(bodyReaders);
 
-                    @Override
-                    public Response onCompleted(com.ning.http.client.Response response) {
-                        return new Response(response);
-                    }
-                });
+            try {
+                future = client.executeRequest(request, handler);
             } catch (IOException ex) {
                 future.cancel(true);
             }
@@ -221,13 +236,13 @@ public class Client implements Closeable {
         public Future<Response> jsonPut(Object o) {
             this.setHeader(Http.ACCEPT, Http.JSON);
             this.setHeader(Http.CONTENT_TYPE, Http.JSON);
-            return executeString("PUT", JsonHelper.serialize(o));
+            return executeString("PUT", serialize(Http.JSON, o));
         }
 
         public Future<Response> xmlPut(Object o) {
             this.setHeader(Http.ACCEPT, Http.XML);
             this.setHeader(Http.CONTENT_TYPE, Http.XML);
-            return executeString("PUT", XmlHelper.serialize(o));
+            return executeString("PUT", serialize(Http.XML, o));
         }
 
         /**
@@ -242,13 +257,13 @@ public class Client implements Closeable {
         public Future<Response> jsonPost(Object o) {
             this.setHeader(Http.ACCEPT, Http.JSON);
             this.setHeader(Http.CONTENT_TYPE, Http.JSON);
-            return executeString("POST", JsonHelper.serialize(o));
+            return executeString("POST", serialize(Http.JSON, o));
         }
 
         public Future<Response> xmlPost(Object o) {
             this.setHeader(Http.ACCEPT, Http.XML);
             this.setHeader(Http.CONTENT_TYPE, Http.XML);
-            return executeString("POST", XmlHelper.serialize(o));
+            return executeString("POST", serialize(Http.XML, o));
         }
 
         /**
@@ -277,7 +292,7 @@ public class Client implements Closeable {
         public Future<Response> put(File body) {
             return executeFile("PUT", body);
         }
-
+        
         /**
          * Perform a DELETE on the request asynchronously.
          */
@@ -333,86 +348,15 @@ public class Client implements Closeable {
             }
             return req.execute();
         }
-    }
 
-    /**
-     * A WS response.
-     */
-    public static class Response {
+        private String serialize(String mediaType, Object o) {
 
-        private com.ning.http.client.Response ahcResponse;
-
-        public Response(com.ning.http.client.Response ahcResponse) {
-            this.ahcResponse = ahcResponse;
-        }
-
-        /**
-         * Get the HTTP status code of the response
-         */
-        public int getStatus() {
-            return ahcResponse.getStatusCode();
-        }
-
-        /**
-         * Get the given HTTP header of the response
-         */
-        public String getHeader(String key) {
-            return ahcResponse.getHeader(key);
-        }
-
-        /**
-         * Get the response body as a string
-         */
-        public String getBody() {
-            try {
-                return ahcResponse.getResponseBody();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            for (BodyWriter bw : bodyWriters) {
+                if(bw.canWrite(mediaType)) {
+                    return bw.writeEntity(mediaType, o);
+                }
             }
+            throw new RuntimeException("cannot serialize request body for mediaType "+mediaType);
         }
-
-        /**
-         * Deserialize a JSON response
-         */
-        public <T> T jsonDeserialize(Class<T> type) {
-            try {
-                return JsonHelper.deserialize(ahcResponse.getResponseBody(), type);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        
-        /**
-         * Deserialize a JSON response with Generic type
-         */
-        public <T> T jsonDeserialize(TypeReference valueTypeRef) {
-            try {
-                return (T) JsonHelper.deserialize(ahcResponse.getResponseBody(), valueTypeRef);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        /**
-         * Deserialize a XML response
-         */
-        public <T> T xmlDeserialize(Class<T> type) {
-            try {
-                return XmlHelper.deserialize(ahcResponse.getResponseBody(), type);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        
-        /**
-         * Deserialize a XML response with Generic type
-         */
-        public <T> T xmlDeserialize(TypeReference valueTypeRef) {
-            try {
-                return XmlHelper.deserialize(ahcResponse.getResponseBody(), valueTypeRef);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }        
     }
 }
