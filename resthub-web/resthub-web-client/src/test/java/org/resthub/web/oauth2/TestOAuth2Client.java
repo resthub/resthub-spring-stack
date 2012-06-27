@@ -12,7 +12,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.Client;
-import org.resthub.web.Client.Response;
+import org.resthub.web.Response;
 import org.resthub.web.Http;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
