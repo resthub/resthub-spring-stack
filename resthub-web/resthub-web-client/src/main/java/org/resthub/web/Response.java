@@ -1,0 +1,78 @@
+package org.resthub.web;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.resthub.web.support.BodyReader;
+
+public class Response {
+
+    private com.ning.http.client.Response ahcResponse;
+    private List<BodyReader> bodyReaders = new ArrayList<>();
+
+    public Response(com.ning.http.client.Response ahcResponse) {
+        this.ahcResponse = ahcResponse;
+    }
+
+    public void addBodyReader(BodyReader br) {
+        this.bodyReaders.add(br);
+    }
+
+    public void addBodyReaders(List<BodyReader> bodyReaders) {
+        this.bodyReaders.addAll(bodyReaders);
+    }
+
+    public <T> T resource(Class<T> type) {
+        try {
+            for (BodyReader br : this.bodyReaders) {
+                if (br.canRead(ahcResponse)) {
+                    return br.readEntity(ahcResponse, type);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        throw new RuntimeException("unsupported media type " + ahcResponse.getContentType());
+    }
+
+    public <T> T resource(TypeReference valueTypeRef) {
+        try {
+            for (BodyReader br : this.bodyReaders) {
+                if (br.canRead(ahcResponse)) {
+                    return br.readEntity(ahcResponse, valueTypeRef);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        throw new RuntimeException("unsupported media type " + ahcResponse.getContentType());
+    }
+
+    /**
+     * Get the HTTP status code of the response
+     */
+    public int getStatus() {
+        return ahcResponse.getStatusCode();
+    }
+
+    /**
+     * Get the given HTTP header of the response
+     */
+    public String getHeader(String key) {
+        return ahcResponse.getHeader(key);
+    }
+
+    /**
+     * Get the response body as a string
+     */
+    public String getBody() {
+        try {
+            return ahcResponse.getResponseBody();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
