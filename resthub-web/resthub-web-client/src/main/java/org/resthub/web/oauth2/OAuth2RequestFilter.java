@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
  */
 public class OAuth2RequestFilter implements RequestFilter {
 
-    public static final String SCHEME_NAME = "Bearer";
     public static final String GRANT_TYPE_PARAMETER_NAME = "grant_type";
     public static final String CLIENT_ID_PARAMETER_NAME = "client_id";
     public static final String CLIENT_SECRET_PARAMETER_NAME = "client_secret";
@@ -30,6 +29,7 @@ public class OAuth2RequestFilter implements RequestFilter {
     protected String accessTokenEndPoint;
     protected String clientId;
     protected String clientSecret;
+    protected String scheme_name = "Bearer";
 
     protected OAuth2Token token;
 
@@ -65,6 +65,14 @@ public class OAuth2RequestFilter implements RequestFilter {
         this.clientSecret = clientSecret;
     }
 
+    public String getScheme_name() {
+        return scheme_name;
+    }
+
+    public void setScheme_name(String scheme_name) {
+        this.scheme_name = scheme_name;
+    }
+
     private OAuth2Token retrieveAccessToken(String username, String password) {
         AsyncHttpClient client = new AsyncHttpClient();
         BoundRequestBuilder request = client.preparePost(this.accessTokenEndPoint);
@@ -97,7 +105,7 @@ public class OAuth2RequestFilter implements RequestFilter {
                     .getPassword());
         }
 
-        ctx.getRequest().getHeaders().add(Http.AUTHORIZATION, SCHEME_NAME + " " + token.getAccessToken());
+        ctx.getRequest().getHeaders().add(Http.AUTHORIZATION, scheme_name + " " + token.getAccessToken());
         return ctx;
     }
 }
