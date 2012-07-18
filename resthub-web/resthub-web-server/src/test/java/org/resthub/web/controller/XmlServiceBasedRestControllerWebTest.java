@@ -31,7 +31,7 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
         Response response = httpClient.url(rootUrl()).xmlPost(r).get();
-        r = (Sample)response.getResource(r.getClass());
+        r = (Sample)response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
@@ -58,7 +58,7 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         Client httpClient = new Client();
     	Sample r = new Sample("toto");
-        r = httpClient.url(rootUrl()).xmlPost(r).get().getResource(r.getClass());
+        r = httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
 
         Response response = httpClient.url(rootUrl() + "/" + r.getId()).delete().get();
@@ -72,7 +72,7 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
-        r = (Sample)httpClient.url(rootUrl()).xmlPost(r).get().getResource(r.getClass());
+        r = (Sample)httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());
         
         Response response = httpClient.url(rootUrl() + "/" + r.getId()).get().get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
@@ -82,10 +82,10 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     public void testUpdate() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         Client httpClient = new Client();
         Sample r1 = new Sample("toto");
-        r1 = httpClient.url(rootUrl()).xmlPost(r1).get().getResource(r1.getClass());
+        r1 = httpClient.url(rootUrl()).xmlPost(r1).get().resource(r1.getClass());
         Sample r2 = new Sample(r1);
         r2.setName("titi");
-        r2 = httpClient.url(rootUrl() + "/" + r1.getId()).xmlPut(r2).get().getResource(r2.getClass());
+        r2 = httpClient.url(rootUrl() + "/" + r1.getId()).xmlPut(r2).get().resource(r2.getClass());
         Assertions.assertThat(r1).isNotEqualTo(r2);
         Assertions.assertThat(r1.getName()).contains("toto");
         Assertions.assertThat(r2.getName()).contains("titi");

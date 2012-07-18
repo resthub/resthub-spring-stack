@@ -23,7 +23,7 @@ public class Response {
         this.bodyReaders.addAll(bodyReaders);
     }
 
-    public <T> T getResource(Class<T> type) {
+    public <T> T resource(Class<T> type) {
         try {
             for (BodyReader br : this.bodyReaders) {
                 if (br.canRead(ahcResponse)) {
@@ -37,7 +37,7 @@ public class Response {
         throw new RuntimeException("unsupported media type " + ahcResponse.getContentType());
     }
 
-    public <T> T getResource(TypeReference valueTypeRef) {
+    public <T> T resource(TypeReference valueTypeRef) {
         try {
             for (BodyReader br : this.bodyReaders) {
                 if (br.canRead(ahcResponse)) {
