@@ -16,8 +16,9 @@ import org.resthub.web.support.*;
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play Framework 2 one
  *
- * Sample usage : User user =
- * Client.url("http://localhost:8080/api/user".jsonPost(user).get().getEntity(User.class);
+ * Sample usage :
+ * Client httpClient = new Client()
+ * User user = httpClient.url("http://localhost:8080/api/user".jsonPost(user).get().resource(User.class);
  *
  *
  */
