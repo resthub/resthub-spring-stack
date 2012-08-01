@@ -29,6 +29,7 @@ import com.ning.http.client.AsyncHttpClientConfig.Builder;
  * <li>a resource service protected with resthub-oauth2-filter.</li>
  * </ol>
  */
+// TODO: refactor those tests - use mocks and avoid Thread.sleep
 public class TestOAuth2Client {
 
     public static final String CLIENT_ID = "test";
@@ -92,5 +93,19 @@ public class TestOAuth2Client {
     public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
     	Response response = new Client().url(BASE_URL + "/api/resource/hello").getJson().get();
     	Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
+    }
+    
+    @Test
+    public void testTokenExpired() throws IOException, InterruptedException, ExecutionException {
+        Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET); 
+        String result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
+        Assertions.assertThat(result).isEqualTo("Hello");
+        
+        // wait for the token to expire
+        Thread.sleep(1000L);
+        
+        // the client should detect its token is expired and ask for a new token
+        result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
+        Assertions.assertThat(result).isEqualTo("Hello");
     }
 }
