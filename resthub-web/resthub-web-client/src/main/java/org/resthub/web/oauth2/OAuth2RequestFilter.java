@@ -77,11 +77,11 @@ public class OAuth2RequestFilter implements RequestFilter {
         this.clientSecret = clientSecret;
     }
 
-    public String getScheme_name() {
+    public String getSchemeName() {
         return scheme_name;
     }
 
-    public void setScheme_name(String scheme_name) {
+    public void setSchemeName(String scheme_name) {
         this.scheme_name = scheme_name;
     }
 

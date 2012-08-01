@@ -143,7 +143,7 @@ public class Client implements Closeable {
 
             OAuth2RequestFilter oauth2Filter = new OAuth2RequestFilter(accessTokenEndpoint, clientId, clientSecret);
             if (oauth2_scheme != null) {
-                oauth2Filter.setScheme_name(oauth2_scheme);
+                oauth2Filter.setSchemeName(oauth2_scheme);
             }
             builder.addRequestFilter(oauth2Filter);
         }
