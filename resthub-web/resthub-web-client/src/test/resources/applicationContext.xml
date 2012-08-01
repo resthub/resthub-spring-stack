@@ -35,13 +35,13 @@
         <security:custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER" />
     </security:http>
 
-    <bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.filter.ClientCredentialsTokenEndpointFilter">
+    <bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
         <property name="authenticationManager" ref="clientAuthenticationManager" />
     </bean>
 
     <mvc:annotation-driven />
 
-    <bean id="entryPoint" class="org.springframework.security.oauth2.provider.error.MediaTypeAwareAuthenticationEntryPoint">
+    <bean id="entryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="test" />
     </bean>
 
@@ -59,11 +59,12 @@
 
     <bean id="oauth2AccessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl" />
 
-    <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.RandomValueTokenServices">
+    <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore">
             <bean class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
         </property>
         <property name="supportRefreshToken" value="false" />
+        <property name="accessTokenValiditySeconds" value="2" />
     </bean>
 
     <oauth2:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">

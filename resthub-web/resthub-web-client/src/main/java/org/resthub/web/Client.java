@@ -1,24 +1,24 @@
 package org.resthub.web;
 
+import com.ning.http.client.*;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm.AuthScheme;
 import com.ning.http.client.Realm.RealmBuilder;
-import com.ning.http.client.*;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.Future;
+import org.resthub.web.Response;
 import org.resthub.web.oauth2.OAuth2RequestFilter;
 import org.resthub.web.support.*;
 
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play Framework 2 one
  *
- * Sample usage : User user =
- * Client.url("http://localhost:8080/api/user".jsonPost(user).get().getEntity(User.class);
- *
+ * Sample usage : Client httpClient = new Client(); User user =
+ * httpClient.url("http://localhost:8080/api/user".jsonPost(user).get().resource(User.class);
  *
  */
 public class Client implements Closeable {
@@ -32,6 +32,7 @@ public class Client implements Closeable {
     private String clientId = null;
     private String clientSecret = null;
     private String accessTokenEndpoint = null;
+    private String oauth2_scheme = null;
     private AuthScheme scheme = null;
 
     public Client() {
@@ -58,7 +59,7 @@ public class Client implements Closeable {
     }
 
     /**
-     * Sets the authentication header for the current request.
+     * Sets the authentication header for the current client.
      *
      * @param username
      * @param password
@@ -72,13 +73,35 @@ public class Client implements Closeable {
     }
 
     /**
-     * Sets the OAuth2 authentication header for the current request.
+     * Sets the OAuth2 authentication header for the current client.
      *
-     * @param username
-     * @param password
-     * @param accessTokenEndpoint
-     * @param clientId
-     * @param clientSecret
+     * @param username The user's login
+     * @param password The user's password
+     * @param accessTokenEndpoint URL of the OAuth2.0 access token endpoint
+     * service
+     * @param clientId id of the current application registered with the remote
+     * OAuth2.0 provider
+     * @param clientSecret secret of the current application registered with the
+     * remote OAuth2.0 provider
+     * @param oauth2_scheme scheme used by OAuth2.0 requests when sending tokens
+     * (default: 'Bearer')
+     */
+    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId, String clientSecret, String oauth2_scheme) {
+        this.oauth2_scheme = oauth2_scheme;
+        return this.setOAuth2(username, password, accessTokenEndpoint, clientId, clientSecret);
+    }
+
+    /**
+     * Sets the OAuth2 authentication header for the current client.
+     *
+     * @param username The user's login
+     * @param password The user's password
+     * @param accessTokenEndpoint URL of the OAuth2.0 access token endpoint
+     * service
+     * @param clientId id of the current application registered with the remote
+     * OAuth2.0 provider
+     * @param clientSecret secret of the current application registered with the
+     * remote OAuth2.0 provider
      */
     public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId, String clientSecret) {
         this.username = username;
@@ -86,7 +109,6 @@ public class Client implements Closeable {
         this.accessTokenEndpoint = accessTokenEndpoint;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        builder.addRequestFilter(new OAuth2RequestFilter(accessTokenEndpoint, clientId, clientSecret));
         return this;
     }
 
@@ -97,7 +119,7 @@ public class Client implements Closeable {
      */
     public RequestHolder url(String url) {
         if (this.client == null) {
-            this.client = new AsyncHttpClient(builder.build());
+            this.client = buildClient();
         }
 
         this.bodyReaders.add(new JsonBodyReader());
@@ -113,6 +135,20 @@ public class Client implements Closeable {
         if (client != null) {
             client.close();
         }
+    }
+
+    private AsyncHttpClient buildClient() {
+
+        if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null && password != null) {
+
+            OAuth2RequestFilter oauth2Filter = new OAuth2RequestFilter(accessTokenEndpoint, clientId, clientSecret);
+            if (oauth2_scheme != null) {
+                oauth2Filter.setSchemeName(oauth2_scheme);
+            }
+            builder.addRequestFilter(oauth2Filter);
+        }
+
+        return new AsyncHttpClient(builder.build());
     }
 
     /**
@@ -292,7 +328,7 @@ public class Client implements Closeable {
         public Future<Response> put(File body) {
             return executeFile("PUT", body);
         }
-        
+
         /**
          * Perform a DELETE on the request asynchronously.
          */
@@ -352,11 +388,11 @@ public class Client implements Closeable {
         private String serialize(String mediaType, Object o) {
 
             for (BodyWriter bw : bodyWriters) {
-                if(bw.canWrite(mediaType)) {
+                if (bw.canWrite(mediaType)) {
                     return bw.writeEntity(mediaType, o);
                 }
             }
-            throw new RuntimeException("cannot serialize request body for mediaType "+mediaType);
+            throw new RuntimeException("cannot serialize request body for mediaType " + mediaType);
         }
     }
 }
