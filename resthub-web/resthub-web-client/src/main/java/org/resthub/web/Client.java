@@ -187,6 +187,7 @@ public class Client implements Closeable {
         private final String url;
         private Map<String, Collection<String>> headers = new HashMap<>();
         private Map<String, Collection<String>> queryParameters = new HashMap<>();
+        private List<Cookie> cookies = new ArrayList<>();
         private String body = null;
 
         public RequestHolder(String url) {
@@ -227,6 +228,16 @@ public class Client implements Closeable {
                 values.add(value);
                 queryParameters.put(name, values);
             }
+            return this;
+        }
+        
+        /**
+         * Adds a cookie
+         * @param cookie
+         * @return 
+         */
+        public RequestHolder addCookie(Cookie cookie) {
+            cookies.add(cookie);
             return this;
         }
 
@@ -358,6 +369,7 @@ public class Client implements Closeable {
             if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null && password != null) {
                 req.setRealm(new Realm.RealmBuilder().setPrincipal(username).setPassword(password).build());
             }
+            addCookies(req);
             return req.execute();
         }
 
@@ -366,6 +378,7 @@ public class Client implements Closeable {
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
+            addCookies(req);
             return req.execute();
         }
 
@@ -374,6 +387,7 @@ public class Client implements Closeable {
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
+            addCookies(req);
             return req.execute();
         }
 
@@ -382,7 +396,14 @@ public class Client implements Closeable {
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
+            addCookies(req);
             return req.execute();
+        }
+        
+        private void addCookies(Request req) {
+            for(Cookie cookie:cookies) {
+                req.addCookie(cookie);
+            }
         }
 
         private String serialize(String mediaType, Object o) {
