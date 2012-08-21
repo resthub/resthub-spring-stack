@@ -55,6 +55,21 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
     }
 
     @Test
+    public void testPagingFindPaginatedResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+        Client httpClient = new Client();
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        String responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page","0")
+                .getJson().get().getBody();
+        Assertions.assertThat(responseBody).contains("\"totalElements\":2");
+        Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");
+        responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page","0")
+                .setQueryParameter("size","1").getJson().get().getBody();
+        Assertions.assertThat(responseBody).contains("\"totalElements\":2");
+        Assertions.assertThat(responseBody).contains("\"numberOfElements\":1");
+    }
+
+    @Test
     public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
         Client httpClient = new Client();
     	Sample r = new Sample("toto");
