@@ -2,6 +2,7 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
+
 import org.resthub.common.service.CrudService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
@@ -10,19 +11,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Abstract REST controller using a service implementation
- * 
+ * <p/>
  * <p>You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
  * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController</p>
  *
- * @param <T> Your resource class to manage, maybe an entity or DTO class
+ * @param <T>  Your resource class to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
- * @param <S> The service class
- * 
+ * @param <S>  The service class
  * @see RepositoryBasedRestController
- **/
+ */
 public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends CrudService<T, ID>>
         implements RestController<T, ID> {
 
@@ -30,6 +31,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
 
     /**
      * You should override this setter in order to inject your service with @Inject annotation
+     *
      * @param service The service to be injected
      */
     public void setService(S service) {
@@ -38,7 +40,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
 
     /**
      * You should implement this method if order to return the identifier of a resource instance
-     * 
+     *
      * @param resource The resource from whom we need the identifier
      * @return The resource identifier.
      */
@@ -77,7 +79,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      */
     @Override
     public List<T> findAll() {
-        return (List<T>)this.service.findAll();
+        return (List<T>) this.service.findAll();
     }
 
     /**
@@ -94,6 +96,15 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
     @Override
     public Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
         return this.service.findAll(new PageRequest(page, size));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<T> findPaginated(@RequestParam(value = "page", required = true) Integer pageId,
+                                 @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
+        return this.findAll(pageId, size);
     }
 
     /**
