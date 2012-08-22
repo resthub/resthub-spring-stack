@@ -15,7 +15,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * TODO : add a OAuth2ResponseFilter that will try to reauthenticate in cas of FORBIDDEN HTTP status code one time
+ * HTTP client filter that deals with OAuth2.0 Token authentication
+ * @see OAuth2Config
  */
 public class OAuth2RequestFilter implements RequestFilter {
 
@@ -30,7 +31,7 @@ public class OAuth2RequestFilter implements RequestFilter {
     protected String accessTokenEndPoint;
     protected String clientId;
     protected String clientSecret;
-    protected String scheme_name = "Bearer";
+    protected String scheme_name;
     protected long acquireTime;
 
     protected OAuth2Token token;
