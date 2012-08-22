@@ -1,12 +1,12 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.resthub.common.service.CrudService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,33 +78,17 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public List<T> findAll() {
-        return (List<T>) this.service.findAll();
+    public Page<T> findAll() {
+        return new PageImpl<T>(this.service.findAll());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Page<T> findAll(@PathVariable Integer page) {
-        return this.service.findAll(new PageRequest(page, 10));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
-        return this.service.findAll(new PageRequest(page, size));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<T> findPaginated(@RequestParam(value = "page", required = true) Integer pageId,
+    public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        return this.findAll(pageId, size);
+        return this.service.findAll(new PageRequest(page, size));
     }
 
     /**
