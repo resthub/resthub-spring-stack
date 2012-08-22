@@ -1,6 +1,7 @@
 package org.resthub.web;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.ning.http.client.Cookie;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,5 +75,12 @@ public class Response {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Get the cookies sent along the response
+     */
+    public List<Cookie> getCookies() {
+        return ahcResponse.getCookies();
     }
 }

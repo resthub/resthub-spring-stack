@@ -76,7 +76,8 @@ public abstract class AbstractWebTest {
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
         servletHolder.setName("dispatcher");
         servletHolder.setInitOrder(1);
-        // Reuse beans detected by ContextLoaderListener so we configure an empty contextConfigLocation
+        // Reuse beans detected by ContextLoaderListener so we configure an
+        // empty contextConfigLocation
         servletHolder.setInitParameter("contextConfigLocation", "");
         context.addServlet(servletHolder, "/");
         context.addEventListener(new ContextLoaderListener());

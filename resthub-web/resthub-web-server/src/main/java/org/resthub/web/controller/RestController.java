@@ -2,6 +2,7 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
+
 import org.resthub.web.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * REST controller interface
  *
- * @param <T> Your resource POJO to manage, maybe an entity or DTO class
+ * @param <T>  Your resource POJO to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
  */
 public interface RestController<T, ID extends Serializable> {
@@ -27,11 +28,11 @@ public interface RestController<T, ID extends Serializable> {
     @ResponseBody
     T create(@RequestBody T resource);
 
-   /**
+    /**
      * Update an existing resource<br/>
      * REST webservice published : PUT /{id}
      *
-     * @param id The identifier of the resource to update, usually a Long or String identifier. It is explicitely provided in order to handle cases where the identifier could be changed.
+     * @param id       The identifier of the resource to update, usually a Long or String identifier. It is explicitely provided in order to handle cases where the identifier could be changed.
      * @param resource The resource to update
      * @return OK http status code if the request has been correctly processed, with the updated resource enclosed in the body
      * @throws NotFoundException, BadRequestException
@@ -54,6 +55,8 @@ public interface RestController<T, ID extends Serializable> {
      * Find all resources, and return a paginated collection with default size<br/>
      * REST webservice published : GET /page/0
      *
+     * It also exists a 'query params version' of this api {@see RestController#findPaginated}
+     *
      * @param page Page number starting from 0
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
@@ -65,6 +68,8 @@ public interface RestController<T, ID extends Serializable> {
      * Find all resources, and return a paginated collection<br/>
      * REST webservice published : GET /page/0/size/20
      *
+     * It also exists a 'query params version' of this api {@see RestController#findPaginated}
+     *
      * @param page Page number starting from 0
      * @param size Number of resources by pages
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
@@ -73,7 +78,22 @@ public interface RestController<T, ID extends Serializable> {
     @ResponseBody
     Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size);
 
-     /**
+    /**
+     * Find all resources, and return a paginated collection<br/>
+     * REST webservice published : GET /search?page=0&size=20
+     *
+     * It also exists a 'path version' of this api {@see RestController#findAll}
+     *
+     * @param pageId Page number starting from 0. default to 0
+     * @param size   Number of resources by pages. default to 10
+     * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
+     */
+    @RequestMapping(value = "search", method = RequestMethod.GET)
+    @ResponseBody
+    Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageId,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size);
+
+    /**
      * Find a resource by its identifier<br/>
      * REST webservice published : GET /{id}
      *
@@ -85,7 +105,7 @@ public interface RestController<T, ID extends Serializable> {
     @ResponseBody
     T findById(@PathVariable ID id);
 
-     /**
+    /**
      * Delete all resources<br/>
      * REST webservice published : DELETE /<br/>
      * Return No Content http status code if the request has been correctly processed

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
  * Helper for JSON serialization and deserialization
  */
 public class JsonHelper {
-    
+
     /**
      * Jackson Object Mapper used to serialization/deserialization
      */
@@ -30,23 +30,25 @@ public class JsonHelper {
         objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
-    
+
     /**
      * Return the ObjectMapper. It can be used to customize serialization/deserialization configuration.
      * @return 
      */
     public ObjectMapper getObjectMapper() {
-        if(objectMapper == null) initialize();
+        if (objectMapper == null)
+            initialize();
         return objectMapper;
     }
-    
+
     /**
      * Serialize and object to a JSON String representation
      * @param o The object to serialize
      * @return The JSON String representation
      */
     public static String serialize(Object o) {
-        if(objectMapper == null) initialize();
+        if (objectMapper == null)
+            initialize();
         OutputStream baOutputStream = new ByteArrayOutputStream();
         try {
             objectMapper.writeValue(baOutputStream, o);
@@ -63,14 +65,15 @@ public class JsonHelper {
      * @return The deserialized object instance
      */
     public static <T> T deserialize(String content, Class<T> type) {
-        if(objectMapper == null) initialize();
+        if (objectMapper == null)
+            initialize();
         try {
             return objectMapper.readValue(content, type);
         } catch (Exception e) {
             throw new SerializationException(e);
         }
     }
-    
+
     /**
      * Deserialize a JSON string
      * @param content The JSON String object representation
@@ -78,7 +81,8 @@ public class JsonHelper {
      * @return The deserialized object instance
      */
     public static <T> T deserialize(String content, TypeReference valueTypeRef) {
-        if(objectMapper == null) initialize();
+        if (objectMapper == null)
+            initialize();
         try {
             return objectMapper.readValue(content, valueTypeRef);
         } catch (Exception e) {

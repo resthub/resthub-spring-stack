@@ -122,7 +122,6 @@ public class Client implements Closeable {
         oAuth2ConfigBuilder.setUsername(username).setPassword(password);
         oAuth2ConfigBuilder.setAccessTokenEndpoint(accessTokenEndpoint);
         oAuth2ConfigBuilder.setClientId(clientId).setClientSecret(clientSecret);
-
         return this;
     }
 
@@ -176,7 +175,8 @@ public class Client implements Closeable {
         }
 
         private Request auth(String username, String password, AuthScheme scheme) {
-            this.setRealm((new RealmBuilder()).setScheme(scheme).setPrincipal(username).setPassword(password).setUsePreemptiveAuth(true).build());
+            this.setRealm((new RealmBuilder()).setScheme(scheme).setPrincipal(username).setPassword(password)
+                    .setUsePreemptiveAuth(true).build());
             return this;
         }
 
@@ -202,6 +202,7 @@ public class Client implements Closeable {
         private final String url;
         private Map<String, Collection<String>> headers = new HashMap<>();
         private Map<String, Collection<String>> queryParameters = new HashMap<>();
+        private List<Cookie> cookies = new ArrayList<>();
         private String body = null;
 
         public RequestHolder(String url) {
@@ -242,6 +243,16 @@ public class Client implements Closeable {
                 values.add(value);
                 queryParameters.put(name, values);
             }
+            return this;
+        }
+
+        /**
+         * Adds a cookie
+         * @param cookie
+         * @return 
+         */
+        public RequestHolder addCookie(Cookie cookie) {
+            cookies.add(cookie);
             return this;
         }
 
@@ -366,38 +377,52 @@ public class Client implements Closeable {
         }
 
         private Future<Response> execute(String method) {
-            Request req = new Request(method).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
             if (oAuth2Config != null && oAuth2Config.getAccessTokenEndpoint() != null) {
                 req.setRealm(new Realm.RealmBuilder().setPrincipal(oAuth2Config.getUsername()).setPassword(oAuth2Config.getPassword()).build());
             }
+            addCookies(req);
             return req.execute();
         }
 
         private Future<Response> executeString(String method, String body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
+            addCookies(req);
             return req.execute();
         }
 
         private Future<Response> executeIS(String method, InputStream body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
+            addCookies(req);
             return req.execute();
         }
 
         private Future<Response> executeFile(String method, File body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
+            addCookies(req);
             return req.execute();
+        }
+
+        private void addCookies(Request req) {
+            for (Cookie cookie : cookies) {
+                req.addCookie(cookie);
+            }
         }
 
         private String serialize(String mediaType, Object o) {

@@ -106,18 +106,18 @@ public class OAuth2RequestFilter implements RequestFilter {
         try {
             response = request.execute().get();
             token = JsonHelper.deserialize(response.getResponseBody("UTF-8"), OAuth2Token.class);
-            acquireTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) ;
+            acquireTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
         } catch (InterruptedException | ExecutionException | IOException e) {
             throw new SerializationException(e);
         }
 
         return token;
     }
-    
+
     /*
      * Checks if the current token is expired, given the "Expires in" duration
-     * information given in the token.
-     * It takes a 5 second security margin to avoid token expiration.
+     * information given in the token. It takes a 5 second security margin to
+     * avoid token expiration.
      */
     private boolean isTokenExpired() {
         return (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - acquireTime) > (token.getExpiresIn() - 5);

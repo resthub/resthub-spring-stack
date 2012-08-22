@@ -2,6 +2,7 @@ package org.resthub.web.controller;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Client;
@@ -19,7 +20,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
     @AfterMethod
     public void tearDown() {
-    	try {
+        try {
             new Client().url(rootUrl()).delete().get();
         } catch (InterruptedException | ExecutionException e) {
             Assertions.fail("Exception during delete all request", e);
@@ -27,38 +28,58 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     }
 
     @Test
-    public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
         Response response = httpClient.url(rootUrl()).xmlPost(r).get();
-        r = (Sample)response.resource(r.getClass());
+        r = (Sample) response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
 
     @Test
-    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
         Client httpClient = new Client();
-    	httpClient.url(rootUrl()).xmlPost(new Sample("toto")). get();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-    	String responseBody = httpClient.url(rootUrl()).getXml().get().getBody();
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        String responseBody = httpClient.url(rootUrl()).getXml().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
     }
 
     @Test
-    public void testPagingFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    public void testPagingFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
         Client httpClient = new Client();
-    	httpClient.url(rootUrl()).xmlPost(new Sample("toto")). get();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-    	String responseBody = httpClient.url(rootUrl() + "/page/0").getXml().get().getBody();
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        String responseBody = httpClient.url(rootUrl() + "/page/0").getXml().get().getBody();
         Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
     }
 
     @Test
-    public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
+    public void testPagingFindPaginatedResources() throws IllegalArgumentException, InterruptedException,
+            ExecutionException, IOException {
         Client httpClient = new Client();
-    	Sample r = new Sample("toto");
-        r = (Sample)httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        String responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page", "0").getXml().get()
+                .getBody();
+        Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
+        Assertions.assertThat(responseBody).contains("<numberOfElements>2</numberOfElements>");
+        responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page", "0")
+                .setQueryParameter("size", "1").getXml().get().getBody();
+        Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
+        Assertions.assertThat(responseBody).contains("<numberOfElements>1</numberOfElements>");
+    }
+
+    @Test
+    public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException,
+            ExecutionException {
+        Client httpClient = new Client();
+        Sample r = new Sample("toto");
+        r = (Sample) httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
 
         Response response = httpClient.url(rootUrl() + "/" + r.getId()).delete().get();
@@ -69,11 +90,12 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     }
 
     @Test
-    public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
+    public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException,
+            ExecutionException {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
-        r = (Sample)httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());
-        
+        r = (Sample) httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());
+
         Response response = httpClient.url(rootUrl() + "/" + r.getId()).get().get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
     }
@@ -92,4 +114,3 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     }
 
 }
-

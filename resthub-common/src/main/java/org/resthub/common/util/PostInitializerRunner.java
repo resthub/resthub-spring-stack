@@ -46,7 +46,9 @@ public class PostInitializerRunner implements ApplicationListener {
                             int order = getAnnotation(method, PostInitialize.class).order();
                             postInitializingMethods.add(new PostInitializingMethod(method, bean, order, beanName));
                         } else {
-                            LOGGER.warn("Post Initializer method can't have any arguments. {} in bean {} won't be invoked", method.toGenericString(), beanName);
+                            LOGGER.warn(
+                                    "Post Initializer method can't have any arguments. {} in bean {} won't be invoked",
+                                    method.toGenericString(), beanName);
                         }
                     }
                 }
@@ -54,7 +56,8 @@ public class PostInitializerRunner implements ApplicationListener {
             Collections.sort(postInitializingMethods);
             long endTime = System.currentTimeMillis();
 
-            LOGGER.debug("Application Context scan completed, took {} ms, {} post initializers found. Invoking now.", endTime - startTime, postInitializingMethods.size());
+            LOGGER.debug("Application Context scan completed, took {} ms, {} post initializers found. Invoking now.",
+                    endTime - startTime, postInitializingMethods.size());
             for (PostInitializingMethod postInitializingMethod : postInitializingMethods) {
                 Method method = postInitializingMethod.getMethod();
                 try {

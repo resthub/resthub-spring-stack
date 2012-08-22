@@ -58,13 +58,15 @@ public class TestOAuth2Client {
 
         FilterHolder filterDef = new FilterHolder(DelegatingFilterProxy.class);
         filterDef.setName("springSecurityFilterChain");
-        filterDef.setInitParameter("contextAttribute", "org.springframework.web.servlet.FrameworkServlet.CONTEXT.spring");
+        filterDef.setInitParameter("contextAttribute",
+                "org.springframework.web.servlet.FrameworkServlet.CONTEXT.spring");
         context.addFilter(filterDef, "/*", EnumSet.of(DispatcherType.REQUEST));
 
         ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
         servletHolder.setName("spring");
         servletHolder.setInitOrder(1);
-        servletHolder.setInitParameter("contextConfigLocation", "classpath*:resthubContext.xml classpath*:applicationContext.xml");
+        servletHolder.setInitParameter("contextConfigLocation",
+                "classpath*:resthubContext.xml classpath*:applicationContext.xml");
         context.addServlet(servletHolder, "/");
 
         // Starts the server.
@@ -84,26 +86,26 @@ public class TestOAuth2Client {
 
     @Test
     public void testOAuth2SuccessfulRequest() throws IOException, InterruptedException, ExecutionException {
-    	Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET);   	
+        Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET);
         String result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
     }
 
     @Test
     public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
-    	Response response = new Client().url(BASE_URL + "/api/resource/hello").getJson().get();
-    	Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
+        Response response = new Client().url(BASE_URL + "/api/resource/hello").getJson().get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
     }
-    
+
     @Test
     public void testTokenExpired() throws IOException, InterruptedException, ExecutionException {
-        Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET); 
+        Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET);
         String result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
-        
+
         // wait for the token to expire
         Thread.sleep(1000L);
-        
+
         // the client should detect its token is expired and ask for a new token
         result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
