@@ -55,9 +55,7 @@ public interface RestController<T, ID extends Serializable> {
      * Find all resources, and return a paginated collection<br/>
      * REST webservice published : GET /search?page=0&size=20
      *
-     * It also exists a 'path version' of this api {@see RestController#findAll}
-     *
-     * @param pageId Page number starting from 0. default to 0
+     * @param page   Page number starting from 0. default to 0
      * @param size   Number of resources by pages. default to 10
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
