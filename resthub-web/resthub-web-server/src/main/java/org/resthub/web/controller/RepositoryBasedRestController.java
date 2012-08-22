@@ -8,6 +8,7 @@ import org.resthub.web.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
@@ -83,8 +84,8 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public List<T> findAll() {
-        return (List<T>) this.repository.findAll();
+    public Page<T> findAll() {
+        return new PageImpl<T>((List<T>) this.repository.findAll());
     }
 
     /**

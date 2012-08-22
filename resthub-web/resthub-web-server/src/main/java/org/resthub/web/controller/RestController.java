@@ -49,7 +49,7 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(method = RequestMethod.GET, params="page=all")
     @ResponseBody
-    List<T> findAll();
+    Page<T> findAll();
 
     /**
      * Find all resources, and return a paginated collection<br/>
