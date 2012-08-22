@@ -86,7 +86,8 @@ public class Client implements Closeable {
      * @param oauth2_scheme scheme used by OAuth2.0 requests when sending tokens
      * (default: 'Bearer')
      */
-    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId, String clientSecret, String oauth2_scheme) {
+    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId,
+            String clientSecret, String oauth2_scheme) {
         this.oauth2_scheme = oauth2_scheme;
         return this.setOAuth2(username, password, accessTokenEndpoint, clientId, clientSecret);
     }
@@ -103,7 +104,8 @@ public class Client implements Closeable {
      * @param clientSecret secret of the current application registered with the
      * remote OAuth2.0 provider
      */
-    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId, String clientSecret) {
+    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId,
+            String clientSecret) {
         this.username = username;
         this.password = password;
         this.accessTokenEndpoint = accessTokenEndpoint;
@@ -139,7 +141,8 @@ public class Client implements Closeable {
 
     private AsyncHttpClient buildClient() {
 
-        if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null && password != null) {
+        if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null
+                && password != null) {
 
             OAuth2RequestFilter oauth2Filter = new OAuth2RequestFilter(accessTokenEndpoint, clientId, clientSecret);
             if (oauth2_scheme != null) {
@@ -161,7 +164,8 @@ public class Client implements Closeable {
         }
 
         private Request auth(String username, String password, AuthScheme scheme) {
-            this.setRealm((new RealmBuilder()).setScheme(scheme).setPrincipal(username).setPassword(password).setUsePreemptiveAuth(true).build());
+            this.setRealm((new RealmBuilder()).setScheme(scheme).setPrincipal(username).setPassword(password)
+                    .setUsePreemptiveAuth(true).build());
             return this;
         }
 
@@ -230,7 +234,7 @@ public class Client implements Closeable {
             }
             return this;
         }
-        
+
         /**
          * Adds a cookie
          * @param cookie
@@ -362,11 +366,13 @@ public class Client implements Closeable {
         }
 
         private Future<Response> execute(String method) {
-            Request req = new Request(method).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
-            if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null && password != null) {
+            if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null
+                    && password != null) {
                 req.setRealm(new Realm.RealmBuilder().setPrincipal(username).setPassword(password).build());
             }
             addCookies(req);
@@ -374,7 +380,8 @@ public class Client implements Closeable {
         }
 
         private Future<Response> executeString(String method, String body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
@@ -383,7 +390,8 @@ public class Client implements Closeable {
         }
 
         private Future<Response> executeIS(String method, InputStream body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
@@ -392,16 +400,17 @@ public class Client implements Closeable {
         }
 
         private Future<Response> executeFile(String method, File body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers).setQueryParameters(new FluentStringsMap(queryParameters));
+            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+                    .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
             addCookies(req);
             return req.execute();
         }
-        
+
         private void addCookies(Request req) {
-            for(Cookie cookie:cookies) {
+            for (Cookie cookie : cookies) {
                 req.addCookie(cookie);
             }
         }

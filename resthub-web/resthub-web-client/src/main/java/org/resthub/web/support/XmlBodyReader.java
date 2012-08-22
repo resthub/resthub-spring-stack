@@ -10,8 +10,8 @@ public class XmlBodyReader implements BodyReader {
 
     @Override
     public boolean canRead(Response response) {
-        return (response.getContentType() != null
-                && (response.getContentType().startsWith(Http.XML) || response.getContentType().endsWith("+xml")));
+        return (response.getContentType() != null && (response.getContentType().startsWith(Http.XML) || response
+                .getContentType().endsWith("+xml")));
     }
 
     @Override

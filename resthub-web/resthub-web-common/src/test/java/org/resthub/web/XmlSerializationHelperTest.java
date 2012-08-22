@@ -29,7 +29,7 @@ public class XmlSerializationHelperTest {
         Assertions.assertThat(r.getDescription()).isEqualTo("desc");
     }
 
-    @Test(expectedExceptions=SerializationException.class)
+    @Test(expectedExceptions = SerializationException.class)
     public void testInvalidDeserialization() {
         XmlHelper.deserialize("Invalid content", SampleResource.class);
     }

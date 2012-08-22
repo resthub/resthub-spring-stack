@@ -19,7 +19,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
 
     @AfterMethod
     public void tearDown() {
-    	try {
+        try {
             new Client().url(rootUrl()).delete().get();
         } catch (InterruptedException | ExecutionException e) {
             Assertions.fail("Exception during delete all request", e);
@@ -31,17 +31,18 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
             IOException {
         Sample r = new Sample("toto");
         Response response = new Client().url(rootUrl()).jsonPost(r).get();
-        r = (Sample)response.resource(r.getClass());
+        r = (Sample) response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
 
     @Test
-    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
-    	Client httpClient = new Client();
+    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
+        Client httpClient = new Client();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-    	String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getJson().get().getBody();
+        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
     }
 
@@ -61,9 +62,10 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
     }
 
     @Test
-    public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
+    public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException,
+            ExecutionException {
         Client httpClient = new Client();
-    	Sample r = new Sample("toto");
+        Sample r = new Sample("toto");
         r = httpClient.url(rootUrl()).jsonPost(r).get().resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
 
@@ -74,11 +76,12 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
     }
 
     @Test
-    public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
+    public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException,
+            ExecutionException {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
         r = httpClient.url(rootUrl()).jsonPost(r).get().resource(r.getClass());
-        
+
         Response response = httpClient.url(rootUrl() + "/" + r.getId()).get().get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
     }

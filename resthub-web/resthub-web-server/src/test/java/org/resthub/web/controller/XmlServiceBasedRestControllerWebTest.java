@@ -28,7 +28,8 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     }
 
     @Test
-    public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    public void testCreateResource() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
         Response response = httpClient.url(rootUrl()).xmlPost(r).get();
@@ -38,40 +39,34 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     }
 
     @Test
-    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl()).getXml().get().getBody();
+        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getXml().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
     }
-
+    
     @Test
-    public void testPagingFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
+    public void testFindPaginatedResources() throws IllegalArgumentException, InterruptedException,
+            ExecutionException, IOException {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl() + "/page/0").getXml().get().getBody();
-        Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
-    }
-
-    @Test
-    public void testPagingFindPaginatedResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page","0")
-                .getXml().get().getBody();
+        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "0").getXml().get()
+                .getBody();
         Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
         Assertions.assertThat(responseBody).contains("<numberOfElements>2</numberOfElements>");
-        responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page","0")
-                .setQueryParameter("size","1").getXml().get().getBody();
+        responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "0")
+                .setQueryParameter("size", "1").getXml().get().getBody();
         Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
         Assertions.assertThat(responseBody).contains("<numberOfElements>1</numberOfElements>");
     }
 
     @Test
-    public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
+    public void testDeleteResource() throws IllegalArgumentException, IOException, InterruptedException,
+            ExecutionException {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
         r = httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());
@@ -85,7 +80,8 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     }
 
     @Test
-    public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException, ExecutionException {
+    public void testFindResource() throws IllegalArgumentException, IOException, InterruptedException,
+            ExecutionException {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
         r = (Sample) httpClient.url(rootUrl()).xmlPost(r).get().resource(r.getClass());

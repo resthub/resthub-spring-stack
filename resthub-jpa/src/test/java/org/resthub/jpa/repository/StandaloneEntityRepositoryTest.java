@@ -56,7 +56,8 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
     @Test
     public void testFindAll() {
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(), new StandaloneEntity()));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(),
+                new StandaloneEntity()));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
 
@@ -76,7 +77,8 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     @Test
     public void testFindByName() {
         String name = "testStandaloneEntity", name2 = "testStandaloneEntity2";
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name), new StandaloneEntity(name)));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name),
+                new StandaloneEntity(name)));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
 
@@ -90,7 +92,8 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     @Test
     public void testFindByNameLike() {
         String name = "testStandaloneEntity", name2 = "testStandaloneEntity2", expression = name + "%";
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name), new StandaloneEntity(name)));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name),
+                new StandaloneEntity(name)));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
 
@@ -104,7 +107,8 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     @Test
     public void testFindByNameWithExplicitQuery() {
         String name = "testStandaloneEntity", name2 = "testStandaloneEntity2";
-        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name), new StandaloneEntity(name)));
+        List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name),
+                new StandaloneEntity(name)));
         repository.save(entities);
         Assertions.assertThat(repository.count()).isEqualTo(entities.size());
 
