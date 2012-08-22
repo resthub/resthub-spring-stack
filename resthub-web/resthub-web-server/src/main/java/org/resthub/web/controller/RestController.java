@@ -47,36 +47,9 @@ public interface RestController<T, ID extends Serializable> {
      *
      * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, params="page=all")
     @ResponseBody
     List<T> findAll();
-
-    /**
-     * Find all resources, and return a paginated collection with default size<br/>
-     * REST webservice published : GET /page/0
-     *
-     * It also exists a 'query params version' of this api {@see RestController#findPaginated}
-     *
-     * @param page Page number starting from 0
-     * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
-     */
-    @RequestMapping(value = "page/{page}", method = RequestMethod.GET)
-    @ResponseBody
-    Page<T> findAll(@PathVariable Integer page);
-
-    /**
-     * Find all resources, and return a paginated collection<br/>
-     * REST webservice published : GET /page/0/size/20
-     *
-     * It also exists a 'query params version' of this api {@see RestController#findPaginated}
-     *
-     * @param page Page number starting from 0
-     * @param size Number of resources by pages
-     * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
-     */
-    @RequestMapping(value = "page/{page}/size/{size}", method = RequestMethod.GET)
-    @ResponseBody
-    Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size);
 
     /**
      * Find all resources, and return a paginated collection<br/>
@@ -88,9 +61,9 @@ public interface RestController<T, ID extends Serializable> {
      * @param size   Number of resources by pages. default to 10
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
-    @RequestMapping(value = "search", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageId,
+    Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                           @RequestParam(value = "size", required = false, defaultValue = "10") Integer size);
 
     /**

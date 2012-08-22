@@ -91,25 +91,9 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public Page<T> findAll(@PathVariable Integer page) {
-        return this.repository.findAll(new PageRequest(page, 10));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
-        return this.repository.findAll(new PageRequest(page, size));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<T> findPaginated(@RequestParam(value = "page", required = true) Integer pageId,
+    public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                  @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        return this.findAll(pageId, size);
+        return this.repository.findAll(new PageRequest(page, size));
     }
 
     /**

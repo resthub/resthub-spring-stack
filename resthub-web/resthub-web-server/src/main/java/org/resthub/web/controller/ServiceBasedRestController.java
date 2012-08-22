@@ -86,25 +86,9 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public Page<T> findAll(@PathVariable Integer page) {
-        return this.service.findAll(new PageRequest(page, 10));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<T> findAll(@PathVariable Integer page, @PathVariable Integer size) {
-        return this.service.findAll(new PageRequest(page, size));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<T> findPaginated(@RequestParam(value = "page", required = true) Integer pageId,
+    public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                  @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        return this.findAll(pageId, size);
+        return this.service.findAll(new PageRequest(page, size));
     }
 
     /**
