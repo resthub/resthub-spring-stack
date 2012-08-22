@@ -11,48 +11,72 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.Future;
 import org.resthub.web.Response;
+import org.resthub.web.oauth2.OAuth2Config;
 import org.resthub.web.oauth2.OAuth2RequestFilter;
 import org.resthub.web.support.*;
 
 /**
- * RESThub AsyncHttpClient wrapper inspired from Play Framework 2 one
+ * RESThub AsyncHttpClient wrapper inspired from Play! Framework 2<br>
  *
- * Sample usage : Client httpClient = new Client(); User user =
- * httpClient.url("http://localhost:8080/api/user".jsonPost(user).get().resource(User.class);
+ * Sample usage:
+ * <pre> Client httpClient = new Client();
+ * User user = httpClient.url("http://localhost:8080/api/user").jsonPost(user).get().resource(User.class);</pre>
  *
  */
 public class Client implements Closeable {
 
     protected AsyncHttpClient client;
     protected Builder builder;
+    protected OAuth2Config.Builder oAuth2ConfigBuilder;
+    protected OAuth2Config oAuth2Config;
     protected List<BodyReader> bodyReaders = new ArrayList<>();
     protected List<BodyWriter> bodyWriters = new ArrayList<>();
     private String username = null;
     private String password = null;
-    private String clientId = null;
-    private String clientSecret = null;
-    private String accessTokenEndpoint = null;
-    private String oauth2_scheme = null;
     private AuthScheme scheme = null;
 
+    /**
+     * Create an HTTP client with default configuration
+     */
     public Client() {
         this.builder = new Builder();
     }
 
+    /**
+     * Create an HTTP client with a pre-configured Builder
+     *
+     * @see Builder
+     */
     public Client(Builder builder) {
         this.builder = builder;
     }
 
+    /**
+     * Set HTTP proxy configuration
+     */
     public Client setProxy(String host, int port) {
         this.builder.setProxyServer(new ProxyServer(host, port));
         return this;
     }
 
+    /**
+     * Add a candidate BodyReader to read an HTTP response body to an object
+     *
+     * @param br a bodyreader
+     * @see BodyReader
+     */
     public Client addBodyReader(BodyReader br) {
         this.bodyReaders.add(br);
         return this;
     }
 
+    /**
+     * Add a candidate BodyWriter to serialize an object to an HTTP response
+     * body
+     *
+     * @param br a bodyreader
+     * @see BodyWriter
+     */
     public Client addBodyWriter(BodyWriter bw) {
         this.bodyWriters.add(bw);
         return this;
@@ -72,24 +96,10 @@ public class Client implements Closeable {
         return this;
     }
 
-    /**
-     * Sets the OAuth2 authentication header for the current client.
-     *
-     * @param username The user's login
-     * @param password The user's password
-     * @param accessTokenEndpoint URL of the OAuth2.0 access token endpoint
-     * service
-     * @param clientId id of the current application registered with the remote
-     * OAuth2.0 provider
-     * @param clientSecret secret of the current application registered with the
-     * remote OAuth2.0 provider
-     * @param oauth2_scheme scheme used by OAuth2.0 requests when sending tokens
-     * (default: 'Bearer')
-     */
-    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId,
-            String clientSecret, String oauth2_scheme) {
-        this.oauth2_scheme = oauth2_scheme;
-        return this.setOAuth2(username, password, accessTokenEndpoint, clientId, clientSecret);
+    public Client setOAuth2Builder(OAuth2Config.Builder builder) {
+        this.oAuth2ConfigBuilder = builder;
+
+        return this;
     }
 
     /**
@@ -104,13 +114,14 @@ public class Client implements Closeable {
      * @param clientSecret secret of the current application registered with the
      * remote OAuth2.0 provider
      */
-    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId,
-            String clientSecret) {
-        this.username = username;
-        this.password = password;
-        this.accessTokenEndpoint = accessTokenEndpoint;
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+    public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId, String clientSecret) {
+
+        if (null == oAuth2ConfigBuilder) {
+            oAuth2ConfigBuilder = new OAuth2Config.Builder();
+        }
+        oAuth2ConfigBuilder.setUsername(username).setPassword(password);
+        oAuth2ConfigBuilder.setAccessTokenEndpoint(accessTokenEndpoint);
+        oAuth2ConfigBuilder.setClientId(clientId).setClientSecret(clientSecret);
         return this;
     }
 
@@ -141,13 +152,13 @@ public class Client implements Closeable {
 
     private AsyncHttpClient buildClient() {
 
-        if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null
-                && password != null) {
-
-            OAuth2RequestFilter oauth2Filter = new OAuth2RequestFilter(accessTokenEndpoint, clientId, clientSecret);
-            if (oauth2_scheme != null) {
-                oauth2Filter.setSchemeName(oauth2_scheme);
-            }
+        if (oAuth2ConfigBuilder != null) {
+            oAuth2Config = oAuth2ConfigBuilder.build();
+            
+            // TODO create request+response filters in OAuth2Config
+            // -> handle new endpoints, refresh tokens...
+            OAuth2RequestFilter oauth2Filter = new OAuth2RequestFilter(oAuth2Config.getAccessTokenEndpoint(), oAuth2Config.getClientId(), oAuth2Config.getClientSecret());
+            oauth2Filter.setSchemeName(oAuth2Config.getOAuth2Scheme());
             builder.addRequestFilter(oauth2Filter);
         }
 
@@ -371,9 +382,8 @@ public class Client implements Closeable {
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
             }
-            if (accessTokenEndpoint != null && clientId != null && clientSecret != null && username != null
-                    && password != null) {
-                req.setRealm(new Realm.RealmBuilder().setPrincipal(username).setPassword(password).build());
+            if (oAuth2Config != null && oAuth2Config.getAccessTokenEndpoint() != null) {
+                req.setRealm(new Realm.RealmBuilder().setPrincipal(oAuth2Config.getUsername()).setPassword(oAuth2Config.getPassword()).build());
             }
             addCookies(req);
             return req.execute();
