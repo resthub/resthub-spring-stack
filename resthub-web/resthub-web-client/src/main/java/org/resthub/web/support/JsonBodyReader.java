@@ -11,8 +11,8 @@ public class JsonBodyReader implements BodyReader {
     @Override
     public boolean canRead(Response response) {
 
-        return (response.getContentType() != null
-                && (response.getContentType().startsWith(Http.JSON) || response.getContentType().endsWith("+json")));
+        return (response.getContentType() != null && (response.getContentType().startsWith(Http.JSON) || response
+                .getContentType().endsWith("+json")));
     }
 
     @Override

@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 @XmlRootElement
 @Entity
 public class Sample {
@@ -21,7 +20,7 @@ public class Sample {
         super();
         this.name = name;
     }
-    
+
     public Sample(Sample webSampleResource) {
         super();
         this.id = webSampleResource.getId();

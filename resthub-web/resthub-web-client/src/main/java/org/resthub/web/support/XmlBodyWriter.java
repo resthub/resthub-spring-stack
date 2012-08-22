@@ -8,8 +8,7 @@ public class XmlBodyWriter implements BodyWriter {
 
     @Override
     public boolean canWrite(String mediaType) {
-        return (mediaType != null
-                && (mediaType.startsWith(Http.XML) || mediaType.endsWith("+xml")));
+        return (mediaType != null && (mediaType.startsWith(Http.XML) || mediaType.endsWith("+xml")));
     }
 
     @Override

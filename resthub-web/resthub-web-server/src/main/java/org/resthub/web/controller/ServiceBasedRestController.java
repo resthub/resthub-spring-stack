@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @param <S>  The service class
  * @see RepositoryBasedRestController
  */
-public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends CrudService<T, ID>>
-        implements RestController<T, ID> {
+public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends CrudService<T, ID>> implements
+        RestController<T, ID> {
 
     protected S service;
 
@@ -103,7 +103,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      */
     @Override
     public Page<T> findPaginated(@RequestParam(value = "page", required = true) Integer pageId,
-                                 @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
         return this.findAll(pageId, size);
     }
 

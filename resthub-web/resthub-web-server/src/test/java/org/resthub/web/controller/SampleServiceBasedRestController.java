@@ -7,11 +7,13 @@ import org.resthub.web.service.WebSampleResourceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller @RequestMapping("/service-based")
+@Controller
+@RequestMapping("/service-based")
 public class SampleServiceBasedRestController extends
         ServiceBasedRestController<Sample, Long, WebSampleResourceService> {
 
-    @Override @Inject
+    @Override
+    @Inject
     public void setService(WebSampleResourceService service) {
         this.service = service;
     }

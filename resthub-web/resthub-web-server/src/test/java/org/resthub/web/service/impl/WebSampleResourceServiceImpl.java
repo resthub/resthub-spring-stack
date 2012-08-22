@@ -9,10 +9,11 @@ import org.resthub.web.repository.WebSampleResourceRepository;
 import org.resthub.web.service.WebSampleResourceService;
 
 @Named("webSampleResourceService")
-public class WebSampleResourceServiceImpl extends CrudServiceImpl<Sample, Long, WebSampleResourceRepository>
-        implements WebSampleResourceService {
+public class WebSampleResourceServiceImpl extends CrudServiceImpl<Sample, Long, WebSampleResourceRepository> implements
+        WebSampleResourceService {
 
-    @Override @Inject
+    @Override
+    @Inject
     public void setRepository(WebSampleResourceRepository webSampleResourceRepository) {
         super.setRepository(webSampleResourceRepository);
     }

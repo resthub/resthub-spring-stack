@@ -91,7 +91,7 @@ public interface RestController<T, ID extends Serializable> {
     @RequestMapping(value = "search", method = RequestMethod.GET)
     @ResponseBody
     Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer pageId,
-                          @RequestParam(value = "size", required = false, defaultValue = "10") Integer size);
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size);
 
     /**
      * Find a resource by its identifier<br/>
