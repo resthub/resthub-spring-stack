@@ -9,6 +9,8 @@
         http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+    <import resource="classpath*:resthubCommonContext.xml" />
 
     <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
         ignore-resource-not-found="true" ignore-unresolvable="true" />

@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public abstract class AbstractWebTest {
 
     protected Server server;
 
-    protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
+    protected String contextLocations = "classpath*:applicationContext.xml";
     protected Boolean useOpenEntityManagerInViewFilter = false;
     protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
 
@@ -72,14 +73,21 @@ public abstract class AbstractWebTest {
         // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
         context.getInitParams().put("contextConfigLocation", contextLocations);
+        
+        ServletHolder defaultServletHolder = new ServletHolder(DefaultServlet.class);
+        defaultServletHolder.setName("default");
+        
+        // Add default servlet in order to make <mvc:default-servlet-handler /> work in unit tests.
+        // "/" servlet mapping will be overriden by dispatcher, but default servlet will stay in the context
+        context.addServlet(defaultServletHolder, "/");
 
-        ServletHolder servletHolder = new ServletHolder(DispatcherServlet.class);
-        servletHolder.setName("dispatcher");
-        servletHolder.setInitOrder(1);
+        ServletHolder dispatcherServletHolder = new ServletHolder(DispatcherServlet.class);
+        dispatcherServletHolder.setName("dispatcher");
+        dispatcherServletHolder.setInitOrder(1);
         // Reuse beans detected by ContextLoaderListener so we configure an
         // empty contextConfigLocation
-        servletHolder.setInitParameter("contextConfigLocation", "");
-        context.addServlet(servletHolder, "/");
+        dispatcherServletHolder.setInitParameter("contextConfigLocation", "");
+        context.addServlet(dispatcherServletHolder, "/");
         context.addEventListener(new ContextLoaderListener());
 
         if (useOpenEntityManagerInViewFilter) {
