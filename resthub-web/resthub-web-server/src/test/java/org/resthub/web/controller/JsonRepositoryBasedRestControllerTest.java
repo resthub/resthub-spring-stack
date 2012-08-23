@@ -42,34 +42,35 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl()).getJson().get().getBody();
+        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
     }
 
     @Test
-    public void testPagingFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException,
-            IOException {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl() + "/page/0").getJson().get().getBody();
-        Assertions.assertThat(responseBody).contains("\"totalElements\":2");
-    }
-
-    @Test
-    public void testPagingFindPaginatedResources() throws IllegalArgumentException, InterruptedException,
-            ExecutionException, IOException {
+    public void testFindPaginatedResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page", "0").getJson().get()
-                .getBody();
+        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "1")
+                .getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");
-        responseBody = httpClient.url(rootUrl() + "/search").setQueryParameter("page", "0")
+        responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "1")
                 .setQueryParameter("size", "1").getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":1");
+    }
+    
+    @Test
+    public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() throws InterruptedException, ExecutionException {
+        Client httpClient = new Client();
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
+        Response response = httpClient.url(rootUrl()).setQueryParameter("page", "0")
+                .getJson().get();
+        // TODO: Map IllegalArgumentException to 400 Bad Request
+        Assertions.assertThat(response.getStatus()).isEqualTo(500);
+        Assertions.assertThat(response.getBody()).contains("Page index must be greater than 0");
     }
 
     @Test

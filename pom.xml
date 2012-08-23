@@ -103,6 +103,11 @@
             <name>Julien Villanti</name>
             <timezone>+1</timezone>
         </developer>
+        <developer>
+            <id>bclozel</id>
+            <name>Brian Clozel</name>
+            <timezone>+1</timezone>
+        </developer>
     </developers>
     <scm>
         <connection>scm:git:https://github.com/resthub/resthub-spring-stack.git</connection>
