@@ -86,7 +86,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+    public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
         Assert.isTrue(page > 0, "Page index must be greater than 0");
         return this.service.findAll(new PageRequest(page - 1, size));
