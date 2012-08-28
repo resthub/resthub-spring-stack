@@ -92,7 +92,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+    public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
         Assert.isTrue(page > 0, "Page index must be greater than 0");
         return this.repository.findAll(new PageRequest(page - 1, size));
