@@ -61,7 +61,7 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+    Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size);
 
     /**
