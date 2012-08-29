@@ -9,3 +9,4 @@ MANIFEST.MF
 *.iml
 .idea
 nb-configuration.xml
+*.versionsBackup
