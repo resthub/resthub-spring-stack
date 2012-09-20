@@ -4,6 +4,10 @@
             <Pattern>%d [%thread] %level %logger - %m%n</Pattern>
         </layout>
     </appender>
+    
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+        <level value="debug" />
+    </logger>
 
     <root level="info">
         <appender-ref ref="CONSOLE" />
