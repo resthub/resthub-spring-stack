@@ -87,6 +87,14 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
     public Page<T> findAll() {
         return new PageImpl<T>((List<T>) this.repository.findAll());
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<T> findAllNotPaginated() {
+        return (List<T>)repository.findAll();
+    }
 
     /**
      * {@inheritDoc}
@@ -129,4 +137,5 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
     public void delete(@PathVariable ID id) {
         this.repository.delete(id);
     }
+    
 }
