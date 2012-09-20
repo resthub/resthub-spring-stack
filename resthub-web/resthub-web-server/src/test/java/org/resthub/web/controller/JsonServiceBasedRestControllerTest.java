@@ -47,6 +47,18 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
         String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
     }
+    
+    @Test
+    public void testFindAllResourcesUnpaginated() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
+        Client httpClient = new Client();
+        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
+        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
+        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "no").getJson().get().getBody();
+        Assertions.assertThat(responseBody).contains("toto");
+        Assertions.assertThat(responseBody).doesNotContain("\"totalElements\":2");
+        Assertions.assertThat(responseBody).doesNotContain("\"numberOfElements\":2");
+    }
 
     @Test
     public void testFindPaginatedResources() throws IllegalArgumentException, InterruptedException, ExecutionException, IOException {

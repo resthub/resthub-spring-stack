@@ -42,14 +42,24 @@ public interface RestController<T, ID extends Serializable> {
     T update(@PathVariable ID id, @RequestBody T resource);
 
     /**
-     * Find all resources, and return the full collection<br/>
-     * REST webservice published : GET /
+     * Find all resources, and return the full collection (paginated)<br/>
+     * REST webservice published : GET /?page=all
      *
      * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
      */
     @RequestMapping(method = RequestMethod.GET, params="page=all")
     @ResponseBody
     Page<T> findAll();
+    
+    /**
+     * Find all resources, and return the full collection (plain list not paginated)<br/>
+     * REST webservice published : GET /?page=no
+     *
+     * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
+     */
+    @RequestMapping(method = RequestMethod.GET, params="page=no")
+    @ResponseBody
+    public List<T> findAllNotPaginated();
 
     /**
      * Find all resources, and return a paginated collection<br/>
@@ -96,4 +106,5 @@ public interface RestController<T, ID extends Serializable> {
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable ID id);
+    
 }
