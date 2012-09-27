@@ -1,7 +1,7 @@
 <configuration>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d [%thread] %level %logger - %m%n</Pattern>
+            <Pattern>%d [%thread] %level %logger - %m%n%rEx</Pattern>
         </layout>
     </appender>
 
