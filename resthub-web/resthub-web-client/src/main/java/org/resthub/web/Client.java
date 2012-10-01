@@ -52,6 +52,13 @@ public class Client implements Closeable {
     }
 
     /**
+     * Return the AsyncHttpClient native client for advanced features
+     */
+    public AsyncHttpClient getNativeClient() {
+        return client;
+    }   
+
+    /**
      * Set HTTP proxy configuration
      */
     public Client setProxy(String host, int port) {
