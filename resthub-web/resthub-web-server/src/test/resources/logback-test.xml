@@ -1,15 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d [%thread] %level %logger - %m%n%rEx</Pattern>
-        </layout>
+    <!-- Standard console output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{26} - %msg%n%rEx</pattern>
+        </encoder>
     </appender>
-    
+
+    <logger name="org.resthub">
+        <level value="warn" />
+    </logger>
+
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
         <level value="debug" />
     </logger>
 
-    <root level="info">
-        <appender-ref ref="CONSOLE" />
+    <logger name="org.springframework">
+        <level value="warn" />
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="warn" />
+    </logger>
+    <logger name="org.hibernate.SQL">
+        <level value="warn" />
+    </logger>
+
+    <root level="warn">
+        <appender-ref ref="STDOUT" />
     </root>
 </configuration>
