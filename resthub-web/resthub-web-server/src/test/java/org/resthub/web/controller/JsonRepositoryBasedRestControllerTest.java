@@ -42,7 +42,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getJson().get().getBody();
+        String responseBody = httpClient.url(rootUrl()).getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");

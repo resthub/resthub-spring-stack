@@ -6,6 +6,7 @@ import java.util.List;
 import org.resthub.common.service.CrudService;
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
+import org.resthub.web.exception.NotImplementedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -74,21 +75,21 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
 
         return this.service.update(resource);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<T> findAll() {
-        return new PageImpl<T>(this.service.findAll());
-    }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<T> findAllNotPaginated() {
-        return (List<T>)this.service.findAll();
+    public Iterable<T> findAllXml() {
+        throw new NotImplementedException("XML findAll() is currently not implemented");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterable findAllJson() {
+        return service.findAll();
     }
 
     /**

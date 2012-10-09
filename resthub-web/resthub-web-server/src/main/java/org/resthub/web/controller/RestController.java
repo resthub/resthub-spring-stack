@@ -1,7 +1,6 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.resthub.web.exception.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -40,16 +39,14 @@ public interface RestController<T, ID extends Serializable> {
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     @ResponseBody
     T update(@PathVariable ID id, @RequestBody T resource);
-
+   
     /**
-     * Find all resources, and return the full collection (paginated)<br/>
-     * REST webservice published : GET /?page=all
-     *
-     * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
+     * XML findAll is currently unimplemented, see https://github.com/FasterXML/jackson-dataformat-xml/issues/38 for more details
+     * @return 
      */
-    @RequestMapping(method = RequestMethod.GET, params="page=all")
+    @RequestMapping(method = RequestMethod.GET, params="page=no", produces="application/xml")
     @ResponseBody
-    Page<T> findAll();
+    Iterable<T> findAllXml();
     
     /**
      * Find all resources, and return the full collection (plain list not paginated)<br/>
@@ -57,9 +54,9 @@ public interface RestController<T, ID extends Serializable> {
      *
      * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
      */
-    @RequestMapping(method = RequestMethod.GET, params="page=no")
+    @RequestMapping(method = RequestMethod.GET, params="page=no", produces="application/json")
     @ResponseBody
-    public List<T> findAllNotPaginated();
+    Iterable<T> findAllJson();
 
     /**
      * Find all resources, and return a paginated collection<br/>

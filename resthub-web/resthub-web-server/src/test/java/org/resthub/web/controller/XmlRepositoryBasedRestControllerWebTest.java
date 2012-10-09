@@ -37,29 +37,30 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
-
+    
     @Test
     public void testFindAllResources() throws IllegalArgumentException, InterruptedException, ExecutionException,
             IOException {
         Client httpClient = new Client();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getXml().get().getBody();
+        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
+        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
+        String responseBody = httpClient.url(rootUrl()).getXml().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
+        Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
+        Assertions.assertThat(responseBody).contains("<numberOfElements>2</numberOfElements>");
     }
-    
-// TODO : wait for Jackson 2.1 that supports XML serialization of List
-//    @Test
-//    public void testFindAllResourcesUnpaginated() throws IllegalArgumentException, InterruptedException, ExecutionException,
-//            IOException {
-//        Client httpClient = new Client();
-//        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-//        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-//        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "no").getJson().get().getBody();
-//        Assertions.assertThat(responseBody).contains("toto");
-//        Assertions.assertThat(responseBody).doesNotContain("<totalElements>2</totalElements>");
-//        Assertions.assertThat(responseBody).doesNotContain("<numberOfElements>2</numberOfElements>");
-//    }
+   
+    @Test
+    public void testFindAllResourcesUnpaginated() throws IllegalArgumentException, InterruptedException, ExecutionException,
+            IOException {
+        Client httpClient = new Client();
+        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
+        httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
+        Response r = httpClient.url(rootUrl()).setQueryParameter("page", "no").getXml().get();
+        Assertions.assertThat(r).isNotNull();
+        Assertions.assertThat(r.getStatus()).isEqualTo(Http.NOT_IMPLEMENTED);
+    }
+
 
     @Test
     public void testFindPaginatedResources() throws IllegalArgumentException, InterruptedException,
