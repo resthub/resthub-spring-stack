@@ -9,6 +9,7 @@ import org.resthub.web.exception.SerializationException;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 /**
@@ -22,7 +23,9 @@ public class XmlHelper {
     protected static ObjectMapper objectMapper;
 
     protected static void initialize() {
-        objectMapper = new XmlMapper();
+        JacksonXmlModule module = new JacksonXmlModule();
+        module.setDefaultUseWrapper(false);
+        objectMapper = new XmlMapper(module);
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
         objectMapper.setAnnotationIntrospector(introspector);
     }

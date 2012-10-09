@@ -1,5 +1,7 @@
 package org.resthub.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.exception.SerializationException;
 import org.resthub.web.model.SampleResource;
@@ -20,6 +22,29 @@ public class XmlSerializationHelperTest {
         Assertions.assertThat(result).contains("<name>Albert</name>");
         Assertions.assertThat(result).contains("<description>desc</description>");
     }
+
+//    We wait for this issue resolution https://github.com/FasterXML/jackson-dataformat-xml/issues/38
+//    @Test
+//    public void testListSerialization() {
+//        SampleResource r1 = new SampleResource();
+//        r1.setId(123L);
+//        r1.setName("Albert");
+//        r1.setDescription("desc");
+//        
+//        SampleResource r2 = new SampleResource();
+//        r2.setId(123L);
+//        r2.setName("Albert");
+//        r2.setDescription("desc");
+//        
+//        List<SampleResource> l = new ArrayList<SampleResource>();
+//        l.add(r1);
+//        l.add(r2);
+//        
+//        String result = XmlHelper.serialize(l);
+//        Assertions.assertThat(result).contains("<id>123</id>");
+//        Assertions.assertThat(result).contains("<name>Albert</name>");
+//        Assertions.assertThat(result).contains("<description>desc</description>");
+//    }
 
     @Test
     public void testDeserialization() {

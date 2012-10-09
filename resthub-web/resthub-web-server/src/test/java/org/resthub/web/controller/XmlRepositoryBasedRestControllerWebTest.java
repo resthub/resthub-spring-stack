@@ -14,6 +14,10 @@ import org.testng.annotations.Test;
 
 public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
+    public XmlRepositoryBasedRestControllerWebTest() {
+         this.activeProfiles = "resthub-web-server,resthub-jpa";
+    }
+    
     protected String rootUrl() {
         return "http://localhost:" + port + "/repository-based";
     }

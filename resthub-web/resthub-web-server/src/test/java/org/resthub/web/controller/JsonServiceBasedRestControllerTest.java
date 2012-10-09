@@ -14,6 +14,10 @@ import org.testng.annotations.Test;
 
 public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
 
+    public JsonServiceBasedRestControllerTest() {
+        this.activeProfiles = "resthub-web-server,resthub-jpa";
+    }   
+
     protected String rootUrl() {
         return "http://localhost:" + port + "/service-based";
     }
