@@ -61,4 +61,7 @@ public class Http {
 
     /** INTERNAL_SERVER_ERROR HTTP status code value **/
     public final static int INTERNAL_SERVER_ERROR = 500;
+    
+    /** NOT_IMPLEMENTED HTTP status code value **/
+    public final static int NOT_IMPLEMENTED = 501;
 }

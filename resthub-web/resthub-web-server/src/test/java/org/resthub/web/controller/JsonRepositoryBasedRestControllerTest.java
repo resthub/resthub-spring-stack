@@ -11,7 +11,12 @@ import org.resthub.web.model.Sample;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+
 public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
+
+    public JsonRepositoryBasedRestControllerTest() {
+        this.activeProfiles = "resthub-web-server,resthub-jpa";
+    }
 
     protected String rootUrl() {
         return "http://localhost:" + port + "/service-based";
@@ -42,7 +47,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto")).get();
-        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "all").getJson().get().getBody();
+        String responseBody = httpClient.url(rootUrl()).getJson().get().getBody();
         Assertions.assertThat(responseBody).contains("toto");
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");

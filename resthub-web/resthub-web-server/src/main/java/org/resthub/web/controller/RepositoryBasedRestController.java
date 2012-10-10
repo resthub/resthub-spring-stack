@@ -1,14 +1,15 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotFoundException;
+import org.resthub.web.exception.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
@@ -79,21 +80,21 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
 
         return this.repository.save(resource);
     }
-
+    
     /**
      * {@inheritDoc}
      */
     @Override
-    public Page<T> findAll() {
-        return new PageImpl<T>((List<T>) this.repository.findAll());
+    public Iterable<T> findAllXml() {
+        throw new NotImplementedException("XML findAll() is currently not implemented");
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<T> findAllNotPaginated() {
-        return (List<T>)repository.findAll();
+    public Iterable<T> findAllJson() {
+        return repository.findAll();
     }
 
     /**

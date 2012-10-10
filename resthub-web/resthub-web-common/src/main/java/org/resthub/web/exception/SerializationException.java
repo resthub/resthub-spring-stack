@@ -8,7 +8,7 @@ public class SerializationException extends RuntimeException {
     }
 
     public SerializationException(final String message, final Throwable cause) {
-        super(message + " -> " + cause.getMessage(), cause);
+        super(message, cause);
     }
 
     public SerializationException(final String message) {

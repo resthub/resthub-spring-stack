@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.fluentlenium</groupId>
             <artifactId>fluentlenium-testng</artifactId>
-            <version>0.6-RC1</version>
+            <version>0.7.3</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
