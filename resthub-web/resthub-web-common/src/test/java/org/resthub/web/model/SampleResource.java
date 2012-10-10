@@ -1,12 +1,9 @@
 package org.resthub.web.model;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Model class intended to test SerializationHelper
  */
 
-@XmlRootElement
 public class SampleResource {
     private Long id;
     private String name;

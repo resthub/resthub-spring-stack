@@ -16,8 +16,8 @@ public class ClassUtilsTest {
     public void testGetGenericTypeFromBean() {
         Assertions.assertThat(ClassUtils.getGenericTypeFromBean(new Object())).isNull();
         Assertions.assertThat(ClassUtils.getGenericTypeFromBean(new SampleResource())).isNull();
-        Assertions.assertThat(ClassUtils.getGenericTypeFromBean(new SampleResourceArrayList())).isEqualTo(
-                SampleResource.class);
+        Assertions.assertThat(ClassUtils.getGenericTypeFromBean(new SampleResourceArrayList()).getName()).isEqualTo(
+                SampleResource.class.getName());
     }
 
     private static class SampleResource {

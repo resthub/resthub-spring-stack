@@ -14,13 +14,12 @@
     <name>RESThub JPA</name>
 
     <properties>
-        <spring.data.jpa.version>1.1.0.RELEASE</spring.data.jpa.version>
-        <spring.data.commons.core.version>1.3.0.RELEASE</spring.data.commons.core.version>
-        <hibernate.version>4.1.2.Final</hibernate.version>
-        <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
+        <spring.data.jpa.version>1.2.0.RC1</spring.data.jpa.version>
+        <hibernate.version>4.1.7.Final</hibernate.version>
+        <hibernate.validator.version>4.3.0.Final</hibernate.validator.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
-        <h2.version>1.3.154</h2.version>
-        <ehcache.version>2.3.2</ehcache.version>
+        <h2.version>1.3.168</h2.version>
+        <ehcache.version>2.6.0</ehcache.version>
     </properties>
 
     <dependencies>
@@ -76,7 +75,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons-core</artifactId>
-            <version>${spring.data.commons.core.version}</version><!--$NO-MVN-MAN-VER$ -->
+            <version>${spring.data.commons.core.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>

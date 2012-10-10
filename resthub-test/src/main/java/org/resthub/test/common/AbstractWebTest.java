@@ -30,6 +30,7 @@ public abstract class AbstractWebTest {
     protected Server server;
 
     protected String contextLocations = "classpath*:applicationContext.xml";
+    protected String activeProfiles = "";
     protected Boolean useOpenEntityManagerInViewFilter = false;
     protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
 
@@ -58,6 +59,14 @@ public abstract class AbstractWebTest {
     public void setContextLocations(String contextLocations) {
         this.contextLocations = contextLocations;
     }
+    
+    public String getActiveProfiles() {
+        return activeProfiles;
+    }
+
+    public void setActiveProfiles(String activeProfiles) {
+        this.activeProfiles = activeProfiles;
+    }
 
     /**
      * Allow you to customize context
@@ -73,6 +82,7 @@ public abstract class AbstractWebTest {
         // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
         context.getInitParams().put("contextConfigLocation", contextLocations);
+        context.getInitParams().put("spring.profiles.active", activeProfiles);
         
         ServletHolder defaultServletHolder = new ServletHolder(DefaultServlet.class);
         defaultServletHolder.setName("default");

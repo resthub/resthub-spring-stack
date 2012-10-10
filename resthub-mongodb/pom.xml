@@ -14,9 +14,8 @@
     <name>RESThub MongoDB</name>
 
     <properties>
-        <spring.data.mongodb.version>1.0.1.RELEASE</spring.data.mongodb.version>
-        <spring.data.commons.core.version>1.2.1.RELEASE</spring.data.commons.core.version>
-        <mongo.version>2.7.1</mongo.version>
+        <spring.data.mongodb.version>1.1.0.RC1</spring.data.mongodb.version>
+        <mongo.version>2.9.1</mongo.version>
     </properties>
 
     <dependencies>
@@ -64,7 +63,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons-core</artifactId>
-            <version>${spring.data.commons.core.version}</version><!--$NO-MVN-MAN-VER$ -->
+            <version>${spring.data.commons.core.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
