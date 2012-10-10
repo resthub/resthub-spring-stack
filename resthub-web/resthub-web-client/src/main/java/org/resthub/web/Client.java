@@ -4,24 +4,26 @@ import com.ning.http.client.*;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm.AuthScheme;
 import com.ning.http.client.Realm.RealmBuilder;
+import org.resthub.web.exception.HttpExceptionFactory;
+import org.resthub.web.exception.HttpServerErrorException;
+import org.resthub.web.oauth2.OAuth2Config;
+import org.resthub.web.oauth2.OAuth2RequestFilter;
+import org.resthub.web.support.*;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import org.resthub.web.Response;
-import org.resthub.web.oauth2.OAuth2Config;
-import org.resthub.web.oauth2.OAuth2RequestFilter;
-import org.resthub.web.support.*;
 
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play! Framework 2<br>
- *
+ * <p/>
  * Sample usage:
  * <pre> Client httpClient = new Client();
- * User user = httpClient.url("http://localhost:8080/api/user").jsonPost(user).get().resource(User.class);</pre>
- *
+ * User user = httpClient.url("http://localhost:8080/api/user").jsonPost(user).resource(User.class);</pre>
  */
 public class Client implements Closeable {
 
@@ -56,7 +58,7 @@ public class Client implements Closeable {
      */
     public AsyncHttpClient getNativeClient() {
         return client;
-    }   
+    }
 
     /**
      * Set HTTP proxy configuration
@@ -94,7 +96,7 @@ public class Client implements Closeable {
      *
      * @param username
      * @param password
-     * @param scheme authentication scheme
+     * @param scheme   authentication scheme
      */
     public Client setAuth(String username, String password, AuthScheme scheme) {
         this.username = username;
@@ -103,6 +105,15 @@ public class Client implements Closeable {
         return this;
     }
 
+    /**
+     * Set the given OAuth2Config builder for this client.
+     * This builder will create the actual OAuth2Config used
+     * for all OAuth2 related features.
+     * This HTTP Client wrapper already has methods (like setOAuth2()) that
+     * set the OAuth2 configuration on the client.
+     *
+     * @param builder
+     */
     public Client setOAuth2Builder(OAuth2Config.Builder builder) {
         this.oAuth2ConfigBuilder = builder;
 
@@ -112,14 +123,14 @@ public class Client implements Closeable {
     /**
      * Sets the OAuth2 authentication header for the current client.
      *
-     * @param username The user's login
-     * @param password The user's password
+     * @param username            The user's login
+     * @param password            The user's password
      * @param accessTokenEndpoint URL of the OAuth2.0 access token endpoint
-     * service
-     * @param clientId id of the current application registered with the remote
-     * OAuth2.0 provider
-     * @param clientSecret secret of the current application registered with the
-     * remote OAuth2.0 provider
+     *                            service
+     * @param clientId            id of the current application registered with the remote
+     *                            OAuth2.0 provider
+     * @param clientSecret        secret of the current application registered with the
+     *                            remote OAuth2.0 provider
      */
     public Client setOAuth2(String username, String password, String accessTokenEndpoint, String clientId, String clientSecret) {
 
@@ -142,6 +153,10 @@ public class Client implements Closeable {
             this.client = buildClient();
         }
 
+        if (url.contains("?")) {
+            throw new IllegalArgumentException("url should not contain query params; chain with setQueryParam() instead.");
+        }
+
         this.bodyReaders.add(new JsonBodyReader());
         this.bodyReaders.add(new XmlBodyReader());
         this.bodyWriters.add(new JsonBodyWriter());
@@ -161,7 +176,7 @@ public class Client implements Closeable {
 
         if (oAuth2ConfigBuilder != null) {
             oAuth2Config = oAuth2ConfigBuilder.build();
-            
+
             // TODO create request+response filters in OAuth2Config
             // -> handle new endpoints, refresh tokens...
             OAuth2RequestFilter oauth2Filter = new OAuth2RequestFilter(oAuth2Config.getAccessTokenEndpoint(), oAuth2Config.getClientId(), oAuth2Config.getClientSecret());
@@ -255,8 +270,9 @@ public class Client implements Closeable {
 
         /**
          * Adds a cookie
+         *
          * @param cookie
-         * @return 
+         * @return
          */
         public RequestHolder addCookie(Cookie cookie) {
             cookies.add(cookie);
@@ -264,123 +280,212 @@ public class Client implements Closeable {
         }
 
         /**
-         * Perform a GET on the request asynchronously.
+         * Perform a GET request asynchronously.
          */
-        public Future<Response> get() {
+        public Future<Response> asyncGet() {
             return execute("GET");
         }
 
-        public Future<Response> getJson() {
+        public Future<Response> asyncGetJson() {
             this.setHeader(Http.ACCEPT, Http.JSON);
             return execute("GET");
         }
 
-        public Future<Response> getXml() {
+        public Future<Response> asyncGetXml() {
             this.setHeader(Http.ACCEPT, Http.XML);
             return execute("GET");
         }
 
         /**
-         * Perform a POST on the request asynchronously.
+         * Perform a GET request synchronously.
+         */
+        public Response get() {
+            return executeSync("GET");
+        }
+
+        public Response getJson() {
+            this.setHeader(Http.ACCEPT, Http.JSON);
+            return executeSync("GET");
+        }
+
+        public Response getXml() {
+            this.setHeader(Http.ACCEPT, Http.XML);
+            return executeSync("GET");
+        }
+
+        /**
+         * Perform a POST request asynchronously.
          *
          * @param body represented as String
          */
-        public Future<Response> post(String body) {
+        public Future<Response> asyncPost(String body) {
             return executeString("POST", body);
         }
 
-        public Future<Response> post() {
+        public Future<Response> asyncPost() {
             return executeString("POST", this.body);
         }
 
-        /**
-         * Perform a PUT on the request asynchronously.
-         *
-         * @param body represented as String
-         */
-        public Future<Response> put(String body) {
-            return executeString("PUT", body);
-        }
-
-        public Future<Response> jsonPut(Object o) {
-            this.setHeader(Http.ACCEPT, Http.JSON);
-            this.setHeader(Http.CONTENT_TYPE, Http.JSON);
-            return executeString("PUT", serialize(Http.JSON, o));
-        }
-
-        public Future<Response> xmlPut(Object o) {
-            this.setHeader(Http.ACCEPT, Http.XML);
-            this.setHeader(Http.CONTENT_TYPE, Http.XML);
-            return executeString("PUT", serialize(Http.XML, o));
-        }
-
-        /**
-         * Perform a POST on the request asynchronously.
-         *
-         * @param body represented as an InputStream
-         */
-        public Future<Response> post(InputStream body) {
+        public Future<Response> asyncPost(InputStream body) {
             return executeIS("POST", body);
         }
 
-        public Future<Response> jsonPost(Object o) {
+        public Future<Response> asyncPost(File body) {
+            return executeFile("POST", body);
+        }
+
+        public Future<Response> asyncJsonPost(Object o) {
             this.setHeader(Http.ACCEPT, Http.JSON);
             this.setHeader(Http.CONTENT_TYPE, Http.JSON);
             return executeString("POST", serialize(Http.JSON, o));
         }
 
-        public Future<Response> xmlPost(Object o) {
+        public Future<Response> asyncXmlPost(Object o) {
             this.setHeader(Http.ACCEPT, Http.XML);
             this.setHeader(Http.CONTENT_TYPE, Http.XML);
             return executeString("POST", serialize(Http.XML, o));
         }
 
         /**
-         * Perform a PUT on the request asynchronously.
+         * Perform a POST request synchronously.
          *
-         * @param body represented as an InputStream
+         * @param body represented as String
          */
-        public Future<Response> put(InputStream body) {
+        public Response post(String body) {
+            return executeStringSync("POST", body);
+        }
+
+        public Response post() {
+            return executeStringSync("POST", this.body);
+        }
+
+        public Response post(InputStream body) {
+            return executeISSync("POST", body);
+        }
+
+        public Response post(File body) {
+            return executeFileSync("POST", body);
+        }
+
+        public Response jsonPost(Object o) {
+            this.setHeader(Http.ACCEPT, Http.JSON);
+            this.setHeader(Http.CONTENT_TYPE, Http.JSON);
+            return executeStringSync("POST", serialize(Http.JSON, o));
+        }
+
+        public Response xmlPost(Object o) {
+            this.setHeader(Http.ACCEPT, Http.XML);
+            this.setHeader(Http.CONTENT_TYPE, Http.XML);
+            return executeStringSync("POST", serialize(Http.XML, o));
+        }
+
+        /**
+         * Perform a PUT request asynchronously.
+         *
+         * @param body represented as String
+         */
+        public Future<Response> asyncPut(String body) {
+            return executeString("PUT", body);
+        }
+
+        public Future<Response> asyncPut(InputStream body) {
             return executeIS("PUT", body);
         }
 
-        /**
-         * Perform a POST on the request asynchronously.
-         *
-         * @param body represented as a File
-         */
-        public Future<Response> post(File body) {
-            return executeFile("POST", body);
+        public Future<Response> asyncPut(File body) {
+            return executeFile("PUT", body);
+        }
+
+        public Future<Response> asyncJsonPut(Object o) {
+            this.setHeader(Http.ACCEPT, Http.JSON);
+            this.setHeader(Http.CONTENT_TYPE, Http.JSON);
+            return executeString("PUT", serialize(Http.JSON, o));
+        }
+
+        public Future<Response> asyncXmlPut(Object o) {
+            this.setHeader(Http.ACCEPT, Http.XML);
+            this.setHeader(Http.CONTENT_TYPE, Http.XML);
+            return executeString("PUT", serialize(Http.XML, o));
         }
 
         /**
-         * Perform a PUT on the request asynchronously.
+         * Perform a PUT request synchronously.
          *
-         * @param body represented as a File
+         * @param body represented as String
          */
-        public Future<Response> put(File body) {
-            return executeFile("PUT", body);
+        public Response put(String body) {
+            return executeStringSync("PUT", body);
         }
+
+        public Response put(InputStream body) {
+            return executeISSync("PUT", body);
+        }
+
+        public Response put(File body) {
+            return executeFileSync("PUT", body);
+        }
+
+        public Response jsonPut(Object o) {
+            this.setHeader(Http.ACCEPT, Http.JSON);
+            this.setHeader(Http.CONTENT_TYPE, Http.JSON);
+            return executeStringSync("PUT", serialize(Http.JSON, o));
+        }
+
+        public Response xmlPut(Object o) {
+            this.setHeader(Http.ACCEPT, Http.XML);
+            this.setHeader(Http.CONTENT_TYPE, Http.XML);
+            return executeStringSync("PUT", serialize(Http.XML, o));
+        }
+
 
         /**
          * Perform a DELETE on the request asynchronously.
          */
-        public Future<Response> delete() {
+        public Future<Response> asyncDelete() {
             return execute("DELETE");
+        }
+
+        public Response delete() {
+            return executeSync("DELETE");
         }
 
         /**
          * Perform a HEAD on the request asynchronously.
          */
-        public Future<Response> head() {
+        public Future<Response> asyncHead() {
             return execute("HEAD");
+        }
+
+        public Response head() {
+            return executeSync("HEAD");
         }
 
         /**
          * Perform a OPTION on the request asynchronously.
          */
-        public Future<Response> option() {
+        public Future<Response> asyncOption() {
             return execute("OPTION");
+        }
+
+        public Response option() {
+            return executeSync("OPTION");
+        }
+
+        private Response executeSync(String method) {
+
+            Response response = null;
+            try {
+                response = this.execute(method).get();
+            } catch (InterruptedException | ExecutionException e) {
+                // throw server error exception, with cause.
+                throw new HttpServerErrorException(e);
+            }
+
+            if (response.getStatus() >= 400) {
+                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+            }
+
+            return response;
         }
 
         private Future<Response> execute(String method) {
@@ -396,6 +501,23 @@ public class Client implements Closeable {
             return req.execute();
         }
 
+        private Response executeStringSync(String method, String body) {
+
+            Response response = null;
+            try {
+                response = this.executeString(method, body).get();
+            } catch (InterruptedException | ExecutionException e) {
+                // throw server error exception, with cause.
+                throw new HttpServerErrorException(e);
+            }
+
+            if (response.getStatus() >= 400) {
+                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+            }
+
+            return response;
+        }
+
         private Future<Response> executeString(String method, String body) {
             Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
                     .setQueryParameters(new FluentStringsMap(queryParameters));
@@ -406,6 +528,23 @@ public class Client implements Closeable {
             return req.execute();
         }
 
+        private Response executeISSync(String method, InputStream body) {
+
+            Response response = null;
+            try {
+                response = this.executeIS(method, body).get();
+            } catch (InterruptedException | ExecutionException e) {
+                // throw server error exception, with cause.
+                throw new HttpServerErrorException(e);
+            }
+
+            if (response.getStatus() >= 400) {
+                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+            }
+
+            return response;
+        }
+
         private Future<Response> executeIS(String method, InputStream body) {
             Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
                     .setQueryParameters(new FluentStringsMap(queryParameters));
@@ -414,6 +553,23 @@ public class Client implements Closeable {
             }
             addCookies(req);
             return req.execute();
+        }
+
+        private Response executeFileSync(String method, File body) {
+
+            Response response = null;
+            try {
+                response = this.executeFile(method, body).get();
+            } catch (InterruptedException | ExecutionException e) {
+                // throw server error exception, with cause.
+                throw new HttpServerErrorException(e);
+            }
+
+            if (response.getStatus() >= 400) {
+                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+            }
+
+            return response;
         }
 
         private Future<Response> executeFile(String method, File body) {
