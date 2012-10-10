@@ -14,6 +14,8 @@ import org.fest.assertions.api.Assertions;
 import org.resthub.web.Client;
 import org.resthub.web.Response;
 import org.resthub.web.Http;
+import org.resthub.web.exception.HttpException;
+import org.resthub.web.exception.UnauthorizedException;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.testng.annotations.AfterTest;
@@ -85,29 +87,28 @@ public class TestOAuth2Client {
     }
 
     @Test
-    public void testOAuth2SuccessfulRequest() throws IOException, InterruptedException, ExecutionException {
+    public void testOAuth2SuccessfulRequest() {
         Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET);
-        String result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
+        String result = client.url(BASE_URL + "/api/resource/hello").get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
     }
 
-    @Test
-    public void testUnauthorizeRequest() throws IOException, InterruptedException, ExecutionException {
-        Response response = new Client().url(BASE_URL + "/api/resource/hello").getJson().get();
-        Assertions.assertThat(response.getStatus()).isEqualTo(Http.UNAUTHORIZED);
+    @Test(expectedExceptions = {UnauthorizedException.class})
+    public void testUnauthorizeRequest() {
+        Response response = new Client().url(BASE_URL + "/api/resource/hello").getJson();
     }
 
     @Test
-    public void testTokenExpired() throws IOException, InterruptedException, ExecutionException {
+    public void testTokenExpired() throws InterruptedException {
         Client client = new Client().setOAuth2("test", "t3st", ACCESS_TOKEN_ENDPOINT, CLIENT_ID, CLIENT_SECRET);
-        String result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
+        String result = client.url(BASE_URL + "/api/resource/hello").get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
 
         // wait for the token to expire
         Thread.sleep(1000L);
 
         // the client should detect its token is expired and ask for a new token
-        result = client.url(BASE_URL + "/api/resource/hello").get().get().getBody();
+        result = client.url(BASE_URL + "/api/resource/hello").get().getBody();
         Assertions.assertThat(result).isEqualTo("Hello");
     }
 }
