@@ -25,7 +25,7 @@ public class LoggingHandlerExceptionResolver implements HandlerExceptionResolver
     }
 
     @Override
-    public ModelAndView resolveException(HttpServletRequest aReq, HttpServletResponse aRes, Object aHandler, Exception e) {
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
         logger.warn("Exception catched by Spring MVC : " + e);
         return null; // trigger other HandlerExceptionResolver's
     }

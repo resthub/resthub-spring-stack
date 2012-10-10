@@ -32,5 +32,13 @@ public class SampleRepositoryBasedRestController extends
     public Sample throwDefaultHandledException() throws HttpMediaTypeNotAcceptableException {
         throw new HttpMediaTypeNotAcceptableException("test1");
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "test2")
+    @ResponseBody
+    public Sample throwIllegalArgumentException() throws IllegalArgumentException {
+        throw new IllegalArgumentException();
+    }
+    
+    
 
 }

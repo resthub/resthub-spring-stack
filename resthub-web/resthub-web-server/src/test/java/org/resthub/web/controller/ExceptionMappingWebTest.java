@@ -8,7 +8,9 @@ import org.fest.assertions.api.Assertions;
 import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Client;
 import org.resthub.web.Response;
+import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.NotAcceptableException;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.testng.annotations.Test;
 
 /**
@@ -26,9 +28,15 @@ public class ExceptionMappingWebTest extends AbstractWebTest {
     }
     
     @Test(expectedExceptions=NotAcceptableException.class)
-    public void testCreateResource() {
+    public void testHttpMediaTypeNotAcceptableException() {
         Client httpClient = new Client();
         httpClient.url(rootUrl()+"/test1").getJson();
+    }
+    
+    @Test(expectedExceptions=BadRequestException.class)
+    public void testIllegalArgumentException() {
+        Client httpClient = new Client();
+        httpClient.url(rootUrl()+"/test2").getJson();
     }
     
     

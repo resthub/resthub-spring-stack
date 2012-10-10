@@ -76,16 +76,12 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":1");
     }
 
-    @Test(expectedExceptions = {InternalServerErrorException.class})
+    @Test(expectedExceptions = {BadRequestException.class})
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
         httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        Response response = httpClient.url(rootUrl()).setQueryParameter("page", "0")
-                .getJson();
-        // TODO: Map IllegalArgumentException to 400 Bad Request
-        Assertions.assertThat(response.getStatus()).isEqualTo(500);
-        Assertions.assertThat(response.getBody()).contains("Page index must be greater than 0");
+        httpClient.url(rootUrl()).setQueryParameter("page", "0").getJson();
     }
 
     @Test(expectedExceptions = {NotFoundException.class})

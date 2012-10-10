@@ -8,6 +8,7 @@ import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Client;
 import org.resthub.web.Http;
 import org.resthub.web.Response;
+import org.resthub.web.exception.BadRequestException;
 import org.resthub.web.exception.HttpServerErrorException;
 import org.resthub.web.exception.NotFoundException;
 import org.resthub.web.exception.NotImplementedException;
@@ -77,16 +78,12 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
         Assertions.assertThat(responseBody).contains("<numberOfElements>1</numberOfElements>");
     }
 
-    @Test(expectedExceptions = {HttpServerErrorException.class})
+    @Test(expectedExceptions = {BadRequestException.class})
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
         httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        Response response = httpClient.url(rootUrl()).setQueryParameter("page","0")
-                .getXml();
-        // TODO: Map IllegalArgumentException to 400 Bad Request
-        Assertions.assertThat(response.getStatus()).isEqualTo(500);
-        Assertions.assertThat(response.getBody()).contains("Page index must be greater than 0");
+        httpClient.url(rootUrl()).setQueryParameter("page","0").getXml();
     }
 
     @Test(expectedExceptions = {NotFoundException.class})
