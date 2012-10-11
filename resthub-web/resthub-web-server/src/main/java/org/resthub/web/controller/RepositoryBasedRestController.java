@@ -1,12 +1,9 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.resthub.common.exception.NotFoundException;
 
-import org.resthub.web.exception.BadRequestException;
-import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.exception.NotImplementedException;
+import org.resthub.common.exception.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -70,7 +67,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
 
         Serializable entityId = this.getIdFromResource(resource);
         if ((entityId == null) || (!id.equals(entityId))) {
-            throw new BadRequestException();
+            throw new IllegalArgumentException("No resource with id " + id + "found");
         }
 
         T retreivedEntity = this.repository.findOne(id);

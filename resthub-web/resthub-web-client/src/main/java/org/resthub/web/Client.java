@@ -4,8 +4,7 @@ import com.ning.http.client.*;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm.AuthScheme;
 import com.ning.http.client.Realm.RealmBuilder;
-import org.resthub.web.exception.HttpExceptionFactory;
-import org.resthub.web.exception.HttpServerErrorException;
+import org.resthub.web.exception.ClientExceptionFactory;
 import org.resthub.web.oauth2.OAuth2Config;
 import org.resthub.web.oauth2.OAuth2RequestFilter;
 import org.resthub.web.support.*;
@@ -17,6 +16,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import org.resthub.web.exception.ClientException;
 
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play! Framework 2<br>
@@ -478,11 +478,11 @@ public class Client implements Closeable {
                 response = this.execute(method).get();
             } catch (InterruptedException | ExecutionException e) {
                 // throw server error exception, with cause.
-                throw new HttpServerErrorException(e);
+                throw new ClientException(e);
             }
 
             if (response.getStatus() >= 400) {
-                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+                throw ClientExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
             }
 
             return response;
@@ -508,11 +508,11 @@ public class Client implements Closeable {
                 response = this.executeString(method, body).get();
             } catch (InterruptedException | ExecutionException e) {
                 // throw server error exception, with cause.
-                throw new HttpServerErrorException(e);
+                throw new ClientException(e);
             }
 
             if (response.getStatus() >= 400) {
-                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+                throw ClientExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
             }
 
             return response;
@@ -535,11 +535,11 @@ public class Client implements Closeable {
                 response = this.executeIS(method, body).get();
             } catch (InterruptedException | ExecutionException e) {
                 // throw server error exception, with cause.
-                throw new HttpServerErrorException(e);
+                throw new ClientException(e);
             }
 
             if (response.getStatus() >= 400) {
-                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+                throw ClientExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
             }
 
             return response;
@@ -562,11 +562,11 @@ public class Client implements Closeable {
                 response = this.executeFile(method, body).get();
             } catch (InterruptedException | ExecutionException e) {
                 // throw server error exception, with cause.
-                throw new HttpServerErrorException(e);
+                throw new ClientException(e);
             }
 
             if (response.getStatus() >= 400) {
-                throw HttpExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
+                throw ClientExceptionFactory.createHttpExceptionFromStatusCode(response.getStatus());
             }
 
             return response;

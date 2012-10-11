@@ -7,9 +7,9 @@ import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Client;
 import org.resthub.web.Http;
 import org.resthub.web.Response;
-import org.resthub.web.exception.BadRequestException;
-import org.resthub.web.exception.InternalServerErrorException;
-import org.resthub.web.exception.NotFoundException;
+import org.resthub.web.exception.BadRequestClientException;
+import org.resthub.web.exception.InternalServerErrorClientException;
+import org.resthub.web.exception.NotFoundClientException;
 import org.resthub.web.model.Sample;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -76,7 +76,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":1");
     }
 
-    @Test(expectedExceptions = {BadRequestException.class})
+    @Test(expectedExceptions = {BadRequestClientException.class})
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
@@ -84,7 +84,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
         httpClient.url(rootUrl()).setQueryParameter("page", "0").getJson();
     }
 
-    @Test(expectedExceptions = {NotFoundException.class})
+    @Test(expectedExceptions = {NotFoundClientException.class})
     public void testDeleteResource() {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
@@ -93,8 +93,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
 
         Response response = httpClient.url(rootUrl() + "/" + r.getId()).delete();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.NO_CONTENT);
-        response = httpClient.url(rootUrl() + "/" + r.getId()).get();
-        Assertions.assertThat(response.getStatus()).isEqualTo(Http.NOT_FOUND);
+        httpClient.url(rootUrl() + "/" + r.getId()).get();
     }
 
     @Test
