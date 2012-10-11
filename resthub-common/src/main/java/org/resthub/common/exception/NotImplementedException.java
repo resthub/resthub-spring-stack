@@ -1,7 +1,7 @@
 package org.resthub.common.exception;
 
 /**
- * Exception use to signify that an element (class, webservice, method) does not exists
+ * Exception used to signify that an element (class, webservice, method) does not exists
  */
 public class NotImplementedException extends RuntimeException {
     

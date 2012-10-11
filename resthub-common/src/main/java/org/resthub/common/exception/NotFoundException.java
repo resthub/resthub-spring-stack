@@ -1,7 +1,7 @@
 package org.resthub.common.exception;
 
 /**
- * Exception thrown when not result where found (for example findById with null return value)
+ * Exception thrown when not result was found (for example findById with null return value)
  */
 public class NotFoundException extends RuntimeException {
     
