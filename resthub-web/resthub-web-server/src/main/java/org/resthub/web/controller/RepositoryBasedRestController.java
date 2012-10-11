@@ -67,7 +67,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
 
         Serializable entityId = this.getIdFromResource(resource);
         if ((entityId == null) || (!id.equals(entityId))) {
-            throw new IllegalArgumentException("No resource with id " + id + "found");
+            throw new IllegalArgumentException("No resource with id " + id + " found");
         }
 
         T retreivedEntity = this.repository.findOne(id);

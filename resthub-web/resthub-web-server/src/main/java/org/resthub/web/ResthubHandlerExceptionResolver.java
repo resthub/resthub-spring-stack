@@ -28,9 +28,8 @@ public class ResthubHandlerExceptionResolver extends AbstractHandlerExceptionRes
                 return handleNotImplemented((NotImplementedException) ex, request, response, handler);
             }           
             
-
         } catch (Exception handlerException) {
-            logger.warn("Handling of [" + ex.getClass().getName() + "] resulted in Exception", handlerException);
+            logger.error("Handling of [" + ex.getClass().getName() + "] resulted in Exception", handlerException);
         }
         return null;  // trigger other HandlerExceptionResolver's
     }
