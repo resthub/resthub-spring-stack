@@ -3,92 +3,93 @@ package org.resthub.web.exception;
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.Http;
 import org.testng.annotations.Test;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class HttpExceptionTest {
     
     @Test(expectedExceptions=IllegalArgumentException.class)
     public void testUnvalidStatusCode() {
-        HttpExceptionFactory.createHttpExceptionFromStatusCode(900);
+        ClientExceptionFactory.createHttpExceptionFromStatusCode(900);
     }
     
     @Test(expectedExceptions=IllegalArgumentException.class)
     public void test1xxStatusCode() {
-        HttpExceptionFactory.createHttpExceptionFromStatusCode(100);
+        ClientExceptionFactory.createHttpExceptionFromStatusCode(100);
     }
     
     @Test(expectedExceptions=IllegalArgumentException.class)
     public void test2xxStatusCode() {
-        HttpExceptionFactory.createHttpExceptionFromStatusCode(200);
+        ClientExceptionFactory.createHttpExceptionFromStatusCode(200);
     }
     
     @Test(expectedExceptions=IllegalArgumentException.class)
     public void test3xxStatusCode() {
-        HttpExceptionFactory.createHttpExceptionFromStatusCode(300);
+        ClientExceptionFactory.createHttpExceptionFromStatusCode(300);
     }
     
     @Test
     public void test4xxUnsupportedStatusCode() {
-        Assertions.assertThat(HttpExceptionFactory.createHttpExceptionFromStatusCode(444)).isInstanceOf(HttpClientErrorException.class);
+        Assertions.assertThat(ClientExceptionFactory.createHttpExceptionFromStatusCode(444)).isInstanceOf(ClientException.class);
     }
     
     @Test
     public void test5xxUnsupportedStatusCode() {
-        Assertions.assertThat(HttpExceptionFactory.createHttpExceptionFromStatusCode(555)).isInstanceOf(HttpServerErrorException.class);
+        Assertions.assertThat(ClientExceptionFactory.createHttpExceptionFromStatusCode(555)).isInstanceOf(ClientException.class);
     }
     
     @Test
     public void testBadRequestStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.BAD_REQUEST);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(BadRequestException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.BAD_REQUEST);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(BadRequestClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.BAD_REQUEST);
     }
     
     @Test
     public void testConflictStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.CONFLICT);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(ConflictException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.CONFLICT);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(ConflictClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.CONFLICT);
     }
     
     @Test
     public void testInternalServerErrorStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.INTERNAL_SERVER_ERROR);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(InternalServerErrorException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.INTERNAL_SERVER_ERROR);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(InternalServerErrorClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.INTERNAL_SERVER_ERROR);
     }
     
     @Test
     public void testNotFoundErrorStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.NOT_FOUND);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(NotFoundException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.NOT_FOUND);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(NotFoundClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.NOT_FOUND);
     }
     
     @Test
     public void testNotImplementedErrorStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.NOT_IMPLEMENTED);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(NotImplementedException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.NOT_IMPLEMENTED);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(NotImplementedClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.NOT_IMPLEMENTED);
     }
     
     @Test
     public void testUnauthorizedErrorStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.UNAUTHORIZED);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(UnauthorizedException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.UNAUTHORIZED);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(UnauthorizedClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.UNAUTHORIZED);
     }
     
     @Test
     public void testForbiddenErrorStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.FORBIDDEN);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(ForbiddenException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.FORBIDDEN);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(ForbiddenClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.FORBIDDEN);
     }
     
     @Test
     public void testNotAcceptableErrorStatusCode() {
-        HttpException he = HttpExceptionFactory.createHttpExceptionFromStatusCode(Http.NOT_ACCEPTABLE);
-        Assertions.assertThat(he).isNotNull().isInstanceOf(NotAcceptableException.class);
+        ClientException he = ClientExceptionFactory.createHttpExceptionFromStatusCode(Http.NOT_ACCEPTABLE);
+        Assertions.assertThat(he).isNotNull().isInstanceOf(NotAcceptableClientException.class);
         Assertions.assertThat(he.getStatusCode()).isEqualTo(Http.NOT_ACCEPTABLE);
     }
     

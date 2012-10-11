@@ -1,14 +1,11 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
-import java.util.List;
+import org.resthub.common.exception.NotFoundException;
+import org.resthub.common.exception.NotImplementedException;
 
 import org.resthub.common.service.CrudService;
-import org.resthub.web.exception.BadRequestException;
-import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.exception.NotImplementedException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,7 +62,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
 
         Serializable entityId = this.getIdFromResource(resource);
         if ((entityId == null) || (!id.equals(entityId))) {
-            throw new BadRequestException();
+            throw new IllegalArgumentException();
         }
 
         T retreivedEntity = this.service.findById(id);

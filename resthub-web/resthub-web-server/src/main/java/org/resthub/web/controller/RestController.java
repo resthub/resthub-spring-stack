@@ -2,7 +2,7 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 
-import org.resthub.web.exception.NotFoundException;
+import org.resthub.web.exception.NotFoundClientException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

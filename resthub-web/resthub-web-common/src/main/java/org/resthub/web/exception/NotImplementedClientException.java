@@ -1,32 +1,29 @@
 package org.resthub.web.exception;
 
 import org.resthub.web.Http;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Exception mapped to not implemented Error HTTP status code (501)
  */
 @SuppressWarnings("serial")
-@ResponseStatus(value = HttpStatus.NOT_IMPLEMENTED)
-public class NotImplementedException extends HttpServerErrorException {
+public class NotImplementedClientException extends ClientException {
 
-    public NotImplementedException() {
+    public NotImplementedClientException() {
         super();
         this.setStatusCode(Http.NOT_IMPLEMENTED);
     }
 
-    public NotImplementedException(final String message, final Throwable cause) {
+    public NotImplementedClientException(final String message, final Throwable cause) {
         super(message, cause);
         this.setStatusCode(Http.NOT_IMPLEMENTED);
     }
 
-    public NotImplementedException(final String message) {
+    public NotImplementedClientException(final String message) {
         super(message);
         this.setStatusCode(Http.NOT_IMPLEMENTED);
     }
 
-    public NotImplementedException(final Throwable cause) {
+    public NotImplementedClientException(final Throwable cause) {
         super(cause);
         this.setStatusCode(Http.NOT_IMPLEMENTED);
     }

@@ -11,10 +11,6 @@
         <level value="warn" />
     </logger>
 
-    <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
-        <level value="debug" />
-    </logger>
-
     <logger name="org.springframework">
         <level value="warn" />
     </logger>
@@ -26,7 +22,7 @@
         <level value="warn" />
     </logger>
 
-    <root level="warn">
+    <root level="error">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
