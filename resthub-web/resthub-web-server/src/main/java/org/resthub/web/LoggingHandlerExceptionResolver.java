@@ -3,7 +3,6 @@ package org.resthub.web;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.resthub.web.controller.RepositoryBasedRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -21,12 +20,12 @@ public class LoggingHandlerExceptionResolver implements HandlerExceptionResolver
     
     @Override
     public int getOrder() {
-        return Integer.MIN_VALUE; // we're first in line, yay!
+        return Integer.MIN_VALUE;
     }
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
-        logger.warn("Exception catched by Spring MVC : " + e);
+        logger.warn("Exception catched by Spring MVC: " + e);
         return null; // trigger other HandlerExceptionResolver's
     }
     
