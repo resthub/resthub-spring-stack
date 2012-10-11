@@ -3,28 +3,33 @@ package org.resthub.web.exception;
 /**
  * Base exception class for HTTP error requests
  */
-public class HttpException extends RuntimeException {
+public class ClientException extends RuntimeException {
     
     private int statusCode;
     
-    public HttpException() {
+    public ClientException() {
         super();
     }
     
-    public HttpException(int statusCode) {
+    public ClientException(final int statusCode) {
         super();
         this.statusCode = statusCode;
     }
+    
+    public ClientException(final int statusCode, final String message) {
+        super(message);
+        this.statusCode = statusCode;
+    }
 
-    public HttpException(final String message, final Throwable cause) {
+    public ClientException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public HttpException(final String message) {
+    public ClientException(final String message) {
         super(message);
     }
 
-    public HttpException(final Throwable cause) {
+    public ClientException(final Throwable cause) {
         super(cause);
     }
 

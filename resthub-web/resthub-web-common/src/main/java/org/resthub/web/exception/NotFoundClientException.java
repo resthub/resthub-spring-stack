@@ -1,32 +1,29 @@
 package org.resthub.web.exception;
 
 import org.resthub.web.Http;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Exception mapped to not found Error HTTP status code (404)
  */
 @SuppressWarnings("serial")
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class NotFoundException extends HttpClientErrorException {
+public class NotFoundClientException extends ClientException {
 
-    public NotFoundException() {
+    public NotFoundClientException() {
         super();
         this.setStatusCode(Http.NOT_FOUND);
     }
 
-    public NotFoundException(final String message, final Throwable cause) {
+    public NotFoundClientException(final String message, final Throwable cause) {
         super(message, cause);
         this.setStatusCode(Http.NOT_FOUND);
     }
 
-    public NotFoundException(final String message) {
+    public NotFoundClientException(final String message) {
         super(message);
         this.setStatusCode(Http.NOT_FOUND);
     }
 
-    public NotFoundException(final Throwable cause) {
+    public NotFoundClientException(final Throwable cause) {
         super(cause);
         this.setStatusCode(Http.NOT_FOUND);
     }

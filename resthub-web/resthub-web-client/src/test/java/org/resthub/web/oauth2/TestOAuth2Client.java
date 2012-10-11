@@ -14,8 +14,8 @@ import org.fest.assertions.api.Assertions;
 import org.resthub.web.Client;
 import org.resthub.web.Response;
 import org.resthub.web.Http;
-import org.resthub.web.exception.HttpException;
-import org.resthub.web.exception.UnauthorizedException;
+import org.resthub.web.exception.ClientException;
+import org.resthub.web.exception.UnauthorizedClientException;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.testng.annotations.AfterTest;
@@ -93,7 +93,7 @@ public class TestOAuth2Client {
         Assertions.assertThat(result).isEqualTo("Hello");
     }
 
-    @Test(expectedExceptions = {UnauthorizedException.class})
+    @Test(expectedExceptions = {UnauthorizedClientException.class})
     public void testUnauthorizeRequest() {
         Response response = new Client().url(BASE_URL + "/api/resource/hello").getJson();
     }

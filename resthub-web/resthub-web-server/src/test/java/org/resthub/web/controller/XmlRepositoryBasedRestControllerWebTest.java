@@ -1,16 +1,14 @@
 package org.resthub.web.controller;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.common.AbstractWebTest;
 import org.resthub.web.Client;
 import org.resthub.web.Http;
 import org.resthub.web.Response;
-import org.resthub.web.exception.HttpServerErrorException;
-import org.resthub.web.exception.NotFoundException;
-import org.resthub.web.exception.NotImplementedException;
+import org.resthub.web.exception.BadRequestClientException;
+import org.resthub.web.exception.NotFoundClientException;
+import org.resthub.web.exception.NotImplementedClientException;
 import org.resthub.web.model.Sample;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -51,7 +49,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
         Assertions.assertThat(responseBody).contains("<numberOfElements>2</numberOfElements>");
     }
 
-    @Test(expectedExceptions = {NotImplementedException.class})
+    @Test(expectedExceptions = {NotImplementedClientException.class})
     public void testFindAllResourcesUnpaginated() {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
@@ -77,19 +75,15 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
         Assertions.assertThat(responseBody).contains("<numberOfElements>1</numberOfElements>");
     }
 
-    @Test(expectedExceptions = {HttpServerErrorException.class})
+    @Test(expectedExceptions = {BadRequestClientException.class})
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
         Client httpClient = new Client();
         httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
         httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        Response response = httpClient.url(rootUrl()).setQueryParameter("page","0")
-                .getXml();
-        // TODO: Map IllegalArgumentException to 400 Bad Request
-        Assertions.assertThat(response.getStatus()).isEqualTo(500);
-        Assertions.assertThat(response.getBody()).contains("Page index must be greater than 0");
+        httpClient.url(rootUrl()).setQueryParameter("page","0").getXml();
     }
 
-    @Test(expectedExceptions = {NotFoundException.class})
+    @Test(expectedExceptions = {NotFoundClientException.class})
     public void testDeleteResource() {
         Client httpClient = new Client();
         Sample r = new Sample("toto");
@@ -99,8 +93,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
         Response response = httpClient.url(rootUrl() + "/" + r.getId()).delete();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.NO_CONTENT);
 
-        response = httpClient.url(rootUrl() + "/" + r.getId()).get();
-        Assertions.assertThat(response.getStatus()).isEqualTo(Http.NOT_FOUND);
+        httpClient.url(rootUrl() + "/" + r.getId()).get();
     }
 
     @Test
