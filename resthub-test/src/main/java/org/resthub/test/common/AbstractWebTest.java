@@ -29,7 +29,7 @@ public abstract class AbstractWebTest {
 
     protected Server server;
 
-    protected String contextLocations = "classpath*:applicationContext.xml";
+    protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
     protected String activeProfiles = "";
     protected Boolean useOpenEntityManagerInViewFilter = false;
     protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
