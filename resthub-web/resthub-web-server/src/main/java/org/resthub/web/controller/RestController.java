@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * REST controller interface
  *
  * @param <T>  Your resource POJO to manage, maybe an entity or DTO class
- * @param <ID> Resource id type, usually Long or String
+ * @param <ID> Primary resource identifier at webservice level, usually Long or String
  */
 public interface RestController<T, ID extends Serializable> {
 
