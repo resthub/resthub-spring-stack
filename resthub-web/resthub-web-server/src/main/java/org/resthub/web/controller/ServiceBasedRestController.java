@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @param <S>  The service class
  * @see RepositoryBasedRestController
  */
-public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends CrudService<T, ID>> implements
+public abstract class ServiceBasedRestController<T, ID extends Serializable, S extends CrudService> implements
         RestController<T, ID> {
 
     protected S service;
@@ -38,19 +38,11 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
     }
 
     /**
-     * You should implement this method if order to return the identifier of a resource instance
-     *
-     * @param resource The resource from whom we need the identifier
-     * @return The resource identifier.
-     */
-    public abstract ID getIdFromResource(T resource);
-
-    /**
      * {@inheritDoc}
      */
     @Override
-    public T create(@RequestBody T entity) {
-        return this.service.create(entity);
+    public T create(@RequestBody T resource) {
+        return (T)this.service.create(resource);
     }
 
     /**
@@ -60,17 +52,12 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
     public T update(@PathVariable ID id, @RequestBody T resource) {
         Assert.notNull(id, "id cannot be null");
 
-        Serializable entityId = this.getIdFromResource(resource);
-        if ((entityId == null) || (!id.equals(entityId))) {
-            throw new IllegalArgumentException();
-        }
-
-        T retreivedEntity = this.service.findById(id);
-        if (retreivedEntity == null) {
+        T retreivedResource = this.findById(id);
+        if (retreivedResource == null) {
             throw new NotFoundException();
         }
 
-        return this.service.update(resource);
+        return (T)this.service.update(resource);
     }
     
     /**
@@ -102,13 +89,14 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
     /**
      * {@inheritDoc}
      */
+    @Override
     public T findById(@PathVariable ID id) {
-        T entity = this.service.findById(id);
-        if (entity == null) {
+        T resource = (T)this.service.findById(id);
+        if (resource == null) {
             throw new NotFoundException();
         }
 
-        return entity;
+        return resource;
     }
 
     /**
@@ -124,6 +112,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      */
     @Override
     public void delete(@PathVariable ID id) {
-        this.service.delete(id);
+        T resource = this.findById(id);
+        this.service.delete(resource);
     }
 }

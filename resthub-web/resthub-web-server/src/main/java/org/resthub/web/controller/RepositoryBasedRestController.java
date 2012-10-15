@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
  * @param <R>  The repository class
  * @see ServiceBasedRestController
  */
-public abstract class RepositoryBasedRestController<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>>
+public abstract class RepositoryBasedRestController<T, ID extends Serializable, R extends PagingAndSortingRepository>
         implements RestController<T, ID> {
 
     protected R repository;
@@ -43,19 +43,11 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
     }
 
     /**
-     * You should implement this method if order to return the identifier of a resource instance
-     *
-     * @param resource The resource from whom we need the identifier
-     * @return The resource identifier.
-     */
-    public abstract ID getIdFromResource(T resource);
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public T create(@RequestBody T resource) {
-        return this.repository.save(resource);
+        return (T)this.repository.save(resource);
     }
 
     /**
@@ -65,17 +57,12 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
     public T update(@PathVariable ID id, @RequestBody T resource) {
         Assert.notNull(id, "id cannot be null");
 
-        Serializable entityId = this.getIdFromResource(resource);
-        if ((entityId == null) || (!id.equals(entityId))) {
-            throw new IllegalArgumentException("No resource with id " + id + " found");
-        }
-
-        T retreivedEntity = this.repository.findOne(id);
-        if (retreivedEntity == null) {
+        T retreivedResource = (T)this.findById(id);
+        if (retreivedResource == null) {
             throw new NotFoundException();
         }
 
-        return this.repository.save(resource);
+        return (T)this.repository.save(resource);
     }
     
     /**
@@ -109,7 +96,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      */
     @Override
     public T findById(@PathVariable ID id) {
-        T entity = this.repository.findOne(id);
+        T entity = (T)this.repository.findOne(id);
         if (entity == null) {
             throw new NotFoundException();
         }
@@ -133,7 +120,8 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      */
     @Override
     public void delete(@PathVariable ID id) {
-        this.repository.delete(id);
+        T resource = (T)this.findById(id);
+        this.repository.delete(resource);
     }
     
 }
