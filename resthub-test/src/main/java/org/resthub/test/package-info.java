@@ -1,5 +1,5 @@
 /**
  * Reusable base test classes
  */
-package org.resthub.test.common;
+package org.resthub.test;
 

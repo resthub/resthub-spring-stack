@@ -1,7 +1,7 @@
 package org.resthub.web.controller;
 
 import org.fest.assertions.api.Assertions;
-import org.resthub.test.common.AbstractWebTest;
+import org.resthub.test.AbstractWebTest;
 import org.resthub.web.Http;
 import org.resthub.web.Response;
 import org.resthub.web.exception.BadRequestClientException;

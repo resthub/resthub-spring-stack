@@ -1,4 +1,4 @@
-package org.resthub.test.common;
+package org.resthub.test;
 
 import java.util.EnumSet;
 
