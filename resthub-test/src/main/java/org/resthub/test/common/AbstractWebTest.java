@@ -27,7 +27,7 @@ import org.testng.annotations.BeforeClass;
 public abstract class AbstractWebTest {
 
     /*
-     * HTTP port used for running web tests
+     * HTTP port used for running web tests, default is 9797
      */
     protected int port = 9797;
 
@@ -73,6 +73,28 @@ public abstract class AbstractWebTest {
         client = new Client();
         this.activeProfiles = activeProfiles;
     }
+    
+    /**
+     * Constructor allowing to specify HTTP port used to run the server
+     * @param port HTTP port used for running web tests, default is 9797
+     */
+    public AbstractWebTest(int port) {
+        client = new Client();
+        this.port = port;
+    }
+    
+    /**
+     * Constructor allowing to specify Spring active profiles and HTTP port used to run the server
+     * @param activeProfiles coma separated list of profiles
+     * @param port HTTP port used for running web tests, default is 9797
+     */
+    public AbstractWebTest(String activeProfiles, int port) {
+        client = new Client();
+        this.activeProfiles = activeProfiles;
+        this.port = port;
+    }
+    
+    
         
     /**
      * Define in OpenEntityManagerInViewFilter should be activated or not. Default to false
