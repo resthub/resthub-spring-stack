@@ -1,14 +1,10 @@
 package org.resthub.web.controller;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.common.AbstractWebTest;
-import org.resthub.web.Client;
 import org.resthub.web.Http;
 import org.resthub.web.Response;
 import org.resthub.web.exception.BadRequestClientException;
-import org.resthub.web.exception.InternalServerErrorClientException;
 import org.resthub.web.exception.NotFoundClientException;
 import org.resthub.web.model.Sample;
 import org.testng.annotations.AfterMethod;
@@ -18,22 +14,18 @@ import org.testng.annotations.Test;
 public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
 
     public JsonRepositoryBasedRestControllerTest() {
-        this.activeProfiles = "resthub-web-server,resthub-jpa";
-    }
-
-    protected String rootUrl() {
-        return "http://localhost:" + port + "/service-based";
+        super("resthub-web-server,resthub-jpa");
     }
 
     @AfterMethod
     public void tearDown() {
-            new Client().url(rootUrl()).delete();
+        this.request("repository-based").delete();
     }
 
     @Test
     public void testCreateResource() {
         Sample r = new Sample("toto");
-        Response response = new Client().url(rootUrl()).jsonPost(r);
+        Response response = this.request("repository-based").jsonPost(r);
         r = (Sample) response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
@@ -41,10 +33,9 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
 
     @Test
     public void testFindAllResources() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        String responseBody = httpClient.url(rootUrl()).getJson().getBody();
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        String responseBody = this.request("repository-based").getJson().getBody();
         Assertions.assertThat(responseBody).contains("toto");
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");
@@ -52,10 +43,9 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
     
     @Test
     public void testFindAllResourcesUnpaginated() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "no").getJson().getBody();
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        String responseBody = this.request("repository-based").setQueryParameter("page", "no").getJson().getBody();
         Assertions.assertThat(responseBody).contains("toto");
         Assertions.assertThat(responseBody).doesNotContain("\"totalElements\":2");
         Assertions.assertThat(responseBody).doesNotContain("\"numberOfElements\":2");
@@ -63,14 +53,13 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
 
     @Test
     public void testFindPaginatedResources() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "1")
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        String responseBody = this.request("repository-based").setQueryParameter("page", "1")
                 .getJson().getBody();
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");
-        responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "1")
+        responseBody = this.request("repository-based").setQueryParameter("page", "1")
                 .setQueryParameter("size", "1").getJson().getBody();
         Assertions.assertThat(responseBody).contains("\"totalElements\":2");
         Assertions.assertThat(responseBody).contains("\"numberOfElements\":1");
@@ -78,42 +67,38 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
 
     @Test(expectedExceptions = {BadRequestClientException.class})
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        httpClient.url(rootUrl()).setQueryParameter("page", "0").getJson();
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        this.request("repository-based").setQueryParameter("page", "0").getJson();
     }
 
     @Test(expectedExceptions = {NotFoundClientException.class})
     public void testDeleteResource() {
-        Client httpClient = new Client();
         Sample r = new Sample("toto");
-        r = httpClient.url(rootUrl()).jsonPost(r).resource(r.getClass());
+        r = this.request("repository-based").jsonPost(r).resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
 
-        Response response = httpClient.url(rootUrl() + "/" + r.getId()).delete();
+        Response response = this.request("repository-based/" + r.getId()).delete();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.NO_CONTENT);
-        httpClient.url(rootUrl() + "/" + r.getId()).get();
+        this.request("repository-based/" + r.getId()).get();
     }
 
     @Test
     public void testFindResource() {
-        Client httpClient = new Client();
         Sample r = new Sample("toto");
-        r = httpClient.url(rootUrl()).jsonPost(r).resource(r.getClass());
+        r = this.request("repository-based").jsonPost(r).resource(r.getClass());
 
-        Response response = httpClient.url(rootUrl() + "/" + r.getId()).get();
+        Response response = this.request("repository-based/" + r.getId()).get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
     }
 
     @Test
     public void testUpdate() {
-        Client httpClient = new Client();
         Sample r1 = new Sample("toto");
-        r1 = httpClient.url(rootUrl()).jsonPost(r1).resource(r1.getClass());
+        r1 = this.request("repository-based").jsonPost(r1).resource(r1.getClass());
         Sample r2 = new Sample(r1);
         r2.setName("titi");
-        r2 = httpClient.url(rootUrl() + "/" + r1.getId()).jsonPut(r2).resource(r2.getClass());
+        r2 = this.request("repository-based/" + r1.getId()).jsonPut(r2).resource(r2.getClass());
         Assertions.assertThat(r1).isNotEqualTo(r2);
         Assertions.assertThat(r1.getName()).contains("toto");
         Assertions.assertThat(r2.getName()).contains("titi");

@@ -56,7 +56,7 @@ public interface RestController<T, ID extends Serializable> {
      */
     @RequestMapping(method = RequestMethod.GET, params="page=no", produces="application/json")
     @ResponseBody
-    Iterable<T> findAllJson();
+    Iterable<T> findAll();
 
     /**
      * Find all resources, and return a paginated collection<br/>
