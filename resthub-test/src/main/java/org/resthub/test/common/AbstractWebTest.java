@@ -70,7 +70,7 @@ public abstract class AbstractWebTest {
      * @param activeProfiles coma separated list of profiles
      */
     public AbstractWebTest(String activeProfiles) {
-        client = new Client();
+        this();
         this.activeProfiles = activeProfiles;
     }
     
@@ -79,7 +79,7 @@ public abstract class AbstractWebTest {
      * @param port HTTP port used for running web tests, default is 9797
      */
     public AbstractWebTest(int port) {
-        client = new Client();
+        this();
         this.port = port;
     }
     
@@ -89,12 +89,9 @@ public abstract class AbstractWebTest {
      * @param port HTTP port used for running web tests, default is 9797
      */
     public AbstractWebTest(String activeProfiles, int port) {
-        client = new Client();
+        this(port);
         this.activeProfiles = activeProfiles;
-        this.port = port;
-    }
-    
-    
+    }    
         
     /**
      * Define in OpenEntityManagerInViewFilter should be activated or not. Default to false
