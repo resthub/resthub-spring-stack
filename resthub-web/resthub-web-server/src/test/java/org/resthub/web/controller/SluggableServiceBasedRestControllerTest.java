@@ -3,10 +3,8 @@ package org.resthub.web.controller;
 
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
-import org.resthub.web.Client;
 import org.resthub.web.Http;
 import org.resthub.web.Response;
-import org.resthub.web.exception.BadRequestClientException;
 import org.resthub.web.exception.NotFoundClientException;
 import org.resthub.web.model.Sample;
 import org.testng.annotations.AfterMethod;
@@ -25,7 +23,6 @@ public class SluggableServiceBasedRestControllerTest extends AbstractWebTest {
 
     @Test(expectedExceptions = {NotFoundClientException.class})
     public void testDeleteResource() {
-        Client httpClient = new Client();
         Sample r = new Sample("toto");
         r = this.request("sluggable-service-based").jsonPost(r).resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
@@ -38,9 +35,8 @@ public class SluggableServiceBasedRestControllerTest extends AbstractWebTest {
 
     @Test
     public void testFindResource() {
-        Client httpClient = new Client();
         Sample r = new Sample("toto");
-        r = this.request("sluggable-service-based").jsonPost(r).resource(r.getClass());
+        this.request("sluggable-service-based").jsonPost(r).resource(r.getClass());
 
         Response response = this.request("sluggable-service-based/toto").get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);

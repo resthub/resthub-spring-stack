@@ -3,7 +3,6 @@ package org.resthub.web.exception;
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.Http;
 import org.testng.annotations.Test;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class HttpExceptionTest {
     

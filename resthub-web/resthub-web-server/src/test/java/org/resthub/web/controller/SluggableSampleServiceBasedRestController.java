@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import org.resthub.common.exception.NotFoundException;
 
 import org.resthub.web.model.Sample;
-import org.resthub.web.repository.SampleResourceRepository;
 import org.resthub.web.service.SampleResourceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
