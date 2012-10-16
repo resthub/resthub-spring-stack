@@ -77,7 +77,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
-    public Iterable<T> findAllJson() {
+    public Iterable<T> findAll() {
         return repository.findAll();
     }
 

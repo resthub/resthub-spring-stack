@@ -72,7 +72,7 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public Iterable findAllJson() {
+    public Iterable<T> findAll() {
         return service.findAll();
     }
 
