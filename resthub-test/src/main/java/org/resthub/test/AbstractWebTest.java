@@ -1,4 +1,4 @@
-package org.resthub.test.common;
+package org.resthub.test;
 
 import java.util.EnumSet;
 
@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.resthub.web.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
@@ -25,54 +26,96 @@ import org.testng.annotations.BeforeClass;
  */
 public abstract class AbstractWebTest {
 
+    /*
+     * HTTP port used for running web tests, default is 9797
+     */
     protected int port = 9797;
 
+    /**
+     * Jetty embedded server that will run your application
+     */
     protected Server server;
+    
+    /**
+     * RESThub http client used to send test requests
+     */
+    protected Client client;
+    
+    /**
+     * Default rootUrl used to send requests
+     */
+    protected String rootUrl;
 
+    /**
+     * Default Spring contexts imported. You should havbe to customize this one frequently, prefer using Spring 3.1
+     * profiles in order to control configuration activation
+     */
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
+    
+    /*
+     * List of Spring profiles (use comma separator) to activate
+     * For example "resthub-web-server,resthub-jpa"
+     */
     protected String activeProfiles = "";
+    
+    /**
+     * Default constructor
+     */
+    public AbstractWebTest() {
+        client = new Client();
+    }
+
+    /**
+     * Constructor allowing to specify Spring active profiles
+     * @param activeProfiles coma separated list of profiles
+     */
+    public AbstractWebTest(String activeProfiles) {
+        this();
+        this.activeProfiles = activeProfiles;
+    }
+    
+    /**
+     * Constructor allowing to specify HTTP port used to run the server
+     * @param port HTTP port used for running web tests, default is 9797
+     */
+    public AbstractWebTest(int port) {
+        this();
+        this.port = port;
+    }
+    
+    /**
+     * Constructor allowing to specify Spring active profiles and HTTP port used to run the server
+     * @param activeProfiles coma separated list of profiles
+     * @param port HTTP port used for running web tests, default is 9797
+     */
+    public AbstractWebTest(String activeProfiles, int port) {
+        this(port);
+        this.activeProfiles = activeProfiles;
+    }    
+        
+    /**
+     * Define in OpenEntityManagerInViewFilter should be activated or not. Default to false
+     */
     protected Boolean useOpenEntityManagerInViewFilter = false;
+    
     protected int servletContextHandlerOption = ServletContextHandler.SESSIONS;
 
     protected static final Logger logger = LoggerFactory.getLogger(AbstractWebTest.class);
 
-    public int getPort() {
-        return this.port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public Server getServer() {
-        return this.server;
-    }
-
-    public void setServer(Server server) {
-        this.server = server;
-    }
-
-    public String getContextLocations() {
-        return contextLocations;
-    }
-
-    public void setContextLocations(String contextLocations) {
-        this.contextLocations = contextLocations;
-    }
-    
-    public String getActiveProfiles() {
-        return activeProfiles;
-    }
-
-    public void setActiveProfiles(String activeProfiles) {
-        this.activeProfiles = activeProfiles;
-    }
-
     /**
-     * Allow you to customize context
+     * You should override it in order to customize the servlet context handler
      */
     protected ServletContextHandler customizeContextHandler(ServletContextHandler context) {
         return context;
+    }
+    
+    /**
+     * Send a request to the embedded test webserver
+     * @param urlSuffix The end of the request without starting /, for example "todo" urlSuffix will send a request to "http://localhost:9797/todo"
+     * @return The requestHolder that will allow you to build and send the request
+     */
+    public Client.RequestHolder request(String urlSuffix) {
+        return this.client.url("http://localhost:" + this.port + "/" + urlSuffix);
     }
 
     @BeforeClass

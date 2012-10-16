@@ -2,7 +2,7 @@ package org.resthub.web.controller;
 
 
 import org.fest.assertions.api.Assertions;
-import org.resthub.test.common.AbstractWebTest;
+import org.resthub.test.AbstractWebTest;
 import org.resthub.web.Client;
 import org.resthub.web.Http;
 import org.resthub.web.Response;
@@ -16,23 +16,18 @@ import org.testng.annotations.Test;
 public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
     public XmlRepositoryBasedRestControllerWebTest() {
-         this.activeProfiles = "resthub-web-server,resthub-jpa";
-    }
-    
-    protected String rootUrl() {
-        return "http://localhost:" + port + "/repository-based";
+         super("resthub-web-server,resthub-jpa");
     }
 
     @AfterMethod
     public void tearDown() {
-            new Client().url(rootUrl()).delete();
+        this.request("repository-based").delete();
     }
 
     @Test
     public void testCreateResource() {
-        Client httpClient = new Client();
         Sample r = new Sample("toto");
-        Response response = httpClient.url(rootUrl()).xmlPost(r);
+        Response response = this.request("repository-based").xmlPost(r);
         r = (Sample) response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
@@ -40,10 +35,9 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     
     @Test
     public void testFindAllResources() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        String responseBody = httpClient.url(rootUrl()).getXml().getBody();
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        String responseBody = this.request("repository-based").getXml().getBody();
         Assertions.assertThat(responseBody).contains("toto");
         Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
         Assertions.assertThat(responseBody).contains("<numberOfElements>2</numberOfElements>");
@@ -51,10 +45,9 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
     @Test(expectedExceptions = {NotImplementedClientException.class})
     public void testFindAllResourcesUnpaginated() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        httpClient.url(rootUrl()).jsonPost(new Sample("toto"));
-        Response r = httpClient.url(rootUrl()).setQueryParameter("page", "no").getXml();
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        Response r = this.request("repository-based").setQueryParameter("page", "no").getXml();
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getStatus()).isEqualTo(Http.NOT_IMPLEMENTED);
     }
@@ -62,14 +55,13 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
     @Test
     public void testFindPaginatedResources() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        String responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "1").getXml()
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        String responseBody = this.request("repository-based").setQueryParameter("page", "1").getXml()
                 .getBody();
         Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
         Assertions.assertThat(responseBody).contains("<numberOfElements>2</numberOfElements>");
-        responseBody = httpClient.url(rootUrl()).setQueryParameter("page", "1")
+        responseBody = this.request("repository-based").setQueryParameter("page", "1")
                 .setQueryParameter("size", "1").getXml().getBody();
         Assertions.assertThat(responseBody).contains("<totalElements>2</totalElements>");
         Assertions.assertThat(responseBody).contains("<numberOfElements>1</numberOfElements>");
@@ -77,43 +69,39 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
     @Test(expectedExceptions = {BadRequestClientException.class})
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
-        Client httpClient = new Client();
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        httpClient.url(rootUrl()).xmlPost(new Sample("toto"));
-        httpClient.url(rootUrl()).setQueryParameter("page","0").getXml();
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        this.request("repository-based").xmlPost(new Sample("toto"));
+        this.request("repository-based").setQueryParameter("page","0").getXml();
     }
 
     @Test(expectedExceptions = {NotFoundClientException.class})
     public void testDeleteResource() {
-        Client httpClient = new Client();
         Sample r = new Sample("toto");
-        r = (Sample) httpClient.url(rootUrl()).xmlPost(r).resource(r.getClass());
+        r = (Sample) this.request("repository-based").xmlPost(r).resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
 
-        Response response = httpClient.url(rootUrl() + "/" + r.getId()).delete();
+        Response response = this.request("repository-based/" + r.getId()).delete();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.NO_CONTENT);
 
-        httpClient.url(rootUrl() + "/" + r.getId()).get();
+        this.request("repository-based/" + r.getId()).get();
     }
 
     @Test
     public void testFindResource() {
-        Client httpClient = new Client();
         Sample r = new Sample("toto");
-        r = (Sample) httpClient.url(rootUrl()).xmlPost(r).resource(r.getClass());
+        r = (Sample) this.request("repository-based").xmlPost(r).resource(r.getClass());
 
-        Response response = httpClient.url(rootUrl() + "/" + r.getId()).get();
+        Response response = this.request("repository-based/" + r.getId()).get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
     }
 
     @Test
     public void testUpdate() {
-        Client httpClient = new Client();
         Sample r1 = new Sample("toto");
-        r1 = httpClient.url(rootUrl()).xmlPost(r1).resource(r1.getClass());
+        r1 = this.request("repository-based").xmlPost(r1).resource(r1.getClass());
         Sample r2 = new Sample(r1);
         r2.setName("titi");
-        r2 = httpClient.url(rootUrl() + "/" + r1.getId()).xmlPut(r2).resource(r2.getClass());
+        r2 = this.request("repository-based/" + r1.getId()).xmlPut(r2).resource(r2.getClass());
         Assertions.assertThat(r1).isNotEqualTo(r2);
         Assertions.assertThat(r1.getName()).contains("toto");
         Assertions.assertThat(r2.getName()).contains("titi");
