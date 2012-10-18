@@ -1,4 +1,4 @@
-package org.resthub.test.common;
+package org.resthub.test;
 
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;

@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import org.fest.assertions.Assertions;
 import org.resthub.jpa.model.StandaloneEntity;
-import org.resthub.test.common.AbstractTransactionalTest;
+import org.resthub.test.AbstractTransactionalTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
