@@ -2,8 +2,10 @@ package org.resthub.web.controller;
 
 import org.resthub.test.AbstractWebTest;
 import org.resthub.web.exception.BadRequestClientException;
+import org.resthub.web.exception.ConflictClientException;
 import org.resthub.web.exception.InternalServerErrorClientException;
 import org.resthub.web.exception.NotAcceptableClientException;
+import org.resthub.web.exception.NotFoundClientException;
 import org.testng.annotations.Test;
 
 public class ExceptionMappingWebTest extends AbstractWebTest {
@@ -19,7 +21,7 @@ public class ExceptionMappingWebTest extends AbstractWebTest {
     
     @Test(expectedExceptions=BadRequestClientException.class)
     public void testIllegalArgumentException() {
-        this.request("exception/test-illegal-argument").getJson();
+        this.request("exception/test-illegal-argument-exception").getJson();
     }
     
     @Test(expectedExceptions=InternalServerErrorClientException.class)
@@ -38,5 +40,19 @@ public class ExceptionMappingWebTest extends AbstractWebTest {
         this.request("exception/test-client-exception").getJson();
     }
     
+    @Test(expectedExceptions=NotFoundClientException.class)
+    public void testObjectNotFoundException() {
+        this.request("exception/test-object-not-found-exception").getJson();
+    }
+    
+    @Test(expectedExceptions=NotFoundClientException.class)
+    public void testEntityNotFoundException() {
+        this.request("exception/test-entity-not-found-exception").getJson();
+    }
+    
+    @Test(expectedExceptions=ConflictClientException.class)
+    public void testEntityExistsException() {
+        this.request("exception/test-entity-exists-exception").getJson();
+    }
     
 }
