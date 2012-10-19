@@ -32,9 +32,15 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.resthub.web.PageResponse;
+import org.springframework.data.domain.Page;
 
 /**
  * Implementation of {@link org.springframework.http.converter.HttpMessageConverter HttpMessageConverter} that can read
@@ -56,7 +62,7 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
 
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
     private boolean prefixJson = false;
 
@@ -67,6 +73,16 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
      */
     public MappingJackson2JsonHttpMessageConverter() {
         super(new MediaType("application", "json", DEFAULT_CHARSET));
+        objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addAbstractTypeMapping(Page.class, PageResponse.class);
+        objectMapper.registerModule(module);
+        AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
+        objectMapper.setAnnotationIntrospector(introspector);
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        
     }
 
     /**
