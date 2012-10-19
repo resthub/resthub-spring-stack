@@ -41,11 +41,6 @@ public class ExceptionMappingWebTest extends AbstractWebTest {
     }
     
     @Test(expectedExceptions=NotFoundClientException.class)
-    public void testObjectNotFoundException() {
-        this.request("exception/test-object-not-found-exception").getJson();
-    }
-    
-    @Test(expectedExceptions=NotFoundClientException.class)
     public void testEntityNotFoundException() {
         this.request("exception/test-entity-not-found-exception").getJson();
     }
