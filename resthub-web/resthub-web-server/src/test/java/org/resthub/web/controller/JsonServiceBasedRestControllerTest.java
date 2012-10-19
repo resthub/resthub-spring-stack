@@ -1,6 +1,8 @@
 package org.resthub.web.controller;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.List;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
 import org.resthub.web.Http;
@@ -8,6 +10,7 @@ import org.resthub.web.Response;
 import org.resthub.web.exception.BadRequestClientException;
 import org.resthub.web.exception.NotFoundClientException;
 import org.resthub.web.model.Sample;
+import org.springframework.data.domain.Page;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -34,35 +37,43 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
     @Test
     public void testFindAllResources() {
         this.request("service-based").jsonPost(new Sample("toto"));
-        this.request("service-based").jsonPost(new Sample("toto"));
-        String responseBody = this.request("service-based").getJson().getBody();
-        Assertions.assertThat(responseBody).contains("toto");
-        Assertions.assertThat(responseBody).contains("\"totalElements\":2");
-        Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");
+        this.request("service-based").jsonPost(new Sample("titi"));
+        Response response = this.request("service-based").getJson();
+        Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples.getContent()).isNotNull();
+        Assertions.assertThat(samples.getContent().size()).isEqualTo(2);
+        Assertions.assertThat(samples.getTotalPages()).isEqualTo(1);
+        Assertions.assertThat(samples.getTotalElements()).isEqualTo(2);
+        Assertions.assertThat(samples.getContent().get(0).getName()).isEqualTo("toto");
+        Assertions.assertThat(samples.getContent().get(1).getName()).isEqualTo("titi");
     }
     
     @Test
     public void testFindAllResourcesUnpaginated() {
         this.request("service-based").jsonPost(new Sample("toto"));
-        this.request("service-based").jsonPost(new Sample("toto"));
-        String responseBody = this.request("service-based").setQueryParameter("page", "no").getJson().getBody();
-        Assertions.assertThat(responseBody).contains("toto");
-        Assertions.assertThat(responseBody).doesNotContain("\"totalElements\":2");
-        Assertions.assertThat(responseBody).doesNotContain("\"numberOfElements\":2");
+        this.request("service-based").jsonPost(new Sample("titi"));
+        Response response = this.request("service-based").setQueryParameter("page", "no").getJson();
+        List<Sample> samples = response.resource(new TypeReference<List<Sample>>() {});
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples.size()).isEqualTo(2);
+        Assertions.assertThat(samples.get(0).getName()).isEqualTo("toto");
+        Assertions.assertThat(samples.get(1).getName()).isEqualTo("titi");
     }
 
     @Test
     public void testFindPaginatedResources() {
-        this.request("service-based").xmlPost(new Sample("toto"));
-        this.request("service-based").xmlPost(new Sample("toto"));
-        String responseBody = this.request("service-based").setQueryParameter("page", "1")
-                .getJson().getBody();
-        Assertions.assertThat(responseBody).contains("\"totalElements\":2");
-        Assertions.assertThat(responseBody).contains("\"numberOfElements\":2");
-        responseBody = this.request("service-based").setQueryParameter("page", "1")
-                .setQueryParameter("size", "1").getJson().getBody();
-        Assertions.assertThat(responseBody).contains("\"totalElements\":2");
-        Assertions.assertThat(responseBody).contains("\"numberOfElements\":1");
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        this.request("repository-based").jsonPost(new Sample("titi"));
+        Response response = this.request("repository-based").setQueryParameter("page", "1").getJson();
+        Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples.getContent()).isNotNull();
+        Assertions.assertThat(samples.getContent().size()).isEqualTo(2);
+        Assertions.assertThat(samples.getTotalPages()).isEqualTo(1);
+        Assertions.assertThat(samples.getTotalElements()).isEqualTo(2);
+        Assertions.assertThat(samples.getContent().get(0).getName()).isEqualTo("toto");
+        Assertions.assertThat(samples.getContent().get(1).getName()).isEqualTo("titi");
     }
 
     @Test(expectedExceptions = {BadRequestClientException.class})

@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.springframework.data.domain.Page;
 
 /**
  * Helper for JSON serialization and deserialization
@@ -24,6 +26,9 @@ public class JsonHelper {
 
     protected static void initialize() {
         objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addAbstractTypeMapping(Page.class, PageResponse.class);
+        objectMapper.registerModule(module);
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
         objectMapper.setAnnotationIntrospector(introspector);
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
