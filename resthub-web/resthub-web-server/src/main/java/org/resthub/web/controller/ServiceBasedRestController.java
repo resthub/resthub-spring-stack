@@ -17,7 +17,23 @@ import org.springframework.web.bind.annotation.RequestParam;
  * <p/>
  * <p>You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
  * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController</p>
- *
+ * 
+ * <p>Default implementation uses "id" field (usually a Long) in order to identify resources in web request.
+ * If your want to identity resources by a slug (human readable identifier), your should override findById() method with for example :
+ * 
+ * <pre>
+ * {@code
+ * @Override
+   public Sample findById(@PathVariable String id) {
+        Sample sample = this.service.findByName(id);
+        if (sample == null) {
+            throw new NotFoundException();
+        }
+        return sample;
+ * }
+ * }
+ * </pre>
+ * 
  * @param <T>  Your resource class to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
  * @param <S>  The service class

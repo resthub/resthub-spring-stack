@@ -20,7 +20,23 @@ import org.springframework.web.bind.annotation.*;
  * controller implementation to use if you have no service (also called business) layer. You will be able to transform
  * it to a ServiceBasedRestController later easily if needed.
  * </p>
- *
+ * 
+ * <p>Default implementation uses "id" field (usually a Long) in order to identify resources in web request.
+ * If your want to identity resources by a slug (human readable identifier), your should override findById() method with for example :
+ * 
+ * <pre>
+ * {@code
+ * @Override
+   public Sample findById(@PathVariable String id) {
+        Sample sample = this.repository.findByName(id);
+        if (sample == null) {
+            throw new NotFoundException();
+        }
+        return sample;
+ * }
+ * }
+ * </pre>
+ * 
  * @param <T>  Your resource class to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
  * @param <R>  The repository class

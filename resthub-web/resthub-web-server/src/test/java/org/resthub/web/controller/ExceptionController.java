@@ -1,5 +1,8 @@
 package org.resthub.web.controller;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import org.hibernate.ObjectNotFoundException;
 import org.resthub.web.exception.ClientException;
 import org.resthub.web.model.Sample;
 import org.springframework.stereotype.Controller;
@@ -18,7 +21,7 @@ public class ExceptionController {
         throw new HttpMediaTypeNotAcceptableException("test-default");
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "test-illegal-argument")
+    @RequestMapping(method = RequestMethod.GET, value = "test-illegal-argument-exception")
     @ResponseBody
     public Sample throwIllegalArgumentException() throws IllegalArgumentException {
         throw new IllegalArgumentException();
@@ -40,6 +43,24 @@ public class ExceptionController {
     @ResponseBody
     public Sample throwClientException() {
         throw new ClientException("test-client-exception");
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "test-object-not-found-exception")
+    @ResponseBody
+    public Sample throwObjectNotFoundException() {
+        throw new ObjectNotFoundException("test", "test");
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "test-entity-not-found-exception")
+    @ResponseBody
+    public Sample throwEntityNotFoundException() {
+        throw new EntityNotFoundException();
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "test-entity-exists-exception")
+    @ResponseBody
+    public Sample throwEntityExistsException() {
+        throw new EntityExistsException();
     }
     
 }
