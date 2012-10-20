@@ -61,11 +61,5 @@
             <artifactId>test-jetty-servlet</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.fluentlenium</groupId>
-            <artifactId>fluentlenium-testng</artifactId>
-            <version>0.7.3</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 </project>

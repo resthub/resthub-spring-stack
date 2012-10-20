@@ -9,8 +9,10 @@ import org.resthub.web.exception.SerializationException;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.springframework.data.domain.Page;
 
 /**
  * Helper for XML serialization and deserialization.
@@ -23,9 +25,12 @@ public class XmlHelper {
     protected static ObjectMapper objectMapper;
 
     protected static void initialize() {
-        JacksonXmlModule module = new JacksonXmlModule();
-        module.setDefaultUseWrapper(false);
-        objectMapper = new XmlMapper(module);
+        JacksonXmlModule xmlModule = new JacksonXmlModule();
+        xmlModule.setDefaultUseWrapper(false);
+        objectMapper = new XmlMapper(xmlModule);
+        SimpleModule module = new SimpleModule();
+        module.addAbstractTypeMapping(Page.class, PageResponse.class);
+        objectMapper.registerModule(module);
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
         objectMapper.setAnnotationIntrospector(introspector);
     }
