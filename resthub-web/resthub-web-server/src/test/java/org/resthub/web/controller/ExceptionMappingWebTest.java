@@ -1,11 +1,16 @@
 package org.resthub.web.controller;
 
+import org.hibernate.ObjectNotFoundException;
 import org.resthub.test.AbstractWebTest;
 import org.resthub.web.exception.BadRequestClientException;
 import org.resthub.web.exception.ConflictClientException;
 import org.resthub.web.exception.InternalServerErrorClientException;
 import org.resthub.web.exception.NotAcceptableClientException;
 import org.resthub.web.exception.NotFoundClientException;
+import org.resthub.web.model.Sample;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.testng.annotations.Test;
 
 public class ExceptionMappingWebTest extends AbstractWebTest {
@@ -38,6 +43,12 @@ public class ExceptionMappingWebTest extends AbstractWebTest {
     @Test(expectedExceptions=InternalServerErrorClientException.class)
     public void testClientException() {
         this.request("exception/test-client-exception").getJson();
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "test-object-not-found-exception")
+    @ResponseBody
+    public Sample throwObjectNotFoundException() {
+        throw new ObjectNotFoundException("test", "test");
     }
     
     @Test(expectedExceptions=NotFoundClientException.class)
