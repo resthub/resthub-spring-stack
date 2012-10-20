@@ -77,6 +77,13 @@
             </exclusions>
         </dependency>
         
+        <!-- Needed for JPA AbstractHandlerExceptionResolver -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
