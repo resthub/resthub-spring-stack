@@ -45,8 +45,8 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
         Assertions.assertThat(samples.getContent().size()).isEqualTo(2);
         Assertions.assertThat(samples.getTotalPages()).isEqualTo(1);
         Assertions.assertThat(samples.getTotalElements()).isEqualTo(2);
-        Assertions.assertThat(samples.getContent().get(0).getName()).isEqualTo("toto");
-        Assertions.assertThat(samples.getContent().get(1).getName()).isEqualTo("titi");
+        Assertions.assertThat(samples.getContent().get(0).getName()).isIn("titi", "toto");
+        Assertions.assertThat(samples.getContent().get(1).getName()).isIn("titi", "toto");
     }
     
     @Test
@@ -57,8 +57,8 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
         List<Sample> samples = response.resource(new TypeReference<List<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.size()).isEqualTo(2);
-        Assertions.assertThat(samples.get(0).getName()).isEqualTo("toto");
-        Assertions.assertThat(samples.get(1).getName()).isEqualTo("titi");
+        Assertions.assertThat(samples.get(0).getName()).isIn("titi", "toto");
+        Assertions.assertThat(samples.get(1).getName()).isIn("titi", "toto");
     }
 
     @Test
@@ -72,8 +72,8 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
         Assertions.assertThat(samples.getContent().size()).isEqualTo(2);
         Assertions.assertThat(samples.getTotalPages()).isEqualTo(1);
         Assertions.assertThat(samples.getTotalElements()).isEqualTo(2);
-        Assertions.assertThat(samples.getContent().get(0).getName()).isEqualTo("toto");
-        Assertions.assertThat(samples.getContent().get(1).getName()).isEqualTo("titi");
+        Assertions.assertThat(samples.getContent().get(0).getName()).isIn("titi", "toto");
+        Assertions.assertThat(samples.getContent().get(1).getName()).isIn("titi", "toto");
     }
 
     @Test(expectedExceptions = {BadRequestClientException.class})

@@ -15,7 +15,7 @@
 
     <util:properties id="databaseProperties">
         <prop key="dataSource.driverClassName">org.h2.Driver</prop>
-        <prop key="dataSource.url">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1</prop>
+        <prop key="dataSource.url">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1;MVCC=TRUE</prop>
         <prop key="dataSource.maxActive">50</prop>
         <prop key="dataSource.maxWait">1000</prop>
         <prop key="dataSource.poolPreparedStatements">true</prop>
