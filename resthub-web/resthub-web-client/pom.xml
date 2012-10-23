@@ -47,11 +47,12 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>test-jetty-servlet</artifactId>
         </dependency>
-        <dependency>
+<!-- Commented because spring-security-oauth2 dependency is not in Maven Central, to be uncommented when 1.0 will be released -->
+<!--        <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>1.0.0.RC1</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 </project>

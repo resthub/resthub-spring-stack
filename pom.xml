@@ -114,25 +114,6 @@
         <url>https://github.com/resthub/resthub-spring-stack/</url>
     </scm>
 
-    <repositories>
-        <!-- Contains all RESThub artifacts and transitive dependencies -->
-        <repository>
-            <id>resthub</id>
-            <url>http://nexus.pullrequest.org/content/groups/resthub</url>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>pullrequest-releases</id>
-            <url>http://nexus.pullrequest.org/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>pullrequest-snapshots</id>
-            <url>http://nexus.pullrequest.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
