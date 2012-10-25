@@ -1,13 +1,5 @@
 package org.resthub.common.util;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -16,9 +8,18 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import javax.inject.Named;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Runner for @PostInitialize annotation registration
- * 
+ *
  * @author AlphaCSP
  */
 @SuppressWarnings("rawtypes")
@@ -34,7 +35,7 @@ public class PostInitializerRunner implements ApplicationListener {
             ContextRefreshedEvent contextRefreshedEvent = (ContextRefreshedEvent) event;
             ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();
             Map beans = applicationContext.getBeansOfType(Object.class, false, false);
-            List<PostInitializingMethod> postInitializingMethods = new LinkedList<>();
+            List<PostInitializingMethod> postInitializingMethods = new LinkedList<PostInitializingMethod>();
             for (Object beanNameObject : beans.keySet()) {
                 String beanName = (String) beanNameObject;
                 Object bean = beans.get(beanNameObject);
@@ -62,7 +63,13 @@ public class PostInitializerRunner implements ApplicationListener {
                 Method method = postInitializingMethod.getMethod();
                 try {
                     method.invoke(postInitializingMethod.getBeanInstance());
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                } catch (IllegalAccessException e) {
+                    throw new BeanCreationException("Post Initialization of bean "
+                            + postInitializingMethod.getBeanName() + " failed.", e);
+                } catch (IllegalArgumentException e) {
+                    throw new BeanCreationException("Post Initialization of bean "
+                            + postInitializingMethod.getBeanName() + " failed.", e);
+                } catch (InvocationTargetException e) {
                     throw new BeanCreationException("Post Initialization of bean "
                             + postInitializingMethod.getBeanName() + " failed.", e);
                 }
@@ -89,7 +96,9 @@ public class PostInitializerRunner implements ApplicationListener {
                 if (superMethod != null) {
                     return superMethod;
                 }
-            } catch (NoSuchMethodException | SecurityException e) {
+            } catch (NoSuchMethodException e) {
+                return null;
+            } catch (SecurityException e) {
                 return null;
             }
         }

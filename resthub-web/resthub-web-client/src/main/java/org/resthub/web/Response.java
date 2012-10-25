@@ -2,15 +2,16 @@ package org.resthub.web;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.ning.http.client.Cookie;
+import org.resthub.web.support.BodyReader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.resthub.web.support.BodyReader;
 
 public class Response {
 
     private com.ning.http.client.Response ahcResponse;
-    private List<BodyReader> bodyReaders = new ArrayList<>();
+    private List<BodyReader> bodyReaders = new ArrayList<BodyReader>();
 
     public Response(com.ning.http.client.Response ahcResponse) {
         this.ahcResponse = ahcResponse;

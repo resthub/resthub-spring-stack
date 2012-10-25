@@ -4,6 +4,7 @@ import com.ning.http.client.*;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm.AuthScheme;
 import com.ning.http.client.Realm.RealmBuilder;
+import org.resthub.web.exception.ClientException;
 import org.resthub.web.exception.ClientExceptionFactory;
 import org.resthub.web.oauth2.OAuth2Config;
 import org.resthub.web.oauth2.OAuth2RequestFilter;
@@ -16,7 +17,6 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import org.resthub.web.exception.ClientException;
 
 /**
  * RESThub AsyncHttpClient wrapper inspired from Play! Framework 2<br>
@@ -31,8 +31,8 @@ public class Client implements Closeable {
     protected Builder builder;
     protected OAuth2Config.Builder oAuth2ConfigBuilder;
     protected OAuth2Config oAuth2Config;
-    protected List<BodyReader> bodyReaders = new ArrayList<>();
-    protected List<BodyWriter> bodyWriters = new ArrayList<>();
+    protected List<BodyReader> bodyReaders = new ArrayList<BodyReader>();
+    protected List<BodyWriter> bodyWriters = new ArrayList<BodyWriter>();
     private String username = null;
     private String password = null;
     private AuthScheme scheme = null;
@@ -222,9 +222,9 @@ public class Client implements Closeable {
     public class RequestHolder {
 
         private final String url;
-        private Map<String, Collection<String>> headers = new HashMap<>();
-        private Map<String, Collection<String>> queryParameters = new HashMap<>();
-        private List<Cookie> cookies = new ArrayList<>();
+        private Map<String, Collection<String>> headers = new HashMap<String, Collection<String>>();
+        private Map<String, Collection<String>> queryParameters = new HashMap<String, Collection<String>>();
+        private List<Cookie> cookies = new ArrayList<Cookie>();
         private String body = null;
 
         public RequestHolder(String url) {
@@ -242,7 +242,7 @@ public class Client implements Closeable {
                 Collection<String> values = headers.get(name);
                 values.add(value);
             } else {
-                List<String> values = new ArrayList<>();
+                List<String> values = new ArrayList<String>();
                 values.add(value);
                 headers.put(name, values);
             }
@@ -261,7 +261,7 @@ public class Client implements Closeable {
                 Collection<String> values = headers.get(name);
                 values.add(value);
             } else {
-                List<String> values = new ArrayList<>();
+                List<String> values = new ArrayList<String>();
                 values.add(value);
                 queryParameters.put(name, values);
             }
@@ -476,7 +476,10 @@ public class Client implements Closeable {
             Response response = null;
             try {
                 response = this.execute(method).get();
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException e) {
+                // throw server error exception, with cause.
+                throw new ClientException(e);
+            } catch (ExecutionException e) {
                 // throw server error exception, with cause.
                 throw new ClientException(e);
             }
@@ -506,7 +509,10 @@ public class Client implements Closeable {
             Response response = null;
             try {
                 response = this.executeString(method, body).get();
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException e) {
+                // throw server error exception, with cause.
+                throw new ClientException(e);
+            } catch (ExecutionException e) {
                 // throw server error exception, with cause.
                 throw new ClientException(e);
             }
@@ -533,7 +539,10 @@ public class Client implements Closeable {
             Response response = null;
             try {
                 response = this.executeIS(method, body).get();
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException e) {
+                // throw server error exception, with cause.
+                throw new ClientException(e);
+            } catch (ExecutionException e) {
                 // throw server error exception, with cause.
                 throw new ClientException(e);
             }
@@ -560,7 +569,10 @@ public class Client implements Closeable {
             Response response = null;
             try {
                 response = this.executeFile(method, body).get();
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (ExecutionException e) {
+                // throw server error exception, with cause.
+                throw new ClientException(e);
+            } catch (InterruptedException e) {
                 // throw server error exception, with cause.
                 throw new ClientException(e);
             }
