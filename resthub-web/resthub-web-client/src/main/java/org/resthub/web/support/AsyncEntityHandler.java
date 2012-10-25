@@ -1,13 +1,14 @@
 package org.resthub.web.support;
 
 import com.ning.http.client.AsyncCompletionHandler;
+import org.resthub.web.Response;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.resthub.web.Response;
 
 public class AsyncEntityHandler extends AsyncCompletionHandler<Response> {
 
-    protected List<BodyReader> bodyReaders = new ArrayList<>();
+    protected List<BodyReader> bodyReaders = new ArrayList<BodyReader>();
 
     public void setBodyReaders(List<BodyReader> brs) {
         this.bodyReaders = brs;

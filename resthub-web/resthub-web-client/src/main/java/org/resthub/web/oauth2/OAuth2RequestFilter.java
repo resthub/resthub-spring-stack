@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * HTTP client filter that deals with OAuth2.0 Token authentication
+ *
  * @see OAuth2Config
  */
 public class OAuth2RequestFilter implements RequestFilter {
@@ -42,9 +43,10 @@ public class OAuth2RequestFilter implements RequestFilter {
      * <li>no token has been acquired</li>
      * <li>the current token is expired, given its "ExpiresIn" information</li>
      * </ul>
+     *
      * @param accessTokenEndPoint URL where the OAuth2.0 client should request access tokens
-     * @param clientId id of the OAuth2.0 client
-     * @param clientSecret secret of the OAuth2.0 client
+     * @param clientId            id of the OAuth2.0 client
+     * @param clientSecret        secret of the OAuth2.0 client
      */
     public OAuth2RequestFilter(String accessTokenEndPoint, String clientId, String clientSecret) {
         super();
@@ -107,7 +109,11 @@ public class OAuth2RequestFilter implements RequestFilter {
             response = request.execute().get();
             token = JsonHelper.deserialize(response.getResponseBody("UTF-8"), OAuth2Token.class);
             acquireTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        } catch (InterruptedException | ExecutionException | IOException e) {
+        } catch (InterruptedException e) {
+            throw new SerializationException(e);
+        } catch (ExecutionException e) {
+            throw new SerializationException(e);
+        } catch (IOException e) {
             throw new SerializationException(e);
         }
 
