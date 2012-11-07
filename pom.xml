@@ -110,7 +110,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/resthub/resthub-spring-stack.git</connection>
+        <connection>scm:git:http://github.com/resthub/resthub-spring-stack.git</connection>
+        <developerConnection>scm:git:https://github.com/resthub/resthub-spring-stack.git</developerConnection>
         <url>https://github.com/resthub/resthub-spring-stack/</url>
     </scm>
 
