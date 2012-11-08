@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.fest.assertions.api.Assertions;
 
 import org.resthub.jpa.model.StandaloneEntity;
@@ -17,13 +16,8 @@ import org.testng.annotations.Test;
 @ActiveProfiles("resthub-jpa")
 public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
-    private StandaloneEntityRepository repository;
-
     @Inject
-    @Named("standaloneEntityRepository")
-    public void setRepository(StandaloneEntityRepository repository) {
-        this.repository = repository;
-    }
+    private StandaloneEntityRepository repository;
 
     @AfterMethod
     public void tearDown() {
