@@ -1,16 +1,18 @@
 package org.resthub.web.controller;
 
-import com.atos.util.LogDTO;
-import com.atos.util.LogStrategy;
+import org.resthub.web.log.Log;
+import org.resthub.web.log.LogStrategy;
+import org.resthub.web.log.Logs;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * User: JRI <julien.ripault@atos.net>
- * Date: 30/10/12
+ * Log Controller
  */
 @Controller
+@Profile("resthub-clientLogging")
 public class LogController {
 
     private LogStrategy logStrategy;
@@ -19,9 +21,9 @@ public class LogController {
         this.logStrategy = logStrategy;
     }
 
-    @RequestMapping(value = "/admin/log", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/log", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void log(@RequestBody LogDTO log, @RequestHeader("User-Agent") String userAgent) {
+    public void logAction(@RequestBody Log log, @RequestHeader("User-Agent") String userAgent) {
         log.browser = userAgent;
         switch (log.level) {
             case DEBUG:
@@ -41,11 +43,11 @@ public class LogController {
         }
     }
 
-    @RequestMapping(value = "/admin/logs", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/logs", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void log(@RequestBody Logs logs, @RequestHeader("User-Agent") String userAgent) {
-        for (LogDTO logDTO : logs) {
-            log(logDTO, userAgent);
+        for (Log log : logs) {
+            logAction(log, userAgent);
         }
     }
 }

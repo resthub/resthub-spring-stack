@@ -3,11 +3,7 @@ package org.resthub.web.log;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * User: JRI <julien.ripault@atos.net>
- * Date: 07/11/12
- */
-public class Logs extends ArrayList<LogDTO> {
+public class Logs extends ArrayList<Log> {
 
     public Logs(int initialCapacity) {
         super(initialCapacity);
@@ -16,7 +12,7 @@ public class Logs extends ArrayList<LogDTO> {
     public Logs() {
     }
 
-    public Logs(Collection<? extends LogDTO> c) {
+    public Logs(Collection<? extends Log> c) {
         super(c);
     }
 }

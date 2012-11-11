@@ -1,12 +1,11 @@
 package org.resthub.web.log;
 
 /**
- * User: JRI <julien.ripault@atos.net>
- * Date: 30/10/12
+ * Implement this interface to define the behaviour of the log controller
  */
 public interface LogStrategy {
-    void logError(LogDTO log);
-    void logWarn(LogDTO log);
-    void logInfo(LogDTO log);
-    void logDebug(LogDTO log);
+    void logError(Log log);
+    void logWarn(Log log);
+    void logInfo(Log log);
+    void logDebug(Log log);
 }
