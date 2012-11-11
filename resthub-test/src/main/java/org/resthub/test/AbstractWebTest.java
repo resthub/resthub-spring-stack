@@ -19,14 +19,19 @@ import org.testng.annotations.BeforeClass;
 
 /**
  * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration. Currently, a Jetty
- * instance is launched for each tests in order to reset test conditions. If you want to restart Jetty only once, you
- * can extend it, override setUp() methods and use @BeforeClass instead of @Before annotations (don't forget to call
- * super.setUp()) Ususally you will have to redefine @ContextConfiguration to specify your application context file in
- * addition to resthub ones
+ * instance is launched for each tests in order to reset test conditions.
+ *  * 
+ * If you want to restart Jetty only once, you can extend it, override setUp() methods and use @BeforeClass instead of
+ * @Before annotations (don't forget to call super.setUp())
+ * 
+ * By default it use XML context configuration. In order to use @Configuration class, you should set this.annotationbasedConfig = true
+ * and this.contextLocations = "org.mypackage"; in your class constructor.
+ * 
+ * Ususally you will have to redefine the Spring profiles used by your application by calling AbstractWebTest super contructor
  */
 public abstract class AbstractWebTest {
 
-    /*
+    /**
      * HTTP port used for running web tests, default is 9797
      */
     protected int port = 9797;
@@ -47,16 +52,23 @@ public abstract class AbstractWebTest {
     protected String rootUrl;
 
     /**
-     * Default Spring contexts imported. You should havbe to customize this one frequently, prefer using Spring 3.1
-     * profiles in order to control configuration activation
+     * Default Spring contexts imported. You should not have to customize this one frequently, prefer using Spring 3.1
+     * profiles in order to control configuration activation.
+     * 
+     * If you use JavaConfig based configuration, use it to specify the package where belong your @Configuration classes
      */
     protected String contextLocations = "classpath*:resthubContext.xml classpath*:applicationContext.xml";
     
-    /*
+    /**
      * List of Spring profiles (use comma separator) to activate
      * For example "resthub-web-server,resthub-jpa"
      */
     protected String activeProfiles = "";
+    
+    /**
+     * When set to true, activate Spring 3.1 JavaConfig based configuration, by setting context param contextClass to org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+     */
+    protected Boolean annotationbasedConfig = false;
     
     /**
      * Default constructor
@@ -64,7 +76,7 @@ public abstract class AbstractWebTest {
     public AbstractWebTest() {
         client = new Client();
     }
-
+       
     /**
      * Constructor allowing to specify Spring active profiles
      * @param activeProfiles coma separated list of profiles
@@ -91,7 +103,7 @@ public abstract class AbstractWebTest {
     public AbstractWebTest(String activeProfiles, int port) {
         this(port);
         this.activeProfiles = activeProfiles;
-    }    
+    }
         
     /**
      * Define in OpenEntityManagerInViewFilter should be activated or not. Default to false
@@ -124,6 +136,9 @@ public abstract class AbstractWebTest {
 
         // Add a context for authorization service
         ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
+        if(this.annotationbasedConfig) {
+            context.getInitParams().put("contextClass", "org.springframework.web.context.support.AnnotationConfigWebApplicationContext");
+        }
         context.getInitParams().put("contextConfigLocation", contextLocations);
         context.getInitParams().put("spring.profiles.active", activeProfiles);
         
