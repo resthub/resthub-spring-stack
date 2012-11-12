@@ -1,5 +1,7 @@
 package org.resthub.web.controller;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.resthub.web.log.Log;
 import org.resthub.web.log.LogStrategy;
 import org.resthub.web.log.Logs;
@@ -12,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
  * Log Controller
  */
 @Controller
-@Profile("resthub-clientLogging")
+@Profile("resthub-client-logging")
 public class LogController {
 
     private LogStrategy logStrategy;
 
+    @Inject @Named("defaultLogStrategy")
     public void setLogStrategy(LogStrategy logStrategy) {
         this.logStrategy = logStrategy;
     }
@@ -26,16 +29,16 @@ public class LogController {
     public void logAction(@RequestBody Log log, @RequestHeader("User-Agent") String userAgent) {
         log.browser = userAgent;
         switch (log.level) {
-            case DEBUG:
+            case debug:
                 logStrategy.logDebug(log);
                 break;
-            case INFO:
+            case info:
                 logStrategy.logInfo(log);
                 break;
-            case WARN:
+            case warn:
                 logStrategy.logWarn(log);
                 break;
-            case ERROR:
+            case error:
                 logStrategy.logError(log);
                 break;
             default:
