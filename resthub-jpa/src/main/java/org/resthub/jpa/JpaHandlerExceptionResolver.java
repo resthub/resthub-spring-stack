@@ -10,7 +10,10 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 
-
+/**
+ * Spring MVC exception resolver user to map JPA related exception to HTTP error codes.
+ * Spring MVC is an optional dependency, it will be used only if already imported by your application.
+ */
 @Named("jpaHandlerExceptionResolver")
 public class JpaHandlerExceptionResolver extends AbstractHandlerExceptionResolver {
     
