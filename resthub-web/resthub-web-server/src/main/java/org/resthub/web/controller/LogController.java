@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Log Controller
+ * Log controller for client logging
  */
 @Controller
 @Profile("resthub-client-logging")
@@ -19,12 +19,22 @@ public class LogController {
 
     private LogStrategy logStrategy;
 
+    /**
+     * You can inject another LogStrategy bean in order to customize log handling
+     */
     @Inject @Named("defaultLogStrategy")
     public void setLogStrategy(LogStrategy logStrategy) {
         this.logStrategy = logStrategy;
     }
 
-    @RequestMapping(value = "/api/log", method = RequestMethod.POST)
+    /**
+     * Single log handling<br />
+     * REST webservice published : POST /api/log
+     *
+     * @param log the log sent by the client
+     * @return OK http status code if the request has been correctly processed
+     */
+    @RequestMapping(value = "api/log", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void logAction(@RequestBody Log log, @RequestHeader("User-Agent") String userAgent) {
         log.browser = userAgent;
@@ -46,7 +56,14 @@ public class LogController {
         }
     }
 
-    @RequestMapping(value = "/api/logs", method = RequestMethod.POST)
+    /**
+     * Multiple log handling<br />
+     * REST webservice published : POST /api/logs
+     *
+     * @param log An array of logs sent by the client
+     * @return OK http status code if the request has been correctly processed
+     */
+    @RequestMapping(value = "api/logs", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void log(@RequestBody Logs logs, @RequestHeader("User-Agent") String userAgent) {
         for (Log log : logs) {

@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 
+/**
+ * Default log strategy
+ */
 @Named("defaultLogStrategy")
 @Profile("resthub-client-logging")
 public class DefaultLogStrategy implements LogStrategy {
