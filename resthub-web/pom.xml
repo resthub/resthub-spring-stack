@@ -18,5 +18,6 @@
         <module>resthub-web-common</module>
         <module>resthub-web-client</module>
         <module>resthub-web-server</module>
+        <module>resthub-validation</module>
     </modules>
 </project>
