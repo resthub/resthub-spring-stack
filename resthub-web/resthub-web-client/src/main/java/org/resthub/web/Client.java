@@ -180,6 +180,7 @@ public class Client implements Closeable {
             // TODO create request+response filters in OAuth2Config
             // -> handle new endpoints, refresh tokens...
             OAuth2RequestFilter oauth2Filter = new OAuth2RequestFilter(oAuth2Config.getAccessTokenEndpoint(), oAuth2Config.getClientId(), oAuth2Config.getClientSecret());
+            oauth2Filter.setCredentials(oAuth2Config.getUsername(),oAuth2Config.getPassword());
             oauth2Filter.setSchemeName(oAuth2Config.getOAuth2Scheme());
             builder.addRequestFilter(oauth2Filter);
         }
