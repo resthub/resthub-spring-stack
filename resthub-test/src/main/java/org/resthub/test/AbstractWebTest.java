@@ -22,16 +22,13 @@ import org.testng.annotations.BeforeClass;
  * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration. By default, a single
  * Jetty server is started for all tests so you should take care of cleanup your data after your tests.
  *
- * If you want restart Jetty server after each test class, set startOnce=true and eventually customize port (in order to
+ * If you want restart Jetty server after each test class, set startServerOnce to false and eventually customize port (in order to
  * avoid Jetty server listening on the same port conflict) in the constructor.
  *
- * If you want to restart Jetty only once, you can extend it, override setUp() methods and use @BeforeClass instead of
- * @Before annotations (don't forget to call super.setUp())
- * 
- * By default it use XML context configuration. In order to use @Configuration class, you should set this.annotationbasedConfig = true
+ * By default it use XML context configuration. In order to use @Configuration class, you should set this.annotationBasedConfig = true
  * and this.contextLocations = "org.mypackage"; in your class constructor.
  * 
- * Ususally you will have to redefine the Spring profiles used by your application by calling AbstractWebTest super contructor
+ * Usually you will have to redefine the Spring profiles used by your application by calling AbstractWebTest super constructor
  */
 public abstract class AbstractWebTest {
 
@@ -43,7 +40,7 @@ public abstract class AbstractWebTest {
     /**
      * Specify if the embedded Jetty server should run once (true, default value) or for each class (false)
      */
-    protected Boolean startOnce = true;
+    protected Boolean startServerOnce = true;
 
     /**
      * Jetty reusable embedded server that will run your application
@@ -82,7 +79,7 @@ public abstract class AbstractWebTest {
     /**
      * When set to true, activate Spring 3.1 JavaConfig based configuration, by setting context param contextClass to org.springframework.web.context.support.AnnotationConfigWebApplicationContext
      */
-    protected Boolean annotationbasedConfig = false;
+    protected Boolean annotationBasedConfig = false;
     
     /**
      * Default constructor
@@ -146,12 +143,12 @@ public abstract class AbstractWebTest {
 
     @BeforeClass
     public void beforeClass() throws Exception {
-        if((!this.startOnce) || (reusableServer == null)) {
+        if((!this.startServerOnce) || (reusableServer == null)) {
             server = new Server(port);
 
             // Add a context for authorization service
             ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
-            if(this.annotationbasedConfig) {
+            if(this.annotationBasedConfig) {
                 context.getInitParams().put("contextClass", "org.springframework.web.context.support.AnnotationConfigWebApplicationContext");
             }
             context.getInitParams().put("contextConfigLocation", contextLocations);
@@ -182,7 +179,7 @@ public abstract class AbstractWebTest {
 
             server.start();
 
-            if(this.startOnce) {
+            if(this.startServerOnce) {
                 reusableServer = server;
             }
         }
@@ -191,7 +188,7 @@ public abstract class AbstractWebTest {
 
     @AfterClass
     public void afterClass() {
-        if ((server != null) && (!this.startOnce)) {
+        if ((server != null) && (!this.startServerOnce)) {
             try {
                 server.stop();
             } catch (Exception e) {

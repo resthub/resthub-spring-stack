@@ -10,7 +10,7 @@ public class AnnotationConfigAwareWebTest extends AbstractWebTest {
     
     AnnotationConfigAwareWebTest() {
         super("resthub-web-server,resthub-jpa");
-        this.annotationbasedConfig = true;
+        this.annotationBasedConfig = true;
         this.contextLocations = "org.resthub.web";
     }
     
