@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.fest.assertions.api.BooleanArrayAssert;
 import org.resthub.web.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 /**
- * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration. Currently, a Jetty
- * instance is launched for each tests in order to reset test conditions.
- *  * 
+ * Base class for your webservice tests, based on Jetty and with preconfigured Spring configuration. By default, a single
+ * Jetty server is started for all tests so you should take care of cleanup your data after your tests.
+ *
+ * If you want restart Jetty server after each test class, set startOnce=true and eventually customize port (in order to
+ * avoid Jetty server listening on the same port conflict) in the constructor.
+ *
  * If you want to restart Jetty only once, you can extend it, override setUp() methods and use @BeforeClass instead of
  * @Before annotations (don't forget to call super.setUp())
  * 
@@ -37,7 +41,17 @@ public abstract class AbstractWebTest {
     protected int port = 9797;
 
     /**
-     * Jetty embedded server that will run your application
+     * Specify if the embedded Jetty server should run once (true, default value) or for each class (false)
+     */
+    protected Boolean startOnce = true;
+
+    /**
+     * Jetty reusable embedded server that will run your application
+     */
+    protected static Server reusableServer;
+
+    /**
+     * Class specific Jetty embedded server that will run your application
      */
     protected Server server;
     
@@ -132,45 +146,52 @@ public abstract class AbstractWebTest {
 
     @BeforeClass
     public void beforeClass() throws Exception {
-        server = new Server(port);
+        if((!this.startOnce) || (reusableServer == null)) {
+            server = new Server(port);
 
-        // Add a context for authorization service
-        ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
-        if(this.annotationbasedConfig) {
-            context.getInitParams().put("contextClass", "org.springframework.web.context.support.AnnotationConfigWebApplicationContext");
+            // Add a context for authorization service
+            ServletContextHandler context = new ServletContextHandler(servletContextHandlerOption);
+            if(this.annotationbasedConfig) {
+                context.getInitParams().put("contextClass", "org.springframework.web.context.support.AnnotationConfigWebApplicationContext");
+            }
+            context.getInitParams().put("contextConfigLocation", contextLocations);
+            context.getInitParams().put("spring.profiles.active", activeProfiles);
+
+            ServletHolder defaultServletHolder = new ServletHolder(DefaultServlet.class);
+            defaultServletHolder.setName("default");
+
+            // Add default servlet in order to make <mvc:default-servlet-handler /> work in unit tests.
+            // "/" servlet mapping will be overriden by dispatcher, but default servlet will stay in the context
+            context.addServlet(defaultServletHolder, "/");
+
+            ServletHolder dispatcherServletHolder = new ServletHolder(DispatcherServlet.class);
+            dispatcherServletHolder.setName("dispatcher");
+            dispatcherServletHolder.setInitOrder(1);
+            // Reuse beans detected by ContextLoaderListener so we configure an
+            // empty contextConfigLocation
+            dispatcherServletHolder.setInitParameter("contextConfigLocation", "");
+            context.addServlet(dispatcherServletHolder, "/");
+            context.addEventListener(new ContextLoaderListener());
+
+            if (useOpenEntityManagerInViewFilter) {
+                context.addFilter(OpenEntityManagerInViewFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+            }
+
+            // Starts the server.
+            server.setHandler(context);
+
+            server.start();
+
+            if(this.startOnce) {
+                reusableServer = server;
+            }
         }
-        context.getInitParams().put("contextConfigLocation", contextLocations);
-        context.getInitParams().put("spring.profiles.active", activeProfiles);
-        
-        ServletHolder defaultServletHolder = new ServletHolder(DefaultServlet.class);
-        defaultServletHolder.setName("default");
-        
-        // Add default servlet in order to make <mvc:default-servlet-handler /> work in unit tests.
-        // "/" servlet mapping will be overriden by dispatcher, but default servlet will stay in the context
-        context.addServlet(defaultServletHolder, "/");
 
-        ServletHolder dispatcherServletHolder = new ServletHolder(DispatcherServlet.class);
-        dispatcherServletHolder.setName("dispatcher");
-        dispatcherServletHolder.setInitOrder(1);
-        // Reuse beans detected by ContextLoaderListener so we configure an
-        // empty contextConfigLocation
-        dispatcherServletHolder.setInitParameter("contextConfigLocation", "");
-        context.addServlet(dispatcherServletHolder, "/");
-        context.addEventListener(new ContextLoaderListener());
-
-        if (useOpenEntityManagerInViewFilter) {
-            context.addFilter(OpenEntityManagerInViewFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
-        }
-
-        // Starts the server.
-        server.setHandler(context);
-
-        server.start();
     }
 
     @AfterClass
     public void afterClass() {
-        if (server != null) {
+        if ((server != null) && (!this.startOnce)) {
             try {
                 server.stop();
             } catch (Exception e) {
