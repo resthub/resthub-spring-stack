@@ -33,6 +33,8 @@ public class OAuth2RequestFilter implements RequestFilter {
     protected String clientId;
     protected String clientSecret;
     protected String scheme_name;
+    protected String username;
+    protected String password;
     protected long acquireTime;
 
     protected OAuth2Token token;
@@ -54,6 +56,11 @@ public class OAuth2RequestFilter implements RequestFilter {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         token = null;
+    }
+
+    public void setCredentials(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public String getAccessTokenEndPoint() {
@@ -134,8 +141,7 @@ public class OAuth2RequestFilter implements RequestFilter {
     public FilterContext filter(FilterContext ctx) throws FilterException {
 
         if (token == null || isTokenExpired()) {
-            token = retrieveAccessToken(ctx.getRequest().getRealm().getPrincipal(), ctx.getRequest().getRealm()
-                    .getPassword());
+            token = retrieveAccessToken(this.username, this.password);
         }
 
         ctx.getRequest().getHeaders().add(Http.AUTHORIZATION, scheme_name + " " + token.getAccessToken());
