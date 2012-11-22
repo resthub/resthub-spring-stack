@@ -1,4 +1,4 @@
-package org.resthub.web.controller;
+package org.resthub.web.test;
 
 import org.hibernate.ObjectNotFoundException;
 import org.resthub.test.AbstractWebTest;

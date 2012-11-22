@@ -1,7 +1,8 @@
-package org.resthub.web.model;
+package org.resthub.web.test;
 
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.JsonHelper;
+import org.resthub.web.model.Sample;
 import org.testng.annotations.Test;
 
 public class WebSampleResourceJsonSerializationTest {
