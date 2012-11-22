@@ -1,4 +1,4 @@
-package org.resthub.web.service.impl;
+package org.resthub.web.service;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -6,7 +6,6 @@ import javax.inject.Named;
 import org.resthub.common.service.CrudServiceImpl;
 import org.resthub.web.model.Sample;
 import org.resthub.web.repository.SampleResourceRepository;
-import org.resthub.web.service.SampleResourceService;
 
 @Named("webSampleResourceService")
 public class SampleResourceServiceImpl extends CrudServiceImpl<Sample, Long, SampleResourceRepository> implements
@@ -14,8 +13,8 @@ public class SampleResourceServiceImpl extends CrudServiceImpl<Sample, Long, Sam
 
     @Override
     @Inject
-    public void setRepository(SampleResourceRepository webSampleResourceRepository) {
-        super.setRepository(webSampleResourceRepository);
+    public void setRepository(SampleResourceRepository repository) {
+        super.setRepository(repository);
     }
     
     @Override

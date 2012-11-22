@@ -1,4 +1,4 @@
-package org.resthub.web.controller;
+package org.resthub.web.test;
 
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
@@ -10,8 +10,6 @@ public class AnnotationConfigAwareWebTest extends AbstractWebTest {
     
     AnnotationConfigAwareWebTest() {
         super("resthub-web-server,resthub-jpa");
-        this.annotationBasedConfig = true;
-        this.contextLocations = "org.resthub.web";
     }
     
     @Test

@@ -9,6 +9,9 @@
         http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.resthub.jpa" />
     
     <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
         ignore-resource-not-found="true" ignore-unresolvable="true" />
