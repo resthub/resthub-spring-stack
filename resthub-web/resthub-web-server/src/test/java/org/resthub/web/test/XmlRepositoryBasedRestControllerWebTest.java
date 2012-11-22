@@ -1,4 +1,4 @@
-package org.resthub.web.controller;
+package org.resthub.web.test;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
