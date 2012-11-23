@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
  * Default log strategy
  */
 @Named("defaultLogStrategy")
-@Profile("resthub-client-logging")
+@Profile("client-logging")
 public class DefaultLogStrategy implements LogStrategy {
     
     private static final Logger LOGGER = LoggerFactory.getLogger("JSLogger");

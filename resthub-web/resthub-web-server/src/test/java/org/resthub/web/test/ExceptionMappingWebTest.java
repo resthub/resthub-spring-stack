@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 public class ExceptionMappingWebTest extends AbstractWebTest {
     
     public ExceptionMappingWebTest() {
-         super("resthub-web-server,resthub-jpa");
+         super("web-server,jpa");
     }
     
     @Test(expectedExceptions=NotAcceptableClientException.class)

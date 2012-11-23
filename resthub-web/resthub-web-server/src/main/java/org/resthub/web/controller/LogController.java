@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Log controller for client logging
  */
 @Controller
-@Profile("resthub-client-logging")
+@Profile("client-logging")
 public class LogController {
 
     private LogStrategy logStrategy;

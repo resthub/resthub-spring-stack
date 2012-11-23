@@ -72,7 +72,7 @@ public abstract class AbstractWebTest {
     
     /**
      * List of Spring profiles (use comma separator) to activate
-     * For example "resthub-web-server,resthub-jpa"
+     * For example "web-server,jpa"
      */
     protected String activeProfiles = "";
     
