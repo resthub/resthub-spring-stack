@@ -15,7 +15,8 @@
     <description>Common classes for both client and server RESThub modules</description>
 
     <properties>
-        <jackson.version>2.1.0</jackson.version>
+        <jackson.version>2.1.1</jackson.version>
+        <woodstox.version>4.1.4</woodstox.version>
     </properties>
 
     <dependencies>
@@ -37,7 +38,7 @@
         <dependency>
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>woodstox-core-asl</artifactId>
-            <version>4.1.4</version>
+            <version>${woodstox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
