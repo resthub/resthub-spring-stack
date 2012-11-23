@@ -24,14 +24,15 @@
         <spring.data.commons.core.version>1.4.0.RELEASE</spring.data.commons.core.version>
 
         <logback.version>1.0.7</logback.version>
-        <slf4j.version>1.7.1</slf4j.version>
+        <slf4j.version>1.7.2</slf4j.version>
         <servlet.version>3.0.1</servlet.version>
 
-        <jetty.version>8.1.7.v20120910</jetty.version>
+        <jetty.version>8.1.8.v20121106</jetty.version>
         <jetty.port>8080</jetty.port>
 
         <testng.version>6.8</testng.version>
         <fest.assert.version>2.0M8</fest.assert.version>
+        <mockito.version>1.9.5</mockito.version>
     </properties>
 
     <modules>
@@ -204,11 +205,6 @@
                 <version>1</version>
             </dependency>
             <dependency>
-                <groupId>javax.ws.rs</groupId>
-                <artifactId>jsr311-api</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet.version}</version>
@@ -272,6 +268,12 @@
                 <version>${jetty.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -327,7 +329,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.9</version>
+                    <version>2.12.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
