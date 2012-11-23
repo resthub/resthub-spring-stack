@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
     public XmlRepositoryBasedRestControllerWebTest() {
-         super("resthub-web-server,resthub-jpa");
+         super("web-server,jpa");
     }
 
     @AfterMethod

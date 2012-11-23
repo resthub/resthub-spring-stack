@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
 
     public JsonServiceBasedRestControllerTest() {
-        super("resthub-web-server,resthub-jpa");
+        super("web-server,jpa");
     }
 
     @AfterMethod

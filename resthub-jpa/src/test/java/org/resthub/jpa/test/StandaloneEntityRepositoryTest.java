@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-@ActiveProfiles("resthub-jpa")
+@ActiveProfiles("jpa")
 public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
     @Inject

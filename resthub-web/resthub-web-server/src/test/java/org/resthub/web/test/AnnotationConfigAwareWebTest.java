@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 public class AnnotationConfigAwareWebTest extends AbstractWebTest {
     
     AnnotationConfigAwareWebTest() {
-        super("resthub-web-server,resthub-jpa");
+        super("web-server,jpa");
     }
     
     @Test
