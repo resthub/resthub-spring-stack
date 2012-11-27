@@ -7,6 +7,7 @@ import org.resthub.common.service.CrudServiceImpl;
 import org.resthub.web.model.Sample;
 import org.resthub.web.repository.SampleResourceRepository;
 import org.resthub.web.service.SampleResourceService;
+import org.springframework.context.annotation.Profile;
 
 @Named("webSampleResourceService")
 public class SampleResourceServiceImpl extends CrudServiceImpl<Sample, Long, SampleResourceRepository> implements
