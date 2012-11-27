@@ -19,7 +19,7 @@ public class ValidationControllerIntegrationTest extends AbstractWebTest {
     }
 
     @Test
-    public void testInheritanceAndCompositionModel() {
+    public void testInheritanceAndCompositionModelWithLocale() {
         InputStream in = this.getClass().getClassLoader().getResourceAsStream("validation/aModel.json");
         StringWriter writer = new StringWriter();
 
@@ -31,6 +31,32 @@ public class ValidationControllerIntegrationTest extends AbstractWebTest {
 
         String jsonFile = writer.toString();
         Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en").get();
+
+        Assertions.assertThat(response.getBody()).isEqualTo(jsonFile);
+    }
+
+    @Test
+    public void testInheritanceAndCompositionModelWithoutLocale() {
+        Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).get();
+
+        Assertions.assertThat(response.getBody()).contains("constraints");
+    }
+
+    @Test
+    public void testInheritanceAndCompositionModelWithLocales() {
+
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("validation/aModel.json");
+        StringWriter writer = new StringWriter();
+
+        try {
+            IOUtils.copy(in, writer);
+        } catch (IOException e) {
+            Assertions.fail("cannot read file", e);
+        }
+
+        String jsonFile = writer.toString();
+
+        Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en-en").get();
 
         Assertions.assertThat(response.getBody()).isEqualTo(jsonFile);
     }

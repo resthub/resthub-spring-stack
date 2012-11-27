@@ -1,7 +1,6 @@
 package org.resthub.web.controller;
 
 import org.resthub.common.exception.NotFoundException;
-import org.resthub.web.exception.NotFoundClientException;
 import org.resthub.web.validation.ModelConstraint;
 import org.resthub.web.validation.ValidationService;
 import org.springframework.context.annotation.Profile;
@@ -29,7 +28,18 @@ public class ValidationController {
             if (null == locale) {
                 return this.validationService.getConstraintsForClassName(canonicalClassName);
             } else {
-                return this.validationService.getConstraintsForClassName(canonicalClassName, new Locale(locale));
+                String[] locs = locale.split("-");
+                Locale loc = null;
+
+                if (locs.length > 2) {
+                    loc = new Locale(locs[0], locs[1], locs[2]);
+                } else if (locs.length > 1) {
+                    loc = new Locale(locs[0], locs[1]);
+                } else {
+                    loc = new Locale(locs[0]);
+                }
+
+                return this.validationService.getConstraintsForClassName(canonicalClassName, loc);
             }
         } catch (ClassNotFoundException e) {
             throw new NotFoundException("Class " + canonicalClassName + " could not be found", e);
