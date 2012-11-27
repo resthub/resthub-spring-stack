@@ -14,12 +14,13 @@ import java.io.StringWriter;
 public class ValidationControllerIntegrationTest extends AbstractWebTest {
 
     public ValidationControllerIntegrationTest() {
-        super("resthub-web-server, resthub-validation");
+        super("resthub-web-server, resthub-validation", 9798);
+        this.startServerOnce = false;
     }
 
     @Test
     public void testInheritanceAndCompositionModel() {
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("api/validation/aModel.json");
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("validation/aModel.json");
         StringWriter writer = new StringWriter();
 
         try {
@@ -29,7 +30,7 @@ public class ValidationControllerIntegrationTest extends AbstractWebTest {
         }
 
         String jsonFile = writer.toString();
-        Response response = this.request("validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en").get();
+        Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en").get();
 
         Assertions.assertThat(response.getBody()).isEqualTo(jsonFile);
     }
