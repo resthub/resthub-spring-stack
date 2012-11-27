@@ -9,7 +9,9 @@
         http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/data/mongo
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
-    
+
+    <context:annotation-config />
+
     <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
         ignore-resource-not-found="true" ignore-unresolvable="true" />
 
@@ -17,6 +19,8 @@
         <prop key="database.dbname">resthub</prop>
         <prop key="database.host">localhost</prop>
         <prop key="database.port">27017</prop>
+        <prop key="database.username"></prop>
+        <prop key="database.password"></prop>
 
         <prop key="database.connectionsPerHost">10</prop>
         <prop key="database.threadsAllowedToBlockForConnectionMultiplier">5</prop>
@@ -45,7 +49,8 @@
             write-fsync="${database.writeFsync}" />
     </mongo:mongo>
 
-    <mongo:db-factory id="mongoDbFactory" dbname="${database.dbname}" mongo-ref="mongo" />
+    <mongo:db-factory id="mongoDbFactory" dbname="${database.dbname}"
+                      username="${database.username}" password="${database.password}" mongo-ref="mongo" />
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongoDbFactory" />

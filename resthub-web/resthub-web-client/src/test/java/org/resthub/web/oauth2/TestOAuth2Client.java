@@ -1,5 +1,3 @@
-// Commented because spring-security-oauth2 dependency is not in Maven Central, to be uncommented when 1.0 will be released
-//
 //package org.resthub.web.oauth2;
 //
 //import java.io.IOException;

@@ -69,6 +69,7 @@
 
     <oauth2:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">
         <oauth2:password />
+        <!-- <oauth2:refresh-token /> -->
     </oauth2:authorization-server>
 
     <oauth2:client-details-service id="clientDetails" >
