@@ -52,6 +52,12 @@
             <artifactId>spring-security-oauth2</artifactId>
             <version>1.0.0.RELEASE</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.jackson</groupId>
+                    <artifactId>jackson-mapper-asl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

@@ -116,9 +116,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:http://github.com/resthub/resthub-spring-stack.git</connection>
-        <developerConnection>scm:git:https://github.com/resthub/resthub-spring-stack.git</developerConnection>
-        <url>https://github.com/resthub/resthub-spring-stack/</url>
+        <connection>scm:git:git@github.com:resthub/resthub-spring-stack.git</connection>
+        <developerConnection>scm:git:git@github.com:resthub/resthub-spring-stack.git</developerConnection>
+        <url>scm:git:git@github.com:resthub/resthub-spring-stack.git</url>
     </scm>
 
     <dependencyManagement>
@@ -417,7 +417,6 @@
                     <docencoding>UTF-8</docencoding>
                     <charset>UTF-8</charset>
                     <encoding>UTF-8</encoding>
-                    <excludePackageNames>org.resthub.booking.*:org.resthub.roundtable.*:org.resthub.identity.UserInit</excludePackageNames>
                 </configuration>
             </plugin>
         </plugins>
