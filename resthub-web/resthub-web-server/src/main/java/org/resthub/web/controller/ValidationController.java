@@ -22,21 +22,24 @@ public class ValidationController {
 
     @RequestMapping(value = "{canonicalClassName:.+}", method = RequestMethod.GET)
     @ResponseBody
-    public ModelConstraint getConstraintsForClassName(@PathVariable String canonicalClassName, @RequestParam(required = false) String locale) {
+    public ModelConstraint getConstraintsForClassName(@PathVariable String canonicalClassName, @RequestParam(required = false) String locale, @RequestParam(required = false, defaultValue = "false") Boolean keyOnly) {
+
+        Locale loc = null;
 
         try {
-            if (null == locale) {
-                return this.validationService.getConstraintsForClassName(canonicalClassName);
+            if (keyOnly) {
+                return this.validationService.getConstraintsForClassName(canonicalClassName, keyOnly);
             } else {
-                String[] locs = locale.split("-");
-                Locale loc = null;
+                if (locale != null) {
+                    String[] locs = locale.split("-");
 
-                if (locs.length > 2) {
-                    loc = new Locale(locs[0], locs[1], locs[2]);
-                } else if (locs.length > 1) {
-                    loc = new Locale(locs[0], locs[1]);
-                } else {
-                    loc = new Locale(locs[0]);
+                    if (locs.length > 2) {
+                        loc = new Locale(locs[0], locs[1], locs[2]);
+                    } else if (locs.length > 1) {
+                        loc = new Locale(locs[0], locs[1]);
+                    } else {
+                        loc = new Locale(locs[0]);
+                    }
                 }
 
                 return this.validationService.getConstraintsForClassName(canonicalClassName, loc);

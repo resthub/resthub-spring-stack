@@ -53,7 +53,7 @@ public class ValidationServiceTest extends AbstractTest {
         Assertions.assertThat(modelConstraint.getConstraints().get("field").get(0).getMessage()).isEqualTo("ne peut pas être nul");
 
         modelConstraint =
-                this.validationService.getConstraintsForClass(NotNullValidationModel.class, new Locale("en"));
+                this.validationService.getConstraintsForClass(NotNullValidationModel.class, new Locale("en", "us"));
         this.validateNotNullValidationModel(modelConstraint);
         Assertions.assertThat(modelConstraint.getConstraints().get("field").get(0).getMessage()).isEqualTo("may not be null");
     }
@@ -179,5 +179,13 @@ public class ValidationServiceTest extends AbstractTest {
         modelConstraint =
                 this.validationService.getConstraintsForClass(AbstractModel.class);
         Assertions.assertThat(modelConstraint).isNull();
+    }
+
+    @Test
+    public void testNotNullValidationModelFromExistingClassKeyOnly() {
+        ModelConstraint modelConstraint =
+                this.validationService.getConstraintsForClass(NotNullValidationModel.class, true);
+        this.validateNotNullValidationModel(modelConstraint);
+        Assertions.assertThat(modelConstraint.getConstraints().get("field").get(0).getMessage()).isEqualTo("{javax.validation.constraints.NotNull.message}");
     }
 }
