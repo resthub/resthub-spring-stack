@@ -186,6 +186,6 @@ public class ValidationServiceTest extends AbstractTest {
         ModelConstraint modelConstraint =
                 this.validationService.getConstraintsForClass(NotNullValidationModel.class, true);
         this.validateNotNullValidationModel(modelConstraint);
-        Assertions.assertThat(modelConstraint.getConstraints().get("field").get(0).getMessage()).isEqualTo("{javax.validation.constraints.NotNull.message}");
+        Assertions.assertThat(modelConstraint.getConstraints().get("field").get(0).getMessage()).isEqualTo("javax.validation.constraints.NotNull.message");
     }
 }

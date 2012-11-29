@@ -107,11 +107,13 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private String getMessage(ConstraintDescriptor cd, Locale locale, Boolean keyOnly) {
+        String msgKey = cd.getAttributes().get("message").toString();
 
-        if (keyOnly) return cd.getAttributes().get("message").toString();
+        if (keyOnly) {
+            return msgKey.replaceAll("[{}]", "");
+        }
 
         String msg;
-        String msgKey = cd.getAttributes().get("message").toString();
         ValidationContext validationContext = new ValidationContext(cd, null);
 
         if (null == locale) {
@@ -120,7 +122,7 @@ public class ValidationServiceImpl implements ValidationService {
             msg = FACTORY.getMessageInterpolator().interpolate(msgKey, validationContext, locale);
         }
 
-        return msg;
+        return msg.replaceAll("[{}]", "");
     }
 
     private Map<String, Object> getAttributes(ConstraintDescriptor cd) {

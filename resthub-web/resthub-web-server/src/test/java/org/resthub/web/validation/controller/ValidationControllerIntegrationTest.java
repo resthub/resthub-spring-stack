@@ -47,7 +47,7 @@ public class ValidationControllerIntegrationTest extends AbstractWebTest {
         Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("keyOnly", "true").get();
 
         Assertions.assertThat(response.getBody()).contains("constraints");
-        Assertions.assertThat(response.getBody()).contains("{javax.validation.constraints.NotNull.message}");
+        Assertions.assertThat(response.getBody()).contains("javax.validation.constraints.NotNull.message");
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ValidationControllerIntegrationTest extends AbstractWebTest {
         Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en").setQueryParameter("keyOnly", "true").get();
 
         Assertions.assertThat(response.getBody()).contains("constraints");
-        Assertions.assertThat(response.getBody()).contains("{javax.validation.constraints.NotNull.message}");
+        Assertions.assertThat(response.getBody()).contains("javax.validation.constraints.NotNull.message");
     }
 
     @Test
