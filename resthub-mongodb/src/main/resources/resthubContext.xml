@@ -11,6 +11,7 @@
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
     <context:annotation-config />
+    <import resource="classpath*:resthubContextCommon.xml" />
 
     <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
         ignore-resource-not-found="true" ignore-unresolvable="true" />
