@@ -20,18 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 
  * <p>Default implementation uses "id" field (usually a Long) in order to identify resources in web request.
  * If your want to identity resources by a slug (human readable identifier), your should override findById() method with for example :
- * 
+ *
  * <pre>
- * {@code
- * @Override
-   public Sample findById(@PathVariable String id) {
+ * <code>
+   {@literal @}Override
+   public Sample findById({@literal @}PathVariable String id) {
         Sample sample = this.service.findByName(id);
         if (sample == null) {
             throw new NotFoundException();
         }
         return sample;
- * }
- * }
+   }
+   </code>
  * </pre>
  * 
  * @param <T>  Your resource class to manage, maybe an entity or DTO class
