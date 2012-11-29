@@ -25,17 +25,18 @@ import org.springframework.web.bind.annotation.*;
  * If your want to identity resources by a slug (human readable identifier), your should override findById() method with for example :
  * 
  * <pre>
- * {@code
- * @Override
-   public Sample findById(@PathVariable String id) {
+ * <code>
+   {@literal @}Override
+   public Sample findById({@literal @}PathVariable String id) {
         Sample sample = this.repository.findByName(id);
         if (sample == null) {
             throw new NotFoundException();
         }
         return sample;
- * }
- * }
+   }
+   </code>
  * </pre>
+ *
  * 
  * @param <T>  Your resource class to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
