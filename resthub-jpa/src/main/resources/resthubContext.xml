@@ -12,6 +12,7 @@
 
     <context:annotation-config />
     <context:component-scan base-package="org.resthub.jpa" />
+    <import resource="classpath*:resthubContextCommon.xml" />
     
     <context:property-placeholder location="classpath*:database.properties" properties-ref="databaseProperties"
         ignore-resource-not-found="true" ignore-unresolvable="true" />
