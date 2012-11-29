@@ -1,13 +1,15 @@
 package org.resthub.common.util;
 
 import org.fest.assertions.api.Assertions;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
-@ContextConfiguration(locations = { "classpath:resthubContextCommon.xml" })
+@ActiveProfiles("resthub-common")
+@ContextConfiguration(locations = { "classpath:resthubContext.xml" })
 public class PostInitializeTest extends AbstractTestNGSpringContextTests {
 
     @Inject
