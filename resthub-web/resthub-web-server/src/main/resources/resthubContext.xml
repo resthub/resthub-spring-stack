@@ -8,7 +8,6 @@
 
     <context:annotation-config />
     <context:component-scan base-package="org.resthub.web" />
-    <import resource="classpath*:resthubContextCommon.xml" />
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="false">
