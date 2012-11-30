@@ -22,28 +22,23 @@ public class ValidationController {
 
     @RequestMapping(value = "{canonicalClassName:.+}", method = RequestMethod.GET)
     @ResponseBody
-    public ModelConstraint getConstraintsForClassName(@PathVariable String canonicalClassName, @RequestParam(required = false) String locale, @RequestParam(required = false, defaultValue = "false") Boolean keyOnly) {
+    public ModelConstraint getConstraintsForClassName(@PathVariable String canonicalClassName, @RequestParam(required = false) String locale) {
 
         Locale loc = null;
 
         try {
-            if (keyOnly) {
-                return this.validationService.getConstraintsForClassName(canonicalClassName, keyOnly);
-            } else {
-                if (locale != null) {
-                    String[] locs = locale.split("-");
+            if (locale != null) {
+                String[] locs = locale.split("-");
 
-                    if (locs.length > 2) {
-                        loc = new Locale(locs[0], locs[1], locs[2]);
-                    } else if (locs.length > 1) {
-                        loc = new Locale(locs[0], locs[1]);
-                    } else {
-                        loc = new Locale(locs[0]);
-                    }
+                if (locs.length > 2) {
+                    loc = new Locale(locs[0], locs[1], locs[2]);
+                } else if (locs.length > 1) {
+                    loc = new Locale(locs[0], locs[1]);
+                } else {
+                    loc = new Locale(locs[0]);
                 }
-
-                return this.validationService.getConstraintsForClassName(canonicalClassName, loc);
             }
+            return this.validationService.getConstraintsForClassName(canonicalClassName, loc);
         } catch (ClassNotFoundException e) {
             throw new NotFoundException("Class " + canonicalClassName + " could not be found", e);
         }

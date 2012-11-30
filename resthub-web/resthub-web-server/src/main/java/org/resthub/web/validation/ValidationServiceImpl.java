@@ -21,71 +21,52 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public ModelConstraint getConstraintsForClassName(String canonicalClassName) throws ClassNotFoundException {
-        return this.getConstraintsForClassName(canonicalClassName, null, false);
-    }
-
-    @Override
-    public ModelConstraint getConstraintsForClassName(String canonicalClassName, Boolean keyOnly) throws ClassNotFoundException {
-        return this.getConstraintsForClassName(canonicalClassName, null, keyOnly);
+        return this.getConstraintsForClassName(canonicalClassName, null);
     }
 
     @Override
     public ModelConstraint getConstraintsForClassName(String canonicalClassName, Locale locale) throws ClassNotFoundException {
-        return this.getConstraintsForClassName(canonicalClassName, locale, false);
-    }
-
-    private ModelConstraint getConstraintsForClassName(String canonicalClassName, Locale locale, Boolean keyOnly) throws ClassNotFoundException {
-        return this.getConstraintsForClass(Class.forName(canonicalClassName), locale, keyOnly);
+        return this.getConstraintsForClass(Class.forName(canonicalClassName), locale);
     }
 
     @Override
     public ModelConstraint getConstraintsForClass(Class<?> clazz) {
-        return this.getConstraintsForClass(clazz, null, false);
+        return this.getConstraintsForClass(clazz, null);
     }
 
     @Override
     public ModelConstraint getConstraintsForClass(Class<?> clazz, Locale locale) {
-        return this.getConstraintsForClass(clazz, locale, false);
-    }
-
-    @Override
-    public ModelConstraint getConstraintsForClass(Class<?> clazz, Boolean keyOnly) {
-        return this.getConstraintsForClass(clazz, null, keyOnly);
-    }
-
-    private ModelConstraint getConstraintsForClass(Class<?> clazz, Locale locale, Boolean keyOnly) {
         ModelConstraint modelConstraint = null;
         BeanDescriptor bd = VALIDATOR.getConstraintsForClass(clazz);
 
         if (bd.isBeanConstrained() && !Modifier.isAbstract(clazz.getModifiers())) {
             modelConstraint = new ModelConstraint(clazz.getCanonicalName());
-            modelConstraint.setConstraints(this.getConstraints(bd, locale, keyOnly));
+            modelConstraint.setConstraints(this.getConstraints(bd, locale));
         }
 
         return modelConstraint;
     }
 
-    private Map<String, List<ValidationConstraint>> getConstraints(BeanDescriptor bd, Locale locale, Boolean keyOnly) {
+    private Map<String, List<ValidationConstraint>> getConstraints(BeanDescriptor bd, Locale locale) {
         Map<String, List<ValidationConstraint>> constraints = new HashMap<String, List<ValidationConstraint>>();
 
         for (PropertyDescriptor pd : bd.getConstrainedProperties()) {
             if (pd.hasConstraints() || pd.isCascaded()) {
-                constraints.put(pd.getPropertyName(), this.getValidationConstraints(pd, locale, keyOnly));
+                constraints.put(pd.getPropertyName(), this.getValidationConstraints(pd, locale));
             }
         }
 
         return constraints;
     }
 
-    private List<ValidationConstraint> getValidationConstraints(PropertyDescriptor pd, Locale locale, Boolean keyOnly) {
+    private List<ValidationConstraint> getValidationConstraints(PropertyDescriptor pd, Locale locale) {
         List<ValidationConstraint> validationConstraints = new ArrayList<ValidationConstraint>();
-        String type;
 
         for (ConstraintDescriptor cd : pd.getConstraintDescriptors()) {
             ValidationConstraint validationConstraint = new ValidationConstraint();
 
             validationConstraint.setType(this.getType(cd));
-            validationConstraint.setMessage(this.getMessage(cd, locale, keyOnly));
+            validationConstraint.setMessage(this.getMessage(cd, locale));
             validationConstraint.setAttributes(this.getAttributes(cd));
 
             validationConstraints.add(validationConstraint);
@@ -106,12 +87,8 @@ public class ValidationServiceImpl implements ValidationService {
         return type.substring(type.lastIndexOf('.') + 1, type.length());
     }
 
-    private String getMessage(ConstraintDescriptor cd, Locale locale, Boolean keyOnly) {
+    private String getMessage(ConstraintDescriptor cd, Locale locale) {
         String msgKey = cd.getAttributes().get("message").toString();
-
-        if (keyOnly) {
-            return msgKey.replaceAll("[{}]", "");
-        }
 
         String msg;
         ValidationContext validationContext = new ValidationContext(cd, null);

@@ -43,22 +43,6 @@ public class ValidationControllerIntegrationTest extends AbstractWebTest {
     }
 
     @Test
-    public void testInheritanceAndCompositionModelWithKeyOnly() {
-        Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("keyOnly", "true").get();
-
-        Assertions.assertThat(response.getBody()).contains("constraints");
-        Assertions.assertThat(response.getBody()).contains("javax.validation.constraints.NotNull.message");
-    }
-
-    @Test
-    public void testInheritanceAndCompositionModelWithKeyOnlyAndLocale() {
-        Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en").setQueryParameter("keyOnly", "true").get();
-
-        Assertions.assertThat(response.getBody()).contains("constraints");
-        Assertions.assertThat(response.getBody()).contains("javax.validation.constraints.NotNull.message");
-    }
-
-    @Test
     public void testInheritanceAndCompositionModelWithLocales() {
 
         InputStream in = this.getClass().getClassLoader().getResourceAsStream("validation/aModel.json");
