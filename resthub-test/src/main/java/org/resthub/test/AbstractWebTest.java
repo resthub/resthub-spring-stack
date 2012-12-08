@@ -8,7 +8,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.fest.assertions.api.BooleanArrayAssert;
 import org.resthub.web.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
