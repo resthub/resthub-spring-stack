@@ -62,7 +62,6 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons-core</artifactId>
-            <version>${spring.data.commons.core.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
