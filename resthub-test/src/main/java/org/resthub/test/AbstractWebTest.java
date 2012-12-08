@@ -191,7 +191,7 @@ public abstract class AbstractWebTest {
             try {
                 server.stop();
             } catch (Exception e) {
-                logger.error("Error while trying to stop embedded Jetty : " + e);
+                logger.error("Error while trying to stop embedded Jetty : {}", e);
             }
         }
     }
