@@ -21,7 +21,6 @@ public class ClassUtilsTest {
     }
 
     private static class SampleResource {
-        private static final long serialVersionUID = 4925762850344399849L;
     }
 
     private static class SampleResourceArrayList extends ArrayList<SampleResource> {
