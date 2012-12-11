@@ -8,7 +8,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.fest.assertions.api.BooleanArrayAssert;
 import org.resthub.web.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -192,7 +191,7 @@ public abstract class AbstractWebTest {
             try {
                 server.stop();
             } catch (Exception e) {
-                logger.error("Error while trying to stop embedded Jetty : " + e);
+                logger.error("Error while trying to stop embedded Jetty: " + e);
             }
         }
     }

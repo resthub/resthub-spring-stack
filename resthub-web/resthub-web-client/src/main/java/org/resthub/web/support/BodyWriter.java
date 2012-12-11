@@ -1,6 +1,5 @@
 package org.resthub.web.support;
 
-import org.resthub.web.Client;
 
 public interface BodyWriter {
 
