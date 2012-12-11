@@ -1,6 +1,5 @@
 package org.resthub.web.support;
 
-import org.resthub.web.Client.Request;
 import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
 
