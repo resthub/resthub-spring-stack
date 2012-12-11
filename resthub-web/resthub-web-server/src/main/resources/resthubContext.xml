@@ -8,7 +8,7 @@
 
     <context:annotation-config />
     <context:component-scan base-package="org.resthub.web" />
-    
+
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="false">
             <bean class="org.resthub.web.converter.MappingJackson2JsonHttpMessageConverter" />
