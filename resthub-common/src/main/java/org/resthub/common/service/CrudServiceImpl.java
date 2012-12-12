@@ -1,12 +1,13 @@
 package org.resthub.common.service;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Crud service that uses a repository implementation
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
  * @param <ID> Resource id type, usually Long or String
  * @param <R> The repository class
  */
+@Transactional(readOnly = true)
 public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSortingRepository<T, ID>> implements
         CrudService<T, ID> {
 
@@ -33,6 +35,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public T create(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         return repository.save(resource);
@@ -42,6 +45,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public T update(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         return repository.save(resource);
@@ -51,6 +55,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void delete(T resource) {
         Assert.notNull(resource, "Resource can't be null");
         repository.delete(resource);
@@ -60,6 +65,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void delete(ID id) {
         Assert.notNull(id, "Resource ID can't be null");
         repository.delete(id);
@@ -69,6 +75,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void deleteAll() {
         repository.deleteAll();
     }
@@ -77,6 +84,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public void deleteAllWithCascade() {
         Iterable<T> list = repository.findAll();
         for (T entity : list) {
