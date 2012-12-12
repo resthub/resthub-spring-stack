@@ -14,7 +14,7 @@ public class AnnotationConfigAwareWebTest extends AbstractWebTest {
     
     @Test
     public void testSample() {
-        Sample sample = this.request("annotation-config/test").getJson().resource(Sample.class);
+        Sample sample = this.request("annotation-config/test").jsonGet().resource(Sample.class);
         Assertions.assertThat(sample).isNotNull();
         Assertions.assertThat(sample.getName()).isEqualTo("toto");
                 

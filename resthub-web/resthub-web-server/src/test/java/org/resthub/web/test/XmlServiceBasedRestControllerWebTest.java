@@ -38,7 +38,7 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindAllResources() {
         this.request("service-based").xmlPost(new Sample("toto"));
         this.request("service-based").xmlPost(new Sample("titi"));
-        Response response = this.request("service-based").getXml();
+        Response response = this.request("service-based").xmlGet();
         Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.getContent()).isNotNull();
@@ -53,7 +53,7 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindAllResourcesUnpaginated() {
         this.request("service-based").jsonPost(new Sample("toto"));
         this.request("service-based").jsonPost(new Sample("toto"));
-        Response r = this.request("service-based").setQueryParameter("page", "no").getXml();
+        Response r = this.request("service-based").setQueryParameter("page", "no").xmlGet();
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getStatus()).isEqualTo(Http.NOT_IMPLEMENTED);
     }
@@ -62,7 +62,7 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindPaginatedResources() {
         this.request("repository-based").xmlPost(new Sample("toto"));
         this.request("repository-based").xmlPost(new Sample("titi"));
-        Response response = this.request("repository-based").setQueryParameter("page", "1").getXml();
+        Response response = this.request("repository-based").setQueryParameter("page", "1").xmlGet();
         Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.getContent()).isNotNull();
@@ -77,7 +77,7 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
         this.request("service-based").xmlPost(new Sample("toto"));
         this.request("service-based").xmlPost(new Sample("toto"));
-        this.request("service-based").setQueryParameter("page","0").getXml();
+        this.request("service-based").setQueryParameter("page","0").xmlGet();
     }
 
     @Test(expectedExceptions = {NotFoundClientException.class})
