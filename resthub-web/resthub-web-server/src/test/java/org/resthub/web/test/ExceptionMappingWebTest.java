@@ -21,28 +21,28 @@ public class ExceptionMappingWebTest extends AbstractWebTest {
     
     @Test(expectedExceptions=NotAcceptableClientException.class)
     public void testHttpMediaTypeNotAcceptableException() {
-        this.request("exception/test-default-spring-exception").getJson();
+        this.request("exception/test-default-spring-exception").jsonGet();
     }
     
     @Test(expectedExceptions=BadRequestClientException.class)
     public void testIllegalArgumentException() {
-        this.request("exception/test-illegal-argument-exception").getJson();
+        this.request("exception/test-illegal-argument-exception").jsonGet();
     }
     
     @Test(expectedExceptions=InternalServerErrorClientException.class)
     public void testException() {
-        this.request("exception/test-exception").getJson();
+        this.request("exception/test-exception").jsonGet();
     }
     
     @Test(expectedExceptions=InternalServerErrorClientException.class)
     public void testRuntimeException() {
-        this.request("exception/test-runtime-exception").getJson();
+        this.request("exception/test-runtime-exception").jsonGet();
     }
     
     // Uncatched ClientEception should lead to an Internel Server Error, regardless the ClientException instance status code
     @Test(expectedExceptions=InternalServerErrorClientException.class)
     public void testClientException() {
-        this.request("exception/test-client-exception").getJson();
+        this.request("exception/test-client-exception").jsonGet();
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "test-object-not-found-exception")
@@ -53,12 +53,12 @@ public class ExceptionMappingWebTest extends AbstractWebTest {
     
     @Test(expectedExceptions=NotFoundClientException.class)
     public void testEntityNotFoundException() {
-        this.request("exception/test-entity-not-found-exception").getJson();
+        this.request("exception/test-entity-not-found-exception").jsonGet();
     }
     
     @Test(expectedExceptions=ConflictClientException.class)
     public void testEntityExistsException() {
-        this.request("exception/test-entity-exists-exception").getJson();
+        this.request("exception/test-entity-exists-exception").jsonGet();
     }
     
 }

@@ -287,12 +287,12 @@ public class Client implements Closeable {
             return execute("GET");
         }
 
-        public Future<Response> asyncGetJson() {
+        public Future<Response> asyncJsonGet() {
             this.setHeader(Http.ACCEPT, Http.JSON);
             return execute("GET");
         }
 
-        public Future<Response> asyncGetXml() {
+        public Future<Response> asyncXmlGet() {
             this.setHeader(Http.ACCEPT, Http.XML);
             return execute("GET");
         }
@@ -304,12 +304,12 @@ public class Client implements Closeable {
             return executeSync("GET");
         }
 
-        public Response getJson() {
+        public Response jsonGet() {
             this.setHeader(Http.ACCEPT, Http.JSON);
             return executeSync("GET");
         }
 
-        public Response getXml() {
+        public Response xmlGet() {
             this.setHeader(Http.ACCEPT, Http.XML);
             return executeSync("GET");
         }
