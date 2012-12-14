@@ -5,12 +5,14 @@ import org.resthub.common.exception.NotFoundException;
 
 import org.resthub.web.model.Sample;
 import org.resthub.web.repository.SampleResourceRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/sluggable-repository-based")
+@Profile("resthub-jpa")
 public class SluggableSampleRepositoryBasedRestController extends
         RepositoryBasedRestController<Sample, String, SampleResourceRepository> {
 
