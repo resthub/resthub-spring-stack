@@ -2,10 +2,16 @@ package org.resthub.web.controller;
 
 import java.io.Serializable;
 
-import org.resthub.web.exception.NotFoundClientException;
+import org.resthub.common.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * REST controller interface
@@ -34,7 +40,7 @@ public interface RestController<T, ID extends Serializable> {
      * @param id       The identifier of the resource to update, usually a Long or String identifier. It is explicitely provided in order to handle cases where the identifier could be changed.
      * @param resource The resource to update
      * @return OK http status code if the request has been correctly processed, with the updated resource enclosed in the body
-     * @throws NotFoundException, BadRequestException
+     * @throws NotFoundException
      */
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     @ResponseBody

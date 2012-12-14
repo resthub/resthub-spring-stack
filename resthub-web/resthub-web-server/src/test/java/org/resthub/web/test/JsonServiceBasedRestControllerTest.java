@@ -38,7 +38,7 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
     public void testFindAllResources() {
         this.request("service-based").jsonPost(new Sample("toto"));
         this.request("service-based").jsonPost(new Sample("titi"));
-        Response response = this.request("service-based").getJson();
+        Response response = this.request("service-based").jsonGet();
         Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.getContent()).isNotNull();
@@ -53,7 +53,7 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
     public void testFindAllResourcesUnpaginated() {
         this.request("service-based").jsonPost(new Sample("toto"));
         this.request("service-based").jsonPost(new Sample("titi"));
-        Response response = this.request("service-based").setQueryParameter("page", "no").getJson();
+        Response response = this.request("service-based").setQueryParameter("page", "no").jsonGet();
         List<Sample> samples = response.resource(new TypeReference<List<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.size()).isEqualTo(2);
@@ -65,7 +65,7 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
     public void testFindPaginatedResources() {
         this.request("repository-based").jsonPost(new Sample("toto"));
         this.request("repository-based").jsonPost(new Sample("titi"));
-        Response response = this.request("repository-based").setQueryParameter("page", "1").getJson();
+        Response response = this.request("repository-based").setQueryParameter("page", "1").jsonGet();
         Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.getContent()).isNotNull();
@@ -80,7 +80,7 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
         this.request("service-based").xmlPost(new Sample("toto"));
         this.request("service-based").xmlPost(new Sample("toto"));
-        this.request("service-based").setQueryParameter("page", "0").getJson();
+        this.request("service-based").setQueryParameter("page", "0").jsonGet();
     }
 
     @Test(expectedExceptions = {NotFoundClientException.class})

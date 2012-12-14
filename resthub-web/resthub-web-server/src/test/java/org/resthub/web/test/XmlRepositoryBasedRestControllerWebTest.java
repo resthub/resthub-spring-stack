@@ -38,7 +38,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindAllResources() {
         this.request("repository-based").xmlPost(new Sample("toto"));
         this.request("repository-based").xmlPost(new Sample("titi"));
-        Response response = this.request("repository-based").getXml();
+        Response response = this.request("repository-based").xmlGet();
         Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.getContent()).isNotNull();
@@ -53,7 +53,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindAllResourcesUnpaginated() {
         this.request("repository-based").jsonPost(new Sample("toto"));
         this.request("repository-based").jsonPost(new Sample("toto"));
-        Response r = this.request("repository-based").setQueryParameter("page", "no").getXml();
+        Response r = this.request("repository-based").setQueryParameter("page", "no").xmlGet();
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getStatus()).isEqualTo(Http.NOT_IMPLEMENTED);
     }
@@ -63,7 +63,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindPaginatedResources() {
         this.request("repository-based").xmlPost(new Sample("toto"));
         this.request("repository-based").xmlPost(new Sample("titi"));
-        Response response = this.request("repository-based").setQueryParameter("page", "1").getXml();
+        Response response = this.request("repository-based").setQueryParameter("page", "1").xmlGet();
         Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
         Assertions.assertThat(samples).isNotNull();
         Assertions.assertThat(samples.getContent()).isNotNull();
@@ -78,7 +78,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     public void testFindPaginatedResourcesReturnsBadRequestForAnInvalidPageNumber() {
         this.request("repository-based").xmlPost(new Sample("toto"));
         this.request("repository-based").xmlPost(new Sample("toto"));
-        this.request("repository-based").setQueryParameter("page","0").getXml();
+        this.request("repository-based").setQueryParameter("page","0").xmlGet();
     }
 
     @Test(expectedExceptions = {NotFoundClientException.class})

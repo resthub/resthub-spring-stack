@@ -18,22 +18,22 @@ public class DefaultLogStrategy implements LogStrategy {
 
     @Override
     public void logError(Log log) {
-        LOGGER.error("[" + log.browser + "] " + DATE_FORMAT.format(log.time)  + " " + log.message);
+        LOGGER.error("[{}] {} {}", log.browser, DATE_FORMAT.format(log.time), log.message);
     }
 
     @Override
     public void logWarn(Log log) {
-        LOGGER.warn("[" + log.browser + "] " + DATE_FORMAT.format(log.time) + " " + log.message);
+        LOGGER.warn("[{}] {} {}", log.browser, DATE_FORMAT.format(log.time), log.message);
     }
 
     @Override
     public void logInfo(Log log) {
-        LOGGER.info("[" + log.browser + "] " + DATE_FORMAT.format(log.time)  + " " + log.message);
+        LOGGER.info("[{}] {} {}", log.browser, DATE_FORMAT.format(log.time), log.message);
     }
 
     @Override
     public void logDebug(Log log) {
-        LOGGER.debug("[" + log.browser + "] " + DATE_FORMAT.format(log.time)  + " " + log.message);
+        LOGGER.debug("[{}] {} {}", log.browser, DATE_FORMAT.format(log.time), log.message);
     }
     
 }
