@@ -16,7 +16,7 @@ public class ResponseViewTest extends AbstractWebTest {
 
     @Test
     public void testFullListJson() {
-        List<Book> books = this.request("book").getJson().resource(new TypeReference<List<Book>>() {
+        List<Book> books = this.request("book").jsonGet().resource(new TypeReference<List<Book>>() {
         });
         Assertions.assertThat(books).isNotNull();
         Assertions.assertThat(books.size()).isEqualTo(2);
@@ -26,7 +26,7 @@ public class ResponseViewTest extends AbstractWebTest {
 
     @Test
     public void testSummaryListJson() {
-        List<Book> books = this.request("book/summaries").getJson().resource(new TypeReference<List<Book>>() {
+        List<Book> books = this.request("book/summaries").jsonGet().resource(new TypeReference<List<Book>>() {
         });
         Assertions.assertThat(books).isNotNull();
         Assertions.assertThat(books.size()).isEqualTo(2);
@@ -36,25 +36,25 @@ public class ResponseViewTest extends AbstractWebTest {
 
     @Test
     public void testSummaryJson() {
-        Book book = this.request("book/1/summary").getJson().resource(Book.class);
+        Book book = this.request("book/1/summary").jsonGet().resource(Book.class);
         Assertions.assertThat(book).isNotNull().isEqualTo(new Book(null,"Joshua Bloch",null,1));
     }
 
     @Test
     public void testFullJson() {
-        Book book = this.request("book/1").getJson().resource(Book.class);
+        Book book = this.request("book/1").jsonGet().resource(Book.class);
         Assertions.assertThat(book).isNotNull().isEqualTo(new Book("Effective Java","Joshua Bloch","Essential",1));
     }
 
     @Test
     public void testSummaryXml() {
-        Book book = this.request("book/1/summary").getXml().resource(Book.class);
+        Book book = this.request("book/1/summary").xmlGet().resource(Book.class);
         Assertions.assertThat(book).isNotNull().isEqualTo(new Book(null,"Joshua Bloch",null,1));
     }
 
     @Test
     public void testFullXml() {
-        Book book = this.request("book/1").getXml().resource(Book.class);
+        Book book = this.request("book/1").xmlGet().resource(Book.class);
         Assertions.assertThat(book).isNotNull().isEqualTo(new Book("Effective Java","Joshua Bloch","Essential",1));
     }
 
