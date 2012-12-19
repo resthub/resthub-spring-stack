@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.*;
+import org.resthub.common.view.DataView;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -32,11 +34,6 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.resthub.web.PageResponse;
@@ -82,7 +79,8 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        
+        objectMapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
+
     }
 
     /**
@@ -177,17 +175,17 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
         JsonGenerator jsonGenerator = this.objectMapper.getFactory().createJsonGenerator(outputMessage.getBody(),
                 encoding);
 
-        // A workaround for JsonGenerators not applying serialization features
-        // https://github.com/FasterXML/jackson-databind/issues/12
-        if (this.objectMapper.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
-            jsonGenerator.useDefaultPrettyPrinter();
-        }
-
         try {
             if (this.prefixJson) {
                 jsonGenerator.writeRaw("{} && ");
             }
-            this.objectMapper.writeValue(jsonGenerator, object);
+            if (object instanceof DataView && ((DataView) object).hasView())
+            {
+                ObjectWriter writter = this.objectMapper.writerWithView(((DataView) object).getView());
+                writter.writeValue(jsonGenerator, ((DataView) object).getData());
+            } else {
+                this.objectMapper.writeValue(jsonGenerator, object);
+            }
         } catch (JsonProcessingException ex) {
             throw new HttpMessageNotWritableException("Could not write JSON: " + ex.getMessage(), ex);
         }
