@@ -1,0 +1,27 @@
+{
+  "model" : "org.resthub.web.validation.model.AModel",
+  "constraints" : {
+    "field5" : [ {
+      "type" : "NotNull",
+      "message" : "may not be null"
+    }, {
+      "type" : "Valid",
+      "model" : "org.resthub.web.validation.model.BModel"
+    } ],
+    "field2" : [ {
+      "type" : "Pattern",
+      "message" : "must match \".*\"",
+      "flags" : [ ],
+      "regexp" : ".*"
+    } ],
+    "field1" : [ {
+      "type" : "NotNull",
+      "message" : "may not be null"
+    }, {
+      "type" : "Size",
+      "message" : "size must be between 1 and 10",
+      "min" : 1,
+      "max" : 10
+    } ]
+  }
+}
