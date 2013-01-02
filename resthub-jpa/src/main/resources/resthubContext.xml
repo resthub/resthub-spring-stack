@@ -19,38 +19,42 @@
     <util:properties id="databaseProperties">
         <prop key="dataSource.driverClassName">org.h2.Driver</prop>
         <prop key="dataSource.url">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1;MVCC=TRUE</prop>
-        <prop key="dataSource.maxActive">50</prop>
-        <prop key="dataSource.maxWait">1000</prop>
-        <prop key="dataSource.poolPreparedStatements">true</prop>
         <prop key="dataSource.username">sa</prop>
         <prop key="dataSource.password"></prop>
-        <prop key="dataSource.validationQuery">SELECT 1</prop>
-        <prop key="dataSource.testOnBorrow">true</prop>
-        <prop key="dataSource.testWhileIdle">true</prop>
 
+        <prop key="dataSource.maxConnectionsPerPartition">10</prop>
+        <prop key="dataSource.minConnectionsPerPartition">50</prop>
+        <prop key="dataSource.partitionCount">3</prop>
+
+        <prop key="dataSource.idleConnectionTestPeriodInSeconds">60</prop>
+        <prop key="dataSource.statementsCacheSize">100</prop>
+        <prop key="dataSource.connectionTestStatement">/* ping*/ SELECT 1</prop>
 
         <prop key="hibernate.show_sql">false</prop>
         <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
         <prop key="hibernate.format_sql">true</prop>
         <prop key="hibernate.hbm2ddl.auto">update</prop>
         <prop key="hibernate.cache.use_second_level_cache">true</prop>
-        <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop>
+        <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
         <prop key="hibernate.id.new_generator_mappings">true</prop>
 
         <prop key="persistenceUnit.packagesToScan"></prop>
     </util:properties>
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${dataSource.driverClassName}" />
-        <property name="url" value="${dataSource.url}" />
-        <property name="maxActive" value="${dataSource.maxActive}" />
-        <property name="maxWait" value="${dataSource.maxWait}" />
-        <property name="poolPreparedStatements" value="${dataSource.poolPreparedStatements}" />
-        <property name="username" value="${dataSource.username}" />
-        <property name="password" value="${dataSource.password}" />
-        <property name="validationQuery" value="${dataSource.validationQuery}" />
-        <property name="testOnBorrow" value="${dataSource.testOnBorrow}" />
-        <property name="testWhileIdle" value="${dataSource.testWhileIdle}" />
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+        <property name="driverClass" value="${dataSource.driverClassName}" />
+        <property name="jdbcUrl" value="${dataSource.url}" />
+        <property name="username" value="${dataSource.username}"/>
+        <property name="password" value="${dataSource.password}"/>
+
+        <property name="maxConnectionsPerPartition" value="${dataSource.maxConnectionsPerPartition}"/>
+        <property name="minConnectionsPerPartition" value="${dataSource.minConnectionsPerPartition}"/>
+        <property name="partitionCount" value="${dataSource.partitionCount}"/>
+
+        <property name="connectionTestStatement" value="${dataSource.connectionTestStatement}" />
+        <property name="idleConnectionTestPeriodInSeconds" value="${dataSource.idleConnectionTestPeriodInSeconds}" />
+        <property name="statementsCacheSize" value="${dataSource.statementsCacheSize}"/>
+
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
