@@ -20,7 +20,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class CorsFilterTest extends AbstractWebTest {
 
     public CorsFilterTest() {
-        super("resthub-web-server,resthub-jpa");
+        super("resthub-web-server,resthub-jpa", 9798);
+        this.startServerOnce=false;
     }
 
     @Override
@@ -41,10 +42,8 @@ public class CorsFilterTest extends AbstractWebTest {
 
     @Test
     public void testCORSOriginHeader() {
-
         Sample r = new Sample("toto");
         r = this.request("service-based").jsonPost(r).resource(r.getClass());
-
         Response response = this.request("service-based/" + r.getId()).setHeader("Origin", "http://example.org").get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
         assertThat(response.getHeader("Access-Control-Allow-Origin")).isNotNull().isEqualTo("http://example.org");

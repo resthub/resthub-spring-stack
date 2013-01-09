@@ -178,7 +178,7 @@ public abstract class AbstractWebTest {
             }
 
             // Customize context then start the server.
-            server.setHandler(this.customizeContextHandler(context));
+            server.setHandler(customizeContextHandler(context));
             server.start();
 
             if (this.startServerOnce) {
