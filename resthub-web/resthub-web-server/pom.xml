@@ -13,6 +13,10 @@
     <name>RESThub Webservice Server</name>
     <description>RESThub support for REST webservices based on Spring MVC</description>
 
+    <properties>
+        <cors.filter.version>1.3.2</cors.filter.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.resthub</groupId>
@@ -55,6 +59,12 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.thetransactioncompany</groupId>
+            <artifactId>cors-filter</artifactId>
+            <version>${cors.filter.version}</version>
         </dependency>
 
         <dependency>
