@@ -49,11 +49,10 @@ import org.springframework.data.domain.Page;
  * <p>
  * By default, this converter supports {@code application/json}. This can be overridden by setting the
  * {@link #setSupportedMediaTypes(List) supportedMediaTypes} property.
- * 
- * @author Arjen Poutsma
- * @author Keith Donald
- * @since 3.2
- * @see org.springframework.web.servlet.view.json.MappingJackson2JsonView
+ *
+ * <p>
+ * This converter also support custom JSON views, see RESThub documentation for more details
+ *
  */
 public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 
