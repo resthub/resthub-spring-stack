@@ -66,11 +66,11 @@
             <artifactId>cors-filter</artifactId>
             <version>${cors.filter.version}</version>
             <exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-			</exclusions>
+		<exclusion>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</exclusion>
+	    </exclusions>
         </dependency>
 
         <dependency>
