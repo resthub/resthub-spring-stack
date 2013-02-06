@@ -1,6 +1,7 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.resthub.common.exception.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -65,17 +66,21 @@ public interface RestController<T, ID extends Serializable> {
     Iterable<T> findAll();
 
     /**
-     * Find all resources, and return a paginated collection<br/>
-     * REST webservice published : GET /search?page=0&size=20
+     * Find all resources, and return a paginated and optionaly sorted collection<br/>
+     * REST webservice published : GET /search?page=0&size=20 or GET /search?page=0&size=20&direction=desc&properties=name
      *
      * @param page   Page number starting from 0. default to 0
      * @param size   Number of resources by pages. default to 10
+     * @param direction Optional sort direction, could be "asc" or "desc"
+     * @param properties Ordered list of comma separeted properies used for sorting resulats. At least one property should be provided if direction is specified
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size);
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction,
+            @RequestParam(value = "properties", required = false) String properties);
 
     /**
      * Find a resource by its identifier<br/>
