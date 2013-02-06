@@ -1,12 +1,15 @@
 package org.resthub.web.controller;
 
 import java.io.Serializable;
+import java.util.List;
+
 import org.resthub.common.exception.NotFoundException;
 import org.resthub.common.exception.NotImplementedException;
 
 import org.resthub.common.service.CrudService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -97,9 +100,17 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      */
     @Override
     public Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "direction", required = false, defaultValue = "") String direction,
+            @RequestParam(value = "properties", required = false) String properties) {
         Assert.isTrue(page > 0, "Page index must be greater than 0");
-        return this.service.findAll(new PageRequest(page - 1, size));
+        Assert.isTrue(direction.isEmpty() || direction.equalsIgnoreCase(Sort.Direction.ASC.toString()) || direction.equalsIgnoreCase(Sort.Direction.DESC.toString()), "Direction should be ASC or DESC");
+        if(direction.isEmpty()) {
+            return this.service.findAll(new PageRequest(page - 1, size));
+        } else {
+            Assert.notNull(properties);
+            return this.service.findAll(new PageRequest(page - 1, size, new Sort(Sort.Direction.fromString(direction.toUpperCase()), properties.split(","))));
+        }
     }
 
     /**
