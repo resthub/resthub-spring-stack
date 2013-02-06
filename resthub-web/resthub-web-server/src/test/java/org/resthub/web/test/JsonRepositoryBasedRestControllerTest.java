@@ -48,6 +48,21 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
         Assertions.assertThat(samples.getContent().get(0).getName()).isIn("titi", "toto");
         Assertions.assertThat(samples.getContent().get(1).getName()).isIn("titi", "toto");
     }
+
+    @Test
+    public void testFindAllSortedResources() {
+        this.request("repository-based").jsonPost(new Sample("toto"));
+        this.request("repository-based").jsonPost(new Sample("titi"));
+        Response response = this.request("repository-based").setQueryParameter("direction", "desc").setQueryParameter("properties", "name,id").jsonGet();
+        Page<Sample> samples = response.resource(new TypeReference<Page<Sample>>() {});
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples.getContent()).isNotNull();
+        Assertions.assertThat(samples.getContent().size()).isEqualTo(2);
+        Assertions.assertThat(samples.getTotalPages()).isEqualTo(1);
+        Assertions.assertThat(samples.getTotalElements()).isEqualTo(2);
+        Assertions.assertThat(samples.getContent().get(0).getName()).isIn("titi", "toto");
+        Assertions.assertThat(samples.getContent().get(1).getName()).isIn("titi", "toto");
+    }
     
     @Test
     public void testFindAllResourcesUnpaginated() {
