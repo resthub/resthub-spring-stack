@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.resthub.web.exception.SerializationException;
 
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
@@ -33,6 +35,7 @@ public class XmlHelper {
         objectMapper.registerModule(module);
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
         objectMapper.setAnnotationIntrospector(introspector);
+        objectMapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
     }
 
     /**
@@ -56,6 +59,25 @@ public class XmlHelper {
         OutputStream baOutputStream = new ByteArrayOutputStream();
         try {
             objectMapper.writeValue(baOutputStream, o);
+        } catch (Exception e) {
+            throw new SerializationException(e);
+        }
+        return baOutputStream.toString();
+    }
+
+    /**
+     * Serialize and object to a JSON String representation with a Jackson view
+     * @param o The object to serialize
+     * @param view The Jackson view to use
+     * @return The JSON String representation
+     */
+    public static String serialize(Object o, Class<?> view) {
+        if (objectMapper == null)
+            initialize();
+        OutputStream baOutputStream = new ByteArrayOutputStream();
+        try {
+            ObjectWriter writter = objectMapper.writerWithView(view);
+            writter.writeValue(baOutputStream, o);
         } catch (Exception e) {
             throw new SerializationException(e);
         }
