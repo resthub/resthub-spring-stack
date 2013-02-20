@@ -2,8 +2,11 @@ package org.resthub.web;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.exception.SerializationException;
+import org.resthub.web.model.Book;
 import org.resthub.web.model.SampleResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -60,5 +63,48 @@ public class JsonSerializationHelperTest {
         Assertions.assertThat(result).contains("Albert");
         
     }
+
+    @Test
+    public void testFullListJson() {
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Effective Java","Joshua Bloch","Essential",1));
+        books.add(new Book("Breaking Dawn","Stephanie Myers","Just terrible",2));
+        String serializedBooks = JsonHelper.serialize(books);
+        List<Book> unserializedBooks = JsonHelper.deserialize(serializedBooks, new TypeReference<List<Book>>() {});
+        Assertions.assertThat(unserializedBooks).isNotNull();
+        Assertions.assertThat(unserializedBooks.size()).isEqualTo(2);
+        Assertions.assertThat(unserializedBooks).contains(new Book("Effective Java","Joshua Bloch","Essential",1));
+        Assertions.assertThat(unserializedBooks).contains(new Book("Breaking Dawn","Stephanie Myers","Just terrible",2));
+    }
+
+    @Test
+    public void testSummaryListJson() {
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Effective Java","Joshua Bloch","Essential",1));
+        books.add(new Book("Breaking Dawn","Stephanie Myers","Just terrible",2));
+        String serializedBooks = JsonHelper.serialize(books, Book.SummaryView.class);
+        List<Book> unserializedBooks = JsonHelper.deserialize(serializedBooks, new TypeReference<List<Book>>() {});
+        Assertions.assertThat(unserializedBooks).isNotNull();
+        Assertions.assertThat(unserializedBooks.size()).isEqualTo(2);
+        Assertions.assertThat(unserializedBooks).contains(new Book(null,"Joshua Bloch",null,1));
+        Assertions.assertThat(unserializedBooks).contains(new Book(null,"Stephanie Myers",null,2));
+    }
+
+    @Test
+    public void testSummaryJson() {
+        Book book = new Book("Effective Java","Joshua Bloch","Essential",1);
+        String serializedBook = JsonHelper.serialize(book, Book.SummaryView.class);
+        Book unserializedBook = JsonHelper.deserialize(serializedBook, Book.class);
+        Assertions.assertThat(unserializedBook).isNotNull().isEqualTo(new Book(null,"Joshua Bloch",null,1));
+    }
+
+    @Test
+    public void testFullJson() {
+        Book book = new Book("Effective Java","Joshua Bloch","Essential",1);
+        String serializedBook = JsonHelper.serialize(book);
+        Book unserializedBook = JsonHelper.deserialize(serializedBook, Book.class);
+        Assertions.assertThat(unserializedBook).isNotNull().isEqualTo(new Book("Effective Java","Joshua Bloch","Essential",1));
+    }
+
 
 }
