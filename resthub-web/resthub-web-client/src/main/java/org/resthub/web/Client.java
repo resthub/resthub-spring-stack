@@ -259,7 +259,7 @@ public class Client implements Closeable {
          */
         public RequestHolder setQueryParameter(String name, String value) {
             if (queryParameters.containsKey(name)) {
-                Collection<String> values = headers.get(name);
+                Collection<String> values = queryParameters.get(name);
                 values.add(value);
             } else {
                 List<String> values = new ArrayList<String>();
