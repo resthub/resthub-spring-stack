@@ -1,9 +1,5 @@
 package org.resthub.web;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.fest.assertions.api.Assertions;
 import org.resthub.web.exception.SerializationException;
 import org.resthub.web.model.Book;
@@ -11,6 +7,9 @@ import org.resthub.web.model.SampleResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class XmlSerializationHelperTest {
 

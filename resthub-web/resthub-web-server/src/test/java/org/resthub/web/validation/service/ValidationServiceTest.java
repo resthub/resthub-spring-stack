@@ -180,4 +180,25 @@ public class ValidationServiceTest extends AbstractTest {
                 this.validationService.getConstraintsForClass(AbstractModel.class);
         Assertions.assertThat(modelConstraint).isNull();
     }
+
+    @Test
+    public void testNonSupportedClassLevelConstraint() {
+        ModelConstraint modelConstraint =
+                this.validationService.getConstraintsForClass(ClassLevelConstraintModel.class);
+
+        Assertions.assertThat(modelConstraint).isNotNull();
+        Assertions.assertThat(modelConstraint.getModelRef()).isNotNull().isEqualTo("org.resthub.web.validation.model.ClassLevelConstraintModel");
+        Assertions.assertThat(modelConstraint.getConstraints()).isNotNull().isEmpty();
+    }
+
+    @Test
+    public void testNonSupportedInheritedClassLevelConstraint() {
+        ModelConstraint modelConstraint =
+                this.validationService.getConstraintsForClass(InheritedClassLevelConstraintModel.class);
+
+        Assertions.assertThat(modelConstraint).isNotNull();
+        Assertions.assertThat(modelConstraint.getModelRef()).isNotNull().isEqualTo("org.resthub.web.validation.model.InheritedClassLevelConstraintModel");
+        Assertions.assertThat(modelConstraint.getConstraints()).isNotNull().isNotEmpty().hasSize(1);
+        Assertions.assertThat(modelConstraint.getConstraints()).containsKey("description");
+    }
 }

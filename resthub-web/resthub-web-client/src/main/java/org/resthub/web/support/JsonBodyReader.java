@@ -2,9 +2,10 @@ package org.resthub.web.support;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.ning.http.client.Response;
-import java.io.IOException;
 import org.resthub.web.Http;
 import org.resthub.web.JsonHelper;
+
+import java.io.IOException;
 
 public class JsonBodyReader implements BodyReader {
 

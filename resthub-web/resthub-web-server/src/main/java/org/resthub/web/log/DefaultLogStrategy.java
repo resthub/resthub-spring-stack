@@ -1,10 +1,11 @@
 package org.resthub.web.log;
 
-import java.text.SimpleDateFormat;
-import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+
+import javax.inject.Named;
+import java.text.SimpleDateFormat;
 
 /**
  * Default log strategy

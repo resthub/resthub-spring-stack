@@ -1,14 +1,14 @@
 package org.resthub.web.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.resthub.common.view.ResponseView;
 import org.resthub.web.model.Book;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller @RequestMapping("/book")
 public class BookController {

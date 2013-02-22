@@ -1,12 +1,12 @@
 package org.resthub.web.service;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.resthub.common.service.CrudServiceImpl;
 import org.resthub.web.model.Sample;
 import org.resthub.web.repository.SampleResourceRepository;
 import org.springframework.context.annotation.Profile;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 @Named("webSampleResourceService")
 @Profile("resthub-jpa")

@@ -51,7 +51,7 @@ public class ValidationServiceImpl implements ValidationService {
         Map<String, List<ValidationConstraint>> constraints = new HashMap<String, List<ValidationConstraint>>();
 
         for (PropertyDescriptor pd : bd.getConstrainedProperties()) {
-            if (pd.hasConstraints() || pd.isCascaded()) {
+            if ((pd.getPropertyName() != null) && (pd.hasConstraints() || pd.isCascaded())) {
                 constraints.put(pd.getPropertyName(), this.getValidationConstraints(pd, locale));
             }
         }

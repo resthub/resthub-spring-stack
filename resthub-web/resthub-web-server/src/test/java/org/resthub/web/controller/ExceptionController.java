@@ -1,7 +1,5 @@
 package org.resthub.web.controller;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import org.hibernate.ObjectNotFoundException;
 import org.resthub.web.exception.ClientException;
 import org.resthub.web.model.Sample;
@@ -10,6 +8,9 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 @Controller
 @RequestMapping("/exception")

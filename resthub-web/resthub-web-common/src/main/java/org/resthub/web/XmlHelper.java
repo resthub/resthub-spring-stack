@@ -1,20 +1,19 @@
 package org.resthub.web;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import org.resthub.web.exception.SerializationException;
-
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.resthub.web.exception.SerializationException;
 import org.springframework.data.domain.Page;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 /**
  * Helper for XML serialization and deserialization.

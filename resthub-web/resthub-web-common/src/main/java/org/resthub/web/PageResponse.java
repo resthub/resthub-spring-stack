@@ -1,13 +1,14 @@
 package org.resthub.web;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Iterator;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Implementation of Page compatible with Jackson deserialization (default constructor + setters)
