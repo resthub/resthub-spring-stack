@@ -10,10 +10,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Crud service that uses a repository implementation
+ * CRUD service that uses a Spring Data repository implementation
  * You should extend it and inject your Repository bean by overriding setRepository
  *
- * @param <T> Your resource class to manage, maybe an entity or DTO class
+ * @param <T> Your resource class to manage, usually an entity class
  * @param <ID> Resource id type, usually Long or String
  * @param <R> The repository class
  */
