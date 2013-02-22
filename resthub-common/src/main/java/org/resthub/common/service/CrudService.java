@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Crud Service interface.
+ * CRUD Service interface.
  *
  * @param <T> Your resource POJO to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
