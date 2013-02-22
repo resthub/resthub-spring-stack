@@ -1,12 +1,12 @@
 package org.resthub.web.controller;
 
-import javax.inject.Inject;
-
 import org.resthub.web.model.Sample;
 import org.resthub.web.service.SampleResourceService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.inject.Inject;
 
 @Controller
 @RequestMapping("/service-based")

@@ -1,10 +1,11 @@
 package org.resthub.common.util;
 
 import java.lang.annotation.Documented;
-import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Similar to @PostConstruct Spring annotation, but executed later in application lifecycle, in order to get transaction

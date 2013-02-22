@@ -16,12 +16,16 @@ package org.resthub.web.converter;
  * limitations under the License.
  */
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.resthub.common.view.DataView;
+import org.resthub.web.PageResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -30,14 +34,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.Assert;
 
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.resthub.web.PageResponse;
-import org.springframework.data.domain.Page;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Implementation of {@link org.springframework.http.converter.HttpMessageConverter HttpMessageConverter} that can read

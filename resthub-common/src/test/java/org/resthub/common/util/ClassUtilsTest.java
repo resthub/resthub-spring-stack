@@ -1,8 +1,9 @@
 package org.resthub.common.util;
 
-import java.util.ArrayList;
 import org.fest.assertions.api.Assertions;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
 
 public class ClassUtilsTest {
 
