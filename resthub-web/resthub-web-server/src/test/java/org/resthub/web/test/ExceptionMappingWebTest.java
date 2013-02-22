@@ -2,11 +2,7 @@ package org.resthub.web.test;
 
 import org.hibernate.ObjectNotFoundException;
 import org.resthub.test.AbstractWebTest;
-import org.resthub.web.exception.BadRequestClientException;
-import org.resthub.web.exception.ConflictClientException;
-import org.resthub.web.exception.InternalServerErrorClientException;
-import org.resthub.web.exception.NotAcceptableClientException;
-import org.resthub.web.exception.NotFoundClientException;
+import org.resthub.web.exception.*;
 import org.resthub.web.model.Sample;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

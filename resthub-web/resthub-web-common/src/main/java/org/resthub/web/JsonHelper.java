@@ -1,15 +1,14 @@
 package org.resthub.web;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-
 import com.fasterxml.jackson.databind.*;
-import org.resthub.web.exception.SerializationException;
-
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.resthub.web.exception.SerializationException;
 import org.springframework.data.domain.Page;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 /**
  * Helper for JSON serialization and deserialization

@@ -1,7 +1,5 @@
 package org.resthub.web.controller;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.resthub.web.log.Log;
 import org.resthub.web.log.LogStrategy;
 import org.resthub.web.log.Logs;
@@ -9,6 +7,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Log controller for client logging

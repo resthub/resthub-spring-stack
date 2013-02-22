@@ -2,6 +2,7 @@ package org.resthub.web.support;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.ning.http.client.Response;
+
 import java.io.IOException;
 
 public interface BodyReader {

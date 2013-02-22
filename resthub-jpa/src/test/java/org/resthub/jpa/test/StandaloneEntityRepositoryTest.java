@@ -1,18 +1,17 @@
 package org.resthub.jpa.test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.inject.Inject;
 import org.fest.assertions.api.Assertions;
-
 import org.resthub.jpa.model.StandaloneEntity;
 import org.resthub.jpa.repository.StandaloneEntityRepository;
 import org.resthub.test.AbstractTransactionalTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @ActiveProfiles("resthub-jpa")
 public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {

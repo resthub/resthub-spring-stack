@@ -1,9 +1,9 @@
 package org.resthub.common.util;
 
+import org.springframework.aop.support.AopUtils;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
-import org.springframework.aop.support.AopUtils;
 
 /**
  * Utility class to work with classes.
