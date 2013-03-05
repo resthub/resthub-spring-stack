@@ -19,7 +19,7 @@
     <properties>
         <env>local</env>
 
-        <spring.version>3.2.1.RELEASE</spring.version>
+        <spring.version>3.2.2.BUILD-SNAPSHOT</spring.version>
         <spring.data.commons.core.version>1.4.0.RELEASE</spring.data.commons.core.version>
 
         <logback.version>1.0.7</logback.version>
@@ -436,4 +436,16 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <repositories>
+        <repository>
+            <id>snapshots</id>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
+
 </project>
