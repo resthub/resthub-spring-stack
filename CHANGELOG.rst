@@ -6,7 +6,7 @@ Some changes break backwards compatibility, check out the UPGRADE section before
 
 To get the full diff between two versions, go to https://github.com/resthub/resthub-spring-stack/compare/resthub-2.0.0...resthub-2.1.0
 
-2.1.0 version (XX-YY-2013)
+2.1.0 version (03-15-2013)
 --------------------------
 
 Upgrade from 2.0.0
