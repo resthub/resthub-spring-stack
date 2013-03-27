@@ -14,8 +14,8 @@
     <description>RESThub core include Embeded datasource, Generic Repository and Generic CRUD services</description>
 
     <properties>
-        <modelmapper.version>0.5.1</modelmapper.version>
-        <hibernate.validator.version>4.3.0.Final</hibernate.validator.version>
+        <modelmapper.version>0.5.6</modelmapper.version>
+        <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
         <javax.validation.version>1.0.0.GA</javax.validation.version>
     </properties>
 
@@ -49,13 +49,7 @@
 
         <dependency>
             <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>spring-data-commons</artifactId>
         </dependency>
 
         <dependency>

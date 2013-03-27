@@ -13,8 +13,8 @@
     <name>RESThub MongoDB</name>
 
     <properties>
-        <spring.data.mongodb.version>1.1.0.RELEASE</spring.data.mongodb.version>
-        <mongo.version>2.9.3</mongo.version>
+        <spring.data.mongodb.version>1.2.0.RELEASE</spring.data.mongodb.version>
+        <mongo.version>2.10.1</mongo.version>
     </properties>
 
     <dependencies>
@@ -56,20 +56,6 @@
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-expression</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-tx</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
