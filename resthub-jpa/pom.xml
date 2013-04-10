@@ -128,6 +128,12 @@
             <groupId>com.jolbox</groupId>
             <artifactId>bonecp-spring</artifactId>
             <version>${bonecp.spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
