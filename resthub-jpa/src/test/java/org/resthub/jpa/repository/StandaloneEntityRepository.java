@@ -1,12 +1,11 @@
 package org.resthub.jpa.repository;
 
-import org.resthub.jpa.model.StandaloneEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 
-public interface StandaloneEntityRepository extends JpaRepository<StandaloneEntity, Long> {
+import org.resthub.jpa.model.StandaloneEntity;
+import org.springframework.data.jpa.repository.Query;
+
+public interface StandaloneEntityRepository extends BaseRepository<StandaloneEntity, Long> {
 
     public List<StandaloneEntity> findByName(String name);
 
