@@ -27,7 +27,7 @@ public class GenericSpecifications {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericSpecifications.class);
 
 	private static final HashMap<String, Field> FIELD_CACHE = new HashMap<String, Field>();
-	private static final String SEARCH_MODE = "ffora.searchmode";
+	private static final String SEARCH_MODE = "resthub.searchmode";
 
 	private static final ManyToOnePredicateFactory manyToOnePredicateFactory = new ManyToOnePredicateFactory();
 
