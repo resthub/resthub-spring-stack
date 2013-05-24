@@ -23,8 +23,20 @@ public class JsonBodyReader implements BodyReader {
     }
 
     @Override
-    public <T> T readEntity(Response resp, TypeReference valueTypeRef) throws IOException {
+    public <T> T readEntity(Response resp, Class<T> entityClass, String charset) throws IOException {
+
+        return JsonHelper.deserialize(resp.getResponseBody(charset), entityClass);
+    }
+
+    @Override
+     public <T> T readEntity(Response resp, TypeReference valueTypeRef) throws IOException {
 
         return JsonHelper.deserialize(resp.getResponseBody(), valueTypeRef);
+    }
+
+    @Override
+    public <T> T readEntity(Response resp, TypeReference valueTypeRef, String charset) throws IOException {
+
+        return JsonHelper.deserialize(resp.getResponseBody(charset), valueTypeRef);
     }
 }

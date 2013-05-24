@@ -39,11 +39,39 @@ public class Response {
         throw new RuntimeException("unsupported media type " + ahcResponse.getContentType());
     }
 
+    public <T> T resource(Class<T> type, String charset) {
+        try {
+            for (BodyReader br : this.bodyReaders) {
+                if (br.canRead(ahcResponse)) {
+                    return br.readEntity(ahcResponse, type, charset);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        throw new RuntimeException("unsupported media type " + ahcResponse.getContentType());
+    }
+
     public <T> T resource(TypeReference valueTypeRef) {
         try {
             for (BodyReader br : this.bodyReaders) {
                 if (br.canRead(ahcResponse)) {
                     return br.readEntity(ahcResponse, valueTypeRef);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        throw new RuntimeException("unsupported media type " + ahcResponse.getContentType());
+    }
+
+    public <T> T resource(TypeReference valueTypeRef, String charset) {
+        try {
+            for (BodyReader br : this.bodyReaders) {
+                if (br.canRead(ahcResponse)) {
+                    return br.readEntity(ahcResponse, valueTypeRef, charset);
                 }
             }
         } catch (IOException e) {
@@ -73,6 +101,17 @@ public class Response {
     public String getBody() {
         try {
             return ahcResponse.getResponseBody();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Get the response body as a string with charset as parameter
+     */
+    public String getBody(String charset) {
+        try {
+            return ahcResponse.getResponseBody(charset);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
