@@ -10,6 +10,8 @@ public interface BodyReader {
     public boolean canRead(Response response);
 
     public <T> T readEntity(Response resp, Class<T> entityClass) throws IOException;
+    public <T> T readEntity(Response resp, Class<T> entityClass, String charset) throws IOException;
 
     public <T> T readEntity(Response resp, TypeReference valueTypeRef) throws IOException;
+    public <T> T readEntity(Response resp, TypeReference valueTypeRef, String charset) throws IOException;
 }
