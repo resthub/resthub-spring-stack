@@ -1,20 +1,29 @@
 package org.resthub.jpa.test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
 import org.fest.assertions.api.Assertions;
+import org.resthub.common.model.ParameterMapBackedPageRequest;
 import org.resthub.jpa.model.StandaloneEntity;
 import org.resthub.jpa.repository.StandaloneEntityRepository;
 import org.resthub.test.AbstractTransactionalTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 @ActiveProfiles("resthub-jpa")
 public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneEntityRepositoryTest.class);
 
     @Inject
     private StandaloneEntityRepository repository;
@@ -114,4 +123,36 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
         List<StandaloneEntity> collectedEntities = repository.findByNameWithExplicitQuery(name);
         Assertions.assertThat(collectedEntities).isNotNull().hasSize(entities.size());
     }
+
+	@Test
+	public void testDynamicSearchById() {
+		String name = "testStandaloneEntity";
+
+		StandaloneEntity entity = repository.save(new StandaloneEntity(name));
+		Assertions.assertThat(repository.exists(entity.getId())).isTrue();
+
+		Map<String, String[]> paramsMap = new HashMap<String, String[]>();
+		String[] values = { entity.getId().toString() };
+		paramsMap.put("id", values);
+		ParameterMapBackedPageRequest pageRequest = new ParameterMapBackedPageRequest(paramsMap, 0, 10);
+		Page<StandaloneEntity> collectedEntities = repository.findAll(pageRequest);
+
+		Assertions.assertThat(collectedEntities).isNotNull().hasSize(1);
+	}
+
+	@Test
+	public void testDynamicSearchLike() {
+		String name = "testStandaloneEntity", name2 = "testStandaloneEntity2";
+		List<StandaloneEntity> entities = new ArrayList<StandaloneEntity>(Arrays.asList(new StandaloneEntity(name), new StandaloneEntity(
+				name2)));
+		repository.save(entities);
+
+		Map<String, String[]> paramsMap = new HashMap<String, String[]>();
+		String[] values = { "testStandaloneEntit%" };
+		paramsMap.put("name", values);
+		ParameterMapBackedPageRequest pageRequest = new ParameterMapBackedPageRequest(paramsMap, 0, 10);
+		Page<StandaloneEntity> collectedEntities = repository.findAll(pageRequest);
+
+		Assertions.assertThat(collectedEntities).isNotNull().hasSize(entities.size());
+	}
 }

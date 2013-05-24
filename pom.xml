@@ -32,6 +32,8 @@
         <testng.version>6.8</testng.version>
         <fest.assert.version>2.0M10</fest.assert.version>
         <mockito.version>1.9.5</mockito.version>
+        
+        <commons-lang3.version>3.1</commons-lang3.version>
     </properties>
 
     <modules>
