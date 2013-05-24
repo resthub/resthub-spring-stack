@@ -21,7 +21,17 @@ public class XmlBodyReader implements BodyReader {
     }
 
     @Override
+    public <T> T readEntity(Response resp, Class<T> entityClass, String charset) throws IOException {
+        return XmlHelper.deserialize(resp.getResponseBody(charset), entityClass);
+    }
+
+    @Override
     public <T> T readEntity(Response resp, TypeReference valueTypeRef) throws IOException {
         return XmlHelper.deserialize(resp.getResponseBody(), valueTypeRef);
+    }
+
+    @Override
+    public <T> T readEntity(Response resp, TypeReference valueTypeRef, String charset) throws IOException {
+        return XmlHelper.deserialize(resp.getResponseBody(charset), valueTypeRef);
     }
 }
