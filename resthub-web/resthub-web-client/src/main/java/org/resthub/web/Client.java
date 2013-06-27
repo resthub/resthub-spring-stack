@@ -227,6 +227,8 @@ public class Client implements Closeable {
         private Map<String, Collection<String>> queryParameters = new HashMap<String, Collection<String>>();
         private List<Cookie> cookies = new ArrayList<Cookie>();
         private String body = null;
+        // UTF-8 by default
+        private String charset = "UTF-8";
 
         public RequestHolder(String url) {
             this.url = url;
@@ -266,6 +268,11 @@ public class Client implements Closeable {
                 values.add(value);
                 queryParameters.put(name, values);
             }
+            return this;
+        }
+
+        public RequestHolder setBodyEncoding(String charset) {
+            this.charset = charset;
             return this;
         }
 
@@ -526,7 +533,7 @@ public class Client implements Closeable {
         }
 
         private Future<Response> executeString(String method, String body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+            Request req = new Request(method).setBodyEncoding(charset).setBody(body).setUrl(url).setHeaders(headers)
                     .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
@@ -556,7 +563,7 @@ public class Client implements Closeable {
         }
 
         private Future<Response> executeIS(String method, InputStream body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+            Request req = new Request(method).setBodyEncoding(charset).setBody(body).setUrl(url).setHeaders(headers)
                     .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
@@ -586,7 +593,7 @@ public class Client implements Closeable {
         }
 
         private Future<Response> executeFile(String method, File body) {
-            Request req = new Request(method).setBody(body).setUrl(url).setHeaders(headers)
+            Request req = new Request(method).setBodyEncoding(charset).setBody(body).setUrl(url).setHeaders(headers)
                     .setQueryParameters(new FluentStringsMap(queryParameters));
             if (username != null && password != null && scheme != null) {
                 req.auth(username, password, scheme);
