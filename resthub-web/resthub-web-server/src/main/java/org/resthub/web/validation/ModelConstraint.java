@@ -16,6 +16,7 @@ public class ModelConstraint {
 
     public ModelConstraint(String modelRef) {
         this.modelRef = modelRef;
+        this.constraints = new HashMap<String, List<ValidationConstraint>>();
     }
 
     @JsonProperty(value = "model")

@@ -36,11 +36,10 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public ModelConstraint getConstraintsForClass(Class<?> clazz, Locale locale) {
-        ModelConstraint modelConstraint = null;
+        ModelConstraint modelConstraint = new ModelConstraint(clazz.getCanonicalName());;
         BeanDescriptor bd = VALIDATOR.getConstraintsForClass(clazz);
 
         if (bd.isBeanConstrained() && !Modifier.isAbstract(clazz.getModifiers())) {
-            modelConstraint = new ModelConstraint(clazz.getCanonicalName());
             modelConstraint.setConstraints(this.getConstraints(bd, locale));
         }
 

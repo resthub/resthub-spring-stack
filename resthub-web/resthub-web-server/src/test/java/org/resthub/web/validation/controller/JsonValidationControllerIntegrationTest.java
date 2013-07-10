@@ -5,9 +5,7 @@ import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
 import org.resthub.web.Response;
 import org.resthub.web.validation.ModelConstraint;
-import org.resthub.web.validation.model.AModel;
-import org.resthub.web.validation.model.ClassLevelConstraintModel;
-import org.resthub.web.validation.model.InheritedClassLevelConstraintModel;
+import org.resthub.web.validation.model.*;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -78,5 +76,21 @@ public class JsonValidationControllerIntegrationTest extends AbstractWebTest {
 
         Assertions.assertThat(response.getBody()).contains("org.resthub.web.validation.model.InheritedClassLevelConstraintModel")
                 .contains("\"type\" : \"Size\"");
+    }
+
+    @Test
+    public void testAbstractModel() {
+        Response response = this.request("api/validation/" + AbstractModel.class.getCanonicalName()).get();
+
+        Assertions.assertThat(response.getBody()).contains("org.resthub.web.validation.model.AbstractModel")
+                .contains("\"constraints\" : { }");
+    }
+
+    @Test
+    public void testNoConstraintsModel() {
+        Response response = this.request("api/validation/" + NoConstraintsModel.class.getCanonicalName()).get();
+
+        Assertions.assertThat(response.getBody()).contains("org.resthub.web.validation.model.NoConstraintsModel")
+                .contains("\"constraints\" : { }");
     }
 }
