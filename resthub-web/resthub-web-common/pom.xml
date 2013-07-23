@@ -14,7 +14,7 @@
     <description>Common classes for both client and server RESThub modules</description>
 
     <properties>
-        <jackson.version>2.1.4</jackson.version>
+        <jackson.version>2.1.5</jackson.version>
         <woodstox.version>4.1.4</woodstox.version>
     </properties>
 
