@@ -4,7 +4,27 @@ RESThub Spring stack changelog
 This changelog references the major changes (features, important bugs and security fixes) of resthub-spring-stack project.
 Some changes break backwards compatibility, check out the UPGRADE section before you upgrade your application.  
 
-To get the full diff between two versions, go to https://github.com/resthub/resthub-spring-stack/compare/resthub-2.0.0...resthub-2.1.0
+2.1.2 version (07-26-2013)
+--------------------------
+
+ * HTTP client improvements
+  * Allow to specify charset in HTTP client
+  * Manage properly UTF-8
+  * Fix a Bug with asynchttpclient using SSL + proxies
+ * Dependencies upgrade
+  * Spring from 3.2.2 to 3.2.3
+  * Spring Data JPA from 1.3.0 to 1.3.4
+  * Spring Data MongoDB from 1.2.0 to 1.2.1
+  * TestNG from 6.8 to 6.8.5
+  * Hibernate from 4.1.11 to 4.1.12
+  * EHCache from 2.6.5 to 2.6.6
+  * Jackson from 2.1.4 to 2.1.5
+  
+2.1.1 version (05-17-2013)
+--------------------------
+
+ * Fix BoneCP version and configuration
+ * Upgrade slf4j, logback, jackson, model mapper, async http client, hibernate, hibernate validator, ehcache, spring data, jetty and fest assert dependencies
 
 2.1.0 version (03-15-2013)
 --------------------------
