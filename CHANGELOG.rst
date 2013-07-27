@@ -19,6 +19,7 @@ Some changes break backwards compatibility, check out the UPGRADE section before
   * Hibernate from 4.1.11 to 4.1.12
   * EHCache from 2.6.5 to 2.6.6
   * Jackson from 2.1.4 to 2.1.5
+ * Tutorial fixes
   
 2.1.1 version (05-17-2013)
 --------------------------
