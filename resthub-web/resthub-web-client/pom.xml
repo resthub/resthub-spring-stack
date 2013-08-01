@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
-            <version>1.0.1.RELEASE</version>
+            <version>1.0.5.RELEASE</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
