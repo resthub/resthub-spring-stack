@@ -1,6 +1,7 @@
 package org.resthub.web.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.resthub.web.PageResponse;
 
 public class Book {
 
@@ -82,5 +83,5 @@ public class Book {
     }
 
     // Sample View
-    public static interface SummaryView {}
+    public static interface SummaryView extends PageResponse.View {}
 }

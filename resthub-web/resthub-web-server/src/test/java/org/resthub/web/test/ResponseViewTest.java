@@ -3,6 +3,7 @@ package org.resthub.web.test;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
+import org.resthub.web.PageResponse;
 import org.resthub.web.model.Book;
 import org.testng.annotations.Test;
 
@@ -26,12 +27,22 @@ public class ResponseViewTest extends AbstractWebTest {
 
     @Test
     public void testSummaryListJson() {
-        List<Book> books = this.request("book/summaries").jsonGet().resource(new TypeReference<List<Book>>() {
+        List<Book> books = this.request("book/summaries").setQueryParameter("page","no").jsonGet().resource(new TypeReference<List<Book>>() {
         });
         Assertions.assertThat(books).isNotNull();
         Assertions.assertThat(books.size()).isEqualTo(2);
         Assertions.assertThat(books).contains(new Book(null,"Joshua Bloch",null,1));
         Assertions.assertThat(books).contains(new Book(null,"Stephanie Myers",null,2));
+    }
+
+    @Test
+    public void testSummaryPageableListJson() {
+        PageResponse<Book> books = this.request("book/summaries").setQueryParameter("page","1").jsonGet().resource(new TypeReference<PageResponse<Book>>() {
+        });
+        Assertions.assertThat(books).isNotNull();
+        Assertions.assertThat(books.getContent().size()).isEqualTo(2);
+        Assertions.assertThat(books.getContent()).contains(new Book(null,"Joshua Bloch",null,1));
+        Assertions.assertThat(books.getContent()).contains(new Book(null,"Stephanie Myers",null,2));
     }
 
     @Test

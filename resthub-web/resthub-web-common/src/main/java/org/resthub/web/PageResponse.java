@@ -1,6 +1,7 @@
 package org.resthub.web;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -30,6 +31,7 @@ public class PageResponse<T extends Object> implements Page<T> {
     @Override
     @XmlElementWrapper(name = "content")
     @XmlElement(name = "content")
+    @JsonView(View.class)
     public List<T> getContent() {
         return content;
     }
@@ -39,6 +41,7 @@ public class PageResponse<T extends Object> implements Page<T> {
     }
 
     @Override
+    @JsonView(View.class)
     public int getNumber() {
         return number;
     }
@@ -48,6 +51,7 @@ public class PageResponse<T extends Object> implements Page<T> {
     }
 
     @Override
+    @JsonView(View.class)
     public int getNumberOfElements() {
         return numberOfElements;
     }
@@ -57,6 +61,7 @@ public class PageResponse<T extends Object> implements Page<T> {
     }
 
     @Override
+    @JsonView(View.class)
     public int getSize() {
         return size;
     }
@@ -66,6 +71,7 @@ public class PageResponse<T extends Object> implements Page<T> {
     }
 
     @Override
+    @JsonView(View.class)
     public long getTotalElements() {
         return totalElements;
     }
@@ -75,6 +81,7 @@ public class PageResponse<T extends Object> implements Page<T> {
     }
 
     @Override
+    @JsonView(View.class)
     public int getTotalPages() {
         return totalPages;
     }
@@ -124,5 +131,7 @@ public class PageResponse<T extends Object> implements Page<T> {
     public Sort getSort() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public interface View {};
     
 }

@@ -2,9 +2,12 @@ package org.resthub.web.controller;
 
 import org.resthub.common.view.ResponseView;
 import org.resthub.web.model.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -26,11 +29,19 @@ public class BookController {
     {
         return data;
     }
-    @RequestMapping("summaries")
+    @RequestMapping(value= "summaries", params="page=no")
     @ResponseView(Book.SummaryView.class)
     public @ResponseBody List<Book> getBookSummaries()
     {
         return data;
+    }
+    @RequestMapping("summaries")
+    @ResponseView(Book.SummaryView.class)
+    public @ResponseBody Page<Book> getBookSummariesPaginated(@RequestParam(value = "page", required = true, defaultValue = "1") Integer page)
+    {
+        PageImpl<Book> books= new PageImpl<Book>(data);
+
+        return books;
     }
     @RequestMapping("{id}/summary")
     @ResponseView(Book.SummaryView.class)
