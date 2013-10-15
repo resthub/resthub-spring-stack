@@ -39,6 +39,10 @@ public class PostInitializerRunner implements ApplicationListener {
             for (Object beanNameObject : beans.keySet()) {
                 String beanName = (String) beanNameObject;
                 Object bean = beans.get(beanNameObject);
+                if(bean == null) {
+                    LOGGER.warn("Bean name {} return null, so we don't try to get matching bean", beanName);
+                    continue;
+                }
                 Class<?> beanClass = bean.getClass();
                 Method[] methods = beanClass.getMethods();
                 for (Method method : methods) {
