@@ -4,7 +4,7 @@ RESThub Spring stack changelog
 This changelog references the major changes (features, important bugs and security fixes) of resthub-spring-stack project.
 Some changes break backwards compatibility, check out the UPGRADE section before you upgrade your application.  
 
-2.1.3 version (12-16-2014)
+2.1.3 version (12-16-2013)
 --------------------------
 
  * Dependencies upgrade
