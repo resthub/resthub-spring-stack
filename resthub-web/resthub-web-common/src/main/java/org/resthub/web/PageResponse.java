@@ -3,6 +3,7 @@ package org.resthub.web;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -111,6 +112,16 @@ public class PageResponse<T extends Object> implements Page<T> {
     @Override
     @JsonIgnore
     public boolean isLastPage() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Pageable nextPageable() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Pageable previousPageable() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
