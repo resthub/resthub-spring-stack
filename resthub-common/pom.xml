@@ -14,7 +14,7 @@
     <description>RESThub core include Embeded datasource, Generic Repository and Generic CRUD services</description>
 
     <properties>
-        <modelmapper.version>0.6.1</modelmapper.version>
+        <modelmapper.version>0.6.2</modelmapper.version>
         <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
         <javax.validation.version>1.0.0.GA</javax.validation.version>
     </properties>

@@ -19,8 +19,8 @@
     <properties>
         <env>local</env>
 
-        <spring.version>3.2.4.RELEASE</spring.version>
-        <spring.data.commons.version>1.5.3.RELEASE</spring.data.commons.version>
+        <spring.version>3.2.6.RELEASE</spring.version>
+        <spring.data.commons.version>1.6.3.RELEASE</spring.data.commons.version>
 
         <logback.version>1.0.13</logback.version>
         <slf4j.version>1.7.5</slf4j.version>
