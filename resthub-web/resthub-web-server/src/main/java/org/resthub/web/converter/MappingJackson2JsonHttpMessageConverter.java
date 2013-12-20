@@ -22,10 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.resthub.common.view.DataView;
-import org.resthub.web.PageResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -69,9 +66,7 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
     public MappingJackson2JsonHttpMessageConverter() {
         super(new MediaType("application", "json", DEFAULT_CHARSET));
         objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addAbstractTypeMapping(Page.class, PageResponse.class);
-        objectMapper.registerModule(module);
+        objectMapper.registerModule(new ResthubPageModule());
         AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
         objectMapper.setAnnotationIntrospector(introspector);
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
@@ -86,7 +81,7 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
      * ObjectMapper} is used.
      * <p>
      * Setting a custom-configured {@code ObjectMapper} is one way to take further control of the JSON serialization
-     * process. For example, an extended {@link org.codehaus.jackson.map.SerializerFactory} can be configured that
+     * process. For example, an extended {@link com.fasterxml.jackson.databind.ser.SerializerFactory} can be configured that
      * provides custom serializers for specific types. The other option for refining the serialization process is to use
      * Jackson's provided annotations on the types to be serialized, in which case a custom-configured ObjectMapper is
      * unnecessary.
@@ -179,8 +174,8 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
             }
             if (object instanceof DataView && ((DataView) object).hasView())
             {
-                ObjectWriter writter = this.objectMapper.writerWithView(((DataView) object).getView());
-                writter.writeValue(jsonGenerator, ((DataView) object).getData());
+                ObjectWriter writer = this.objectMapper.writerWithView(((DataView) object).getView());
+                writer.writeValue(jsonGenerator, ((DataView) object).getData());
             } else {
                 this.objectMapper.writeValue(jsonGenerator, object);
             }
