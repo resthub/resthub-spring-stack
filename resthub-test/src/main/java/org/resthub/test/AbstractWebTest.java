@@ -185,7 +185,6 @@ public abstract class AbstractWebTest {
                 reusableServer = server;
             }
         }
-
     }
 
     @AfterClass
