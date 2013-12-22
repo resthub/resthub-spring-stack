@@ -69,6 +69,9 @@
         <property name="packagesToScan" value="${persistenceUnit.packagesToScan}" />
         <property name="jpaProperties" ref="jpaProperties" />
         <property name="dataSource" ref="dataSource" />
+        <property name="persistenceProvider">
+            <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
+        </property>
     </bean>
 
     <util:map id="resthubCoreJpaProperties">
