@@ -48,20 +48,13 @@ public interface RestController<T, ID extends Serializable> {
     T update(@PathVariable ID id, @RequestBody T resource);
    
     /**
-     * XML findAll is currently unimplemented, see https://github.com/FasterXML/jackson-dataformat-xml/issues/38 for more details
-     * @return 
-     */
-    @RequestMapping(method = RequestMethod.GET, params="page=no", produces="application/xml")
-    @ResponseBody
-    Iterable<T> findAllXml();
-    
-    /**
      * Find all resources, and return the full collection (plain list not paginated)<br/>
      * REST webservice published : GET /?page=no
      *
-     * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body. Be carefull, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
+     * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body.
+     * Be careful, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
      */
-    @RequestMapping(method = RequestMethod.GET, params="page=no", produces="application/json")
+    @RequestMapping(method = RequestMethod.GET, params="page=no")
     @ResponseBody
     Iterable<T> findAll();
 

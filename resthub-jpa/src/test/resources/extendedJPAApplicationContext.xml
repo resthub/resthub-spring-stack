@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans profile="resthub-jpa" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jpaProperties" parent="resthubCoreJpaProperties">
+        <property name="sourceMap">
+            <map merge="true">
+                <entry key="hibernate.format_sql" value="false"/>
+                <entry key="my-new-prop" value="my-value"/>
+                <entry key="my-new-prop-in-properties" value="${dataSource.my-new-prop-in-propertie}"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
