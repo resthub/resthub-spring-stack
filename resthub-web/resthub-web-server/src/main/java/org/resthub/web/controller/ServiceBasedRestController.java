@@ -83,14 +83,6 @@ public abstract class ServiceBasedRestController<T, ID extends Serializable, S e
      * {@inheritDoc}
      */
     @Override
-    public Iterable<T> findAllXml() {
-        throw new NotImplementedException("XML findAll() is currently not implemented");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Iterable<T> findAll() {
         return service.findAll();
     }

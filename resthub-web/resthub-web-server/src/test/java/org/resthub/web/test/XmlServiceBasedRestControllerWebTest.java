@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
 
     public XmlServiceBasedRestControllerWebTest() {
@@ -64,13 +66,16 @@ public class XmlServiceBasedRestControllerWebTest extends AbstractWebTest {
         Assertions.assertThat(samples.getContent().get(1).getName()).isIn("titi", "toto");
     }
     
-    @Test(expectedExceptions = {NotImplementedClientException.class})
+    @Test
     public void testFindAllResourcesUnpaginated() {
-        this.request("service-based").jsonPost(new Sample("toto"));
-        this.request("service-based").jsonPost(new Sample("toto"));
-        Response r = this.request("service-based").setQueryParameter("page", "no").xmlGet();
-        Assertions.assertThat(r).isNotNull();
-        Assertions.assertThat(r.getStatus()).isEqualTo(Http.NOT_IMPLEMENTED);
+        this.request("service-based").xmlPost(new Sample("toto"));
+        this.request("service-based").xmlPost(new Sample("titi"));
+        Response response = this.request("service-based").setQueryParameter("page", "no").xmlGet();
+        List<Sample> samples = response.resource(new TypeReference<List<Sample>>() {});
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples.size()).isEqualTo(2);
+        Assertions.assertThat(samples.get(0).getName()).isIn("titi", "toto");
+        Assertions.assertThat(samples.get(1).getName()).isIn("titi", "toto");
     }
     
     @Test
