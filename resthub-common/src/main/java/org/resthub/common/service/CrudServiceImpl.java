@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * CRUD service that uses a Spring Data repository implementation
@@ -99,6 +100,14 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
     public T findById(ID id) {
         Assert.notNull(id, "Resource ID can't be null");
         return repository.findOne(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<T> findByIds(Set<ID> ids) {
+        return (List<T>)repository.findAll(ids);
     }
 
     /**

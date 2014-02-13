@@ -9,11 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.*;
 
 /**
  * Abstract REST controller using a repository implementation
@@ -23,10 +22,10 @@ import java.io.Serializable;
  * controller implementation to use if you have no service (also called business) layer. You will be able to transform
  * it to a ServiceBasedRestController later easily if needed.
  * </p>
- * 
+ *
  * <p>Default implementation uses "id" field (usually a Long) in order to identify resources in web request.
  * If your want to identity resources by a slug (human readable identifier), your should override findById() method with for example :
- * 
+ *
  * <pre>
  * <code>
    {@literal @}Override
@@ -40,7 +39,7 @@ import java.io.Serializable;
    </code>
  * </pre>
  *
- * 
+ *
  * @param <T>  Your resource class to manage, maybe an entity or DTO class
  * @param <ID> Resource id type, usually Long or String
  * @param <R>  The repository class
@@ -84,7 +83,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
 
         return (T)this.repository.save(resource);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -128,6 +127,15 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      * {@inheritDoc}
      */
     @Override
+    public Iterable<T> findByIds(@RequestParam(value="ids[]") Set<ID> ids){
+        Assert.notNull(ids, "ids list cannot be null");
+        return this.repository.findAll(ids);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void delete() {
         Iterable<T> list = repository.findAll();
         for (T entity : list) {
@@ -143,5 +151,5 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
         T resource = (T)this.findById(id);
         this.repository.delete(resource);
     }
-    
+
 }
