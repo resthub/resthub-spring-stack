@@ -15,9 +15,10 @@
     <description>RESThub support for REST webservices based on Spring MVC</description>
 
     <properties>
-        <cors.filter.version>1.3.2</cors.filter.version>
+        <cors.filter.version>1.9</cors.filter.version>
         <el-ri.version>1.0</el-ri.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
+        <commons-io.version>2.4</commons-io.version>
     </properties>
 
     <dependencies>
@@ -80,7 +81,7 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <scope>test</scope>
-            <version>2.4</version>
+            <version>${commons-io.version}</version>
         </dependency>
 
         <dependency>
