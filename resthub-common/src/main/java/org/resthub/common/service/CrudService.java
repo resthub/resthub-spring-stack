@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -69,14 +68,14 @@ public interface CrudService<T, ID extends Serializable> {
      * @param ids Resource ids
      * @return a list of retrieved resources, empty if no resource found
      */
-    List<T> findByIds(Set<ID> ids);
+    Iterable<T> findByIds(Set<ID> ids);
 
     /**
      * Find all resources.
      *
      * @return a list of all resources.
      */
-    List<T> findAll();
+    Iterable<T> findAll();
 
     /**
      * Find all resources (pageable).
