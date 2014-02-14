@@ -1,7 +1,7 @@
 package org.resthub.web;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.ning.http.client.Cookie;
+import com.ning.http.client.cookie.Cookie;
 import org.resthub.web.support.BodyReader;
 
 import java.io.IOException;
