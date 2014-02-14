@@ -29,7 +29,7 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
     public void testCreateResource() {
         Sample r = new Sample("toto");
         Response response = this.request("repository-based").jsonPost(r);
-        r = (Sample) response.resource(r.getClass());
+        r = response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
@@ -116,6 +116,37 @@ public class JsonRepositoryBasedRestControllerTest extends AbstractWebTest {
 
         Response response = this.request("repository-based/" + r.getId()).get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
+    }
+
+    @Test
+    public void testFindResources() {
+        Sample r = new Sample("toto");
+        r = this.request("repository-based").jsonPost(r).resource(r.getClass());
+
+        Sample r2 = new Sample("titi");
+        r2 = this.request("repository-based").jsonPost(r2).resource(r2.getClass());
+
+        Response response = this.request("repository-based")
+                .setQueryParameter("ids[]", r.getId().toString())
+                .setQueryParameter("ids[]", r2.getId().toString()).get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
+
+        List<Sample> samples = response.resource(new TypeReference<Iterable<Sample>>(){});
+
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples).isNotEmpty();
+        Assertions.assertThat(samples.size()).isEqualTo(2);
+        Assertions.assertThat(samples).contains(r);
+        Assertions.assertThat(samples).contains(r2);
+
+        // not found id does not raise error but returns empty list
+        response = this.request("repository-based")
+                .setQueryParameter("ids[]", "10000000").get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
+
+        samples = response.resource(new TypeReference<Iterable<Sample>>(){});
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples).isEmpty();
     }
 
     @Test

@@ -1,18 +1,12 @@
 package org.resthub.web.controller;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.resthub.common.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.Serializable;
+import java.util.Set;
 
 /**
  * REST controller interface
@@ -46,7 +40,7 @@ public interface RestController<T, ID extends Serializable> {
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     @ResponseBody
     T update(@PathVariable ID id, @RequestBody T resource);
-   
+
     /**
      * Find all resources, and return the full collection (plain list not paginated)<br/>
      * REST webservice published : GET /?page=no
@@ -54,7 +48,7 @@ public interface RestController<T, ID extends Serializable> {
      * @return OK http status code if the request has been correctly processed, with the list of all resource enclosed in the body.
      * Be careful, this list should be big since it will return ALL resources. In this case, consider using paginated findAll method instead.
      */
-    @RequestMapping(method = RequestMethod.GET, params="page=no")
+    @RequestMapping(method = RequestMethod.GET, params = "page=no")
     @ResponseBody
     Iterable<T> findAll();
 
@@ -62,18 +56,18 @@ public interface RestController<T, ID extends Serializable> {
      * Find all resources, and return a paginated and optionaly sorted collection<br/>
      * REST webservice published : GET /search?page=0&size=20 or GET /search?page=0&size=20&direction=desc&properties=name
      *
-     * @param page   Page number starting from 0. default to 0
-     * @param size   Number of resources by pages. default to 10
-     * @param direction Optional sort direction, could be "asc" or "desc"
+     * @param page       Page number starting from 0. default to 0
+     * @param size       Number of resources by pages. default to 10
+     * @param direction  Optional sort direction, could be "asc" or "desc"
      * @param properties Ordered list of comma separeted properies used for sorting resulats. At least one property should be provided if direction is specified
      * @return OK http status code if the request has been correctly processed, with the a paginated collection of all resource enclosed in the body.
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     Page<T> findPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
-            @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction,
-            @RequestParam(value = "properties", required = false) String properties);
+                          @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+                          @RequestParam(value = "direction", required = false, defaultValue = "ASC") String direction,
+                          @RequestParam(value = "properties", required = false) String properties);
 
     /**
      * Find a resource by its identifier<br/>
@@ -86,6 +80,20 @@ public interface RestController<T, ID extends Serializable> {
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseBody
     T findById(@PathVariable ID id);
+
+    /**
+     * Find multiple resources by their identifiers<br/>
+     * REST webservice published : GET /?ids[]=
+     * <p/>
+     * example : /?ids[]=1&ids[]=2&ids[]=3
+     *
+     * @param ids List of ids to retrieve
+     * @return OK http status code with list of retrieved resources. Not found resources are ignored:
+     * no Exception thrown. List is empty if no resource found with any of the given ids.
+     */
+    @RequestMapping(method = RequestMethod.GET, params = "ids[]")
+    @ResponseBody
+    Iterable<T> findByIds(@RequestParam(value = "ids[]") Set<ID> ids);
 
     /**
      * Delete all resources<br/>
@@ -107,5 +115,5 @@ public interface RestController<T, ID extends Serializable> {
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable ID id);
-    
+
 }

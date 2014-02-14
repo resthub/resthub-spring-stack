@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * CRUD service that uses a Spring Data repository implementation
@@ -105,8 +105,16 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      * {@inheritDoc}
      */
     @Override
-    public List<T> findAll() {
-        return (List<T>) repository.findAll();
+    public Iterable<T> findByIds(Set<ID> ids) {
+        return repository.findAll(ids);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterable<T> findAll() {
+        return repository.findAll();
     }
 
     /**

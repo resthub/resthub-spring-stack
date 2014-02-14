@@ -120,6 +120,37 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
     }
 
     @Test
+    public void testFindResources() {
+        Sample r = new Sample("toto");
+        r = this.request("service-based").jsonPost(r).resource(r.getClass());
+
+        Sample r2 = new Sample("titi");
+        r2 = this.request("service-based").jsonPost(r2).resource(r2.getClass());
+
+        Response response = this.request("service-based")
+                .setQueryParameter("ids[]", r.getId().toString())
+                .setQueryParameter("ids[]", r2.getId().toString()).get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
+
+        List<Sample> samples = response.resource(new TypeReference<Iterable<Sample>>(){});
+
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples).isNotEmpty();
+        Assertions.assertThat(samples.size()).isEqualTo(2);
+        Assertions.assertThat(samples).contains(r);
+        Assertions.assertThat(samples).contains(r2);
+
+        // not found id does not raise error but returns empty list
+        response = this.request("service-based")
+                .setQueryParameter("ids[]", "10000000").get();
+        Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);
+
+        samples = response.resource(new TypeReference<Iterable<Sample>>(){});
+        Assertions.assertThat(samples).isNotNull();
+        Assertions.assertThat(samples).isEmpty();
+    }
+
+    @Test
     public void testUpdate() {
         Sample r1 = new Sample("toto");
         r1 = this.request("service-based").jsonPost(r1).resource(r1.getClass());
