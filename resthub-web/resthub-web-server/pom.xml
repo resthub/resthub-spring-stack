@@ -76,6 +76,5 @@
             <scope>test</scope>
             <version>2.4</version>
         </dependency>
-
     </dependencies>
 </project>
