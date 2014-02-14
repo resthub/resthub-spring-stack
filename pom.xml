@@ -22,9 +22,9 @@
         <spring.version>3.2.7.RELEASE</spring.version>
         <spring.data.commons.version>1.6.3.RELEASE</spring.data.commons.version>
 
-        <logback.version>1.0.13</logback.version>
-        <slf4j.version>1.7.5</slf4j.version>
-        <servlet.version>3.0.1</servlet.version>
+        <logback.version>1.1.1</logback.version>
+        <slf4j.version>1.7.6</slf4j.version>
+        <servlet.version>3.1.0</servlet.version>
 
         <jetty-maven-plugin.version>9.1.2.v20140210</jetty-maven-plugin.version>
         <test-jetty-servlet.version>8.1.14.v20131031</test-jetty-servlet.version>
