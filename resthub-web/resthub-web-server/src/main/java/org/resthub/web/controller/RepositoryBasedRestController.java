@@ -148,7 +148,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
      */
     @Override
     public void delete(@PathVariable ID id) {
-        T resource = (T)this.findById(id);
+        T resource = this.findById(id);
         this.repository.delete(resource);
     }
 

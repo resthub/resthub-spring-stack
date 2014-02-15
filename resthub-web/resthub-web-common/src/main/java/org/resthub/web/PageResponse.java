@@ -127,7 +127,7 @@ public class PageResponse<T extends Object> implements Page<T> {
 
     @Override
     @JsonIgnore
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
