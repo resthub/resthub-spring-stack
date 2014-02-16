@@ -16,8 +16,8 @@
 
     <properties>
         <cors.filter.version>1.9</cors.filter.version>
-        <el-ri.version>1.0</el-ri.version>
-        <javax.el-api.version>3.0.0</javax.el-api.version>
+        <el.ri.version>1.0</el.ri.version>
+        <javax.el.version>3.0.0</javax.el.version>
         <commons-io.version>2.4</commons-io.version>
     </properties>
 
@@ -87,13 +87,13 @@
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
-            <version>${javax.el-api.version}</version>
+            <version>${javax.el.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.sun.el</groupId>
             <artifactId>el-ri</artifactId>
-            <version>${el-ri.version}</version>
+            <version>${el.ri.version}</version>
         </dependency>
     </dependencies>
 </project>
