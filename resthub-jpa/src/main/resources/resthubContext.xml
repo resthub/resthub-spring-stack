@@ -18,7 +18,7 @@
 
     <util:properties id="databaseProperties">
 
-        <!-- Resthub specific defaults -->
+        <!-- HikariCP Resthub specific defaults -->
         <prop key="dataSource.dataSourceClassName">org.h2.jdbcx.JdbcDataSource</prop>
         <prop key="dataSource.connectionTestQuery">/* ping*/ SELECT 1</prop>
         <prop key="dataSource.maximumPoolSize">12</prop>
@@ -29,21 +29,7 @@
         <prop key="dataSource.username">sa</prop>
         <prop key="dataSource.password"></prop>
 
-
-        <!-- repeat Hikari defaults -->
-        <prop key="dataSource.acquireIncrement">1</prop>
-        <prop key="dataSource.acquireRetries">3</prop>
-        <prop key="dataSource.acquireRetryDelay">750</prop>
-        <prop key="dataSource.autoCommit">true</prop>
-        <prop key="dataSource.connectionInitSql"></prop>
-        <prop key="dataSource.connectionTimeout">5000</prop>
-        <prop key="dataSource.idleTimeout">600000</prop>
-        <prop key="dataSource.initializationFailFast">false</prop>
-        <prop key="dataSource.jdbc4ConnectionTest">true</prop>
-        <prop key="dataSource.leakDetectionThreshold">0</prop>
-        <prop key="dataSource.maxLifetime">1800000</prop>
-        <prop key="dataSource.transactionIsolation">TRANSACTION_READ_COMMITTED</prop>
-
+        <!-- JPA & Hibernate Resthub specific defaults -->
         <prop key="hibernate.show_sql">false</prop>
         <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
         <prop key="hibernate.format_sql">true</prop>
@@ -55,37 +41,38 @@
         <prop key="persistenceUnit.packagesToScan"></prop>
     </util:properties>
 
-    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-        <property name="dataSourceClassName" value="${dataSource.dataSourceClassName}" />
-        <property name="connectionTestQuery" value="${dataSource.connectionTestQuery}" />
-        <property name="acquireIncrement" value="${dataSource.acquireIncrement}" />
-        <property name="acquireRetries" value="${dataSource.acquireRetries}" />
-        <property name="acquireRetryDelay" value="${dataSource.acquireRetryDelay}" />
-        <property name="autoCommit" value="${dataSource.autoCommit}" />
-        <property name="connectionInitSql" value="${dataSource.connectionInitSql}" />
-        <property name="connectionTimeout" value="${dataSource.connectionTimeout}" />
-        <property name="idleTimeout" value="${dataSource.idleTimeout}" />
-        <property name="initializationFailFast" value="${dataSource.initializationFailFast}" />
-        <property name="jdbc4ConnectionTest" value="${dataSource.jdbc4ConnectionTest}" />
-        <property name="leakDetectionThreshold" value="${dataSource.leakDetectionThreshold}" />
-        <property name="maxLifetime" value="${dataSource.maxLifetime}" />
-        <property name="maximumPoolSize" value="${dataSource.maximumPoolSize}" />
-        <property name="minimumPoolSize" value="${dataSource.minimumPoolSize}" />
-        <property name="poolName" value="${dataSource.poolName}" />
-        <property name="registerMbeans" value="${dataSource.registerMbeans}" />
-        <property name="transactionIsolation" value="${dataSource.transactionIsolation}" />
-        <property name="dataSourceProperties" ref="dataSourceProperties" />
+    <bean id="hikariDataSourceFactory" class="org.resthub.jpa.pool.HikariDataSourceFactory"/>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown" factory-bean="hikariDataSourceFactory" factory-method="create">
+        <constructor-arg ref="dataSourceProperties" />
     </bean>
 
+    <!-- we must map all configuration props to allow overriding any prop in database.properties-->
     <util:properties id="dataSourceProperties">
-        <prop key="user">${dataSource.username}</prop>
-        <prop key="password">${dataSource.password}</prop>
-        <prop key="url">${dataSource.url}</prop>
+        <prop key="dataSource.user">${dataSource.username}</prop>
+        <prop key="dataSource.password">${dataSource.password}</prop>
+        <prop key="dataSource.url">${dataSource.url}</prop>
+        <prop key="dataSource.databaseName">${dataSource.databaseName}</prop>
+        <prop key="dataSource.serverName">${dataSource.serverName}</prop>
+        <prop key="dataSourceClassName">${dataSource.dataSourceClassName}</prop>
+        <prop key="connectionTestQuery">${dataSource.connectionTestQuery}</prop>
+        <prop key="acquireIncrement">${dataSource.acquireIncrement}</prop>
+        <prop key="acquireRetries">${dataSource.acquireRetries}</prop>
+        <prop key="acquireRetryDelay">${dataSource.acquireRetryDelay}</prop>
+        <prop key="autoCommit">${dataSource.autoCommit}</prop>
+        <prop key="connectionInitSql">${dataSource.connectionInitSql}</prop>
+        <prop key="connectionTimeout">${dataSource.connectionTimeout}</prop>
+        <prop key="idleTimeout">${dataSource.idleTimeout}</prop>
+        <prop key="initializationFailFast">${dataSource.initializationFailFast}</prop>
+        <prop key="jdbc4ConnectionTest">${dataSource.jdbc4ConnectionTest}</prop>
+        <prop key="leakDetectionThreshold">${dataSource.leakDetectionThreshold}</prop>
+        <prop key="maxLifetime">${dataSource.maxLifetime}</prop>
+        <prop key="maximumPoolSize">${dataSource.maximumPoolSize}</prop>
+        <prop key="minimumPoolSize">${dataSource.minimumPoolSize}</prop>
+        <prop key="poolName">${dataSource.poolName}</prop>
+        <prop key="registerMbeans">${dataSource.registerMbeans}</prop>
+        <prop key="transactionIsolation">${dataSource.transactionIsolation}</prop>
     </util:properties>
-
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown">
-        <constructor-arg ref="hikariConfig" />
-    </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
