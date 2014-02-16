@@ -4,6 +4,7 @@ import com.ning.http.client.*;
 import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Realm.AuthScheme;
 import com.ning.http.client.Realm.RealmBuilder;
+import com.ning.http.client.cookie.Cookie;
 import org.resthub.web.exception.ClientException;
 import org.resthub.web.exception.ClientExceptionFactory;
 import org.resthub.web.oauth2.OAuth2Config;
@@ -83,7 +84,7 @@ public class Client implements Closeable {
      * Add a candidate BodyWriter to serialize an object to an HTTP response
      * body
      *
-     * @param br a bodyreader
+     * @param bw a bodywriter
      * @see BodyWriter
      */
     public Client addBodyWriter(BodyWriter bw) {

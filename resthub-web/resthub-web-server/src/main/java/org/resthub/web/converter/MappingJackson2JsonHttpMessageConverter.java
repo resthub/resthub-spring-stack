@@ -165,7 +165,7 @@ public class MappingJackson2JsonHttpMessageConverter extends AbstractHttpMessage
             HttpMessageNotWritableException {
 
         JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders().getContentType());
-        JsonGenerator jsonGenerator = this.objectMapper.getFactory().createJsonGenerator(outputMessage.getBody(),
+        JsonGenerator jsonGenerator = this.objectMapper.getFactory().createGenerator(outputMessage.getBody(),
                 encoding);
 
         try {

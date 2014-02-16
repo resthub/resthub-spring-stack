@@ -19,15 +19,34 @@
     <properties>
         <env>local</env>
 
-        <spring.version>3.2.6.RELEASE</spring.version>
+        <spring.version>3.2.7.RELEASE</spring.version>
         <spring.data.commons.version>1.6.3.RELEASE</spring.data.commons.version>
 
-        <logback.version>1.0.13</logback.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <logback.version>1.1.1</logback.version>
+        <slf4j.version>1.7.6</slf4j.version>
         <servlet.version>3.0.1</servlet.version>
+        <jsr250.version>1.0</jsr250.version>
+        <javax.inject.version>1</javax.inject.version>
 
-        <jetty.version>8.1.13.v20130916</jetty.version>
+        <maven.jetty.version>9.1.2.v20140210</maven.jetty.version>
+        <maven.jetty.test.version>8.1.14.v20131031</maven.jetty.test.version>
         <jetty.port>8080</jetty.port>
+        <maven.compiler.version>3.1</maven.compiler.version>
+        <maven.resources.version>2.6</maven.resources.version>
+        <maven.failsafe.version>2.16</maven.failsafe.version>
+        <maven.surefire.version>2.15</maven.surefire.version>
+        <maven.site.version>3.3</maven.site.version>
+        <maven.war.version>2.4</maven.war.version>
+        <maven.clean.version>2.5</maven.clean.version>
+        <maven.javadoc.version>2.9.1</maven.javadoc.version>
+        <maven.deploy.version>2.8.1</maven.deploy.version>
+        <maven.archetype.version>2.2</maven.archetype.version>
+        <maven-release-plugin.version>2.4.2</maven-release-plugin.version>
+        <maven.source.version>2.2.1</maven.source.version>
+        <maven.install.version>2.5.1</maven.install.version>
+        <maven.assembly.version>2.4</maven.assembly.version>
+        <maven.project.info.reports.version>2.7</maven.project.info.reports.version>
+        <maven.surefire.reports.version>2.16</maven.surefire.reports.version>
 
         <testng.version>6.8.7</testng.version>
         <fest.assert.version>2.0M10</fest.assert.version>
@@ -93,11 +112,6 @@
         <developer>
             <id>dst17</id>
             <name>Johan Poirier</name>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>vanackej</id>
-            <name>Johann Vanackere</name>
             <timezone>+1</timezone>
         </developer>
         <developer>
@@ -173,7 +187,7 @@
                 <artifactId>spring-tx</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
@@ -199,12 +213,12 @@
             <dependency>
                 <groupId>javax.annotation</groupId>
                 <artifactId>jsr250-api</artifactId>
-                <version>1.0</version>
+                <version>${jsr250.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
-                <version>1</version>
+                <version>${javax.inject.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -267,7 +281,7 @@
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>test-jetty-servlet</artifactId>
-                <version>${jetty.version}</version>
+                <version>${maven.jetty.test.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -294,26 +308,26 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.mortbay.jetty</groupId>
+                    <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>${jetty.version}</version>
+                    <version>${maven.jetty.version}</version>
                     <configuration>
+                        <webApp>
+                            <contextPath>/</contextPath>
+                        </webApp>
                         <!-- We use non NIO connector in order to avoid read only static files under windows -->
-                        <connectors>
+                        <httpConnector>
                             <connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
                                 <port>${jetty.port}</port>
                                 <maxIdleTime>60000</maxIdleTime>
                             </connector>
-                        </connectors>
-                        <webAppConfig>
-                            <contextPath>/</contextPath>
-                        </webAppConfig>
+                        </httpConnector>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
+                    <version>${maven.compiler.version}</version>
                     <configuration>
                         <encoding>UTF-8</encoding>
                         <source>1.6</source>
@@ -323,7 +337,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>${maven.resources.version}</version>
                     <configuration>
                         <encoding>UTF-8</encoding>
                     </configuration>
@@ -331,12 +345,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.12.4</version>
+                    <version>${maven.failsafe.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.15</version>
+                    <version>${maven.surefire.version}</version>
                     <configuration>
                         <argLine>-Dfile.encoding=UTF-8</argLine>
                     </configuration>
@@ -344,22 +358,22 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.2</version>
+                    <version>${maven.site.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>${maven.war.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>2.5</version>
+                    <version>${maven.clean.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.9</version>
+                    <version>${maven.javadoc.version}</version>
                     <configuration>
                         <quiet>true</quiet>
                         <docencoding>UTF-8</docencoding>
@@ -370,32 +384,32 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.7</version>
+                    <version>${maven.deploy.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-archetype-plugin</artifactId>
-                    <version>2.2</version>
+                    <version>${maven.archetype.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.3.2</version>
+                    <version>${maven-release-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>2.2.1</version>
+                    <version>${maven.source.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>${maven.install.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>${maven.assembly.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -432,12 +446,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>${maven.project.info.reports.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.12.4</version>
+                <version>${maven.surefire.reports.version}</version>
             </plugin>
         </plugins>
     </reporting>
