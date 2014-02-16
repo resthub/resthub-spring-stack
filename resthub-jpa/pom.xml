@@ -129,6 +129,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>1.2.9</version>
+        </dependency>
+
+        <!--dependency>
             <groupId>com.jolbox</groupId>
             <artifactId>bonecp-spring</artifactId>
             <version>${bonecp.spring.version}</version>
@@ -138,14 +144,14 @@
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency-->
 
         <!-- Needed for BoneCP -->
-        <dependency>
+        <!--dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${google.guava.version}</version>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>com.h2database</groupId>

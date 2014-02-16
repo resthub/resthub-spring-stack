@@ -71,6 +71,18 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
     }
 
     @Test
+    public void testFindByIds() {
+        StandaloneEntity entity = repository.save(new StandaloneEntity());
+        StandaloneEntity entity2 = repository.save(new StandaloneEntity());
+
+        List<StandaloneEntity> entities = repository.findAll(Arrays.asList(entity.getId(), entity2.getId()));
+        Assertions.assertThat(entities).isNotNull().isNotEmpty();
+        Assertions.assertThat(entities.size()).isEqualTo(2);
+        Assertions.assertThat(entities.contains(entity));
+        Assertions.assertThat(entities.contains(entity2));
+    }
+
+    @Test
     public void testEncoding() {
         StandaloneEntity entity = repository.save(new StandaloneEntity("C\u2202dre"));
         Assertions.assertThat(repository.exists(entity.getId())).isTrue();
