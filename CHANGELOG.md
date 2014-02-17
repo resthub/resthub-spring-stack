@@ -67,14 +67,14 @@ Some changes break backwards compatibility, check out the UPGRADE section before
 
 If you ever customized one of those datasource keys in your database.properties file:
 
-.. code-block
+```
+dataSource.maxActive = 50
+dataSource.maxWait = 1000
+dataSource.poolPreparedStatements = true
+dataSource.validationQuery = SELECT 1
+```
 
-    dataSource.maxActive = 50
-    dataSource.maxWait = 1000
-    dataSource.poolPreparedStatements = true
-    dataSource.validationQuery = SELECT 1
-
-Then they are not used anymore; you should translate those concepts into the new librabry concepts used for database connections pool management, `BoneCP <http://jolbox.com/>`_. You'll probably want to switch from a "max live/wait connections" to a "partition" approach, which is way more efficient.
+Then they are not used anymore; you should translate those concepts into the new librabry concepts used for database connections pool management, [BoneCP](http://jolbox.com/). You'll probably want to switch from a "max live/wait connections" to a "partition" approach, which is way more efficient.
 
 [Fix inconsistent API in HTTP Client](https://github.com/resthub/resthub-spring-stack/pull/161) : API calls all look like asyncXmlGet, jsonGet...
 
