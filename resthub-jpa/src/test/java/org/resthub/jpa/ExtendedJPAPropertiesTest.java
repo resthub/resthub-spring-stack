@@ -1,4 +1,4 @@
-package org.resthub.jpa.test;
+package org.resthub.jpa;
 
 import org.fest.assertions.data.MapEntry;
 import org.resthub.test.AbstractTransactionalTest;
