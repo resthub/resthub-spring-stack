@@ -35,7 +35,8 @@ public class JsonHelper {
 
     /**
      * Return the ObjectMapper. It can be used to customize serialization/deserialization configuration.
-     * @return 
+     *
+     * @return the current object mapper instance
      */
     public ObjectMapper getObjectMapper() {
         if (objectMapper == null)

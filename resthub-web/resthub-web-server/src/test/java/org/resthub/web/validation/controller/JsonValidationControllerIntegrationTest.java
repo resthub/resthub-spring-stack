@@ -4,7 +4,6 @@ import org.apache.commons.io.IOUtils;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
 import org.resthub.web.Response;
-import org.resthub.web.validation.ModelConstraint;
 import org.resthub.web.validation.model.*;
 import org.testng.annotations.Test;
 
@@ -33,7 +32,7 @@ public class JsonValidationControllerIntegrationTest extends AbstractWebTest {
         String jsonFile = writer.toString();
         Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en").get();
 
-        Assertions.assertThat(response.getBody()).isEqualTo(jsonFile);
+        Assertions.assertThat(response.getBody().replaceAll("(\\r|\\n)", "")).isEqualTo(jsonFile.replaceAll("(\\r|\\n)", ""));
     }
 
     @Test
@@ -59,7 +58,7 @@ public class JsonValidationControllerIntegrationTest extends AbstractWebTest {
 
         Response response = this.request("api/validation/" + AModel.class.getCanonicalName()).setQueryParameter("locale", "en-en").get();
 
-        Assertions.assertThat(response.getBody()).isEqualTo(jsonFile);
+        Assertions.assertThat(response.getBody().replaceAll("(\\r|\\n)", "")).isEqualTo(jsonFile.replaceAll("(\\r|\\n)", ""));
     }
 
     @Test

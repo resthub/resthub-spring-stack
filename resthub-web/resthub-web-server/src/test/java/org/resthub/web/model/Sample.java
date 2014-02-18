@@ -44,29 +44,22 @@ public class Sample {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Sample other = (Sample) obj;
-        if ((this.id == null) ? (other.getId() != null) : !this.id.equals(other.getId())) {
-            return false;
-        }
-        if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName())) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Sample)) return false;
 
-        return true;
+        Sample sample = (Sample) o;
+
+        return !(id != null ? !id.equals(sample.id) : sample.id != null)
+                && !(name != null ? !name.equals(sample.name) : sample.name != null);
+
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 43 * hash + (this.id == null ? 0 : this.id.hashCode());
-        return hash;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 
     @Override

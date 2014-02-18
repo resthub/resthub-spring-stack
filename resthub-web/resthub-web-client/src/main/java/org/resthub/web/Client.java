@@ -95,8 +95,8 @@ public class Client implements Closeable {
     /**
      * Sets the authentication header for the current client.
      *
-     * @param username
-     * @param password
+     * @param username username identifier
+     * @param password user password
      * @param scheme   authentication scheme
      */
     public Client setAuth(String username, String password, AuthScheme scheme) {
@@ -113,7 +113,7 @@ public class Client implements Closeable {
      * This HTTP Client wrapper already has methods (like setOAuth2()) that
      * set the OAuth2 configuration on the client.
      *
-     * @param builder
+     * @param builder builder to set
      */
     public Client setOAuth2Builder(OAuth2Config.Builder builder) {
         this.oAuth2ConfigBuilder = builder;
@@ -238,8 +238,10 @@ public class Client implements Closeable {
         /**
          * Sets a header with the given name, this can be called repeatedly
          *
-         * @param name
-         * @param value
+         * @param name header name to set
+         * @param value header value to set
+         *
+         * @return the current {@code RequestHolder} instance
          */
         public RequestHolder setHeader(String name, String value) {
             if (headers.containsKey(name)) {
@@ -257,8 +259,10 @@ public class Client implements Closeable {
          * Sets a query parameter with the given name,this can be called
          * repeatedly
          *
-         * @param name
-         * @param value
+         * @param name parameter name to set
+         * @param value parameter value to set
+         *
+         * @return the current {@code RequestHolder} instance
          */
         public RequestHolder setQueryParameter(String name, String value) {
             if (queryParameters.containsKey(name)) {
@@ -280,8 +284,9 @@ public class Client implements Closeable {
         /**
          * Adds a cookie
          *
-         * @param cookie
-         * @return
+         * @param cookie cookie object to add
+         *
+         * @return the current {@code RequestHolder} instance
          */
         public RequestHolder addCookie(Cookie cookie) {
             cookies.add(cookie);
