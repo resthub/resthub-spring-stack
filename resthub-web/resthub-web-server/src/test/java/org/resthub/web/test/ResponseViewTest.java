@@ -17,8 +17,7 @@ public class ResponseViewTest extends AbstractWebTest {
 
     @Test
     public void testFullListJson() {
-        List<Book> books = this.request("book").jsonGet().resource(new TypeReference<List<Book>>() {
-        });
+        List<Book> books = this.request("book").jsonGet().resource(new TypeReference<List<Book>>() {});
         Assertions.assertThat(books).isNotNull();
         Assertions.assertThat(books.size()).isEqualTo(2);
         Assertions.assertThat(books).contains(new Book("Effective Java","Joshua Bloch","Essential",1));

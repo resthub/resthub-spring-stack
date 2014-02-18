@@ -53,7 +53,7 @@ public class XmlSerializationHelperTest {
 
     @Test
     public void testDeserialization() {
-        SampleResource r = (SampleResource) XmlHelper.deserialize(xml, SampleResource.class);
+        SampleResource r = XmlHelper.deserialize(xml, SampleResource.class);
         Assertions.assertThat(r.getId()).isEqualTo(123);
         Assertions.assertThat(r.getName()).isEqualTo("Albert");
         Assertions.assertThat(r.getDescription()).isEqualTo("desc");

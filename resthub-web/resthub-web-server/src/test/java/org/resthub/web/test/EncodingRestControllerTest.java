@@ -6,8 +6,6 @@ import org.resthub.web.model.Sample;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 
 public class EncodingRestControllerTest extends AbstractWebTest {
 

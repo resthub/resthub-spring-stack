@@ -1,9 +1,5 @@
 package org.resthub.web.validation.model;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 public class NoConstraintsModel {
 
     private String field2;

@@ -16,7 +16,7 @@ import java.util.List;
  * Implementation of Page compatible with Jackson deserialization (default constructor + setters)
  */
 @XmlRootElement
-public class PageResponse<T extends Object> implements Page<T> {
+public class PageResponse<T> implements Page<T> {
     
     protected int number;
     protected int size;
@@ -143,6 +143,6 @@ public class PageResponse<T extends Object> implements Page<T> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public interface View {};
+    public interface View {}
     
 }

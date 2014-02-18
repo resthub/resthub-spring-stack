@@ -33,7 +33,7 @@ public class LogController {
      * REST webservice published : POST /api/log
      *
      * @param log the log sent by the client
-     * @return OK http status code if the request has been correctly processed
+     * @param userAgent user Agent sent by the cient in Header
      */
     @RequestMapping(value = "api/log", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
@@ -61,8 +61,8 @@ public class LogController {
      * Multiple log handling<br />
      * REST webservice published : POST /api/logs
      *
-     * @param log An array of logs sent by the client
-     * @return OK http status code if the request has been correctly processed
+     * @param logs An array of logs sent by the client
+     * @param userAgent user Agent sent by the cient in Header
      */
     @RequestMapping(value = "api/logs", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)

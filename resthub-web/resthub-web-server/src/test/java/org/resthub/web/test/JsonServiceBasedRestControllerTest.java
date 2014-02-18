@@ -29,7 +29,7 @@ public class JsonServiceBasedRestControllerTest extends AbstractWebTest {
     public void testCreateResource() {
         Sample r = new Sample("toto");
         Response response = this.request("service-based").jsonPost(r);
-        r = (Sample) response.resource(r.getClass());
+        r = response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
