@@ -3,9 +3,7 @@ package org.resthub.jpa;
 import org.fest.assertions.api.Assertions;
 import org.hibernate.ObjectNotFoundException;
 import org.resthub.common.model.RestError;
-import org.resthub.web.Response;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.WebRequest;
@@ -15,8 +13,7 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class JpaHandlerExceptionHandlerTest {
 
@@ -91,6 +88,7 @@ public class JpaHandlerExceptionHandlerTest {
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getStatusCode()).isNotNull().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        Assertions.assertThat(response.getBody()).isNull();
     }
 
 
