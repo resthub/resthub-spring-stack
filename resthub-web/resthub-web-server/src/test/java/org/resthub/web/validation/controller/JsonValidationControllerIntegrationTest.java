@@ -4,7 +4,6 @@ import org.apache.commons.io.IOUtils;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
 import org.resthub.web.Response;
-import org.resthub.web.validation.ModelConstraint;
 import org.resthub.web.validation.model.*;
 import org.testng.annotations.Test;
 

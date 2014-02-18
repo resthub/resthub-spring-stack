@@ -8,7 +8,6 @@ import org.resthub.web.Http;
 import org.resthub.web.Response;
 import org.resthub.web.exception.BadRequestClientException;
 import org.resthub.web.exception.NotFoundClientException;
-import org.resthub.web.exception.NotImplementedClientException;
 import org.resthub.web.model.Sample;
 import org.springframework.data.domain.Page;
 import org.testng.annotations.AfterMethod;
@@ -31,7 +30,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     public void testCreateResource() {
         Sample r = new Sample("toto");
         Response response = this.request("repository-based").xmlPost(r);
-        r = (Sample) response.resource(r.getClass());
+        r = response.resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
         Assertions.assertThat(r.getName()).isEqualTo("toto");
     }
@@ -104,7 +103,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     @Test(expectedExceptions = {NotFoundClientException.class})
     public void testDeleteResource() {
         Sample r = new Sample("toto");
-        r = (Sample) this.request("repository-based").xmlPost(r).resource(r.getClass());
+        r = this.request("repository-based").xmlPost(r).resource(r.getClass());
         Assertions.assertThat(r).isNotNull();
 
         Response response = this.request("repository-based/" + r.getId()).delete();
@@ -116,7 +115,7 @@ public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
     @Test
     public void testFindResource() {
         Sample r = new Sample("toto");
-        r = (Sample) this.request("repository-based").xmlPost(r).resource(r.getClass());
+        r = this.request("repository-based").xmlPost(r).resource(r.getClass());
 
         Response response = this.request("repository-based/" + r.getId()).get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);

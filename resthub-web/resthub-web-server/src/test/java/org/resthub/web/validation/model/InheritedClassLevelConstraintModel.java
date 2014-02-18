@@ -1,7 +1,5 @@
 package org.resthub.web.validation.model;
 
-import org.resthub.web.validation.constraints.TestConstraint;
-
 import javax.validation.constraints.Size;
 
 public class InheritedClassLevelConstraintModel extends ClassLevelConstraintModel {

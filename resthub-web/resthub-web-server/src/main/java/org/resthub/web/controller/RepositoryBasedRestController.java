@@ -1,7 +1,6 @@
 package org.resthub.web.controller;
 
 import org.resthub.common.exception.NotFoundException;
-import org.resthub.common.exception.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -9,10 +8,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Set;
 
 /**
  * Abstract REST controller using a repository implementation
@@ -76,7 +77,7 @@ public abstract class RepositoryBasedRestController<T, ID extends Serializable, 
     public T update(@PathVariable ID id, @RequestBody T resource) {
         Assert.notNull(id, "id cannot be null");
 
-        T retrievedResource = (T)this.findById(id);
+        T retrievedResource = this.findById(id);
         if (retrievedResource == null) {
             throw new NotFoundException();
         }

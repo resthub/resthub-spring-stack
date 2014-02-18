@@ -65,12 +65,11 @@ public class Book {
 
         Book book = (Book) o;
 
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-        if (id != null ? !id.equals(book.id) : book.id != null) return false;
-        if (review != null ? !review.equals(book.review) : book.review != null) return false;
-        if (title != null ? !title.equals(book.title) : book.title != null) return false;
+        return !(author != null ? !author.equals(book.author) : book.author != null)
+                && !(id != null ? !id.equals(book.id) : book.id != null)
+                && !(review != null ? !review.equals(book.review) : book.review != null)
+                && !(title != null ? !title.equals(book.title) : book.title != null);
 
-        return true;
     }
 
     @Override

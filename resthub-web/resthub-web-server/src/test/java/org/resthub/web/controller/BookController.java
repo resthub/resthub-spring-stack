@@ -39,9 +39,7 @@ public class BookController {
     @ResponseView(Book.SummaryView.class)
     public @ResponseBody Page<Book> getBookSummariesPaginated(@RequestParam(value = "page", required = true, defaultValue = "1") Integer page)
     {
-        PageImpl<Book> books= new PageImpl<Book>(data);
-
-        return books;
+        return new PageImpl<Book>(data);
     }
     @RequestMapping("{id}/summary")
     @ResponseView(Book.SummaryView.class)

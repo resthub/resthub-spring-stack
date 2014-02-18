@@ -38,8 +38,7 @@ public class XmlHelper {
     }
 
     /**
-     * Return the objectMapper. It can be used to customize serialization/deserialization configuration.
-     * @return 
+     * @return  the objectMapper. It can be used to customize serialization/deserialization configuration.
      */
     public ObjectMapper getObjectMapper() {
         if (objectMapper == null)

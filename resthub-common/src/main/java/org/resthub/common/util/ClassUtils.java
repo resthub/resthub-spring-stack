@@ -32,12 +32,11 @@ public abstract class ClassUtils {
     }
 
     /**
-     * Returns the generic type with the given index from the given {@link Class}. Scan all base classes until finding a
-     * generic type.
+     * Returns the generic type with the given index from the given {@link Class}.
+     * Scan all base classes until finding a generic type.
      * 
-     * @param clazz
-     *            Class where seeking the generic type
-     * @param index
+     * @param clazz Class where seeking the generic type
+     * @param index index of the generic type to find in the actual type array
      * @return the generic type
      */
     public static Class<?> getGenericType(Class<?> clazz, int index) {
