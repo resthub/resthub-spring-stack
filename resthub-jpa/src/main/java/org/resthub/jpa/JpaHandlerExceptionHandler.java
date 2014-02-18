@@ -30,51 +30,29 @@ public class JpaHandlerExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleCustomException(Exception ex, WebRequest request) {
 
         HttpHeaders headers = new HttpHeaders();
+        HttpStatus status;
 
         if (ex instanceof ObjectNotFoundException) {
-            HttpStatus status = HttpStatus.NOT_FOUND;
-            return handleObjectNotFound((ObjectNotFoundException) ex, headers, status, request);
-        }
-        else if (ex instanceof EntityNotFoundException) {
-            HttpStatus status = HttpStatus.NOT_FOUND;
-            return handleEntityNotFound((EntityNotFoundException) ex, headers, status, request);
-        }
-        else if (ex instanceof EntityExistsException) {
-            HttpStatus status = HttpStatus.CONFLICT;
-            return handleEntityExists((EntityExistsException) ex, headers, status, request);
+            status = HttpStatus.NOT_FOUND;
+        } else if (ex instanceof EntityNotFoundException) {
+            status = HttpStatus.NOT_FOUND;
+        } else if (ex instanceof EntityExistsException) {
+            status = HttpStatus.CONFLICT;
         } else if (ex instanceof DataIntegrityViolationException) {
-            HttpStatus status = HttpStatus.CONFLICT;
-            return handleDataIntegrityViolation((DataIntegrityViolationException) ex, headers, status, request);
-        }
-        else {
+            status = HttpStatus.CONFLICT;
+        } else {
             logger.warn("Unknown exception type: " + ex.getClass().getName());
-            HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
             return handleExceptionInternal(ex, null, headers, status, request);
         }
+
+        return handleExceptionInternal(ex, buildRestError(ex, status), headers, status, request);
     }
 
-    protected ResponseEntity<Object> handleObjectNotFound(ObjectNotFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private RestError buildRestError(Exception ex, HttpStatus status) {
         RestError.Builder builder = new RestError.Builder();
         builder.setCode(status.value()).setStatus(status.getReasonPhrase()).setThrowable(ex);
-        return handleExceptionInternal(ex, builder.build(), headers, status, request);
-    }
-
-    protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        RestError.Builder builder = new RestError.Builder();
-        builder.setCode(status.value()).setStatus(status.getReasonPhrase()).setThrowable(ex);
-        return handleExceptionInternal(ex, builder.build(), headers, status, request);
-    }
-
-    protected ResponseEntity<Object> handleEntityExists(EntityExistsException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        RestError.Builder builder = new RestError.Builder();
-        builder.setCode(status.value()).setStatus(status.getReasonPhrase()).setThrowable(ex);
-        return handleExceptionInternal(ex, builder.build(), headers, status, request);
-    }
-
-    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        RestError.Builder builder = new RestError.Builder();
-        builder.setCode(status.value()).setStatus(status.getReasonPhrase()).setThrowable(ex);
-        return handleExceptionInternal(ex, builder.build(), headers, status, request);
+        return builder.build();
     }
 
 }
