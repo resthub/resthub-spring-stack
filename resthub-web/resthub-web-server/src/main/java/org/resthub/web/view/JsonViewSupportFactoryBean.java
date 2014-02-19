@@ -20,8 +20,7 @@ public class JsonViewSupportFactoryBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        HandlerMethodReturnValueHandlerComposite returnValueHandlers = adapter.getReturnValueHandlers();
-        List<HandlerMethodReturnValueHandler> handlers = new ArrayList<HandlerMethodReturnValueHandler>(returnValueHandlers.getHandlers());
+        List<HandlerMethodReturnValueHandler> handlers = new ArrayList<HandlerMethodReturnValueHandler>(adapter.getReturnValueHandlers());
         decorateHandlers(handlers);
         adapter.setReturnValueHandlers(handlers);
     }
