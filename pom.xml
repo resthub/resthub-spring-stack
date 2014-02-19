@@ -10,7 +10,7 @@
 
     <groupId>org.resthub</groupId>
     <artifactId>resthub-spring-stack</artifactId>
-    <version>2.1.5-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>RESThub Spring stack</name>
     <url>http://resthub.org</url>
@@ -19,8 +19,8 @@
     <properties>
         <env>local</env>
 
-        <spring.version>3.2.7.RELEASE</spring.version>
-        <spring.data.commons.version>1.6.3.RELEASE</spring.data.commons.version>
+        <spring.version>4.0.2.RELEASE</spring.version>
+        <spring.data.commons.version>1.6.4.RELEASE</spring.data.commons.version>
 
         <logback.version>1.1.1</logback.version>
         <slf4j.version>1.7.6</slf4j.version>

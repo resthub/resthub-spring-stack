@@ -36,7 +36,7 @@ public class SluggableRepositoryBasedRestControllerTest extends AbstractWebTest 
     @Test
     public void testFindResource() {
         Sample r = new Sample("toto");
-        r = this.request("sluggable-repository-based").jsonPost(r).resource(r.getClass());
+        this.request("sluggable-repository-based").jsonPost(r).resource(r.getClass());
 
         Response response = this.request("sluggable-repository-based/toto").get();
         Assertions.assertThat(response.getStatus()).isEqualTo(Http.OK);

@@ -30,7 +30,7 @@ public class JsonSerializationHelperTest {
 
     @Test
     public void testDeserialization() {
-        SampleResource r = (SampleResource) JsonHelper.deserialize(json, SampleResource.class);
+        SampleResource r = JsonHelper.deserialize(json, SampleResource.class);
         Assertions.assertThat(r.getId()).isEqualTo(123);
         Assertions.assertThat(r.getName()).isEqualTo("Albert");
         Assertions.assertThat(r.getDescription()).isEqualTo("desc");

@@ -89,7 +89,7 @@ public class TestOAuth2Client {
 
     @Test(expectedExceptions = {UnauthorizedClientException.class})
     public void testUnauthorizeRequest() {
-        Response response = new Client().url(BASE_URL + "/api/resource/hello").jsonGet();
+        new Client().url(BASE_URL + "/api/resource/hello").jsonGet();
     }
 
     @Test

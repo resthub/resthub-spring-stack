@@ -3,11 +3,7 @@ package org.resthub.web.test;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.fest.assertions.api.Assertions;
 import org.resthub.test.AbstractWebTest;
-import org.resthub.web.PageResponse;
-import org.resthub.web.model.Book;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 public class BasicDotsInUrlTest extends AbstractWebTest {
 

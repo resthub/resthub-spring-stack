@@ -38,13 +38,14 @@ public class ViewInjectingReturnValueHandler implements
         delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
     }
     /**
-     * Returns the view class declared on the method, if it exists.
+     * @param method [@code MethodParameter} object representing method and its
+     * parameters
+     *
+     * @return the view class declared on the method, if it exists.
      * Otherwise, returns null.
-     * @param returnType
-     * @return
      */
-    private Class<?> getDeclaredViewClass(MethodParameter returnType) {
-        ResponseView annotation = returnType.getMethodAnnotation(ResponseView.class);
+    private Class<?> getDeclaredViewClass(MethodParameter method) {
+        ResponseView annotation = method.getMethodAnnotation(ResponseView.class);
         if (annotation != null)
         {
             return annotation.value();
@@ -53,7 +54,6 @@ public class ViewInjectingReturnValueHandler implements
         }
     }
     private Object wrapResult(Object result, Class<?> viewClass) {
-        PojoView response = new PojoView(result, viewClass);
-        return response;
+        return new PojoView(result, viewClass);
     }
 }

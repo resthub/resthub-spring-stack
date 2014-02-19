@@ -1,12 +1,6 @@
-package org.resthub.web.model;
+package org.resthub.common.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
 public class Sample {
-
     private Long id;
     private String name;
 
@@ -25,8 +19,6 @@ public class Sample {
         this.name = webSampleResource.getName();
     }
 
-    @Id
-    @GeneratedValue
     public Long getId() {
         return id;
     }
@@ -60,10 +52,5 @@ public class Sample {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "WebSampleResource[" + getId() + "," + getName() + "]";
     }
 }
