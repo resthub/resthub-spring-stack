@@ -27,9 +27,13 @@ import java.util.Locale;
 @RequestMapping("/api/validation")
 public class ValidationController {
 
+    private ValidationService validationService;
+
     @Inject
     @Named("validationService")
-    private ValidationService validationService;
+    public void setService(ValidationService validationService) {
+        this.validationService = validationService;
+    }
 
     /**
      * Exposes an "/api/validation/{canonicalClassName}" endpoint to get all validation constraints for a given
@@ -78,7 +82,7 @@ public class ValidationController {
      *
      * @return a new {@link Locale} instance built from locale String parameter
      */
-    private Locale parseLocale(String locale) {
+    Locale parseLocale(String locale) {
         Locale loc;
         String[] locs = locale.split("-");
 

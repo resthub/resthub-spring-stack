@@ -10,8 +10,9 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * CRUD service that uses a Spring Data repository implementation
- * You should extend it and inject your Repository bean by overriding setRepository
+ * CRUD service that uses a {@link org.springframework.data.repository.PagingAndSortingRepository} Spring Data repository implementation
+ *
+ * You should extend it and inject your Repository bean by overriding {@link #setRepository(org.springframework.data.repository.PagingAndSortingRepository)}
  *
  * @param <T> Your resource class to manage, usually an entity class
  * @param <ID> Resource id type, usually Long or String
@@ -24,8 +25,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
     protected R repository;
 
     /**
-     * @param repository
-     *            the repository to set
+     * @param repository the repository to set
      */
     public void setRepository(R repository) {
         this.repository = repository;
@@ -106,6 +106,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      */
     @Override
     public Iterable<T> findByIds(Set<ID> ids) {
+        Assert.notNull(ids, "Resource ids can't be null");
         return repository.findAll(ids);
     }
 
@@ -122,6 +123,7 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends PagingAndSort
      */
     @Override
     public Page<T> findAll(Pageable pageRequest) {
+        Assert.notNull(pageRequest, "page request can't be null");
         return repository.findAll(pageRequest);
     }
 
