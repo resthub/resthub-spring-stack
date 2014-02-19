@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 public class HttpExceptionTest {
     
     @Test(expectedExceptions=IllegalArgumentException.class)
-    public void testUnvalidStatusCode() {
+    public void testInvalidStatusCode() {
         ClientExceptionFactory.createHttpExceptionFromStatusCode(900);
     }
     

@@ -1,5 +1,6 @@
 package org.resthub.web.validation;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -106,12 +107,13 @@ public class ModelConstraint {
      */
     private Map<String, List<ValidationConstraint>> constraints;
 
-    public ModelConstraint(String modelRef) {
+    @JsonCreator
+    public ModelConstraint(@JsonProperty("model") String modelRef) {
         this.modelRef = modelRef;
         this.constraints = new HashMap<String, List<ValidationConstraint>>();
     }
 
-    @JsonProperty(value = "model")
+    @JsonProperty("model")
     public String getModelRef() {
         return modelRef;
     }
@@ -149,5 +151,22 @@ public class ModelConstraint {
         propertyConstraints.add(constraint);
 
         return this.constraints.put(property, propertyConstraints);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ModelConstraint)) return false;
+
+        ModelConstraint that = (ModelConstraint) o;
+
+        if (modelRef != null ? !modelRef.equals(that.modelRef) : that.modelRef != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return modelRef != null ? modelRef.hashCode() : 0;
     }
 }
