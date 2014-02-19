@@ -1,0 +1,281 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] RESThub Spring stack
+[INFO] RESThub Common
+[INFO] RESThub Webservice
+[INFO] RESThub Webservice Common
+[INFO] RESThub Webservice Client
+[INFO] RESThub Test
+[INFO] RESThub JPA
+[INFO] RESThub MongoDB
+[INFO] RESThub Webservice Server
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub Spring stack 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-spring-stack ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-spring-stack ---
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub Common 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-common ---
+[INFO] Deleting D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-common\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-common ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ resthub-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ resthub-common ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 13 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-common\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ resthub-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ resthub-common ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 5 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-common\target\test-classes
+[WARNING] /D:/Dev/workspaces/resthub2/resthub-spring-stack/resthub-common/src/test/java/org/resthub/common/service/CrudServiceTest.java: D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-common\src\test\java\org\resthub\common\service\CrudServiceTest.java uses unchecked or unsafe operations.
+[WARNING] /D:/Dev/workspaces/resthub2/resthub-spring-stack/resthub-common/src/test/java/org/resthub/common/service/CrudServiceTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.15:test (default-test) @ resthub-common ---
+[INFO] Surefire report directory: D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-common\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+Configuring TestNG with: TestNG652Configurator
+Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.008 sec - in TestSuite
+
+Results :
+
+Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub Webservice 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-web ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-web ---
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub Webservice Common 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-web-common ---
+[INFO] Deleting D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-common\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-web-common ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ resthub-web-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-common\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ resthub-web-common ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 17 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-common\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ resthub-web-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ resthub-web-common ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 5 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-common\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.15:test (default-test) @ resthub-web-common ---
+[INFO] Surefire report directory: D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-common\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+Configuring TestNG with: TestNG652Configurator
+Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.721 sec - in TestSuite
+
+Results :
+
+Tests run: 28, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub Webservice Client 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-web-client ---
+[INFO] Deleting D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-client\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-web-client ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ resthub-web-client ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-client\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ resthub-web-client ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 14 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-client\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ resthub-web-client ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ resthub-web-client ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 3 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-client\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.15:test (default-test) @ resthub-web-client ---
+[INFO] Surefire report directory: D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-client\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+Configuring TestNG with: TestNG652Configurator
+11:04:06 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Looking for exception mappings: WebApplicationContext for namespace 'spring-servlet': startup date [Wed Feb 19 11:04:04 CET 2014]; root of context hierarchy
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.066 sec - in TestSuite
+
+Results :
+
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub Test 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-test ---
+[INFO] Deleting D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-test\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-test ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ resthub-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-test\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ resthub-test ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-test\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ resthub-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ resthub-test ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.15:test (default-test) @ resthub-test ---
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub JPA 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-jpa ---
+[INFO] Deleting D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-jpa\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-jpa ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ resthub-jpa ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ resthub-jpa ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-jpa\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ resthub-jpa ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ resthub-jpa ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 5 source files to D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-jpa\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.15:test (default-test) @ resthub-jpa ---
+[INFO] Surefire report directory: D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-jpa\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+Configuring TestNG with: TestNG652Configurator
+11:04:19 [main] WARN  o.r.j.JpaHandlerExceptionHandler - Unknown exception type: java.lang.Exception
+11:04:19 [main] WARN  o.h.j.i.EntityManagerFactoryRegistry - HHH000436: Entity manager factory name (default) is already registered.  If entity manager will be clustered or passivated, specify a unique value for property 'hibernate.ejb.entitymanager_factory_name'
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.035 sec - in TestSuite
+
+Results :
+
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub MongoDB 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-mongodb ---
+[INFO] Deleting D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-mongodb\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ resthub-mongodb ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ resthub-mongodb ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ resthub-mongodb ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ resthub-mongodb ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ resthub-mongodb ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.15:test (default-test) @ resthub-mongodb ---
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building RESThub Webservice Server 2.2.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ resthub-web-server ---
+[INFO] Deleting D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-server\target
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] RESThub Spring stack .............................. SUCCESS [0.598s]
+[INFO] RESThub Common .................................... SUCCESS [7.002s]
+[INFO] RESThub Webservice ................................ SUCCESS [0.018s]
+[INFO] RESThub Webservice Common ......................... SUCCESS [4.006s]
+[INFO] RESThub Webservice Client ......................... SUCCESS [8.146s]
+[INFO] RESThub Test ...................................... SUCCESS [0.799s]
+[INFO] RESThub JPA ....................................... SUCCESS [13.794s]
+[INFO] RESThub MongoDB ................................... SUCCESS [0.218s]
+[INFO] RESThub Webservice Server ......................... FAILURE [2.257s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 37.108s
+[INFO] Finished at: Wed Feb 19 11:04:26 CET 2014
+[INFO] Final Memory: 23M/317M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-clean-plugin:2.5:clean (default-clean) on project resthub-web-server: Failed to clean project: Failed to delete D:\Dev\workspaces\resthub2\resthub-spring-stack\resthub-web\resthub-web-server\target\classes\org\resthub\web -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <goals> -rf :resthub-web-server
