@@ -1,0 +1,43 @@
+<beans profile="resthub-pool-hikaricp" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="hikariCPDataSourceFactory" class="org.resthub.jpa.pool.HikariCPDataSourceFactory"/>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown"
+          factory-bean="hikariCPDataSourceFactory" factory-method="create">
+        <constructor-arg ref="dataSourceProperties"/>
+    </bean>
+
+    <!-- we must map all configuration props to allow overriding any prop in database.properties-->
+    <util:properties id="dataSourceProperties">
+        <prop key="dataSource.user">${dataSource.username}</prop>
+        <prop key="dataSource.password">${dataSource.password}</prop>
+        <prop key="dataSource.url">${dataSource.url}</prop>
+        <prop key="dataSource.databaseName">${dataSource.databaseName}</prop>
+        <prop key="dataSource.serverName">${dataSource.serverName}</prop>
+        <prop key="dataSourceClassName">${dataSource.dataSourceClassName}</prop>
+        <prop key="connectionTestQuery">${dataSource.connectionTestQuery}</prop>
+        <prop key="acquireIncrement">${dataSource.acquireIncrement}</prop>
+        <prop key="acquireRetries">${dataSource.acquireRetries}</prop>
+        <prop key="acquireRetryDelay">${dataSource.acquireRetryDelay}</prop>
+        <prop key="autoCommit">${dataSource.autoCommit}</prop>
+        <prop key="connectionInitSql">${dataSource.connectionInitSql}</prop>
+        <prop key="connectionTimeout">${dataSource.connectionTimeout}</prop>
+        <prop key="idleTimeout">${dataSource.idleTimeout}</prop>
+        <prop key="initializationFailFast">${dataSource.initializationFailFast}</prop>
+        <prop key="jdbc4ConnectionTest">${dataSource.jdbc4ConnectionTest}</prop>
+        <prop key="leakDetectionThreshold">${dataSource.leakDetectionThreshold}</prop>
+        <prop key="maxLifetime">${dataSource.maxLifetime}</prop>
+        <prop key="maximumPoolSize">${dataSource.maximumPoolSize}</prop>
+        <prop key="minimumPoolSize">${dataSource.minimumPoolSize}</prop>
+        <prop key="poolName">${dataSource.poolName}</prop>
+        <prop key="registerMbeans">${dataSource.registerMbeans}</prop>
+        <prop key="transactionIsolation">${dataSource.transactionIsolation}</prop>
+    </util:properties>
+
+</beans>

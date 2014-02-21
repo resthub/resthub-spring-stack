@@ -14,9 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@ActiveProfiles("resthub-jpa")
+@ActiveProfiles({"resthub-jpa", "resthub-pool-hikaricp"})
 @ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:jpa-test-context.xml"})
-
 public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
     @Inject

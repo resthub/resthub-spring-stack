@@ -16,7 +16,7 @@ import javax.inject.Named;
 import java.lang.reflect.InvocationTargetException;
 
 @ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:hikaricp-test-context.xml"})
-@ActiveProfiles({"resthub-jpa"})
+@ActiveProfiles({"resthub-jpa", "resthub-pool-hikaricp"})
 public class HikariCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpringContextTests {
 
     @Inject

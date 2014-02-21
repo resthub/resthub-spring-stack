@@ -20,7 +20,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class CorsFilterTest extends AbstractWebTest {
 
     public CorsFilterTest() {
-        super("resthub-web-server,resthub-jpa", 9798);
+        super("resthub-web-server,resthub-jpa,resthub-pool-hikaricp", 9798);
         this.startServerOnce=false;
     }
 
