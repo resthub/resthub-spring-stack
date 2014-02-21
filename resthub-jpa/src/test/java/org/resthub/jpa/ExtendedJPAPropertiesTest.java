@@ -12,7 +12,7 @@ import javax.persistence.PersistenceUnit;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @ActiveProfiles("resthub-jpa")
-@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:extendedJPAApplicationContext.xml"})
+@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:extendedJPAApplicationContext.xml", "classpath:jpa-test-context.xml"})
 public class ExtendedJPAPropertiesTest extends AbstractTransactionalTest {
 
     @PersistenceUnit

@@ -1,5 +1,7 @@
 package org.resthub.jpa.pool;
 
+import org.springframework.beans.factory.FactoryBean;
+
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;

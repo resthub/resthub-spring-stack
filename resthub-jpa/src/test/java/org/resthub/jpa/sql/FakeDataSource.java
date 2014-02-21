@@ -3,10 +3,7 @@ package org.resthub.jpa.sql;
 import org.h2.jdbcx.JdbcDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.mock;
@@ -19,6 +16,7 @@ public class FakeDataSource extends JdbcDataSource implements DataSource {
     public FakeDataSource() {
         try {
             when(this.mockedConnection.createStatement()).thenReturn(mock(Statement.class));
+            when(this.mockedConnection.getMetaData()).thenReturn(mock(DatabaseMetaData.class));
         } catch (SQLException e) {
             e.printStackTrace();
         }

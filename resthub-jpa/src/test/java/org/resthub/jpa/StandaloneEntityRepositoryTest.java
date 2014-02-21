@@ -5,6 +5,7 @@ import org.resthub.jpa.model.StandaloneEntity;
 import org.resthub.jpa.repository.StandaloneEntityRepository;
 import org.resthub.test.AbstractTransactionalTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -14,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @ActiveProfiles("resthub-jpa")
+@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:jpa-test-context.xml"})
+
 public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
     @Inject
