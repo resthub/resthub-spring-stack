@@ -19,7 +19,7 @@
     <properties>
         <env>local</env>
 
-        <spring.version>3.2.7.RELEASE</spring.version>
+        <spring.version>4.0.2.RELEASE</spring.version>
         <spring.data.commons.version>1.6.4.RELEASE</spring.data.commons.version>
 
         <logback.version>1.1.1</logback.version>
