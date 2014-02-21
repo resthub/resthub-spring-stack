@@ -23,13 +23,10 @@
 
         <!-- BoneCP Resthub specific defaults -->
         <prop key="dataSource.driverClassName">org.h2.Driver</prop>
-        <!--prop key="dataSource.url">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1;MVCC=TRUE</prop>
-        <prop key="dataSource.username">sa</prop>
-        <prop key="dataSource.password"></prop-->
         <prop key="dataSource.minConnectionsPerPartition">2</prop>
         <prop key="dataSource.maxConnectionsPerPartition">4</prop>
         <prop key="dataSource.partitionCount">3</prop>
-        <prop key="dataSource.idleConnectionTestPeriodInSeconds">60</prop>
+        <prop key="dataSource.idleConnectionTestPeriodInMinutes">1</prop>
         <prop key="dataSource.statementsCacheSize">100</prop>
         <prop key="dataSource.connectionTestStatement">/* ping*/ SELECT 1</prop>
 
@@ -38,11 +35,13 @@
         <prop key="dataSource.connectionTestQuery">/* ping*/ SELECT 1</prop>
         <prop key="dataSource.maximumPoolSize">12</prop>
         <prop key="dataSource.minimumPoolSize">6</prop>
-        <prop key="dataSource.poolName">ResthubDBPool</prop>
         <prop key="dataSource.registerMbeans">false</prop>
+
+        <!-- Common Resthub Defaults -->
         <prop key="dataSource.url">jdbc:h2:mem:resthub</prop>
         <prop key="dataSource.username">sa</prop>
         <prop key="dataSource.password"></prop>
+        <prop key="dataSource.poolName">ResthubDBPool</prop>
 
         <!-- JPA & Hibernate Resthub specific defaults -->
         <prop key="hibernate.show_sql">false</prop>

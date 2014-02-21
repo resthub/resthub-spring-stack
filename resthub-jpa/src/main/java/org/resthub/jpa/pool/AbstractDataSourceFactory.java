@@ -1,7 +1,5 @@
 package org.resthub.jpa.pool;
 
-import org.springframework.beans.factory.FactoryBean;
-
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
@@ -21,8 +19,7 @@ public abstract class AbstractDataSourceFactory<T extends DataSource> {
     private Class<? extends T> dsClass;
 
     public DataSource create(Class<? extends T> clazz, Properties dsProperties)
-            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
-            InstantiationException, IllegalAccessException {
+            throws Exception {
         this.dsClass = clazz;
         return this.create(dsProperties);
     }
@@ -38,8 +35,7 @@ public abstract class AbstractDataSourceFactory<T extends DataSource> {
      * @return the new DataSource instance.
      */
     public DataSource create(Properties dsProperties)
-            throws ClassNotFoundException, NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException {
+            throws Exception {
         Properties configProperties = new Properties();
 
         if (dsProperties != null) {
@@ -87,20 +83,9 @@ public abstract class AbstractDataSourceFactory<T extends DataSource> {
      * @throws InstantiationException    if the class that declares the underlying constructor represents an abstract class
      */
     protected DataSource callConstructor(Class<? extends T> clazz, Properties configProperties)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
-            InstantiationException {
+            throws Exception {
         return clazz.getConstructor().newInstance();
     }
-
-    /**
-     * Initialize {@link javax.sql.DataSource} configuration
-     * <p/>
-     * This method should be overridden to use specific dataSource concrete class configuration setup.
-     *
-     * @param dataSource       dataSource object to configure. Cannot be null.
-     * @param configProperties configuration properties. Cannot be null
-     */
-    protected abstract void initConfig(DataSource dataSource, Properties configProperties);
 
     /**
      * Instantiate a concrete dataSource instance depending on the
@@ -110,16 +95,11 @@ public abstract class AbstractDataSourceFactory<T extends DataSource> {
      * @return the new created and configured {@link javax.sql.DataSource} instance
      */
     protected DataSource instantiateDataSource(Properties configProperties)
-            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
+            throws Exception {
         DataSource dataSource = null;
 
         if (this.dsClass != null) {
             dataSource = this.callConstructor(this.dsClass, configProperties);
-        }
-
-        if (dataSource != null && configProperties != null) {
-            this.initConfig(dataSource, configProperties);
         }
 
         return dataSource;

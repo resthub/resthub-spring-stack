@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="boneCPDataSourceFactory" class="org.resthub.jpa.pool.BoneCPDataSourceTestFactory"/>
+
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPTestDataSource" destroy-method="close"
+          factory-bean="boneCPDataSourceFactory" factory-method="create">
+        <constructor-arg ref="dataSourceProperties"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.resthub.jpa.factory.FakeEntityManagerFactory"/>
+
+</beans>

@@ -30,16 +30,6 @@ public class HikariCPDataSourceFactory extends AbstractDataSourceFactory<HikariD
     }
 
     /**
-     * Empty method because Hikari set configuration in constructor only
-     *
-     * @see HikariCPDataSourceFactory#callConstructor(Class, java.util.Properties)
-     */
-    @Override
-    protected void initConfig(DataSource dataSource, Properties configProperties) {
-        // empty method because Hikari set configuration in constructor
-    }
-
-    /**
      * Initialize a new {@link com.zaxxer.hikari.HikariDataSource} instance with given configuration
      * properties
      *

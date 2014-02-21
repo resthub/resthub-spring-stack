@@ -6,19 +6,28 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
-        <property name="driverClass" value="${dataSource.driverClassName}" />
-        <property name="jdbcUrl" value="${dataSource.url}" />
-        <property name="username" value="${dataSource.username}"/>
-        <property name="password" value="${dataSource.password}"/>
+    <bean id="boneCPDataSourceFactory" class="org.resthub.jpa.pool.BoneCPDataSourceFactory"/>
 
-        <property name="maxConnectionsPerPartition" value="${dataSource.maxConnectionsPerPartition}"/>
-        <property name="minConnectionsPerPartition" value="${dataSource.minConnectionsPerPartition}"/>
-        <property name="partitionCount" value="${dataSource.partitionCount}"/>
-
-        <property name="connectionTestStatement" value="${dataSource.connectionTestStatement}" />
-        <property name="idleConnectionTestPeriodInSeconds" value="${dataSource.idleConnectionTestPeriodInSeconds}" />
-        <property name="statementsCacheSize" value="${dataSource.statementsCacheSize}"/>
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close"
+          factory-bean="boneCPDataSourceFactory" factory-method="create">
+          <constructor-arg ref="dataSourceProperties"/>
     </bean>
+
+    <!-- we must map all configuration props to allow overriding any prop in database.properties-->
+    <util:properties id="dataSourceProperties">
+        <prop key="driverClass">${dataSource.driverClassName}</prop>
+        <prop key="jdbcUrl">${dataSource.url}</prop>
+        <prop key="username">${dataSource.username}</prop>
+        <prop key="password">${dataSource.password}</prop>
+
+        <prop key="maxConnectionsPerPartition">${dataSource.maxConnectionsPerPartition}</prop>
+        <prop key="minConnectionsPerPartition">${dataSource.minConnectionsPerPartition}</prop>
+        <prop key="partitionCount">${dataSource.partitionCount}</prop>
+        <prop key="connectionTestStatement">${dataSource.connectionTestStatement}</prop>
+        <prop key="idleConnectionTestPeriodInMinutes">${dataSource.idleConnectionTestPeriodInMinutes}</prop>
+        <prop key="statementsCacheSize">${dataSource.statementsCacheSize}</prop>
+        <prop key="poolName">${dataSource.poolName}</prop>
+
+    </util:properties>
 
 </beans>

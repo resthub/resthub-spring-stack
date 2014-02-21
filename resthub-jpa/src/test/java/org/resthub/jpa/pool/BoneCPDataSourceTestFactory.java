@@ -1,17 +1,17 @@
 package org.resthub.jpa.pool;
 
+import com.jolbox.bonecp.BoneCPTestDataSource;
 import com.zaxxer.hikari.HikariCPTestDataSource;
 
 import javax.sql.DataSource;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
-public class HikariCPDataSourceTestFactory extends HikariCPDataSourceFactory {
+public class BoneCPDataSourceTestFactory extends BoneCPDataSourceFactory {
 
     private String originalDataSourceClassName;
 
-    public HikariCPDataSourceTestFactory() {
-        this.setDsClass(HikariCPTestDataSource.class);
+    public BoneCPDataSourceTestFactory() {
+        this.setDsClass(BoneCPTestDataSource.class);
     }
 
     @Override

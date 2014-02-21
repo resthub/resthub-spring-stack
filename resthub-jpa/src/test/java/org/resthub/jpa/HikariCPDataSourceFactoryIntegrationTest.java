@@ -1,7 +1,7 @@
 package org.resthub.jpa;
 
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariCPTestDataSource;
+import com.zaxxer.hikari.HikariConfig;
 import org.fest.assertions.api.Assertions;
 import org.h2.jdbcx.JdbcDataSource;
 import org.resthub.jpa.pool.HikariCPDataSourceTestFactory;
@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.lang.reflect.InvocationTargetException;
 
 @ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:hikaricp-test-context.xml"})
 @ActiveProfiles({"resthub-jpa", "resthub-pool-hikaricp"})
@@ -28,19 +27,19 @@ public class HikariCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpri
     private HikariCPTestDataSource hikariCPTestDataSource;
 
     @Test
-    public void testHikariDataSourceConfigResthub()
-            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
-            InstantiationException, IllegalAccessException {
+    public void testHikariDataSourceConfigResthub() {
 
         Assertions.assertThat(this.hikariCPTestDataSource).isNotNull();
         Assertions.assertThat(this.hikariCPTestDataSource.getConfig()).isNotNull();
 
         // check Resthub default values
-        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getConnectionTestQuery()).isEqualTo("/* ping*/ SELECT 1");
         Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getDataSourceClassName()).isEqualTo("org.resthub.jpa.sql.FakeDataSource");
         Assertions.assertThat(this.hikariCPDataSourceTestFactory.getOriginalDataSourceClassName()).isEqualTo("org.h2.jdbcx.JdbcDataSource");
-        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getPoolName()).startsWith("ResthubDBPool");
+        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getConnectionTestQuery()).isEqualTo("/* ping*/ SELECT 1");
+        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getPoolName()).isEqualTo("ResthubDBPool");
         Assertions.assertThat(this.hikariCPTestDataSource.getConfig().isRegisterMbeans()).isEqualTo(false);
+        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getMinimumPoolSize()).isEqualTo(6);
+        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getMaximumPoolSize()).isEqualTo(12);
 
         // check concrete datasource parameters
         Assertions.assertThat(this.hikariCPTestDataSource.getDataSource()).isNotNull().isInstanceOf(FakeDataSource.class);
@@ -51,8 +50,6 @@ public class HikariCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpri
 
         // check that properties provided in database.properties are resolved
         Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getMaxLifetime()).isEqualTo(200000);
-        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getMinimumPoolSize()).isEqualTo(1);
-        Assertions.assertThat(this.hikariCPTestDataSource.getConfig().getMaximumPoolSize()).isEqualTo(10);
 
 
         // check that Hikari defaults are kept
