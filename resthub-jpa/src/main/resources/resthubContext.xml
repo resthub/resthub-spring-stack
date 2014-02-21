@@ -11,6 +11,7 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <import resource="hikariCPContext.xml"/>
+    <import resource="boneCPContext.xml"/>
 
     <context:annotation-config />
     <context:component-scan base-package="org.resthub.jpa" />
@@ -19,6 +20,18 @@
         ignore-resource-not-found="true" ignore-unresolvable="true" />
 
     <util:properties id="databaseProperties">
+
+        <!-- BoneCP Resthub specific defaults -->
+        <prop key="dataSource.driverClassName">org.h2.Driver</prop>
+        <!--prop key="dataSource.url">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1;MVCC=TRUE</prop>
+        <prop key="dataSource.username">sa</prop>
+        <prop key="dataSource.password"></prop-->
+        <prop key="dataSource.minConnectionsPerPartition">2</prop>
+        <prop key="dataSource.maxConnectionsPerPartition">4</prop>
+        <prop key="dataSource.partitionCount">3</prop>
+        <prop key="dataSource.idleConnectionTestPeriodInSeconds">60</prop>
+        <prop key="dataSource.statementsCacheSize">100</prop>
+        <prop key="dataSource.connectionTestStatement">/* ping*/ SELECT 1</prop>
 
         <!-- HikariCP Resthub specific defaults -->
         <prop key="dataSource.dataSourceClassName">org.h2.jdbcx.JdbcDataSource</prop>

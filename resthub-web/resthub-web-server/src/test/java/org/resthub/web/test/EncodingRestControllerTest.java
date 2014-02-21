@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class EncodingRestControllerTest extends AbstractWebTest {
 
     public EncodingRestControllerTest() {
-        super("resthub-web-server,resthub-jpa,resthub-pool-hikaricp");
+        super("resthub-web-server, resthub-jpa, resthub-pool-bonecp");
     }
 
     @AfterMethod

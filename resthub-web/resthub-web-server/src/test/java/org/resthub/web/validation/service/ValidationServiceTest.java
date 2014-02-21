@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Locale;
 
-@ActiveProfiles({"resthub-validation", "resthub-web-server", "resthub-jpa", "resthub-pool-hikaricp"})
+@ActiveProfiles({"resthub-validation", "resthub-web-server", "resthub-jpa", "resthub-pool-bonecp"})
 public class ValidationServiceTest extends AbstractTest {
 
     @Inject
