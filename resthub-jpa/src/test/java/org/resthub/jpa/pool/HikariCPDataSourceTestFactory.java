@@ -1,18 +1,17 @@
 package org.resthub.jpa.pool;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariTestDataSource;
+import com.zaxxer.hikari.HikariCPTestDataSource;
 
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
-public class HikariDataSourceTestFactory extends HikariDataSourceFactory {
+public class HikariCPDataSourceTestFactory extends HikariCPDataSourceFactory {
 
     private String originalDataSourceClassName;
 
-    public HikariDataSourceTestFactory() {
-        this.setDsClass(HikariTestDataSource.class);
+    public HikariCPDataSourceTestFactory() {
+        this.setDsClass(HikariCPTestDataSource.class);
     }
 
     @Override

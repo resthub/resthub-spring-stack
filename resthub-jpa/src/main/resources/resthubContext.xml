@@ -41,9 +41,9 @@
         <prop key="persistenceUnit.packagesToScan"></prop>
     </util:properties>
 
-    <bean id="hikariDataSourceFactory" class="org.resthub.jpa.pool.HikariDataSourceFactory"/>
+    <bean id="hikariCPDataSourceFactory" class="org.resthub.jpa.pool.HikariCPDataSourceFactory"/>
 
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown" factory-bean="hikariDataSourceFactory" factory-method="create">
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown" factory-bean="hikariCPDataSourceFactory" factory-method="create">
         <constructor-arg ref="dataSourceProperties" />
     </bean>
 

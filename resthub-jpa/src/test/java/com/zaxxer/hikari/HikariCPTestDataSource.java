@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 
-public class HikariTestDataSource extends HikariDataSource implements DataSource {
+public class HikariCPTestDataSource extends HikariDataSource implements DataSource {
 
     private HikariConfig config;
 
-    public HikariTestDataSource(HikariConfig config) {
+    public HikariCPTestDataSource(HikariConfig config) {
         super(config);
         this.config = config;
     }

@@ -1,10 +1,10 @@
 package org.resthub.jpa;
 
 import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariTestDataSource;
+import com.zaxxer.hikari.HikariCPTestDataSource;
 import org.fest.assertions.api.Assertions;
 import org.h2.jdbcx.JdbcDataSource;
-import org.resthub.jpa.pool.HikariDataSourceFactory;
+import org.resthub.jpa.pool.HikariCPDataSourceFactory;
 import org.resthub.jpa.sql.FakeDataSource;
 import org.testng.annotations.Test;
 
@@ -14,9 +14,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.Properties;
 
-public class HikariDataSourceFactoryTest {
+public class HikariCPDataSourceFactoryTest {
 
-    private HikariDataSourceFactory hikariDataSourceFactory = new HikariDataSourceFactory();
+    private HikariCPDataSourceFactory hikariCPDataSourceFactory = new HikariCPDataSourceFactory();
 
     @Test
     public void testHikariDataSourceConfigNoProps()
@@ -26,10 +26,10 @@ public class HikariDataSourceFactoryTest {
         Properties configProps = new Properties();
         configProps.put("dataSourceClassName", "org.resthub.jpa.sql.FakeDataSource");
 
-        DataSource dataSource = hikariDataSourceFactory.create(HikariTestDataSource.class, configProps);
-        Assertions.assertThat(dataSource).isNotNull().isInstanceOf(HikariTestDataSource.class);
+        DataSource dataSource = hikariCPDataSourceFactory.create(HikariCPTestDataSource.class, configProps);
+        Assertions.assertThat(dataSource).isNotNull().isInstanceOf(HikariCPTestDataSource.class);
 
-        HikariTestDataSource testDataSource = (HikariTestDataSource) dataSource;
+        HikariCPTestDataSource testDataSource = (HikariCPTestDataSource) dataSource;
         Assertions.assertThat(testDataSource).isNotNull();
         Assertions.assertThat(testDataSource.getConfig()).isNotNull();
 
@@ -90,10 +90,10 @@ public class HikariDataSourceFactoryTest {
         configProps.put("initializationFailFast", true);
         configProps.put("registerMbeans", true);
 
-        DataSource dataSource = hikariDataSourceFactory.create(HikariTestDataSource.class, configProps);
-        Assertions.assertThat(dataSource).isNotNull().isInstanceOf(HikariTestDataSource.class);
+        DataSource dataSource = hikariCPDataSourceFactory.create(HikariCPTestDataSource.class, configProps);
+        Assertions.assertThat(dataSource).isNotNull().isInstanceOf(HikariCPTestDataSource.class);
 
-        HikariTestDataSource testDataSource = (HikariTestDataSource) dataSource;
+        HikariCPTestDataSource testDataSource = (HikariCPTestDataSource) dataSource;
         Assertions.assertThat(testDataSource).isNotNull();
         Assertions.assertThat(testDataSource.getConfig()).isNotNull();
 
@@ -146,10 +146,10 @@ public class HikariDataSourceFactoryTest {
         configProps.put("registerMbeans", "${registerMbeans}");
         configProps.put("idleTimeout", "${idleTimeout}");
 
-        DataSource dataSource = hikariDataSourceFactory.create(HikariTestDataSource.class, configProps);
-        Assertions.assertThat(dataSource).isNotNull().isInstanceOf(HikariTestDataSource.class);
+        DataSource dataSource = hikariCPDataSourceFactory.create(HikariCPTestDataSource.class, configProps);
+        Assertions.assertThat(dataSource).isNotNull().isInstanceOf(HikariCPTestDataSource.class);
 
-        HikariTestDataSource testDataSource = (HikariTestDataSource) dataSource;
+        HikariCPTestDataSource testDataSource = (HikariCPTestDataSource) dataSource;
         Assertions.assertThat(testDataSource).isNotNull();
         Assertions.assertThat(testDataSource.getConfig()).isNotNull();
 

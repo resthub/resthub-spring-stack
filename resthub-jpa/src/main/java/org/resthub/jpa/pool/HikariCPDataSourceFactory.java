@@ -23,16 +23,16 @@ import java.util.Properties;
  * @see org.resthub.jpa.pool.AbstractDataSourceFactory#create(java.util.Properties)
  * @see org.resthub.jpa.pool.AbstractDataSourceFactory
  */
-public class HikariDataSourceFactory extends AbstractDataSourceFactory<HikariDataSource> {
+public class HikariCPDataSourceFactory extends AbstractDataSourceFactory<HikariDataSource> {
 
-    public HikariDataSourceFactory() {
+    public HikariCPDataSourceFactory() {
         this.setDsClass(HikariDataSource.class);
     }
 
     /**
      * Empty method because Hikari set configuration in constructor only
      *
-     * @see org.resthub.jpa.pool.HikariDataSourceFactory#callConstructor(Class, java.util.Properties)
+     * @see HikariCPDataSourceFactory#callConstructor(Class, java.util.Properties)
      */
     @Override
     protected void initConfig(DataSource dataSource, Properties configProperties) {
