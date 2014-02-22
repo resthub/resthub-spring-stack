@@ -14,20 +14,18 @@
     </bean>
 
     <!-- we must map all configuration props to allow overriding any prop in database.properties-->
-    <util:properties id="dataSourceProperties">
-        <prop key="driverClass">${dataSource.driverClassName}</prop>
-        <prop key="jdbcUrl">${dataSource.url}</prop>
-        <prop key="username">${dataSource.username}</prop>
-        <prop key="password">${dataSource.password}</prop>
-
-        <prop key="maxConnectionsPerPartition">${dataSource.maxConnectionsPerPartition}</prop>
-        <prop key="minConnectionsPerPartition">${dataSource.minConnectionsPerPartition}</prop>
-        <prop key="partitionCount">${dataSource.partitionCount}</prop>
-        <prop key="connectionTestStatement">${dataSource.connectionTestStatement}</prop>
-        <prop key="idleConnectionTestPeriodInMinutes">${dataSource.idleConnectionTestPeriodInMinutes}</prop>
-        <prop key="statementsCacheSize">${dataSource.statementsCacheSize}</prop>
-        <prop key="poolName">${dataSource.poolName}</prop>
-
+    <util:properties id="dataSourceProperties" location="classpath:database.properties">
+        <prop key="driverClass">org.h2.Driver</prop>
+        <prop key="minConnectionsPerPartition">2</prop>
+        <prop key="maxConnectionsPerPartition">4</prop>
+        <prop key="partitionCount">3</prop>
+        <prop key="idleConnectionTestPeriodInMinutes">1</prop>
+        <prop key="statementsCacheSize">100</prop>
+        <prop key="connectionTestStatement">/* ping*/ SELECT 1</prop>
+        <prop key="jdbcUrl">jdbc:h2:mem:resthub</prop>
+        <prop key="username">sa</prop>
+        <prop key="password"></prop>
+        <prop key="poolName">ResthubDBPool</prop>
     </util:properties>
 
 </beans>

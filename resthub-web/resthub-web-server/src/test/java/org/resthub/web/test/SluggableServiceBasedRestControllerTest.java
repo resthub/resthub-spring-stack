@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 public class SluggableServiceBasedRestControllerTest extends AbstractWebTest {
 
     public SluggableServiceBasedRestControllerTest() {
-        super("resthub-web-server,resthub-jpa");
+        super("resthub-web-server, resthub-jpa, resthub-pool-bonecp");
     }   
 
     @AfterMethod

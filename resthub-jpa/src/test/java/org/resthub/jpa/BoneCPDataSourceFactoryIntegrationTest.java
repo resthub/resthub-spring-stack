@@ -48,7 +48,7 @@ public class BoneCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpring
         Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getStatementsCacheSize()).isEqualTo(100);
 
         // check that properties provided in database.properties are resolved
-        //Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getMaxConnectionAgeInSeconds()).isEqualTo(200000);
+        Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getMaxConnectionAgeInSeconds()).isEqualTo(200000);
 
 
         // check that BoneCP defaults are kept
@@ -68,7 +68,6 @@ public class BoneCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpring
         Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getPoolStrategy()).isEqualTo(expectedDefaults.getPoolStrategy());
         Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getQueryExecuteTimeLimitInMs()).isEqualTo(expectedDefaults.getQueryExecuteTimeLimitInMs());
         Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getServiceOrder()).isEqualTo(expectedDefaults.getServiceOrder());
-        Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getMaxConnectionAgeInSeconds()).isEqualTo(expectedDefaults.getMaxConnectionAgeInSeconds());
     }
 
 }

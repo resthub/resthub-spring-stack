@@ -12,7 +12,7 @@ import java.util.List;
 public class ResponseViewTest extends AbstractWebTest {
 
     public ResponseViewTest() {
-        super("resthub-web-server,resthub-jpa");
+        super("resthub-web-server, resthub-jpa, resthub-pool-bonecp");
     }
 
     @Test
