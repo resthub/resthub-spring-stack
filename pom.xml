@@ -134,7 +134,7 @@
         <connection>scm:git:git@github.com:resthub/resthub-spring-stack.git</connection>
         <developerConnection>scm:git:git@github.com:resthub/resthub-spring-stack.git</developerConnection>
         <url>scm:git:git@github.com:resthub/resthub-spring-stack.git</url>
-      <tag>resthub-spring-stack-2.1.5</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencyManagement>
