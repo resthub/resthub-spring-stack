@@ -3,7 +3,7 @@
 This changelog references the major changes (features, important bugs and security fixes) of resthub-spring-stack project.
 Some changes break backwards compatibility, check out the UPGRADE section before you upgrade your application.  
 
-## 2.1.5 version (02-17-2014)
+## 2.1.6 version (02-24-2014)
 
 ### New features
 
@@ -57,6 +57,10 @@ Some changes break backwards compatibility, check out the UPGRADE section before
     * maven-assembly-plugin.version from2.3  to 2.4
     * maven-project-info-reports-plugin.version from 2.5.1 to 2.7
     * maven-surefire-report-plugin.version from 2.12.14 to 2.16
+
+## 2.1.5 version
+
+Due to incorrect versions and partially failed release, 2.1.5 version is invalid and should not be used.
 
 ## 2.1.4 version (12-20-2013)
 

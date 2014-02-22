@@ -1,9 +1,7 @@
 package org.resthub.web.validation;
 
-import org.hibernate.validator.internal.util.logging.Log;
-import org.hibernate.validator.internal.util.logging.LoggerFactory;
-
 import javax.validation.MessageInterpolator;
+import javax.validation.ValidationException;
 import javax.validation.metadata.ConstraintDescriptor;
 
 /**
@@ -14,8 +12,6 @@ import javax.validation.metadata.ConstraintDescriptor;
  * containing parameters
  */
 public class ValidationContext implements MessageInterpolator.Context {
-
-    private static final Log log = LoggerFactory.make();
 
     /**
      * Managed constraint descriptor
@@ -48,7 +44,7 @@ public class ValidationContext implements MessageInterpolator.Context {
         if (type.isAssignableFrom(ValidationContext.class)) {
             return type.cast(this);
         }
-        throw log.getTypeNotSupportedForUnwrappingException( type );
+        throw new ValidationException(String.format("Type %s not supported for unwrapping", type));
     }
 
 }
