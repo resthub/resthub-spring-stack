@@ -21,15 +21,6 @@
 
     <util:properties id="databaseProperties">
 
-        <!-- BoneCP Resthub specific defaults -->
-        <prop key="dataSource.driverClassName">org.h2.Driver</prop>
-        <prop key="dataSource.minConnectionsPerPartition">2</prop>
-        <prop key="dataSource.maxConnectionsPerPartition">4</prop>
-        <prop key="dataSource.partitionCount">3</prop>
-        <prop key="dataSource.idleConnectionTestPeriodInMinutes">1</prop>
-        <prop key="dataSource.statementsCacheSize">100</prop>
-        <prop key="dataSource.connectionTestStatement">/* ping*/ SELECT 1</prop>
-
         <!-- HikariCP Resthub specific defaults -->
         <prop key="dataSource.dataSourceClassName">org.h2.jdbcx.JdbcDataSource</prop>
         <prop key="dataSource.connectionTestQuery">/* ping*/ SELECT 1</prop>
