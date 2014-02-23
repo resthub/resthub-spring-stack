@@ -38,7 +38,7 @@ public class BoneCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpring
         // check Resthub default values
         Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getConnectionTestStatement()).isEqualTo("/* ping*/ SELECT 1");
         Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getPoolName()).isEqualTo("ResthubDBPool");
-        Assertions.assertThat(this.bonceCPTestDataSource.getJdbcUrl()).isNotNull().isEqualTo("jdbc:h2:mem:resthub");
+        Assertions.assertThat(this.bonceCPTestDataSource.getJdbcUrl()).isNotNull().isEqualTo("jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1;MVCC=TRUE");
         Assertions.assertThat(this.bonceCPTestDataSource.getUser()).isNotNull().isEqualTo("sa");
         Assertions.assertThat(this.bonceCPTestDataSource.getPassword()).isNotNull().isEqualTo("");
         Assertions.assertThat(this.bonceCPTestDataSource.getConfig().getMinConnectionsPerPartition()).isEqualTo(2);

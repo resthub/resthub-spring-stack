@@ -20,20 +20,6 @@
         ignore-resource-not-found="true" ignore-unresolvable="true" />
 
     <util:properties id="databaseProperties">
-
-        <!-- HikariCP Resthub specific defaults -->
-        <prop key="dataSource.dataSourceClassName">org.h2.jdbcx.JdbcDataSource</prop>
-        <prop key="dataSource.connectionTestQuery">/* ping*/ SELECT 1</prop>
-        <prop key="dataSource.maximumPoolSize">12</prop>
-        <prop key="dataSource.minimumPoolSize">6</prop>
-        <prop key="dataSource.registerMbeans">false</prop>
-
-        <!-- Common Resthub Defaults -->
-        <prop key="dataSource.url">jdbc:h2:mem:resthub</prop>
-        <prop key="dataSource.username">sa</prop>
-        <prop key="dataSource.password"></prop>
-        <prop key="dataSource.poolName">ResthubDBPool</prop>
-
         <!-- JPA & Hibernate Resthub specific defaults -->
         <prop key="hibernate.show_sql">false</prop>
         <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
@@ -45,6 +31,12 @@
 
         <prop key="persistenceUnit.packagesToScan"></prop>
     </util:properties>
+
+    <bean id="dataSourceProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:datasource.properties"/>
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="properties" ref="defaultDataSourceProperties"/>
+    </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
