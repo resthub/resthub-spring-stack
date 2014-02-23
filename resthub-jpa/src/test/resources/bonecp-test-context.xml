@@ -10,8 +10,6 @@
         <constructor-arg ref="dataSourceProperties"/>
     </bean>
 
-    <bean id="entityManagerFactory" class="org.resthub.jpa.factory.FakeEntityManagerFactory"/>
-
     <bean id="dataSourceProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="location" value="classpath:boneCPDatasource.properties"/>
         <property name="ignoreResourceNotFound" value="true" />

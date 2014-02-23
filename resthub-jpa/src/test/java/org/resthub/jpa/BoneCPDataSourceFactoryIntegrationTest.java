@@ -3,6 +3,7 @@ package org.resthub.jpa;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.BoneCPTestDataSource;
 import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariMBeanElf;
 import org.fest.assertions.api.Assertions;
 import org.h2.jdbcx.JdbcDataSource;
 import org.resthub.jpa.pool.BoneCPDataSourceTestFactory;
@@ -15,7 +16,7 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:bonecp-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:boneCPContext.xml", "classpath:bonecp-test-context.xml"})
 @ActiveProfiles({"resthub-jpa", "resthub-pool-bonecp"})
 public class BoneCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpringContextTests {
 

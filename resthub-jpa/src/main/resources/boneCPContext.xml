@@ -28,5 +28,6 @@
         <prop key="username">sa</prop>
         <prop key="password"></prop>
         <prop key="poolName">ResthubDBPool</prop>
+        <prop key="disableJMX">true</prop>
     </util:properties>
 </beans>

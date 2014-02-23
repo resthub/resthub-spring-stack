@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:hikaricp-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:hikariCPContext.xml", "classpath:hikaricp-test-context.xml"})
 @ActiveProfiles({"resthub-jpa", "resthub-pool-hikaricp"})
 public class HikariCPDataSourceFactoryIntegrationTest extends AbstractTestNGSpringContextTests {
 
