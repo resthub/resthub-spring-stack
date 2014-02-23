@@ -7,10 +7,6 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-/**
- * User: JRI <julien.ripault@atos.net>
- * Date: 22/02/14
- */
 public class JacksonCustomModuleTest extends AbstractWebTest {
 
     public JacksonCustomModuleTest() {

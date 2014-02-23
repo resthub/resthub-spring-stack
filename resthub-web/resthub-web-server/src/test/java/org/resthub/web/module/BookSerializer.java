@@ -8,10 +8,6 @@ import org.resthub.web.model.Book;
 
 import java.io.IOException;
 
-/**
- * User: jripault
- * Date: 22/02/14
- */
 public final class BookSerializer extends StdScalarSerializer<Book> {
 
     public BookSerializer() {
