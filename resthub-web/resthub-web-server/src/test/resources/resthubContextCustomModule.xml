@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans profile="dots" xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jacksonModules" parent="resthubJacksonModules">
+        <property name="sourceList">
+            <array merge="true" >
+                <value type="java.lang.Class">org.resthub.web.module.CustomModule</value>
+            </array>
+        </property>
+    </bean>
+
+</beans>
