@@ -1,0 +1,28 @@
+<beans profile="resthub-pool-hikaricp" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="hikariCPDataSourceFactory" class="org.resthub.jpa.pool.HikariCPDataSourceFactory"/>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown"
+          factory-bean="hikariCPDataSourceFactory" factory-method="create">
+        <constructor-arg ref="dataSourceProperties"/>
+    </bean>
+
+    <util:properties id="defaultDataSourceProperties">
+        <prop key="dataSourceClassName">org.h2.jdbcx.JdbcDataSource</prop>
+        <prop key="connectionTestQuery">/* ping*/ SELECT 1</prop>
+        <prop key="maximumPoolSize">12</prop>
+        <prop key="minimumPoolSize">6</prop>
+        <prop key="poolName">ResthubDBPool</prop>
+        <prop key="registerMbeans">false</prop>
+        <prop key="dataSource.user">sa</prop>
+        <prop key="dataSource.password"></prop>
+        <prop key="dataSource.url">jdbc:h2:mem:resthub</prop>
+    </util:properties>
+
+</beans>

@@ -1,0 +1,33 @@
+<beans profile="resthub-pool-bonecp" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="boneCPDataSourceFactory" class="org.resthub.jpa.pool.BoneCPDataSourceFactory"/>
+
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close"
+          factory-bean="boneCPDataSourceFactory" factory-method="create">
+          <constructor-arg ref="dataSourceProperties"/>
+    </bean>
+
+    <util:properties id="defaultDataSourceProperties">
+        <prop key="driverClass">org.h2.Driver</prop>
+        <prop key="minConnectionsPerPartition">2</prop>
+        <prop key="maxConnectionsPerPartition">4</prop>
+        <prop key="partitionCount">3</prop>
+        <prop key="idleConnectionTestPeriodInMinutes">1</prop>
+        <prop key="statementsCacheSize">100</prop>
+        <prop key="connectionTestStatement">/* ping*/ SELECT 1</prop>
+        <prop key="jdbcUrl">jdbc:h2:mem:resthub;DB_CLOSE_DELAY=-1;MVCC=TRUE</prop>
+        <prop key="username">sa</prop>
+        <prop key="password"></prop>
+        <prop key="poolName">ResthubDBPool</prop>
+        <prop key="disableJMX">true</prop>
+    </util:properties>
+</beans>

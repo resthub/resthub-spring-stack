@@ -18,7 +18,7 @@ import java.util.List;
 public class XmlRepositoryBasedRestControllerWebTest extends AbstractWebTest {
 
     public XmlRepositoryBasedRestControllerWebTest() {
-         super("resthub-web-server,resthub-jpa");
+         super("resthub-web-server, resthub-jpa, resthub-pool-bonecp");
     }
 
     @AfterMethod

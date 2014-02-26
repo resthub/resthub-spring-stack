@@ -5,6 +5,7 @@ import org.resthub.jpa.model.StandaloneEntity;
 import org.resthub.jpa.repository.StandaloneEntityRepository;
 import org.resthub.test.AbstractTransactionalTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -13,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@ActiveProfiles("resthub-jpa")
+@ActiveProfiles({"resthub-jpa", "resthub-pool-bonecp"})
+@ContextConfiguration(locations = {"classpath*:resthubContext.xml", "classpath:jpa-test-context.xml"})
 public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
     @Inject
@@ -68,6 +70,18 @@ public class StandaloneEntityRepositoryTest extends AbstractTransactionalTest {
 
         StandaloneEntity collectedEntity = repository.findOne(entity.getId());
         Assertions.assertThat(collectedEntity).isNotNull().isEqualTo(entity);
+    }
+
+    @Test
+    public void testFindByIds() {
+        StandaloneEntity entity = repository.save(new StandaloneEntity());
+        StandaloneEntity entity2 = repository.save(new StandaloneEntity());
+
+        List<StandaloneEntity> entities = repository.findAll(Arrays.asList(entity.getId(), entity2.getId()));
+        Assertions.assertThat(entities).isNotNull().isNotEmpty();
+        Assertions.assertThat(entities.size()).isEqualTo(2);
+        Assertions.assertThat(entities.contains(entity));
+        Assertions.assertThat(entities.contains(entity2));
     }
 
     @Test
