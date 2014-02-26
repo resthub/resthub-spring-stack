@@ -26,7 +26,7 @@ public abstract class AbstractDataSourceFactory<T extends DataSource> {
 
 
     /**
-     * Create new instance of [@link DataSource} fully configured with properties.
+     * Create new instance of {@link DataSource} fully configured with properties.
      * <p/>
      * All given properties will be set configured but the process ignore unresolved properties that will
      * the be set to DataSource default values.
