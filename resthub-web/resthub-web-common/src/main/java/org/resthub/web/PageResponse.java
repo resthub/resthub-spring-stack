@@ -143,6 +143,30 @@ public class PageResponse<T> implements Page<T> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    @JsonIgnore
+    public boolean hasPrevious() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean hasNext() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isFirst() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isLast() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public interface View {}
     
 }

@@ -14,7 +14,7 @@
     <description>RESThub support for REST webservices based on Spring MVC</description>
 
     <properties>
-        <cors.filter.version>1.9</cors.filter.version>
+        <cors.filter.version>2.1.2</cors.filter.version>
         <el.ri.version>1.0</el.ri.version>
         <javax.el.version>3.0.0</javax.el.version>
         <commons-io.version>2.4</commons-io.version>

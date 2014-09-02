@@ -13,12 +13,12 @@
     <name>RESThub JPA</name>
 
     <properties>
-        <spring.data.jpa.version>1.4.3.RELEASE</spring.data.jpa.version>
-        <hibernate.version>4.3.1.Final</hibernate.version>
+        <spring.data.jpa.version>1.6.4.RELEASE</spring.data.jpa.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
         <bonecp.spring.version>0.8.0.RELEASE</bonecp.spring.version>
         <hikaricp.version>1.2.9</hikaricp.version>
-        <h2.version>1.3.175</h2.version>
-        <ehcache.version>2.6.8</ehcache.version>
+        <h2.version>1.4.181</h2.version>
+        <ehcache.version>2.6.9</ehcache.version>
     </properties>
 
     <dependencies>

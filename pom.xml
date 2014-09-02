@@ -19,12 +19,12 @@
     <properties>
         <env>local</env>
 
-        <spring.version>4.0.2.RELEASE</spring.version>
-        <spring.data.commons.version>1.6.4.RELEASE</spring.data.commons.version>
+        <spring.version>4.0.6.RELEASE</spring.version>
+        <spring.data.commons.version>1.8.4.RELEASE</spring.data.commons.version>
 
-        <logback.version>1.1.1</logback.version>
-        <slf4j.version>1.7.6</slf4j.version>
-        <servlet.version>3.0.1</servlet.version>
+        <logback.version>1.1.2</logback.version>
+        <slf4j.version>1.7.7</slf4j.version>
+        <servlet.version>3.1.0</servlet.version>
         <jsr250.version>1.0</jsr250.version>
         <javax.inject.version>1</javax.inject.version>
 
@@ -48,7 +48,7 @@
         <maven.project.info.reports.version>2.7</maven.project.info.reports.version>
         <maven.surefire.reports.version>2.16</maven.surefire.reports.version>
 
-        <testng.version>6.8.7</testng.version>
+        <testng.version>6.8.8</testng.version>
         <fest.assert.version>2.0M10</fest.assert.version>
         <mockito.version>1.9.5</mockito.version>
 

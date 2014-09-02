@@ -13,8 +13,8 @@
     <name>RESThub MongoDB</name>
 
     <properties>
-        <spring.data.mongodb.version>1.3.3.RELEASE</spring.data.mongodb.version>
-        <mongo.version>2.11.4</mongo.version>
+        <spring.data.mongodb.version>1.5.4.RELEASE</spring.data.mongodb.version>
+        <mongo.version>2.12.3</mongo.version>
     </properties>
 
     <dependencies>
