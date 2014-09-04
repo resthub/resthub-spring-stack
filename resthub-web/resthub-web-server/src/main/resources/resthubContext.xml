@@ -13,15 +13,12 @@
     <context:component-scan base-package="org.resthub.web"/>
 
     <util:list id="messageConverters">
-        <bean class="org.resthub.web.converter.MappingJackson2JsonHttpMessageConverter" p:objectMapper-ref="objectMapperFactory"/>
-        <bean class="org.resthub.web.converter.MappingJackson2XmlHttpMessageConverter"/>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" p:objectMapper-ref="jsonObjectMapperFactory"/>
+        <bean class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter" p:objectMapper-ref="xmlObjectMapperFactory"/>
         <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
     </util:list>
 
-    <bean id="jacksonAnnotationIntrospector" class="com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector"/>
-
-    <bean id="objectMapperFactory" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean" p:annotationIntrospector-ref="jacksonAnnotationIntrospector"
-          p:indentOutput="true" p:failOnEmptyBeans="false">
+    <bean id="jsonObjectMapperFactory" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean" p:indentOutput="true" p:failOnEmptyBeans="false">
         <property name="featuresToDisable">
             <array>
                 <util:constant static-field="com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES"/>
@@ -29,6 +26,25 @@
             </array>
         </property>
         <property name="modulesToInstall" ref="jacksonModules"/>
+    </bean>
+
+	<bean id="xmlMapper" class="com.fasterxml.jackson.dataformat.xml.XmlMapper">
+		<constructor-arg ref="xmlModule" />
+	</bean>
+
+	<bean id="xmlModule" class="com.fasterxml.jackson.dataformat.xml.JacksonXmlModule">
+		<property name="defaultUseWrapper" value="false" />
+	</bean>
+
+	<bean id="xmlObjectMapperFactory" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean" p:indentOutput="true" p:failOnEmptyBeans="false">
+        <property name="featuresToDisable">
+            <array>
+                <util:constant static-field="com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES"/>
+                <util:constant static-field="com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION"/>
+            </array>
+        </property>
+        <property name="modulesToInstall" ref="jacksonModules"/>
+		<property name="objectMapper" ref="xmlMapper" />
     </bean>
 
     <util:list id="resthubJacksonModules">
@@ -60,6 +76,11 @@
             </bean>
         </property>
         <property name="messageConverters" ref="messageConverters"/>
+		<property name="responseBodyAdvice">
+			<util:list>
+				<bean id="responseBodyAdvice" class="org.springframework.web.servlet.mvc.method.annotation.JsonViewResponseBodyAdvice" />
+			</util:list>
+		</property>
     </bean>
 
     <bean id="handlerMapping"

@@ -1,6 +1,6 @@
 package org.resthub.web.controller;
 
-import org.resthub.common.view.ResponseView;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.resthub.web.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,19 +30,19 @@ public class BookController {
         return data;
     }
     @RequestMapping(value= "summaries", params="page=no")
-    @ResponseView(Book.SummaryView.class)
+    @JsonView(Book.SummaryView.class)
     public @ResponseBody List<Book> getBookSummaries()
     {
         return data;
     }
     @RequestMapping("summaries")
-    @ResponseView(Book.SummaryView.class)
+    @JsonView(Book.SummaryView.class)
     public @ResponseBody Page<Book> getBookSummariesPaginated(@RequestParam(value = "page", required = true, defaultValue = "1") Integer page)
     {
         return new PageImpl<Book>(data);
     }
     @RequestMapping("{id}/summary")
-    @ResponseView(Book.SummaryView.class)
+    @JsonView(Book.SummaryView.class)
     public @ResponseBody Book getSummary(@PathVariable("id") Integer id)
     {
         return data.get(id - 1);

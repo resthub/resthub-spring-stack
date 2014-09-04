@@ -23,7 +23,7 @@ public class BasicDotsInUrlTest extends AbstractWebTest {
 
         param = this.request("dot/noDot.xml").xmlGet().getBody();
         Assertions.assertThat(param).isNotNull();
-        Assertions.assertThat(param).isEqualTo("<String>noDot</String>");
+        Assertions.assertThat(param).contains("<String>noDot</String>");
 
         param = this.request("dot/noDot.any").jsonGet().resource(String.class);
         Assertions.assertThat(param).isNotNull();
@@ -42,7 +42,7 @@ public class BasicDotsInUrlTest extends AbstractWebTest {
 
         param = this.request("dot/with.dot.xml").xmlGet().getBody();
         Assertions.assertThat(param).isNotNull();
-        Assertions.assertThat(param).isEqualTo("<String>with.dot</String>");
+        Assertions.assertThat(param).contains("<String>with.dot</String>");
     }
 
     @Test
@@ -57,7 +57,7 @@ public class BasicDotsInUrlTest extends AbstractWebTest {
 
         param = this.request("dot/dot.included.xml").xmlGet().getBody();
         Assertions.assertThat(param).isNotNull();
-        Assertions.assertThat(param).isEqualTo("<String>included.xml</String>");
+        Assertions.assertThat(param).contains("<String>included.xml</String>");
     }
 
 }
