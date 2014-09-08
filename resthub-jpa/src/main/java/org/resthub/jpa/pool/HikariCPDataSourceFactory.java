@@ -11,7 +11,7 @@ import java.util.Properties;
  * This factory allows to create directly a HikariDataSource instance from a set of configuration
  * properties.
  * <p/>
- * It remove necessity to provide additional hikariConfig spring bean to pass as constructor arg of
+ * It removes necessity to provide additional hikariConfig spring bean to pass as constructor arg of
  * HikaridataSource.
  * <p/>
  * Check <a href="https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby">Hikari documentation</a>

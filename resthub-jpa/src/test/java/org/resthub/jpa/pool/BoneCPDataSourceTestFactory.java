@@ -1,7 +1,6 @@
 package org.resthub.jpa.pool;
 
 import com.jolbox.bonecp.BoneCPTestDataSource;
-import com.zaxxer.hikari.HikariCPTestDataSource;
 
 import javax.sql.DataSource;
 import java.util.Properties;

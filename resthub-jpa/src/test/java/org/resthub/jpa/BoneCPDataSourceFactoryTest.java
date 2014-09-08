@@ -2,18 +2,11 @@ package org.resthub.jpa;
 
 import com.jolbox.bonecp.BoneCPConfig;
 import com.jolbox.bonecp.BoneCPTestDataSource;
-import com.zaxxer.hikari.HikariCPTestDataSource;
-import com.zaxxer.hikari.HikariConfig;
 import org.fest.assertions.api.Assertions;
-import org.h2.jdbcx.JdbcDataSource;
 import org.resthub.jpa.pool.BoneCPDataSourceFactory;
-import org.resthub.jpa.pool.HikariCPDataSourceFactory;
-import org.resthub.jpa.sql.FakeDataSource;
 import org.testng.annotations.Test;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Field;
-import java.sql.Connection;
 import java.util.Properties;
 
 public class BoneCPDataSourceFactoryTest {

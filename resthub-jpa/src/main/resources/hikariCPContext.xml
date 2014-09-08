@@ -17,7 +17,6 @@
         <prop key="dataSourceClassName">org.h2.jdbcx.JdbcDataSource</prop>
         <prop key="connectionTestQuery">/* ping*/ SELECT 1</prop>
         <prop key="maximumPoolSize">12</prop>
-        <prop key="minimumPoolSize">6</prop>
         <prop key="poolName">ResthubDBPool</prop>
         <prop key="registerMbeans">false</prop>
         <prop key="dataSource.user">sa</prop>
