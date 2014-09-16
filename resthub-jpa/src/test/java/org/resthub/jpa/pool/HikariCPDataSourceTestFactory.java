@@ -3,7 +3,6 @@ package org.resthub.jpa.pool;
 import com.zaxxer.hikari.HikariCPTestDataSource;
 
 import javax.sql.DataSource;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 public class HikariCPDataSourceTestFactory extends HikariCPDataSourceFactory {

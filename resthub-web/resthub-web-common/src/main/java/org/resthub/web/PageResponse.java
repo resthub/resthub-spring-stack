@@ -92,30 +92,6 @@ public class PageResponse<T> implements Page<T> {
     }
 
     @Override
-    @JsonIgnore
-    public boolean hasPreviousPage() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isFirstPage() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean hasNextPage() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isLastPage() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public Pageable nextPageable() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
