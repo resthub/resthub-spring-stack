@@ -1,5 +1,7 @@
 package com.zaxxer.hikari;
 
+import com.zaxxer.hikari.pool.HikariPool;
+
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -14,14 +16,6 @@ public class HikariCPTestDataSource extends HikariDataSource implements DataSour
     public HikariCPTestDataSource(HikariConfig config) {
         super(config);
         this.config = config;
-    }
-
-    public HikariPool getPool() {
-        return this.pool;
-    }
-
-    public DataSource getDataSource() {
-        return this.pool.dataSource;
     }
 
     public HikariConfig getConfig() {
@@ -66,10 +60,5 @@ public class HikariCPTestDataSource extends HikariDataSource implements DataSour
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
         return null;
-    }
-
-    @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
     }
 }

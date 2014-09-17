@@ -1,7 +1,8 @@
 package org.resthub.jpa;
 
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariCPTestDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.TestElf;
 import org.fest.assertions.api.Assertions;
 import org.h2.jdbcx.JdbcDataSource;
 import org.resthub.jpa.pool.HikariCPDataSourceFactory;
@@ -10,7 +11,6 @@ import org.testng.annotations.Test;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.Properties;
 
@@ -33,9 +33,6 @@ public class HikariCPDataSourceFactoryTest {
 
         // check that Hikari defaults are kept
         HikariConfig expectedDefaults = new HikariConfig();
-        Assertions.assertThat(testDataSource.getConfig().getAcquireIncrement()).isEqualTo(expectedDefaults.getAcquireIncrement());
-        Assertions.assertThat(testDataSource.getConfig().getAcquireRetries()).isEqualTo(expectedDefaults.getAcquireRetries());
-        Assertions.assertThat(testDataSource.getConfig().getAcquireRetryDelay()).isEqualTo(expectedDefaults.getAcquireRetryDelay());
         Assertions.assertThat(testDataSource.getConfig().getConnectionCustomizerClassName()).isEqualTo(expectedDefaults.getConnectionCustomizerClassName());
         Assertions.assertThat(testDataSource.getConfig().getConnectionInitSql()).isEqualTo(expectedDefaults.getConnectionInitSql());
         Assertions.assertThat(testDataSource.getConfig().getConnectionTestQuery()).isEqualTo(expectedDefaults.getConnectionTestQuery());
@@ -46,7 +43,6 @@ public class HikariCPDataSourceFactoryTest {
         Assertions.assertThat(testDataSource.getConfig().getLeakDetectionThreshold()).isEqualTo(expectedDefaults.getLeakDetectionThreshold());
         Assertions.assertThat(testDataSource.getConfig().getMaximumPoolSize()).isEqualTo(expectedDefaults.getMaximumPoolSize());
         Assertions.assertThat(testDataSource.getConfig().getMaxLifetime()).isEqualTo(expectedDefaults.getMaxLifetime());
-        Assertions.assertThat(testDataSource.getConfig().getMinimumPoolSize()).isEqualTo(expectedDefaults.getMinimumPoolSize());
         Assertions.assertThat(testDataSource.getConfig().getPoolName()).startsWith("HikariPool-");
         Assertions.assertThat(testDataSource.getConfig().getTransactionIsolation()).isEqualTo(expectedDefaults.getTransactionIsolation());
         Assertions.assertThat(testDataSource.getConfig().isAutoCommit()).isEqualTo(expectedDefaults.isAutoCommit());
@@ -55,7 +51,7 @@ public class HikariCPDataSourceFactoryTest {
         Assertions.assertThat(testDataSource.getConfig().isRegisterMbeans()).isEqualTo(expectedDefaults.isRegisterMbeans());
 
         // check concrete datasource parameters
-        Assertions.assertThat(testDataSource.getDataSource()).isNotNull().isInstanceOf(FakeDataSource.class);
+        Assertions.assertThat(testDataSource.isWrapperFor(FakeDataSource.class)).isTrue();
     }
 
     @Test
@@ -66,9 +62,6 @@ public class HikariCPDataSourceFactoryTest {
         configProps.put("dataSource.url", "jdbc:h2:mem:resthub");
         configProps.put("dataSource.user", "sa");
         configProps.put("dataSource.password", "");
-        configProps.put("acquireIncrement", 2);
-        configProps.put("acquireRetries", 2);
-        configProps.put("acquireRetryDelay", 500L);
         configProps.put("connectionCustomizerClassName", "com.zaxxer.hikari.TestConnectionCustomization");
         configProps.put("connectionInitSql", "select 1");
         configProps.put("connectionTestQuery", "select 1");
@@ -76,9 +69,9 @@ public class HikariCPDataSourceFactoryTest {
         configProps.put("dataSourceClassName", "org.resthub.jpa.sql.FakeDataSource");
         configProps.put("idleTimeout", 60000L);
         configProps.put("leakDetectionThreshold", 100000L);
+        configProps.put("minimumIdle", 2);
         configProps.put("maximumPoolSize", 10);
         configProps.put("maxLifetime", 200000L);
-        configProps.put("minimumPoolSize", 1);
         configProps.put("poolName", "testPoolName");
         configProps.put("transactionIsolation", "TRANSACTION_READ_COMMITTED");
         configProps.put("autoCommit", false);
@@ -93,10 +86,6 @@ public class HikariCPDataSourceFactoryTest {
         Assertions.assertThat(testDataSource).isNotNull();
         Assertions.assertThat(testDataSource.getConfig()).isNotNull();
 
-        // check that Hikari defaults are kept
-        Assertions.assertThat(testDataSource.getConfig().getAcquireIncrement()).isEqualTo((Integer) configProps.get("acquireIncrement"));
-        Assertions.assertThat(testDataSource.getConfig().getAcquireRetries()).isEqualTo((Integer) configProps.get("acquireRetries"));
-        Assertions.assertThat(testDataSource.getConfig().getAcquireRetryDelay()).isEqualTo((Long) configProps.get("acquireRetryDelay"));
         Assertions.assertThat(testDataSource.getConfig().getConnectionCustomizerClassName()).isEqualTo((String) configProps.get("connectionCustomizerClassName"));
         Assertions.assertThat(testDataSource.getConfig().getConnectionInitSql()).isEqualTo((String) configProps.get("connectionInitSql"));
         Assertions.assertThat(testDataSource.getConfig().getConnectionTestQuery()).isEqualTo((String) configProps.get("connectionTestQuery"));
@@ -106,7 +95,6 @@ public class HikariCPDataSourceFactoryTest {
         Assertions.assertThat(testDataSource.getConfig().getLeakDetectionThreshold()).isEqualTo((Long) configProps.get("leakDetectionThreshold"));
         Assertions.assertThat(testDataSource.getConfig().getMaximumPoolSize()).isEqualTo((Integer) configProps.get("maximumPoolSize"));
         Assertions.assertThat(testDataSource.getConfig().getMaxLifetime()).isEqualTo((Long) configProps.get("maxLifetime"));
-        Assertions.assertThat(testDataSource.getConfig().getMinimumPoolSize()).isEqualTo((Integer) configProps.get("minimumPoolSize"));
         Assertions.assertThat(testDataSource.getConfig().getPoolName()).isEqualTo((String) configProps.get("poolName"));
 
         Field field = Connection.class.getField((String) configProps.get("transactionIsolation"));
@@ -118,8 +106,8 @@ public class HikariCPDataSourceFactoryTest {
         Assertions.assertThat(testDataSource.getConfig().isRegisterMbeans()).isEqualTo((Boolean) configProps.get("registerMbeans"));
 
         // check concrete datasource parameters
-        Assertions.assertThat(testDataSource.getDataSource()).isNotNull().isInstanceOf(FakeDataSource.class);
-        JdbcDataSource ds = (JdbcDataSource) testDataSource.getDataSource();
+        Assertions.assertThat(testDataSource.isWrapperFor(FakeDataSource.class)).isTrue();
+        JdbcDataSource ds = (JdbcDataSource) TestElf.getPool(testDataSource).getDataSource();
         Assertions.assertThat(ds.getURL()).isNotNull().isEqualTo((String) configProps.get("dataSource.url"));
         Assertions.assertThat(ds.getUser()).isNotNull().isEqualTo((String) configProps.get("dataSource.user"));
         Assertions.assertThat(ds.getPassword()).isNotNull().isEqualTo((String) configProps.get("dataSource.password"));
@@ -134,7 +122,6 @@ public class HikariCPDataSourceFactoryTest {
         configProps.put("dataSource.url", "jdbc:h2:mem:resthub");
         configProps.put("dataSource.user", "sa");
         configProps.put("dataSource.password", "");
-        configProps.put("acquireIncrement", 2);
         configProps.put("poolName", "testPoolName");
         configProps.put("maximumPoolSize", "${maximumPoolSize}");
         configProps.put("registerMbeans", "${registerMbeans}");
@@ -149,8 +136,6 @@ public class HikariCPDataSourceFactoryTest {
 
         // check that Hikari defaults are kept
         HikariConfig expectedDefaults = new HikariConfig();
-        Assertions.assertThat(testDataSource.getConfig().getAcquireRetries()).isEqualTo(expectedDefaults.getAcquireRetries());
-        Assertions.assertThat(testDataSource.getConfig().getAcquireRetryDelay()).isEqualTo(expectedDefaults.getAcquireRetryDelay());
         Assertions.assertThat(testDataSource.getConfig().getConnectionCustomizerClassName()).isEqualTo(expectedDefaults.getConnectionCustomizerClassName());
         Assertions.assertThat(testDataSource.getConfig().getConnectionInitSql()).isEqualTo(expectedDefaults.getConnectionInitSql());
         Assertions.assertThat(testDataSource.getConfig().getConnectionTestQuery()).isEqualTo(expectedDefaults.getConnectionTestQuery());
@@ -160,7 +145,6 @@ public class HikariCPDataSourceFactoryTest {
         Assertions.assertThat(testDataSource.getConfig().getLeakDetectionThreshold()).isEqualTo(expectedDefaults.getLeakDetectionThreshold());
         Assertions.assertThat(testDataSource.getConfig().getMaximumPoolSize()).isEqualTo(expectedDefaults.getMaximumPoolSize());
         Assertions.assertThat(testDataSource.getConfig().getMaxLifetime()).isEqualTo(expectedDefaults.getMaxLifetime());
-        Assertions.assertThat(testDataSource.getConfig().getMinimumPoolSize()).isEqualTo(expectedDefaults.getMinimumPoolSize());
         Assertions.assertThat(testDataSource.getConfig().getTransactionIsolation()).isEqualTo(expectedDefaults.getTransactionIsolation());
         Assertions.assertThat(testDataSource.getConfig().isAutoCommit()).isEqualTo(expectedDefaults.isAutoCommit());
         Assertions.assertThat(testDataSource.getConfig().isJdbc4ConnectionTest()).isEqualTo(expectedDefaults.isJdbc4ConnectionTest());
@@ -168,9 +152,8 @@ public class HikariCPDataSourceFactoryTest {
         Assertions.assertThat(testDataSource.getConfig().isRegisterMbeans()).isEqualTo(expectedDefaults.isRegisterMbeans());
 
         // check concrete datasource parameters
-        Assertions.assertThat(testDataSource.getDataSource()).isNotNull().isInstanceOf(FakeDataSource.class);
-        JdbcDataSource ds = (JdbcDataSource) testDataSource.getDataSource();
-        Assertions.assertThat(testDataSource.getConfig().getAcquireIncrement()).isEqualTo((Integer) configProps.get("acquireIncrement"));
+        Assertions.assertThat(testDataSource.isWrapperFor(FakeDataSource.class)).isTrue();
+        JdbcDataSource ds = (JdbcDataSource) TestElf.getPool(testDataSource).getDataSource();
         Assertions.assertThat(testDataSource.getConfig().getDataSourceClassName()).isEqualTo((String) configProps.get("dataSourceClassName"));
         Assertions.assertThat(testDataSource.getConfig().getPoolName()).isEqualTo((String) configProps.get("poolName"));
         Assertions.assertThat(ds.getURL()).isNotNull().isEqualTo((String) configProps.get("dataSource.url"));
