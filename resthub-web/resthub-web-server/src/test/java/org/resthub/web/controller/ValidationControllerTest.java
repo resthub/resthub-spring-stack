@@ -2,6 +2,7 @@ package org.resthub.web.controller;
 
 import org.fest.assertions.api.Assertions;
 import org.resthub.common.exception.NotFoundException;
+import org.resthub.web.controller.ValidationController;
 import org.resthub.web.validation.ValidationService;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
