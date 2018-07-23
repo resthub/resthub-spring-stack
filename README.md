@@ -6,4 +6,4 @@ Javadoc is available [here](http://resthub.org/apidocs/spring/2.1/).
 
 Build status on Travis CI:
 
-[![Build Status](https://secure.travis-ci.org/resthub/resthub-spring-stack.png?branch=master)](https://travis-ci.org/resthub/resthub-spring-stack)
+[![Build Status](https://travis-ci.org/fengshao3/todo.svg?branch=master)](https://travis-ci.org/fengshao3/todo)
