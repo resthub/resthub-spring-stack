@@ -17,7 +17,7 @@
         <cors.filter.version>2.1.2</cors.filter.version>
         <el.ri.version>1.0</el.ri.version>
         <javax.el.version>3.0.0</javax.el.version>
-        <commons-io.version>2.4</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
     </properties>
 
     <dependencies>
