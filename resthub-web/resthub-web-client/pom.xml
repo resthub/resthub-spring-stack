@@ -16,7 +16,7 @@
     <properties>
         <async.http.client.version>1.8.13</async.http.client.version>
         <spring-security-oauth2.version>1.0.5.RELEASE</spring-security-oauth2.version>
-        <spring.security.version>3.2.5.RELEASE</spring.security.version>
+        <spring.security.version>5.2.10.RELEASE</spring.security.version>
     </properties>
 
     <dependencies>
