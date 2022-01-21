@@ -17,7 +17,7 @@
         <hibernate.version>4.3.6.Final</hibernate.version>
         <bonecp.spring.version>0.8.0.RELEASE</bonecp.spring.version>
         <hikaricp.version>2.0.1</hikaricp.version>
-        <h2.version>1.4.181</h2.version>
+        <h2.version>2.1.210</h2.version>
         <ehcache.version>2.6.9</ehcache.version>
     </properties>
 
